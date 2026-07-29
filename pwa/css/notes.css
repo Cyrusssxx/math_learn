@@ -397,6 +397,21 @@ li.c-warn li, li.c-tip li, li.c-example li, li.c-star li {
 
 .error { color: #d9534f; padding: 30px; }
 
+/* 搜索历史下拉 */
+.sh-head { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px 4px; font-size: 12px; color: var(--text-faint); }
+.sh-clear { border: none; background: none; color: var(--text-faint); cursor: pointer; font-size: 12px; }
+.sh-clear:hover { color: #d9534f; }
+.sh-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; cursor: pointer; font-size: 13px; color: var(--text); }
+.sh-item:hover { background: var(--bg-hover); }
+.sh-del { border: none; background: none; color: var(--text-faint); cursor: pointer; font-size: 15px; line-height: 1; padding: 0 4px; }
+.sh-del:hover { color: #d9534f; }
+
+/* 图片双击放大 lightbox */
+.md-img img, img.li-img, img.ann-img { cursor: zoom-in; }
+#imgLightbox { position: fixed; inset: 0; background: rgba(0, 0, 0, .85); display: none; align-items: center; justify-content: center; z-index: 300; cursor: zoom-out; }
+#imgLightbox.show { display: flex; }
+#imgLightbox img { max-width: 95vw; max-height: 95vh; border-radius: 6px; box-shadow: 0 8px 40px rgba(0, 0, 0, .5); }
+
 /* 搜索精确定位：命中块闪烁提示 */
 .locate-flash { animation: locateFlash 1.8s ease-out; }
 @keyframes locateFlash {

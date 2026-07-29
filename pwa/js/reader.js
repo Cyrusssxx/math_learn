@@ -286,7 +286,7 @@ function buildSearchIndex() {
 function doSearch(q) {
     const box = document.getElementById('searchResults');
     q = q.trim().toLowerCase();
-    if (!q) { box.hidden = true; box.innerHTML = ''; return; }
+    if (!q) { showHistory(); return; }
     const hits = [];
     searchIndex.forEach((item, idx) => {
         if (item.text.toLowerCase().includes(q)) hits.push({ ...item, idx });
@@ -322,6 +322,7 @@ function locateHit(i) {
     if (!h) return false;
     const n = notes[h.ni];
     pendingLocate = h;
+    saveHist(document.getElementById('searchInput').value);  // 点了结果才记入历史（证明是有效搜索）
     clearSearch();
     const target = '/' + n.id + (h.ci >= 0 ? '/' + h.ci : '');
     if (decodeURIComponent(location.hash.replace(/^#/, '')) === target) route();  // hash 不变时手动触发
@@ -353,6 +354,82 @@ function clearSearch() {
     box.hidden = true;
     box.innerHTML = '';
 }
+
+// ============ 搜索历史（localStorage 最多 10 条，可单删/清空） ============
+const HIST_KEY = 'searchHistory';
+const getHist = () => { try { return JSON.parse(localStorage.getItem(HIST_KEY)) || []; } catch (e) { return []; } };
+
+function saveHist(term) {
+    term = term.trim();
+    if (!term) return;
+    const h = getHist().filter(t => t !== term);   // 去重后提到最前
+    h.unshift(term);
+    localStorage.setItem(HIST_KEY, JSON.stringify(h.slice(0, 10)));
+}
+
+/** 输入框为空时展示历史列表（聚焦/清空输入时触发） */
+function showHistory() {
+    const box = document.getElementById('searchResults');
+    const h = getHist();
+    if (!h.length) { box.hidden = true; box.innerHTML = ''; return; }
+    box.hidden = false;
+    box.innerHTML = `<div class="sh-head">搜索历史<button class="sh-clear" onclick="clearHist()">清空</button></div>` +
+        h.map((t, i) => `<div class="sh-item" onclick="useHist(${i})">
+            <span class="sh-term">${esc(t)}</span>
+            <button class="sh-del" onclick="delHist(event, ${i})" title="删除这条">×</button></div>`).join('');
+}
+
+function useHist(i) {
+    const t = getHist()[i];
+    if (!t) return;
+    document.getElementById('searchInput').value = t;
+    doSearch(t);
+}
+
+function delHist(e, i) {
+    e.stopPropagation();   // 别触发整行的 useHist
+    const h = getHist();
+    h.splice(i, 1);
+    localStorage.setItem(HIST_KEY, JSON.stringify(h));
+    showHistory();
+}
+
+function clearHist() {
+    localStorage.removeItem(HIST_KEY);
+    const box = document.getElementById('searchResults');
+    box.hidden = true;
+    box.innerHTML = '';
+}
+
+// 点搜索区外部 → 收起下拉（历史/结果都适用）
+document.addEventListener('click', e => {
+    if (!e.target.closest('.search-box')) {
+        const box = document.getElementById('searchResults');
+        box.hidden = true;
+    }
+});
+
+// ============ 图片双击放大（正文图/行内图/批注贴图通用） ============
+function openLightbox(src) {
+    let lb = document.getElementById('imgLightbox');
+    if (!lb) {
+        lb = document.createElement('div');
+        lb.id = 'imgLightbox';
+        lb.innerHTML = '<img alt="放大预览">';
+        lb.onclick = () => lb.classList.remove('show');
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') lb.classList.remove('show');
+        });
+        document.body.appendChild(lb);
+    }
+    lb.querySelector('img').src = src;
+    lb.classList.add('show');
+}
+
+document.addEventListener('dblclick', e => {
+    const img = e.target.closest('.md-img img, img.li-img, img.ann-img');
+    if (img && img.src) openLightbox(img.src);
+});
 
 // ============ KaTeX ============
 function renderMath(el) {
