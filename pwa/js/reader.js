@@ -355,7 +355,7 @@ function clearSearch() {
     box.innerHTML = '';
 }
 
-// ============ 搜索历史（localStorage 最多 10 条，可单删/清空） ============
+// ============ 搜索历史（localStorage 最多 5 条，可单删/清空） ============
 const HIST_KEY = 'searchHistory';
 const getHist = () => { try { return JSON.parse(localStorage.getItem(HIST_KEY)) || []; } catch (e) { return []; } };
 
@@ -364,7 +364,7 @@ function saveHist(term) {
     if (!term) return;
     const h = getHist().filter(t => t !== term);   // 去重后提到最前
     h.unshift(term);
-    localStorage.setItem(HIST_KEY, JSON.stringify(h.slice(0, 10)));
+    localStorage.setItem(HIST_KEY, JSON.stringify(h.slice(0, 5)));
 }
 
 /** 输入框为空时展示历史列表（聚焦/清空输入时触发） */
@@ -374,7 +374,7 @@ function showHistory() {
     if (!h.length) { box.hidden = true; box.innerHTML = ''; return; }
     box.hidden = false;
     box.innerHTML = `<div class="sh-head">搜索历史<button class="sh-clear" onclick="clearHist()">清空</button></div>` +
-        h.map((t, i) => `<div class="sh-item" onclick="useHist(${i})">
+        h.slice(0, 5).map((t, i) => `<div class="sh-item" onclick="useHist(${i})">
             <span class="sh-term">${esc(t)}</span>
             <button class="sh-del" onclick="delHist(event, ${i})" title="删除这条">×</button></div>`).join('');
 }

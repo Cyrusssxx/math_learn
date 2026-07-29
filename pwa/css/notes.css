@@ -398,10 +398,10 @@ li.c-warn li, li.c-tip li, li.c-example li, li.c-star li {
 .error { color: #d9534f; padding: 30px; }
 
 /* 搜索历史下拉 */
-.sh-head { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px 4px; font-size: 12px; color: var(--text-faint); }
+.sh-head { display: flex; justify-content: space-between; align-items: center; padding: 5px 12px 2px; font-size: 11px; color: var(--text-faint); }
 .sh-clear { border: none; background: none; color: var(--text-faint); cursor: pointer; font-size: 12px; }
 .sh-clear:hover { color: #d9534f; }
-.sh-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; cursor: pointer; font-size: 13px; color: var(--text); }
+.sh-item { display: flex; justify-content: space-between; align-items: center; padding: 3px 12px; cursor: pointer; font-size: 13px; color: var(--text); }
 .sh-item:hover { background: var(--bg-hover); }
 .sh-del { border: none; background: none; color: var(--text-faint); cursor: pointer; font-size: 15px; line-height: 1; padding: 0 4px; }
 .sh-del:hover { color: #d9534f; }
