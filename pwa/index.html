@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研数学笔记</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#4a90d9">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
+    <link rel="stylesheet" href="css/notes.css">
+    <link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+    <!-- 左栏：站点标题 + 搜索 + 文件目录树 -->
+    <aside class="sidebar" id="sidebar">
+        <div class="side-head">
+            <div class="brand">考研数学笔记</div>
+            <button class="dark-btn" id="darkSwitch" onclick="toggleDark()" title="切换夜间模式">
+                🌙 <span id="darkState">关</span>
+            </button>
+        </div>
+        <div class="search-box">
+            <input type="search" id="searchInput" placeholder="搜索…"
+                   autocomplete="off" oninput="doSearch(this.value)">
+            <div class="search-results" id="searchResults" hidden></div>
+        </div>
+        <nav class="nav-tree" id="navTree">
+            <div class="loading">加载中…</div>
+        </nav>
+        <div class="side-foot">
+            <span id="navTimer" title="今日阅读时长（切换到其他窗口时暂停）">⏱ 00:00:00</span>
+            <span class="foot-btns">
+                <button onclick="Annot.exportAnnot()" title="备份全部荧光/批注到 JSON 文件">导出标注</button>
+                <button onclick="document.getElementById('annImport').click()" title="从备份恢复标注（合并）">导入</button>
+                <input type="file" id="annImport" accept="application/json" style="display:none" onchange="Annot.importAnnot(this)">
+            </span>
+        </div>
+    </aside>
+
+    <!-- 移动端：左上角展开目录按钮 -->
+    <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('show')">☰</button>
+
+    <!-- 中栏：笔记正文（随页面滚动） -->
+    <main class="doc" id="docPane">
+        <div class="loading">加载中…</div>
+    </main>
+
+    <!-- 右栏：本页目录 -->
+    <aside class="toc" id="tocPane"></aside>
+
+    <script src="js/common.js"></script>
+    <script defer src="vendor/katex/katex.min.js"></script>
+    <script defer src="vendor/katex/auto-render.min.js"></script>
+    <script defer src="js/annotate.js"></script>
+    <script defer src="js/reader.js"></script>
+</body>
+</html>
