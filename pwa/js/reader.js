@@ -409,7 +409,7 @@ document.addEventListener('click', e => {
     }
 });
 
-// ============ 图片双击放大（正文图/行内图/批注贴图通用） ============
+// ============ 图片单击放大（正文图/行内图/批注贴图通用） ============
 function openLightbox(src) {
     let lb = document.getElementById('imgLightbox');
     if (!lb) {
@@ -426,9 +426,9 @@ function openLightbox(src) {
     lb.classList.add('show');
 }
 
-document.addEventListener('dblclick', e => {
+document.addEventListener('click', e => {
     const img = e.target.closest('.md-img img, img.li-img, img.ann-img');
-    if (img && img.src) openLightbox(img.src);
+    if (img && img.src) { e.stopPropagation(); openLightbox(img.src); }
 });
 
 // ============ KaTeX ============
