@@ -19,15 +19,15 @@ IMG_DIR = DATA_DIR / 'img'
 DEFAULT_SRCS = [TOOLS.parent.parent / 'math' / '导图',
                 TOOLS.parent.parent / 'math' / '好题']
 
-SUBJECT_NAMES = {'gs': '高等数学', 'xd': '线性代数', 'ht': '数学好题'}
-SUBJECT_KEYS = {'高数': 'gs', '线代': 'xd', '好题': 'ht'}
+SUBJECT_NAMES = {'zy': '考前21记', 'gs': '高等数学', 'xd': '线性代数', 'ht': '数学好题'}
+SUBJECT_KEYS = {'高数': 'gs', '线代': 'xd', '好题': 'ht', '21记': 'zy'}
 
 
 def parse_stem(stem):
-    """文件名 → (学科key, 排序号)，如 高数3.1-一元积分-计算 → ('gs', 3.1)"""
-    m = re.match(r'^(高数|线代|好题)([\d.]+)-', stem)
+    """文件名 → (学科key, 排序号)，如 高数3.1-一元积分-计算 → ('gs', 3.1)、21记1-函数极限 → ('zy', 1)"""
+    m = re.match(r'^(高数|线代|好题|21记)([\d.]+)-', stem)
     if not m:
-        raise ValueError(f'文件名不符合 高数N-/线代N-/好题N- 规则: {stem}')
+        raise ValueError(f'文件名不符合 高数N-/线代N-/好题N-/21记N- 规则: {stem}')
     return SUBJECT_KEYS[m.group(1)], float(m.group(2))
 
 

@@ -1,6 +1,6 @@
 /* 考研数学笔记 - 阅读器：notes.json 加载 + Markdown 渲染 + 目录树 + 页内导航 + 搜索 */
 
-const SUBJECT_NAMES = { gs: '高等数学', xd: '线性代数', ht: '数学好题' };
+const SUBJECT_NAMES = { zy: '考前21记', gs: '高等数学', xd: '线性代数', ht: '数学好题' };
 
 let notes = [];            // 全部笔记（notes.json）
 let cur = null;            // 当前笔记
@@ -265,7 +265,7 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // ============ 搜索（标题 + 章节 + 全文行 + 📝批注；知识点优先、好题靠后） ============
-const SUBJECT_RANK = { gs: 0, xd: 1, ht: 2 };   // 高数/线代（知识点）在前，好题在后
+const SUBJECT_RANK = { zy: -1, gs: 0, xd: 1, ht: 2 };   // 考前21记/高数/线代（知识点）在前，好题在后
 
 function buildSearchIndex() {
     searchIndex = [];
