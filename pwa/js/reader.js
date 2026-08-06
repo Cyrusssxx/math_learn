@@ -10,12 +10,16 @@ let pendingLocate = null;  // 待定位的命中项（跨笔记跳转渲染完�
 const openFiles = {};      // 侧栏文件展开状态（用户点击控制）
 const openGroups = JSON.parse(localStorage.getItem('openGroups') || '{}');  // 科目分组收缩状态（默认展开）
 
+const SUBJ_FILTER_KEY = 'searchSubjFilter';   // 搜索学科过滤（localStorage 记忆）
+let subjFilter = localStorage.getItem(SUBJ_FILTER_KEY) || '';
+
 // ============ 初始化与路由 ============
 async function init() {
     const resp = await fetch('data/notes.json');
     if (!resp.ok) throw new Error('加载笔记数据失败: ' + resp.status);
     notes = await resp.json();
     buildSearchIndex();
+    initSearchSubj();
     renderTree();
     window.addEventListener('hashchange', route);
     route();
@@ -289,6 +293,7 @@ function doSearch(q) {
     if (!q) { showHistory(); return; }
     const hits = [];
     searchIndex.forEach((item, idx) => {
+        if (subjFilter && notes[item.ni].subject !== subjFilter) return;  // 学科过滤
         if (item.text.toLowerCase().includes(q)) hits.push({ ...item, idx });
     });
     // 用户自己写的📝批注也可搜索，排最前
@@ -297,6 +302,7 @@ function doSearch(q) {
     for (const [id, b] of Object.entries(ann)) {
         const ni = notes.findIndex(n => n.id === id);
         if (ni < 0) continue;
+        if (subjFilter && notes[ni].subject !== subjFilter) continue;
         for (const t of Object.values(b.notes || {}))
             if (t.toLowerCase().includes(q))
                 hits.push({ ni, ci: -1, text: '📝 ' + t, r: -1, w: 0, idx: -1 });
@@ -314,6 +320,23 @@ function doSearch(q) {
                 <span class="sr-path"><span class="sr-tag ${n.subject}">${SUBJECT_NAMES[n.subject]}</span>${n.name}${ch ? ' › ' + esc(ch) : ''}</span>
                 <span class="sr-text">${esc(h.text.slice(0, 60))}</span></a>`;
         }).join('');
+}
+
+/** 学科过滤：点击 chips 切换（全部='' / zy / gs / xd / ht），记忆选择并即时重搜 */
+function setSearchSubject(key, btn) {
+    subjFilter = key;
+    localStorage.setItem(SUBJ_FILTER_KEY, key);
+    document.querySelectorAll('#searchChips button').forEach(b =>
+        b.classList.toggle('on', b.dataset.subj === key));
+    const box = document.getElementById('searchInput');
+    doSearch(box.value);
+}
+
+/** 初始化：恢复上次记住的学科过滤（含高亮态） */
+function initSearchSubj() {
+    if (!subjFilter) return;
+    document.querySelectorAll('#searchChips button').forEach(b =>
+        b.classList.toggle('on', b.dataset.subj === subjFilter));
 }
 
 /** 点搜索结果：跳到对应笔记并精确定位到命中行 */

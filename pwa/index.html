@@ -24,6 +24,13 @@
         <div class="search-box">
             <input type="search" id="searchInput" placeholder="搜索…"
                    autocomplete="off" oninput="doSearch(this.value)" onfocus="doSearch(this.value)">
+            <div class="search-chips" id="searchChips">
+                <button class="on" data-subj="" onclick="setSearchSubject('', this)">全部</button>
+                <button data-subj="zy" onclick="setSearchSubject('zy', this)">考前21记</button>
+                <button data-subj="gs" onclick="setSearchSubject('gs', this)">高等数学</button>
+                <button data-subj="xd" onclick="setSearchSubject('xd', this)">线性代数</button>
+                <button data-subj="ht" onclick="setSearchSubject('ht', this)">数学好题</button>
+            </div>
             <div class="search-results" id="searchResults" hidden></div>
         </div>
         <nav class="nav-tree" id="navTree">
