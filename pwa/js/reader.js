@@ -63,15 +63,28 @@ function inline(s) {
         .replace(/⭐+/g, '<span class="star">$&</span>');
 }
 
-/** 长条目分行：公式外的"；"后断行；若含"；"则首个公式外"："后也断行（引导语单独一行）。
+/** 长条目分行：公式外的"；"后断行；含 ⇔ 等价链（≥2个）时逐条断行，⇔ 显示在下一行开头。
  *  文字原样保留只插 <br>，textContent 不变 → 已有批注/荧光锆点不失效 */
 function breakLines(text) {
+    // 先数公式外 ⇔ 个数，决定是否按等价链拆行
+    let inM = false, iffN = 0;
+    for (const ch of text) {
+        if (ch === '$') inM = !inM;
+        else if (ch === '⇔' && !inM) iffN++;
+    }
+    const cutIff = iffN >= 2;
+
     const segs = [];
     let seg = '', inMath = false;
     for (const ch of text) {
         if (ch === '$') inMath = !inMath;
+        if (ch === '；' && !inMath) { segs.push(seg); seg = ''; continue; }
+        if (cutIff && ch === '⇔' && !inMath) {
+            if (seg) segs.push(seg);
+            seg = '⇔ ';   // ⇔ 挪到下一行开头，形成箭头对齐的等价链
+            continue;
+        }
         seg += ch;
-        if (ch === '；' && !inMath) { segs.push(seg); seg = ''; }
     }
     if (seg) segs.push(seg);
     if (segs.length > 1) {
