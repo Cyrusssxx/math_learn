@@ -1,0 +1,219 @@
+/* 考研数学真题 - 独立页面样式（复用 notes.css 的 CSS 变量与暗色主题） */
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Microsoft YaHei", sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    background: var(--bg);
+    color: var(--text);
+}
+
+a { color: var(--accent); text-decoration: none; }
+
+.loading { color: var(--text-faint); padding: 40px; text-align: center; }
+
+/* ============ 顶部栏 ============ */
+.exam-top {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--bg-side);
+    border-bottom: 1px solid var(--border);
+}
+.exam-brand { display: flex; align-items: center; gap: 10px; }
+.exam-logo { font-size: 24px; }
+.exam-title { font-size: 17px; font-weight: 700; }
+.exam-sub { font-size: 12px; color: var(--text-faint); }
+.exam-topbtns { display: flex; gap: 8px; align-items: center; }
+
+.exam-btn {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-dim);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    line-height: 1.6;
+}
+.exam-btn:hover { background: var(--bg-hover); }
+.exam-btn.on {
+    background: var(--star-bg);
+    border-color: var(--star-border);
+    color: #8a6d1a;
+}
+html.dark .exam-btn.on { color: #e5c860; }
+
+/* ============ 主体两栏 ============ */
+.exam-wrap {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0;
+    min-height: calc(100vh - 53px);
+}
+
+/* 左栏：套卷列表 */
+.exam-side {
+    background: var(--bg-side);
+    border-right: 1px solid var(--border);
+    padding: 14px 10px;
+    overflow-y: auto;
+    max-height: calc(100vh - 53px);
+    position: sticky;
+    top: 53px;
+}
+.exam-side-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-faint);
+    padding: 0 8px 8px;
+}
+.paper-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 4px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+}
+.paper-item:hover { background: var(--bg-hover); }
+.paper-item.on {
+    background: var(--bg-active);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+.paper-year { font-weight: 700; font-size: 14px; min-width: 42px; }
+.paper-name { font-size: 13px; color: var(--text-dim); }
+
+/* 中栏：题目 */
+.exam-main {
+    padding: 20px 24px 60px;
+    max-width: 860px;
+    width: 100%;
+}
+.paper-head { margin-bottom: 18px; }
+.paper-head h1 { font-size: 22px; margin: 0 0 4px; }
+.paper-meta { font-size: 13px; color: var(--text-faint); }
+
+.q-section { margin-bottom: 28px; }
+.q-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    border-left: 4px solid var(--accent);
+    padding-left: 10px;
+    margin-bottom: 12px;
+}
+
+/* 题目卡片 */
+.q-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+}
+.q-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.q-no {
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--bg-active);
+    border-radius: 6px;
+    padding: 1px 8px;
+    font-size: 13px;
+}
+.q-kind {
+    font-size: 12px;
+    color: var(--text-faint);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1px 7px;
+}
+.q-fav {
+    margin-left: auto;
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-faint);
+    line-height: 1;
+}
+.q-fav:hover { color: var(--star-border); transform: scale(1.15); }
+.q-fav.on { color: #e0a800; }
+
+.q-body p { margin: 6px 0; }
+.q-body .q-options { margin-top: 8px; }
+.q-opt {
+    padding: 3px 0 3px 22px;
+    text-indent: -22px;
+}
+
+/* 答案折叠 */
+.q-answer {
+    margin-top: 10px;
+    border-top: 1px dashed var(--border);
+    padding-top: 8px;
+}
+.q-answer summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    user-select: none;
+}
+.q-answer summary:hover { text-decoration: underline; }
+.q-answer-body { padding: 10px 2px 2px; }
+.q-answer-body p { margin: 6px 0; }
+
+.empty-tip {
+    color: var(--text-faint);
+    text-align: center;
+    padding: 40px 0;
+}
+.fav-count {
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+/* ============ 移动端适配 ============ */
+@media (max-width: 720px) {
+    .exam-wrap { grid-template-columns: 1fr; }
+    .exam-side {
+        max-height: none;
+        position: static;
+        top: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 10px;
+    }
+    .exam-side-title { width: 100%; }
+    .paper-item { width: auto; padding: 5px 10px; }
+    .exam-main { padding: 14px; }
+}
