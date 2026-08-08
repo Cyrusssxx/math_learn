@@ -90,7 +90,9 @@ def parse(path):
             no_m = re.match(r'^(\d+)', head)
             no = int(no_m.group(1)) if no_m else (len(cur_sec['questions']) + 1)
             kind = 'choice' if head.endswith('C') else 'blank'  # 占位，随后按选项修正
-            cur_q = {'no': no, 'kind': kind, 'stem': [head[no_m.end():].lstrip()],
+            # 去掉题号后的分隔符（点、空格、顿号等），避免 "." 混入题干
+            stem_head = re.sub(r'^[\s.、，,;；:：\-]+', '', head[no_m.end():])
+            cur_q = {'no': no, 'kind': kind, 'stem': [stem_head],
                      'options': [], 'answer': []}
             in_answer = False
             i += 1

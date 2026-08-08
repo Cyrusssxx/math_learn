@@ -6,6 +6,25 @@ const FAV_ONLY_KEY = 'examFavOnly';  // 是否只看收藏
 let papers = [];
 let curPaper = null;
 let favOnly = localStorage.getItem(FAV_ONLY_KEY) === '1';
+let sideClosed = localStorage.getItem('examSideClosed') === '1';
+let floatCollapsed = localStorage.getItem('examFloatCollapsed') === '1';
+
+// ============ 收起/展开 ============
+function toggleSide() {
+    sideClosed = !sideClosed;
+    localStorage.setItem('examSideClosed', sideClosed ? '1' : '0');
+    const wrap = document.querySelector('.exam-wrap');
+    const btn = document.getElementById('sideToggle');
+    if (wrap) wrap.classList.toggle('side-closed', sideClosed);
+    if (btn) btn.textContent = sideClosed ? '▶' : '◀';
+}
+
+function toggleFloatQ() {
+    floatCollapsed = !floatCollapsed;
+    localStorage.setItem('examFloatCollapsed', floatCollapsed ? '1' : '0');
+    const fq = document.getElementById('floatQ');
+    if (fq) fq.classList.toggle('collapsed', floatCollapsed);
+}
 
 // ============ 收藏存储（按题唯一 id：套卷id-题号） ============
 function favGet() {
@@ -68,7 +87,7 @@ function qCard(p, sec, q, secIdx) {
     const options = q.options && q.options.length
         ? `<div class="q-options">${q.options.map(o => `<div class="q-opt">${mdInline(o)}</div>`).join('')}</div>`
         : '';
-    return `<div class="q-card" id="q-${qid}">
+    return `<div class="q-card" id="q-${qid}" data-qno="${secTag(secIdx)}-${q.no}">
         <div class="q-head">
             <span class="q-no">${secTag(secIdx)}-${q.no}</span>
             <span class="q-kind">${kindTag}</span>
@@ -109,7 +128,28 @@ function renderCurrent() {
     }
     el.innerHTML = html + (favOnly ? `<div class="fav-count">收藏 ${shown}/${total} 题</div>` : '');
     renderMath(el);
+    updateFloatQ();
 }
+
+/** 滚动监听：找到当前视口内最靠上的题卡，更新悬浮题号 */
+function updateFloatQ() {
+    const cards = Array.from(document.querySelectorAll('.q-card'));
+    if (!cards.length) return;
+    const half = window.innerHeight * 0.45;
+    let cur = null;
+    for (const c of cards) {
+        const r = c.getBoundingClientRect();
+        if (r.top <= half) cur = c; else break;
+    }
+    const noEl = document.getElementById('floatQNo');
+    if (!noEl) return;
+    if (!cur) { noEl.textContent = '—'; return; }
+    const no = cur.getAttribute('data-qno');
+    if (no) noEl.textContent = no;
+}
+
+document.addEventListener('scroll', () => { updateFloatQ(); }, { passive: true });
+window.addEventListener('resize', () => { updateFloatQ(); });
 
 function renderMath(root) {
     if (!window.katex || !root) return;

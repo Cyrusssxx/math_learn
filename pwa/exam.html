@@ -32,7 +32,10 @@
     <div class="exam-wrap">
         <!-- 左：套卷列表 -->
         <aside class="exam-side" id="examSide">
-            <div class="exam-side-title">历年套卷</div>
+            <div class="exam-side-head">
+                <div class="exam-side-title">历年套卷</div>
+                <button class="side-toggle" id="sideToggle" onclick="toggleSide()" title="收起/展开套卷列表">◀</button>
+            </div>
             <div id="paperList"></div>
         </aside>
 
@@ -40,6 +43,12 @@
         <main class="exam-main" id="examMain">
             <div class="loading">加载中…</div>
         </main>
+    </div>
+
+    <!-- 右：悬浮题号 -->
+    <div class="float-q" id="floatQ" onclick="toggleFloatQ()">
+        <span class="float-q-btn">题号</span>
+        <span class="float-q-no" id="floatQNo">—</span>
     </div>
 
     <script src="js/common.js"></script>

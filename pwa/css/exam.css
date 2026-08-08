@@ -60,6 +60,7 @@ html.dark .exam-btn.on { color: #e5c860; }
     gap: 0;
     min-height: calc(100vh - 53px);
 }
+.exam-wrap.side-closed { grid-template-columns: 40px 1fr; }
 
 /* 左栏：套卷列表 */
 .exam-side {
@@ -77,6 +78,40 @@ html.dark .exam-btn.on { color: #e5c860; }
     color: var(--text-faint);
     padding: 0 8px 8px;
 }
+.exam-side-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+.exam-side-head .exam-side-title { padding-bottom: 0; }
+.side-toggle {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-dim);
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    line-height: 1;
+    font-size: 12px;
+    cursor: pointer;
+    flex: none;
+}
+.side-toggle:hover { background: var(--bg-hover); }
+/* 收起态：只留一条折叠按钮 */
+.exam-wrap.side-closed .exam-side {
+    padding: 14px 6px;
+    align-items: center;
+    justify-content: center;
+}
+.exam-wrap.side-closed .exam-side-head {
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 0;
+}
+.exam-wrap.side-closed .exam-side-title,
+.exam-wrap.side-closed #paperList { display: none; }
+.exam-wrap.side-closed .side-toggle { transform: rotate(180deg); }
 .paper-item {
     display: flex;
     align-items: center;
@@ -126,8 +161,8 @@ html.dark .exam-btn.on { color: #e5c860; }
     border: 1px solid var(--border);
     border-radius: 12px;
     background: var(--bg);
-    padding: 14px 16px;
-    margin-bottom: 14px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
     box-shadow: var(--shadow);
 }
 .q-head {
@@ -163,18 +198,65 @@ html.dark .exam-btn.on { color: #e5c860; }
 .q-fav:hover { color: var(--star-border); transform: scale(1.15); }
 .q-fav.on { color: #e0a800; }
 
-.q-body p { margin: 6px 0; }
-.q-body .q-options { margin-top: 8px; }
+.q-body p { margin: 10px 0; }
+.q-body .q-options { margin-top: 12px; }
 .q-opt {
-    padding: 3px 0 3px 22px;
+    padding: 5px 0 5px 22px;
     text-indent: -22px;
 }
 
+/* 公式放大：行内 & 显示（含积分号） */
+.q-body .katex,
+.q-answer-body .katex { font-size: 1.5em; }
+.q-body .katex-display,
+.q-answer-body .katex-display {
+    margin: 14px 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.q-body .katex-display > .katex,
+.q-answer-body .katex-display > .katex { font-size: 1.6em; }
+
+/* 悬浮题号 */
+.float-q {
+    position: fixed;
+    right: 14px;
+    bottom: 24px;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-side);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px 16px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    user-select: none;
+    transition: opacity .2s;
+}
+.float-q:hover { background: var(--bg-hover); }
+.float-q-btn { font-size: 12px; color: var(--text-faint); }
+.float-q-no {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 24px;
+    text-align: center;
+}
+.float-q.collapsed .float-q-btn { display: none; }
+.float-q.collapsed .float-q-no { display: none; }
+.float-q.collapsed {
+    padding: 8px 10px;
+    border-radius: 12px;
+}
+.float-q.collapsed::before { content: '题'; font-size: 13px; color: var(--accent); font-weight: 700; }
+
 /* 答案折叠 */
 .q-answer {
-    margin-top: 10px;
+    margin-top: 12px;
     border-top: 1px dashed var(--border);
-    padding-top: 8px;
+    padding-top: 10px;
 }
 .q-answer summary {
     cursor: pointer;
@@ -184,8 +266,8 @@ html.dark .exam-btn.on { color: #e5c860; }
     user-select: none;
 }
 .q-answer summary:hover { text-decoration: underline; }
-.q-answer-body { padding: 10px 2px 2px; }
-.q-answer-body p { margin: 6px 0; }
+.q-answer-body { padding: 12px 2px 2px; }
+.q-answer-body p { margin: 10px 0; }
 
 .empty-tip {
     color: var(--text-faint);
@@ -202,6 +284,7 @@ html.dark .exam-btn.on { color: #e5c860; }
 /* ============ 移动端适配 ============ */
 @media (max-width: 720px) {
     .exam-wrap { grid-template-columns: 1fr; }
+    .exam-wrap.side-closed { grid-template-columns: 1fr; }
     .exam-side {
         max-height: none;
         position: static;
@@ -213,7 +296,10 @@ html.dark .exam-btn.on { color: #e5c860; }
         border-bottom: 1px solid var(--border);
         padding: 10px;
     }
+    .exam-side-head { width: 100%; }
+    .side-toggle { display: none; }
     .exam-side-title { width: 100%; }
     .paper-item { width: auto; padding: 5px 10px; }
     .exam-main { padding: 14px; }
+    .float-q { right: 10px; bottom: 16px; }
 }
