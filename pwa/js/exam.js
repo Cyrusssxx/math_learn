@@ -7,7 +7,7 @@ let papers = [];
 let curPaper = null;
 let favOnly = localStorage.getItem(FAV_ONLY_KEY) === '1';
 let sideClosed = localStorage.getItem('examSideClosed') === '1';
-let floatCollapsed = localStorage.getItem('examFloatCollapsed') === '1';
+let navCollapsed = localStorage.getItem('examNavCollapsed') === '1';
 
 // ============ 收起/展开 ============
 function toggleSide() {
@@ -20,10 +20,10 @@ function toggleSide() {
 }
 
 function toggleFloatQ() {
-    floatCollapsed = !floatCollapsed;
-    localStorage.setItem('examFloatCollapsed', floatCollapsed ? '1' : '0');
+    navCollapsed = !navCollapsed;
+    localStorage.setItem('examNavCollapsed', navCollapsed ? '1' : '0');
     const fq = document.getElementById('floatQ');
-    if (fq) fq.classList.toggle('collapsed', floatCollapsed);
+    if (fq) fq.classList.toggle('collapsed', navCollapsed);
 }
 
 // ============ 收藏存储（按题唯一 id：套卷id-题号） ============
@@ -87,9 +87,9 @@ function qCard(p, sec, q, secIdx) {
     const options = q.options && q.options.length
         ? `<div class="q-options">${q.options.map(o => `<div class="q-opt">${mdInline(o)}</div>`).join('')}</div>`
         : '';
-    return `<div class="q-card" id="q-${qid}" data-qno="${secTag(secIdx)}-${q.no}">
+    return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
-            <span class="q-no">${secTag(secIdx)}-${q.no}</span>
+            <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindTag}</span>
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="收藏此题">${fav ? '⭐' : '☆'}</button>
         </div>
@@ -128,28 +128,50 @@ function renderCurrent() {
     }
     el.innerHTML = html + (favOnly ? `<div class="fav-count">收藏 ${shown}/${total} 题</div>` : '');
     renderMath(el);
-    updateFloatQ();
+    renderNav();
 }
 
-/** 滚动监听：找到当前视口内最靠上的题卡，更新悬浮题号 */
-function updateFloatQ() {
+/** 右侧题号导航：显示当前套卷全部题号，点击跳转；滚动高亮当前题 */
+function renderNav() {
+    const el = document.getElementById('floatQNo');
+    if (!el) return;
+    const list = document.getElementById('floatQList');
+    if (!curPaper) { el.textContent = '—'; if (list) list.innerHTML = ''; return; }
+    const all = [];
+    curPaper.sections.forEach((sec, si) => {
+        sec.questions.forEach(q => all.push({ no: q.no, tag: secTag(si) }));
+    });
+    const favOnlyOn = favOnly;
+    el.textContent = curPaper.year + '年';
+    if (list) list.innerHTML = all.map(({ no, tag }) =>
+        `<button class="nav-q${favOnlyOn && !isFav(qidOf(curPaper.id, no)) ? ' hidden' : ''}"
+            data-navq="${no}" title="${tag}${no} 题" onclick="jumpToQ(${no})">${no}</button>`
+    ).join('');
+    highlightNav();
+}
+
+/** 滚动时高亮视口内当前题 */
+function highlightNav() {
     const cards = Array.from(document.querySelectorAll('.q-card'));
-    if (!cards.length) return;
+    const btns = document.querySelectorAll('.nav-q');
+    if (!cards.length || !btns.length) return;
     const half = window.innerHeight * 0.45;
     let cur = null;
     for (const c of cards) {
         const r = c.getBoundingClientRect();
         if (r.top <= half) cur = c; else break;
     }
-    const noEl = document.getElementById('floatQNo');
-    if (!noEl) return;
-    if (!cur) { noEl.textContent = '—'; return; }
-    const no = cur.getAttribute('data-qno');
-    if (no) noEl.textContent = no;
+    const curNo = cur ? cur.getAttribute('data-qno') : null;
+    btns.forEach(b => b.classList.toggle('on', b.getAttribute('data-navq') === curNo));
 }
 
-document.addEventListener('scroll', () => { updateFloatQ(); }, { passive: true });
-window.addEventListener('resize', () => { updateFloatQ(); });
+function jumpToQ(no) {
+    const el = document.getElementById('q-' + qidOf(curPaper.id, no));
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.addEventListener('scroll', () => { highlightNav(); }, { passive: true });
+window.addEventListener('resize', () => { highlightNav(); });
 
 function renderMath(root) {
     if (!window.katex || !root) return;

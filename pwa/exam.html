@@ -45,10 +45,13 @@
         </main>
     </div>
 
-    <!-- 右：悬浮题号 -->
-    <div class="float-q" id="floatQ" onclick="toggleFloatQ()">
-        <span class="float-q-btn">题号</span>
-        <span class="float-q-no" id="floatQNo">—</span>
+    <!-- 右：悬浮题号导航 -->
+    <div class="float-q" id="floatQ">
+        <div class="float-q-head" onclick="toggleFloatQ()">
+            <span class="float-q-no" id="floatQNo">—</span>
+            <span class="float-q-arrow" id="floatQArrow">▲</span>
+        </div>
+        <div class="float-q-list" id="floatQList"></div>
     </div>
 
     <script src="js/common.js"></script>
