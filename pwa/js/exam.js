@@ -166,8 +166,14 @@ function highlightNav() {
 }
 
 function jumpToQ(no) {
-    const el = document.getElementById('q-' + qidOf(curPaper.id, no));
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const qid = qidOf(curPaper.id, no);
+    const el = document.getElementById('q-' + qid);
+    console.log('Jump to:', no, qid, 'Element:', el);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        console.error('Element not found for:', qid);
+    }
 }
 
 document.addEventListener('scroll', () => { highlightNav(); }, { passive: true });
