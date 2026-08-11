@@ -1,0 +1,332 @@
+/* 考研数学真题 - 独立页面样式（复用 notes.css 的 CSS 变量与暗色主题） */
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Microsoft YaHei", sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    background: var(--bg);
+    color: var(--text);
+}
+
+a { color: var(--accent); text-decoration: none; }
+
+.loading { color: var(--text-faint); padding: 40px; text-align: center; }
+
+/* ============ 顶部栏 ============ */
+.exam-top {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--bg-side);
+    border-bottom: 1px solid var(--border);
+}
+.exam-brand { display: flex; align-items: center; gap: 10px; }
+.exam-logo { font-size: 24px; }
+.exam-title { font-size: 17px; font-weight: 700; }
+.exam-sub { font-size: 12px; color: var(--text-faint); }
+.exam-topbtns { display: flex; gap: 8px; align-items: center; }
+
+.exam-btn {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-dim);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    line-height: 1.6;
+}
+.exam-btn:hover { background: var(--bg-hover); }
+.exam-btn.on {
+    background: var(--star-bg);
+    border-color: var(--star-border);
+    color: #8a6d1a;
+}
+html.dark .exam-btn.on { color: #e5c860; }
+
+/* ============ 主体两栏 ============ */
+.exam-wrap {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0;
+    min-height: calc(100vh - 53px);
+}
+.exam-wrap.side-closed { grid-template-columns: 40px 1fr; }
+
+/* 左栏：套卷列表 */
+.exam-side {
+    background: var(--bg-side);
+    border-right: 1px solid var(--border);
+    padding: 14px 10px;
+    overflow-y: auto;
+    max-height: calc(100vh - 53px);
+    position: sticky;
+    top: 53px;
+}
+.exam-side-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-faint);
+    padding: 0 8px 8px;
+}
+.exam-side-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+.exam-side-head .exam-side-title { padding-bottom: 0; }
+.side-toggle {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-dim);
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    line-height: 1;
+    font-size: 12px;
+    cursor: pointer;
+    flex: none;
+}
+.side-toggle:hover { background: var(--bg-hover); }
+/* 收起态：只留一条折叠按钮 */
+.exam-wrap.side-closed .exam-side {
+    padding: 14px 6px;
+    align-items: center;
+    justify-content: center;
+}
+.exam-wrap.side-closed .exam-side-head {
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 0;
+}
+.exam-wrap.side-closed .exam-side-title,
+.exam-wrap.side-closed #paperList { display: none; }
+.exam-wrap.side-closed .side-toggle { transform: rotate(180deg); }
+.paper-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 4px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+}
+.paper-item:hover { background: var(--bg-hover); }
+.paper-item.on {
+    background: var(--bg-active);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+.paper-year { font-weight: 700; font-size: 14px; min-width: 42px; }
+.paper-name { font-size: 13px; color: var(--text-dim); }
+
+/* 中栏：题目 */
+.exam-main {
+    padding: 20px 24px 60px;
+    max-width: 860px;
+    width: 100%;
+}
+.paper-head { margin-bottom: 18px; }
+.paper-head h1 { font-size: 22px; margin: 0 0 4px; }
+.paper-meta { font-size: 13px; color: var(--text-faint); }
+
+.q-section { margin-bottom: 28px; }
+.q-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    border-left: 4px solid var(--accent);
+    padding-left: 10px;
+    margin-bottom: 12px;
+}
+
+/* 题目卡片 */
+.q-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg);
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+}
+.q-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.q-no {
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--bg-active);
+    border-radius: 6px;
+    padding: 1px 8px;
+    font-size: 13px;
+}
+.q-kind {
+    font-size: 12px;
+    color: var(--text-faint);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1px 7px;
+}
+.q-fav {
+    margin-left: auto;
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-faint);
+    line-height: 1;
+}
+.q-fav:hover { color: var(--star-border); transform: scale(1.15); }
+.q-fav.on { color: #e0a800; }
+
+.q-body p { margin: 10px 0; }
+.q-body .q-options { margin-top: 12px; }
+.q-opt {
+    padding: 5px 0 5px 22px;
+    text-indent: -22px;
+}
+
+/* 公式放大：行内 & 显示（含积分号） */
+.q-body .katex,
+.q-answer-body .katex { font-size: 1.5em; }
+.q-body .katex-display,
+.q-answer-body .katex-display {
+    margin: 14px 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.q-body .katex-display > .katex,
+.q-answer-body .katex-display > .katex { font-size: 1.6em; }
+/* 单独调大分式分子分母 */
+.q-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span,
+.q-answer-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.18em; }
+
+/* 悬浮题号导航 */
+.float-q {
+    position: fixed;
+    right: 14px;
+    top: 70px;
+    z-index: 40;
+    width: 86px;
+    background: var(--bg-side);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    user-select: none;
+}
+.float-q-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+}
+.float-q-head:hover { background: var(--bg-hover); }
+.float-q-no {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+}
+.float-q-arrow { font-size: 10px; color: var(--text-faint); }
+.float-q-list {
+    max-height: 55vh;
+    overflow-y: auto;
+    padding: 8px 8px 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+}
+.nav-q {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-dim);
+    border-radius: 6px;
+    padding: 2px 0;
+    font-size: 13px;
+    cursor: pointer;
+    line-height: 1.6;
+    text-align: center;
+}
+.nav-q:hover { background: var(--bg-hover); }
+.nav-q.on {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 700;
+}
+.nav-q.hidden { display: none; }
+.float-q.collapsed .float-q-list { display: none; }
+.float-q.collapsed .float-q-arrow { transform: rotate(180deg); }
+
+/* 答案折叠 */
+.q-answer {
+    margin-top: 12px;
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+}
+.q-answer summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    user-select: none;
+}
+.q-answer summary:hover { text-decoration: underline; }
+.q-answer-body { padding: 12px 2px 2px; }
+.q-answer-body p { margin: 10px 0; }
+
+.empty-tip {
+    color: var(--text-faint);
+    text-align: center;
+    padding: 40px 0;
+}
+.fav-count {
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+/* ============ 移动端适配 ============ */
+@media (max-width: 720px) {
+    .exam-wrap { grid-template-columns: 1fr; }
+    .exam-wrap.side-closed { grid-template-columns: 1fr; }
+    .exam-side {
+        max-height: none;
+        position: static;
+        top: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 10px;
+    }
+    .exam-side-head { width: 100%; }
+    .side-toggle { display: none; }
+    .exam-side-title { width: 100%; }
+    .paper-item { width: auto; padding: 5px 10px; }
+    .exam-main { padding: 14px; }
+    .float-q { right: 8px; top: 62px; width: 72px; }
+}

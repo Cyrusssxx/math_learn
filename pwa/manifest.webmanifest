@@ -1,0 +1,26 @@
+{
+    "name": "考研数学笔记",
+    "short_name": "数学笔记",
+    "description": "考研数学笔记阅读站：高等数学 · 线性代数，目录导航 + 全文搜索，完全离线可用",
+    "lang": "zh-CN",
+    "start_url": "index.html",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#f0f2f5",
+    "theme_color": "#4a90d9",
+    "icons": [
+        {
+            "src": "icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
