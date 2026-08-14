@@ -1,5 +1,5 @@
 /* 考研数学笔记 - 批注系统：荧光高亮（选中文字/整块）+ 文字批注，存 localStorage
- * 锚定方式：每个块（li/p）按自身文本哈希生成稳定 key，笔记内容不变则标注永久有效 */
+ * 锚定方式：每个块（li/p）按「笔记id#文档顺序」生成位置稳定的 sid；改文字不影响标注，仅结构变动才失效（并有提示） */
 
 const Annot = (() => {
     const LS = 'notesAnnot';
@@ -9,7 +9,41 @@ const Annot = (() => {
     let barTarget = null;   // 当前操作对象 {block} / {gid}
 
     try { data = JSON.parse(localStorage.getItem(LS)) || {}; } catch (e) { data = {}; }
-    const save = () => localStorage.setItem(LS, JSON.stringify(data));
+
+    /** 配额/写入失败的醒目提示（非阻塞） */
+    function quotaWarn() {
+        let bar = document.getElementById('annQuotaBar');
+        if (!bar) {
+            bar = document.createElement('div');
+            bar.id = 'annQuotaBar';
+            bar.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;background:#c0392b;color:#fff;padding:10px 14px;font-size:13px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.25)';
+            document.body.appendChild(bar);
+        }
+        bar.innerHTML = '⚠️ 标注存储空间已满，新标注可能未保存！请尽快「导出标注」备份，或清理部分荧光/贴图后重试。 <button style="margin-left:10px;background:#fff;color:#c0392b;border:0;border-radius:4px;padding:2px 8px;cursor:pointer" onclick="this.parentNode.remove()">知道了</button>';
+        bar.style.display = 'block';
+    }
+
+    /** 一般性提示横幅（用于迁移/孤儿告知） */
+    function annNotify(msg) {
+        let bar = document.getElementById('annNotifyBar');
+        if (!bar) {
+            bar = document.createElement('div');
+            bar.id = 'annNotifyBar';
+            bar.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;background:#2d6cdf;color:#fff;padding:10px 14px;font-size:13px;line-height:1.5;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.25)';
+            document.body.appendChild(bar);
+        }
+        bar.innerHTML = msg + ' <button style="margin-left:10px;background:#fff;color:#2d6cdf;border:0;border-radius:4px;padding:2px 8px;cursor:pointer" onclick="this.parentNode.remove()">知道了</button>';
+        bar.style.display = 'block';
+    }
+
+    const save = () => {
+        try {
+            localStorage.setItem(LS, JSON.stringify(data));
+        } catch (e) {
+            console.error('标注保存失败（可能超出存储配额）:', e);
+            quotaWarn();
+        }
+    };
     const bucket = () => data[curId] || (data[curId] = { hl: {}, notes: {}, marks: [] });
     const escA = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -59,12 +93,10 @@ const Annot = (() => {
         return c.textContent.replace(/\s+/g, ' ').trim();
     }
 
+    /** 给每个可标注块（li/p）分配「笔记id#文档顺序」的稳定 sid，替代旧版文本哈希锚点 */
     function keyBlocks(article) {
-        const seen = {};
-        article.querySelectorAll('li, p').forEach(el => {
-            const h = hash(ownText(el));
-            const n = seen[h] = (seen[h] || 0) + 1;
-            el.dataset.ak = n > 1 ? h + '#' + n : h;
+        [...article.querySelectorAll('li, p')].forEach((el, i) => {
+            el.dataset.sid = curId + '#' + i;
         });
     }
 
@@ -113,7 +145,7 @@ const Annot = (() => {
         if (!sel.rangeCount || sel.isCollapsed) return false;
         const r = sel.getRangeAt(0);
         const sc = r.startContainer;
-        const block = (sc.nodeType === 3 ? sc.parentElement : sc).closest('[data-ak]');
+        const block = (sc.nodeType === 3 ? sc.parentElement : sc).closest('[data-sid]');
         if (!block) return false;
         const nodes = textNodes(block);
         let all = '';
@@ -125,7 +157,7 @@ const Annot = (() => {
         if (all.substr(gStart, t.length) !== t) return false;  // 选区含公式等，降级为整块
         let occ = 0;
         for (let i = all.indexOf(t); i >= 0 && i < gStart; i = all.indexOf(t, i + 1)) occ++;
-        const rec = { k: block.dataset.ak, t, c: color, n: occ };
+        const rec = { k: block.dataset.sid, t, c: color, n: occ };
         if (!wrapText(block, t, color, occ, gidOf(rec))) return false;
         bucket().marks.push(rec);
         save();
@@ -158,9 +190,9 @@ const Annot = (() => {
         block.classList.remove('hl-y', 'hl-g', 'hl-b');
         if (color) {
             block.classList.add('hl-' + color);
-            bucket().hl[block.dataset.ak] = color;
+            bucket().hl[block.dataset.sid] = color;
         } else {
-            delete bucket().hl[block.dataset.ak];
+            delete bucket().hl[block.dataset.sid];
         }
         save();
     }
@@ -216,21 +248,21 @@ const Annot = (() => {
     }
 
     function saveNote(btn) {
-        const block = btn.closest('[data-ak]');
+        const block = btn.closest('[data-sid]');
         const text = btn.closest('.ann-box').querySelector('textarea').value.trim();
-        const prev = bucket().notes[block.dataset.ak] || '';
+        const prev = bucket().notes[block.dataset.sid] || '';
         const kept = refsOf(text);
         imgDel(refsOf(prev).filter(id => !kept.includes(id)));  // 删掉不再引用的图
-        if (text) bucket().notes[block.dataset.ak] = text;
-        else delete bucket().notes[block.dataset.ak];
+        if (text) bucket().notes[block.dataset.sid] = text;
+        else delete bucket().notes[block.dataset.sid];
         save();
         if (text) renderNoteBox(block, text, false);
         else block.querySelector(':scope > .ann-box').remove();
     }
 
     function cancelNote(btn) {
-        const block = btn.closest('[data-ak]');
-        const saved = bucket().notes[block.dataset.ak];
+        const block = btn.closest('[data-sid]');
+        const saved = bucket().notes[block.dataset.sid];
         // 丢弃编辑中新贴但未保存的图
         const kept = refsOf(saved || '');
         imgDel(refsOf(btn.closest('.ann-box').querySelector('textarea').value).filter(id => !kept.includes(id)));
@@ -239,20 +271,52 @@ const Annot = (() => {
     }
 
     function editNote(btn) {
-        const block = btn.closest('[data-ak]');
-        renderNoteBox(block, bucket().notes[block.dataset.ak] || '', true);
+        const block = btn.closest('[data-sid]');
+        renderNoteBox(block, bucket().notes[block.dataset.sid] || '', true);
     }
 
     function delNote(btn) {
         if (!confirm('确定删除这条批注？')) return;   // 删除需确认，修改不用
-        const block = btn.closest('[data-ak]');
-        imgDel(refsOf(bucket().notes[block.dataset.ak]));  // 随批注删掉其引用的图
-        delete bucket().notes[block.dataset.ak];
+        const block = btn.closest('[data-sid]');
+        imgDel(refsOf(bucket().notes[block.dataset.sid]));  // 随批注删掉其引用的图
+        delete bucket().notes[block.dataset.sid];
         save();
         block.querySelector(':scope > .ann-box').remove();
     }
 
     // ============ 恢复：正文渲染后调用 ============
+    /** 旧版文本哈希锚点 → 位置 sid 的一次性重锚；返回无法重锚（内容已变/被删）的旧标注数 */
+    function migrateKeys(b, blocks) {
+        const byHash = {};
+        blocks.forEach(el => {
+            const h = hash(ownText(el));
+            (byHash[h] || (byHash[h] = [])).push(el.dataset.sid);
+        });
+        const remap = (oldKey) => {
+            const m = /^(.*)#(\d+)$/.exec(oldKey);
+            const h = m ? m[1] : oldKey;
+            const occ = m ? parseInt(m[2], 10) : 1;
+            const list = byHash[h];
+            return (list && list[occ - 1]) ? list[occ - 1] : null;
+        };
+        let dropped = 0;
+        const newHl = {};
+        for (const [k, c] of Object.entries(b.hl || {})) {
+            const nk = remap(k); if (nk) newHl[nk] = c; else dropped++;
+        }
+        b.hl = newHl;
+        const newNotes = {};
+        for (const [k, t] of Object.entries(b.notes || {})) {
+            const nk = remap(k); if (nk) newNotes[nk] = t; else dropped++;
+        }
+        b.notes = newNotes;
+        b.marks = (b.marks || []).map(m => {
+            const nk = remap(m.k); return nk ? { ...m, k: nk } : (dropped++, null);
+        }).filter(Boolean);
+        return dropped;
+    }
+
+    let _notified = false;
     function apply(noteId) {
         curId = noteId;
         const article = document.querySelector('.note-article');
@@ -260,14 +324,29 @@ const Annot = (() => {
         keyBlocks(article);
         const b = data[noteId];
         if (!b) return;
+        if (!b.__sid) {
+            const dropped = migrateKeys(b, [...article.querySelectorAll('li, p')]);
+            b.__sid = true;
+            save();
+            if (dropped > 0)
+                annNotify(`已迁移旧版标注；其中 ${dropped} 条因内容变动无法定位，已自动清理。建议点「导出标注」留底。`);
+        }
         const byKey = {};
-        article.querySelectorAll('[data-ak]').forEach(el => { byKey[el.dataset.ak] = el; });
-        for (const [k, c] of Object.entries(b.hl || {}))
-            if (byKey[k]) byKey[k].classList.add('hl-' + c);
-        for (const m of b.marks || [])
-            if (byKey[m.k]) wrapText(byKey[m.k], m.t, m.c, m.n, gidOf(m));
-        for (const [k, t] of Object.entries(b.notes || {}))
-            if (byKey[k]) renderNoteBox(byKey[k], t, false);
+        article.querySelectorAll('[data-sid]').forEach(el => { byKey[el.dataset.sid] = el; });
+        let orphans = 0;
+        for (const [k, c] of Object.entries(b.hl || {})) {
+            if (byKey[k]) byKey[k].classList.add('hl-' + c); else orphans++;
+        }
+        for (const m of b.marks || []) {
+            if (byKey[m.k]) wrapText(byKey[m.k], m.t, m.c, m.n, gidOf(m)); else orphans++;
+        }
+        for (const [k, t] of Object.entries(b.notes || {})) {
+            if (byKey[k]) renderNoteBox(byKey[k], t, false); else orphans++;
+        }
+        if (orphans > 0 && !_notified) {
+            _notified = true;
+            annNotify(`有 ${orphans} 条标注因笔记结构变动（增/删/移动条目）已无法定位。可「导出标注」备份后清理。`);
+        }
     }
 
     // ============ 浮动工具条 ============
@@ -298,7 +377,7 @@ const Annot = (() => {
             else if (mode === 'mark') recolorMarkGroup(barTarget.gid, c);
             else setBlockHl(barTarget.block, c);
         } else if (act === 'note') {
-            renderNoteBox(barTarget.block, bucket().notes[barTarget.block.dataset.ak] || '', true);
+            renderNoteBox(barTarget.block, bucket().notes[barTarget.block.dataset.sid] || '', true);
         } else if (act === 'clear') {
             if (mode === 'mark') removeMarkGroup(barTarget.gid);
             else setBlockHl(barTarget.block, null);
@@ -325,7 +404,7 @@ const Annot = (() => {
                 const el = cac.nodeType === 1 ? cac : cac.parentElement;
                 if (!el || !el.closest('#docPane')) return;
                 const sc = r.startContainer;
-                const block = (sc.nodeType === 3 ? sc.parentElement : sc).closest('[data-ak]');
+                const block = (sc.nodeType === 3 ? sc.parentElement : sc).closest('[data-sid]');
                 if (!block) return;
                 showBar('sel', r.getBoundingClientRect(), { block });
             }, 10);

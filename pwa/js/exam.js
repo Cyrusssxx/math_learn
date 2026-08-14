@@ -30,7 +30,10 @@ function toggleFloatQ() {
 function favGet() {
     try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; } catch (e) { return {}; }
 }
-function favSave(obj) { localStorage.setItem(FAV_KEY, JSON.stringify(obj)); }
+function favSave(obj) {
+    try { localStorage.setItem(FAV_KEY, JSON.stringify(obj)); }
+    catch (e) { console.error('收藏保存失败（可能超出存储配额）:', e); alert('收藏存储空间不足，保存失败。请清理部分收藏后重试。'); }
+}
 function qidOf(paperId, no) { return paperId + '-' + no; }
 function isFav(qid) { return !!favGet()[qid]; }
 function toggleFav(qid, btn) {
