@@ -303,6 +303,29 @@ function buildSearchIndex() {
     });
 }
 
+/** 正则转义 */
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+/** 搜索结果命中词标红：避开 $...$ 公式段，文本段转义后对命中标 <mark> */
+function hlText(text, q) {
+    if (!q) return esc(text);
+    const re = new RegExp('(' + escapeRegex(esc(q)) + ')', 'ig');
+    return text.split(/(\$[^$]*\$)/g).map(seg => {
+        if (/^\$[^$]*\$$/.test(seg)) return esc(seg);   // 公式段仅转义
+        return esc(seg).replace(re, '<mark>$1</mark>');  // 文本段转义+标红
+    }).join('');
+}
+
+let _searchTimer = null;
+function onSearchDebounced(v) {
+    clearTimeout(_searchTimer);
+    _searchTimer = setTimeout(() => doSearch(v), 180);
+}
+function onSearchFocus(v) {
+    if (!v.trim()) showHistory();
+    else doSearch(v);
+}
+
 function doSearch(q) {
     const box = document.getElementById('searchResults');
     q = q.trim().toLowerCase();
@@ -339,8 +362,8 @@ function doSearch(q) {
             const n = notes[h.ni];
             const ch = h.ci >= 0 ? n.chapters[h.ci] : '';
             return `<a class="sr-item" href="#/${n.id}${h.ci >= 0 ? '/' + h.ci : ''}" onclick="return locateHit(${i})">
-                <span class="sr-path"><span class="sr-tag ${n.subject}">${SUBJECT_NAMES[n.subject]}</span>${n.name}${ch ? ' › ' + esc(ch) : ''}</span>
-                <span class="sr-text">${esc(h.text.slice(0, 60))}</span></a>`;
+                <span class="sr-path"><span class="sr-tag ${n.subject}">${SUBJECT_NAMES[n.subject]}</span>${hlText(n.name, q)}${ch ? ' › ' + hlText(ch, q) : ''}</span>
+                <span class="sr-text">${hlText(h.text.slice(0, 80), q)}</span></a>`;
         }).join('');
 
     // 更新导航栏：提取搜索结果映射并展开相关笔记

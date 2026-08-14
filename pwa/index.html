@@ -28,7 +28,7 @@
         </div>
         <div class="search-box">
             <input type="search" id="searchInput" placeholder="搜索…"
-                   autocomplete="off" oninput="doSearch(this.value)" onfocus="doSearch(this.value)">
+                   autocomplete="off" oninput="onSearchDebounced(this.value)" onfocus="onSearchFocus(this.value)">
             <div class="search-chips" id="searchChips">
                 <button class="on" data-subj="" onclick="setSearchSubject('', this)">全部</button>
                 <button data-subj="zy" onclick="setSearchSubject('zy', this)">考前21记</button>

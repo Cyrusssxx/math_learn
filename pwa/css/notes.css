@@ -202,6 +202,7 @@ html.dark .exam-link:hover { color: #1e1e2e; }
 }
 .sr-tag.ht { background: var(--star-bg); color: var(--strong); }
 .sr-text { display: block; font-size: 13px; color: var(--text-dim); }
+.search-results mark { background: #ffe082; color: var(--text); border-radius: 2px; padding: 0 1px; font-weight: 600; }
 .sr-empty { padding: 12px 14px; font-size: 13px; color: var(--text-faint); }
 
 /* 目录树 */

@@ -29,5 +29,19 @@ python -X utf8 tools\build_notes.py
 
 ## 注意
 
+## 真题自测（数学二）
+
+独立页面 `exam.html`，从侧栏「📝 数学二真题」入口打开（新标签页）：
+
+- **历年套卷**：数学二真题，左侧按年份切换套卷
+- **逐题卡片**：选择/填空/解答分类，题干+选项完整渲染（KaTeX 公式），答案与解析默认收起，点开查看
+- **收藏**：每题右上角 ☆ 收藏，支持「只看收藏」筛选薄弱环节
+- **题号导航**：右侧题号栏，滚动自动高亮当前题，点题号跳转
+
+数据源：`pwa/data/exam.json`（由 `tools/build_exam.py` 从真题 md 生成）。
+> 改真题数据或 `exam.js` 后，同样需要把 `pwa/sw.js` 的 `CACHE_VER` +1，否则旧缓存不更新。
+
+## 注意
+
 - KaTeX 已本地化在 `pwa/vendor/katex/`（如缺失可运行 `python tools\fetch_katex.py` 重新下载）
 - 历史遗留：`tools/build_cards.py`、`tools/test_fsrs.js` 属已下线的记忆卡片体系，仅存档备用
