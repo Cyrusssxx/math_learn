@@ -23,8 +23,8 @@ const Annot = (() => {
         bar.style.display = 'block';
     }
 
-    /** 一般性提示横幅（用于迁移/孤儿告知） */
-    function annNotify(msg) {
+    /** 一般性提示横幅（用于迁移/孤儿告知）；opts.recover 时附「恢复标注」按钮 */
+    function annNotify(msg, opts) {
         let bar = document.getElementById('annNotifyBar');
         if (!bar) {
             bar = document.createElement('div');
@@ -32,7 +32,11 @@ const Annot = (() => {
             bar.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;background:#2d6cdf;color:#fff;padding:10px 14px;font-size:13px;line-height:1.5;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.25)';
             document.body.appendChild(bar);
         }
-        bar.innerHTML = msg + ' <button style="margin-left:10px;background:#fff;color:#2d6cdf;border:0;border-radius:4px;padding:2px 8px;cursor:pointer" onclick="this.parentNode.remove()">知道了</button>';
+        let html = msg;
+        if (opts && opts.recover)
+            html += ' <button style="margin-left:8px;background:#fff;color:#2d6cdf;border:0;border-radius:4px;padding:2px 8px;cursor:pointer" onclick="Annot.openRecover()">恢复标注</button>';
+        html += ' <button style="margin-left:10px;background:rgba(255,255,255,.2);color:#fff;border:0;border-radius:4px;padding:2px 8px;cursor:pointer" onclick="this.parentNode.remove()">知道了</button>';
+        bar.innerHTML = html;
         bar.style.display = 'block';
     }
 
@@ -285,12 +289,13 @@ const Annot = (() => {
     }
 
     // ============ 恢复：正文渲染后调用 ============
-    /** 旧版文本哈希锚点 → 位置 sid 的一次性重锚；返回无法重锚（内容已变/被删）的旧标注数 */
+    /** 旧版文本哈希锚点 → 位置 sid 的一次性重锚；无法重锚的标注不再静默丢弃，
+     *  而是收入 b.orphans 供「恢复标注」手动/智能认领 */
     function migrateKeys(b, blocks) {
         const byHash = {};
         blocks.forEach(el => {
             const h = hash(ownText(el));
-            (byHash[h] || (byHash[h] = [])).push(el.dataset.sid);
+            (byHash[h] || (byHash[h] = [])).push({ sid: el.dataset.sid, text: ownText(el) });
         });
         const remap = (oldKey) => {
             const m = /^(.*)#(\d+)$/.exec(oldKey);
@@ -299,21 +304,25 @@ const Annot = (() => {
             const list = byHash[h];
             return (list && list[occ - 1]) ? list[occ - 1] : null;
         };
-        let dropped = 0;
+        const orphans = { hl: {}, notes: {}, marks: [] };
         const newHl = {};
         for (const [k, c] of Object.entries(b.hl || {})) {
-            const nk = remap(k); if (nk) newHl[nk] = c; else dropped++;
+            const hit = remap(k); if (hit) newHl[hit.sid] = c; else orphans.hl[k] = c;
         }
         b.hl = newHl;
         const newNotes = {};
         for (const [k, t] of Object.entries(b.notes || {})) {
-            const nk = remap(k); if (nk) newNotes[nk] = t; else dropped++;
+            const hit = remap(k); if (hit) newNotes[hit.sid] = t; else orphans.notes[k] = t;
         }
         b.notes = newNotes;
-        b.marks = (b.marks || []).map(m => {
-            const nk = remap(m.k); return nk ? { ...m, k: nk } : (dropped++, null);
-        }).filter(Boolean);
-        return dropped;
+        const newMarks = [];
+        for (const m of (b.marks || [])) {
+            const hit = remap(m.k);
+            if (hit) newMarks.push({ ...m, k: hit.sid });
+            else orphans.marks.push(m);
+        }
+        b.marks = newMarks;
+        return orphans;
     }
 
     let _notified = false;
@@ -325,11 +334,13 @@ const Annot = (() => {
         const b = data[noteId];
         if (!b) return;
         if (!b.__sid) {
-            const dropped = migrateKeys(b, [...article.querySelectorAll('li, p')]);
+            const orphans = migrateKeys(b, [...article.querySelectorAll('li, p')]);
             b.__sid = true;
+            b.orphans = orphans;
             save();
-            if (dropped > 0)
-                annNotify(`已迁移旧版标注；其中 ${dropped} 条因内容变动无法定位，已自动清理。建议点「导出标注」留底。`);
+            const oc = Object.keys(orphans.hl).length + Object.keys(orphans.notes).length + orphans.marks.length;
+            if (oc > 0)
+                annNotify(`已迁移旧版标注；其中 ${oc} 条因内容变动无法定位，可点「恢复标注」找回。`, { recover: true });
         }
         const byKey = {};
         article.querySelectorAll('[data-sid]').forEach(el => { byKey[el.dataset.sid] = el; });
@@ -345,8 +356,185 @@ const Annot = (() => {
         }
         if (orphans > 0 && !_notified) {
             _notified = true;
-            annNotify(`有 ${orphans} 条标注因笔记结构变动（增/删/移动条目）已无法定位。可「导出标注」备份后清理。`);
+            annNotify(`有 ${orphans} 条标注因笔记结构变动（增/删/移动条目）已无法定位，可「恢复标注」找回。`, { recover: true });
         }
+    }
+
+    // ============ 孤儿标注恢复（内容变动后丢失锚点，可手动/智能认领，或从导出备份补充） ============
+    let recoverListCache = [];
+
+    const kindName = k => k === 'hl' ? '荧光' : k === 'note' ? '批注' : '选段';
+    const colorName = c => c === 'y' ? '黄' : c === 'g' ? '绿' : c === 'b' ? '蓝' : c;
+
+    /** 最长公共子串长度（用于智能匹配；大文本截断抽样避免卡顿） */
+    function lcsLen(a, b) {
+        if (!a || !b) return 0;
+        if (a.length * b.length > 40000) { a = a.slice(0, 400); b = b.slice(0, 400); }
+        const m = a.length, n = b.length;
+        const dp = Array.from({ length: m + 1 }, () => new Uint16Array(n + 1));
+        let best = 0;
+        for (let i = 1; i <= m; i++)
+            for (let j = 1; j <= n; j++)
+                if (a[i - 1] === b[j - 1]) { dp[i][j] = dp[i - 1][j - 1] + 1; if (dp[i][j] > best) best = dp[i][j]; }
+        return best;
+    }
+
+    /** 收集当前笔记里「键不在当前 DOM」的标注 = 待恢复孤儿（含迁移残留 b.orphans） */
+    function buildRecoverList() {
+        const article = document.querySelector('.note-article');
+        if (!article) return [];
+        const byKey = {};
+        article.querySelectorAll('[data-sid]').forEach(el => byKey[el.dataset.sid] = el);
+        const b = data[curId]; if (!b) return [];
+        const list = [];
+        for (const [k, c] of Object.entries(b.hl || {})) if (!byKey[k]) list.push({ kind: 'hl', key: k, color: c, text: '(整块荧光·' + colorName(c) + ')' });
+        for (const [k, t] of Object.entries(b.notes || {})) if (!byKey[k]) list.push({ kind: 'note', key: k, text: t });
+        for (const m of (b.marks || [])) if (!byKey[m.k]) list.push({ kind: 'mark', key: m.k, text: m.t, color: m.c, n: m.n });
+        const o = b.orphans;
+        if (o) {
+            for (const [k, c] of Object.entries(o.hl || {})) list.push({ kind: 'hl', key: k, color: c, text: '(整块荧光·' + colorName(c) + ')' });
+            for (const [k, t] of Object.entries(o.notes || {})) list.push({ kind: 'note', key: k, text: t });
+            for (const m of (o.marks || [])) list.push({ kind: 'mark', key: m.k, text: m.t, color: m.c, n: m.n });
+        }
+        return list;
+    }
+
+    function injectRecoverModal() {
+        if (document.getElementById('annRecover')) return;
+        const el = document.createElement('div');
+        el.id = 'annRecover'; el.className = 'ann-modal'; el.hidden = true;
+        el.innerHTML = `<div class="ann-modal-box">
+            <div class="ann-modal-head">恢复丢失的标注 <button class="ann-modal-x" onclick="Annot.closeRecover()">✕</button></div>
+            <div class="ann-modal-body">
+                <p class="ann-rec-intro">下面是当前笔记里<strong>找不到位置</strong>的标注（内容曾改动过）。给每条选一个目标条目，或点「智能匹配」按文字相似度自动认领；也可从导出备份里补充。</p>
+                <div id="annRecList"></div>
+                <div class="ann-rec-foot">
+                    <button class="ann-rec-smart" onclick="Annot.smartRecover()">智能匹配</button>
+                    <label class="ann-rec-file">从导出备份补充<input type="file" accept="application/json" onchange="Annot.loadBackup(this)"></label>
+                    <button class="ann-rec-done" onclick="Annot.closeRecover()">完成</button>
+                </div>
+            </div></div>`;
+        document.body.appendChild(el);
+    }
+
+    function openRecover() {
+        injectRecoverModal();
+        const modal = document.getElementById('annRecover');
+        modal.hidden = false;
+        renderRecoverList();
+    }
+    function closeRecover() { const m = document.getElementById('annRecover'); if (m) m.hidden = true; }
+
+    function renderRecoverList() {
+        const listEl = document.getElementById('annRecList');
+        if (!listEl) return;
+        const list = buildRecoverList();
+        recoverListCache = list;
+        if (!list.length) { listEl.innerHTML = '<p class="ann-rec-empty">当前笔记没有待恢复的标注 ✅</p>'; return; }
+        const blocks = [...document.querySelectorAll('.note-article [data-sid]')];
+        const opts = blocks.map((el, i) => `<option value="${el.dataset.sid}">${escA((ownText(el).slice(0, 38)) || ('第' + (i + 1) + '块'))}</option>`).join('');
+        listEl.innerHTML = list.map((it, idx) => `
+            <div class="ann-rec-row" data-idx="${idx}">
+                <div class="ann-rec-prev"><span class="ann-rec-kind k-${it.kind}">${kindName(it.kind)}</span> ${escA(it.text.slice(0, 90))}</div>
+                <div class="ann-rec-act">
+                    <select class="ann-rec-sel">${opts}</select>
+                    <button class="ann-rec-claim" onclick="Annot.claimRecover(${idx})">认领</button>
+                </div>
+            </div>`).join('');
+    }
+
+    /** 从原存储位置（b.hl/notes/marks 或 b.orphans）彻底移除某条标注 */
+    function removeEverywhere(key, text, color, n) {
+        const b = data[curId]; if (!b) return;
+        delete b.hl[key]; delete b.notes[key];
+        if (b.marks) b.marks = b.marks.filter(m => !(m.k === key && m.t === text && m.c === color && m.n === n));
+        const o = b.orphans;
+        if (o) {
+            delete o.hl[key]; delete o.notes[key];
+            if (o.marks) o.marks = o.marks.filter(m => !(m.k === key && m.t === text && m.c === color && m.n === n));
+        }
+    }
+
+    function claimWith(it, target) {
+        const block = document.querySelector('[data-sid="' + target.replace(/"/g, '\\"') + '"]');
+        if (!block) return false;
+        const b = data[curId];
+        removeEverywhere(it.key, it.text, it.color, it.n);
+        if (it.kind === 'hl') {
+            b.hl[target] = it.color;
+            block.classList.remove('hl-y', 'hl-g', 'hl-b'); block.classList.add('hl-' + it.color);
+        } else if (it.kind === 'note') {
+            b.notes[target] = it.text;
+            renderNoteBox(block, it.text, false);
+        } else if (it.kind === 'mark') {
+            const rec = { k: target, t: it.text, c: it.color, n: it.n };
+            if (!wrapText(block, it.text, it.color, it.n, gidOf(rec))) {  // 文本已变找不到，降级整块荧光
+                b.hl[target] = it.color;
+                block.classList.remove('hl-y', 'hl-g', 'hl-b'); block.classList.add('hl-' + it.color);
+            } else b.marks.push(rec);
+        }
+        return true;
+    }
+
+    function claimRecover(idx) {
+        const it = recoverListCache[idx]; if (!it) return;
+        const sel = document.querySelector('.ann-rec-row[data-idx="' + idx + '"] .ann-rec-sel');
+        const target = sel ? sel.value : null;
+        if (!target) return;
+        claimWith(it, target);
+        save();
+        renderRecoverList();
+    }
+
+    async function smartRecover() {
+        const blocks = [...document.querySelectorAll('.note-article [data-sid]')];
+        const list = buildRecoverList();
+        let claimed = 0;
+        for (const it of list) {
+            if (it.kind === 'hl') continue;  // 无文本无法智能匹配
+            let bestSid = null, bestLen = 0;
+            for (const el of blocks) {
+                const L = lcsLen(it.text, ownText(el));
+                if (L > bestLen) { bestLen = L; bestSid = el.dataset.sid; }
+            }
+            const th = Math.max(8, Math.floor(it.text.length * 0.4));
+            if (bestSid && bestLen >= th) { claimWith(it, bestSid); claimed++; }
+        }
+        save();
+        renderRecoverList();
+        alert(claimed > 0 ? `智能匹配认领了 ${claimed} 条，其余请手动认领。` : '没有可自动匹配的标注，请手动选择目标条目。');
+    }
+
+    /** 从导出备份补充当前笔记中缺失的标注（覆盖迁移时被清理的孤儿） */
+    async function mergeBackupAnnots(obj) {
+        const annot = obj && obj.__v === 2 ? obj.annot || {} : obj;
+        const imgs = obj && obj.__v === 2 ? obj.imgs || {} : {};
+        if (!annot || typeof annot !== 'object' || Array.isArray(annot)) throw new Error('不是标注备份文件');
+        for (const [id, durl] of Object.entries(imgs))
+            try { await imgPut(id, await (await fetch(durl)).blob()); } catch (e) { }
+        const src = annot[curId];
+        if (!src) { alert('该备份里没有当前笔记（' + curId + '）的标注。'); return; }
+        const dst = data[curId] || (data[curId] = { hl: {}, notes: {}, marks: [] });
+        for (const [k, c] of Object.entries(src.hl || {})) if (!dst.hl[k]) dst.hl[k] = c;
+        for (const [k, t] of Object.entries(src.notes || {})) if (!dst.notes[k]) dst.notes[k] = t;
+        const gids = new Set((dst.marks || []).map(gidOf));
+        dst.marks = dst.marks || [];
+        for (const m of src.marks || []) if (m && m.k && m.t && !gids.has(gidOf(m))) { dst.marks.push(m); gids.add(gidOf(m)); }
+        save();
+        apply(curId);            // 重新应用：能匹配的立即显示，其余进待恢复列表
+        renderRecoverList();
+        alert('已从备份补充当前笔记的标注，请逐条认领。');
+    }
+
+    function loadBackup(input) {
+        const f = input.files && input.files[0]; if (!f) return;
+        const rd = new FileReader();
+        rd.onload = async () => {
+            try { await mergeBackupAnnots(JSON.parse(rd.result)); }
+            catch (e) { alert('读取备份失败: ' + e.message); }
+            input.value = '';
+        };
+        rd.readAsText(f);
     }
 
     // ============ 浮动工具条 ============
@@ -484,7 +672,8 @@ const Annot = (() => {
     }
 
     initBar();
-    return { apply, saveNote, cancelNote, editNote, delNote, exportAnnot, importAnnot };
+    return { apply, saveNote, cancelNote, editNote, delNote, exportAnnot, importAnnot,
+             openRecover, closeRecover, claimRecover, smartRecover, loadBackup };
 })();
 
 window.Annot = Annot;  // 顶层 const 不上 window，reader.js 靠 window.Annot 判断

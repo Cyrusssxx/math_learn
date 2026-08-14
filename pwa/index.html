@@ -45,6 +45,7 @@
             <span id="navTimer" title="今日阅读时长（切换到其他窗口时暂停）">⏱ 00:00:00</span>
             <span class="foot-btns">
                 <button onclick="Annot.exportAnnot()" title="备份全部荧光/批注到 JSON 文件">导出标注</button>
+                <button onclick="Annot.openRecover()" title="找回因笔记内容变动而丢失位置的标注">恢复</button>
                 <button onclick="document.getElementById('annImport').click()" title="从备份恢复标注（合并）">导入</button>
                 <input type="file" id="annImport" accept="application/json" style="display:none" onchange="Annot.importAnnot(this)">
             </span>
