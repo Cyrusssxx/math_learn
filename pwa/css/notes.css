@@ -342,7 +342,7 @@ html.dark .exam-link:hover { color: #1e1e2e; }
     border-bottom: 1px solid var(--border);
 }
 
-.note-article p { margin: 12px 0; }
+.note-article p { margin: 14px 0; line-height: 1.75; }
 
 /* 加粗批注用暖色突出 */
 .note-article strong { color: var(--strong); }
@@ -566,10 +566,11 @@ li.hl-b, p.hl-b { background: var(--hl-b); border-radius: 6px; }
 .ab-btn:hover { background: var(--bg-hover); }
 
 /* KaTeX 略缩小，与正文协调 */
-.katex { font-size: 1.06em; }
-/* 单独调大分式分子分母 */
-.katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.18em; }
-.katex-display { margin: 14px 0; overflow-x: auto; overflow-y: hidden; }
+.katex { font-size: 1.06em; line-height: 1.35; }
+/* 分式分子分母放大 + 增加分数线两侧留白 */
+.katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.28em; }
+.katex .mfrac .frac-line { border-top-width: 0.07em; margin: 0.12em 0; }
+.katex-display { margin: 20px 0; overflow-x: auto; overflow-y: hidden; }
 
 /* ============ 右栏：本页目录 ============ */
 .toc {
