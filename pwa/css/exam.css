@@ -141,6 +141,7 @@ html.dark .exam-btn.on { color: #e5c860; }
     padding: 20px 24px 60px;
     max-width: 860px;
     width: 100%;
+    margin: 0 auto;          /* 居中 */
 }
 .paper-head { margin-bottom: 18px; }
 .paper-head h1 { font-size: 22px; margin: 0 0 4px; }
@@ -164,6 +165,7 @@ html.dark .exam-btn.on { color: #e5c860; }
     padding: 18px 20px;
     margin-bottom: 20px;
     box-shadow: var(--shadow);
+    overflow: visible;       /* 允许公式溢出滚动 */
 }
 .q-head {
     display: flex;
@@ -213,71 +215,96 @@ html.dark .exam-btn.on { color: #e5c860; }
     margin: 14px 0;
     overflow-x: auto;
     overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
 }
 .q-body .katex-display > .katex,
-.q-answer-body .katex-display > .katex { font-size: 1.6em; }
+.q-answer-body .katex-display > .katex { font-size: 1.6em; min-width: max-content; }
 /* 单独调大分式分子分母 */
 .q-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span,
 .q-answer-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.18em; }
 
-/* 悬浮题号导航 */
+/* 悬浮题号导航 — 重设计：底部横条 + 可展开网格 */
 .float-q {
     position: fixed;
-    right: 14px;
-    top: 70px;
+    right: 16px;
+    bottom: 24px;
+    top: auto;
     z-index: 40;
-    width: 86px;
     background: var(--bg-side);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: var(--shadow);
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.08);
     overflow: hidden;
     user-select: none;
+    transition: all .25s ease;
+    /* 默认收起态：只显示圆形按钮 */
+    width: 48px;
+    height: 48px;
+}
+.float-q:hover, .float-q.expanded {
+    width: auto;
+    max-width: 280px;
+    height: auto;
 }
 .float-q-head {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
+    justify-content: center;
+    padding: 10px;
     cursor: pointer;
-    border-bottom: 1px solid var(--border);
+    border-bottom: none;
+    min-height: 48px;
+    gap: 8px;
 }
 .float-q-head:hover { background: var(--bg-hover); }
 .float-q-no {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--accent);
+    display: none;          /* 收起时隐藏 */
 }
-.float-q-arrow { font-size: 10px; color: var(--text-faint); }
+.float-q.expanded .float-q-no,
+.float-q:hover .float-q-no { display: inline; }
+.float-q-arrow { font-size: 11px; color: var(--text-faint); transition: transform .25s; }
 .float-q-list {
-    max-height: 55vh;
+    max-height: 45vh;
     overflow-y: auto;
-    padding: 8px 8px 10px;
+    padding: 8px 10px 12px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+    display: none;         /* 收起时隐藏 */
 }
+.float-q.expanded .float-q-list,
+.float-q:hover .float-q-list { display: grid; }
 .nav-q {
     border: 1px solid var(--border);
     background: var(--bg);
     color: var(--text-dim);
-    border-radius: 6px;
-    padding: 2px 0;
+    border-radius: 7px;
+    padding: 4px 0;
     font-size: 13px;
     cursor: pointer;
-    line-height: 1.6;
+    line-height: 1.5;
     text-align: center;
+    min-width: 32px;
+    transition: all .15s ease;
 }
-.nav-q:hover { background: var(--bg-hover); }
+.nav-q:hover { background: var(--bg-hover); transform: scale(1.08); }
 .nav-q.on {
     background: var(--accent);
     border-color: var(--accent);
     color: #fff;
     font-weight: 700;
+    box-shadow: 0 2px 6px rgba(74,144,217,.35);
 }
 .nav-q.hidden { display: none; }
-.float-q.collapsed .float-q-list { display: none; }
+/* 收起态（JS 控制的 collapsed 类保留兼容） */
+.float-q.collapsed .float-q-list { display: none !important; }
 .float-q.collapsed .float-q-arrow { transform: rotate(180deg); }
+.float-q.collapsed:hover .float-q-list,
+.float-q.collapsed.expanded .float-q-list { display: grid !important; }
 
 /* 答案折叠 */
 .q-answer {
@@ -327,6 +354,18 @@ html.dark .exam-btn.on { color: #e5c860; }
     .side-toggle { display: none; }
     .exam-side-title { width: 100%; }
     .paper-item { width: auto; padding: 5px 10px; }
-    .exam-main { padding: 14px; }
-    .float-q { right: 8px; top: 62px; width: 72px; }
+    .exam-main { padding: 14px; max-width: none; }
+    .float-q {
+        right: 10px;
+        bottom: 12px;
+        width: 44px;
+        height: 44px;
+    }
+    .float-q.expanded, .float-q:hover {
+        max-width: 220px;
+    }
+    .float-q-list {
+        grid-template-columns: repeat(6, 1fr);
+        max-height: 35vh;
+    }
 }

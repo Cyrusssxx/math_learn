@@ -24,6 +24,8 @@ function toggleFloatQ() {
     localStorage.setItem('examNavCollapsed', navCollapsed ? '1' : '0');
     const fq = document.getElementById('floatQ');
     if (fq) fq.classList.toggle('collapsed', navCollapsed);
+    // 新增：点击切换展开/收起态
+    if (fq) fq.classList.toggle('expanded', !navCollapsed);
 }
 
 // ============ 收藏存储（按题唯一 id：套卷id-题号） ============
@@ -63,13 +65,36 @@ function mdInline(s) {
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 }
 
+/** 多行块：逐行处理，公式/文本混合；支持跨行 $$...$$ 块 */
 function mdBlock(s) {
-    // 多行块：逐行处理，公式/文本混合
-    return s.split('\n').map(line => {
-        const l = line.trim();
-        if (!l) return '';
-        return '<p>' + mdInline(l) + '</p>';
-    }).join('');
+    const lines = s.split('\n');
+    const out = [];
+    let mathBuf = null;   // 累积跨行 $$ 块
+
+    for (const raw of lines) {
+        const l = raw.trim();
+        if (!l) { if (mathBuf) { mathBuf += '\n'; } continue; }
+
+        // 检测 $$ 开/闭（不在行内 $ 内的独立 $$）
+        if (mathBuf === null && l.startsWith('$$') && !l.endsWith('$$')) {
+            // $$ 块开始
+            mathBuf = l;
+            continue;
+        }
+        if (mathBuf !== null) {
+            mathBuf += '\n' + l;
+            if (l.endsWith('$$')) {
+                // $$ 块结束
+                out.push('<p>' + mdInline(mathBuf) + '</p>');
+                mathBuf = null;
+            }
+            continue;
+        }
+        out.push('<p>' + mdInline(l) + '</p>');
+    }
+    // 未闭合的 $$ 当普通行
+    if (mathBuf) out.push('<p>' + mdInline(mathBuf) + '</p>');
+    return out.join('');
 }
 
 function renderPaperList() {
@@ -212,6 +237,12 @@ async function init() {
     papers = await resp.json();
     const favBtn = document.getElementById('favOnly');
     if (favBtn) favBtn.classList.toggle('on', favOnly);
+    // 悬浮导航初始状态
+    const fq = document.getElementById('floatQ');
+    if (fq) {
+        fq.classList.toggle('collapsed', navCollapsed);
+        fq.classList.toggle('expanded', !navCollapsed);
+    }
     // 默认打开最新套卷
     const saved = papers.find(p => p.year === new Date().getFullYear());
     curPaper = papers[0] || null;

@@ -38,10 +38,10 @@ function route() {
         renderToc(note);
         renderTree();
     }
-    if (chIdx >= 0) {
+    if (chIdx >= 0 && !pendingLocate) {
         const el = document.getElementById('ch-' + chIdx);
         if (el) el.scrollIntoView({ block: 'start' });
-    } else {
+    } else if (!pendingLocate) {
         window.scrollTo(0, 0);
     }
     highlightToc();
@@ -411,21 +411,37 @@ function locateHit(i) {
 }
 
 /** 在已渲染正文里找命中行：取行内最长的公式外文本段做锚，瞬时滚到屏幕中央并闪烁。
- *  用 instant 而非平滑滚动：平滑动画可被打断，后台标签页下甚至完全不执行 */
+ *  用 setTimeout 延迟执行：确保盖过 route() 中章节级 scrollIntoView */
 function locateBlock(h) {
-    const plain = h.text.replace(/^📝 /, '').split(/\$[^$]*\$/)
+    // 提取文本锚：优先取公式外最长的有辨识度片段
+    const segments = h.text.replace(/^📝 /, '').split(/\$[^$]*\$/)
         .map(s => s.replace(/\*\*/g, '').trim())
-        .sort((a, b) => b.length - a.length)[0] || '';
-    if (plain.length < 2) return;
-    let best = null;   // 取文本最短的命中块 = 最内层、最精确
-    for (const b of document.querySelectorAll('.note-article li, .note-article p, .note-article h2, .note-article td, .note-article .ann-text')) {
-        if (b.textContent.includes(plain) && (!best || b.textContent.length < best.textContent.length)) best = b;
+        .filter(s => s.length >= 2)
+        .sort((a, b) => b.length - a.length);
+
+    // 尝试多个候选锚（从长到短），提高命中率
+    for (const plain of segments) {
+        let best = null;
+        for (const b of document.querySelectorAll('.note-article li, .note-article p, .note-article h2, .note-article td, .note-article .ann-text')) {
+            if (b.textContent.includes(plain) && (!best || b.textContent.length < best.textContent.length)) best = b;
+        }
+        if (best) {
+            // 展开折叠块
+            for (let d = best.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;
+            // 延迟滚动，确保覆盖章节级定位
+            setTimeout(() => {
+                best.scrollIntoView({ block: 'center', behavior: 'instant' });
+                best.classList.add('locate-flash');
+                setTimeout(() => best.classList.remove('locate-flash'), 1800);
+            }, 30);
+            return;
+        }
     }
-    if (!best) return;
-    for (let d = best.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;  // 折叠块内命中先展开
-    best.scrollIntoView({ block: 'center', behavior: 'instant' });
-    best.classList.add('locate-flash');
-    setTimeout(() => best.classList.remove('locate-flash'), 1800);
+    // 最终回退：至少滚动到对应章节
+    if (h.ci >= 0) {
+        const chEl = document.getElementById('ch-' + h.ci);
+        if (chEl) setTimeout(() => chEl.scrollIntoView({ block: 'start', behavior: 'instant' }), 30);
+    }
 }
 
 function clearSearch() {
