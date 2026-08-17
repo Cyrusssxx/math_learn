@@ -103,17 +103,19 @@ a { color: var(--accent); text-decoration: none; }
 .brand { font-size: 17px; font-weight: 700; }
 
 /* 真题入口链接（左侧栏品牌下方） */
-.side-links { padding: 0 16px 4px; }
+.side-links { padding: 0 12px 4px; display: flex; gap: 8px; }
 .exam-link {
     display: block;
-    padding: 6px 12px;
+    flex: 1;
+    padding: 5px 8px;
     border: 1px solid var(--accent);
     border-radius: 8px;
     background: var(--bg-active);
     color: var(--accent);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     text-align: center;
+    white-space: nowrap;
 }
 .exam-link:hover { background: var(--accent); color: #fff; }
 html.dark .exam-link:hover { color: #1e1e2e; }

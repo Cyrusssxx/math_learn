@@ -222,7 +222,7 @@ html.dark .good-btn.on { color: #e5c860; }
 
 .q-body p { margin: 20px 0; line-height: 2.0; }
 .q-body ul, .q-body ol { padding-left: 22px; }
-.q-body li { margin: 14px 0; line-height: 2.0; }
+.q-body li { margin: 18px 0; line-height: 2.0; }
 
 /* 公式：大字号（保持原大小），靠滚动链防截断 */
 .q-body .katex,
@@ -238,9 +238,9 @@ html.dark .good-btn.on { color: #e5c860; }
 }
 .q-body .katex-display > .katex,
 .q-body .fold-body .katex-display > .katex { font-size: 1.55em; }
-/* 分式分子分母略放大 */
+/* 分式分子分母恢复自然比例（不再放大，整体显小） */
 .q-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span,
-.q-body .fold-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.25em; }
+.q-body .fold-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.0em; }
 
 /* 答案折叠（复用 notes.css 的 .fold，这里让间距更合适） */
 .q-body .fold summary,
