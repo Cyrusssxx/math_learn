@@ -1,0 +1,39 @@
+#!/bin/sh
+# mathcards pre-commit hook
+# 每次提交前按预缓存资源内容自动重建 sw.js 的 CACHE_VER，
+# 保证线上 PWA 在资源变动时自动拉取新缓存（无需手动 bump 版本号）。
+# 配合 `git config core.hooksPath .githooks` 使用。
+
+# 定位 python：优先 python3 / python，回退到 WorkBuddy 托管解释器
+PY=""
+if command -v python3 >/dev/null 2>&1; then
+  PY=python3
+elif command -v python >/dev/null 2>&1; then
+  PY=python
+elif [ -x "/c/Users/cjx/.workbuddy/binaries/python/versions/3.13.12/python.exe" ]; then
+  PY="/c/Users/cjx/.workbuddy/binaries/python/versions/3.13.12/python.exe"
+fi
+
+if [ -z "$PY" ]; then
+  echo "[pre-commit] 未找到 python，跳过 CACHE_VER 自动更新（请手动 bump 或安装 python）"
+  exit 0
+fi
+
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+SCRIPT="$ROOT/tools/build_sw.py"
+if [ ! -f "$SCRIPT" ]; then
+  echo "[pre-commit] 未找到 tools/build_sw.py，跳过"
+  exit 0
+fi
+
+"$PY" "$SCRIPT"
+rc=$?
+
+if [ "$rc" -eq 1 ]; then
+  git add "$ROOT/pwa/sw.js"
+  echo "[pre-commit] 已将更新后的 pwa/sw.js 加入暂存区"
+elif [ "$rc" -ne 0 ]; then
+  echo "[pre-commit] build_sw.py 执行异常（退出码 $rc），但提交仍继续"
+fi
+
+exit 0
