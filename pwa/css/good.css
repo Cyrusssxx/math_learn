@@ -220,25 +220,27 @@ html.dark .good-btn.on { color: #e5c860; }
 .q-fav:hover { color: var(--star-border); transform: scale(1.15); }
 .q-fav.on { color: #e0a800; }
 
-.q-body p { margin: 10px 0; }
+.q-body p { margin: 12px 0; line-height: 1.75; }
 .q-body ul, .q-body ol { padding-left: 22px; }
-.q-body li { margin: 4px 0; }
+.q-body li { margin: 6px 0; line-height: 1.75; }
 
-/* 公式放大：行内 & 显示（含积分号） */
+/* 公式：适度放大（比笔记稍大但不过分） */
 .q-body .katex,
-.q-body .fold-body .katex { font-size: 1.4em; }
+.q-body .fold-body .katex { font-size: 1.12em; }
 .q-body .katex-display,
 .q-body .fold-body .katex-display {
-    margin: 14px 0;
+    margin: 16px -4px;          /* 左右负缩进给公式留空间 */
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
+    padding: 8px 4px 6px;
+    width: calc(100% + 8px);     /* 确保滚动容器比父级宽 */
 }
 .q-body .katex-display > .katex,
-.q-body .fold-body .katex-display > .katex { font-size: 1.55em; min-width: max-content; }
+.q-body .fold-body .katex-display > .katex { font-size: 1.2em; }
+/* 分式分子分母略放大 */
 .q-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span,
-.q-body .fold-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.18em; }
+.q-body .fold-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.2em; }
 
 /* 答案折叠（复用 notes.css 的 .fold，这里让间距更合适） */
 .q-body .fold summary,
