@@ -220,9 +220,9 @@ html.dark .good-btn.on { color: #e5c860; }
 .q-fav:hover { color: var(--star-border); transform: scale(1.15); }
 .q-fav.on { color: #e0a800; }
 
-.q-body p { margin: 16px 0; line-height: 1.9; }
+.q-body p { margin: 20px 0; line-height: 2.0; }
 .q-body ul, .q-body ol { padding-left: 22px; }
-.q-body li { margin: 10px 0; line-height: 1.9; }
+.q-body li { margin: 14px 0; line-height: 2.0; }
 
 /* 公式：大字号（保持原大小），靠滚动链防截断 */
 .q-body .katex,
