@@ -2,20 +2,25 @@
  * 预缓存全部页面/样式/脚本/笔记数据/KaTeX/图标，安装后完全离线可用。
  * 升级笔记数据或代码后：改 CACHE_VER 版本号即可让客户端自动换新缓存。
  */
-const CACHE_VER = 'mathcards-v42';
+const CACHE_VER = 'mathcards-v43';
 
 const PRECACHE = [
     'index.html',
     'exam.html',
+    'good.html',
     'manifest.webmanifest',
     'css/notes.css',
     'css/exam.css',
+    'css/good.css',
     'js/common.js',
     'js/reader.js',
     'js/annotate.js',
     'js/exam.js',
+    'js/good.js',
+    'js/mdrender.js',
     'data/notes.json',
     'data/exam.json',
+    'data/good.json',
     'vendor/katex/katex.min.css',
     'vendor/katex/katex.min.js',
     'vendor/katex/auto-render.min.js',

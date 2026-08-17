@@ -88,11 +88,19 @@ def main():
     srcs = [Path(p) for p in sys.argv[1:]] if len(sys.argv) > 1 else DEFAULT_SRCS
     notes = build(srcs)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    out = DATA_DIR / 'notes.json'
-    out.write_text(json.dumps(notes, ensure_ascii=False), encoding='utf-8')
-    for n in notes:
+    # 好题(ht)独立拆出为 good.json，从笔记体系摘除（见 good.html 刷题模块）
+    good = [n for n in notes if n['subject'] == 'ht']
+    notes_only = [n for n in notes if n['subject'] != 'ht']
+    _write(notes_only, DATA_DIR / 'notes.json')
+    _write(good, DATA_DIR / 'good.json')
+    for n in notes_only:
         print(f"{n['name']}: {len(n['chapters'])} 章, {len(n['md']) // 1024}KB")
-    print(f"共 {len(notes)} 份笔记 → {out} ({out.stat().st_size // 1024}KB)")
+    print(f"共 {len(notes_only)} 份笔记 → notes.json | {len(good)} 份好题 → good.json")
+
+
+def _write(notes, out):
+    out.write_text(json.dumps(notes, ensure_ascii=False), encoding='utf-8')
+    print(f"  → {out} ({out.stat().st_size // 1024}KB)")
 
 
 if __name__ == '__main__':

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学好题刷题</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#4a90d9">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
+    <link rel="stylesheet" href="css/notes.css">
+    <link rel="stylesheet" href="css/good.css">
+    <link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+    <header class="good-top">
+        <div class="good-brand">
+            <span class="good-logo">🎯</span>
+            <div>
+                <div class="good-title">数学好题刷题</div>
+                <div class="good-sub" id="goodSub">精选 36 个专题 · 收藏即错题本</div>
+            </div>
+        </div>
+        <div class="good-topbtns">
+            <button class="good-btn" id="favOnly" onclick="toggleFavOnly()" title="只看已收藏的题目">⭐ 收藏夹</button>
+            <button class="good-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
+            <a class="good-btn" href="index.html" target="_blank" title="打开笔记站">📚 笔记</a>
+        </div>
+    </header>
+
+    <div class="good-wrap">
+        <!-- 左：专题分组列表 -->
+        <aside class="good-side" id="goodSide">
+            <div class="good-side-head">
+                <div class="good-side-title">专题</div>
+                <input type="search" id="goodSearch" class="good-search" placeholder="搜索专题…"
+                       autocomplete="off" oninput="onGoodSearch(this.value)">
+            </div>
+            <div id="topicList" class="topic-list"></div>
+            <div class="side-foot" id="navTimer" title="今日阅读时长">⏱ 00:00:00</div>
+        </aside>
+
+        <!-- 中：题目 -->
+        <main class="good-main" id="goodMain">
+            <div class="loading">选择左侧专题开始刷题…</div>
+        </main>
+    </div>
+
+    <!-- 右：悬浮题号导航 -->
+    <div class="float-q" id="floatQ">
+        <div class="float-q-head" onclick="toggleFloatQ()">
+            <span class="float-q-no" id="floatQNo">—</span>
+            <span class="float-q-arrow" id="floatQArrow">▲</span>
+        </div>
+        <div class="float-q-list" id="floatQList"></div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/mdrender.js"></script>
+    <script defer src="vendor/katex/katex.min.js"></script>
+    <script defer src="vendor/katex/auto-render.min.js"></script>
+    <script defer src="js/good.js"></script>
+</body>
+</html>
