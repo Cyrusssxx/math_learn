@@ -659,3 +659,74 @@ li.hl-b, p.hl-b { background: var(--hl-b); border-radius: 6px; }
 .ann-rec-foot { display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
 .ann-rec-file { font-size: 12px; color: var(--text-dim); cursor: pointer; }
 .ann-rec-empty { color: var(--text-faint); font-size: 13px; }
+
+/* ============ 公式识别 / 标注（方案 C 混合层） ============ */
+/* 公式级高亮（作用于 .katex 本身） */
+.katex.fml-hl-y { background: var(--hl-y); border-radius: 4px; }
+.katex.fml-hl-g { background: var(--hl-g); border-radius: 4px; }
+.katex.fml-hl-b { background: var(--hl-b); border-radius: 4px; }
+
+/* 批注 / 标签指示标记（作为 .katex 的兄弟节点插入） */
+sup.fml-note-mark { cursor: pointer; color: var(--accent); font-size: .7em; margin-left: 2px; user-select: none; }
+.fml-label {
+    display: inline-block; margin-left: 4px; padding: 0 6px; font-size: 11px; line-height: 1.6;
+    border-radius: 10px; background: var(--bg-active); color: var(--accent); border: 1px solid var(--accent);
+    vertical-align: middle; cursor: default;
+}
+
+/* 悬停 tooltip：显示 LaTeX 源码 */
+.fml-tip {
+    position: fixed; z-index: 200; max-width: 360px; max-height: 180px; overflow: auto;
+    background: #1f2330; color: #e6e6ea; padding: 8px 10px; border-radius: 8px;
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.5;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .3); pointer-events: none; white-space: pre-wrap; word-break: break-word;
+}
+.fml-tip[hidden] { display: none; }
+.fml-tip code { color: #ffd479; }
+
+/* 公式浮动工具条（复用 annBar 视觉） */
+#fmlBar {
+    position: fixed; z-index: 100; display: flex; align-items: center; gap: 7px;
+    padding: 7px 10px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 12px; box-shadow: var(--shadow);
+}
+#fmlBar[hidden] { display: none; }
+
+/* 公式批注 popover */
+.fml-pop {
+    position: fixed; z-index: 150; width: 300px; background: var(--bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); padding: 10px 12px;
+}
+.fml-pop[hidden] { display: none; }
+.fml-pop-head { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.fml-pop-head button { border: 0; background: transparent; cursor: pointer; font-size: 15px; color: var(--text-dim); }
+.fml-pop-edit { width: 100%; min-height: 60px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; font-size: 13.5px; resize: vertical; }
+.fml-pop-foot { display: flex; gap: 6px; margin-top: 8px; align-items: center; }
+.fml-label-input { flex: 1; min-width: 0; padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font-size: 12px; }
+.fml-pop-foot button { border: 1px solid var(--border); background: var(--accent); color: #fff; border-radius: 6px; padding: 3px 12px; font-size: 12px; cursor: pointer; }
+
+/* 公式放大 / 目录 弹窗（复用 ann-modal 基础） */
+.fml-modal { position: fixed; inset: 0; z-index: 10000; background: rgba(0, 0, 0, .45); display: flex; align-items: center; justify-content: center; }
+.fml-modal[hidden] { display: none; }
+.fml-modal-box { width: min(680px, 92vw); max-height: 86vh; background: var(--bg); color: var(--text); border-radius: 12px; box-shadow: 0 12px 48px rgba(0, 0, 0, .35); display: flex; flex-direction: column; overflow: hidden; }
+.fml-modal-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; font-weight: 600; border-bottom: 1px solid var(--border); }
+.fml-modal-x { border: 0; background: transparent; font-size: 16px; cursor: pointer; color: var(--text-dim); }
+.fml-modal-body { padding: 14px 16px; overflow: auto; }
+
+#fmlZoomMath { text-align: center; padding: 10px 0 16px; overflow-x: auto; }
+#fmlZoomMath .katex { font-size: 2.2em; }
+#fmlZoomTex { display: block; margin-top: 8px; padding: 10px 12px; background: var(--bg-side); border-radius: 8px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; color: var(--text-dim); white-space: pre-wrap; word-break: break-word; }
+.fml-zoom-copy { margin-top: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--accent); border-radius: 6px; padding: 3px 12px; font-size: 12px; cursor: pointer; }
+
+.fml-idx-item { display: flex; align-items: center; gap: 8px; padding: 8px 6px; border-bottom: 1px dashed var(--border); cursor: pointer; }
+.fml-idx-item:hover { background: var(--bg-hover); }
+.fml-idx-tex { flex: 1; min-width: 0; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fml-idx-hasnote { color: var(--accent); }
+
+/* 公式定位闪烁 */
+.fml-flash { animation: fmlFlash 1.8s ease-out; }
+@keyframes fmlFlash { 0%, 55% { background: var(--mk-y); } 100% { background: transparent; } }
+
+/* 轻量 toast */
+#fmlToast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 20000; background: #1f2330; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 13px; box-shadow: 0 6px 24px rgba(0, 0, 0, .3); opacity: 0; transition: opacity .2s; pointer-events: none; }
+#fmlToast.show { opacity: 1; }
