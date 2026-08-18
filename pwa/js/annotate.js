@@ -206,9 +206,24 @@ const Annot = (() => {
     }
 
     // ============ 文字批注 ============
-    /** 展示态文本：转义后把 [图:id] 占位替换成 img，再异步从 IndexedDB 填 src */
-    const noteHtml = t => escA(t).replace(/\[图:([a-z0-9]+)\]/g,
-        '<img class="ann-img" data-img="$1" alt="批注图片">');
+    /** 批注文本渲染：转义 → [图:id] 转图片 → $...$ / $$...$$ 渲染成公式 */
+    function texToHtml(tex, display) {
+        if (!window.katex) return null;
+        try {
+            return katex.renderToString(tex.trim(), { displayMode: !!display, throwOnError: false, errorColor: '#d9534f' });
+        } catch (e) { return null; }
+    }
+    function renderAnnot(t) {
+        let h = escA(t).replace(/\[图:([a-z0-9]+)\]/g,
+            '<img class="ann-img" data-img="$1" alt="批注图片">');
+        if (window.katex) {
+            h = h.replace(/\$\$([\s\S]+?)\$\$/g, (m, tex) =>
+                '<span class="ann-fml ann-fml-d">' + (texToHtml(tex, true) || m) + '</span>');
+            h = h.replace(/\$([^\$\n]+?)\$/g, (m, tex) => texToHtml(tex, false) || m);
+        }
+        return h;
+    }
+    const noteHtml = t => renderAnnot(t);
 
     function fillImgs(box) {
         box.querySelectorAll('img.ann-img[data-img]').forEach(img => {
@@ -240,10 +255,20 @@ const Annot = (() => {
         const box = document.createElement('div');
         box.className = 'ann-box';
         if (editing) {
-            box.innerHTML = `<textarea class="ann-edit" placeholder="写点批注…（Ctrl+V 可直接贴图）">${escA(text || '')}</textarea>
+            box.innerHTML = `<textarea class="ann-edit" placeholder="写点批注…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）">${escA(text || '')}</textarea>
+                <div class="ann-preview" hidden></div>
                 <div class="ann-ops"><button onclick="Annot.saveNote(this)">保存</button>
                 <button onclick="Annot.cancelNote(this)">取消</button></div>`;
-            box.querySelector('textarea').addEventListener('paste', onPasteImg);
+            const ta = box.querySelector('textarea');
+            ta.addEventListener('paste', onPasteImg);
+            const pv = box.querySelector('.ann-preview');
+            const upd = () => {
+                const v = ta.value.trim();
+                if (v) { pv.innerHTML = renderAnnot(v); pv.hidden = false; fillImgs(pv); }
+                else { pv.innerHTML = ''; pv.hidden = true; }
+            };
+            ta.addEventListener('input', () => upd());
+            upd();
         } else {
             box.innerHTML = `<span class="ann-icon">📝</span><span class="ann-text">${noteHtml(text)}</span>
                 <span class="ann-ops"><button onclick="Annot.editNote(this)">改</button>
@@ -625,7 +650,7 @@ const Annot = (() => {
 
         // 点已有荧光/高亮块 → 修改；点空白 → 收起
         document.addEventListener('click', e => {
-            if (e.target.closest('#annBar, #fmlBar, #fmlPop, .fml-modal')) return;
+            if (e.target.closest('#annBar, #fmlBar, #fmlPop')) return;
             const fk = topKatex(e.target);
             if (fk && !fk.closest('.ann-box')) {
                 const sel = getSelection();
@@ -656,7 +681,7 @@ const Annot = (() => {
             hideBars();
         });
 
-        window.addEventListener('scroll', () => { hideBar(); hideFmlBar(); hideFmlPop(); hideFmlTip(); }, { passive: true });
+        window.addEventListener('scroll', () => { hideBar(); hideFmlBar(); hideFmlPop(); }, { passive: true });
     }
 
     // ============ 备份：导出 / 导入（合并，批注图片随包 base64） ============
@@ -714,34 +739,13 @@ const Annot = (() => {
         rd.readAsText(f);
     }
 
-    // ============ 公式识别 UI 层（悬停/工具条/批注/放大/目录） ============
-    let fmlBar = null, fmlPop = null, fmlTip = null, fmlZoom = null, fmlIndex = null, fmlToast = null;
-    let fmlTarget = null, fmlPopTarget = null, fmlIndexItems = [];
+    // ============ 公式标注 UI（高亮 / 给公式写批注；不再显示源码） ============
+    let fmlBar = null, fmlPop = null;
+    let fmlTarget = null, fmlPopTarget = null;
 
     function hideFmlBar() { if (fmlBar) fmlBar.hidden = true; fmlTarget = null; }
     function hideFmlPop() { if (fmlPop) fmlPop.hidden = true; fmlPopTarget = null; }
-    function hideFmlTip() { if (fmlTip) fmlTip.hidden = true; }
-    function hideBars() { hideBar(); hideFmlBar(); hideFmlPop(); hideFmlTip(); }
-
-    function toast(msg) {
-        if (!fmlToast) return;
-        fmlToast.textContent = msg;
-        fmlToast.classList.add('show');
-        clearTimeout(toast._t);
-        toast._t = setTimeout(() => fmlToast.classList.remove('show'), 1600);
-    }
-    function copyText(t) {
-        const done = () => toast('已复制 LaTeX 源码');
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(t).then(done).catch(() => fallbackCopy(t));
-        } else fallbackCopy(t);
-        function fallbackCopy(s) {
-            const ta = document.createElement('textarea'); ta.value = s; ta.style.position = 'fixed'; ta.style.opacity = '0';
-            document.body.appendChild(ta); ta.select();
-            try { document.execCommand('copy'); done(); } catch (e) { toast('复制失败'); }
-            ta.remove();
-        }
-    }
+    function hideBars() { hideBar(); hideFmlBar(); hideFmlPop(); }
     function showFmlBar(rect, target) {
         fmlTarget = target;
         const btns = [
@@ -749,9 +753,7 @@ const Annot = (() => {
             '<button class="ab-dot ab-g" data-fact="hl" data-c="g" title="公式高亮·绿"></button>',
             '<button class="ab-dot ab-b" data-fact="hl" data-c="b" title="公式高亮·蓝"></button>',
             '<button class="ab-btn" data-fact="note" title="给公式写批注 / 打标签">📝批注</button>',
-            '<button class="ab-btn" data-fact="copy" title="复制 LaTeX 源码">⧉复制</button>',
-            '<button class="ab-btn" data-fact="zoom" title="放大查看公式">🔍放大</button>',
-            '<button class="ab-btn" data-fact="clear" title="清除该公式的批注/高亮/标签">清除</button>'
+            '<button class="ab-btn" data-fact="clear" title="清除该公式的高亮/批注/标签">清除</button>'
         ].join('');
         fmlBar.innerHTML = btns;
         fmlBar.hidden = false;
@@ -764,10 +766,8 @@ const Annot = (() => {
         const fact = btn.dataset.fact, el = fmlTarget;
         if (fact === 'hl') setFmlHl(el, btn.dataset.c);
         else if (fact === 'note') showFmlPop(el);
-        else if (fact === 'copy') copyText(texOf(el));
-        else if (fact === 'zoom') showFmlZoom(el);
         else if (fact === 'clear') clearFml(el);
-        if (fact !== 'zoom') hideFmlBar();
+        hideFmlBar();
     }
     function setFmlHl(el, c) {
         const key = el.dataset.fid; const b = ensureFml();
@@ -809,67 +809,7 @@ const Annot = (() => {
         el.classList.remove('fml-hl-y', 'fml-hl-g', 'fml-hl-b');
         applyFml();
     }
-    function showFmlZoom(el) {
-        const tex = texOf(el);
-        const clone = el.cloneNode(true);
-        clone.classList.remove('fml-hl-y', 'fml-hl-g', 'fml-hl-b');
-        const m = document.getElementById('fmlZoomMath'); m.innerHTML = ''; m.appendChild(clone);
-        document.getElementById('fmlZoomTex').textContent = tex;
-        fmlZoom.hidden = false;
-    }
-    function fmlCopyZoom() { const t = document.getElementById('fmlZoomTex'); if (t) copyText(t.textContent); }
-    function openFmlIndex() {
-        const article = document.querySelector('.note-article'); if (!article) return;
-        const fml = (data[curId] && data[curId].fml) || {};
-        const items = []; const occMap = {};
-        [...article.querySelectorAll('.katex')].filter(k => !k.parentElement.closest('.katex')).forEach(el => {
-            const tex = texOf(el); if (!tex) return;
-            const hk = hash(tex), occ = occMap[hk] || 0; occMap[hk] = occ + 1;
-            items.push({ tex, key: hk + '#' + occ, rec: fml[hk + '#' + occ] });
-        });
-        fmlIndexItems = items;
-        const body = items.length ? items.map((it, i) =>
-            `<div class="fml-idx-item" onclick="Annot.locateFml(${i})">
-                <code class="fml-idx-tex" title="${escA(it.tex)}">${escA(it.tex.slice(0, 64))}${it.tex.length > 64 ? '…' : ''}</code>
-                ${it.rec && it.rec.label ? `<span class="fml-label">${escA(it.rec.label)}</span>` : ''}
-                ${it.rec && it.rec.note ? '<span class="fml-idx-hasnote" title="有批注">📝</span>' : ''}
-            </div>`).join('')
-            : '<p class="ann-rec-empty">当前笔记没有公式</p>';
-        document.getElementById('fmlIndexBody').innerHTML = body;
-        fmlIndex.hidden = false;
-    }
-    function locateFml(i) {
-        const it = fmlIndexItems[i]; if (!it) return;
-        const el = document.querySelector('.katex[data-fid="' + it.key + '"]');
-        fmlIndex.hidden = true;
-        if (!el) return;
-        for (let d = el.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;
-        setTimeout(() => {
-            el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-            el.classList.add('fml-flash');
-            setTimeout(() => el.classList.remove('fml-flash'), 1800);
-        }, 30);
-    }
-    function injectFmlZoom() {
-        if (fmlZoom) return;
-        fmlZoom = document.createElement('div'); fmlZoom.id = 'fmlZoom'; fmlZoom.className = 'fml-modal'; fmlZoom.hidden = true;
-        fmlZoom.innerHTML = `<div class="fml-modal-box">
-            <div class="fml-modal-head">公式放大 <button class="fml-modal-x" onclick="document.getElementById('fmlZoom').hidden=true">✕</button></div>
-            <div class="fml-modal-body">
-                <div id="fmlZoomMath"></div>
-                <code id="fmlZoomTex"></code>
-                <button class="fml-zoom-copy" onclick="Annot.fmlCopyZoom()">复制 LaTeX</button>
-            </div></div>`;
-        document.body.appendChild(fmlZoom);
-    }
-    function injectFmlIndex() {
-        if (fmlIndex) return;
-        fmlIndex = document.createElement('div'); fmlIndex.id = 'fmlIndex'; fmlIndex.className = 'fml-modal'; fmlIndex.hidden = true;
-        fmlIndex.innerHTML = `<div class="fml-modal-box">
-            <div class="fml-modal-head">公式目录（本笔记）<button class="fml-modal-x" onclick="document.getElementById('fmlIndex').hidden=true">✕</button></div>
-            <div class="fml-modal-body" id="fmlIndexBody"></div></div>`;
-        document.body.appendChild(fmlIndex);
-    }
+    // 公式放大 / 复制 / 目录（源码展示）已移除
     function initFmlUI() {
         fmlBar = document.createElement('div'); fmlBar.id = 'fmlBar'; fmlBar.hidden = true;
         fmlBar.addEventListener('mousedown', e => e.preventDefault());
@@ -878,42 +818,19 @@ const Annot = (() => {
 
         fmlPop = document.createElement('div'); fmlPop.id = 'fmlPop'; fmlPop.className = 'fml-pop'; fmlPop.hidden = true;
         fmlPop.innerHTML = `<div class="fml-pop-head">公式批注 <button onclick="Annot.fmlClosePop()">✕</button></div>
-            <textarea class="fml-pop-edit" placeholder="给这个公批注…"></textarea>
+            <textarea class="fml-pop-edit" placeholder="给这个公式写批注…"></textarea>
             <div class="fml-pop-foot">
                 <input class="fml-label-input" placeholder="标签，如：洛必达 / 分部积分">
                 <button onclick="Annot.fmlSaveNote()">保存</button>
             </div>`;
         document.body.appendChild(fmlPop);
-
-        fmlTip = document.createElement('div'); fmlTip.id = 'fmlTip'; fmlTip.className = 'fml-tip'; fmlTip.hidden = true;
-        document.body.appendChild(fmlTip);
-
-        injectFmlZoom(); injectFmlIndex();
-
-        fmlToast = document.createElement('div'); fmlToast.id = 'fmlToast';
-        document.body.appendChild(fmlToast);
-
-        const docPane = document.getElementById('docPane');
-        if (docPane) {
-            docPane.addEventListener('mouseover', e => {
-                const k = topKatex(e.target);
-                if (!k) { hideFmlTip(); return; }
-                fmlTip.innerHTML = '公式源码：<br><code>' + escA(texOf(k)) + '</code>';
-                fmlTip.hidden = false;
-                const r = k.getBoundingClientRect();
-                const th = fmlTip.offsetHeight || 80;
-                fmlTip.style.left = Math.max(8, Math.min(innerWidth - 372, r.left)) + 'px';
-                fmlTip.style.top = (r.top - th - 8 < 8 ? r.bottom + 8 : r.top - th - 8) + 'px';
-            });
-            docPane.addEventListener('mouseout', e => { if (!topKatex(e.target)) hideFmlTip(); });
-        }
     }
 
     initBar();
     initFmlUI();
     return { apply, saveNote, cancelNote, editNote, delNote, exportAnnot, importAnnot,
              openRecover, closeRecover, claimRecover, smartRecover, loadBackup,
-             openFmlIndex, locateFml, fmlSaveNote, fmlClosePop, fmlCopyZoom };
+             fmlSaveNote, fmlClosePop };
 })();
 
 window.Annot = Annot;  // 顶层 const 不上 window，reader.js 靠 window.Annot 判断
