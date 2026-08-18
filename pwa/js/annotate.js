@@ -206,7 +206,8 @@ const Annot = (() => {
     }
 
     // ============ 文字批注 ============
-    /** 批注文本渲染：转义 → [图:id] 转图片 → $...$ / $$...$$ 渲染成公式 */
+    /** 批注文本渲染：转义 → [图:id] 转图片 → 公式定界符渲染成公式
+     *  支持四类定界符：行内 $...$ / \(...\)，独行 $$...$$ / \[...\] */
     function texToHtml(tex, display) {
         if (!window.katex) return null;
         try {
@@ -217,9 +218,14 @@ const Annot = (() => {
         let h = escA(t).replace(/\[图:([a-z0-9]+)\]/g,
             '<img class="ann-img" data-img="$1" alt="批注图片">');
         if (window.katex) {
+            // 显示模式（独行居中）：$$...$$ 与 \[...\]
             h = h.replace(/\$\$([\s\S]+?)\$\$/g, (m, tex) =>
                 '<span class="ann-fml ann-fml-d">' + (texToHtml(tex, true) || m) + '</span>');
+            h = h.replace(/\\\[([\s\S]+?)\\\]/g, (m, tex) =>
+                '<span class="ann-fml ann-fml-d">' + (texToHtml(tex, true) || m) + '</span>');
+            // 行内模式：$...$ 与 \(...\)
             h = h.replace(/\$([^\$\n]+?)\$/g, (m, tex) => texToHtml(tex, false) || m);
+            h = h.replace(/\\\(([\s\S]+?)\\\)/g, (m, tex) => texToHtml(tex, false) || m);
         }
         return h;
     }
