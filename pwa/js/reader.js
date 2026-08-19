@@ -230,9 +230,16 @@ function mdToHtml(md) {
 
 function renderDoc(note) {
     const el = document.getElementById('docPane');
+    // 正文顶部自动生成「本文目录」（章节 ≥ 2 时），窄屏右栏隐藏也能用；点击走 hash 路由自动滚动
+    const tocHtml = note.chapters.length >= 2
+        ? `<details class="doc-toc" open><summary>📑 本文目录（${note.chapters.length} 章）</summary><div class="doc-toc-body">` +
+          note.chapters.map((ch, i) => `<a class="toc-link" data-ch="${i}" href="#/${note.id}/${i}">${esc(ch)}</a>`).join('') +
+          `</div></details>`
+        : '';
     el.innerHTML = `<article class="note-article">
         <div class="doc-crumb">${SUBJECT_NAMES[note.subject]}</div>
         <h1>${inline(note.title)}</h1>
+        ${tocHtml}
         ${mdToHtml(note.md)}
     </article>`;
     document.title = note.name + ' - 考研数学笔记';

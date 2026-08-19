@@ -666,6 +666,39 @@ li.hl-b, p.hl-b { background: var(--hl-b); border-radius: 6px; }
 .toc-link:hover { color: var(--text); }
 .toc-link.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
 
+/* ============ 正文顶部：本文目录（窄屏右栏隐藏时兜底） ============ */
+.note-article .doc-toc {
+    margin: 14px 0 22px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg2);
+}
+.note-article .doc-toc summary {
+    cursor: pointer;
+    padding: 10px 14px;
+    font-weight: 600;
+    user-select: none;
+}
+.note-article .doc-toc-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 0 14px 13px;
+}
+.note-article .doc-toc .toc-link {
+    display: inline-block;
+    padding: 4px 11px;
+    border: 1px solid var(--border);
+    border-left-width: 1px;
+    border-radius: 999px;
+    background: var(--bg);
+    font-size: .92em;
+    white-space: normal;
+    overflow: visible;
+}
+.note-article .doc-toc .toc-link:hover { color: var(--accent); border-color: var(--accent); }
+.note-article .doc-toc .toc-link.active { color: #fff; border-color: var(--accent); background: var(--accent); }
+
 /* ============ 移动端 ============ */
 .menu-btn {
     display: none;
