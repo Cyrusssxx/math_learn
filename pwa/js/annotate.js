@@ -50,6 +50,7 @@ const Annot = (() => {
     };
     const bucket = () => data[curId] || (data[curId] = { hl: {}, notes: {}, marks: [] });
     const escA = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const escAttr = s => escA(s).replace(/"/g, '&quot;');
     /** 公式标注桶：懒创建，避免无标注时污染存储 */
     const ensureFml = () => { const d = data[curId] || (data[curId] = { hl: {}, notes: {}, marks: [] }); return d.fml || (d.fml = {}); };
     const topKatex = node => { let k = node.closest && node.closest('.katex'); while (k && k.parentElement && k.parentElement.closest('.katex')) k = k.parentElement.closest('.katex'); return k; };
@@ -276,7 +277,7 @@ const Annot = (() => {
             ta.addEventListener('input', () => upd());
             upd();
         } else {
-            box.innerHTML = `<span class="ann-icon">📝</span><span class="ann-text">${noteHtml(text)}</span>
+            box.innerHTML = `<span class="ann-icon">📝</span><span class="ann-text" data-raw="${escAttr(text)}">${noteHtml(text)}</span>
                 <span class="ann-ops"><button onclick="Annot.editNote(this)">改</button>
                 <button onclick="Annot.delNote(this)">删</button></span>`;
             fillImgs(box);
@@ -361,6 +362,17 @@ const Annot = (() => {
     }
 
     let _notified = false;
+    /** 收集正文里「嵌入批注」行（源 md 中「📝 批注：…」已固化为正文内容）的文本集合。
+     *  这些批注既在正文可见，又在 localStorage 留有旧锚点的重复副本；后者旧索引已失效，
+     *  不应计入「无法定位」提示，也不应重复渲染。 */
+    function embeddedNoteTexts(article) {
+        const set = new Set();
+        article.querySelectorAll('.note-article li, .note-article p').forEach(el => {
+            const t = el.textContent.replace(/\s+/g, ' ').trim();
+            if (t.startsWith('📝 批注：')) set.add(t.slice('📝 批注：'.length).trim());
+        });
+        return set;
+    }
     function apply(noteId) {
         curId = noteId;
         const article = document.querySelector('.note-article');
@@ -379,15 +391,21 @@ const Annot = (() => {
         }
         const byKey = {};
         article.querySelectorAll('[data-sid]').forEach(el => { byKey[el.dataset.sid] = el; });
+        // 嵌入批注（源 md 中「📝 批注：…」）已是正文内容，其对应的旧 localStorage 批注属重复，
+        // 不计入「无法定位」提示（内容已可见），也不重复渲染。
+        const embTexts = embeddedNoteTexts(article);
+        const norm = t => (t || '').replace(/\s+/g, ' ').trim();
         let orphans = 0;
         for (const [k, c] of Object.entries(b.hl || {})) {
             if (byKey[k]) byKey[k].classList.add('hl-' + c); else orphans++;
         }
         for (const m of b.marks || []) {
-            if (byKey[m.k]) wrapText(byKey[m.k], m.t, m.c, m.n, gidOf(m)); else orphans++;
+            if (byKey[m.k]) wrapText(byKey[m.k], m.t, m.c, m.n, gidOf(m));
+            else if (!embTexts.has(norm(m.t))) orphans++;
         }
         for (const [k, t] of Object.entries(b.notes || {})) {
-            if (byKey[k]) renderNoteBox(byKey[k], t, false); else orphans++;
+            if (byKey[k]) renderNoteBox(byKey[k], t, false);
+            else if (!embTexts.has(norm(t))) orphans++;
         }
         if (orphans > 0 && !_notified) {
             _notified = true;

@@ -117,7 +117,10 @@ function emitList(items, start, level) {
     let i = start;
     while (i < items.length && items[i].level >= level) {
         if (items[i].level > level) { i++; continue; }  // 容错：跳级缩进
-        html += `<li${liClass(items[i].text)}>` + breakLines(items[i].text);
+        const isEmb = items[i].text.startsWith('📝 批注：');
+        const liCls = liClass(items[i].text) + (isEmb ? ' li-embed-ann' : '');
+        const liRaw = isEmb ? ` data-raw="${esc(items[i].text.slice('📝 批注：'.length)).replace(/"/g, '&quot;')}"` : '';
+        html += `<li${liCls}${liRaw}>` + breakLines(items[i].text);
         let j = i + 1;
         if (j < items.length && items[j].level > level) {
             const [childHtml, next] = emitList(items, j, items[j].level);
@@ -298,6 +301,7 @@ function buildSearchIndex() {
             if (!line || line.startsWith('# ') || line.startsWith(':::')) continue;
             if (line.startsWith('## ')) { ci++; searchIndex.push({ ni, ci, text: line.slice(3).trim(), r, w: 1 }); continue; }
             const text = line.replace(/^[-|\s]+/, '').replace(/\*\*/g, '');
+            if (text.startsWith('📝 批注：')) continue;  // 已固化为正文的批注行不重复入索引（由 localStorage 批注检索精确命中）
             if (text) searchIndex.push({ ni, ci, text, r, w: 2 });
         }
     });
@@ -411,7 +415,9 @@ function locateHit(i) {
 }
 
 /** 在已渲染正文里找命中行：取行内最长的公式外文本段做锚，瞬时滚到屏幕中央并闪烁。
- *  用 setTimeout 延迟执行：确保盖过 route() 中章节级 scrollIntoView */
+ *  用 setTimeout 延迟执行：确保盖过 route() 中章节级 scrollIntoView
+ *  修正：排除「嵌入批注」行（避免偏移到内嵌重复子条）、优先命中最外层块（避免落进子条目造成偏移）、
+ *       支持含公式的批注（用 .ann-text 的 data-raw 原始文本匹配）。 */
 function locateBlock(h) {
     // 提取文本锚：优先取公式外最长的有辨识度片段
     const segments = h.text.replace(/^📝 /, '').split(/\$[^$]*\$/)
@@ -419,20 +425,43 @@ function locateBlock(h) {
         .filter(s => s.length >= 2)
         .sort((a, b) => b.length - a.length);
 
+    // 候选元素：排除嵌入批注行（正文里「📝 批注：…」是内容重复项，会制造偏移/误命中）
+    const cand = [...document.querySelectorAll('.note-article li, .note-article p, .note-article h2, .note-article td, .note-article .ann-text')]
+        .filter(b => !b.textContent.replace(/\s+/g, ' ').trim().startsWith('📝 批注：'));
+
     // 尝试多个候选锚（从长到短），提高命中率
     for (const plain of segments) {
-        let best = null;
-        for (const b of document.querySelectorAll('.note-article li, .note-article p, .note-article h2, .note-article td, .note-article .ann-text')) {
-            if (b.textContent.includes(plain) && (!best || b.textContent.length < best.textContent.length)) best = b;
+        const matches = [];
+        for (const b of cand) {
+            const raw = b.dataset && b.dataset.raw;
+            if (b.textContent.includes(plain) || (raw && raw.includes(plain))) matches.push(b);
         }
-        if (best) {
-            // 展开折叠块
+        if (matches.length) {
+            // 只保留最外层匹配（不被其它匹配元素包含），避免偏移到内嵌批注/子条目
+            const topmost = matches.filter(m => !matches.some(o => o !== m && m.contains(o)));
+            const pool = topmost.length ? topmost : matches;
+            const best = pool.reduce((a, b) => (a.textContent.length <= b.textContent.length ? a : b));
             for (let d = best.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;
-            // 延迟滚动，确保覆盖章节级定位
             setTimeout(() => {
                 best.scrollIntoView({ block: 'center', behavior: 'instant' });
                 best.classList.add('locate-flash');
                 setTimeout(() => best.classList.remove('locate-flash'), 1800);
+            }, 30);
+            return;
+        }
+    }
+    // 回退：批注整体原始文本（含公式）直接匹配，可定位含公式的批注 / 已固化为正文的嵌入批注
+    if (h.text.startsWith('📝 ')) {
+        const norm = s => (s || '').replace(/\s+/g, ' ').trim();
+        const q = norm(h.text.slice(2));
+        const fm = [...cand, ...document.querySelectorAll('.note-article .li-embed-ann')]
+            .find(b => b.dataset && b.dataset.raw && norm(b.dataset.raw).includes(q));
+        if (fm) {
+            for (let d = fm.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;
+            setTimeout(() => {
+                fm.scrollIntoView({ block: 'center', behavior: 'instant' });
+                fm.classList.add('locate-flash');
+                setTimeout(() => fm.classList.remove('locate-flash'), 1800);
             }, 30);
             return;
         }
