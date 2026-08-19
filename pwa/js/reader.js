@@ -23,6 +23,18 @@ async function init() {
     initSearchSubj();
     renderTree();
     window.addEventListener('hashchange', route);
+    // 页内导航：点击「图形导航」锚点链接平滑滚动到对应 figure（不改动路由 hash）
+    document.addEventListener('click', e => {
+        const a = e.target.closest('a.jumplink');
+        if (!a) return;
+        e.preventDefault();
+        const el = document.getElementById(a.getAttribute('href').slice(1));
+        if (!el) return;
+        for (let d = el.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;
+        el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        el.classList.add('locate-flash');
+        setTimeout(() => el.classList.remove('locate-flash'), 1800);
+    });
     route();
 }
 
@@ -56,10 +68,11 @@ function esc(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-/** 行内格式：转义 → 图片、加粗、⭐高亮；$...$ 原样保留交给 KaTeX */
+/** 行内格式：转义 → 图片、锚点链接、加粗、⭐高亮；$...$ 原样保留交给 KaTeX */
 function inline(s) {
     return esc(s)
         .replace(/!\[(.*?)\]\((.+?)\)/g, '<img class="li-img" src="$2" alt="$1" loading="lazy">')
+        .replace(/\[([^\]]+)\]\(#([A-Za-z0-9_\-]+)\)/g, '<a class="jumplink" href="#$2">$1</a>')
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         .replace(/⭐+/g, '<span class="star">$&</span>');
 }
@@ -161,6 +174,7 @@ function mdToHtml(md) {
     const lines = md.split('\n').map(l => l.replace(/<!--.*?-->/g, '').replace(/\s+$/, ''));
     const out = [];
     let chIdx = -1;
+    const blocks = [];   // 块栈：'fold' | 'nav'，用于正确闭合
     let i = 0;
     while (i < lines.length) {
         const line = lines[i];
@@ -173,14 +187,22 @@ function mdToHtml(md) {
             // 折叠块：::: fold 标题 … :::（答案/解析默认收起）
             const title = line.trim().replace(/^:::\s*fold\s*/, '') || '展开';
             out.push(`<details class="fold"><summary>${inline(title)}</summary><div class="fold-body">`);
+            blocks.push('fold');
+            i++;
+        } else if (/^:::\s*nav\b/.test(line.trim())) {
+            // 导航块：::: nav … :::（常驻可见，用于图形目录跳转）
+            out.push('<div class="graph-nav">');
+            blocks.push('nav');
             i++;
         } else if (line.trim() === ':::') {
-            out.push('</div></details>');
+            const top = blocks.pop();
+            out.push(top === 'nav' ? '</div>' : '</div></details>');
             i++;
         } else if (/^!\[.*?\]\(.+?\)$/.test(line.trim())) {
-            // 独行图片：![说明](路径) → figure + 图注
+            // 独行图片：![说明](路径) → figure + 图注；figure 带 id 供页内导航跳转
             const m = line.trim().match(/^!\[(.*?)\]\((.+?)\)$/);
-            out.push(`<figure class="md-img"><img src="${esc(m[2])}" alt="${esc(m[1])}" loading="lazy">` +
+            const fid = 'fig-' + m[2].replace(/^.*\//, '').replace(/\.[^.]+$/, '').replace(/[^A-Za-z0-9_\-]/g, '_');
+            out.push(`<figure class="md-img" id="${fid}"><img src="${esc(m[2])}" alt="${esc(m[1])}" loading="lazy">` +
                 (m[1] ? `<figcaption>${esc(m[1])}</figcaption>` : '') + '</figure>');
             i++;
         } else if (/^\s*- /.test(line)) {

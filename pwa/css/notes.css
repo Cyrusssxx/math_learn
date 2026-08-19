@@ -429,7 +429,29 @@ li.c-warn li, li.c-tip li, li.c-example li, li.c-star li {
     padding: 8px 14px;
     margin: 12px 0 18px;
 }
-.note-article .graph-nav ul { margin: 4px 0; }
+.note-article .graph-nav {
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 12px 0 18px;
+}
+.note-article .graph-nav p { margin: 0; line-height: 2.1; }
+.note-article .graph-nav a,
+.note-article a.jumplink {
+    display: inline-block;
+    margin: 3px 6px 3px 0;
+    padding: 3px 11px;
+    background: #e3f2fd;
+    color: #1565c0;
+    border-radius: 14px;
+    font-size: 13px;
+    text-decoration: none;
+    transition: background .15s;
+}
+.note-article .graph-nav a:hover,
+.note-article a.jumplink:hover { background: #bbdefb; }
+.note-article ul.graph-nav { margin: 4px 0; }
 .note-article .graph-nav .cat { font-weight: 600; margin-top: 4px; }
 
 /* 折叠块（::: fold 答案与解析 :::） */
