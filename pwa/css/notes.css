@@ -356,7 +356,7 @@ html.dark .exam-link:hover { color: #1e1e2e; }
     margin: 10px 0;
     padding-left: 22px;
 }
-.note-article li { margin: 12px 0; line-height: 2.15; }
+.note-article li { margin: 14px 0; line-height: 2.6; }
 .note-article li > ul { margin: 8px 0 6px; }
 /* 顶层知识点之间拉开间隙 */
 .note-article > ul > li,
@@ -605,11 +605,13 @@ li.hl-b, p.hl-b { background: var(--hl-b); border-radius: 6px; }
 .ab-btn:hover { background: var(--bg-hover); }
 
 /* KaTeX 略缩小，与正文协调 */
-.katex { font-size: 1.06em; line-height: 1.35; }
+.katex { font-size: 1.06em; line-height: 1.5; }
 /* 分式分子分母放大 + 增加分数线两侧留白 */
 .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.28em; }
 .katex .mfrac .frac-line { border-top-width: 0.07em; margin: 0.12em 0; }
-.katex-display { margin: 24px 0; overflow-x: auto; overflow-y: hidden; }
+.katex-display { margin: 28px 0; overflow-x: auto; overflow-y: hidden; }
+/* 列表项内的内联公式：含 \dfrac 等高字形时防止与上下行重叠 */
+.note-article li .katex { display: inline-block; margin: 2px 0; }
 
 /* ============ 右栏：本页目录 ============ */
 .toc {
