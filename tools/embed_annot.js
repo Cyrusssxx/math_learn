@@ -157,9 +157,9 @@ for (const id of Object.keys(annot)) {
     const bl = blocks[sid];
     (recBySid[sid] || (recBySid[sid] = [])).push({ kind, payload });
   };
+  // 仅嵌入文字批注（notes）。荧光高亮(hl/marks)不嵌入：
+  // 被高亮的文字本身已在笔记中，嵌入成文本行只会变成无意义噪音（如「🖍️ 荧光「...」·黄」）。
   for (const [k, t] of Object.entries(b.notes || {})) add(sidOf(k), 'note', t);
-  for (const [k, c] of Object.entries(b.hl || {})) add(sidOf(k), 'hl', c);
-  for (const m of (b.marks || [])) add(sidOf(m.k), 'mark', { t: m.t, c: m.c });
 
   // 生成嵌入行文本
   const pad = n => '  '.repeat(n);
@@ -172,14 +172,9 @@ for (const id of Object.keys(annot)) {
     const ind = pad(bl.level + 1);
     const outLines = [];
     const noteFirst = recs.filter(r => r.kind === 'note');
-    const others = recs.filter(r => r.kind !== 'note');
     for (const r of noteFirst) outLines.push(ind + '- 📝 批注：' + fmtNote(r.payload));
-    for (const r of others) {
-      if (r.kind === 'hl') outLines.push(ind + '- 🖍️ 荧光·' + (COLOR[r.payload] || r.payload));
-      else if (r.kind === 'mark') outLines.push(ind + '- 🖍️ 荧光「' + fmtMark(r.payload.t) + '」·' + (COLOR[r.payload.c] || r.payload.c));
-    }
     toInsert.push({ line: bl.line + off, text: outLines.join('\n') });
-    G_notes += noteFirst.length; G_hl += recs.filter(r => r.kind === 'hl').length; G_marks += recs.filter(r => r.kind === 'mark').length;
+    G_notes += noteFirst.length;
   }
   // 逆序插入
   toInsert.sort((a, b) => b.line - a.line);
