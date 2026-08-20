@@ -126,6 +126,17 @@ def finalize_q(sec, q):
     sec['questions'].append(q)
 
 
+def check_math_balance(paper):
+    """构建期预警：某题题干/答案的 $$ 不配对会导致 KaTeX 渲染失败。"""
+    for sec in paper['sections']:
+        for q in sec['questions']:
+            for key in ('stem', 'answer'):
+                v = q.get(key, '')
+                if v.count('$$') % 2 != 0:
+                    print(f"  [WARN] {paper['id']} {sec['title']} Q{q['no']} {key}: "
+                          f"$$ 不配对({v.count('$$')}个)，KaTeX 可能渲染失败")
+
+
 def main():
     src = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_SRC
     papers = []
@@ -133,7 +144,9 @@ def main():
         for path in sorted(src.glob('*.md')):
             if path.stem == '说明':
                 continue
-            papers.append(parse(path))
+            p = parse(path)
+            check_math_balance(p)
+            papers.append(p)
     else:
         papers.append(parse(src))
     papers.sort(key=lambda p: p['year'], reverse=True)  # 新→旧

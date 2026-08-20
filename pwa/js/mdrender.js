@@ -105,7 +105,13 @@ function emitTable(rows) {
     return html + '</table>';
 }
 
+/** 防御：未闭合的 $$ 会拖垮整篇渲染，奇数时在末尾补一个闭合 $$ 兜底。 */
+function balanceDollars(md) {
+    const n = (md.match(/\$\$/g) || []).length;
+    return n % 2 === 0 ? md : md + '$$';
+}
 function mdToHtml(md) {
+    md = balanceDollars(md);
     const lines = md.split('\n').map(l => l.replace(/<!--.*?-->/g, '').replace(/\s+$/, ''));
     const out = [];
     let chIdx = -1;

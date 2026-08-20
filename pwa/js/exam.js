@@ -66,7 +66,14 @@ function mdInline(s) {
 }
 
 /** 多行块：逐行处理，公式/文本混合；支持跨行 $$...$$ 块 */
+/** 防御：单个未闭合的 $$ 会让 KaTeX 误吞后续内容、拖垮整张卡片。
+ *  这里保证 $$ 成对：奇数时在末尾补一个闭合 $$，把影响限制在本公式内。 */
+function balanceDollars(s) {
+    const n = (s.match(/\$\$/g) || []).length;
+    return n % 2 === 0 ? s : s + '$$';
+}
 function mdBlock(s) {
+    s = balanceDollars(s);
     const lines = s.split('\n');
     const out = [];
     let mathBuf = null;   // 累积跨行 $$ 块
