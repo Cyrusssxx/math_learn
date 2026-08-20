@@ -82,7 +82,12 @@ const PRECACHE = [
 self.addEventListener('install', (e) => {
     e.waitUntil(
         caches.open(CACHE_VER)
-            .then(cache => cache.addAll(PRECACHE))
+            // 逐张缓存 + 失败跳过：避免 addAll 全有或全无——任一资源（如 GitHub Pages 上偶发超时的图片）
+            // 失败就导致整个 install 失败、新版本不激活、旧缓存继续用（表现为部分图片加载异常）
+            .then(cache => Promise.allSettled(
+                PRECACHE.map(url => cache.add(url)
+                    .catch(err => console.warn('[sw] 预缓存失败(跳过):', url, err && err.message)))
+            ))
             .then(() => self.skipWaiting())
     );
 });
