@@ -2,7 +2,7 @@
  * 预缓存全部页面/样式/脚本/笔记数据/KaTeX/图标，安装后完全离线可用。
  * 升级笔记数据或代码后：改 CACHE_VER 版本号即可让客户端自动换新缓存。
  */
-const CACHE_VER = 'mathcards-9d6dcb5fd7';
+const CACHE_VER = 'mathcards-df73dc46f3';
 
 const PRECACHE = [
     'index.html',
@@ -21,6 +21,37 @@ const PRECACHE = [
     'data/notes.json',
     'data/exam.json',
     'data/good.json',
+    // 常见函数图形（30 张 SVG，共约 424KB）——预缓存后图形区秒开、离线可用
+    'data/img/func_01_const_linear.svg',
+    'data/img/func_02_quad.svg',
+    'data/img/func_03_abs.svg',
+    'data/img/func_04_reciprocal.svg',
+    'data/img/func_05_power.svg',
+    'data/img/func_06_exp.svg',
+    'data/img/func_07_log.svg',
+    'data/img/func_08_sin.svg',
+    'data/img/func_09_cos.svg',
+    'data/img/func_10_tan.svg',
+    'data/img/func_11_arcsin.svg',
+    'data/img/func_12_arccos.svg',
+    'data/img/func_13_arctan.svg',
+    'data/img/func_14_sgn.svg',
+    'data/img/func_15_floor.svg',
+    'data/img/func_16_duigou.svg',
+    'data/img/func_17_hyperbolic.svg',
+    'data/img/func_18_piecewise.svg',
+    'data/img/func_19_lim_sinx_x.svg',
+    'data/img/func_20_lim_exp_e.svg',
+    'data/img/func_21_disc_removable.svg',
+    'data/img/func_22_disc_jump.svg',
+    'data/img/func_23_deriv_tangent.svg',
+    'data/img/func_24_monotonic_extremum.svg',
+    'data/img/func_25_concavity_inflection.svg',
+    'data/img/func_26_rolle.svg',
+    'data/img/func_27_lagrange.svg',
+    'data/img/func_28_integral_area.svg',
+    'data/img/func_29_variable_integral.svg',
+    'data/img/func_30_ode_decay.svg',
     'vendor/katex/katex.min.css',
     'vendor/katex/katex.min.js',
     'vendor/katex/auto-render.min.js',
