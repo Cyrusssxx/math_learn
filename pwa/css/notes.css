@@ -277,15 +277,6 @@ html.dark .exam-link:hover { color: #1e1e2e; }
 }
 .tree-ch:hover { color: var(--text); background: var(--bg-hover); border-radius: 0 6px 6px 0; }
 
-/* 搜索结果章节高亮 */
-.tree-ch.search-match {
-    color: var(--accent);
-    font-weight: 600;
-    background: var(--bg-active);
-    border-left-color: var(--accent);
-    border-radius: 0 6px 6px 0;
-}
-
 .side-foot {
     display: flex;
     align-items: center;

@@ -7,8 +7,6 @@ let cur = null;            // 当前笔记
 let searchIndex = [];      // 扁平搜索索引 [{ni, ci, text}]
 let lastHits = [];         // 最近一次搜索的结果（供点击精确定位）
 let pendingLocate = null;  // 待定位的命中项（跨笔记跳转渲染完后消费）
-let searchMatches = {};    // 搜索结果映射 { noteId: Set(chapterIndex1, chapterIndex2, ...) }
-let chapterHits = {};      // 命中章节 → 行级定位 hit { noteId: { chIdx: hit } }（点击左侧导航树命中章节时用）
 const openFiles = {};      // 侧栏文件展开状态（用户点击控制）
 const openGroups = JSON.parse(localStorage.getItem('openGroups') || '{}');  // 科目分组收缩状态（默认展开）
 
@@ -59,7 +57,10 @@ function route() {
     }
     highlightToc();
     if (pendingLocate) {   // 搜索精确定位：盖过上面的章节级滚动
-        if (notes[pendingLocate.ni] === cur) locateBlock(pendingLocate);
+        if (notes[pendingLocate.ni] === cur) {
+            locateBlock(pendingLocate);   // 正文定位到命中行并闪烁
+            scrollNavTo(pendingLocate);   // 左侧导航树滚动定位到该笔记/章节
+        }
         pendingLocate = null;
     }
 }
@@ -274,19 +275,15 @@ function renderTree() {
         for (const n of list) {
             const active = cur && n.id === cur.id;
             const open = !!openFiles[n.id];
-            const fileHit = searchMatches[n.id]?.size ? ` onclick="return navFileHit('${n.id}')"` : '';
             html += `<div class="tree-file ${open ? 'open' : ''} ${active ? 'active' : ''}">
                 <div class="tree-file-row">
                     <span class="tree-arrow" onclick="toggleFile('${n.id}')">›</span>
-                    <a href="#/${n.id}"${fileHit}>${n.name}</a>
+                    <a href="#/${n.id}" data-note="${n.id}">${n.name}</a>
                 </div>
                 <div class="tree-chs">` +
-                n.chapters.map((ch, i) => {
-                    const isMatch = searchMatches[n.id]?.has(i);
-                    const chHit = isMatch && chapterHits[n.id]?.[i];
-                    const hitNav = chHit ? ` onclick="return navHit('${n.id}', ${i})"` : '';
-                    return `<a class="tree-ch ${isMatch ? 'search-match' : ''}" href="#/${n.id}/${i}"${hitNav}>${esc(ch)}</a>`;
-                }).join('') +
+                n.chapters.map((ch, i) =>
+                    `<a class="tree-ch" data-note="${n.id}" data-ch="${i}" href="#/${n.id}/${i}">${esc(ch)}</a>`
+                ).join('') +
                 `</div></div>`;
         }
     }
@@ -368,10 +365,6 @@ function doSearch(q) {
     q = q.trim().toLowerCase();
     if (!q) {
         showHistory();
-        // 清空搜索结果匹配
-        searchMatches = {};
-        chapterHits = {};
-        renderTree();
         return;
     }
     const hits = [];
@@ -403,31 +396,6 @@ function doSearch(q) {
                 <span class="sr-path"><span class="sr-tag ${n.subject}">${SUBJECT_NAMES[n.subject]}</span>${hlText(n.name, q)}${ch ? ' › ' + hlText(ch, q) : ''}</span>
                 <span class="sr-text">${hlText(h.text.slice(0, 80), q)}</span></a>`;
         }).join('');
-
-    // 更新导航栏：提取搜索结果映射并展开相关笔记
-    searchMatches = {};
-    chapterHits = {};
-    top.forEach(h => {
-        const noteId = notes[h.ni].id;
-        if (!searchMatches[noteId]) searchMatches[noteId] = new Set();
-        if (h.ci >= 0) {
-            searchMatches[noteId].add(h.ci);
-            if (!chapterHits[noteId]) chapterHits[noteId] = {};
-            if (!(h.ci in chapterHits[noteId])) chapterHits[noteId][h.ci] = h;  // 每章节取第一个命中（标题或正文行）
-        }
-    });
-    // 自动展开包含搜索结果的笔记
-    Object.keys(searchMatches).forEach(id => openFiles[id] = true);
-    // 重新渲染导航栏以显示高亮
-    renderTree();
-    // 左侧导航滚动到第一个命中章节，让导航树定位到搜索结果
-    const nav = document.getElementById('navTree');
-    const first = nav.querySelector('.tree-ch.search-match');
-    if (first) {
-        const nRect = nav.getBoundingClientRect();
-        const fRect = first.getBoundingClientRect();
-        nav.scrollTo({ top: nav.scrollTop + (fRect.top - nRect.top) - nav.clientHeight / 2, behavior: 'smooth' });
-    }
 }
 
 /** 学科过滤：点击 chips 切换（全部='' / zy / gs / xd / ht），记忆选择并即时重搜 */
@@ -461,23 +429,19 @@ function locateHit(i) {
     return false;
 }
 
-/** 点左侧导航树中「搜索命中」章节：跳到该章节内命中行并闪烁；非命中章节走默认章节跳转 */
-function navHit(noteId, chIdx) {
-    const h = chapterHits[noteId]?.[chIdx];
-    if (!h) return true;   // 无行级命中 → 使用默认 href 跳章节
-    pendingLocate = h;
-    const target = '/' + noteId + '/' + chIdx;
-    if (decodeURIComponent(location.hash.replace(/^#/, '')) === target) route();  // hash 不变时手动触发
-    else location.hash = '#' + target;
-    return false;
-}
-
-/** 点左侧导航树中「有命中」的笔记名：跳到该笔记第一个命中章节的命中行 */
-function navFileHit(noteId) {
-    const chHits = chapterHits[noteId];
-    if (!chHits) return true;
-    const chIdx = Math.min(...Object.keys(chHits).map(Number));   // 章节序最小的命中章节
-    return navHit(noteId, chIdx);
+/** 点击搜索结果后：左侧导航树滚动定位到对应笔记/章节（正文已由 locateBlock 定位） */
+function scrollNavTo(h) {
+    const n = notes[h.ni];
+    openFiles[n.id] = true;      // 展开该笔记
+    renderTree();                // 重渲染确保展开生效、DOM 含最新条目
+    const nav = document.getElementById('navTree');
+    const el = h.ci >= 0
+        ? nav.querySelector(`.tree-ch[data-note="${n.id}"][data-ch="${h.ci}"]`)
+        : nav.querySelector(`.tree-file-row a[data-note="${n.id}"]`);
+    if (!el) return;
+    const nRect = nav.getBoundingClientRect();
+    const fRect = el.getBoundingClientRect();
+    nav.scrollTo({ top: nav.scrollTop + (fRect.top - nRect.top) - nav.clientHeight / 2, behavior: 'smooth' });
 }
 
 /** 在已渲染正文里找命中行：取行内最长的公式外文本段做锚，瞬时滚到屏幕中央并闪烁。
