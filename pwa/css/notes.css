@@ -104,6 +104,21 @@ a { color: var(--accent); text-decoration: none; }
 
 /* 真题入口链接（左侧栏品牌下方） */
 .side-links { padding: 0 12px 4px; display: flex; gap: 8px; }
+.selected-link {
+    display: inline-block;
+    padding: 3px 10px;
+    border: 1px solid #e0a800;
+    border-radius: 8px;
+    background: #fff8e6;
+    color: #b88600;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    text-decoration: none;
+}
+.selected-link:hover { background: #e0a800; color: #fff; }
+html.dark .selected-link { background: #3a2a00; color: #ffd54f; border-color: #b88600; }
 .exam-link {
     display: block;
     flex: 1;
