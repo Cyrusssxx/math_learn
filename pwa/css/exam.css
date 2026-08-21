@@ -346,7 +346,8 @@ html.dark .exam-btn.on { color: #e5c860; }
     line-height: 1.7;
 }
 .q-sec.q-idea { border-left: 3px solid var(--accent, #4a90d9); background: var(--warn-bg, #f4f8ff); font-size: 15px; line-height: 1.75; }
-.q-sec.q-idea p { margin: 7px 0; }
+.q-sec.q-idea p { margin: 10px 0; }
+.q-sec.q-idea .katex-display { margin: 14px 0; }
 .q-note textarea {
     width: 100%;
     min-height: 72px;
