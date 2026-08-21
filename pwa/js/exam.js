@@ -2,6 +2,7 @@
 
 const FAV_KEY = 'examFav';           // { 套卷id: [题no, ...] } 或 {'qid':1}
 const FAV_ONLY_KEY = 'examFavOnly';  // 是否只看收藏
+const EXAM_POS_KEY = 'examLastPos';  // 刷新恢复上次位置：{paperId, no}
 
 let papers = [];
 let curPaper = null;
@@ -204,6 +205,19 @@ function highlightNav() {
     btns.forEach(b => b.classList.toggle('on', b.getAttribute('data-navq') === curNo));
 }
 
+/** 记录当前套卷 + 视口内题号（节流 + 退出时保存） */
+function saveExamPos() {
+    if (!curPaper) return;
+    let no = null;
+    const half = window.innerHeight * 0.45;
+    for (const c of document.querySelectorAll('.q-card')) {
+        if (c.getBoundingClientRect().top <= half) no = c.getAttribute('data-qno');
+        else break;
+    }
+    try { localStorage.setItem(EXAM_POS_KEY, JSON.stringify({ paperId: curPaper.id, no })); }
+    catch (e) { /* 忽略 */ }
+}
+
 function jumpToQ(no) {
     const qid = qidOf(curPaper.id, no);
     const el = document.getElementById('q-' + qid);
@@ -215,8 +229,14 @@ function jumpToQ(no) {
     }
 }
 
-document.addEventListener('scroll', () => { highlightNav(); }, { passive: true });
+let _qPosTimer = null;
+document.addEventListener('scroll', () => {
+    highlightNav();
+    if (!_qPosTimer) _qPosTimer = setTimeout(() => { _qPosTimer = null; saveExamPos(); }, 600);
+}, { passive: true });
 window.addEventListener('resize', () => { highlightNav(); });
+window.addEventListener('beforeunload', saveExamPos);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveExamPos(); });
 
 function renderMath(root) {
     if (!window.katex || !root) return;
@@ -254,13 +274,26 @@ async function init() {
         fq.classList.toggle('collapsed', navCollapsed);
         fq.classList.toggle('expanded', !navCollapsed);
     }
-    // 默认打开最新套卷
-    const saved = papers.find(p => p.year === new Date().getFullYear());
-    curPaper = papers[0] || null;
+    // 恢复上次浏览位置：套卷 + 题号
+    let startPaper = papers[0] || null;
+    let startNo = null;
+    try {
+        const pos = JSON.parse(localStorage.getItem(EXAM_POS_KEY));
+        if (pos && pos.paperId) {
+            const p = papers.find(x => x.id === pos.paperId);
+            if (p) { startPaper = p; startNo = pos.no ? parseInt(pos.no, 10) : null; }
+        }
+    } catch (e) { }
+    curPaper = startPaper;
     renderPaperList();
     renderCurrent();
     const sub = document.getElementById('examSub');
     if (sub && curPaper) sub.textContent = curPaper.title;
+    // 滚动到上次题号（收藏过滤下该题可能被隐藏，找不到则留在顶部）
+    if (startNo) {
+        const q = document.getElementById('q-' + qidOf(curPaper.id, startNo));
+        if (q) q.scrollIntoView({ block: 'start' });
+    }
 }
 
 init();

@@ -13,6 +13,9 @@ const openGroups = JSON.parse(localStorage.getItem('openGroups') || '{}');  // �
 const SUBJ_FILTER_KEY = 'searchSubjFilter';   // 搜索学科过滤（localStorage 记忆）
 let subjFilter = localStorage.getItem(SUBJ_FILTER_KEY) || '';
 
+const POS_KEY = 'readerLastPos';   // 刷新恢复上次浏览位置：{id, ch, y}
+let firstRoute = true;             // 首次路由标记（刷新恢复只做一次）
+
 // ============ 初始化与路由 ============
 async function init() {
     const resp = await fetch('data/notes.json');
@@ -63,6 +66,34 @@ function route() {
         }
         pendingLocate = null;
     }
+    if (firstRoute) { firstRoute = false; restorePos(); }   // 首次加载：刷新后回到上次位置
+}
+
+// ============ 刷新重定位：记录/恢复上次浏览位置（笔记+章节+滚动） ============
+function savePos() {
+    if (!cur) return;
+    let ch = -1;
+    for (const h of document.querySelectorAll('.note-article h2')) {
+        if (h.getBoundingClientRect().top <= 90) ch = parseInt(h.id.slice(3), 10);
+        else break;
+    }
+    try { localStorage.setItem(POS_KEY, JSON.stringify({ id: cur.id, ch, y: window.scrollY })); }
+    catch (e) { /* 配额满忽略 */ }
+}
+
+function restorePos() {
+    let pos = null;
+    try { pos = JSON.parse(localStorage.getItem(POS_KEY)); } catch (e) { }
+    if (!pos || !cur || pos.id !== cur.id) return;
+    // 若 hash 无章节（默认笔记），直接用记录的笔记+章节重建 hash
+    const parts = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
+    if (parts[0] !== cur.id || (pos.ch >= 0 && parts[1] === undefined)) {
+        location.hash = '#/' + cur.id + (pos.ch >= 0 ? '/' + pos.ch : '');
+        setTimeout(() => window.scrollTo(0, pos.y), 50);   // hashchange 渲染完成后恢复滚动
+        return;
+    }
+    // KaTeX 已渲染（renderDoc 同步完成），直接恢复滚动
+    window.scrollTo(0, pos.y);
 }
 
 // ============ Markdown 渲染（针对导图 md 的语法子集） ============
@@ -319,11 +350,14 @@ function highlightToc() {
         a.classList.toggle('active', parseInt(a.dataset.ch, 10) === active));
 }
 
-let _spyTimer = null;
+let _spyTimer = null, _posTimer = null;
 window.addEventListener('scroll', () => {
     if (_spyTimer) return;
     _spyTimer = setTimeout(() => { _spyTimer = null; highlightToc(); }, 80);
+    if (!_posTimer) _posTimer = setTimeout(() => { _posTimer = null; savePos(); }, 600);   // 节流记录位置
 }, { passive: true });
+window.addEventListener('beforeunload', savePos);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') savePos(); });
 
 // ============ 搜索（标题 + 章节 + 全文行 + 📝批注；知识点优先、好题靠后） ============
 const SUBJECT_RANK = { zy: -1, gs: 0, xd: 1 };   // 考前21记/高数/线代（知识点）在前
