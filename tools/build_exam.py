@@ -55,8 +55,9 @@ def parse(path):
              'file': path.stem + '.md', 'sections': []}
 
     cur_sec = None      # {title, questions:[]}
-    cur_q = None        # {no, kind, stem:[], options:[], answer:[]}
+    cur_q = None        # {no, kind, stem:[], options:[], answer:[], idea:[]}
     in_answer = False
+    in_idea = False
     i = 0
     while i < len(lines):
         raw = lines[i]
@@ -66,10 +67,17 @@ def parse(path):
             continue
         if line == ':::':
             in_answer = False
+            in_idea = False
             i += 1
             continue
         if line.startswith('::: answer'):
             in_answer = True
+            in_idea = False
+            i += 1
+            continue
+        if line.startswith('::: idea'):
+            in_idea = True
+            in_answer = False
             i += 1
             continue
         if line.startswith('## '):
@@ -93,13 +101,16 @@ def parse(path):
             # 去掉题号后的分隔符（点、空格、顿号等），避免 "." 混入题干
             stem_head = re.sub(r'^[\s.、，,;；:：\-]+', '', head[no_m.end():])
             cur_q = {'no': no, 'kind': kind, 'stem': [stem_head],
-                     'options': [], 'answer': []}
+                     'options': [], 'answer': [], 'idea': []}
             in_answer = False
+            in_idea = False
             i += 1
             continue
         # 普通行
         if in_answer:
             cur_q['answer'].append(raw)
+        elif in_idea:
+            cur_q['idea'].append(raw)
         elif cur_q is not None and re.match(r'^\((A|B|C|D)\)', line):
             cur_q['options'].append(line)
         elif cur_q is not None:
@@ -119,6 +130,10 @@ def parse(path):
 def finalize_q(sec, q):
     q['stem'] = '\n'.join(x for x in q['stem'] if x).strip()
     q['answer'] = '\n'.join(x for x in q['answer'] if x).strip()
+    if q['idea']:
+        q['idea'] = '\n'.join(x for x in q['idea'] if x).strip()
+    else:
+        q.pop('idea', None)
     if q['options']:
         q['kind'] = 'choice'
     if not q['answer'] and q['kind'] == 'choice':
@@ -130,7 +145,7 @@ def check_math_balance(paper):
     """构建期预警：某题题干/答案的 $$ 不配对会导致 KaTeX 渲染失败。"""
     for sec in paper['sections']:
         for q in sec['questions']:
-            for key in ('stem', 'answer'):
+            for key in ('stem', 'answer', 'idea'):
                 v = q.get(key, '')
                 if v.count('$$') % 2 != 0:
                     print(f"  [WARN] {paper['id']} {sec['title']} Q{q['no']} {key}: "

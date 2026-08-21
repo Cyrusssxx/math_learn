@@ -59,6 +59,34 @@ function toggleFavOnly() {
     renderCurrent();
 }
 
+// ============ 思路 / 笔记（2007 试水：有 idea 字段才显示思路按钮；笔记按题存 localStorage） ============
+function noteGet(qid) {
+    try { return localStorage.getItem('examNote-' + qid) || ''; } catch (e) { return ''; }
+}
+let _noteTimer = {};
+function noteInput(ta) {
+    const qid = ta.dataset.qid;
+    clearTimeout(_noteTimer[qid]);
+    _noteTimer[qid] = setTimeout(() => {
+        try { localStorage.setItem('examNote-' + qid, ta.value); } catch (e) { }
+        const btn = ta.closest('.q-card') && ta.closest('.q-card').querySelector('[data-act="note"]');
+        if (btn) btn.classList.toggle('has', !!ta.value.trim());
+    }, 500);
+}
+function toggleQSec(btn, act) {
+    const card = btn.closest('.q-card');
+    if (!card) return;
+    const sec = card.querySelector('.q-sec.q-' + act);
+    if (!sec) return;
+    const open = sec.hidden;
+    sec.hidden = !open;
+    btn.classList.toggle('on', open);
+    if (act === 'note' && open) {
+        const ta = sec.querySelector('textarea');
+        if (ta) ta.focus();
+    }
+}
+
 // ============ 渲染 ============
 function esc(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -127,6 +155,9 @@ function qCard(p, sec, q, secIdx) {
     const options = q.options && q.options.length
         ? `<div class="q-options">${q.options.map(o => `<div class="q-opt">${mdInline(o)}</div>`).join('')}</div>`
         : '';
+    const note = noteGet(qid);
+    const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';
+    const ideaHtml = q.idea ? `<div class="q-sec q-idea" hidden>${mdBlock(q.idea)}</div>` : '';
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
             <span class="q-no">${q.no}</span>
@@ -134,10 +165,16 @@ function qCard(p, sec, q, secIdx) {
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="收藏此题">${fav ? '⭐' : '☆'}</button>
         </div>
         <div class="q-body">${stem}${options}</div>
-        <details class="q-answer">
-            <summary>查看答案与解析</summary>
-            <div class="q-answer-body">${mdBlock(q.answer)}</div>
-        </details>
+        <div class="q-ops">
+            <button class="q-op" data-act="ans" onclick="toggleQSec(this,'ans')">查看答案</button>
+            ${ideaBtn}
+            <button class="q-op${note.trim() ? ' has' : ''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
+        </div>
+        ${ideaHtml}
+        <div class="q-sec q-note" hidden>
+            <textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点、类比题…（自动保存）">${esc(note)}</textarea>
+        </div>
+        <div class="q-sec q-answer" hidden><div class="q-answer-body">${mdBlock(q.answer)}</div></div>
     </div>`;
 }
 

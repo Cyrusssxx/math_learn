@@ -306,21 +306,62 @@ html.dark .exam-btn.on { color: #e5c860; }
 .float-q.collapsed:hover .float-q-list,
 .float-q.collapsed.expanded .float-q-list { display: grid !important; }
 
-/* 答案折叠 */
-.q-answer {
+/* 操作行：查看答案 / 思路 / 笔记 */
+.q-ops {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     margin-top: 12px;
-    border-top: 1px dashed var(--border);
     padding-top: 10px;
+    border-top: 1px dashed var(--border);
 }
-.q-answer summary {
+.q-op {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13px;
+    padding: 3px 14px;
+    border-radius: 14px;
     cursor: pointer;
-    color: var(--accent);
-    font-size: 14px;
-    font-weight: 600;
+    transition: all .15s;
     user-select: none;
 }
-.q-answer summary:hover { text-decoration: underline; }
-.q-answer-body { padding: 12px 2px 2px; }
+.q-op:hover { background: var(--bg-hover); color: var(--text); }
+.q-op.on {
+    background: var(--accent, #4a90d9);
+    border-color: var(--accent, #4a90d9);
+    color: #fff;
+}
+.q-op.has::after { content: '●'; color: #e0a800; margin-left: 4px; font-size: 10px; vertical-align: middle; }
+.q-op.on.has::after { color: #ffe082; }
+
+/* 折叠区：思路 / 笔记 / 答案 */
+.q-sec {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-hover);
+    font-size: 14px;
+    line-height: 1.7;
+}
+.q-sec.q-idea { border-left: 3px solid var(--accent, #4a90d9); background: var(--warn-bg, #f4f8ff); }
+.q-note textarea {
+    width: 100%;
+    min-height: 72px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 13px;
+    line-height: 1.6;
+    background: var(--bg);
+    color: var(--text);
+    resize: vertical;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+.q-note textarea:focus { outline: 2px solid var(--accent, #4a90d9); outline-offset: -1px; }
+.q-answer-body { padding: 2px; }
 .q-answer-body p { margin: 10px 0; }
 
 .empty-tip {
