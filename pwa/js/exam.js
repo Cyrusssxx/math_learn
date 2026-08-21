@@ -166,7 +166,7 @@ function qCard(p, sec, q, secIdx) {
         </div>
         <div class="q-body">${stem}${options}</div>
         <div class="q-ops">
-            <button class="q-op" data-act="ans" onclick="toggleQSec(this,'ans')">查看答案</button>
+            <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
             ${ideaBtn}
             <button class="q-op${note.trim() ? ' has' : ''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
         </div>
