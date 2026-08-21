@@ -42,7 +42,11 @@ function toggleFav(qid, btn) {
     const f = favGet();
     if (f[qid]) delete f[qid]; else f[qid] = 1;
     favSave(f);
-    if (btn) btn.classList.toggle('on', !!f[qid]);
+    if (btn) {
+        btn.classList.toggle('on', !!f[qid]);
+        btn.textContent = f[qid] ? '⭐' : '☆';   // 同步切换实心/空心星（之前只切 class 导致 UI 不更新）
+        btn.title = f[qid] ? '取消收藏' : '收藏此题';
+    }
     if (favOnly) renderCurrent();
 }
 
