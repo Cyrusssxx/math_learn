@@ -169,7 +169,7 @@ function toggleFloatQ(){
 async function init(){
     const resp=await fetch('data/selected.json');
     if(!resp.ok)throw new Error('加载精选失败:'+resp.status);
-    papers=await resp.json();
+    papers=(await resp.json()).papers || [];
     const favBtn=document.getElementById('favOnly');if(favBtn)favBtn.classList.toggle('on',favOnly);
     let startPaper=papers[0]||null,startNo=null;
     try{
