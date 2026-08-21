@@ -135,7 +135,8 @@ function emitList(items, start, level) {
         const isEmb = items[i].text.startsWith('📝 批注：');
         const liCls = liClass(items[i].text) + (isEmb ? ' li-embed-ann' : '');
         const liRaw = isEmb ? ` data-raw="${esc(items[i].text.slice('📝 批注：'.length)).replace(/"/g, '&quot;')}"` : '';
-        html += `<li${liCls}${liRaw}>` + breakLines(items[i].text);
+        const anc = items[i].anc ? `<span id="${items[i].anc}" class="anch"></span>` : '';
+        html += `<li${liCls}${liRaw}>` + anc + breakLines(items[i].text);
         let j = i + 1;
         if (j < items.length && items[j].level > level) {
             const [childHtml, next] = emitList(items, j, items[j].level);
@@ -200,6 +201,10 @@ function mdToHtml(md) {
             const top = blocks.pop();
             out.push(top === 'nav' ? '</div>' : '</div></details>');
             i++;
+        } else if (/^\{#[A-Za-z0-9_\-]+\}$/.test(line.trim())) {
+            // 行内锚点：独行 {#id} → 空 span（供::: nav 导航跳转到任意题型/小节）
+            out.push(`<span id="${line.trim().slice(2, -1)}" class="anch"></span>`);
+            i++;
         } else if (/^!\[.*?\]\(.+?\)$/.test(line.trim())) {
             // 独行图片：![说明](路径) → figure + 图注；figure 带 id 供页内导航跳转
             const m = line.trim().match(/^!\[(.*?)\]\((.+?)\)$/);
@@ -211,7 +216,10 @@ function mdToHtml(md) {
             const items = [];
             while (i < lines.length && /^\s*- /.test(lines[i])) {
                 const m = lines[i].match(/^(\s*)- (.*)$/);
-                items.push({ level: Math.floor(m[1].length / 2), text: m[2] });
+                let t = m[2], anc = '';
+                const am = t.match(/^\{#([A-Za-z0-9_\-]+)\}\s*/);   // 行内锚点 - {#id} 条目
+                if (am) { anc = am[1]; t = t.slice(am[0].length); }
+                items.push({ level: Math.floor(m[1].length / 2), text: t, anc });
                 i++;
             }
             out.push(emitList(items, 0, 0)[0]);
@@ -328,9 +336,9 @@ function buildSearchIndex() {
         let ci = -1;
         for (const raw of n.md.split('\n')) {
             const line = raw.replace(/<!--.*?-->/g, '').trim();
-            if (!line || line.startsWith('# ') || line.startsWith(':::')) continue;
+            if (!line || line.startsWith('# ') || line.startsWith(':::') || line.startsWith('{#')) continue;
             if (line.startsWith('## ')) { ci++; searchIndex.push({ ni, ci, text: line.slice(3).trim(), r, w: 1 }); continue; }
-            const text = line.replace(/^[-|\s]+/, '').replace(/\*\*/g, '');
+            const text = line.replace(/^[-|\s]+/, '').replace(/^\{#[A-Za-z0-9_\-]+\}\s*/, '').replace(/\*\*/g, '');
             if (text.startsWith('📝 批注：')) continue;  // 已固化为正文的批注行不重复入索引（由 localStorage 批注检索精确命中）
             if (text) searchIndex.push({ ni, ci, text, r, w: 2 });
         }
