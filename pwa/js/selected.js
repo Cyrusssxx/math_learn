@@ -78,7 +78,7 @@ function qCard(p,sec,q){
             <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
             <button class="q-op${note.trim()?' has':''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
         </div>
-        <div class="q-sec q-answer" hidden><div class="q-answer-body">${mdBlock(q.answer)}</div></div>
+        <div class="q-sec q-answer" hidden><div class="q-answer-body">${q.answer?mdBlock(q.answer):'<span class="ans-pending">答案整理中…</span>'}</div></div>
         <div class="q-sec q-note" hidden><textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点…（自动保存）">${esc(note)}</textarea></div>
     </div>`;
 }
