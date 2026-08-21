@@ -347,10 +347,6 @@ html.dark .exam-btn.on { color: #e5c860; }
 }
 .q-sec.q-idea { border-left: 3px solid var(--accent, #4a90d9); background: var(--warn-bg, #f4f8ff); }
 .q-sec.q-idea p { margin: 7px 0; }
-/* 思路区 KaTeX 分式字号调小（避免密集） */
-.q-sec.q-idea .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 0.85em; }
-.q-sec.q-idea .katex-display { font-size: 0.9em; }
-.q-sec.q-idea .katex-display > .katex { font-size: 1em; }
 .q-note textarea {
     width: 100%;
     min-height: 72px;
