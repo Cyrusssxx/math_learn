@@ -74,7 +74,7 @@ function qCard(p,sec,q){
     // 答案：优先 q.answer 文本，否则 q.answer_img 图片数组，否则占位
     const ansInner = q.answer ? mdBlock(q.answer) :
         (q.answer_img ? ((Array.isArray(q.answer_img) ? q.answer_img : [q.answer_img])
-            .map(s => `<img class="ans-img" src="${s}" alt="题${q.no}答案" loading="lazy">`).join(''))
+            .map(s => `<img class="ans-img" src="${s}" alt="题${q.no}答案" loading="lazy" onclick="zoomAnsImg(this)">`).join(''))
             : '<span class="ans-pending">答案整理中…</span>');
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
@@ -177,6 +177,22 @@ function toggleSide(){
     const btn = document.getElementById('sideToggle');
     if (wrap) wrap.classList.toggle('side-closed', sideClosed);
     if (btn) btn.textContent = sideClosed ? '▶' : '◀';
+}
+
+// ============ 答案图放大 ============
+function zoomAnsImg(img){
+    let ov = document.getElementById('zoomOverlay');
+    if (!ov) {
+        ov = document.createElement('div');
+        ov.id = 'zoomOverlay';
+        ov.className = 'zoom-overlay';
+        ov.onclick = function(){ ov.classList.remove('show'); };
+        ov.innerHTML = '<img id="zoomImg" alt="放大答案">';
+        document.body.appendChild(ov);
+    }
+    const big = document.getElementById('zoomImg');
+    big.src = img.currentSrc || img.src;
+    ov.classList.add('show');
 }
 
 function toggleFloatQ(){
