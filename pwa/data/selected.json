@@ -19,7 +19,7 @@
                 "有一个极小值点和一个极大值点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q01.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q01.webp"
             },
             {
               "no": 2,
@@ -32,7 +32,7 @@
                 "$I_1,I_2$ 均收敛且 $I_1<1,I_2>1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q02.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q02.webp"
             },
             {
               "no": 3,
@@ -45,7 +45,7 @@
                 "$6$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q03.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q03.webp"
             },
             {
               "no": 4,
@@ -58,7 +58,7 @@
                 "$\\dfrac{\\mathrm{e}^2}{4}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q04.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q04.webp"
             },
             {
               "no": 5,
@@ -71,7 +71,7 @@
                 "$af'(a)-bf'(b)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q05.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q05.webp"
             },
             {
               "no": 6,
@@ -84,7 +84,7 @@
                 "$f_{xy}''(0,0)$ 不存在，$f_{yx}''(0,0)$ 存在"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q06.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q06.webp"
             },
             {
               "no": 7,
@@ -97,7 +97,7 @@
                 "$I_3\\leqslant I_2\\leqslant I_1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q07.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q07.webp"
             },
             {
               "no": 8,
@@ -110,7 +110,7 @@
                 "$\\begin{pmatrix}0&0&1\\\\1&-2&0\\\\0&1&0\\end{pmatrix}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q08.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q08.webp"
             },
             {
               "no": 9,
@@ -123,7 +123,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q09.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q09.webp"
             },
             {
               "no": 10,
@@ -136,7 +136,7 @@
                 "$m=n$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q10.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q10.webp"
             }
           ]
         },
@@ -148,42 +148,42 @@
               "kind": "fill",
               "stem": "$\\displaystyle\\lim_{n\\to\\infty}\\frac{\\displaystyle\\sum_{k=1}^n\\frac1k}{\\ln n}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q11.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设 $xy=c_1\\mathrm{e}^x+c_2\\mathrm{e}^{2x}$ 是某二阶齐次线性微分方程的通解，则该方程为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q12.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $z=z(u,v)$ 由方程 $z=\\mathrm{e}^{uv}$ 确定，$u=u(x),v=v(x)$ 由方程组 $\\begin{cases}u^2+2v+\\mathrm{e}^x=2,\\\\ u-v+x=1\\end{cases}$ 确定，其中 $u>0$，则 $\\displaystyle\\frac{\\mathrm{d}z}{\\mathrm{d}x}\\bigg|_{x=0}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q13.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $t>0$，$F(t)=\\displaystyle\\int_{-t}^0\\!\\mathrm{d}x\\int_0^{x+t}x\\mathrm{e}^{y^2}\\,\\mathrm{d}y+\\int_0^t\\!\\mathrm{d}x\\int_0^{\\sqrt{t^2-x^2}}x\\mathrm{e}^{y^2}\\,\\mathrm{d}y$，则 $F'(1)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q14.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设函数 $f(x)$ 可导，$f(0)=0$，且 $f(x)=\\sin x^2+2x\\displaystyle\\int_0^1 xf(x)\\,\\mathrm{d}x-x\\lim_{x\\to0}\\frac{f(x)}{x}$，则 $\\displaystyle\\int_0^1 xf(x)\\,\\mathrm{d}x=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q15.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $3$ 阶矩阵 $A=\\begin{pmatrix}a&2&2\\\\0&1&2\\\\0&0&-1\\end{pmatrix}$ 不能相似对角化，则 $a=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-01_q16.png"
+              "answer_img": "data/selected_ans_q/y24-cy-01_q16.webp"
             }
           ]
         }
@@ -208,7 +208,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q01.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q01.webp"
             },
             {
               "no": 2,
@@ -221,7 +221,7 @@
                 "$3$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q02.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q02.webp"
             },
             {
               "no": 3,
@@ -234,7 +234,7 @@
                 "$0<p\\leqslant1,0<q\\leqslant1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q03.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q03.webp"
             },
             {
               "no": 4,
@@ -247,7 +247,7 @@
                 "$x=0$ 不是 $f(x)$ 的极值点，$(0,f(0))$ 也不是曲线 $y=f(x)$ 的拐点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q04.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q04.webp"
             },
             {
               "no": 5,
@@ -260,7 +260,7 @@
                 "$y=2x\\mathrm{e}^x+x$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q05.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q05.webp"
             },
             {
               "no": 6,
@@ -273,7 +273,7 @@
                 "$\\bigl|\\dfrac{\\partial f}{\\partial x}\\bigr|\\leqslant1,\\bigl|\\dfrac{\\partial f}{\\partial y}\\bigr|\\leqslant1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q06.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q06.webp"
             },
             {
               "no": 7,
@@ -286,7 +286,7 @@
                 "$\\displaystyle\\int_0^1\\!\\mathrm{d}x\\int_0^14(x+y)\\,\\mathrm{d}y$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q07.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q07.webp"
             },
             {
               "no": 8,
@@ -299,7 +299,7 @@
                 "$Ax=0$ 有非零解，$Bx=0$ 有非零解"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q08.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q08.webp"
             },
             {
               "no": 9,
@@ -312,7 +312,7 @@
                 "依赖于 $a$ 的取值"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q09.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q09.webp"
             },
             {
               "no": 10,
@@ -325,7 +325,7 @@
                 "不确定"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q10.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q10.webp"
             }
           ]
         },
@@ -337,42 +337,42 @@
               "kind": "fill",
               "stem": "设函数 $x=x(t)$ 由方程 $t\\cos x+x=0$ 确定，$y=y(t)$ 由 $\\mathrm{e}^{y-2}-xy=1$ 确定，则 $\\displaystyle\\frac{\\mathrm{d}y}{\\mathrm{d}t}\\bigg|_{t=0}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q11.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "已知 $f(x)$ 是微分方程 $x^2f'(x)-xf(x)=\\sin^4x$ 满足初始条件 $f\\bigl(\\dfrac{\\pi}{2}\\bigr)=0$ 的特解，则 $\\displaystyle\\int_0^{\\frac{\\pi}{2}}xf'(x)\\,\\mathrm{d}x=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q12.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $f(x,y)$ 具有二阶连续偏导数，且满足 $\\dfrac{\\partial^2f}{\\partial x^2}+\\dfrac{\\partial^2f}{\\partial y^2}=0$，$u=f\\Bigl(\\dfrac{y-x}{xy},\\dfrac{z-y}{yz}\\Bigr)$，则 $x^2\\dfrac{\\partial^2u}{\\partial x\\partial y}+z^2\\dfrac{\\partial^2u}{\\partial z\\partial y}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q13.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $f(x,y)$ 在区域 $D:0\\leqslant x\\leqslant1,0\\leqslant y\\leqslant1$ 上可微，且 $f(0,0)=0$，$f_x'(0,0)=1$，$f_y'(0,0)=2$，则 $\\displaystyle\\lim_{x\\to0^+}\\frac{\\displaystyle\\int_0^{x^2}\\!\\mathrm{d}t\\int_{\\sqrt{t}}^xf(t,u)\\,\\mathrm{d}u}{x^4}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q14.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "曲线 $f(x)=[x]\\sin\\pi x,\\,(0\\leqslant x\\leqslant12)$，$([\\cdot]$ 表示取整）绕 $x$ 轴旋转形成的旋转体的体积记作 $V=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q15.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A$ 是 $4$ 阶实矩阵，$(A+3E)x=0$ 的基础解系为 $\\alpha_1,\\alpha_2$，$(A-E)x=0$ 的基础解系为 $\\alpha_3$，则 $r(A^2+2A-3E)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-02_q16.png"
+              "answer_img": "data/selected_ans_q/y24-cy-02_q16.webp"
             }
           ]
         }
@@ -397,7 +397,7 @@
                 "$4$ 条"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q01.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q01.webp"
             },
             {
               "no": 2,
@@ -410,7 +410,7 @@
                 "①②③"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q02.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q02.webp"
             },
             {
               "no": 3,
@@ -423,7 +423,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q03.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q03.webp"
             },
             {
               "no": 4,
@@ -436,7 +436,7 @@
                 "$F(x)$ 即无极值点又无拐点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q04.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q04.webp"
             },
             {
               "no": 5,
@@ -449,7 +449,7 @@
                 "可导"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q05.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q05.webp"
             },
             {
               "no": 6,
@@ -462,7 +462,7 @@
                 "$a,b$ 均为任意常数"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q06.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q06.webp"
             },
             {
               "no": 7,
@@ -475,7 +475,7 @@
                 "$\\displaystyle2\\int_0^1\\!\\mathrm{d}x\\int_{\\sqrt{3}x}^{\\sqrt{4-x^2}}(x^2+y^2)\\,\\mathrm{d}y$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q07.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q07.webp"
             },
             {
               "no": 8,
@@ -488,7 +488,7 @@
                 "$2,2,0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q08.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q08.webp"
             },
             {
               "no": 9,
@@ -501,7 +501,7 @@
                 "不合同也不相似"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q09.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q09.webp"
             },
             {
               "no": 10,
@@ -514,7 +514,7 @@
                 "$\\alpha_1,\\alpha_2,\\alpha_3$ 可由 $\\beta_1,\\beta_2,\\beta_3$ 线性表示"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q10.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q10.webp"
             }
           ]
         },
@@ -526,42 +526,42 @@
               "kind": "fill",
               "stem": "当 $x\\to0$ 时，若 $1-\\dfrac{n+1}{1+\\mathrm{e}^x+\\mathrm{e}^{2x}+\\cdots+\\mathrm{e}^{nx}}$ 与 $\\sin x$ 为等价无穷小，则自然数 $n=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q11.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设 $f(x)=\\dfrac{1}{x+\\sqrt{1+x^2}}$，其反函数记作 $f^{-1}(x)$，则 $\\displaystyle\\int_0^{+\\infty}f^{-1}(x)\\,\\mathrm{d}x=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q12.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $F(x)=\\displaystyle\\int_{x^2}^1\\frac{t}{\\sqrt{1+t^3}}\\,\\mathrm{d}t$，则 $\\displaystyle\\int_0^1xF(x)\\,\\mathrm{d}x=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q13.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "当 $y>0$ 时，有 $\\dfrac{\\partial^2z}{\\partial x\\partial y}=x^2\\mathrm{e}^{xy}$，且 $\\dfrac{\\partial z}{\\partial x}\\bigg|_{y=0}=x+\\sin x$，$z(0,y)=-\\dfrac{1}{y^2}$，则 $z(x,y)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q14.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设函数 $f(x)$ 连续，且满足 $\\displaystyle\\int_0^xf(t)\\,\\mathrm{d}t=1-f(x)-\\mathrm{e}^{-x}$，则 $f^{(n)}(x)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q15.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A$ 是 $3$ 阶实对称矩阵，$\\alpha=(-a,4,a+1)^\\mathrm{T}$ 与 $\\beta=(a+1,a-3,3)^\\mathrm{T}$ 分别是齐次线性方程组 $(A-2E)x=0$ 与 $(A+3E)x=0$ 的解，其中 $E$ 为 $3$ 阶单位阵，则 $a=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-03_q16.png"
+              "answer_img": "data/selected_ans_q/y24-cy-03_q16.webp"
             }
           ]
         }
@@ -586,7 +586,7 @@
                 "$(2,-4)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q01.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q01.webp"
             },
             {
               "no": 2,
@@ -599,7 +599,7 @@
                 "$\\alpha>2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q02.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q02.webp"
             },
             {
               "no": 3,
@@ -612,7 +612,7 @@
                 "$\\Bigl(\\dfrac{\\arcsin x}{x}\\Bigr)^2<\\dfrac{\\arcsin x}{x}<\\dfrac{\\arcsin x^2}{x^2}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q03.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q03.webp"
             },
             {
               "no": 4,
@@ -625,7 +625,7 @@
                 "$x=0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q04.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q04.webp"
             },
             {
               "no": 5,
@@ -638,7 +638,7 @@
                 "$[a^2,+\\infty)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q05.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q05.webp"
             },
             {
               "no": 6,
@@ -651,7 +651,7 @@
                 "$p>1,q>1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q06.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q06.webp"
             },
             {
               "no": 7,
@@ -664,7 +664,7 @@
                 "$I_4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q07.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q07.webp"
             },
             {
               "no": 8,
@@ -677,7 +677,7 @@
                 "$B$ 不可逆，$B-E$ 不可逆"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q08.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q08.webp"
             },
             {
               "no": 9,
@@ -690,7 +690,7 @@
                 "$2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q09.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q09.webp"
             },
             {
               "no": 10,
@@ -703,7 +703,7 @@
                 "$k_1(1,1,0)^\\mathrm{T}+k_2(1,0,1)^\\mathrm{T}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q10.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q10.webp"
             }
           ]
         },
@@ -715,42 +715,42 @@
               "kind": "fill",
               "stem": "$\\displaystyle\\lim_{x\\to0}\\frac{\\sqrt[4]{\\cos x}-\\sqrt[3]{\\cos x}}{\\ln(1+x^2)}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q11.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "心形线 $r=1+\\cos\\theta$ 在点 $\\theta=\\dfrac{2\\pi}{3}$ 处的法线方程为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q12.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设函数 $z=z(x,y)$ 由 $xy=\\displaystyle\\int_0^z\\frac{\\mathrm{d}t}{\\sqrt{1+t^2}}$ 确定，则 $\\dfrac{\\partial^2z}{\\partial x^2}+\\dfrac{\\partial^2z}{\\partial y^2}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q13.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "椭圆 $x^2+y^2-xy=1$ 上点到原点距离的最大值为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q14.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设函数 $f(x)$ 在 $[0,1]$ 上具有一阶连续导数且 $f(1)=0$，若 $f(x)$ 满足 $\\displaystyle\\int_0^1\\bigl[f'(x)\\bigr]^2\\,\\mathrm{d}x-6\\int_0^1f(x)\\,\\mathrm{d}x+3=0$，则 $f(x)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q15.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "已知 $A$ 为 $3$ 阶可逆矩阵，且 $A^2+2A=O$，$3$ 阶矩阵 $B$ 满足 $2A^{-1}B=A^*+B$，则 $|B|=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-04_q16.png"
+              "answer_img": "data/selected_ans_q/y24-cy-04_q16.webp"
             }
           ]
         }
@@ -775,7 +775,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q01.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q01.webp"
             },
             {
               "no": 2,
@@ -788,7 +788,7 @@
                 "$g''(2)=-\\dfrac4{27}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q02.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q02.webp"
             },
             {
               "no": 3,
@@ -801,7 +801,7 @@
                 "若 $\\displaystyle\\lim_{x\\to0}\\frac{f''(x)}{\\sin x}=1$，则 $(0,f(0))$ 为 $f(x)$ 的拐点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q03.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q03.webp"
             },
             {
               "no": 4,
@@ -814,7 +814,7 @@
                 "有两个跳跃间断点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q04.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q04.webp"
             },
             {
               "no": 5,
@@ -827,7 +827,7 @@
                 "与 $a$ 有关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q05.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q05.webp"
             },
             {
               "no": 6,
@@ -840,7 +840,7 @@
                 "$f_{xx}''(2,1)=-2,f_{xy}''(2,1)=1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q06.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q06.webp"
             },
             {
               "no": 7,
@@ -853,7 +853,7 @@
                 "$\\displaystyle\\iint_D(\\sin x+\\cos y)\\,\\mathrm{d}x\\mathrm{d}y=0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q07.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q07.webp"
             },
             {
               "no": 8,
@@ -866,7 +866,7 @@
                 "$AB=BA$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q08.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q08.webp"
             },
             {
               "no": 9,
@@ -879,7 +879,7 @@
                 "$r(A)=r(A,B)=r(B)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q09.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q09.webp"
             },
             {
               "no": 10,
@@ -892,7 +892,7 @@
                 "垂直于直线 $y=\\dfrac12x$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q10.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q10.webp"
             }
           ]
         },
@@ -904,42 +904,42 @@
               "kind": "fill",
               "stem": "设 $y=y(x)$ 由方程 $\\mathrm{e}^{xy}=2^x\\cdot3^y$ 确定的隐函数，则 $(y-\\ln2)y''-2(y')^2=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q11.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$\\displaystyle\\int_1^{+\\infty}\\frac1{x^2}\\mathrm{e}^{-\\frac1{\\sqrt{x}}}\\,\\mathrm{d}x=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q12.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "已知点 $A(1,3),B(4,2)$，$C$ 是椭圆 $\\dfrac{x^2}{9}+\\dfrac{y^2}{4}=1\\,(x\\geqslant0,y\\geqslant0)$ 上一点，则 $\\triangle ABC$ 的面积最大值为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q13.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "二次积分 $\\displaystyle\\int_0^{\\frac{\\pi}{2}}\\!\\mathrm{d}\\theta\\int_0^1\\mathrm{e}^{r\\sin\\theta}r^2\\cos\\theta\\,\\mathrm{d}r=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q14.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "$\\displaystyle\\lim_{n\\to\\infty}\\sin\\frac{2}{n}\\Bigl(\\frac{n}{\\sqrt{4n^2+1}}+\\frac{n}{\\sqrt{4n^2+3^2}}+\\cdots+\\frac{n}{\\sqrt{4n^2+(2n-1)^2}}\\Bigr)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q15.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A=\\begin{pmatrix}1&2&1\\\\1&1&0\\\\3&4&2\\end{pmatrix}$，$B$ 为 $3$ 阶矩阵，且满足 $A^2B=A+B+E$，则 $B$ 的伴随矩阵 $B^*=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-05_q16.png"
+              "answer_img": "data/selected_ans_q/y24-cy-05_q16.webp"
             }
           ]
         }
@@ -964,7 +964,7 @@
                 "D. 不能判定是否取得极值"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q01.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q01.webp"
             },
             {
               "no": 2,
@@ -977,7 +977,7 @@
                 "D. $f(x)$ 与 $g(x)$ 是等价无穷小"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q02.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q02.webp"
             },
             {
               "no": 3,
@@ -990,7 +990,7 @@
                 "D. 一个跳跃间断点和两个无穷间断点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q03.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q03.webp"
             },
             {
               "no": 4,
@@ -1003,7 +1003,7 @@
                 "D. $f(1) < f'(0) < \\\\int_1^2 f(x)\\\\, dx$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q04.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q04.webp"
             },
             {
               "no": 5,
@@ -1016,7 +1016,7 @@
                 "D. 3"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q05.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q05.webp"
             },
             {
               "no": 6,
@@ -1029,7 +1029,7 @@
                 "D. 4"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q06.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q06.webp"
             },
             {
               "no": 7,
@@ -1042,7 +1042,7 @@
                 "D. 由方程只可确定一个具有连续偏导数的隐函数 $z = z(x,y)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q07.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q07.webp"
             },
             {
               "no": 8,
@@ -1055,7 +1055,7 @@
                 "D. 特征值未必相同"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q08.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q08.webp"
             },
             {
               "no": 9,
@@ -1068,7 +1068,7 @@
                 "D. $a \\\\ne -2, b \\\\ne -6$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q09.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q09.webp"
             },
             {
               "no": 10,
@@ -1081,7 +1081,7 @@
                 "D. $4y_1^2 + 4y_2^2 - 9y_3^2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q10.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q10.webp"
             }
           ]
         },
@@ -1093,42 +1093,42 @@
               "kind": "fill",
               "stem": "设 $f(x) = e^x \\\\sin x + x \\\\sin x$, 则 $f^{(2024)}(0) = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q11.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "曲线 $f(x) = \\\\dfrac{1}{1+e^x}$ ($x \\\\ge 0$) 与其渐近线及 $y$ 轴围成的曲边三角形的面积为 ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q12.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "极限 $L = \\\\lim\\\\limits_{n \\\\to \\\\infty} \\\\dfrac{1}{n^2} \\\\sum\\\\limits_{i=1}^{n} \\\\sum\\\\limits_{j=1}^{2n} \\\\max\\\\left(\\\\dfrac{i^2}{n^2}, \\\\dfrac{j^2}{n^2}\\\\right) = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q13.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "二元函数 $f(x,y) = x^3 + y^3 - 3x^2 - 3y^2$ 共有 ____ 个极值点.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q14.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设 $f(\\\\cos^2 x) = \\\\dfrac{x}{\\\\cos x}$, 则 $\\\\int_0^1 \\\\dfrac{\\\\sqrt{x}}{\\\\sqrt{1-x}} f(x)\\\\, dx = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q15.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A, B$ 为 3 阶实矩阵, 且 $r(A) = r(A,B) = r\\begin{pmatrix} A & B \\ B & A \\end{pmatrix} = 2$, $A^*$ 为 $A$ 的伴随矩阵, 分块矩阵 $\\begin{pmatrix} A & B \\ O & A^* \\end{pmatrix}$ 和 $\\begin{pmatrix} A & O \\ B & A^* \\end{pmatrix}$ 的秩分别为 $r_1, r_2$, 则 $r_1 + r_2 = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-06_q16.png"
+              "answer_img": "data/selected_ans_q/y24-cy-06_q16.webp"
             }
           ]
         }
@@ -1153,7 +1153,7 @@
                 "D. $p>1, p-q<1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q01.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q01.webp"
             },
             {
               "no": 2,
@@ -1166,7 +1166,7 @@
                 "D. 若 $\\\\lim\\\\limits_{x \\\\to +\\\\infty} f(x) = 0$ 存在, 则 $\\\\lim\\\\limits_{x \\\\to +\\\\infty} f''(x) = 0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q02.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q02.webp"
             },
             {
               "no": 3,
@@ -1179,7 +1179,7 @@
                 "D. 可导"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q03.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q03.webp"
             },
             {
               "no": 4,
@@ -1192,7 +1192,7 @@
                 "D. $x=0$ 不是 $f(x)$ 的极值点, $(0, f(0))$ 也不是 $y=f(x)$ 的拐点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q04.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q04.webp"
             },
             {
               "no": 5,
@@ -1205,7 +1205,7 @@
                 "D. 6"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q05.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q05.webp"
             },
             {
               "no": 6,
@@ -1218,7 +1218,7 @@
                 "D. $f'_y(x,0)$ 在 $x=0$ 处连续"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q06.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q06.webp"
             },
             {
               "no": 7,
@@ -1231,7 +1231,7 @@
                 "D. $\\\\dfrac{1}{2} \\\\sin^2 1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q07.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q07.webp"
             },
             {
               "no": 8,
@@ -1244,7 +1244,7 @@
                 "D. 3"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q08.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q08.webp"
             },
             {
               "no": 9,
@@ -1257,7 +1257,7 @@
                 "D. $a \\\\ne 1, C = \\begin{pmatrix} -2 & 2 \\ 1 & -1 \\ 1 & 1 \\end{pmatrix}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q09.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q09.webp"
             },
             {
               "no": 10,
@@ -1270,7 +1270,7 @@
                 "D. $a > -2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q10.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q10.webp"
             }
           ]
         },
@@ -1282,42 +1282,42 @@
               "kind": "fill",
               "stem": "设 $f(x) = \\\\int_0^x \\\\cos(x-t)^2\\\\, dt$, $\\varphi(x) = \\begin{cases} \\dfrac{x - \\sin x}{x - \\ln(1+x)}, & x \\ne 0 \\ 0, & x = 0 \\end{cases}$, 则 $\\\\left.\\\\dfrac{df(\\\\varphi(x))}{dx}\\\\right|_{x=0} = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q11.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设 $y = \\\\sin 2x + \\\\cos 2x - \\\\sin x$ 是二阶常系数线性微分方程 $y'' + \\\\alpha y' + \\\\beta y = \\\\gamma \\\\sin x$ 的一个特解, 则 $(\\\\alpha + \\\\beta + \\\\gamma)^2 = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q12.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "极限 $\\\\lim\\\\limits_{n \\\\to \\\\infty} \\\\dfrac{1}{n}\\\\left(\\\\int_0^{\\\\frac{1}{n}} e^{-x^2}\\\\, dx + \\\\int_0^{\\\\frac{2}{n}} e^{-x^2}\\\\, dx + \\\\cdots + \\\\int_0^{\\\\frac{n-1}{n}} e^{-x^2}\\\\, dx\\\\right) = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q13.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $f(x,y)$ 为可微函数, 且 $f(x, \\\\cos x) = \\\\sin x \\\\cos x$, $f'_y(x, \\\\cos x) = \\\\cos x$, 则 $df(0, 1) = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q14.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "已知 $x \\\\to 0$ 时, $\\\\sqrt{1 - ax^3} - 1 + bx^2$ 是 $\\\\cos 2x - e^{-2x^2}$ 的等阶无穷小量, 则 $ab = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q15.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A_n$ ($n > 2$) 为实对称矩阵, $\\\\lambda_1, \\\\lambda_2$ 为两个不同的特征值, $\\\\alpha_1, \\\\alpha_2$ 为分别对应 $\\\\lambda_1, \\\\lambda_2$ 的单位特征向量, 记 $P = (\\\\alpha_1, \\\\alpha_2)$, 则 $|P^T A P| = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-07_q16.png"
+              "answer_img": "data/selected_ans_q/y24-cy-07_q16.webp"
             }
           ]
         }
@@ -1342,7 +1342,7 @@
                 "D. 4"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q01.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q01.webp"
             },
             {
               "no": 2,
@@ -1355,7 +1355,7 @@
                 "D. 若 $\\\\lim\\\\limits_{x \\\\to 0^+} f'(x) > 0$, 则存在 $\\\\delta > 0$, 当 $x \\\\in (0, \\\\delta)$ 时, $f(x)$ 单增"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q02.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q02.webp"
             },
             {
               "no": 3,
@@ -1368,7 +1368,7 @@
                 "D. $\\\\dfrac{3}{4} < \\\\theta(x) < 1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q03.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q03.webp"
             },
             {
               "no": 4,
@@ -1381,7 +1381,7 @@
                 "D. $F(x)$ 为奇函数, $G(x)$ 不一定是周期函数"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q04.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q04.webp"
             },
             {
               "no": 5,
@@ -1394,7 +1394,7 @@
                 "D. $\\\\lim\\\\limits_{n \\\\to \\\\infty} \\\\sum\\\\limits_{k=1}^{4n} f\\\\left(\\\\dfrac{k}{2n}\\\\right) \\\\cdot \\\\dfrac{1}{n}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q05.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q05.webp"
             },
             {
               "no": 6,
@@ -1407,7 +1407,7 @@
                 "D. $\\\\dfrac{\\\\partial^2 f}{\\\\partial x^2} + \\\\dfrac{\\\\partial^2 f}{\\\\partial y^2} + \\\\dfrac{1}{y} \\\\dfrac{\\\\partial f}{\\\\partial y} = 0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q06.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q06.webp"
             },
             {
               "no": 7,
@@ -1420,7 +1420,7 @@
                 "D. 4"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q07.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q07.webp"
             },
             {
               "no": 8,
@@ -1433,7 +1433,7 @@
                 "D. $A - 3E, B - 2E$ 均可逆"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q08.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q08.webp"
             },
             {
               "no": 9,
@@ -1446,7 +1446,7 @@
                 "D. 解不能确定"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q09.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q09.webp"
             },
             {
               "no": 10,
@@ -1459,7 +1459,7 @@
                 "D. $y_1^2 + y_2^2 + y_3^2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q10.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q10.webp"
             }
           ]
         },
@@ -1471,42 +1471,42 @@
               "kind": "fill",
               "stem": "设 $f(x) = \\\\dfrac{1}{x^3} \\\\left[a - \\\\dfrac{x}{2} + e^x + x \\\\ln(1+x^2) + (b + \\\\cos x)\\\\sin x\\\\right]$, 若 $x = 0$ 为 $f(x)$ 的可去间断点, 则 $ab = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q11.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "计算 $\\\\int_0^{\\\\pi} \\\\left(\\\\left| x - \\\\dfrac{\\\\pi}{2} \\\\right| \\\\cos^3 x + \\\\cos^4 x\\\\right) dx = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q12.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "极限 $\\\\lim\\\\limits_{t \\\\to 0^+} \\\\dfrac{1}{t^4} \\\\int_0^t d\\\\theta \\\\int_0^{\\\\cos \\\\theta} r \\\\ln(1 + \\\\tan(r \\\\sin \\\\theta))\\\\, dr = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q13.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设函数 $z = z(x,y)$ 由 $xy = \\\\int_0^z \\\\dfrac{dt}{\\\\sqrt{1 + t^2}}$ 确定, 则 $\\\\dfrac{1}{y^2} \\\\dfrac{\\\\partial^2 z}{\\\\partial x^2} + \\\\dfrac{1}{x^2} \\\\dfrac{\\\\partial^2 z}{\\\\partial y^2} = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q14.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "微分方程 $(xy + 1) \\\\dfrac{dy}{dx} = y^2$ 满足 $y(0) = 1$ 的特解为 ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q15.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A$ 为四阶实对称矩阵, 其特征值为 $\\\\lambda_1 = \\\\lambda_2 = 1, \\\\lambda_3 = 2, \\\\lambda_4 = 3$, 相应的特征向量依次为 $p_1, p_2, p_3, p_4$, 且 $p_1, p_2$ 线性无关, 令 $P = (4p_4, 5p_3, p_1 + p_2, p_1 - p_2)$, 则 $P^{-1} A P = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-08_q16.png"
+              "answer_img": "data/selected_ans_q/y24-cy-08_q16.webp"
             }
           ]
         }
@@ -1531,7 +1531,7 @@
                 "D. $a = 1, f''(0) = b$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q01.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q01.webp"
             },
             {
               "no": 2,
@@ -1544,7 +1544,7 @@
                 "D. 交点个数与 $b$ 有关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q02.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q02.webp"
             },
             {
               "no": 3,
@@ -1557,7 +1557,7 @@
                 "D. $a = 2, b = 4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q03.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q03.webp"
             },
             {
               "no": 4,
@@ -1570,7 +1570,7 @@
                 "D. $f\\\\left(\\\\dfrac{1}{2}\\\\right) > 0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q04.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q04.webp"
             },
             {
               "no": 5,
@@ -1583,7 +1583,7 @@
                 "D. $0 < p < 2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q05.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q05.webp"
             },
             {
               "no": 6,
@@ -1596,7 +1596,7 @@
                 "D. 6"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q06.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q06.webp"
             },
             {
               "no": 7,
@@ -1609,7 +1609,7 @@
                 "D. 符号无法判断"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q07.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q07.webp"
             },
             {
               "no": 8,
@@ -1622,7 +1622,7 @@
                 "D. $\\\\begin{pmatrix} A \\\\ B \\\\end{pmatrix} x = 0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q08.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q08.webp"
             },
             {
               "no": 9,
@@ -1635,7 +1635,7 @@
                 "D. 向量组 $\\\\uppercase\\\\expandafter{\\\\romannumeral1}$ 与 $\\\\uppercase\\\\expandafter{\\\\romannumeral2}$ 至少有一个线性相关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q09.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q09.webp"
             },
             {
               "no": 10,
@@ -1648,7 +1648,7 @@
                 "D. 既非充分又非必要条件"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q10.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q10.webp"
             }
           ]
         },
@@ -1660,42 +1660,42 @@
               "kind": "fill",
               "stem": "设函数 $u = f(y)$ 二阶可导, 函数 $y = y(x)$ 由方程 $y + e^y = x$ 确定, 则 $\\\\left.\\\\dfrac{d^2 u}{dx^2}\\\\right|_{x=1} = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q11.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$\\\\lim\\\\limits_{x \\\\to +\\\\infty} \\\\left[\\\\sqrt[2024]{(x+1)(x+2)\\\\cdots(x+2024)} - x\\\\right] = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q12.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "$\\\\int_0^{\\\\frac{\\\\pi}{2}} \\\\dfrac{x + \\\\sin x}{1 + \\\\cos x}\\\\, dx + \\\\int_{\\\\pi}^{\\\\frac{3\\\\pi}{2}} \\\\dfrac{1 + \\\\cos x}{x + \\\\sin x}\\\\, dx = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q13.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $f(x,y) = x - y + o(\\\\sqrt{x^2+y^2})$ 具有一阶连续偏导数, $g(x,y) = f\\\\left(xy, \\\\dfrac{x}{y}\\\\right)$, 则 $dg(x,y)\\\\big|_{(0,1)} = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q14.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设二元函数 $u(x,y)$ 具有二阶连续偏导数, 且 $du = \\\\dfrac{ax^2 y\\\\, dy - xy^3\\\\, dx}{x^4 + y^4}$ ($x > 0, y > 0$), 则 $(a, b) = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q15.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "已知 $A = \\begin{pmatrix} 1 & 2 & 2^2 & 2^3 \\ 1 & 3 & 3^2 & 3^3 \\ 1 & 4 & 4^2 & 4^3 \\ 1 & 5 & 5^2 & 5^3 \\end{pmatrix}$, $A_{ij}$ 为 $|A|$ 中元素 $a_{ij}$ 的代数余子式, 则 $\\\\sum\\\\limits_{j=1}^{4} \\\\sum\\\\limits_{i=1}^{4} A_{ij} = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-09_q16.png"
+              "answer_img": "data/selected_ans_q/y24-cy-09_q16.webp"
             }
           ]
         }
@@ -1720,7 +1720,7 @@
                 "D. $F(x)$ 是偶函数且在 $(0, +\\infty)$ 单调减少"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q01.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q01.webp"
             },
             {
               "no": 2,
@@ -1733,7 +1733,7 @@
                 "D. $x = 0$ 为 $f(x)$ 的第一类间断点, $x = \\dfrac{1}{2^n}$ ($n = 1, 2, 3, \\cdots$) 为 $f(x)$ 的第二类间断点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q02.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q02.webp"
             },
             {
               "no": 3,
@@ -1746,7 +1746,7 @@
                 "D. 既非充分又非必要条件"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q03.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q03.webp"
             },
             {
               "no": 4,
@@ -1759,7 +1759,7 @@
                 "D. $I_3 < I_1 < I_2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q04.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q04.webp"
             },
             {
               "no": 5,
@@ -1772,7 +1772,7 @@
                 "D. 无极值"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q05.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q05.webp"
             },
             {
               "no": 6,
@@ -1785,7 +1785,7 @@
                 "D. 1"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q06.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q06.webp"
             },
             {
               "no": 7,
@@ -1798,7 +1798,7 @@
                 "D. $I_4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q07.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q07.webp"
             },
             {
               "no": 8,
@@ -1811,7 +1811,7 @@
                 "D. $\\dfrac{3}{2}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q08.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q08.webp"
             },
             {
               "no": 9,
@@ -1824,7 +1824,7 @@
                 "D. $b$ 一定是方程组 $A^* x = 0$ 的解"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q09.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q09.webp"
             },
             {
               "no": 10,
@@ -1837,7 +1837,7 @@
                 "D. $r_1 < r_3 < r_2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q10.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q10.webp"
             }
           ]
         },
@@ -1849,42 +1849,42 @@
               "kind": "fill",
               "stem": "$\\lim\\limits_{x \\to 0} \\left(\\dfrac{1}{x^2} - \\cot^2 x\\right) = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q11.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$\\lim\\limits_{n \\to \\infty} \\int_n^{2n} \\dfrac{x^2}{1 + x^4}\\, dx = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q12.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $f(u)$ 为连续函数, 若 $\\int_{-\\pi/2}^{\\pi/2} f(x\\cos x) \\cdot \\cos x\\, dx = m$, 则 $\\int_{-\\pi/2}^{\\pi/2} f(x\\cos x) \\cdot x \\sin x\\, dx = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q13.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $D = \\{(x,y) | x^2 + y^2 \\le 1\\}$, 则 $\\iint\\limits_D \\left[\\sin(x^2)\\cos(y^2) + \\sin(xy)\\cos(x^2 + y^2)\\right] d\\sigma = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q14.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设 $f(u) = \\int_0^u dx \\int_x^u \\sqrt{1 + (x - y)^2}\\, dy$, $u \\ge 0$, 则 $f''(1) = $ ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q15.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $a, b, \\beta$ 为 3 维单位向量, 且 $[a, \\beta, b] = 0$, $A = \\beta a^T + ab^T + \\lambda E$, $E$ 为 3 阶单位矩阵, $\\lambda$ 为实数, 若 $A$ 为正定矩阵, 则 $\\lambda$ 的取值范围为 ____ .",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-cy-10_q16.png"
+              "answer_img": "data/selected_ans_q/y24-cy-10_q16.webp"
             }
           ]
         }
@@ -1909,7 +1909,7 @@
                 "$a=3,b=\\dfrac{1}{3}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q01.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q01.webp"
             },
             {
               "no": 2,
@@ -1922,7 +1922,7 @@
                 "可导"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q02.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q02.webp"
             },
             {
               "no": 3,
@@ -1935,7 +1935,7 @@
                 "当 $a=1$ 时，$f(0)$ 为极小值"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q03.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q03.webp"
             },
             {
               "no": 4,
@@ -1948,7 +1948,7 @@
                 "①③"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q04.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q04.webp"
             },
             {
               "no": 5,
@@ -1961,7 +1961,7 @@
                 "$x_n$ 与 $y_n$ 是同阶但不等价无穷小"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q05.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q05.webp"
             },
             {
               "no": 6,
@@ -1974,7 +1974,7 @@
                 "$-1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q06.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q06.webp"
             },
             {
               "no": 7,
@@ -1987,7 +1987,7 @@
                 "$I$ 的值与 $a$ 有关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q07.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q07.webp"
             },
             {
               "no": 8,
@@ -2000,7 +2000,7 @@
                 "$3$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q08.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q08.webp"
             },
             {
               "no": 9,
@@ -2013,7 +2013,7 @@
                 "$\\begin{pmatrix}1&0&0\\\\0&-\\dfrac{1}{2}&\\dfrac{1}{2}\\\\0&\\dfrac{1}{2}&-\\dfrac{1}{2}\\end{pmatrix}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q09.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q09.webp"
             },
             {
               "no": 10,
@@ -2026,7 +2026,7 @@
                 "$\\begin{pmatrix}A&AB\\\\E&B\\end{pmatrix}X=0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q10.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q10.webp"
             }
           ]
         },
@@ -2038,42 +2038,42 @@
               "kind": "fill",
               "stem": "设函数 $y=y(x)$ 由方程 $\\mathrm{e}^y+xy+x^2=1$ 确定，则曲线 $y=y(x)$ 在点 $(0,0)$ 处的曲率半径 $R=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q11.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设 $f''(x)$ 连续，$f(x)$ 以 $\\pi$ 为周期，且 $\\displaystyle\\int_0^\\pi\\bigl[f(x)+f''(x)\\bigr]\\cos x\\,\\mathrm{d}x=1$，则 $f'(0)=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q12.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $f(x)=\\displaystyle\\int_0^{1-x}\\mathrm{e}^{t(2-t)}\\,\\mathrm{d}t$，在 $x\\in[0,1]$ 上，$y=f(x)$ 与 $x$ 轴所围图形的面积为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q13.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设质点以速度 $v(t)=\\sqrt{t}\\,\\mathrm{e}^{-\\sqrt{t}}\\,(t\\geqslant0)\\,\\mathrm{m/s}$ 作直线运动，则质点从开始运动到停止运动经过的路程为____$\\mathrm{m}$。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q14.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "$\\displaystyle\\int_1^{+\\infty}\\frac{\\mathrm{d}x}{x\\sqrt{x-1}}=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q15.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $4$ 阶矩阵 $A=(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4)$ 且 $\\alpha_1,\\alpha_2,\\alpha_3$ 线性无关，$\\alpha_4=\\alpha_1-\\alpha_2+\\alpha_3$，记 $\\beta=\\alpha_2+\\alpha_3+\\alpha_4$，则方程组 $AX=\\beta$ 的通解为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-01_q16.png"
+              "answer_img": "data/selected_ans_q/y24-ll-01_q16.webp"
             }
           ]
         }
@@ -2098,7 +2098,7 @@
                 "等价无穷小"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q01.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q01.webp"
             },
             {
               "no": 2,
@@ -2111,7 +2111,7 @@
                 "$xf(x)>af(a)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q02.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q02.webp"
             },
             {
               "no": 3,
@@ -2124,7 +2124,7 @@
                 "$F''{}_+(a)<0$ 且 $F''{}_-(b)>0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q03.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q03.webp"
             },
             {
               "no": 4,
@@ -2137,7 +2137,7 @@
                 "$1+x-x^2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q04.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q04.webp"
             },
             {
               "no": 5,
@@ -2150,7 +2150,7 @@
                 "有两个极值点，两个拐点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q05.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q05.webp"
             },
             {
               "no": 6,
@@ -2163,7 +2163,7 @@
                 "有极小值"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q06.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q06.webp"
             },
             {
               "no": 7,
@@ -2176,7 +2176,7 @@
                 "$\\dfrac{a}{b}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q07.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q07.webp"
             },
             {
               "no": 8,
@@ -2189,7 +2189,7 @@
                 "当 $k\\neq-1$ 时，必有 $r(A)=1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q08.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q08.webp"
             },
             {
               "no": 9,
@@ -2202,7 +2202,7 @@
                 "$a\\neq3,b\\neq1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q09.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q09.webp"
             },
             {
               "no": 10,
@@ -2215,7 +2215,7 @@
                 "$y_1^2-y_2^2-y_3^2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q10.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q10.webp"
             }
           ]
         },
@@ -2227,42 +2227,42 @@
               "kind": "fill",
               "stem": "平面区域 $D=\\{(r,\\theta)\\mid0\\leqslant r\\leqslant1-\\cos\\theta,0\\leqslant\\theta\\leqslant\\pi\\}$ 的面积为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q11.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$\\displaystyle\\int_1^{+\\infty}\\biggl[\\frac{x^2+x+1}{x(x+1)}-1\\biggr]\\mathrm{d}x=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q12.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设二阶常系数线性非齐次方程 $y''+ay'+by=c\\mathrm{e}^x$ 的一个特解为 $y=\\mathrm{e}^{2x}+(1+x)\\mathrm{e}^x$，则该方程的通解为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q13.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "已知 $\\displaystyle\\lim_{x\\to\\infty}\\bigl(\\sqrt[3]{1-x^6}-ax^2-b\\bigr)=0$，则 $a+b=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q14.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "函数 $f(x)=\\sqrt{x}\\ln x$ 在 $(0,+\\infty)$ 内的最小值为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q15.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $B=(b_{ij})_{3\\times3}$ 是可逆矩阵，且 $AB=\\begin{pmatrix}b_{11}&2b_{12}&-b_{13}\\\\b_{21}&2b_{22}&-b_{23}\\\\b_{31}&2b_{32}&-b_{33}\\end{pmatrix}$，$A^*$ 为 $A$ 的伴随矩阵，则行列式 $|A^*|=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q16.png"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q16.webp"
             }
           ]
         }
@@ -2287,7 +2287,7 @@
                 "是否可导与 $a$ 的取值有关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q01.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q01.webp"
             },
             {
               "no": 2,
@@ -2300,7 +2300,7 @@
                 "无穷间断点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q02.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q02.webp"
             },
             {
               "no": 3,
@@ -2313,7 +2313,7 @@
                 "$y''+y'-2y=\\mathrm{e}^x-2x\\mathrm{e}^x$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q03.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q03.webp"
             },
             {
               "no": 4,
@@ -2326,7 +2326,7 @@
                 "$f(x_0)$ 是 $f(x)$ 在 $(a,b)$ 的极大值，但不是 $f(x)$ 在 $[a,b]$ 上最大值"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q04.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q04.webp"
             },
             {
               "no": 5,
@@ -2339,7 +2339,7 @@
                 "$f(4)>f(1)>f(3)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q05.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q05.webp"
             },
             {
               "no": 6,
@@ -2352,7 +2352,7 @@
                 "②④"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q06.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q06.webp"
             },
             {
               "no": 7,
@@ -2365,7 +2365,7 @@
                 "$f(x,y)$ 在点 $(0,0)$ 处连续但不可微"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q07.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q07.webp"
             },
             {
               "no": 8,
@@ -2378,7 +2378,7 @@
                 "$k_1\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}+k_2\\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q08.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q08.webp"
             },
             {
               "no": 9,
@@ -2391,7 +2391,7 @@
                 "$\\beta_1,\\beta_2$ 均可由 $\\alpha_1,\\alpha_2,\\cdots,\\alpha_{n-1}$ 线性表示"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q09.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q09.webp"
             },
             {
               "no": 10,
@@ -2404,7 +2404,7 @@
                 "$\\begin{pmatrix}1&0&0\\\\0&1&0\\\\-1&0&1\\end{pmatrix}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q10.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q10.webp"
             }
           ]
         },
@@ -2416,42 +2416,42 @@
               "kind": "fill",
               "stem": "设 $f(x)$ 在 $x=0$ 的某邻域内可导，且 $\\displaystyle\\lim_{x\\to0}\\frac{f(x)-1}{x}=1$。则 $\\displaystyle\\lim_{n\\to\\infty}\\bigl[f\\bigl(\\tfrac{1}{n}\\bigr)\\bigr]^{\\frac{1}{n(1-\\mathrm{e}^{1/n})}}=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q11.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设曲线 $y=k(x^2-3)^2\\,(k\\neq0)$ 在其拐点处的法线经过原点 $O(0,0)$，则 $k=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q12.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $\\displaystyle\\int_0^xf(t)\\,\\mathrm{d}t=xf\\bigl[\\theta(x)x\\bigr]$，其中 $f(x)=\\mathrm{e}^x$，则 $\\displaystyle\\lim_{x\\to0^+}\\theta(x)=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q13.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "积分 $I=\\displaystyle\\int_0^{\\ln2}\\mathrm{d}x\\int_{\\mathrm{e}^x}^2\\frac{\\mathrm{e}^{xy}}{y^y-1}\\,\\mathrm{d}y=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q14.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "微分方程 $(y-\\ln x)\\mathrm{d}x+x\\ln x\\,\\mathrm{d}y=0\\,(x>1)$，满足 $y(\\mathrm{e})=1$ 的解为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q15.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $3$ 阶行列式 $|A|=1$，将 $A$ 的第 $1$ 列加到第 $2$ 列得 $B$，则行列式 $|A^{-1}+B^*|=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q16.png"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q16.webp"
             }
           ]
         }
@@ -2476,7 +2476,7 @@
                 "$\\beta(x),\\alpha(x),\\gamma(x)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q01.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q01.webp"
             },
             {
               "no": 2,
@@ -2489,7 +2489,7 @@
                 "$(0,F(0))$ 不是 $y=F(x)$ 的拐点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q02.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q02.webp"
             },
             {
               "no": 3,
@@ -2502,7 +2502,7 @@
                 "$\\max\\biggl\\{f(k),f\\bigl(\\sqrt{\\dfrac{1}{k}}\\bigr)\\biggr\\}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q03.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q03.webp"
             },
             {
               "no": 4,
@@ -2515,7 +2515,7 @@
                 "$0<p<2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q04.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q04.webp"
             },
             {
               "no": 5,
@@ -2528,7 +2528,7 @@
                 "$\\mathrm{e}+1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q05.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q05.webp"
             },
             {
               "no": 6,
@@ -2541,7 +2541,7 @@
                 "$x^3+x$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q06.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q06.webp"
             },
             {
               "no": 7,
@@ -2554,7 +2554,7 @@
                 "$\\dfrac{1}{2}\\pi a\\ln\\bigl(1+\\dfrac{4}{b}\\bigr)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q07.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q07.webp"
             },
             {
               "no": 8,
@@ -2567,7 +2567,7 @@
                 "正定矩阵"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q08.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q08.webp"
             },
             {
               "no": 9,
@@ -2580,7 +2580,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q09.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q09.webp"
             },
             {
               "no": 10,
@@ -2593,7 +2593,7 @@
                 "$y_1^2+y_2^2-y_3^2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q10.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q10.webp"
             }
           ]
         },
@@ -2605,42 +2605,42 @@
               "kind": "fill",
               "stem": "设 $f(x)=x^3+ax^2+bx+c$ 在 $x=-1$ 处取得极大值，点 $(0,3)$ 为 $y=f(x)$ 的拐点，则 $f(x)$ 的极小值为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q11.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设函数 $y=y(x)$ 由方程 $\\ln y+2x-\\dfrac{1}{2}y^2=0$ 确定，则曲线在 $y\\in[1,\\mathrm{e}]$ 上的弧长为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q12.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "微分方程 $(y^2-2x)\\mathrm{d}y-y\\,\\mathrm{d}x=0$ 满足 $y(1)=1$ 的特解为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q13.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "积分 $\\displaystyle\\int_0^1\\mathrm{d}y\\int_0^{1-\\sqrt{2y-y^2}}\\frac{\\mathrm{d}x}{\\sqrt{2-x}}=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q14.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设曲线 $y=ax^2$ 与 $y=\\ln x$ 相切，则 $\\displaystyle\\lim_{x\\to\\frac{1}{2\\mathrm{e}}}\\bigl[1+(x-a)\\bigr]^{\\frac{1}{\\sin(x-a)}}=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q15.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A=(a_{ij})_{3\\times3}$，$A_{ij}$ 是元素 $a_{ij}$ 的代数余子数，若 $A$ 的每行元素之和均为 $a$，且 $|A|=1$，则 $\\displaystyle\\sum_{i,j=1}^3A_{ij}=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q16.png"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q16.webp"
             }
           ]
         }
@@ -2665,7 +2665,7 @@
                 "$\\displaystyle\\int_0^x f(t)dt$ 在点 $x=0$ 处可导"
               ],
               "answer": "D",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q01.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q01.webp"
             },
             {
               "no": 2,
@@ -2678,7 +2678,7 @@
                 "一定没有极值点"
               ],
               "answer": "C",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q02.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q02.webp"
             },
             {
               "no": 3,
@@ -2691,7 +2691,7 @@
                 "递减且为凸弧"
               ],
               "answer": "C",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q03.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q03.webp"
             },
             {
               "no": 4,
@@ -2704,7 +2704,7 @@
                 "$f(x)$ 未必一定是奇函数"
               ],
               "answer": "D",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q04.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q04.webp"
             },
             {
               "no": 5,
@@ -2717,7 +2717,7 @@
                 "$\\dfrac{1}{9}$"
               ],
               "answer": "D",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q05.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q05.webp"
             },
             {
               "no": 6,
@@ -2730,7 +2730,7 @@
                 "$4$"
               ],
               "answer": "B",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q06.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q06.webp"
             },
             {
               "no": 7,
@@ -2743,7 +2743,7 @@
                 "$\\displaystyle\\int_0^1 dy\\int_{\\sqrt{2-y^2}}^y f(x,y)dx$"
               ],
               "answer": "C",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q07.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q07.webp"
             },
             {
               "no": 8,
@@ -2756,7 +2756,7 @@
                 "矩阵 $A+E$ 可逆"
               ],
               "answer": "A",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q08.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q08.webp"
             },
             {
               "no": 9,
@@ -2769,7 +2769,7 @@
                 "线性方程组 $\\begin{pmatrix}E&O\\\\O&A\\end{pmatrix}x=0$ 与 $\\begin{pmatrix}E&A^T\\\\O&A^TA^T\\end{pmatrix}x=0$ 同解"
               ],
               "answer": "A",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q09.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q09.webp"
             },
             {
               "no": 10,
@@ -2782,7 +2782,7 @@
                 "$\\begin{pmatrix}1&0&1\\\\0&1&-1\\\\0&0&2\\end{pmatrix}$"
               ],
               "answer": "A",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q10.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q10.webp"
             }
           ]
         },
@@ -2794,42 +2794,42 @@
               "kind": "fill",
               "stem": "$\\displaystyle\\lim_{n\\to\\infty}\\int_0^n\\frac{x}{n^2+x}dx=$ ______。",
               "answer": "\\dfrac{1}{2}",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q11.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设 $f(x)=(x^{2024}-1)\\arctan\\dfrac{2(x^2+1)}{1+2x^2+x^3}$，则 $f'(1)=$ ______。",
               "answer": "506\\pi",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q12.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "$\\displaystyle\\int_0^{+\\infty}\\frac{x-1}{x^3+1}dx=$ ______。",
               "answer": "0",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q13.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $C$ 为曲线 $\\begin{cases}x=\\ln(1+t^2),\\\\y=2\\arctan t - t\\end{cases}$ 上从 $t=0$ 到 $t=1$ 之间的一段弧，则曲线 $C$ 绕 $y$ 轴旋转一周所得到的旋转曲面的侧面积 $S=$ ______。",
               "answer": "\\pi(\\pi+2\\ln 2-4)",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q14.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "已知 $f''_{xx}(x,y)=2,f'_x(0,y)=y,f(0,y)=y^2$，则 $f(x,y)=$ ______。",
               "answer": "x^2+xy+y^2",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q15.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "若三元实二次型 $f(x_1,x_2,x_3)=ax_1^2+ax_2^2+(a-1)x_3^2+2x_1x_3-2x_2x_3$ 的规范形为 $y_1^2+y_2^2$，则 $a=$ ______。",
               "answer": "2",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q16.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q16.webp"
             }
           ]
         }
@@ -2854,7 +2854,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q01.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q01.webp"
             },
             {
               "no": 2,
@@ -2867,7 +2867,7 @@
                 "在 $x=1$ 处不可导，在 $x=2$ 处不可导"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q02.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q02.webp"
             },
             {
               "no": 3,
@@ -2880,7 +2880,7 @@
                 "$p<1<q$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q03.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q03.webp"
             },
             {
               "no": 4,
@@ -2893,7 +2893,7 @@
                 "$M=a$, $m=c$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q04.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q04.webp"
             },
             {
               "no": 5,
@@ -2906,7 +2906,7 @@
                 "既非充分又非必要条件"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q05.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q05.webp"
             },
             {
               "no": 6,
@@ -2919,7 +2919,7 @@
                 "若 $f(x)$ 在 $[0,+\\infty)$ 上单调增加，且 $\\displaystyle \\lim_{x\\to+\\infty}\\frac{1}{x}\\int_0^x f(t)\\,dt=1$，则 $\\displaystyle \\lim_{x\\to+\\infty}f(x)=1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q06.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q06.webp"
             },
             {
               "no": 7,
@@ -2932,7 +2932,7 @@
                 "$y''+y'-2y=2x-3$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q07.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q07.webp"
             },
             {
               "no": 8,
@@ -2945,7 +2945,7 @@
                 "$(A+B)A$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q08.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q08.webp"
             },
             {
               "no": 9,
@@ -2958,7 +2958,7 @@
                 "$a=2$, $b=1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q09.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q09.webp"
             },
             {
               "no": 10,
@@ -2971,7 +2971,7 @@
                 "线性方程组 $\\begin{pmatrix} A & \\alpha \\\\ \\alpha^{\\mathrm{T}} & 0 \\end{pmatrix}x=0$ 只有零解"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q10.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q10.webp"
             }
           ]
         },
@@ -2983,42 +2983,42 @@
               "kind": "fill",
               "stem": "设曲线 $y=y(x)$ 过点 $(1,1)$ 且满足方程 $xy'-2y=x^3$，则此曲线在点 $(1,1)$ 处的曲率等于 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q11.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$\\displaystyle \\lim_{n\\to\\infty}\\sum_{i=1}^{n}\\frac{i\\mathrm{e}^{\\frac{i}{n}}}{n^2+i}=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q12.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设函数 $f(x)$ 具有二阶连续导数，曲线 $y=f(x)$ 的图形既关于 $y$ 轴对称，也关于直线 $x=1$ 对称，则 $\\displaystyle \\int_{-2}^{2}(x-2024)f''(x)\\,dx=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q13.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "由 $x^2+y^2=1\\ (y\\geqslant 0)$, $x=-1$, $x=1$, $y=-1$ 所围的平面图形 $D$ 的形心坐标为 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q14.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设 $\\mathrm{e}^z=(x^2-1)z+x(2+y)-1$ 确定了 $z=z(x,y)$，则 $\\mathrm{d}z\\big|_{(1,0)}=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q15.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A$ 为三阶实矩阵，$\\alpha_1,\\alpha_2,\\alpha_3$ 为线性无关的三维列向量，且 $A\\alpha_1=\\alpha_1+\\alpha_2$, $A\\alpha_2=\\alpha_2+\\alpha_3$, $A\\alpha_3=\\alpha_1+\\alpha_3$，则 $|A|=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q16.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q16.webp"
             }
           ]
         }
@@ -3043,7 +3043,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q01.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q01.webp"
             },
             {
               "no": 2,
@@ -3056,7 +3056,7 @@
                 "$f(x)$ 与 $g(x)$ 是等价无穷小"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q02.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q02.webp"
             },
             {
               "no": 3,
@@ -3069,7 +3069,7 @@
                 "$2$ 和 $2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q03.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q03.webp"
             },
             {
               "no": 4,
@@ -3082,7 +3082,7 @@
                 "最大值为 $2$，最小值为 $-1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q04.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q04.webp"
             },
             {
               "no": 5,
@@ -3095,7 +3095,7 @@
                 "发散；发散"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q05.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q05.webp"
             },
             {
               "no": 6,
@@ -3108,7 +3108,7 @@
                 "$\\dfrac{\\partial^2 u}{\\partial y^2}=\\dfrac{\\partial^2 u}{\\partial x\\partial y}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q06.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q06.webp"
             },
             {
               "no": 7,
@@ -3121,7 +3121,7 @@
                 "$I_1>I_3>I_2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q07.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q07.webp"
             },
             {
               "no": 8,
@@ -3134,7 +3134,7 @@
                 "$\\alpha_1,\\alpha_2,\\alpha_3,\\beta$ 线性无关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q08.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q08.webp"
             },
             {
               "no": 9,
@@ -3147,7 +3147,7 @@
                 "$r(A,B)=r(B)$ 的充要条件是存在 $n$ 阶矩阵 $D$，使得 $A=DB$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q09.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q09.webp"
             },
             {
               "no": 10,
@@ -3160,7 +3160,7 @@
                 "$A+B$ 的列向量组线性相关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q10.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q10.webp"
             }
           ]
         },
@@ -3172,42 +3172,42 @@
               "kind": "fill",
               "stem": "极限 $\\displaystyle \\lim_{x\\to 0}\\int_{\\ln(1+x)}^{x}\\frac{(1-2t)^{\\frac{1}{t}}}{t^2}\\,dt=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q11.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设 $f(x)=\\displaystyle \\int_1^x \\mathrm{e}^{t^2}\\,dt$, $x=g(y)$ 是函数 $y=f(x)$ 的反函数，则 $g''(0)=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q12.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "$\\displaystyle \\int\\frac{\\mathrm{e}^{-\\sin x}\\sin 2x}{(1-\\sin x)^2}\\,dx=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q13.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $y=x\\mathrm{e}^x+\\mathrm{e}^{-x}$ 为二阶常系数线性微分方程 $y''+ay'+by=c\\mathrm{e}^{-x}$ 的一个特解，则该方程满足初始条件 $y(0)=2$, $y'(0)=-1$ 的特解是 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q14.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "一直线状物体 $L$ 位于 $x$ 轴的 $[0,1]$ 上，其线密度函数为 $m(x)=x^2$，$G$ 为万有引力系数，则位于 $x$ 轴上点 $x=-1$ 处的单位质量质点 $P$ 对 $L$ 的引力 $F=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q15.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A$ 为 $n$ 阶可逆的反对称矩阵，$\\alpha$ 为 $n$ 维非零列向量，则 $\\begin{pmatrix} A & \\alpha \\\\ \\alpha^{\\mathrm{T}} & 0 \\end{pmatrix}$ 的秩为 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q16.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q16.webp"
             }
           ]
         }
@@ -3232,7 +3232,7 @@
                 "$(2,1)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q01.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q01.webp"
             },
             {
               "no": 2,
@@ -3245,7 +3245,7 @@
                 "点 $(0,0)$ 为曲线 $y=f''(x)$ 的拐点，点 $x=0$ 为 $f'(x)$ 的极大值点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q02.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q02.webp"
             },
             {
               "no": 3,
@@ -3258,7 +3258,7 @@
                 "交点个数与 $b$ 有关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q03.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q03.webp"
             },
             {
               "no": 4,
@@ -3271,7 +3271,7 @@
                 "$I_2\\geqslant I_1\\geqslant I_3$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q04.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q04.webp"
             },
             {
               "no": 5,
@@ -3284,7 +3284,7 @@
                 "$I_1>0$, $I_2>0$, $I_3=0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q05.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q05.webp"
             },
             {
               "no": 6,
@@ -3297,7 +3297,7 @@
                 "$f_{xx}''(x_0,y_0)\\leqslant 0$, $f_{yy}''(x_0,y_0)\\geqslant 0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q06.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q06.webp"
             },
             {
               "no": 7,
@@ -3310,7 +3310,7 @@
                 "$\\dfrac{1}{2}\\mathrm{e}^2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q07.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q07.webp"
             },
             {
               "no": 8,
@@ -3323,7 +3323,7 @@
                 "如果矩阵 $B$ 的行向量组线性无关，则矩阵 $C$ 的行向量组一定线性无关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q08.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q08.webp"
             },
             {
               "no": 9,
@@ -3336,7 +3336,7 @@
                 "无法确定"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q09.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q09.webp"
             },
             {
               "no": 10,
@@ -3349,7 +3349,7 @@
                 "$A^{\\mathrm{T}}A$ 合同于 $n$ 阶单位矩阵 $E_n$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q10.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q10.webp"
             }
           ]
         },
@@ -3361,42 +3361,42 @@
               "kind": "fill",
               "stem": "$\\displaystyle \\lim_{x\\to 0}\\left[\\frac{1}{\\ln(1+x)}-\\frac{1}{\\ln(x+\\sqrt{1+x^2})}\\right]=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q11.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设函数 $f(x)$ 在点 $x=0$ 处连续，且当 $x\\neq 0$ 时，$f(x)=(1+2x)^{\\frac{1}{x}}$，则曲线 $y=f(x)$ 在 $x=0$ 对应点处的切线方程为 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q12.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $y=\\dfrac{x-5}{x^2-1}$，则 $y^{(2024)}(0)=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q13.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "若 $(x^2+y'^2)y''=2xy'$, $y(1)=y'(1)=1$，则 $y=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q14.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设 $\\begin{cases}z=xf(y-x), \\\\ x+y+z\\mathrm{e}^z=1\\end{cases}$ 确定了 $y=y(x),z=z(x)$，其中 $f$ 为可导函数，且 $f(1)=1$，则 $\\left.\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right|_{x=0}=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q15.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "若齐次线性方程组 $\\begin{cases}x_1+x_2+x_4=0, \\\\ ax_1+a^2x_3=0, \\\\ ax_2+a^2x_4=0\\end{cases}$ 的解都是方程 $x_1+x_2+x_3=0$ 的解，则 $a=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q16.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q16.webp"
             }
           ]
         }
@@ -3421,7 +3421,7 @@
                 "导函数连续"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q01.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q01.webp"
             },
             {
               "no": 2,
@@ -3434,7 +3434,7 @@
                 "$0.1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q02.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q02.webp"
             },
             {
               "no": 3,
@@ -3447,7 +3447,7 @@
                 "以上都不正确"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q03.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q03.webp"
             },
             {
               "no": 4,
@@ -3460,7 +3460,7 @@
                 "$\\begin{cases}x-\\sin x, & 0\\leqslant x\\leqslant\\dfrac{\\pi}{2}, \\\\ x-1, & \\dfrac{\\pi}{2}<x\\leqslant\\pi\\end{cases}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q04.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q04.webp"
             },
             {
               "no": 5,
@@ -3473,7 +3473,7 @@
                 "其符号无法确定"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q05.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q05.webp"
             },
             {
               "no": 6,
@@ -3486,7 +3486,7 @@
                 "$x\\varphi_x'(x,y)=-y\\varphi_y'(x,y)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q06.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q06.webp"
             },
             {
               "no": 7,
@@ -3499,7 +3499,7 @@
                 "既没有极大值，也没有极小值"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q07.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q07.webp"
             },
             {
               "no": 8,
@@ -3512,7 +3512,7 @@
                 "含有 $n-1$ 个解向量"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q08.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q08.webp"
             },
             {
               "no": 9,
@@ -3525,7 +3525,7 @@
                 "$7$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q09.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q09.webp"
             },
             {
               "no": 10,
@@ -3538,7 +3538,7 @@
                 "$4$ 个"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q10.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q10.webp"
             }
           ]
         },
@@ -3550,42 +3550,42 @@
               "kind": "fill",
               "stem": "曲线 $y=\\dfrac{\\mathrm{e}^{\\frac{1}{x}}+\\mathrm{e}^x}{\\mathrm{e}^{\\frac{1}{x}}-\\mathrm{e}^x}\\cdot \\dfrac{\\displaystyle \\int_x^2 \\mathrm{e}^{-t^2}\\,dt}{x-2}$ 的跳跃间断点为 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q11.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "若曲线 $y=1-x^2$ 与 $x$ 轴围成的图形被折线 $y=ax^2\\ (a>0)$ 分割成面积相等的三个部分，则 $a=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q12.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "已知函数 $F(u,v)$ 可微，$F_u'(0,0)=2$, $F_v'(0,0)=3$，函数 $z=f(x,y)$ 由方程 $F(2x-\\cos y-\\mathrm{e}^z,\\ x^2y+\\sin z)=0$ 确定，且有 $f(1,0)=0$，则 $f_x'(1,0)=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q13.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "$\\displaystyle \\lim_{t\\to 0^+}\\frac{1}{t^3}\\int_0^{\\frac{\\pi}{4}}\\!\\,d\\theta\\int_0^{\\frac{t}{\\sin\\theta}}\\frac{\\sin(r^2\\sin\\theta\\cos\\theta)}{\\sin\\theta}\\,dr=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q14.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "已知 $y=2x\\mathrm{e}^{2x}$ 为二阶常系数线性齐次微分方程 $y''+py'+qy=0$ 的一个特解，则该微分方程为 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q15.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $\\alpha$ 为 $3$ 维非零列向量，$E$ 为三阶单位矩阵，$A=E-\\alpha\\alpha^{\\mathrm{T}}$，若 $\\alpha^{\\mathrm{T}}\\alpha=2$，则 $A$ 的迹 $\\mathrm{tr}(A)=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q16.png"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q16.webp"
             }
           ]
         }
@@ -3610,7 +3610,7 @@
                 "D. 当 $x\\to 0$ 时, $f(x)$ 是 $x$ 的高阶无穷小."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q01.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q01.webp"
             },
             {
               "no": 2,
@@ -3623,7 +3623,7 @@
                 "D. $f'(x)$ 在 $x=1$ 处连续, 但 $f''(1)$ 不存在."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q02.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q02.webp"
             },
             {
               "no": 3,
@@ -3636,7 +3636,7 @@
                 "D. 既不充分也不必要条件."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q03.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q03.webp"
             },
             {
               "no": 4,
@@ -3649,7 +3649,7 @@
                 "D. $\\sin 1-1$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q04.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q04.webp"
             },
             {
               "no": 5,
@@ -3662,7 +3662,7 @@
                 "D. $y=x-\\mathrm{e}^\\pi$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q05.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q05.webp"
             },
             {
               "no": 6,
@@ -3675,7 +3675,7 @@
                 "D. 若 $\\{a_n\\}$ 收敛, 则 $\\{\\sin\\dfrac{1}{a_n}\\}$ 收敛."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q06.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q06.webp"
             },
             {
               "no": 7,
@@ -3688,7 +3688,7 @@
                 "D. $y=x^2-\\dfrac{x^3}{3}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q07.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q07.webp"
             },
             {
               "no": 8,
@@ -3701,7 +3701,7 @@
                 "D. 4."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q08.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q08.webp"
             },
             {
               "no": 9,
@@ -3714,7 +3714,7 @@
                 "D. 将 $A^*$ 的第 2 列的 1 倍加到第 1 列得 $-B^*$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q09.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q09.webp"
             },
             {
               "no": 10,
@@ -3727,7 +3727,7 @@
                 "D. $|D-CA^{-1}B|\\cdot|A|\\ne|DA-CB|$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q10.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q10.webp"
             }
           ]
         },
@@ -3739,42 +3739,42 @@
               "kind": "fill",
               "stem": "设函数 $f(x)=\\tan x-\\dfrac{x^2}{1+ax}$, 且 $f'''(0)=1$, 则 $a=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q11.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$f(x)=\\displaystyle\\int_0^x\\dfrac{t}{t^2+2t+2}\\mathrm{d}t$ 在 $[0,1]$ 上的最大值为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q12.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "曲线 $y=\\dfrac{1}{9}\\displaystyle\\int_0^x\\sqrt{9-t^2}\\mathrm{d}t$ $(x\\ge 0)$ 的长度为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q13.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "平面区域 $D=\\left\\{(x,y)\\mid \\dfrac{1}{1+x^2}\\le y\\le \\dfrac{1}{\\sqrt{1+x^2}}\\right\\}$ 绕 $x$ 轴旋转一周形成的旋转体体积为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q14.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设 $f(x,y)=\\begin{cases}\\dfrac{1-\\mathrm{e}^{-xy}}{x}, & x\\ne 0, \\\\ y, & x=0,\\end{cases}$ 则 $\\displaystyle\\lim_{x\\to 0}\\left[\\dfrac{\\partial f(x,y)}{\\partial x}-\\dfrac{\\partial f(0,1)}{\\partial x}\\right]=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q15.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "已知矩阵 $A=\\begin{pmatrix}2 & 1 & -1 & 1 \\\\ -1 & 2 & 1 & 1 \\\\ 1 & 1 & 2 & -1 \\\\ 2 & -1 & 1 & 1\\end{pmatrix}$, 则 $(A^2-A-2E)(A+E)^{-1}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-01_q16.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-01_q16.webp"
             }
           ]
         }
@@ -3799,7 +3799,7 @@
                 "D. 间断点个数可为无穷多个."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q01.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q01.webp"
             },
             {
               "no": 2,
@@ -3812,7 +3812,7 @@
                 "D. $f'(0)$ 与 $o(x)$ 有关."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q02.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q02.webp"
             },
             {
               "no": 3,
@@ -3825,7 +3825,7 @@
                 "D. 至多有一个零点."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q03.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q03.webp"
             },
             {
               "no": 4,
@@ -3838,7 +3838,7 @@
                 "D. 3."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q04.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q04.webp"
             },
             {
               "no": 5,
@@ -3851,7 +3851,7 @@
                 "D. 4."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q05.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q05.webp"
             },
             {
               "no": 6,
@@ -3864,7 +3864,7 @@
                 "D. ②③."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q06.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q06.webp"
             },
             {
               "no": 7,
@@ -3877,7 +3877,7 @@
                 "D. $\\displaystyle\\int_0^{+\\infty}\\dfrac{1}{x^2+x^3}\\mathrm{d}x$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q07.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q07.webp"
             },
             {
               "no": 8,
@@ -3890,7 +3890,7 @@
                 "D. $\\begin{pmatrix} A^*CB^* & |A|B^* \\\\ -|B|A^* & O \\end{pmatrix}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q08.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q08.webp"
             },
             {
               "no": 9,
@@ -3903,7 +3903,7 @@
                 "D. $(A\\mid\\xi)$ 的列向量组与 $(B\\mid\\eta)$ 的列向量组等价."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q09.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q09.webp"
             },
             {
               "no": 10,
@@ -3916,7 +3916,7 @@
                 "D. $a>0$ 且 $a\\ne 2$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q10.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q10.webp"
             }
           ]
         },
@@ -3928,42 +3928,42 @@
               "kind": "fill",
               "stem": "曲线 $y=x(x-1)^{\\frac{1}{3}}$ 的拐点为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q11.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设函数 $f(x)=(1-x)^n\\cos nx$, $n=1,2,\\cdots$, 则 $f^{(n)}(1)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q12.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "曲线 $y=\\dfrac{\\sqrt{x}\\ln x}{1+x^2}$ $(x\\ge 1)$ 与 $x$ 轴之间的图形绕 $x$ 轴旋转一周所得的旋转体的体积为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q13.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "已知有密度均匀、长度为 1 且质量为 2 的细棒 $AB$, 记 $G$ 为万有引力常数, 假设有一质量为 1 的质点在 $BA$ 的延长线上距 $A$ 为 $a$ 处, 则细棒 $AB$ 对该质点的引力为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q14.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "已知函数 $f(x,y)$ 满足 $\\mathrm{d}[f(x,y)]=\\dfrac{(x+2y)\\mathrm{d}x+y\\mathrm{d}y}{(x+y)^2}$, $f(1,1)=\\ln 2-\\dfrac{1}{2}$, 则 $f(2,2)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q15.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "已知 $A=\\begin{pmatrix}1 & 0 & 0 \\\\ 0 & 1 & -1 \\\\ 2 & 0 & 0\\end{pmatrix}$, 若 $(PA)^2=PA$, 且 $P$ 可逆, 则 $P$ 可以为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-02_q16.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-02_q16.webp"
             }
           ]
         }
@@ -3988,7 +3988,7 @@
                 "D. 同阶非等价无穷小."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q01.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q01.webp"
             },
             {
               "no": 2,
@@ -4001,7 +4001,7 @@
                 "D. 4."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q02.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q02.webp"
             },
             {
               "no": 3,
@@ -4014,7 +4014,7 @@
                 "D. $\\{a_n\\}$ 的敛散性与 $a_1$ 有关."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q03.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q03.webp"
             },
             {
               "no": 4,
@@ -4027,7 +4027,7 @@
                 "D. $M>P>N$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q04.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q04.webp"
             },
             {
               "no": 5,
@@ -4040,7 +4040,7 @@
                 "D. $-1,-1$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q05.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q05.webp"
             },
             {
               "no": 6,
@@ -4053,7 +4053,7 @@
                 "D. $y'=y^2$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q06.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q06.webp"
             },
             {
               "no": 7,
@@ -4066,7 +4066,7 @@
                 "D. $\\dfrac{1}{2}\\ln 2$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q07.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q07.webp"
             },
             {
               "no": 8,
@@ -4079,7 +4079,7 @@
                 "D. $k_1\\alpha_1+k_2\\alpha_3$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q08.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q08.webp"
             },
             {
               "no": 9,
@@ -4092,7 +4092,7 @@
                 "D. 4."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q09.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q09.webp"
             },
             {
               "no": 10,
@@ -4105,7 +4105,7 @@
                 "D. $-z_1^2-z_3^2$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q10.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q10.webp"
             }
           ]
         },
@@ -4117,42 +4117,42 @@
               "kind": "fill",
               "stem": "设函数 $f(x)=\\dfrac{(x-1)(x-2)^2(x-3)^3}{x}$, 则 $f''(2)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q11.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$f(x)=\\displaystyle\\int_0^x (t-1)\\sqrt{t}\\,\\mathrm{e}^{\\sqrt{t}}\\mathrm{d}t$ 的极小值为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q12.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "曲线 $L: y=x^2-\\dfrac{1}{8}\\ln x$ $(\\dfrac{1}{2}<x<2)$ 的弧长为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q13.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "若可微函数 $z=f(x,y)$ 在平面区域 $D=\\{(x,y)\\mid x^2+y^2\\le 5\\}$ 上的最大值点为 $(1,2)$, 且 $f(1,2)=M$, 则曲线 $f(x,y)=M$ 在点 $(1,2)$ 处的切线方程为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q14.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "$\\displaystyle\\int_0^1\\mathrm{d}y\\int_y^1\\left(\\dfrac{\\sin x^2}{x}-\\sin y^2\\right)\\mathrm{d}x=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q15.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "若正定矩阵 $A$ 满足 $A^2=\\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$, 则 $A=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-03_q16.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-03_q16.webp"
             }
           ]
         }
@@ -4177,7 +4177,7 @@
                 "D. 3."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q01.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q01.webp"
             },
             {
               "no": 2,
@@ -4190,7 +4190,7 @@
                 "D. $+\\infty$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q02.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q02.webp"
             },
             {
               "no": 3,
@@ -4203,7 +4203,7 @@
                 "D. $\\dfrac{2}{3},\\dfrac{13}{2}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q03.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q03.webp"
             },
             {
               "no": 4,
@@ -4216,7 +4216,7 @@
                 "D. $\\displaystyle\\int_1^2 \\dfrac{f(\\sqrt{x})}{\\sqrt{x}}\\mathrm{d}x$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q04.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q04.webp"
             },
             {
               "no": 5,
@@ -4229,7 +4229,7 @@
                 "D. $f(0)$ 是 $f(x)$ 在 $(-\\infty,+\\infty)$ 上的最大值."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q05.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q05.webp"
             },
             {
               "no": 6,
@@ -4242,7 +4242,7 @@
                 "D. $[(\\Delta x)^2+(\\Delta y)^2]\\sin\\dfrac{1}{(\\Delta x)^2+(\\Delta y)^2}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q06.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q06.webp"
             },
             {
               "no": 7,
@@ -4255,7 +4255,7 @@
                 "D. 重合."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q07.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q07.webp"
             },
             {
               "no": 8,
@@ -4268,7 +4268,7 @@
                 "D. $(k-1)\\eta_1-k\\eta_2$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q08.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q08.webp"
             },
             {
               "no": 9,
@@ -4281,7 +4281,7 @@
                 "D. 2."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q09.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q09.webp"
             },
             {
               "no": 10,
@@ -4294,7 +4294,7 @@
                 "D. $a\\ne 1$ 且 $a\\ne -\\dfrac{1}{2}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q10.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q10.webp"
             }
           ]
         },
@@ -4306,42 +4306,42 @@
               "kind": "fill",
               "stem": "曲线 $\\begin{cases} x=t-\\ln(1+t^2), \\\\ y=\\arctan t \\end{cases}$ 在 $t=2$ 处的曲率为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q11.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "已知 $\\displaystyle\\int_5^{+\\infty}\\left(\\dfrac{a}{x-3}-\\dfrac{1}{x-1}\\right)\\mathrm{d}x=b$, $a,b$ 为常数, 则 $ab=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q12.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $f(x)=\\dfrac{1}{2^x+1}$, $x\\in\\mathbb{R}$, 则 $f^{(4)}(0)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q13.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设平面区域 $D=\\{(x,y)\\mid y-3\\le 2x\\le -y+3, 0\\le y\\le 3\\}$, 平面薄板 $D$ 的面密度为 $\\rho(x,y)=y$, 则 $D$ 的质心为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q14.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设 $y=y(x)$ 及 $z=z(x)$ 由方程 $\\mathrm{e}^z-xyz=0$ 及 $xz^2=\\ln y$ 所确定, 则 $\\left.\\dfrac{\\mathrm{d}z}{\\mathrm{d}x}\\right\\vert_{x=\\frac{1}{2}}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q15.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 3 阶实对称矩阵 $A=(a_{ij})_{3\\times 3}$, $f(x_1,x_2,x_3)=\\begin{vmatrix} a_{11}-x_1 & a_{12} & a_{13} \\\\ a_{12} & a_{22}-x_2 & a_{23} \\\\ a_{13} & a_{23} & a_{33}-x_3 \\end{vmatrix}$, 若属于 $A$ 的二重特征值 $-1$ 的特征向量为 $\\alpha_1=\\begin{pmatrix}-1 \\\\ -1 \\\\ 1\\end{pmatrix}$, $\\alpha_2=\\begin{pmatrix}1 \\\\ -2 \\\\ -1\\end{pmatrix}$, $f(1,1,1)=0$, 则 $A=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-zy4-04_q16.png"
+              "answer_img": "data/selected_ans_q/y24-zy4-04_q16.webp"
             }
           ]
         }
@@ -4366,7 +4366,7 @@
                 "D. ①②."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q01.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q01.webp"
             },
             {
               "no": 2,
@@ -4379,7 +4379,7 @@
                 "D. $a=\\dfrac{1}{2},b=1,c=0$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q02.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q02.webp"
             },
             {
               "no": 3,
@@ -4392,7 +4392,7 @@
                 "D. 发散."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q03.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q03.webp"
             },
             {
               "no": 4,
@@ -4405,7 +4405,7 @@
                 "D. $1+3\\sqrt{3}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q04.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q04.webp"
             },
             {
               "no": 5,
@@ -4418,7 +4418,7 @@
                 "D. $\\dfrac{3\\pi}{4}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q05.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q05.webp"
             },
             {
               "no": 6,
@@ -4431,7 +4431,7 @@
                 "D. $f(x)$ 为奇函数,$g(x)$ 为偶函数."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q06.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q06.webp"
             },
             {
               "no": 7,
@@ -4444,7 +4444,7 @@
                 "D. $5$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q07.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q07.webp"
             },
             {
               "no": 8,
@@ -4457,7 +4457,7 @@
                 "D. $\\dfrac{62}{3}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q08.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q08.webp"
             },
             {
               "no": 9,
@@ -4470,7 +4470,7 @@
                 "D. $\\begin{pmatrix}-3\\\\-2\\end{pmatrix}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q09.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q09.webp"
             },
             {
               "no": 10,
@@ -4483,7 +4483,7 @@
                 "D. 既非充分又非必要条件."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q10.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q10.webp"
             }
           ]
         },
@@ -4495,42 +4495,42 @@
               "kind": "fill",
               "stem": "$\\lim\\limits_{x\\to\\infty}\\left(x^2-1\\right)^{\\frac{2}{x^2}}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q11.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$f(x)=x\\ln x\\,(0<x\\leq 2)$ 绕 $x$ 轴旋转一周所得旋转体体积为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q12.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "曲线 $y=\\dfrac{1}{2}x^2\\,(x\\in[0,1])$ 的长度为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q13.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "微分方程 $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\dfrac{x+2y-3}{x+1}$ 满足 $y(0)=2$ 的解为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q14.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设 $f(x)=\\int_x^{x+1} \\mathrm{e}^{t^2+tx}\\mathrm{d}t$,则 $f'(0)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q15.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "$D=\\begin{vmatrix}x&x&1&2x\\\\2&1&x&1\\\\1&x&2&-1\\\\2&-1&1&x\\end{vmatrix}$ 的展开式中 $x^3$ 的系数为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-01_q16.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-01_q16.webp"
             }
           ]
         }
@@ -4555,7 +4555,7 @@
                 "D. $\\left(-\\dfrac{1}{2},1\\right)$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q01.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q01.webp"
             },
             {
               "no": 2,
@@ -4568,7 +4568,7 @@
                 "D. $g(x)$ 是偶函数且 $g'(0)$ 不存在."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q02.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q02.webp"
             },
             {
               "no": 3,
@@ -4581,7 +4581,7 @@
                 "D. (图 D:$h(m)$ 从 $-1$ 上升到 $2$,横轴标 $t(s)$,在 $\\dfrac{3}{4}\\pi$ 处,曲线先慢后快)"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q03.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q03.webp"
             },
             {
               "no": 4,
@@ -4594,7 +4594,7 @@
                 "D. $be^a(e^b-1)<ae^b(e^a-1)$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q04.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q04.webp"
             },
             {
               "no": 5,
@@ -4607,7 +4607,7 @@
                 "D. $\\dfrac{z}{xy(z-1)^3}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q05.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q05.webp"
             },
             {
               "no": 6,
@@ -4620,7 +4620,7 @@
                 "D. $I_2>I_3>I_1$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q06.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q06.webp"
             },
             {
               "no": 7,
@@ -4633,7 +4633,7 @@
                 "D. $-2\\mathrm{e}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q07.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q07.webp"
             },
             {
               "no": 8,
@@ -4646,7 +4646,7 @@
                 "D. $\\left[\\dfrac{\\mathrm{tr}(A)}{2}\\right]^2\\leq|A|.$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q08.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q08.webp"
             },
             {
               "no": 9,
@@ -4659,7 +4659,7 @@
                 "D. $Ax=b$ 有解."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q09.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q09.webp"
             },
             {
               "no": 10,
@@ -4672,7 +4672,7 @@
                 "D. 既非充分又非必要条件."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q10.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q10.webp"
             }
           ]
         },
@@ -4684,42 +4684,42 @@
               "kind": "fill",
               "stem": "设圆与曲线 $x=y^2$ 在 $(0,0)$ 处有公切线且它们关于 $y$ 的二阶导数值相同,则该圆的方程为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q11.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$\\int \\dfrac{\\sqrt{3+2x-x^2}}{(x-1)^2}\\mathrm{d}x=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q12.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $x=t^3+2t+1,\\int_{x}^{x+t}\\mathrm{e}^{-t^2}\\mathrm{d}u=t$,则 $\\dfrac{\\mathrm{d}^2 y}{\\mathrm{d}x^2}\\bigg|_{t=0}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q13.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $y=y(x)$ 满足 $y''+2y'+y=\\mathrm{e}^{-x}$,$y(0)=y'(0)=1$,则 $\\int_0^{+\\infty} x\\mathrm{d}y=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q14.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "曲线 $x^{\\frac{2}{3}}+(ay)^{\\frac{2}{3}}=1\\,(a\\in R)$ 的全长为 $\\dfrac{14}{3}$,则 $a=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q15.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A=\\begin{pmatrix}a&0&0\\\\0&b&0\\\\0&0&a\\end{pmatrix}$,$P=\\begin{pmatrix}2&1&0\\\\0&2&1\\\\0&0&2\\end{pmatrix}$,则 $P^2AP^{-1}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-02_q16.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-02_q16.webp"
             }
           ]
         }
@@ -4744,7 +4744,7 @@
                 "D. $y=x+1$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q01.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q01.webp"
             },
             {
               "no": 2,
@@ -4757,7 +4757,7 @@
                 "D. $a\\cos a$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q02.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q02.webp"
             },
             {
               "no": 3,
@@ -4770,7 +4770,7 @@
                 "D. 与 $m,n$ 均无关."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q03.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q03.webp"
             },
             {
               "no": 4,
@@ -4783,7 +4783,7 @@
                 "D. $3$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q04.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q04.webp"
             },
             {
               "no": 5,
@@ -4796,7 +4796,7 @@
                 "D. ②④."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q05.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q05.webp"
             },
             {
               "no": 6,
@@ -4809,7 +4809,7 @@
                 "D. $f_x'(0,1)$ 存在,$f_y'(0,1)$ 存在."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q06.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q06.webp"
             },
             {
               "no": 7,
@@ -4822,7 +4822,7 @@
                 "D. $\\left\\{\\dfrac{\\ln a_n}{a_n}\\right\\}$ 收敛于 $0$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q07.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q07.webp"
             },
             {
               "no": 8,
@@ -4835,7 +4835,7 @@
                 "D. 既非充分又非必要条件."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q08.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q08.webp"
             },
             {
               "no": 9,
@@ -4848,7 +4848,7 @@
                 "D. 若 $\\alpha$ 与 $\\beta$ 正交,则 $\\alpha$ 与 $\\beta$ 线性无关."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q09.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q09.webp"
             },
             {
               "no": 10,
@@ -4861,7 +4861,7 @@
                 "D. 既非充分又非必要条件."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q10.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q10.webp"
             }
           ]
         },
@@ -4873,42 +4873,42 @@
               "kind": "fill",
               "stem": "极限 $\\lim\\limits_{n\\to\\infty}\\sum\\limits_{i=1}^{n}\\dfrac{i-\\dfrac{1}{2}}{n^4}\\sqrt{n^4-\\left(i-\\dfrac{1}{2}\\right)^4}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q11.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "定积分 $\\int_0^1 \\dfrac{x^2+6x+3}{(x+3)^2+(x^2+x)^2}\\mathrm{d}x=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q12.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $y_1=(1-x)\\mathrm{e}^{2x},y_2=(2-x)\\mathrm{e}^{2x},y_3=(\\mathrm{e}^x-x)\\mathrm{e}^{2x}$ 是微分方程 $y''+ay'+by=f(x)$ 的三个解,则该微分方程为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q13.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设函数 $f(x)$ 可导,曲线 $y=f(x)$ 在任一点处的斜率为 $(x^2-3x+a)\\mathrm{e}^x$,且曲线 $y=f(x)$ 无极值点,有拐点,则 $a$ 的取值范围是____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q14.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设 $f(x)=x\\ln(x+\\sqrt{1+x^2})$,则 $f^{(6)}(0)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q15.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A=\\begin{pmatrix}a&-1\\\\-1&a\\end{pmatrix}$. 若任给 2 维列向量 $\\alpha$,均有 $\\alpha^TA^{-1}\\alpha\\geq\\dfrac{(\\beta^T\\alpha)^2}{\\beta^TA\\beta}$,其中 $\\beta=\\begin{pmatrix}1\\\\1\\end{pmatrix}$,则 $a$ 的取值范围为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-03_q16.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-03_q16.webp"
             }
           ]
         }
@@ -4933,7 +4933,7 @@
                 "D. ④."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q01.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q01.webp"
             },
             {
               "no": 2,
@@ -4946,7 +4946,7 @@
                 "D. 奇函数."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q02.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q02.webp"
             },
             {
               "no": 3,
@@ -4959,7 +4959,7 @@
                 "D. $I_1$ 绝对收敛,$I_2$ 发散."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q03.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q03.webp"
             },
             {
               "no": 4,
@@ -4972,7 +4972,7 @@
                 "D. $f_{uu}(1,1)$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q04.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q04.webp"
             },
             {
               "no": 5,
@@ -4985,7 +4985,7 @@
                 "D. $\\dfrac{\\pi}{8}+\\dfrac{\\pi^2}{16}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q05.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q05.webp"
             },
             {
               "no": 6,
@@ -4998,7 +4998,7 @@
                 "D. $\\mathrm{e}^x f(x)$ 单调减少,$\\mathrm{e}^{-x}f(x)$ 单调减少."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q06.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q06.webp"
             },
             {
               "no": 7,
@@ -5011,7 +5011,7 @@
                 "D. $\\dfrac{\\pi}{2}>V_2>V_1$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q07.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q07.webp"
             },
             {
               "no": 8,
@@ -5024,7 +5024,7 @@
                 "D. $\\begin{pmatrix}\\dfrac{1}{2}&\\dfrac{3}{4}\\\\-1&-\\dfrac{3}{2}\\end{pmatrix}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q08.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q08.webp"
             },
             {
               "no": 9,
@@ -5037,7 +5037,7 @@
                 "D. $-\\dfrac{3}{2},-\\dfrac{1}{2}$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q09.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q09.webp"
             },
             {
               "no": 10,
@@ -5050,7 +5050,7 @@
                 "D. $\\lambda_2+\\lambda_3$."
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q10.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q10.webp"
             }
           ]
         },
@@ -5062,42 +5062,42 @@
               "kind": "fill",
               "stem": "$\\lim\\limits_{x\\to+\\infty}\\ln(1+2^x)\\ln\\left(1+\\dfrac{2}{x}\\right)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q11.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "已知 $\\int_a^{3\\ln 2}\\dfrac{\\mathrm{d}x}{\\sqrt{\\mathrm{e}^x-1}}=\\dfrac{\\pi}{6}$,则 $a=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q12.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $f(x)=\\int_0^{x-1}\\ln(x+t+1)\\mathrm{d}t$,则 $f^{(5)}(1)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q13.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "已知过点 $(a,1)\\,(a>0)$ 的单调递减曲线 $y=f(x)$,其上任一点的切线在 $x$ 轴上的截距与该点横坐标的距离恒为 $a$,则 $f(x)=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q14.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "函数 $f(x,y)=3x\\mathrm{e}^y-x^3-\\mathrm{e}^{3y}$ 的极大值点为____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q15.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "已知 $A,B$ 均为 4 阶矩阵,$r(AA^T)=3$,$|AB|=\\begin{vmatrix}2&a&0&-a\\\\-a&2&-5&b\\\\b&0&b&-2\\\\0&-2&4&0\\end{vmatrix}=\\begin{vmatrix}2&a&-a\\\\-a&2&b\\\\b&0&-2\\end{vmatrix}=5$,则 $\\begin{vmatrix}-a&-5&b\\\\2&0&-a\\\\b&b&-2\\end{vmatrix}=$____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-04_q16.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-04_q16.webp"
             }
           ]
         }
@@ -5122,7 +5122,7 @@
                 "$\\left(-\\dfrac{1}{12},6\\right)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q01.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q01.webp"
             },
             {
               "no": 2,
@@ -5135,7 +5135,7 @@
                 "连续"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q02.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q02.webp"
             },
             {
               "no": 3,
@@ -5148,7 +5148,7 @@
                 "$\\pi$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q03.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q03.webp"
             },
             {
               "no": 4,
@@ -5161,7 +5161,7 @@
                 "既非充分又非必要条件"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q04.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q04.webp"
             },
             {
               "no": 5,
@@ -5174,7 +5174,7 @@
                 "$\\dfrac{2+a}{1+2a}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q05.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q05.webp"
             },
             {
               "no": 6,
@@ -5187,7 +5187,7 @@
                 "可导且 $F'(0)\\neq 0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q06.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q06.webp"
             },
             {
               "no": 7,
@@ -5200,7 +5200,7 @@
                 "$I_3>I_2>I_1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q07.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q07.webp"
             },
             {
               "no": 8,
@@ -5213,7 +5213,7 @@
                 "$3$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q08.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q08.webp"
             },
             {
               "no": 9,
@@ -5226,7 +5226,7 @@
                 "既非充分又非必要条件"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q09.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q09.webp"
             },
             {
               "no": 10,
@@ -5239,7 +5239,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q10.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q10.webp"
             }
           ]
         },
@@ -5251,42 +5251,42 @@
               "kind": "fill",
               "stem": "设 $\\{a_n\\}$ 非负有界，$b_n=\\displaystyle\\sum_{k=1}^n\\frac{k}{a_n+n^2}$，则 $\\lim\\limits_{n\\to\\infty}\\dfrac{1}{b_n}=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q11.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "曲线 $y=x^2$ 从点 $(1,1)$ 到点 $(2,4)$ 的一段弧绕 $y$ 轴旋转一周所得旋转体的表面积为____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q12.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "已知连续曲线 $y=y(x)$ 上点 $(x,y)$ 处切线的斜率为 $\\dfrac{1}{x\\sqrt{x^2-1}}$，且曲线过点 $(-2,0)$，则该曲线方程为____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q13.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "函数 $f(x)=\\displaystyle\\int_x^{x+\\frac{\\pi}{2}}|\\sin t|\\,dt$ 在 $[0,\\pi]$ 上的平均值为____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q14.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设函数 $f(x,y)$ 具有二阶连续偏导数，且满足 $\\dfrac{\\partial^2[f(x,y)]}{\\partial x\\partial y}=1$，$f(0,y)=\\sin y$，$f(x,0)=\\sin x$，则 $f\\left(\\dfrac{\\pi}{2},\\dfrac{\\pi}{2}\\right)=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q15.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $\\alpha_1=\\begin{pmatrix}1 \\ 1 \\ a\\end{pmatrix}$，$\\alpha_2=\\begin{pmatrix}1 \\ a \\ 1\\end{pmatrix}$，$\\alpha_3=\\begin{pmatrix}a \\ 1 \\ 1\\end{pmatrix}$，$\\alpha_4=\\begin{pmatrix}1 \\ a \\ a^2\\end{pmatrix}$，若 $\\alpha_1,\\alpha_2,\\alpha_3$ 与 $\\alpha_2,\\alpha_3,\\alpha_4$ 等价，则 $a$ 的取值范围是____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-05_q16.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-05_q16.webp"
             }
           ]
         }
@@ -5311,7 +5311,7 @@
                 "$f(x)$ 在点 $x=0$ 处一阶可导但二阶不可导"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q01.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q01.webp"
             },
             {
               "no": 2,
@@ -5324,7 +5324,7 @@
                 "三个无穷间断点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q02.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q02.webp"
             },
             {
               "no": 3,
@@ -5337,7 +5337,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q03.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q03.webp"
             },
             {
               "no": 4,
@@ -5350,7 +5350,7 @@
                 "$f''_{yy}(a,b)>0$，$f''_{xy}(a,b)\\neq 0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q04.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q04.webp"
             },
             {
               "no": 5,
@@ -5363,7 +5363,7 @@
                 "$2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q05.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q05.webp"
             },
             {
               "no": 6,
@@ -5376,7 +5376,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q06.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q06.webp"
             },
             {
               "no": 7,
@@ -5389,7 +5389,7 @@
                 "$(xy')^2=\\sqrt{1+y''}$，$y(l)=0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q07.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q07.webp"
             },
             {
               "no": 8,
@@ -5402,7 +5402,7 @@
                 "既非充分又非必要条件"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q08.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q08.webp"
             },
             {
               "no": 9,
@@ -5415,7 +5415,7 @@
                 "①③④"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q09.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q09.webp"
             },
             {
               "no": 10,
@@ -5428,7 +5428,7 @@
                 "$r\\begin{pmatrix}BA\\\\B^TBA\\end{pmatrix}=r(AB^T)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q10.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q10.webp"
             }
           ]
         },
@@ -5440,42 +5440,42 @@
               "kind": "fill",
               "stem": "设函数 $f(x)=(1+x^3)^{10}$，则 $f^{(10)}(0)=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q11.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "曲线 $y=e^x$ 与直线 $x=1$，$x=-1$ 及 $x$ 轴所围平面有界区域 $D$ 的形心为____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q12.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "计算 $\\displaystyle\\int_0^{+\\infty}\\frac{dx}{1+x^2(1+x^2)}=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q13.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $f(x,y,z)=e^{3x+4y}\\cos 5z$，则 $\\dfrac{\\partial^2 f}{\\partial x^2}+\\dfrac{\\partial^2 f}{\\partial y^2}+\\dfrac{\\partial^2 f}{\\partial z^2}=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q14.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设可导函数 $y=f(x)$ 单调增加且在 $y$ 轴上的截距为 $2$，其弧长 $s(x)=\\displaystyle\\int_0^x\\sqrt{3t+5}\\,dt$，则 $f(x)$ 的表达式为____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q15.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A$ 为 $3\\times 2$ 矩阵，$B$ 为 $2\\times 3$ 矩阵，$AB=\\dfrac{1}{3}\\begin{pmatrix}2&-1&-1\\\\-1&2&-1\\\\-1&-1&2\\end{pmatrix}$，则 $BA=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-06_q16.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-06_q16.webp"
             }
           ]
         }
@@ -5500,7 +5500,7 @@
                 "②③"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q01.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q01.webp"
             },
             {
               "no": 2,
@@ -5513,7 +5513,7 @@
                 "$\\displaystyle\\int_0^1 f(x^2)\\,dx\\le f\\left(\\dfrac{1}{3}\\right)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q02.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q02.webp"
             },
             {
               "no": 3,
@@ -5526,7 +5526,7 @@
                 "$y^{(4)}+\\sqrt{2}y'''-2y''=0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q03.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q03.webp"
             },
             {
               "no": 4,
@@ -5539,7 +5539,7 @@
                 "$y=\\sqrt{3}x+\\dfrac{2}{3}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q04.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q04.webp"
             },
             {
               "no": 5,
@@ -5552,7 +5552,7 @@
                 "$-24+\\ln^5 2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q05.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q05.webp"
             },
             {
               "no": 6,
@@ -5565,7 +5565,7 @@
                 "①②③"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q06.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q06.webp"
             },
             {
               "no": 7,
@@ -5578,7 +5578,7 @@
                 "$I_3>I_2>I_1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q07.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q07.webp"
             },
             {
               "no": 8,
@@ -5591,7 +5591,7 @@
                 "$r(A)=r(B)=r(A^T\\mid B^T)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q08.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q08.webp"
             },
             {
               "no": 9,
@@ -5604,7 +5604,7 @@
                 "$D=\\begin{pmatrix}1&1&a\\\\0&2&0\\\\0&0&2\\end{pmatrix}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q09.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q09.webp"
             },
             {
               "no": 10,
@@ -5617,7 +5617,7 @@
                 "$b=1,\\lambda=4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q10.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q10.webp"
             }
           ]
         },
@@ -5629,42 +5629,42 @@
               "kind": "fill",
               "stem": "$\\lim\\limits_{x\\to 0}\\displaystyle\\int_x^{2x}\\frac{\\sin(t+\\sin t)}{t^2}\\,dt=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q11.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设 $f(x)$ 是以 $2$ 为周期的连续奇函数且 $\\displaystyle\\int_0^4(x+2)f(x)\\,dx=2$，则 $\\displaystyle\\int_0^2(2x+1)f(x)\\,dx=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q12.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "$f(x)=|x(x^2-4)-4|e^{-x}$ 在 $[-1,3]$ 上的最大值为____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q13.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "已知二元函数 $u=u(x,y)$，$v=v(x,y)$ 由方程组 $\\begin{cases}x+y+u+v=0,\\\\x^2+y^2+u^4+v^4=1\\end{cases}$ 确定，且 $u(0,0)>0$，$v(0,0)<0$，则 $\\left.\\dfrac{\\partial u}{\\partial x}\\right|_{(0,0)}=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q14.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "边长为 $a$ 的正方形平板置于水面下，且一个顶点与水面相齐，其中一条对角线与水面垂直，如图所示。记水的密度为 $\\rho$，重力加速度为 $g$，则其一侧所受的静水压力为____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q15.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "已知 $\\alpha_1=(1,1,a)^T$，$\\alpha_2=(1,a,1)^T$，$\\alpha_3=(a,1,1)^T$ 能由 $\\beta_1=(1,1,a)^T$，$\\beta_2=(-2,a,4)^T$，$\\beta_3=(-2,a,a)^T$ 线性表示，但 $\\beta_1,\\beta_2,\\beta_3$ 不能由 $\\alpha_1,\\alpha_2,\\alpha_3$ 线性表示，则 $a=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-07_q16.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-07_q16.webp"
             }
           ]
         }
@@ -5689,7 +5689,7 @@
                 "$3$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q01.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q01.webp"
             },
             {
               "no": 2,
@@ -5702,7 +5702,7 @@
                 "$3$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q02.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q02.webp"
             },
             {
               "no": 3,
@@ -5715,7 +5715,7 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q03.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q03.webp"
             },
             {
               "no": 4,
@@ -5728,7 +5728,7 @@
                 "$\\left.\\dfrac{dy}{dx}\\right|_{t=0}<0$，$\\left.\\dfrac{d^2y}{dx^2}\\right|_{t=0}>0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q04.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q04.webp"
             },
             {
               "no": 5,
@@ -5741,7 +5741,7 @@
                 "$a=2,b=2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q05.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q05.webp"
             },
             {
               "no": 6,
@@ -5754,7 +5754,7 @@
                 "$\\begin{cases}\\dfrac{1-x^2}{2},&-1\\le x\\le 0,\\\\\\dfrac{(1-x)^2}{2},&0<x\\le 1,\\\\0,&|x|>1\\end{cases}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q06.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q06.webp"
             },
             {
               "no": 7,
@@ -5767,7 +5767,7 @@
                 "$\\dfrac{1}{18}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q07.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q07.webp"
             },
             {
               "no": 8,
@@ -5780,7 +5780,7 @@
                 "$A^3$ 的迹为 $18$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q08.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q08.webp"
             },
             {
               "no": 9,
@@ -5793,7 +5793,7 @@
                 "既非充分又非必要条件"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q09.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q09.webp"
             },
             {
               "no": 10,
@@ -5806,7 +5806,7 @@
                 "$a\\ge |b|$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q10.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q10.webp"
             }
           ]
         },
@@ -5818,42 +5818,42 @@
               "kind": "fill",
               "stem": "设 $a_k=n+\\dfrac{2k(k-1)}{2k-1}$ $(k=1,2,\\cdots,n)$，则 $\\lim\\limits_{n\\to\\infty}\\displaystyle\\sum_{k=1}^n a_k^{-1}=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q11.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q11.webp"
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$\\displaystyle\\int_0^{2\\pi}\\frac{1}{5-3\\cos x}\\,dx=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q12.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q12.webp"
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "有特解 $2x^2$ 及 $\\cos\\sqrt{2}x$ 的 5 阶常系数齐次线性微分方程为____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q13.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q13.webp"
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "曲线 $y=\\dfrac{1}{3}x^{\\frac{3}{2}}-x^{\\frac{1}{2}}$ $(3\\le x\\le 9)$ 绕 $x$ 轴旋转一周所得旋转体的表面积为____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q14.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q14.webp"
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "将地面上质量为 $1$ 的物体铅垂向上举高，记地球半径为 $R$，质量为 $M$，引力常数为 $G$，则摆脱地球引力至少需做功____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q15.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q15.webp"
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A$ 为 $3\\times 4$ 阶矩阵，若 $AA^T$ 的特征值之和为 $1$，$AA^T$ 的每行元素之和均为 $2$，$A^TA-3E$ 不可逆，则 $|A^TA+3E|=$____。",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y25-zy8-08_q16.png"
+              "answer_img": "data/selected_ans_q/y25-zy8-08_q16.webp"
             }
           ]
         }
