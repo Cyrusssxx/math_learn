@@ -2,7 +2,7 @@
  * 预缓存全部页面/样式/脚本/笔记数据/KaTeX/图标，安装后完全离线可用。
  * 升级笔记数据或代码后：改 CACHE_VER 版本号即可让客户端自动换新缓存。
  */
-const CACHE_VER = 'mathcards-357365f0ef';
+const CACHE_VER = 'mathcards-ea09e9790c';
 
 const PRECACHE = [
     'index.html',
@@ -52,6 +52,15 @@ const PRECACHE = [
     'data/img/func_28_integral_area.svg',
     'data/img/func_29_variable_integral.svg',
     'data/img/func_30_ode_decay.svg',
+    'data/img/exam_fig/2003_q04.png',
+    'data/img/exam_fig/2005_q16.png',
+    'data/img/exam_fig/2005_q17.png',
+    'data/img/exam_fig/2007_q03.png',
+    'data/img/exam_fig/2008_q02.png',
+    'data/img/exam_fig/2008_q06.png',
+    'data/img/exam_fig/2009_q06.png',
+    'data/img/exam_fig/2009_q06_cd.png',
+    'data/img/exam_fig/2010_q18.png',
     'vendor/katex/katex.min.css',
     'vendor/katex/katex.min.js',
     'vendor/katex/auto-render.min.js',
