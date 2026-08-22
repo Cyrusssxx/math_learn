@@ -65,7 +65,7 @@ function qCard(p,sec,q){
     const qid=qidOf(p.id,q.no),fav=isFav(qid);
     const kindTag=q.kind==='choice'?'选择':'填空';
     const stem=mdBlock(q.stem);
-    const options=q.options&&q.options.length?`<div class="q-options">${q.options.map(o=>`<div class="q-opt">${mdInline(o)}</div>`).join('')}</div>`:'';
+    const options=q.options&&q.options.length?`<div class="q-options">${q.options.map((o,i)=>`<div class="q-opt"><span class="opt-label">${'ABCD'[i]}.</span>${mdInline(o)}</div>`).join('')}</div>`:'';
     const note=noteGet(qid);
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
@@ -78,7 +78,7 @@ function qCard(p,sec,q){
             <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
             <button class="q-op${note.trim()?' has':''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
         </div>
-        <div class="q-sec q-answer" hidden><div class="q-answer-body">${(p.answer_img?((Array.isArray(p.answer_img)?p.answer_img:[p.answer_img]).map(s=>`<img class="ans-img" style="max-width:100%;border:1px solid #ccc;border-radius:6px;margin:4px 0;display:block" src="${s}">`).join('')):(q.answer?mdBlock(q.answer):'<span class="ans-pending">答案整理中…</span>'))}</div></div>
+        <div class="q-sec q-answer" hidden><div class="q-answer-body">${(q.answer_img?((Array.isArray(q.answer_img)?q.answer_img:[q.answer_img]).map(s=>`<img class="ans-img" style="max-width:100%;border:1px solid #ccc;border-radius:6px;margin:4px 0;display:block" src="${s}">`).join('')):(q.answer?mdBlock(q.answer):'<span class="ans-pending">答案整理中…</span>'))}</div></div>
         <div class="q-sec q-note" hidden><textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点…（自动保存）">${esc(note)}</textarea></div>
     </div>`;
 }
