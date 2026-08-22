@@ -208,6 +208,15 @@ html.dark .exam-btn.on { color: #e5c860; }
 }
 .opt-label { font-weight: 600; margin-right: 2px; }
 
+/* 题目配图 */
+.q-fig-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 12px auto;
+    border-radius: 4px;
+}
+
 /* 公式放大：行内 & 显示（含积分号） */
 .q-body .katex,
 .q-answer-body .katex { font-size: 1.5em; }

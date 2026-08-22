@@ -152,6 +152,7 @@ function qCard(p, sec, q, secIdx) {
     const fav = isFav(qid);
     const kindTag = q.kind === 'choice' ? '选择' : (q.no >= 11 && q.no <= 16 ? '填空' : '解答');
     const stem = mdBlock(q.stem);
+    const figHtml = q.img ? `<img class="q-fig-img" src="${q.img}" alt="题${q.no}配图" loading="lazy">${(q.img2?`<img class="q-fig-img" src="${q.img2}" alt="题${q.no}配图2" loading="lazy">`:'')}` : '';
     const options = q.options && q.options.length
         ? `<div class="q-options">${q.options.map(o => `<div class="q-opt">${mdInline(o)}</div>`).join('')}</div>`
         : '';
@@ -164,7 +165,7 @@ function qCard(p, sec, q, secIdx) {
             <span class="q-kind">${kindTag}</span>
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="收藏此题">${fav ? '⭐' : '☆'}</button>
         </div>
-        <div class="q-body">${stem}${options}</div>
+        <div class="q-body">${stem}${figHtml}${options}</div>
         <div class="q-ops">
             <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
             ${ideaBtn}
