@@ -65,20 +65,30 @@ function qCard(p,sec,q){
     const qid=qidOf(p.id,q.no),fav=isFav(qid);
     const kindTag=q.kind==='choice'?'选择':'填空';
     const stem=mdBlock(q.stem);
+    const figHtml=q.img?`<img class="q-fig-img" src="${q.img}" alt="题${q.no}配图" loading="lazy">${(q.img2?`<img class="q-fig-img" src="${q.img2}" alt="题${q.no}配图2" loading="lazy">`:'')}`:'';
     const options=q.options&&q.options.length?`<div class="q-options">${q.options.map((o,i)=>`<div class="q-opt"><span class="opt-label">${'ABCD'[i]}.</span>${mdInline(o)}</div>`).join('')}</div>`:'';
     const note=noteGet(qid);
+    const ideaBtn=q.idea?`<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>`:'';
+    const ideaHtml=q.idea?`<div class="q-sec q-idea" hidden>${mdBlock(q.idea)}</div>`:'';
+    // 答案：优先 q.answer 文本，否则 q.answer_img 图片数组，否则占位
+    const ansInner = q.answer ? mdBlock(q.answer) :
+        (q.answer_img ? ((Array.isArray(q.answer_img) ? q.answer_img : [q.answer_img])
+            .map(s => `<img class="ans-img" src="${s}" alt="题${q.no}答案" loading="lazy">`).join(''))
+            : '<span class="ans-pending">答案整理中…</span>');
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindTag}</span>
             <button class="q-fav${fav?' on':''}" onclick="toggleFav('${qid}',this)" title="收藏此题">${fav?'⭐':'☆'}</button>
         </div>
-        <div class="q-body">${stem}${options}</div>
+        <div class="q-body">${stem}${figHtml}${options}</div>
         <div class="q-ops">
             <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
+            ${ideaBtn}
             <button class="q-op${note.trim()?' has':''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
         </div>
-        <div class="q-sec q-answer" hidden><div class="q-answer-body">${(q.answer_img?((Array.isArray(q.answer_img)?q.answer_img:[q.answer_img]).map(s=>`<img class="ans-img" style="max-width:100%;border:1px solid #ccc;border-radius:6px;margin:4px 0;display:block" src="${s}">`).join('')):(q.answer?mdBlock(q.answer):'<span class="ans-pending">答案整理中…</span>'))}</div></div>
+        ${ideaHtml}
+        <div class="q-sec q-answer" hidden><div class="q-answer-body">${ansInner}</div></div>
         <div class="q-sec q-note" hidden><textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点…（自动保存）">${esc(note)}</textarea></div>
     </div>`;
 }

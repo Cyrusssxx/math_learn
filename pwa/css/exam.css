@@ -376,6 +376,15 @@ html.dark .exam-btn.on { color: #e5c860; }
 .q-answer-body { padding: 2px; }
 .q-answer-body p { margin: 10px 0; }
 
+/* 答案图（模拟题 answer_img 渲染） */
+.q-answer-body .ans-img {
+    max-width: 100%;
+    border: 1px solid var(--border, #ccc);
+    border-radius: 6px;
+    margin: 4px 0;
+    display: block;
+}
+
 .empty-tip {
     color: var(--text-faint);
     text-align: center;
