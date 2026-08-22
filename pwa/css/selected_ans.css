@@ -1,7 +1,7 @@
-/* 整卷选填答案页样式 */
+/* 整卷选填答案页样式 —— 一整块连排 */
 
 .sa-wrap {
-    max-width: 860px;
+    max-width: 900px;
     margin: 20px auto;
     padding: 0 16px 60px;
 }
@@ -36,26 +36,23 @@
 .sa-paper-head h1 { font-size: 20px; margin: 0 0 6px; }
 .sa-meta { color: var(--text-dim, #888); font-size: 13px; }
 
-.sa-sec { margin-bottom: 24px; }
-.sa-sec-title {
-    font-size: 16px;
-    font-weight: 700;
-    margin: 18px 0 12px;
-    padding-left: 10px;
-    border-left: 4px solid #4a90d9;
+/* 一整块：图与图直接相接，仅题号徽章悬浮在每张图左上角 */
+.sa-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
-.sa-q {
+.sa-strip-item {
+    position: relative;
     background: var(--bg, #fff);
     border: 1px solid var(--border, #e2e2e8);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 14px;
-    box-shadow: var(--shadow, 0 2px 10px rgba(0,0,0,.06));
-    position: relative;
+    border-radius: 10px;
+    padding: 6px 6px 10px;
+    margin-bottom: 12px;
 }
-.sa-q-no {
+.sa-strip-no {
     position: absolute;
-    top: 10px;
+    top: 8px;
     left: 10px;
     min-width: 26px;
     height: 26px;
@@ -68,12 +65,10 @@
     font-weight: 700;
     z-index: 1;
 }
-/* 答案图填满容器（题目编号悬浮在左上角，图下方留出空间） */
-.sa-q .ans-img {
+.sa-strip-item .ans-img {
     width: 100%;
     display: block;
     border-radius: 6px;
-    margin: 30px 0 0;
     cursor: zoom-in;
     border: none;
 }

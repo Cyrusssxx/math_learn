@@ -35,23 +35,31 @@ function renderAll() {
     if (sub) sub.textContent = curPaper.title;
     document.title = curPaper.title + ' · 整卷选填答案';
 
-    const secTitles = { choice: '一、选择题', fill: '二、填空题' };
-    let html = `<div class="sa-paper-head"><h1>${esc(curPaper.title)}</h1><div class="sa-meta">共 ${curPaper.sections.reduce((a, s) => a + s.questions.length, 0)} 题 · 全部答案</div></div>`;
+    const total = curPaper.sections.reduce((a, s) => a + s.questions.length, 0);
+    let html = `<div class="sa-paper-head"><h1>${esc(curPaper.title)}</h1><div class="sa-meta">共 ${total} 题 · 全部答案（连排一整块）</div></div>`;
+    html += '<div class="sa-strip">';
+    // 一整块连续排列：不分选择/填空、不每题独立卡片，图与图直接相接
     curPaper.sections.forEach(sec => {
-        html += `<div class="sa-sec"><div class="sa-sec-title">${secTitles[sec.type] || sec.type || '题目'}</div>`;
         sec.questions.forEach(q => {
             const imgs = q.answer_img
                 ? (Array.isArray(q.answer_img) ? q.answer_img : [q.answer_img])
                 : [];
-            html += `<div class="sa-q" id="saq-${q.no}">
-                <div class="sa-q-no">${q.no}</div>
-                ${imgs.length ? imgs.map(s =>
-                    `<img class="ans-img" src="${s}" alt="题${q.no}答案" loading="lazy" onclick="zoomAnsImg(this)">`
-                ).join('') : `<div class="ans-pending">答案整理中…</div>`}
-            </div>`;
+            if (imgs.length) {
+                imgs.forEach((s, i) => {
+                    html += `<div class="sa-strip-item" id="saq-${q.no}">
+                        <span class="sa-strip-no">${q.no}${imgs.length > 1 ? '-' + (i + 1) : ''}</span>
+                        <img class="ans-img" src="${s}" alt="题${q.no}答案" loading="lazy" onclick="zoomAnsImg(this)">
+                    </div>`;
+                });
+            } else {
+                html += `<div class="sa-strip-item" id="saq-${q.no}">
+                    <span class="sa-strip-no">${q.no}</span>
+                    <div class="ans-pending">答案整理中…</div>
+                </div>`;
+            }
         });
-        html += '</div>';
     });
+    html += '</div>';
     el.innerHTML = html;
     renderNav();
 }
@@ -71,7 +79,7 @@ function renderNav() {
     const half = window.innerHeight * 0.4;
     const onScroll = () => {
         let cur = null;
-        for (const c of document.querySelectorAll('.sa-q')) {
+        for (const c of document.querySelectorAll('.sa-strip-item')) {
             if (c.getBoundingClientRect().top <= half) cur = c;
             else break;
         }
