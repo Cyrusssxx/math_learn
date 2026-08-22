@@ -230,9 +230,9 @@ html.dark .exam-btn.on { color: #e5c860; }
 }
 .q-body .katex-display > .katex,
 .q-answer-body .katex-display > .katex { font-size: 1.6em; min-width: max-content; }
-/* 单独调大分式分子分母 */
+/* 分式分子分母字号（1.0 = KaTeX 原生，比之前的 1.18 稍小） */
 .q-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span,
-.q-answer-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.18em; }
+.q-answer-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.0em; }
 
 /* 悬浮题号导航 — 重设计：底部横条 + 可展开网格 */
 .float-q {
