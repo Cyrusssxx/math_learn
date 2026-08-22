@@ -96,12 +96,78 @@ function qCard(p,sec,q){
 
 function renderPaperList(){
     const el=document.getElementById('paperList');
-    el.innerHTML=papers.map(p=>
-        `<button class="paper-item${curPaper&&curPaper.id===p.id?' on':''}" onclick="openPaper('${p.id}')">
-            <span class="paper-year">${p.group||''}</span>
-            <span class="paper-name">${p.title.replace(/^24 |^25 /,'')}</span>
-        </button>`
-    ).join('');
+    // 按 group 分组（目录树：组节点 → 套卷节点）
+    const groups={};
+    papers.forEach(p=>{
+        const g=p.group||'其他';
+        if(!groups[g])groups[g]=[];
+        groups[g].push(p);
+    });
+    let html='';
+    Object.keys(groups).forEach(g=>{
+        const items=groups[g];
+        const open=paperGroupOpen[g]!==false; // 默认展开
+        html+=`<div class="paper-group" data-group="${esc(g)}">
+            <div class="paper-group-head" onclick="toggleGroup('${esc(g)}')">
+                <span class="paper-group-arrow">${open?'▾':'▸'}</span>
+                <span class="paper-group-name">${esc(g)}</span>
+                <span class="paper-group-count">${items.length}</span>
+            </div>
+            <div class="paper-group-body"${open?'':' style="display:none"'}>`;
+        items.forEach(p=>{
+            html+=`<button class="paper-item${curPaper&&curPaper.id===p.id?' on':''}" data-pid="${p.id}" onclick="openPaper('${p.id}')">
+                <span class="paper-name">${esc(p.title.replace(/^24 |^25 /,''))}</span>
+            </button>`;
+        });
+        html+='</div></div>';
+    });
+    el.innerHTML=html;
+}
+
+// 组折叠状态（session 级）
+const paperGroupOpen={};
+
+function toggleGroup(name){
+    paperGroupOpen[name]=paperGroupOpen[name]===false?true:false;
+    const g=document.querySelector(`.paper-group[data-group="${CSS.escape(name)}"]`);
+    if(g){
+        const body=g.querySelector('.paper-group-body');
+        const arrow=g.querySelector('.paper-group-arrow');
+        if(body)body.style.display=paperGroupOpen[name]?'':'none';
+        if(arrow)arrow.textContent=paperGroupOpen[name]?'▾':'▸';
+    }
+}
+
+// 搜索：匹配后展开父级组 + 滚动定位 + 高亮目标节点
+function searchPaper(kw){
+    kw=(kw||'').trim().toLowerCase();
+    // 清除旧高亮
+    document.querySelectorAll('.paper-item.hl').forEach(n=>n.classList.remove('hl'));
+    if(!kw){return;}
+    // 找到第一个匹配的套卷（标题或组名）
+    let hit=null;
+    for(const p of papers){
+        const title=p.title.toLowerCase();
+        const group=(p.group||'').toLowerCase();
+        if(title.includes(kw)||group.includes(kw)){hit=p;break;}
+    }
+    if(!hit)return;
+    const gName=hit.group||'其他';
+    // 展开父级组
+    paperGroupOpen[gName]=true;
+    const g=document.querySelector(`.paper-group[data-group="${CSS.escape(gName)}"]`);
+    if(g){
+        const body=g.querySelector('.paper-group-body');
+        const arrow=g.querySelector('.paper-group-arrow');
+        if(body)body.style.display='';
+        if(arrow)arrow.textContent='▾';
+    }
+    // 滚动定位 + 高亮目标
+    const item=document.querySelector(`.paper-item[data-pid="${hit.id}"]`);
+    if(item){
+        item.classList.add('hl');
+        item.scrollIntoView({behavior:'smooth',block:'center'});
+    }
 }
 
 function renderCurrent(){

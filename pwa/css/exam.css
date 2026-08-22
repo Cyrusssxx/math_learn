@@ -111,6 +111,7 @@ html.dark .exam-btn.on { color: #e5c860; }
 }
 .exam-wrap.side-closed .exam-side-title,
 .exam-wrap.side-closed #paperList { display: none; }
+.exam-wrap.side-closed .paper-search-wrap { display: none; }
 .exam-wrap.side-closed .side-toggle { transform: rotate(180deg); }
 .paper-item {
     display: flex;
@@ -135,6 +136,65 @@ html.dark .exam-btn.on { color: #e5c860; }
 }
 .paper-year { font-weight: 700; font-size: 14px; min-width: 42px; }
 .paper-name { font-size: 13px; color: var(--text-dim); }
+
+/* 目录搜索框 */
+.paper-search-wrap { padding: 4px 2px 8px; }
+.paper-search {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+}
+.paper-search:focus { border-color: var(--accent); }
+.paper-search::placeholder { color: var(--text-faint); }
+
+/* 目录树：组节点 */
+.paper-group { margin-bottom: 2px; }
+.paper-group-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+}
+.paper-group-head:hover { background: var(--bg-hover); }
+.paper-group-arrow { width: 14px; flex: none; color: var(--text-dim); font-size: 12px; }
+.paper-group-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.paper-group-count {
+    font-size: 11px;
+    color: var(--text-faint);
+    background: var(--bg-hover);
+    border-radius: 999px;
+    padding: 1px 7px;
+}
+.paper-group-body { padding-left: 8px; border-left: 2px solid var(--border); margin-left: 6px; }
+/* 搜索命中高亮 */
+.paper-item.hl {
+    background: #fff3bf;
+    border-color: #f5c518;
+    color: #5a3e00;
+    box-shadow: 0 0 0 2px rgba(245, 197, 24, .35);
+    animation: paperHl 1.6s ease;
+}
+@keyframes paperHl {
+    0% { background: #ffe27a; }
+    100% { background: #fff3bf; }
+}
+.dark .paper-item.hl {
+    background: #4a3c10;
+    border-color: #f5c518;
+    color: #ffe27a;
+    box-shadow: 0 0 0 2px rgba(245, 197, 24, .4);
+}
 
 /* 中栏：题目 */
 .exam-main {

@@ -36,6 +36,9 @@
                 <div class="exam-side-title">套卷列表</div>
                 <button class="side-toggle" id="sideToggle" onclick="toggleSide()" title="收起/展开套卷列表">◀</button>
             </div>
+            <div class="paper-search-wrap">
+                <input class="paper-search" id="paperSearch" type="search" placeholder="搜索套卷/出版社…" oninput="searchPaper(this.value)">
+            </div>
             <div id="paperList"></div>
         </aside>
 
