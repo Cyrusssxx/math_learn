@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>整卷选填答案</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#4a90d9">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
+    <link rel="stylesheet" href="css/notes.css">
+    <link rel="stylesheet" href="css/exam.css">
+    <link rel="stylesheet" href="css/selected_ans.css">
+    <link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+    <header class="exam-top">
+        <div class="exam-brand">
+            <span class="exam-logo">📄</span>
+            <div>
+                <div class="exam-title">整卷选填答案</div>
+                <div class="exam-sub" id="examSub">加载中…</div>
+            </div>
+        </div>
+        <div class="exam-topbtns">
+            <button class="exam-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
+            <a class="exam-btn" href="selected.html" title="返回刷题">← 返回</a>
+        </div>
+    </header>
+
+    <main class="sa-wrap">
+        <div class="sa-toolbar">
+            <span class="sa-tip">点击任意答案图可放大</span>
+            <div class="sa-nav" id="saNav"></div>
+        </div>
+        <div id="saList" class="sa-list"><div class="loading">加载中…</div></div>
+    </main>
+
+    <script src="js/common.js"></script>
+    <script src="js/selected_ans.js"></script>
+</body>
+</html>

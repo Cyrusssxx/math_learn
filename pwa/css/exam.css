@@ -406,6 +406,27 @@ html.dark .exam-btn.on { color: #e5c860; }
     background: #fff;
 }
 
+/* 右上角悬浮：整卷答案入口 */
+.sa-float {
+    position: fixed;
+    right: 16px;
+    top: 60px;
+    z-index: 900;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform .15s ease;
+}
+.sa-float:hover { transform: translateY(-2px); }
+
 .empty-tip {
     color: var(--text-faint);
     text-align: center;

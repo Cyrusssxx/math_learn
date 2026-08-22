@@ -195,6 +195,12 @@ function zoomAnsImg(img){
     ov.classList.add('show');
 }
 
+// ============ 整卷答案 ============
+function openPaperAnswers(){
+    if (!curPaper) return;
+    window.open('selected_ans.html?pid=' + encodeURIComponent(curPaper.id), '_blank');
+}
+
 function toggleFloatQ(){
     const fq=document.getElementById('floatQ');if(!fq)return;
     fq.classList.toggle('collapsed');fq.classList.toggle('expanded');
