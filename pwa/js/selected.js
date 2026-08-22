@@ -3,6 +3,7 @@
 let papers = [];
 let curPaper = null;
 let favOnly = false;
+let sideClosed = localStorage.getItem('examSideClosed') === '1';
 const EXAM_POS_KEY = 'selPos'; // localStorage key（与真题隔离）
 
 // ============ 收藏 ============
@@ -169,7 +170,14 @@ function toggleDark(){
     try{localStorage.setItem('darkMode',d?'1':'0');}catch(e){}
     document.getElementById('darkState').textContent=d?'开':'关';
 }
-function toggleSide(){document.getElementById('examSide').classList.toggle('collapsed');}
+function toggleSide(){
+    sideClosed = !sideClosed;
+    try{localStorage.setItem('examSideClosed', sideClosed ? '1' : '0');}catch(e){}
+    const wrap = document.querySelector('.exam-wrap');
+    const btn = document.getElementById('sideToggle');
+    if (wrap) wrap.classList.toggle('side-closed', sideClosed);
+    if (btn) btn.textContent = sideClosed ? '▶' : '◀';
+}
 
 function toggleFloatQ(){
     const fq=document.getElementById('floatQ');if(!fq)return;
@@ -177,6 +185,11 @@ function toggleFloatQ(){
 }
 
 async function init(){
+    // 恢复侧栏状态
+    const wrap0 = document.querySelector('.exam-wrap');
+    if (wrap0) wrap0.classList.toggle('side-closed', sideClosed);
+    const btn0 = document.getElementById('sideToggle');
+    if (btn0) btn0.textContent = sideClosed ? '▶' : '◀';
     const resp=await fetch('data/selected.json');
     if(!resp.ok)throw new Error('加载精选失败:'+resp.status);
     papers=(await resp.json()).papers || [];
