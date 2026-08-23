@@ -67,24 +67,67 @@ function noteGet(qid) {
 let _noteTimer = {};
 function noteInput(ta) {
     const qid = ta.dataset.qid;
+    const newVal = ta.value;
+    const newRefs = examImgRefs(newVal);
     clearTimeout(_noteTimer[qid]);
     _noteTimer[qid] = setTimeout(() => {
-        try { localStorage.setItem('examNote-' + qid, ta.value); } catch (e) { }
+        const olds = localStorage.getItem('examNote-' + qid) || '';
+        const oldRefs = examImgRefs(olds);
+        const orphan = oldRefs.filter(id => !newRefs.includes(id));
+        if (orphan.length) examImgDel(orphan);   // 清理不再引用的图，避免存储泄漏
+        try { localStorage.setItem('examNote-' + qid, newVal); } catch (e) { }
         const btn = ta.closest('.q-card') && ta.closest('.q-card').querySelector('[data-act="note"]');
-        if (btn) btn.classList.toggle('has', !!ta.value.trim());
+        if (btn) btn.classList.toggle('has', !!newVal.trim());
     }, 500);
+    // 实时预览（含图片占位）
+    const pv = ta.parentElement.querySelector('.q-note-preview');
+    if (pv) {
+        const v = ta.value.trim();
+        if (v) {
+            pv.innerHTML = mdBlockWithImg(ta.value);
+            pv.hidden = false;
+            if (ta.value.includes('[图:')) fillExamNoteImgs(pv);
+        }
+        else { pv.innerHTML = ''; pv.hidden = true; }
+    }
+}
+// 笔记区 Ctrl+V 贴图：存 IndexedDB 后在光标处插入 [图:id]
+function notePasteImg(e) {
+    const it = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith('image/'));
+    if (!it) return;
+    e.preventDefault();
+    const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    const ta = e.target;
+    examImgPut(id, it.getAsFile()).then(() => {
+        const tag = `[图:${id}]`;
+        const p = ta.selectionStart;
+        ta.value = ta.value.slice(0, p) + tag + ta.value.slice(ta.selectionEnd);
+        ta.selectionStart = ta.selectionEnd = p + tag.length;
+        noteInput(ta);   // 触发保存 + 预览
+    }).catch(() => alert('图片保存失败'));
 }
 function toggleQSec(btn, act) {
     const card = btn.closest('.q-card');
-    if (!card) return;
+    if (!card)  return;
     const sec = card.querySelector('.q-sec.q-' + act);
     if (!sec) return;
     const open = sec.hidden;
     sec.hidden = !open;
     btn.classList.toggle('on', open);
-    if (act === 'note' && open) {
+    if (act === 'note') {
         const ta = sec.querySelector('textarea');
-        if (ta) ta.focus();
+        if (ta) {
+            if (open) {
+                if (!ta.dataset.bind) {
+                    ta.addEventListener('input', () => noteInput(ta));
+                    ta.addEventListener('paste', notePasteImg);
+                    ta.dataset.bind = '1';
+                }
+                ta.focus();
+                // 首次展开时渲染预览
+                noteInput(ta);
+            }
+        }
     }
 }
 
@@ -96,6 +139,61 @@ function reviewSave(pid, v) {
     try { localStorage.setItem(REVIEW_KEY + pid, v); } catch (e) { }
 }
 function reviewHas(pid) { return !!reviewGet(pid).trim(); }
+
+// ============ 笔记图片（IndexedDB，独立于收藏/点评；复用 [图:id] 占位符） ============
+// 与笔记站 annotate.js 同机制：图片存 IndexedDB，文本里用 [图:id] 占位，渲染时回填
+let _examImgDB = null;
+function examImgDB() {
+    if (!_examImgDB) {
+        _examImgDB = new Promise((res, rej) => {
+            const rq = indexedDB.open('examNoteImg', 1);
+            rq.onupgradeneeded = () => rq.result.createObjectStore('imgs');
+            rq.onsuccess = () => res(rq.result);
+            rq.onerror = () => rej(rq.error);
+        });
+    }
+    return _examImgDB;
+}
+function examImgPut(id, blob) {
+    return examImgDB().then(d => new Promise((res, rej) => {
+        const tx = d.transaction('imgs', 'readwrite');
+        tx.objectStore('imgs').put(blob, id);
+        tx.oncomplete = res; tx.onerror = () => rej(tx.error);
+    }));
+}
+function examImgGet(id) {
+    return examImgDB().then(d => new Promise(res => {
+        const rq = d.transaction('imgs').objectStore('imgs').get(id);
+        rq.onsuccess = () => res(rq.result || null);
+        rq.onerror = () => res(null);
+    }));
+}
+function examImgDel(ids) {
+    if (!ids || !ids.length) return Promise.resolve();
+    return examImgDB().then(d => new Promise(res => {
+        const tx = d.transaction('imgs', 'readwrite');
+        ids.forEach(id => tx.objectStore('imgs').delete(id));
+        tx.oncomplete = res; tx.onerror = res;
+    }));
+}
+function examImgRefs(t) {
+    return [...(t || '').matchAll(/\[图:([a-z0-9]+)\]/g)].map(m => m[1]);
+}
+// 渲染笔记文本时，把 [图:id] 换成占位 img（后续 fillExamNoteImgs 回填 blob）
+function mdBlockWithImg(s) {
+    return mdBlock(s)
+        .replace(/\[图:([a-z0-9]+)\]/g,
+            (_, id) => `<img class="exam-note-img" data-img="${id}" alt="笔记图片">`);
+}
+async function fillExamNoteImgs(root) {
+    if (!root) return;
+    const imgs = root.querySelectorAll('img.exam-note-img[data-img]');
+    for (const img of imgs) {
+        const blob = await examImgGet(img.dataset.img);
+        if (blob) img.src = URL.createObjectURL(blob);
+        else img.replaceWith(document.createTextNode('[图片已丢失]'));
+    }
+}
 
 // 全局唯一 popover 节点（懒创建，挂载到 body）
 let _reviewPop = null;
@@ -263,7 +361,8 @@ function qCard(p, sec, q, secIdx) {
         </div>
         ${ideaHtml}
         <div class="q-sec q-note" hidden>
-            <textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点、类比题…（自动保存）">${esc(note)}</textarea>
+            <textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）">${esc(note)}</textarea>
+            <div class="q-note-preview" hidden></div>
         </div>
         <div class="q-sec q-answer" hidden><div class="q-answer-body">${mdBlock(q.answer)}</div></div>
     </div>`;
