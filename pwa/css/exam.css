@@ -204,8 +204,108 @@ html.dark .exam-btn.on { color: #e5c860; }
     margin: 0 auto;          /* 居中 */
 }
 .paper-head { margin-bottom: 18px; }
+.paper-head-top { display: flex; align-items: center; gap: 10px; }
 .paper-head h1 { font-size: 22px; margin: 0 0 4px; }
 .paper-meta { font-size: 13px; color: var(--text-faint); }
+/* 试卷点评：小方块按钮（描边空心 / 有点评=实心填充） */
+.review-btn {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    line-height: 1;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    background: var(--bg);
+    color: var(--text-faint);
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.review-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-hover); }
+.review-btn.has {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+/* 试卷头首行常驻预览 */
+.paper-review-line {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--text-dim);
+    background: var(--bg-hover);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+/* 试卷点评 popover（锚定小方块，无全屏遮罩） */
+.review-pop {
+    display: none;
+    position: fixed;
+    z-index: 950;
+    width: 320px;
+    max-width: calc(100vw - 16px);
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.18);
+    padding: 12px;
+}
+.review-pop-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+.review-pop-title { font-size: 14px; font-weight: 700; color: var(--accent); }
+.review-pop-x {
+    border: none;
+    background: transparent;
+    color: var(--text-faint);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+}
+.review-pop-x:hover { color: var(--text); }
+.review-pop-ta {
+    width: 100%;
+    min-height: 120px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    line-height: 1.6;
+    background: var(--bg);
+    color: var(--text);
+    resize: vertical;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+.review-pop-ta:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.review-pop-tip { margin-top: 6px; font-size: 11px; color: var(--text-faint); text-align: right; }
+/* 左侧套卷列表项点评标记（实心小点 = 有点评） */
+.review-dot {
+    margin-left: auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+    flex: none;
+}
+.review-dot.on {
+    background: var(--accent);
+    border-color: var(--accent);
+}
 
 .q-section { margin-bottom: 28px; }
 .q-section-title {

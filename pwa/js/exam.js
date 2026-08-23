@@ -3,6 +3,7 @@
 const FAV_KEY = 'examFav';           // { 套卷id: [题no, ...] } 或 {'qid':1}
 const FAV_ONLY_KEY = 'examFavOnly';  // 是否只看收藏
 const EXAM_POS_KEY = 'examLastPos';  // 刷新恢复上次位置：{paperId, no}
+const REVIEW_KEY = 'examReview-';    // 试卷点评（按套卷 id 存）：examReview-{paperId}
 
 let papers = [];
 let curPaper = null;
@@ -87,6 +88,94 @@ function toggleQSec(btn, act) {
     }
 }
 
+// ============ 试卷点评（按套卷 id 存 localStorage，纯文本，popover 自动保存） ============
+function reviewGet(pid) {
+    try { return localStorage.getItem(REVIEW_KEY + pid) || ''; } catch (e) { return ''; }
+}
+function reviewSave(pid, v) {
+    try { localStorage.setItem(REVIEW_KEY + pid, v); } catch (e) { }
+}
+function reviewHas(pid) { return !!reviewGet(pid).trim(); }
+
+// 全局唯一 popover 节点（懒创建，挂载到 body）
+let _reviewPop = null;
+let _reviewPid = null;
+let _reviewTimer = null;
+function reviewPop() {
+    if (_reviewPop) return _reviewPop;
+    const ov = document.createElement('div');
+    ov.className = 'review-pop';
+    ov.innerHTML =
+        '<div class="review-pop-head"><span class="review-pop-title">试卷点评</span>' +
+        '<button class="review-pop-x" title="关闭">×</button></div>' +
+        '<textarea class="review-pop-ta" placeholder="写下对这套卷的整体点评：难度、易错点、时间分配、复习建议…（自动保存）"></textarea>' +
+        '<div class="review-pop-tip">自动保存到本机浏览器 · 仅自己可见</div>';
+    document.body.appendChild(ov);
+    // 关闭按钮
+    ov.querySelector('.review-pop-x').addEventListener('click', closeReviewPop);
+    // 输入防抖保存
+    const ta = ov.querySelector('.review-pop-ta');
+    ta.addEventListener('input', () => {
+        clearTimeout(_reviewTimer);
+        _reviewTimer = setTimeout(() => {
+            const v = ta.value;
+            reviewSave(_reviewPid, v);
+            syncReviewMarkers();   // 实时更新方块/列表标记填充态
+        }, 500);
+    });
+    // 点击 popover 内部不冒泡到 document（避免触发外部关闭）
+    ov.addEventListener('click', (e) => e.stopPropagation());
+    _reviewPop = ov;
+    return ov;
+}
+function openReviewPop(pid, anchor) {
+    const ov = reviewPop();
+    const ta = ov.querySelector('.review-pop-ta');
+    _reviewPid = pid;
+    ta.value = reviewGet(pid);
+    // 定位：锚定在小方块右侧/下方
+    ov.style.display = 'block';
+    const r = anchor.getBoundingClientRect();
+    const pw = 320, ph = ov.offsetHeight || 220;
+    let left = r.right + 8;
+    let top = r.top;
+    if (left + pw > window.innerWidth - 8) left = Math.max(8, r.left - pw - 8);
+    if (top + ph > window.innerHeight - 8) top = Math.max(8, window.innerHeight - ph - 8);
+    ov.style.left = left + 'px';
+    ov.style.top = top + 'px';
+    setTimeout(() => ta.focus(), 0);
+    // 绑定一次性外部点击 / Esc 关闭
+    setTimeout(() => {
+        document.addEventListener('click', _reviewOutside);
+        document.addEventListener('keydown', _reviewEsc);
+    }, 0);
+}
+function closeReviewPop() {
+    if (_reviewPop) _reviewPop.style.display = 'none';
+    _reviewPid = null;
+    document.removeEventListener('click', _reviewOutside);
+    document.removeEventListener('keydown', _reviewEsc);
+}
+function _reviewOutside(e) {
+    if (_reviewPop && !_reviewPop.contains(e.target) && !e.target.closest('.review-btn')) {
+        closeReviewPop();
+    }
+}
+function _reviewEsc(e) { if (e.key === 'Escape') closeReviewPop(); }
+
+// 同步所有点评标记（小方块 + 左侧列表项）的填充态，依据当前数据
+function syncReviewMarkers() {
+    document.querySelectorAll('.review-btn').forEach(b => {
+        b.classList.toggle('has', reviewHas(b.dataset.pid));
+    });
+    document.querySelectorAll('.paper-item').forEach(b => {
+        const pid = b.dataset.pid || (b.getAttribute('onclick') ? b.getAttribute('onclick').match(/'([^']+)'/g) : null);
+        const id = b.dataset.pid || '';
+        b.classList.toggle('has-review', reviewHas(id));
+    });
+}
+
+
 // ============ 渲染 ============
 function esc(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -140,9 +229,10 @@ function mdBlock(s) {
 function renderPaperList() {
     const el = document.getElementById('paperList');
     el.innerHTML = papers.map(p =>
-        `<button class="paper-item${curPaper && curPaper.id === p.id ? ' on' : ''}" onclick="openPaper('${p.id}')">
+        `<button class="paper-item${curPaper && curPaper.id === p.id ? ' on' : ''}" data-pid="${p.id}" onclick="openPaper('${p.id}')">
             <span class="paper-year">${p.year}</span>
             <span class="paper-name">${p.title.replace('年数学（二）真题', '年数二')}</span>
+            <span class="review-dot${reviewHas(p.id) ? ' on' : ''}" title="有试卷点评"></span>
         </button>`
     ).join('');
 }
@@ -186,9 +276,15 @@ function secTag(secIdx) {
 function renderCurrent() {
     const el = document.getElementById('examMain');
     if (!curPaper) { el.innerHTML = '<div class="loading">请选择一套卷</div>'; return; }
+    const review = reviewGet(curPaper.id);
+    const reviewFirst = review.trim().split('\n')[0].trim();
     let html = `<div class="paper-head">
-        <h1>${curPaper.title}</h1>
+        <div class="paper-head-top">
+            <h1>${curPaper.title}</h1>
+            <button class="review-btn${review.trim() ? ' has' : ''}" data-pid="${curPaper.id}" title="写试卷点评" onclick="openReviewPop('${curPaper.id}', this)">▦</button>
+        </div>
         <div class="paper-meta">共 ${curPaper.sections.reduce((a, s) => a + s.questions.length, 0)} 题 · 满分 150 分</div>
+        ${reviewFirst ? `<div class="paper-review-line">💬 ${esc(reviewFirst)}</div>` : ''}
     </div>`;
     let shown = 0, total = 0;
     curPaper.sections.forEach((sec, si) => {
