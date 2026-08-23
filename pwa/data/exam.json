@@ -4223,10 +4223,10 @@
           {
             "no": 10,
             "kind": "blank",
-            "stem": "已知 $\\displaystyle\\int_{-\\infty}^{+\\infty}e^{|k||x|}dx=1$，则 $k=$__________．",
+            "stem": "已知 $\\displaystyle\\int_{-\\infty}^{+\\infty}e^{k|x|}dx=1$，则 $k=$__________．",
             "options": [],
-            "answer": "【答案】$-2$\n【解析】$1=\\displaystyle\\int_{-\\infty}^{+\\infty}e^{|k||x|}dx=2\\int_{0}^{+\\infty}e^{|k|x|}dx=2\\lim_{b\\to+\\infty}\\frac{1}{|k|}e^{|k|x|}\\Big|_{0}^{b}$\n因为极限存在所以 $k<0$\n$$1=0-\\frac{2}{k}$$\n$k=-2$",
-            "idea": "**思路**：偶函数折半求反常积分，敛散性定 $k$ 符号。\n① 偶函数 ⇒ $1=2\\int_0^{+\\infty}\\mathrm{e}^{|k|x}dx$。\n② 收敛需 $|k|<0$ 即 $k<0$，$=2\\cdot\\tfrac1{-k}$。\n③ $-\\tfrac2k=1$ ⇒ $k=-2$。"
+            "answer": "【答案】$-2$\n【解析】$1=\\displaystyle\\int_{-\\infty}^{+\\infty}e^{k|x|}dx=2\\int_{0}^{+\\infty}e^{kx}dx=2\\lim_{b\\to+\\infty}\\frac{1}{k}e^{kx}\\Big|_{0}^{b}$\n因为极限存在所以 $k<0$\n$$1=0-\\frac{2}{k}$$\n$k=-2$",
+            "idea": "**思路**：偶函数折半求反常积分，敛散性定 $k$ 符号。\n① 偶函数 ⇒ $1=2\\int_0^{+\\infty}\\mathrm{e}^{kx}dx$。\n② 收敛需 $k<0$，$=2\\cdot\\tfrac1{-k}$。\n③ $-\\tfrac2k=1$ ⇒ $k=-2$。"
           },
           {
             "no": 11,
