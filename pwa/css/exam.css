@@ -693,6 +693,19 @@ html.dark .exam-btn.on { color: #e5c860; }
 }
 .q-note-preview:empty { display: none; }
 
+/* 笔记「✏️编辑/💾完成」小按钮 */
+.q-note-editbtn {
+    margin-top: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-dim);
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.q-note-editbtn:hover { background: var(--bg-hover); }
+
 .exam-note-img {
     max-width: 100%;
     max-height: 320px;

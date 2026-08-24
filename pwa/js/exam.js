@@ -95,17 +95,7 @@ function noteInput(ta) {
         const btn = ta.closest('.q-card') && ta.closest('.q-card').querySelector('[data-act="note"]');
         if (btn) btn.classList.toggle('has', !!newVal.trim());
     }, 500);
-    // 实时预览（含图片占位）
-    const pv = ta.parentElement.querySelector('.q-note-preview');
-    if (pv) {
-        const v = ta.value.trim();
-        if (v) {
-            pv.innerHTML = mdBlockWithImg(ta.value);
-            pv.hidden = false;
-            if (ta.value.includes('[图:')) fillExamNoteImgs(pv);
-        }
-        else { pv.innerHTML = ''; pv.hidden = true; }
-    }
+    // 编辑态只显示输入框；预览在「完成」时统一渲染（避免原文+预览双份显示）
 }
 // 笔记区 Ctrl+V 贴图：存 IndexedDB 后在光标处插入 [图:id]
 function notePasteImg(e) {
@@ -140,9 +130,50 @@ function toggleQSec(btn, act) {
                     ta.dataset.bind = '1';
                 }
                 ta.focus();
-                // 首次展开时渲染预览
                 noteInput(ta);
             }
+        }
+    }
+}
+// 笔记「✏️ 编辑 / 💾 完成」：编辑态只显示输入框，完成时落盘并渲染预览
+function toggleNoteEdit(btn) {
+    const sec = btn.closest('.q-note');
+    const ta = sec.querySelector('.q-note-input');
+    const pv = sec.querySelector('.q-note-preview');
+    const editing = ta.style.display !== 'none';
+    if (!editing) {
+        // 进入编辑
+        btn.textContent = '💾 完成';
+        ta.style.display = '';
+        if (pv) pv.hidden = true;
+        if (!ta.dataset.bind) {
+            ta.addEventListener('input', () => noteInput(ta));
+            ta.addEventListener('paste', notePasteImg);
+            ta.dataset.bind = '1';
+        }
+        ta.focus();
+    } else {
+        // 完成：清防抖定时器，立即落盘
+        clearTimeout(_noteTimer[ta.dataset.qid]);
+        delete _noteTimer[ta.dataset.qid];
+        try { localStorage.setItem('examNote-' + ta.dataset.qid, ta.value); } catch (e) { }
+        const v = ta.value.trim();
+        if (v) {
+            btn.textContent = '✏️ 编辑';
+            ta.style.display = 'none';
+            if (pv) {
+                pv.innerHTML = mdBlockWithImg(ta.value);
+                pv.hidden = false;
+                renderMath(pv);
+                if (ta.value.includes('[图:')) fillExamNoteImgs(pv);
+            }
+        } else {
+            // 清空了内容：收起整节，重置为「空笔记」形态（下次展开直接是输入框）
+            const opBtn = sec.closest('.q-card')?.querySelector('[data-act="note"]');
+            sec.hidden = true;
+            if (opBtn) opBtn.classList.remove('has');
+            ta.style.display = '';
+            btn.style.display = 'none';
         }
     }
 }
@@ -387,6 +418,17 @@ function qCard(p, sec, q, secIdx) {
         ? `<div class="q-options">${q.options.map(o => `<div class="q-opt">${mdInline(o)}</div>`).join('')}</div>`
         : '';
     const note = noteGet(qid);
+    const hasNote = !!note.trim();
+    const noteHtml = hasNote
+        ? `<div class="q-sec q-note">
+            <div class="q-note-preview">${mdBlockWithImg(note)}</div>
+            <textarea class="q-note-input" data-qid="${qid}" style="display:none" placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）">${esc(note)}</textarea>
+            <button class="q-note-editbtn" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
+        </div>`
+        : `<div class="q-sec q-note" hidden>
+            <textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）"></textarea>
+            <div class="q-note-preview" hidden></div>
+        </div>`;
     const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';
     const ideaHtml = q.idea ? `<div class="q-sec q-idea" hidden>${mdBlock(q.idea)}</div>` : '';
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
@@ -399,13 +441,10 @@ function qCard(p, sec, q, secIdx) {
         <div class="q-ops">
             <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
             ${ideaBtn}
-            <button class="q-op${note.trim() ? ' has' : ''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
+            <button class="q-op${hasNote ? ' has' : ''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
         </div>
         ${ideaHtml}
-        <div class="q-sec q-note" hidden>
-            <textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）">${esc(note)}</textarea>
-            <div class="q-note-preview" hidden></div>
-        </div>
+        ${noteHtml}
         <div class="q-sec q-answer" hidden><div class="q-answer-body">${mdBlock(q.answer)}</div></div>
     </div>`;
 }
@@ -443,6 +482,8 @@ function renderCurrent() {
     }
     el.innerHTML = html + (favOnly ? `<div class="fav-count">收藏 ${shown}/${total} 题</div>` : '');
     renderMath(el);
+    // 默认展开的笔记预览回填 [图:id] 贴图
+    el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
     renderNav();
 }
 
