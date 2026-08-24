@@ -709,6 +709,84 @@ const Annot = (() => {
     }
 
     // ============ 备份：导出 / 导入（合并，批注图片随包 base64） ============
+    // ---- 真题页数据打包/恢复（同源 localStorage + examNoteImg IndexedDB）----
+    function examImgDbOpen() {
+        return new Promise(function (res, rej) {
+            const rq = indexedDB.open('examNoteImg', 1);
+            rq.onupgradeneeded = () => rq.result.createObjectStore('imgs');
+            rq.onsuccess = () => res(rq.result);
+            rq.onerror = () => rej(rq.error);
+        });
+    }
+    function examImgGetRaw(db, id) {
+        return new Promise(function (res) {
+            try {
+                const rq = db.transaction('imgs').objectStore('imgs').get(id);
+                rq.onsuccess = () => res(rq.result || null);
+                rq.onerror = () => res(null);
+            } catch (e) { res(null); }
+        });
+    }
+    function examImgPutRaw(db, id, blob) {
+        return new Promise(function (res, rej) {
+            const tx = db.transaction('imgs', 'readwrite');
+            tx.objectStore('imgs').put(blob, id);
+            tx.oncomplete = () => res();
+            tx.onerror = () => rej(tx.error);
+        });
+    }
+    async function collectExamData() {
+        const exam = { notes: {}, favs: null, reviews: {}, imgs: {} };
+        for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k.indexOf('examNote-') === 0) exam.notes[k] = localStorage.getItem(k);
+            else if (k.indexOf('examReview-') === 0) exam.reviews[k] = localStorage.getItem(k);
+        }
+        exam.favs = localStorage.getItem('examFav');
+        // 贴图：从所有真题笔记文本抽 [图:id]，回源 IndexedDB 转 base64
+        const ids = new Set();
+        Object.keys(exam.notes).forEach(k =>
+            (exam.notes[k].match(/\[图:([a-z0-9]+)\]/g) || []).forEach(m => ids.add(m.slice(3, -1))));
+        if (ids.size) {
+            try {
+                const db = await examImgDbOpen();
+                for (const id of ids) {
+                    const blob = await examImgGetRaw(db, id);
+                    if (blob) exam.imgs[id] = await blobToDataURL(blob);
+                }
+            } catch (e) { /* DB 打不开则只导文本 */ }
+        }
+        return exam;
+    }
+    async function restoreExamData(exam) {
+        if (!exam || typeof exam !== 'object') return false;
+        let touched = false;
+        for (const [k, v] of Object.entries(exam.notes || {}))
+            if (typeof v === 'string') { localStorage.setItem(k, v); touched = true; }
+        for (const [k, v] of Object.entries(exam.reviews || {}))
+            if (typeof v === 'string') { localStorage.setItem(k, v); touched = true; }
+        if (exam.favs) {
+            try {
+                const cur = JSON.parse(localStorage.getItem('examFav') || '{}');
+                const inc = JSON.parse(exam.favs);
+                if (inc && typeof inc === 'object') {
+                    localStorage.setItem('examFav', JSON.stringify(Object.assign(cur, inc)));
+                    touched = true;
+                }
+            } catch (e) { /* 收藏格式异常跳过 */ }
+        }
+        const imgIds = Object.keys(exam.imgs || {});
+        if (imgIds.length) {
+            try {
+                const db = await examImgDbOpen();
+                for (const id of imgIds)
+                    await examImgPutRaw(db, id, await (await fetch(exam.imgs[id])).blob());
+                touched = true;
+            } catch (e) { /* 图片还原失败不阻塞文本 */ }
+        }
+        return touched;
+    }
+
     async function exportAnnot() {
         const ids = new Set();
         for (const b of Object.values(data))
@@ -718,7 +796,7 @@ const Annot = (() => {
             const blob = await imgGet(id);
             if (blob) imgs[id] = await blobToDataURL(blob);
         }
-        const payload = { __fmt: 'math-note-annot', __v: 2, annot: data, imgs };
+        const payload = { __fmt: 'math-note-annot', __v: 2, annot: data, imgs, exam: await collectExamData() };
         const blob = new Blob([JSON.stringify(payload, null, 1)], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -753,7 +831,9 @@ const Annot = (() => {
                     }
                 }
                 save();
-                alert('导入成功，已合并到现有标注');
+                // 真题页数据（笔记/收藏/点评/贴图）随包还原
+                const examOk = await restoreExamData(obj.exam);
+                alert(examOk ? '导入成功，已合并到现有标注（含真题笔记/收藏/点评）' : '导入成功，已合并到现有标注');
                 location.reload();
             } catch (e) {
                 alert('导入失败: ' + e.message);
