@@ -60,6 +60,31 @@ function toggleFavOnly() {
     renderCurrent();
 }
 
+// ============ 顶部工具 FAB（居中可折叠） ============
+const FAB_COLLAPSED_KEY = 'examFabCollapsed';
+function toggleTopFab(force) {
+    const fab = document.getElementById('examTopFab');
+    if (!fab) return;
+    const collapsed = (typeof force === 'boolean') ? force : !fab.classList.contains('collapsed');
+    fab.classList.toggle('collapsed', collapsed);
+    localStorage.setItem(FAB_COLLAPSED_KEY, collapsed ? '1' : '0');
+}
+function bindTopFab() {
+    const fab = document.getElementById('examTopFab');
+    if (!fab) return;
+    // 恢复上次折叠状态
+    if (localStorage.getItem(FAB_COLLAPSED_KEY) === '1') fab.classList.add('collapsed');
+    // 点菜单内按钮不误关；点外部关闭
+    document.addEventListener('click', (e) => {
+        if (fab.classList.contains('collapsed')) return;          // 已折叠不处理
+        if (fab.contains(e.target)) return;                        // 点 FAB 自己不关
+        toggleTopFab(true);                                        // 点外部收起
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !fab.classList.contains('collapsed')) toggleTopFab(true);
+    });
+}
+
 // ============ 思路 / 笔记（2007 试水：有 idea 字段才显示思路按钮；笔记按题存 localStorage） ============
 function noteGet(qid) {
     try { return localStorage.getItem('examNote-' + qid) || ''; } catch (e) { return ''; }
@@ -553,6 +578,8 @@ async function init() {
         const q = document.getElementById('q-' + qidOf(curPaper.id, startNo));
         if (q) q.scrollIntoView({ block: 'start' });
     }
+    // 顶部工具 FAB（居中可折叠）
+    bindTopFab();
 }
 
 init();

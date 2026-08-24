@@ -33,7 +33,59 @@ a { color: var(--accent); text-decoration: none; }
 .exam-logo { font-size: 24px; }
 .exam-title { font-size: 17px; font-weight: 700; }
 .exam-sub { font-size: 12px; color: var(--text-faint); }
-.exam-topbtns { display: flex; gap: 8px; align-items: center; }
+/* 居中可折叠工具 FAB */
+.exam-topfab {
+    position: fixed;
+    left: 50%;
+    top: 60px;
+    transform: translateX(-50%);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.exam-fab-toggle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-side);
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    transition: background .15s;
+}
+.exam-fab-toggle:hover { background: var(--bg-hover); }
+.exam-fab-arrow {
+    font-size: 12px;
+    line-height: 1;
+    transition: transform .2s ease;
+    display: inline-block;
+}
+/* 收起时箭头朝下，展开时朝上 */
+.exam-topfab.collapsed .exam-fab-arrow { transform: rotate(180deg); }
+.exam-fab-menu {
+    margin-top: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: var(--bg-side);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 6px 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.14);
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+}
+/* 折叠态：菜单上移收起 */
+.exam-topfab.collapsed .exam-fab-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    pointer-events: none;
+}
 
 .exam-btn {
     border: 1px solid var(--border);

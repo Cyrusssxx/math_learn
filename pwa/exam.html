@@ -22,10 +22,15 @@
                 <div class="exam-sub" id="examSub">1987—2025 历年真题 · 收藏错题</div>
             </div>
         </div>
-        <div class="exam-topbtns">
-            <button class="exam-btn" id="favOnly" onclick="toggleFavOnly()" title="只看已收藏题目">⭐ 收藏夹</button>
-            <button class="exam-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
-            <a class="exam-btn" href="index.html" target="_blank" title="打开笔记站">📚 笔记</a>
+        <div class="exam-topfab" id="examTopFab">
+            <button class="exam-fab-toggle" id="fabToggle" onclick="toggleTopFab()" title="展开/收起工具">
+                <span class="exam-fab-arrow" id="fabArrow">▲</span>
+            </button>
+            <div class="exam-fab-menu" id="fabMenu">
+                <button class="exam-btn" id="favOnly" onclick="toggleFavOnly()" title="只看已收藏题目">⭐ 收藏夹</button>
+                <button class="exam-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
+                <a class="exam-btn" href="index.html" target="_blank" title="打开笔记站">📚 笔记</a>
+            </div>
         </div>
     </header>
 
