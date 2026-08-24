@@ -25,7 +25,7 @@ a { color: var(--accent); text-decoration: none; }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 16px;
+    padding: 10px 56px 10px 16px;
     background: var(--bg-side);
     border-bottom: 1px solid var(--border);
 }
@@ -35,7 +35,7 @@ a { color: var(--accent); text-decoration: none; }
 .exam-sub { font-size: 12px; color: var(--text-faint); }
 .exam-topbtns { display: flex; gap: 8px; align-items: center; }
 
-/* 顶部栏折叠箭头：展开态隐藏，收起态常驻右上角悬浮 */
+/* 顶部栏折叠箭头：常驻右上角悬浮，展开/收起都可见 */
 .exam-top-toggle {
     position: fixed;
     top: 12px;
@@ -48,7 +48,7 @@ a { color: var(--accent); text-decoration: none; }
     background: var(--bg-side);
     color: var(--text-dim);
     cursor: pointer;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 8px rgba(0,0,0,.14);
@@ -63,7 +63,6 @@ a { color: var(--accent); text-decoration: none; }
 }
 /* 折叠态：整栏完全消失，仅箭头悬浮；箭头朝下 */
 .exam-top.collapsed { display: none; }
-.exam-top-toggle.collapsed { display: flex; }
 .exam-top-toggle.collapsed .exam-top-arrow { transform: rotate(180deg); }
 
 .exam-btn {
