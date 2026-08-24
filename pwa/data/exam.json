@@ -4075,7 +4075,7 @@
             "kind": "blank",
             "stem": "（本题满分 10 分）\n计算二重积分 $I=\\displaystyle\\iint_{D}r^{2}\\sin\\theta\\sqrt{1-r^{2}\\cos 2\\theta}\\,drd\\theta$，其中 $D=\\Bigl\\{(r,\\theta)\\,\\Big|\\,0\\leqslant r\\leqslant\\sec\\theta,0\\leqslant\\theta\\leqslant\\dfrac{\\pi}{4}\\Bigr\\}$．",
             "options": [],
-            "answer": "【解析】$I=\\displaystyle\\iint_{D}r^{2}\\sin\\theta\\sqrt{1-r^{2}(\\cos^{2}\\theta-\\sin^{2}\\theta)}\\cdot rdr\\theta$\n$$=\\iint_{D}r\\sin\\theta\\sqrt{1-r^{2}+r^{2}\\sin^{2}\\theta}\\,drd\\theta$$\n$$=\\int_{0}^{\\frac{\\pi}{4}}dx\\int_{0}^{x}y\\sqrt{1-x^{2}+y^{2}}\\,dy=\\int_{0}^{1}\\Bigl[1-(1-x^{2})^{\\frac{3}{2}}\\Bigr]dx$$\n$$=\\int_{0}^{1}\\frac{1}{3}dx-\\frac{1}{3}\\int_{0}^{1}(1-x^{2})^{\\frac{3}{2}}dx=\\frac{1}{3}-\\int_{0}^{\\frac{\\pi}{2}}\\cos 4\\theta d\\theta=\\frac{1}{3}-\\frac{3}{16}\\pi.$$",
+            "answer": "【解析】$I=\\displaystyle\\iint_{D}r^{2}\\sin\\theta\\sqrt{1-r^{2}(\\cos^{2}\\theta-\\sin^{2}\\theta)}\\cdot rdr\\theta$\n$$=\\iint_{D}r\\sin\\theta\\sqrt{1-r^{2}+r^{2}\\sin^{2}\\theta}\\,drd\\theta$$\n$$=\\int_{0}^{\\frac{\\pi}{4}}dx\\int_{0}^{x}y\\sqrt{1-x^{2}+y^{2}}\\,dy=\\int_{0}^{1}\\Bigl[1-(1-x^{2})^{\\frac{3}{2}}\\Bigr]dx$$\n$$=\\int_{0}^{1}\\frac{1}{3}dx-\\frac{1}{3}\\int_{0}^{1}(1-x^{2})^{\\frac{3}{2}}dx=\\frac{1}{3}-\\int_{0}^{\\frac{\\pi}{2}}\\cos^{4}\\theta d\\theta=\\frac{1}{3}-\\frac{3}{16}\\pi.$$",
             "idea": "**思路**：极坐标化直角坐标，$r\\le\\sec\\theta$ 即 $x\\le1$。\n① $r\\cos\\theta=x\\le1$，$\\theta\\in[0,\\tfrac\\pi4]$ ⇒ 区域 $0\\le y\\le x\\le1$。\n② 换元后 $\\iint y\\sqrt{1-x^2+y^2}\\,dxdy$，先对 $y$ 积（凑微分）。\n③ 得 $\\tfrac13-\\tfrac3{16}\\pi$。"
           },
           {
