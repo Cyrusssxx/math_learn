@@ -1160,8 +1160,8 @@
             "kind": "blank",
             "stem": "（本题满分12分）\n已知平面区域\n$$D=\\left\\{(x,y)\\mid y-2\\le x\\le\\sqrt{4-y^2},\\ 0\\le y\\le2\\right\\},$$\n计算\n$$I=\\iint_D\\frac{(x-y)^2}{x^2+y^2}\\,dx\\,dy.$$",
             "options": [],
-            "answer": "【答案】$2\\pi-2$\n区域 $D$ 的左边界为直线 $x=y-2$，右边界为圆 $x^2+y^2=4$ 的右半圆，因此 $D$ 不是上半圆盘。\n作极坐标变换\n$$x=r\\cos\\theta,\\ y=r\\sin\\theta.$$\n直线 $x=y-2$ 化为\n$$r(\\sin\\theta-\\cos\\theta)=2.$$\n于是区域可分为\n$$\\begin{cases}0\\le\\theta\\le\\frac\\pi2, & 0\\le r\\le2,\\\\ \\frac\\pi2\\le\\theta\\le\\pi, & 0\\le r\\le\\frac2{\\sin\\theta-\\cos\\theta}.\\end{cases}$$\n又\n$$\\frac{(x-y)^2}{x^2+y^2}=(\\cos\\theta-\\sin\\theta)^2.$$\n因此\n$$\\begin{aligned}\nI &=\\int_0^{\\pi/2}\\int_0^2(\\cos\\theta-\\sin\\theta)^2r\\,dr\\,d\\theta\\\\\n&\\quad+\\int_{\\pi/2}^{\\pi}\\int_0^{2/(\\sin\\theta-\\cos\\theta)}(\\cos\\theta-\\sin\\theta)^2r\\,dr\\,d\\theta\\\\\n&=2\\int_0^{\\pi/2}(1-\\sin2\\theta)\\,d\\theta+2\\int_{\\pi/2}^{\\pi}d\\theta\\\\\n&=(\\pi-2)+\\pi=2\\pi-2.\n\\end{aligned}$$",
-            "idea": "**思路**：极坐标化，注意区域在两段 $\\theta$ 上 $r$ 上限不同。\n① 直线 $x=y-2$ 化为 $r(\\sin\\theta-\\cos\\theta)=2$。\n② $\\theta\\in[0,\\tfrac\\pi2]$ 时 $0\\le r\\le2$；$\\theta\\in[\\tfrac\\pi2,\\pi]$ 时 $0\\le r\\le\\tfrac2{\\sin\\theta-\\cos\\theta}$。\n③ $\\tfrac{(x-y)^2}{x^2+y^2}=(\\cos\\theta-\\sin\\theta)^2$，积分得 $2\\pi-2$。"
+            "answer": "【答案】$2\\pi-1$\n区域 $D$ 的左边界为直线 $x=y-2$，右边界为圆 $x^2+y^2=4$ 的右半圆，因此 $D$ 不是上半圆盘。\n作极坐标变换\n$$x=r\\cos\\theta,\\ y=r\\sin\\theta.$$\n直线 $x=y-2$ 化为\n$$r(\\sin\\theta-\\cos\\theta)=2.$$\n于是区域可分为\n$$\\begin{cases}0\\le\\theta\\le\\frac\\pi2, & 0\\le r\\le2,\\\\ \\frac\\pi2\\le\\theta\\le\\pi, & 0\\le r\\le\\frac2{\\sin\\theta-\\cos\\theta}.\\end{cases}$$\n又\n$$\\frac{(x-y)^2}{x^2+y^2}=(\\cos\\theta-\\sin\\theta)^2.$$\n因此\n$$\\begin{aligned}\nI &=\\int_0^{\\pi/2}\\int_0^2(\\cos\\theta-\\sin\\theta)^2r\\,dr\\,d\\theta\\\\\n&\\quad+\\int_{\\pi/2}^{\\pi}\\int_0^{2/(\\sin\\theta-\\cos\\theta)}(\\cos\\theta-\\sin\\theta)^2r\\,dr\\,d\\theta\\\\\n&=2\\int_0^{\\pi/2}(1-\\sin2\\theta)\\,d\\theta+2\\int_{\\pi/2}^{\\pi}d\\theta\\\\\n&=(\\pi-1)+\\pi=2\\pi-1.\n\\end{aligned}$$",
+            "idea": "**思路**：极坐标化，注意区域在两段 $\\theta$ 上 $r$ 上限不同。\n① 直线 $x=y-2$ 化为 $r(\\sin\\theta-\\cos\\theta)=2$。\n② $\\theta\\in[0,\\tfrac\\pi2]$ 时 $0\\le r\\le2$；$\\theta\\in[\\tfrac\\pi2,\\pi]$ 时 $0\\le r\\le\\tfrac2{\\sin\\theta-\\cos\\theta}$。\n③ $\\tfrac{(x-y)^2}{x^2+y^2}=(\\cos\\theta-\\sin\\theta)^2$，积分得 $2\\pi-1$。"
           },
           {
             "no": 20,
@@ -4434,8 +4434,8 @@
             "kind": "blank",
             "stem": "微分方程 $(y+x^2e^{-x})dx-xdy=0$ 的通解是 $y=$______。",
             "options": [],
-            "answer": "【答案】$x(e^{-x}+C)$\n【详解】微分方程 $(y+x^2e^{-x})dx-xdy=0$ 可变形为 $\\dfrac{dy}{dx}-\\dfrac{y}{x}=xe^{-x}$\n所以 $y=e^{\\int\\frac{1}{x}dx}\\left[\\int xe^{-x}\\cdot e^{-\\int\\frac{1}{x}dx}dx+C\\right]=x\\left[\\int xe^{-x}\\cdot\\frac{1}{x}dx+C\\right]=x(e^{-x}+C)$",
-            "idea": "**思路**：化为标准一阶线性方程，套积分因子公式。\n① $y'-\\tfrac1xy=x\\mathrm{e}^{-x}$，积分因子 $\\mathrm{e}^{\\int-\\tfrac1x dx}=\\tfrac1x$。\n② $y=x\\big[\\int x\\mathrm{e}^{-x}\\cdot\\tfrac1x\\,dx+C\\big]=x\\big[\\int\\mathrm{e}^{-x}dx+C\\big]$。\n③ $y=x(\\mathrm{e}^{-x}+C)$。"
+            "answer": "【答案】$x(C-e^{-x})$\n【详解】微分方程 $(y+x^2e^{-x})dx-xdy=0$ 可变形为 $\\dfrac{dy}{dx}-\\dfrac{y}{x}=xe^{-x}$\n所以 $y=e^{\\int\\frac{1}{x}dx}\\left[\\int xe^{-x}\\cdot e^{-\\int\\frac{1}{x}dx}dx+C\\right]=x\\left[\\int \\mathrm{e}^{-x}dx+C\\right]=x(C-e^{-x})$",
+            "idea": "**思路**：化为标准一阶线性方程，套积分因子公式。\n① $y'-\\tfrac1xy=x\\mathrm{e}^{-x}$，积分因子 $\\mathrm{e}^{\\int-\\tfrac1x dx}=\\tfrac1x$。\n② $y=x\\big[\\int x\\mathrm{e}^{-x}\\cdot\\tfrac1x\\,dx+C\\big]=x\\big[\\int\\mathrm{e}^{-x}dx+C\\big]$。\n③ $y=x(C-\\mathrm{e}^{-x})$。"
           },
           {
             "no": 11,
