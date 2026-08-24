@@ -64,16 +64,16 @@ function toggleFavOnly() {
 const TOP_COLLAPSED_KEY = 'examTopCollapsed';
 function toggleTopBar(force) {
     const top = document.getElementById('examTop');
+    const toggle = document.getElementById('examTopToggle');
     if (!top) return;
     const collapsed = (typeof force === 'boolean') ? force : !top.classList.contains('collapsed');
     top.classList.toggle('collapsed', collapsed);
+    if (toggle) toggle.classList.toggle('collapsed', collapsed);
     localStorage.setItem(TOP_COLLAPSED_KEY, collapsed ? '1' : '0');
 }
 function restoreTopBar() {
-    if (localStorage.getItem(TOP_COLLAPSED_KEY) === '1') {
-        const top = document.getElementById('examTop');
-        if (top) top.classList.add('collapsed');
-    }
+    const collapsed = localStorage.getItem(TOP_COLLAPSED_KEY) === '1';
+    toggleTopBar(collapsed);
 }
 
 // ============ 思路 / 笔记（2007 试水：有 idea 字段才显示思路按钮；笔记按题存 localStorage） ============

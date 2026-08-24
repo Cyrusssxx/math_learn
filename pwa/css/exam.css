@@ -35,38 +35,36 @@ a { color: var(--accent); text-decoration: none; }
 .exam-sub { font-size: 12px; color: var(--text-faint); }
 .exam-topbtns { display: flex; gap: 8px; align-items: center; }
 
-/* 顶部栏整体折叠：折叠时 header 上缩成一条，仅留箭头按钮 */
+/* 顶部栏折叠箭头：展开态隐藏，收起态常驻右上角悬浮 */
 .exam-top-toggle {
-    width: 28px;
-    height: 28px;
+    position: fixed;
+    top: 12px;
+    right: 14px;
+    z-index: 45;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     border: 1px solid var(--border);
-    background: var(--bg);
+    background: var(--bg-side);
     color: var(--text-dim);
     cursor: pointer;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
-    margin-left: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.14);
     transition: background .15s;
 }
 .exam-top-toggle:hover { background: var(--bg-hover); }
 .exam-top-arrow {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1;
     transition: transform .2s ease;
     display: inline-block;
 }
-/* 折叠态：箭头朝下、隐藏标题与按钮、header 收成一条 */
-.exam-top.collapsed .exam-top-arrow { transform: rotate(180deg); }
-.exam-top.collapsed .exam-brand,
-.exam-top.collapsed .exam-topbtns {
-    display: none;
-}
-.exam-top.collapsed {
-    padding-top: 4px;
-    padding-bottom: 4px;
-}
+/* 折叠态：整栏完全消失，仅箭头悬浮；箭头朝下 */
+.exam-top.collapsed { display: none; }
+.exam-top-toggle.collapsed { display: flex; }
+.exam-top-toggle.collapsed .exam-top-arrow { transform: rotate(180deg); }
 
 .exam-btn {
     border: 1px solid var(--border);
