@@ -183,7 +183,7 @@ function examImgRefs(t) {
 function mdBlockWithImg(s) {
     return mdBlock(s)
         .replace(/\[图:([a-z0-9]+)\]/g,
-            (_, id) => `<img class="exam-note-img" data-img="${id}" alt="笔记图片">`);
+            (_, id) => `<img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)">`);
 }
 async function fillExamNoteImgs(root) {
     if (!root) return;
@@ -193,6 +193,32 @@ async function fillExamNoteImgs(root) {
         if (blob) img.src = URL.createObjectURL(blob);
         else img.replaceWith(document.createTextNode('[图片已丢失]'));
     }
+}
+
+// ============ 配图 / 笔记贴图 单击放大（复用 exam.css 的 .zoom-overlay 遮罩） ============
+function zoomAnsImg(img) {
+    let ov = document.getElementById('zoomOverlay');
+    if (!ov) {
+        ov = document.createElement('div');
+        ov.id = 'zoomOverlay';
+        ov.className = 'zoom-overlay';
+        ov.onclick = function () { ov.classList.remove('show'); };
+        ov.innerHTML = '<img id="zoomImg" alt="放大图片">';
+        const big = ov.querySelector('#zoomImg');
+        // 点放大图本身不关闭，点遮罩其余处关闭
+        big.onclick = function (e) { e.stopPropagation(); };
+        document.body.appendChild(ov);
+        // Esc 关闭
+        document.addEventListener('keydown', function onEsc(e) {
+            if (e.key === 'Escape') {
+                ov.classList.remove('show');
+                document.removeEventListener('keydown', onEsc);
+            }
+        });
+    }
+    const big = document.getElementById('zoomImg');
+    big.src = img.currentSrc || img.src;
+    ov.classList.add('show');
 }
 
 // 全局唯一 popover 节点（懒创建，挂载到 body）
@@ -340,7 +366,7 @@ function qCard(p, sec, q, secIdx) {
     const fav = isFav(qid);
     const kindTag = q.kind === 'choice' ? '选择' : (q.no >= 11 && q.no <= 16 ? '填空' : '解答');
     const stem = mdBlock(q.stem);
-    const figHtml = q.img ? `<img class="q-fig-img" src="${q.img}" alt="题${q.no}配图" loading="lazy">${(q.img2?`<img class="q-fig-img" src="${q.img2}" alt="题${q.no}配图2" loading="lazy">`:'')}` : '';
+    const figHtml = q.img ? `<img class="q-fig-img" src="${q.img}" alt="题${q.no}配图" loading="lazy" onclick="zoomAnsImg(this)">${(q.img2?`<img class="q-fig-img" src="${q.img2}" alt="题${q.no}配图2" loading="lazy" onclick="zoomAnsImg(this)">`:'')}` : '';
     const options = q.options && q.options.length
         ? `<div class="q-options">${q.options.map(o => `<div class="q-opt">${mdInline(o)}</div>`).join('')}</div>`
         : '';

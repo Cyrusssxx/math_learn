@@ -375,6 +375,7 @@ html.dark .exam-btn.on { color: #e5c860; }
     height: auto;
     margin: 12px auto;
     border-radius: 4px;
+    cursor: zoom-in;
 }
 
 /* 公式放大：行内 & 显示（含积分号） */
@@ -669,5 +670,6 @@ html.dark .exam-btn.on { color: #e5c860; }
     display: block;
     margin: 6px 0;
     border: 1px solid var(--border);
+    cursor: zoom-in;
 }
 
