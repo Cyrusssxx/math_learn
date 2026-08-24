@@ -70,10 +70,17 @@ function toggleTopBar(force) {
     top.classList.toggle('collapsed', collapsed);
     if (toggle) toggle.classList.toggle('collapsed', collapsed);
     localStorage.setItem(TOP_COLLAPSED_KEY, collapsed ? '1' : '0');
+    syncTopH();
 }
 function restoreTopBar() {
     const collapsed = localStorage.getItem(TOP_COLLAPSED_KEY) === '1';
     toggleTopBar(collapsed);
+}
+// 同步顶部栏实际高度到 CSS 变量 --exam-top-h（收起=0），驱动侧栏 sticky 偏移与主体高度
+function syncTopH() {
+    const top = document.getElementById('examTop');
+    const h = (top && !top.classList.contains('collapsed')) ? top.offsetHeight : 0;
+    document.documentElement.style.setProperty('--exam-top-h', h + 'px');
 }
 
 // ============ 思路 / 笔记（2007 试水：有 idea 字段才显示思路按钮；笔记按题存 localStorage） ============
@@ -610,8 +617,14 @@ async function init() {
         const q = document.getElementById('q-' + qidOf(curPaper.id, startNo));
         if (q) q.scrollIntoView({ block: 'start' });
     }
-    // 顶部栏整体折叠（恢复上次状态）
+    // 顶部栏整体折叠（恢复上次状态）+ 高度联动
     restoreTopBar();
+    syncTopH();
+    if (window.ResizeObserver) {
+        new ResizeObserver(syncTopH).observe(document.getElementById('examTop'));
+    } else {
+        window.addEventListener('resize', syncTopH);
+    }
 }
 
 init();

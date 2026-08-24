@@ -84,11 +84,12 @@ a { color: var(--accent); text-decoration: none; }
 html.dark .exam-btn.on { color: #e5c860; }
 
 /* ============ 主体两栏 ============ */
+/* --exam-top-h 由 JS 同步为顶部栏实际高度（收起时为 0），避免折叠后留白 */
 .exam-wrap {
     display: grid;
     grid-template-columns: 200px 1fr;
     gap: 0;
-    min-height: calc(100vh - 53px);
+    min-height: calc(100vh - var(--exam-top-h, 53px));
 }
 .exam-wrap.side-closed { grid-template-columns: 40px 1fr; }
 
@@ -98,9 +99,9 @@ html.dark .exam-btn.on { color: #e5c860; }
     border-right: 1px solid var(--border);
     padding: 14px 10px;
     overflow-y: auto;
-    max-height: calc(100vh - 53px);
+    max-height: calc(100vh - var(--exam-top-h, 53px));
     position: sticky;
-    top: 53px;
+    top: var(--exam-top-h, 53px);
 }
 .exam-side-title {
     font-size: 13px;
