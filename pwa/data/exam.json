@@ -1168,8 +1168,8 @@
             "kind": "blank",
             "stem": "（本题满分12分）\n已知可微函数 $f(u,v)$ 满足 $\\frac{\\partial f(u,v)}{\\partial u}-\\frac{\\partial f(u,v)}{\\partial v}=2(u-v)e^{-(u+v)}$，且 $f(u,0)=u^2e^{-u}$。（1）记 $g(x,y)=f(x,y-x)$，求 $\\frac{\\partial g(x,y)}{\\partial x}$；（2）求 $f(u,v)$ 的表达式和极值。",
             "options": [],
-            "answer": "【答案】（1）$g_x=2(2x-y)e^{-y}$；（2）$f(u,v)=(u^2+v^2)e^{-(u+v)}$，仅在 $(0,0)$ 处取得极小值 $0$；$(1,1)$ 为鞍点（$AC-B^2<0$）非极值。\n（1）由链式法则，\n$$g_x=f_u(x,y-x)-f_v(x,y-x)=2(x-(y-x))e^{-y}=2(2x-y)e^{-y}.$$\n（2）令 $s=u+v,w=u-v$，则 $\\partial_u-\\partial_v=2\\partial_w$。方程化为\n$$2f_w=2we^{-s},$$\n故\n$$f=\\frac12w^2e^{-s}+\\varphi(s).$$\n由 $v=0$ 时 $s=w=u$，且 $f(u,0)=u^2e^{-u}$，得 $\\varphi(s)=\\frac12s^2e^{-s}$。因此\n$$f(u,v)=\\frac12[(u-v)^2+(u+v)^2]e^{-(u+v)}=(u^2+v^2)e^{-(u+v)}.$$\n求驻点，由\n$$f_u=e^{-(u+v)}[2u-(u^2+v^2)],\\ f_v=e^{-(u+v)}[2v-(u^2+v^2)],$$\n得驻点 $(0,0)$ 与 $(1,1)$。由函数表达式可知 $(0,0)$ 为极小值点，极小值为 $0$；二阶判别可得 $(1,1)$ 为极大值点，极大值为 $\\frac2{e^2}$。",
-            "idea": "**思路**：换元 $s=u+v,\\ w=u-v$ 化偏微分方程为常微分。\n① $\\partial_u-\\partial_v=2\\partial_w$，方程化 $2f_w=2we^{-s}$。\n② 积分得 $f=\\tfrac12w^2e^{-s}+\\varphi(s)$，由 $f(u,0)$ 定 $\\varphi$。\n③ 得 $f=(u^2+v^2)e^{-(u+v)}$，驻点 $(0,0)$、$(1,1)$ 分别为极小、极大。"
+            "answer": "【答案】（1）$g_x=2(2x-y)e^{-y}$；（2）$f(u,v)=(u^2+v^2)e^{-(u+v)}$，仅在 $(0,0)$ 处取得极小值 $0$；$(1,1)$ 为鞍点（$AC-B^2<0$）非极值。\n（1）由链式法则，\n$$g_x=f_u(x,y-x)-f_v(x,y-x)=2(x-(y-x))e^{-y}=2(2x-y)e^{-y}.$$\n（2）令 $s=u+v,w=u-v$，则 $\\partial_u-\\partial_v=2\\partial_w$。方程化为\n$$2f_w=2we^{-s},$$\n故\n$$f=\\frac12w^2e^{-s}+\\varphi(s).$$\n由 $v=0$ 时 $s=w=u$，且 $f(u,0)=u^2e^{-u}$，得 $\\varphi(s)=\\frac12s^2e^{-s}$。因此\n$$f(u,v)=\\frac12[(u-v)^2+(u+v)^2]e^{-(u+v)}=(u^2+v^2)e^{-(u+v)}.$$\n求驻点，由\n$$f_u=e^{-(u+v)}[2u-(u^2+v^2)],\\ f_v=e^{-(u+v)}[2v-(u^2+v^2)],$$\n得驻点 $(0,0)$ 与 $(1,1)$。由函数表达式可知 $(0,0)$ 为极小值点，极小值为 $0$；二阶判别可得 $(1,1)$ 为鞍点（$AC-B^2<0$），$f(1,1)=\\frac2{e^2}$ 不是极值。",
+            "idea": "**思路**：换元 $s=u+v,\\ w=u-v$ 化偏微分方程为常微分。\n① $\\partial_u-\\partial_v=2\\partial_w$，方程化 $2f_w=2we^{-s}$。\n② 积分得 $f=\\tfrac12w^2e^{-s}+\\varphi(s)$，由 $f(u,0)$ 定 $\\varphi$。\n③ 得 $f=(u^2+v^2)e^{-(u+v)}$，驻点 $(0,0)$ 为极小值点，$(1,1)$ 为鞍点（非极值）。"
           },
           {
             "no": 21,
@@ -3362,8 +3362,8 @@
             "kind": "blank",
             "stem": "（本题满分10分）\n求曲线 $x^3-xy+y^3=1\\ (x\\ge0,\\ y\\ge0)$ 上的点到坐标原点的最长距离与最短距离。",
             "options": [],
-            "answer": "【答案】最长距离 $\\sqrt2$，最短距离 $1$\n即求 $f(x,y)=x^2+y^2$ 在约束 $x^3-xy+y^3=1$（$x,y\\ge0$）下的最值。构造拉格朗日函数\n$$L=x^2+y^2+\\lambda(x^3-xy+y^3-1).$$\n令 $L_x=L_y=0$：\n$$2x+\\lambda(3x^2-y)=0,\\qquad 2y+\\lambda(3y^2-x)=0.$$\n两式相减整理得 $(x-y)(4+3\\lambda(x+y))=0$。若 $x+y=-\\dfrac4{3\\lambda}$，结合约束推矛盾；故 $x=y$。代入 $x^3-xy+y^3=1$ 得 $2x^3-x^2-1=0$，即 $(x-1)(2x^2+x+1)=0$，故 $x=y=1$，此时 $f=\\sqrt2$。\n在边界 $x=0$ 上，$y^3=1$，$y=1$，$f=1$；$y=0$ 同理 $f=1$。故最长距离为 $\\sqrt2$，最短距离为 $1$。",
-            "idea": "**思路**：求 $x^2+y^2$ 在隐约束下的最值，拉格朗日乘数法加边界讨论。\n① $L=x^2+y^2+\\lambda(x^3-xy+y^3-1)$，令 $L_x=L_y=0$。\n② 两式相减得 $(x-y)\\big(4+3\\lambda(x+y)\\big)=0$，结合约束推矛盾后得 $x=y$，代回得 $(1,1)$。\n③ $(1,1)$ 处 $f=\\sqrt2$；边界 $x=0$ 或 $y=0$ 处 $f=1$，即最长 $\\sqrt2$、最短 $1$。"
+            "answer": "【答案】最长距离 $\\sqrt2$，最短距离 $1$\n即求 $f(x,y)=x^2+y^2$ 在约束 $x^3-xy+y^3=1$（$x,y\\ge0$）下的最值。构造拉格朗日函数\n$$L=x^2+y^2+\\lambda(x^3-xy+y^3-1).$$\n令 $L_x=L_y=0$：\n$$2x+\\lambda(3x^2-y)=0,\\qquad 2y+\\lambda(3y^2-x)=0.$$\n两式相减整理得 $(x-y)(2+\\lambda+3\\lambda(x+y))=0$。若 $x+y=-\\dfrac{2+\\lambda}{3\\lambda}$，结合约束推矛盾；故 $x=y$。代入 $x^3-xy+y^3=1$ 得 $2x^3-x^2-1=0$，即 $(x-1)(2x^2+x+1)=0$，故 $x=y=1$，此时 $f=\\sqrt2$。\n在边界 $x=0$ 上，$y^3=1$，$y=1$，$f=1$；$y=0$ 同理 $f=1$。故最长距离为 $\\sqrt2$，最短距离为 $1$。",
+            "idea": "**思路**：求 $x^2+y^2$ 在隐约束下的最值，拉格朗日乘数法加边界讨论。\n① $L=x^2+y^2+\\lambda(x^3-xy+y^3-1)$，令 $L_x=L_y=0$。\n② 两式相减得 $(x-y)\\big(2+\\lambda+3\\lambda(x+y)\\big)=0$，结合约束推矛盾后得 $x=y$，代回得 $(1,1)$。\n③ $(1,1)$ 处 $f=\\sqrt2$；边界 $x=0$ 或 $y=0$ 处 $f=1$，即最长 $\\sqrt2$、最短 $1$。"
           },
           {
             "no": 20,
@@ -4645,7 +4645,8 @@
             "options": [
               "(A) $\\lim\\limits_{(x,y) \\to (0,0)} [f(x,y)-f(0,0)]=0$.",
               "(B) $\\lim\\limits_{x \\to 0} \\dfrac{f(x,0)-f(0,0)}{x}=0$，且 $\\lim\\limits_{y \\to 0} \\dfrac{f(0,y)-f(0,0)}{y}=0$.",
-              "(C) $\\lim\\limits_{(x,y) \\to (0,0)} \\dfrac{f(x,y)-f(0,0)}{\\sqrt{x^2+y^2}}=0$."
+              "(C) $\\lim\\limits_{(x,y) \\to (0,0)} \\dfrac{f(x,y)-f(0,0)}{\\sqrt{x^2+y^2}}=0$.",
+              "(D) $\\lim\\limits_{x\\to 0}[f_x'(x,0)-f_x'(0,0)]=0$ 且 $\\lim\\limits_{y\\to 0}[f_y'(0,y)-f_y'(0,0)]=0$."
             ],
             "answer": "**答案：C**\n**解析：** 一般提到的全微分存在的一个充分条件是：设函数 $f(x,y)$ 在点 $(x_0,y_0)$ 处存在全微，但题设的 A,B,C,D 中没有一个能推出上述充分条件，所以改用全微分的定义检查之。\n全微分的定义是：设 $f(x,y)$ 在点 $(x_0,y_0)$ 的某领域内有定义，且 $f(x,y)$ 在点 $(x_0,y_0)$ 处的全增量可以写成 $f(x_0+\\Delta x, y_0+\\Delta y)-f(x_0,y_0)=A\\Delta x+B\\Delta y+o(\\rho)$，其中 $A,B$ 为与 $\\Delta x,\\Delta y$ 无关的常数，$\\rho=\\sqrt{(\\Delta x)^2+(\\Delta y)^2}$，$\\lim\\limits_{\\rho \\to 0} \\dfrac{o(\\rho)}{\\rho}=0$，则称 $f(x,y)$ 在点 $(x_0,y_0)$ 处可微，$\\Delta x+B\\Delta y$ 称为 $f(x,y)$ 在点 $(x_0,y_0)$ 处的全微分，对照此定义，就可解决本题。\n选项 A 相当于已知 $f(x,y)$ 在点 $(0,0)$ 处连续；选项 B 相当于已知两个一阶偏导数 $f'_x(0,0)$，$f'_y(0,0)$ 存在，因而 A、B 均不能保证 $f(x,y)$ 在点 $(0,0)$ 处可微。选项 D 相当于已知两个一阶偏导数 $f'_x(0,0)$，$f'_y(0,0)$ 存在，但不能推出两个一阶偏导函数 $f'_x(x,y)$，$f'_y(x,y)$ 在点 $(0,0)$ 处连续，因此也不能保证 $f(x,y)$ 在点 $(0,0)$ 处可微。\n由 C，$\\displaystyle \\lim_{(x,y)\\to(0,0)} \\frac{[f(x,y)-f(0,0)]}{\\sqrt{x^2+y^2}}=0$，推知\n$$f(x,y)-f(0,0)=\\alpha\\sqrt{x^2+y^2}=0, x+0\\cdot y+o(\\rho).$$\n其中 $\\rho=\\sqrt{x^2+y^2}$，$\\lim\\limits_{\\rho \\to 0} \\dfrac{o(\\rho)}{\\rho}=\\lim\\limits_{\\rho \\to 0} \\alpha=0$，对照全微分定义，相当于\n$x_0=0,y_0=0,\\Delta x=x,\\Delta y=y,A=0,B=0.$\n可见 $f(x,y)$ 在 $(0,0)$ 点可微，故选择(C).",
             "idea": "**思路**：对照全微分定义 $f-f(0,0)=Ax+By+o(\\rho)$（$\\rho=\\sqrt{x^2+y^2}$）。\n① C 给 $\\tfrac{f(x,y)-f(0,0)}{\\sqrt{x^2+y^2}}\\to0$，即差 $=o(\\rho)$，取 $A=B=0$ 恰合定义 ⇒ 可微。\n② A 只保证连续；B 只保证偏导存在；均不充分。\n③ 记住：出现 $o(\\rho)$ 型条件即可微。"
@@ -4758,18 +4759,18 @@
           {
             "no": 18,
             "kind": "blank",
-            "stem": "（本题满分 11 分）\n设 $D$ 是位于曲线 $y=\\sqrt{ax^{\\frac{3}{2}}}$（$a>1,0\\leqslant x<+\\infty$）下方、$x$ 轴上方的无界区域。\n（I）求区域 $D$ 绕 $x$ 轴旋转一周所成旋转体的体积 $V(a)$；\n（II）当 $a$ 为何值时，$V(a)$ 最小？并求此最小值。",
+            "stem": "（本题满分 11 分）\n设 $D$ 是位于曲线 $y=\\sqrt{x}\\,a^{-\\frac{x}{2a}}$（$a>1,0\\leqslant x<+\\infty$）下方、$x$ 轴上方的无界区域。\n（I）求区域 $D$ 绕 $x$ 轴旋转一周所成旋转体的体积 $V(a)$；\n（II）当 $a$ 为何值时，$V(a)$ 最小？并求此最小值。",
             "options": [],
-            "answer": "**解析：**\n(I) $V(a)=\\pi\\int_0^{+\\infty} xa^{\\frac{x}{a}}\\,\\mathrm{d}x = -\\dfrac{a}{\\ln a}\\pi\\left[xa^{\\frac{x}{a}}\\right]_0^{+\\infty} + \\dfrac{a}{\\ln a}\\pi\\int_0^{+\\infty} a^{\\frac{x}{a}}\\,\\mathrm{d}x = \\pi\\left(\\dfrac{a}{\\ln a}\\right)^2$\n(II) $V'(a)=\\left[\\pi\\left(\\dfrac{a}{\\ln a}\\right)^2\\right]'=\\pi\\dfrac{2\\ln a\\cdot a^2-2a^2\\ln a\\cdot 1}{\\ln^4 a}=\\dfrac{2\\ln a(a-2)a}{\\ln^3 a}=2\\pi\\dfrac{a(\\ln a-1)}{\\ln^3 a}$\n令 $V'(a)=0$，得 $\\ln a=1$，从而 $a=e$。当 $1<a<e$ 时，$V'(a)<0$，$V(a)$ 单调减少；\n当 $a>e$ 时，$V'(a)>0$，$V(a)$ 单调增加。所以 $a=e$ 时 $V$ 最小，最小体积为 $V_{\\min}(a)=\\pi e^2$",
-            "idea": "**思路**：旋转体体积 + 参数最值。\n① (I) $V=\\pi\\int_0^{+\\infty}y^2\\,\\mathrm{d}x=\\pi\\int_0^{+\\infty}xa^{x/a}\\mathrm{d}x$，分部积分（广义积分收敛）得 $\\pi(\\tfrac{a}{\\ln a})^2$。\n② (II) 对数求导：$\\ln V=2\\ln a-2\\ln\\ln a+\\ln\\pi$，令其导数为 0 ⇒ $\\ln a=1$ ⇒ $a=\\mathrm{e}$。\n③ $V_{\\min}=\\pi\\mathrm{e}^2$。注意定义域 $a>1$。"
+            "answer": "**解析：**\n(I) $V(a)=\\pi\\int_0^{+\\infty} xa^{-\\frac{x}{a}}\\,\\mathrm{d}x = -\\dfrac{a}{\\ln a}\\pi\\left[xa^{-\\frac{x}{a}}\\right]_0^{+\\infty} + \\dfrac{a}{\\ln a}\\pi\\int_0^{+\\infty} a^{-\\frac{x}{a}}\\,\\mathrm{d}x = \\pi\\left(\\dfrac{a}{\\ln a}\\right)^2$\n(II) $V'(a)=\\left[\\pi\\left(\\dfrac{a}{\\ln a}\\right)^2\\right]'=\\pi\\dfrac{2\\ln a\\cdot a^2-2a^2\\ln a\\cdot 1}{\\ln^4 a}=\\dfrac{2\\ln a(a-2)a}{\\ln^3 a}=2\\pi\\dfrac{a(\\ln a-1)}{\\ln^3 a}$\n令 $V'(a)=0$，得 $\\ln a=1$，从而 $a=e$。当 $1<a<e$ 时，$V'(a)<0$，$V(a)$ 单调减少；\n当 $a>e$ 时，$V'(a)>0$，$V(a)$ 单调增加。所以 $a=e$ 时 $V$ 最小，最小体积为 $V_{\\min}(a)=\\pi e^2$",
+            "idea": "**思路**：旋转体体积 + 参数最值。\n① (I) $V=\\pi\\int_0^{+\\infty}y^2\\,\\mathrm{d}x=\\pi\\int_0^{+\\infty}xa^{-x/a}\\mathrm{d}x$，分部积分（广义积分收敛）得 $\\pi(\\tfrac{a}{\\ln a})^2$。\n② (II) 对数求导：$\\ln V=2\\ln a-2\\ln\\ln a+\\ln\\pi$，令其导数为 0 ⇒ $\\ln a=1$ ⇒ $a=\\mathrm{e}$。\n③ $V_{\\min}=\\pi\\mathrm{e}^2$。注意定义域 $a>1$。"
           },
           {
             "no": 19,
             "kind": "blank",
-            "stem": "（本题满分 10 分）\n求微分方程 $y'''(x+y^2)=y'$ 满足初始条件 $y(1)=y'(1)=1$ 的特解。",
+            "stem": "（本题满分 10 分）\n求微分方程 $y''(x+y'^2)=y'$ 满足初始条件 $y(1)=y'(1)=1$ 的特解。",
             "options": [],
             "answer": "**解析：** 令 $y'=p$，则 $y''=p'$，原方程化为 $p'(x+p^2)=p$.\n两边同时除以 $p'p$，得 $\\dfrac{x}{p}+p=\\dfrac{1}{p'}$\n将 $p'=\\dfrac{\\mathrm{d}p}{\\mathrm{d}x}$ 带入上式，得 $\\dfrac{\\mathrm{d}x}{\\mathrm{d}p}-\\dfrac{x}{p}=p$\n按一阶线性方程求公式，得\n$$x=\\mathrm{e}^{\\int\\frac{1}{p}\\,\\mathrm{d}p}\\left(\\int p\\mathrm{e}^{-\\int\\frac{1}{p}\\,\\mathrm{d}p}\\,\\mathrm{d}p+C\\right) = \\mathrm{e}^{\\ln p}\\left(\\int p\\mathrm{e}^{-\\ln p}\\,\\mathrm{d}p+C\\right) = p\\left[\\int\\mathrm{d}p+C\\right]=p(p+C)=p(p+C)$$\n带入初始条件得 $C=0$，于是 $p^2=x$。由 $y'(1)=1$ 知 $p=\\sqrt{x}$，即 $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}=\\sqrt{x}$\n解得 $y=\\dfrac{2}{3}x^{\\frac{3}{2}}+C_1$，带入初始条件得 $C_1=\\dfrac{1}{3}$，所以特解为 $y=\\dfrac{2}{3}x^{\\frac{3}{2}}+\\dfrac{1}{3}$.",
-            "idea": "**思路**：缺 $y$ 型降阶 + 反解型一阶方程。\n① $y''(x+y^2)=y'$：令 $y'=p$、$y''=p'$，得 $p'=\\tfrac{p}{x+p^2}$。\n② **反解**：把 $p$ 当自变量，$\\tfrac{\\mathrm{d}x}{\\mathrm{d}p}-\\tfrac{x}{p}=p$（一阶线性）。\n③ 公式解 $x=p(p+C)$；初值 $p(1)=1$ ⇒ $C=0$、$p^2=x$，取 $p=\\sqrt{x}$ 积分，$y(1)=1$ 定 $C_1=\\tfrac13$。"
+            "idea": "**思路**：缺 $y$ 型降阶 + 反解型一阶方程。\n① $y''(x+y'^2)=y'$：令 $y'=p$、$y''=p'$，得 $p'=\\tfrac{p}{x+p^2}$。\n② **反解**：把 $p$ 当自变量，$\\tfrac{\\mathrm{d}x}{\\mathrm{d}p}-\\tfrac{x}{p}=p$（一阶线性）。\n③ 公式解 $x=p(p+C)$；初值 $p(1)=1$ ⇒ $C=0$、$p^2=x$，取 $p=\\sqrt{x}$ 积分，$y(1)=1$ 定 $C_1=\\tfrac13$。"
           },
           {
             "no": 20,
@@ -4934,10 +4935,10 @@
             "kind": "choice",
             "stem": "设 $f(x,y)$ 为连续函数，则 $\\displaystyle\\int_0^{\\frac{\\pi}{4}} \\mathrm{d}\\theta \\int_0^1 f(r\\cos\\theta,r\\sin\\theta)r\\,\\mathrm{d}r$ 等于（ ）",
             "options": [
-              "(A) $\\displaystyle\\int_0^{\\frac{\\pi}{2}} \\mathrm{d}x \\int_x^{\\sqrt{-x^2}} f(x,y)\\,\\mathrm{d}y$.",
-              "(B) $\\displaystyle\\int_0^{\\frac{\\pi}{2}} \\mathrm{d}x \\int_0^{\\sqrt{-x^2}} f(x,y)\\,\\mathrm{d}y$.",
+              "(A) $\\displaystyle\\int_0^{\\frac{\\sqrt2}{2}} \\mathrm{d}x \\int_x^{\\sqrt{1-x^2}} f(x,y)\\,\\mathrm{d}y$.",
+              "(B) $\\displaystyle\\int_0^{\\frac{\\sqrt2}{2}} \\mathrm{d}x \\int_0^{\\sqrt{1-x^2}} f(x,y)\\,\\mathrm{d}y$.",
               "(C) $\\displaystyle\\int_0^{\\frac{\\sqrt2}{2}} \\mathrm{d}y \\int_y^{\\sqrt{1-y^2}} f(x,y)\\,\\mathrm{d}x$.",
-              "(D) $\\displaystyle\\int_0^{1} \\mathrm{d}y \\int_0^{\\sqrt{1-y^2}} f(x,y)\\,\\mathrm{d}x$."
+              "(D) $\\displaystyle\\int_0^{\\frac{\\sqrt2}{2}} \\mathrm{d}y \\int_0^{\\sqrt{1-y^2}} f(x,y)\\,\\mathrm{d}x$."
             ],
             "answer": "**答案：(C)**\n**解析：** 记 $\\displaystyle\\int_0^{\\frac{\\pi}{2}} \\mathrm{d}\\theta \\int_0^1 f(r\\cos\\theta,r\\sin\\theta)r\\,\\mathrm{d}r = \\iint_D f(x,y)\\,\\mathrm{d}x\\mathrm{d}y$，则区域 $D$ 的极坐标表示是：\n$0 \\leqslant r \\leqslant 1$，$0 \\leqslant \\theta \\leqslant \\dfrac{\\pi}{4}$。题目考察极坐标和直角坐标的互化问题，画出积分区域间，结合图形可以看出，直角坐标的积分范围（注意 $y=x$ 与 $x^2+y^2=1$ 在第一象限的交点是 $(\\dfrac{\\sqrt{2}}{2},\\dfrac{\\sqrt{2}}{2})$），于是 $D: 0\\leqslant y \\leqslant \\dfrac{\\sqrt{2}}{2}, y \\leqslant x \\leqslant \\sqrt{1-y^2}$\n所以，原式 $=\\displaystyle\\int_0^{\\frac{\\sqrt2}{2}} \\mathrm{d}y \\int_y^{\\sqrt{1-y^2}} f(x,y)\\,\\mathrm{d}x$，因此选 (C).",
             "idea": "**思路**：极坐标区域（$0\\le r\\le1$，$0\\le\\theta\\le\\tfrac\\pi4$）化为直角坐标换序。\n① 区域为第一象限 $y\\le x$ 的单位圆扇形（$y=x$ 与 $x^2+y^2=1$ 交于 $(\\tfrac{\\sqrt2}{2},\\tfrac{\\sqrt2}{2})$）。\n② 固定 $y$：$0\\le y\\le\\tfrac{\\sqrt2}{2}$，$y\\le x\\le\\sqrt{1-y^2}$。\n③ 原式 $=\\int_0^{\\sqrt2/2}\\mathrm{d}y\\int_y^{\\sqrt{1-y^2}}f\\,\\mathrm{d}x$，选 C。"
@@ -5264,7 +5265,7 @@
             "kind": "blank",
             "stem": "已知3阶矩阵 $A$ 的第一行是 $(a,b,c)$，$a,b,c$ 不全为零，矩阵 $B=\\begin{pmatrix}1&2&3\\\\2&4&6\\\\3&6&k\\end{pmatrix}$（$k$ 为常数），且 $AB=O$，求线性方程组 $Ax=0$ 的通解。",
             "options": [],
-            "answer": "**【详解】** 由 $AB=O$ 知，$B$ 的每一列均为 $Ax=0$ 的解，且 $r(A)+r(B)\\leqslant 3$（$3$ 是 $A$ 的列数或 $B$ 的行数）\n（1）若 $k\\neq 9$，则 $\\boldsymbol{\\beta}_{1},\\boldsymbol{\\beta}_{3}$ 不成比例，$\\boldsymbol{\\beta}_{1},\\boldsymbol{\\beta}_{3}$ 成比例，则 $r(B)=2$，方程组 $Ax=0$ 的解向量中至少有两个线性无关的解向量，故它的基础解系中解向量的个数 $\\geqslant 2$，又基础解系中解向量的个数 $=$ 未知数的个数 $-r(A)=3-r(A)$，于是 $r(A)\\leqslant 1$。\n又矩阵 $A$ 的第一行元素 $(a,b,c)$ 不全为零，显然 $r(A)\\geqslant 1$，故 $r(A)=1$。可见此时 $Ax=0$ 的基础解系由 $3-r(A)=2$ 个线性无关解向量组成，$\\boldsymbol{\\beta}_{1},\\boldsymbol{\\beta}_{3}$ 是方程组的解且线性无关，可作为其基础解系，故 $Ax=0$ 的通解为：\n$$x=k_{1}\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}+k_{2}\\begin{pmatrix}3\\\\6\\\\k\\end{pmatrix},k_{1},k_{2}\\text{为任意常数}.$$\n（2）若 $k=9$，则 $\\boldsymbol{\\beta}_{1},\\boldsymbol{\\beta}_{2},\\boldsymbol{\\beta}_{3}$ 均成比例，故 $r(B)=1$，从而 $1\\leqslant r(A)\\leqslant 2$，故 $r(A)=1$ 或 $r(A)=2$。\n① 若 $r(A)=2$，则方程组的基础解系由一个线性无关的解组成，$\\boldsymbol{\\beta}_{1}$ 是方程组 $Ax=0$ 的基础解系，则 $Ax=0$ 的通解为：$x=k_{1}\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},k_{1}$ 为任意常数。\n② 若 $r(A)=1$，则 $A$ 的三个行向量成比例，因第 1 行元素 $(a,b,c)$ 不全为零，不妨设 $a\\neq 0$，则 $Ax=0$ 的同解方程组为：$ax_{1}+bx_{2}+cx_{3}=0$，系数矩阵的秩为 1，故基础解系由 $3-1=2$ 个线性无关解向量组成，选 $x_{2},x_{3}$ 为自由未知量，分别取 $x_{2}=1,x_{3}=0$ 或 $x_{2}=0,x_{3}=1$，方程组的基础解系为 $\\xi_{1}=\\begin{pmatrix}-\\dfrac{b}{a}\\\\1\\\\0\\end{pmatrix},\\xi_{2}=\\begin{pmatrix}-\\dfrac{c}{a}\\\\0\\\\1\\end{pmatrix}$，则其通解为 $x=k_{1}\\begin{pmatrix}-\\dfrac{b}{a}\\\\1\\\\0\\end{pmatrix}+k_{2}\\begin{pmatrix}-\\dfrac{c}{a}\\\\0\\\\1\\end{pmatrix},k_{1},k_{2}$ 为任意常数。",
+            "answer": "**【详解】** 由 $AB=O$ 知，$B$ 的每一列均为 $Ax=0$ 的解，且 $r(A)+r(B)\\leqslant 3$（$3$ 是 $A$ 的列数或 $B$ 的行数）\n（1）若 $k\\neq 9$，则 $\\boldsymbol{\\beta}_{1},\\boldsymbol{\\beta}_{3}$ 不成比例，则 $r(B)=2$，方程组 $Ax=0$ 的解向量中至少有两个线性无关的解向量，故它的基础解系中解向量的个数 $\\geqslant 2$，又基础解系中解向量的个数 $=$ 未知数的个数 $-r(A)=3-r(A)$，于是 $r(A)\\leqslant 1$。\n又矩阵 $A$ 的第一行元素 $(a,b,c)$ 不全为零，显然 $r(A)\\geqslant 1$，故 $r(A)=1$。可见此时 $Ax=0$ 的基础解系由 $3-r(A)=2$ 个线性无关解向量组成，$\\boldsymbol{\\beta}_{1},\\boldsymbol{\\beta}_{3}$ 是方程组的解且线性无关，可作为其基础解系，故 $Ax=0$ 的通解为：\n$$x=k_{1}\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}+k_{2}\\begin{pmatrix}3\\\\6\\\\k\\end{pmatrix},k_{1},k_{2}\\text{为任意常数}.$$\n（2）若 $k=9$，则 $\\boldsymbol{\\beta}_{1},\\boldsymbol{\\beta}_{2},\\boldsymbol{\\beta}_{3}$ 均成比例，故 $r(B)=1$，从而 $1\\leqslant r(A)\\leqslant 2$，故 $r(A)=1$ 或 $r(A)=2$。\n① 若 $r(A)=2$，则方程组的基础解系由一个线性无关的解组成，$\\boldsymbol{\\beta}_{1}$ 是方程组 $Ax=0$ 的基础解系，则 $Ax=0$ 的通解为：$x=k_{1}\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix},k_{1}$ 为任意常数。\n② 若 $r(A)=1$，则 $A$ 的三个行向量成比例，因第 1 行元素 $(a,b,c)$ 不全为零，不妨设 $a\\neq 0$，则 $Ax=0$ 的同解方程组为：$ax_{1}+bx_{2}+cx_{3}=0$，系数矩阵的秩为 1，故基础解系由 $3-1=2$ 个线性无关解向量组成，选 $x_{2},x_{3}$ 为自由未知量，分别取 $x_{2}=1,x_{3}=0$ 或 $x_{2}=0,x_{3}=1$，方程组的基础解系为 $\\xi_{1}=\\begin{pmatrix}-\\dfrac{b}{a}\\\\1\\\\0\\end{pmatrix},\\xi_{2}=\\begin{pmatrix}-\\dfrac{c}{a}\\\\0\\\\1\\end{pmatrix}$，则其通解为 $x=k_{1}\\begin{pmatrix}-\\dfrac{b}{a}\\\\1\\\\0\\end{pmatrix}+k_{2}\\begin{pmatrix}-\\dfrac{c}{a}\\\\0\\\\1\\end{pmatrix},k_{1},k_{2}$ 为任意常数。",
             "idea": "**思路**：$AB=O$ ⇒ $B$ 的列是 $Ax=0$ 的解，且 $r(A)+r(B)\\le3$。\n① $k\\ne9$：$r(B)=2$ ⇒ $r(A)\\le1$，又 $r(A)\\ge1$ ⇒ $r(A)=1$，通解 $k_1(1,2,3)^T+k_2(3,6,k)^T$。\n② $k=9$：$r(B)=1$，$r(A)=1$ 或 $2$。\n③ $r(A)=2$：通解 $k_1(1,2,3)^T$；$r(A)=1$：设 $a\\ne0$，通解 $k_1(-\\tfrac ba,1,0)^T+k_2(-\\tfrac ca,0,1)^T$。"
           }
         ]
@@ -5455,7 +5456,7 @@
             "kind": "blank",
             "stem": "设 $z=f(x^{2}-y^{2},e^{xy})$，其中 $f$ 具有连续二阶偏导数，求 $\\dfrac{\\partial z}{\\partial x},\\dfrac{\\partial z}{\\partial y},\\dfrac{\\partial^{2}z}{\\partial x\\partial y}$.",
             "options": [],
-            "answer": "**【详解】】利用复合函数求偏导和混合偏导的方法直接计算。\n令 $u=x^{2}-y^{2},v=e^{xy}$，则 $z=f(x^{2}-y^{2},e^{xy})=f(u,v)$，\n所以 $\\dfrac{\\partial u}{\\partial x}=2x,\\dfrac{\\partial u}{\\partial y}=-2y,\\quad \\dfrac{\\partial v}{\\partial x}=ye^{xy},\\dfrac{\\partial v}{\\partial y}=xe^{xy}$\n所以 $\\dfrac{\\partial z}{\\partial x}=\\dfrac{\\partial f}{\\partial u}\\dfrac{\\partial u}{\\partial x}+\\dfrac{\\partial f}{\\partial v}\\dfrac{\\partial v}{\\partial x}=2xf'_{1}+ye^{xy}f'_{2},\\quad \\dfrac{\\partial z}{\\partial y}=\\dfrac{\\partial f}{\\partial u}\\dfrac{\\partial u}{\\partial y}+\\dfrac{\\partial f}{\\partial v}\\dfrac{\\partial v}{\\partial y}=-2yf'_{1}+xe^{xy}f'_{2}$\n$$\\frac{\\partial^{2}z}{\\partial x\\partial y}=\\frac{\\partial}{\\partial x}\\Bigl(\\frac{\\partial z}{\\partial y}\\Bigr)=\\frac{\\partial}{\\partial x}(-2yf'_{1}+xe^{xy}f'_{2})$$\n$$=-2y\\Bigl(f''_{11}\\frac{\\partial u}{\\partial x}+f''_{12}\\frac{\\partial v}{\\partial x}\\Bigr)+e^{xy}f'_{2}+xye^{xy}f'_{2}+xe^{xy}\\Bigl(f''_{21}\\frac{\\partial u}{\\partial x}+f''_{22}\\frac{\\partial v}{\\partial x}\\Bigr)$$\n$$=-2y(2xf''_{11}+ye^{xy}f''_{12})+e^{xy}f'_{2}+xye^{xy}f'_{2}+xe^{xy}(2xf''_{21}+ye^{xy}f''_{2})$$\n$$=-4xyf''_{11}+2(x^{2}-y^{2})e^{xy}f''_{12}+xye^{2xy}f''_{22}+(1+xy)f'_{2}$$",
+            "answer": "**【详解】】利用复合函数求偏导和混合偏导的方法直接计算。\n令 $u=x^{2}-y^{2},v=e^{xy}$，则 $z=f(x^{2}-y^{2},e^{xy})=f(u,v)$，\n所以 $\\dfrac{\\partial u}{\\partial x}=2x,\\dfrac{\\partial u}{\\partial y}=-2y,\\quad \\dfrac{\\partial v}{\\partial x}=ye^{xy},\\dfrac{\\partial v}{\\partial y}=xe^{xy}$\n所以 $\\dfrac{\\partial z}{\\partial x}=\\dfrac{\\partial f}{\\partial u}\\dfrac{\\partial u}{\\partial x}+\\dfrac{\\partial f}{\\partial v}\\dfrac{\\partial v}{\\partial x}=2xf'_{1}+ye^{xy}f'_{2},\\quad \\dfrac{\\partial z}{\\partial y}=\\dfrac{\\partial f}{\\partial u}\\dfrac{\\partial u}{\\partial y}+\\dfrac{\\partial f}{\\partial v}\\dfrac{\\partial v}{\\partial y}=-2yf'_{1}+xe^{xy}f'_{2}$\n$$\\frac{\\partial^{2}z}{\\partial x\\partial y}=\\frac{\\partial}{\\partial x}\\Bigl(\\frac{\\partial z}{\\partial y}\\Bigr)=\\frac{\\partial}{\\partial x}(-2yf'_{1}+xe^{xy}f'_{2})$$\n$$=-2y\\Bigl(f''_{11}\\frac{\\partial u}{\\partial x}+f''_{12}\\frac{\\partial v}{\\partial x}\\Bigr)+e^{xy}f'_{2}+xye^{xy}f'_{2}+xe^{xy}\\Bigl(f''_{21}\\frac{\\partial u}{\\partial x}+f''_{22}\\frac{\\partial v}{\\partial x}\\Bigr)$$\n$$=-2y(2xf''_{11}+ye^{xy}f''_{12})+e^{xy}f'_{2}+xye^{xy}f'_{2}+xe^{xy}(2xf''_{21}+ye^{xy}f''_{2})$$\n$$=-4xyf''_{11}+2(x^{2}-y^{2})e^{xy}f''_{12}+xye^{2xy}f''_{22}+(1+xy)e^{xy}f'_{2}$$",
             "idea": "**思路**：多元复合函数链式法则，混合偏导注意中间变量。\n① 设 $u=x^2-y^2$，$v=e^{xy}$。\n② 一阶：$z_x=2xf'_1+ye^{xy}f'_2$，$z_y=-2yf'_1+xe^{xy}f'_2$。\n③ 对 $z_y$ 再对 $x$ 求导，合并 $f''_{12}=f''_{21}$ 及 $f'_2$ 的系数项。"
           },
           {
@@ -5706,10 +5707,10 @@
           {
             "no": 3,
             "kind": "blank",
-            "stem": "微分方程 $y''+y'^{2}=0$ 满足初始条件 $\\left.y\\right|_{x=0}=1,\\left.y'\\right|_{x=0}=\\dfrac{1}{2}$ 的特解是__________.",
+            "stem": "微分方程 $yy''+y'^{2}=0$ 满足初始条件 $\\left.y\\right|_{x=0}=1,\\left.y'\\right|_{x=0}=\\dfrac{1}{2}$ 的特解是__________.",
             "options": [],
-            "answer": "**答案：** $y=\\dfrac{1}{2}x+1$（或等价形式）\n【详解】令 $p=y'$，则 $y''=p'\\dfrac{dp}{dx}$，原方程化为\n$$\\frac{dp}{dx}+p^{2}=0,$$\n即 $\\dfrac{dp}{p^{2}}=-dx$。积分得 $-\\dfrac{1}{p}=-x+C_{1}$，即 $\\dfrac{1}{p}=x-C_{1}$。\n由 $y'(0)=p(0)=\\dfrac{1}{2}$，得 $\\dfrac{1}{1/2}=0-C_{1}$，即 $C_{1}=-2$。\n所以 $\\dfrac{1}{p}=x+2$，即 $y'=\\dfrac{1}{x+2}$。\n积分得 $y=\\ln|x+2|+C_{2}$。由 $y(0)=1$：$1=\\ln 2+C_{2}$，$C_{2}=1-\\ln 2$。\n所以 $y=\\ln(x+2)+1-\\ln 2=\\ln\\dfrac{x+2}{2}+1$。\n（注：此方程也可有其他等价形式的解。）",
-            "idea": "**思路**：不显含 $y$ 的可降阶方程，令 $p=y'$。\n① 令 $p=y'$，方程化为 $p'+p^2=0$。\n② 分离变量 $\\tfrac{dp}{p^2}=-dx$，由 $p(0)=\\tfrac12$ 定出 $p=\\tfrac1{x+2}$。\n③ 积分 $y=\\ln(x+2)+1-\\ln2=\\ln\\tfrac{x+2}{2}+1$。"
+            "answer": "**答案：** $y=\\sqrt{x+1}$（或 $y^2=x+1$）\n【详解】令 $p=y'$，则 $y''=p\\dfrac{dp}{dy}$，原方程化为\n$$y\\cdot p\\dfrac{dp}{dy}+p^{2}=0,$$\n即 $p\\left(y\\dfrac{dp}{dy}+p\\right)=0$。因 $y'(0)=\\dfrac12\\neq0$，故 $p\\neq0$，于是\n$$y\\dfrac{dp}{dy}+p=0\\quad\\Longrightarrow\\quad \\frac{dp}{p}=-\\frac{dy}{y}.$$\n积分得 $\\ln|p|=-\\ln|y|+C_{1}$，即 $p=\\dfrac{C}{y}$。由 $y(0)=1,\\ y'(0)=\\dfrac12$ 得 $C=\\dfrac12$，故 $y'=\\dfrac{1}{2y}$，即 $2y\\,dy=dx$。\n积分得 $y^{2}=x+C_{2}$，由 $y(0)=1$ 得 $C_{2}=1$，所以 $y^{2}=x+1$，取正根 $y=\\sqrt{x+1}$。",
+            "idea": "**思路**：不显含自变量的可降阶方程，令 $p=y'$、$y''=p\\dfrac{dp}{dy}$。\n① 方程化为 $yp\\dfrac{dp}{dy}+p^2=0$，由 $p\\neq0$ 得 $y\\dfrac{dp}{dy}+p=0$。\n② 分离变量 $\\tfrac{dp}{p}=-\\tfrac{dy}{y}$，由 $y(0)=1,\\ y'(0)=\\tfrac12$ 定 $p=\\tfrac{1}{2y}$。\n③ $2y\\,dy=dx$ 积分得 $y^2=x+1$，取正根 $y=\\sqrt{x+1}$。"
           },
           {
             "no": 4,
@@ -5806,8 +5807,8 @@
             "kind": "blank",
             "stem": "求微分方程 $xdy+(x-2y)dx=0$ 的一个解 $y=y(x)$，使得由曲线 $y=y(x)$ 与直线 $x=1,x=2$ 以及 $x$ 轴所围成的平面图形绕 $x$ 轴旋转一周的旋转体体积最小。",
             "options": [],
-            "answer": "**【详解】** 原方程可写为 $\\dfrac{dy}{dx}-\\dfrac{2}{x}y=-1$，这是一阶线性微分方程。\n积分因子 $\\mu(x)=e^{\\int-\\frac{2}{x}dx}=e^{-2\\ln x}=\\dfrac{1}{x^{2}}$。\n通解：$\\dfrac{y}{x^{2}}=\\int\\dfrac{-1}{x^{2}}\\,dx=\\dfrac{1}{x}+C$，即 $y=Cx+x^{2}$。\n旋转体体积：$V(C)=\\pi\\int_{1}^{2}(Cx+x^{2})^{2}\\,dx$。\n展开并积分，对 $C$ 求导找最小值点：$V'(C)=0$ 解得最优 $C$ 值，代回得所求解。",
-            "idea": "**思路**：一阶线性方程通解含参数，旋转体体积对参数取最小。\n① 化为 $y'-\\tfrac2xy=-1$，通解 $y=Cx+x^2$。\n② $V(C)=\\pi\\int_1^2(Cx+x^2)^2dx$。\n③ $V'(C)=0$ 求最优 $C$，回代即得所求解。"
+            "answer": "**【详解】** 原方程可写为 $\\dfrac{dy}{dx}-\\dfrac{2}{x}y=-1$，这是一阶线性微分方程。\n积分因子 $\\mu(x)=e^{\\int-\\frac{2}{x}dx}=e^{-2\\ln x}=\\dfrac{1}{x^{2}}$。\n通解：$\\dfrac{y}{x^{2}}=\\int\\dfrac{-1}{x^{2}}\\,dx=\\dfrac{1}{x}+C$，即 $y=x+Cx^{2}$。\n旋转体体积：$V(C)=\\pi\\int_{1}^{2}(x+Cx^{2})^{2}\\,dx$。\n展开并积分，对 $C$ 求导找最小值点：$V'(C)=0$ 解得最优 $C$ 值，代回得所求解。",
+            "idea": "**思路**：一阶线性方程通解含参数，旋转体体积对参数取最小。\n① 化为 $y'-\\tfrac2xy=-1$，通解 $y=x+Cx^2$。\n② $V(C)=\\pi\\int_1^2(x+Cx^2)^2dx$。\n③ $V'(C)=0$ 求最优 $C$，回代即得所求解。"
           },
           {
             "no": 7,
@@ -5889,10 +5890,10 @@
           {
             "no": 3,
             "kind": "blank",
-            "stem": "$$\\int_{-\\frac{\\pi}{2}}^{\\frac{\\pi}{2}}(x^{3}+\\sin^{2}x)\\cos x\\,\\mathrm{d}x= \\_\\_\\_\\_\\_.$$",
+            "stem": "$$\\int_{-\\frac{\\pi}{2}}^{\\frac{\\pi}{2}}(x^{3}+\\sin^{2}x)\\cos^{2}x\\,\\mathrm{d}x= \\_\\_\\_\\_\\_.$$",
             "options": [],
-            "answer": "【答案】$\\dfrac{2}{3}$\n【解析】$x^3\\cos x$ 是奇函数，在对称区间积分为 $0$。故\n$$\\int_{-\\pi/2}^{\\pi/2}\\sin^{2}x\\cos x\\,\\mathrm{d}x=\\left[\\frac{\\sin^{3}x}{3}\\right]_{-\\pi/2}^{\\pi/2}\n=\\frac{1}{3}-\\left(-\\frac{1}{3}\\right)=\\frac{2}{3}.$$",
-            "idea": "**思路**：对称区间积分利用奇偶性化简。\n① $x^3\\cos x$ 是奇函数，在对称区间积分为 0。\n② $\\int\\sin^2x\\cos x\\,dx=\\tfrac{\\sin^3x}{3}$。\n③ 代入上下限得 $\\tfrac23$。"
+            "answer": "【答案】$\\dfrac{\\pi}{8}$\n【解析】$x^3\\cos^{2}x$ 是奇函数，在对称区间积分为 $0$。故\n$$\\int_{-\\pi/2}^{\\pi/2}\\sin^{2}x\\cos^{2}x\\,\\mathrm{d}x=2\\int_{0}^{\\pi/2}\\sin^{2}x\\cos^{2}x\\,\\mathrm{d}x=2\\int_{0}^{\\pi/2}\\frac14\\sin^{2}2x\\,\\mathrm{d}x=\\frac12\\int_{0}^{\\pi/2}\\frac{1-\\cos4x}{2}\\,\\mathrm{d}x=\\frac{\\pi}{8}.$$",
+            "idea": "**思路**：对称区间积分利用奇偶性化简。\n① $x^3\\cos^{2}x$ 是奇函数，在对称区间积分为 0。\n② $\\int\\sin^2x\\cos^2x\\,dx$ 用倍角：$\\sin^2x\\cos^2x=\\tfrac14\\sin^22x$。\n③ 代入得 $\\tfrac{\\pi}{8}$。"
           },
           {
             "no": 4,
