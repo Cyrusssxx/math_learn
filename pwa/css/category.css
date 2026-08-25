@@ -74,6 +74,26 @@
     font-weight: 400;
 }
 
+/* 一键展开/收起全部答案 */
+.all-ans-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent, #4a90d9);
+    background: transparent;
+    border: 1.5px solid var(--accent, #4a90d9);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all .15s;
+}
+.all-ans-btn:hover { background: rgba(74,144,217,.1); }
+.all-ans-btn.on {
+    background: var(--accent, #4a90d9);
+    color: #fff;
+}
+
 /* 题目卡片里的「年份」徽标（点击下钻到真题页对应套卷） */
 .q-year {
     font-size: 12px;

@@ -152,6 +152,25 @@ function toggleQSec(btn, act) {
     btn.classList.toggle('on', open);
 }
 
+// 一键展开/收起当前列表所有题卡的答案
+let allAnsOpen = false;
+function toggleAllAnswers(btn) {
+    allAnsOpen = !allAnsOpen;
+    const root = document.getElementById('catMain');
+    if (!root) return;
+    root.querySelectorAll('.q-card').forEach(card => {
+        const sec = card.querySelector('.q-answer');
+        const b = card.querySelector('.q-op[data-act="answer"]');
+        if (sec) sec.hidden = !allAnsOpen;
+        if (b) {
+            b.classList.toggle('on', allAnsOpen);
+            b.textContent = allAnsOpen ? '收起答案' : '查看答案';
+        }
+    });
+    btn.classList.toggle('on', allAnsOpen);
+    btn.textContent = allAnsOpen ? '🔽 收起全部答案' : '🔼 展开全部答案';
+}
+
 // ============ 数据 ============
 let papers = [];
 let cats = {};          // { id: {id,name,path,parent} }
@@ -340,6 +359,7 @@ function renderMain() {
         <h1>${c ? c.display : curCat}</h1>
         <div class="paper-sub">${c ? c.path : ''}</div>
         <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年</div>
+        <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
     if (favOnly) html += `<div class="cat-filter-tip">⭐ 收藏过滤中：仅显示已收藏题目</div>`;
     entries.forEach(e => { html += catCard(e.paper, e.secTitle, e.q); });
