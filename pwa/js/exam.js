@@ -171,6 +171,8 @@ function toggleQSec(btn, act) {
         const ta = sec.querySelector('textarea');
         if (ta) {
             if (open) {
+                const pv = sec.querySelector('.q-note-preview');
+                if (pv) fillExamNoteImgs(pv);   // 展开笔记时确保 [图:id] 贴图已回填
                 if (!ta.dataset.bind) {
                     ta.addEventListener('input', () => noteInput(ta));
                     ta.addEventListener('paste', notePasteImg);
@@ -211,8 +213,8 @@ function toggleNoteEdit(btn) {
             if (pv) {
                 pv.innerHTML = mdBlockWithImg(ta.value);
                 pv.hidden = false;
-                renderMath(pv);
-                if (ta.value.includes('[图:')) fillExamNoteImgs(pv);
+            renderMath(pv);
+            fillExamNoteImgs(pv);   // 无条件回填 [图:id] 贴图，保证编辑完成后实时显示
             }
         } else {
             // 清空了内容：收起整节，重置为「空笔记」形态（下次展开直接是输入框）
@@ -283,7 +285,14 @@ async function fillExamNoteImgs(root) {
     if (!root) return;
     const imgs = root.querySelectorAll('img.exam-note-img[data-img]');
     for (const img of imgs) {
-        const blob = await examImgGet(img.dataset.img);
+        // 已回填过（blob URL）则跳过，避免重复 createObjectURL 造成内存泄漏
+        if (img.src && img.src.startsWith('blob:')) continue;
+        let blob = await examImgGet(img.dataset.img);
+        if (!blob) {
+            // 首屏 / IndexedDB 刚打开时偶发读取失败：短延迟后重试一次（修复「刷新才有」）
+            await new Promise(r => setTimeout(r, 300));
+            blob = await examImgGet(img.dataset.img);
+        }
         if (blob) img.src = URL.createObjectURL(blob);
         else img.replaceWith(document.createTextNode('[图片已丢失]'));
     }

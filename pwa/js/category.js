@@ -155,8 +155,12 @@ async function fillExamNoteImgs(root) {
     if (!root) return;
     const imgs = root.querySelectorAll('img.exam-note-img[data-img]');
     for (const img of imgs) {
-        const id = img.dataset.img;
-        const blob = await examImgGet(id);
+        if (img.src && img.src.startsWith('blob:')) continue;
+        let blob = await examImgGet(img.dataset.img);
+        if (!blob) {
+            await new Promise(r => setTimeout(r, 300));
+            blob = await examImgGet(img.dataset.img);
+        }
         if (blob) img.src = URL.createObjectURL(blob);
         else img.replaceWith(document.createTextNode('[图片已丢失]'));
     }
