@@ -607,6 +607,13 @@ async function init() {
             if (p) { startPaper = p; startNo = pos.no ? parseInt(pos.no, 10) : null; }
         }
     } catch (e) { }
+    // 支持分类页下钻：exam.html?paper=<套卷id> 直接定位到该套卷
+    const up = new URLSearchParams(location.search);
+    const wantPaper = up.get('paper');
+    if (wantPaper) {
+        const wp = papers.find(x => x.id === wantPaper);
+        if (wp) { startPaper = wp; startNo = null; }
+    }
     curPaper = startPaper;
     renderPaperList();
     renderCurrent();

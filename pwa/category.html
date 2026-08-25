@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数学二真题</title>
+    <title>真题分类</title>
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#4a90d9">
     <link rel="icon" type="image/png" href="icons/icon-192.png">
@@ -11,56 +11,44 @@
     <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
     <link rel="stylesheet" href="css/notes.css">
     <link rel="stylesheet" href="css/exam.css">
+    <link rel="stylesheet" href="css/category.css">
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
-    <header class="exam-top" id="examTop">
+    <header class="exam-top">
         <div class="exam-brand">
-            <span class="exam-logo">📝</span>
+            <span class="exam-logo">🗂</span>
             <div>
-                <div class="exam-title">数学二真题</div>
-                <div class="exam-sub" id="examSub">1987—2025 历年真题 · 收藏错题</div>
+                <div class="exam-title">真题分类</div>
+                <div class="exam-sub" id="examSub">按大观园知识点分类 · 点击章节查看跨年真题</div>
             </div>
         </div>
         <div class="exam-topbtns">
-            <a class="exam-btn" href="category.html" title="按知识点分类浏览真题">🗂 分类</a>
             <button class="exam-btn" id="favOnly" onclick="toggleFavOnly()" title="只看已收藏题目">⭐ 收藏夹</button>
             <button class="exam-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
+            <a class="exam-btn" href="exam.html" title="返回真题页">📝 真题</a>
             <a class="exam-btn" href="index.html" target="_blank" title="打开笔记站">📚 笔记</a>
         </div>
     </header>
-    <button class="exam-top-toggle" id="examTopToggle" onclick="toggleTopBar()" title="展开/收起顶部栏">
-        <span class="exam-top-arrow" id="examTopArrow">▲</span>
-    </button>
 
     <div class="exam-wrap">
-        <!-- 左：套卷列表 -->
-        <aside class="exam-side" id="examSide">
+        <!-- 左：分类树（学科 / 章节，可折叠） -->
+        <aside class="exam-side" id="catSide">
             <div class="exam-side-head">
-                <div class="exam-side-title">历年套卷</div>
-                <button class="side-toggle" id="sideToggle" onclick="toggleSide()" title="收起/展开套卷列表">◀</button>
+                <div class="exam-side-title">知识点分类</div>
             </div>
-            <div id="paperList"></div>
+            <div id="catTree"></div>
         </aside>
 
-        <!-- 中：题目列表 -->
-        <main class="exam-main" id="examMain">
+        <!-- 中：选中章节的跨年真题 -->
+        <main class="exam-main" id="catMain">
             <div class="loading">加载中…</div>
         </main>
-    </div>
-
-    <!-- 右：悬浮题号导航 -->
-    <div class="float-q" id="floatQ">
-        <div class="float-q-head" onclick="toggleFloatQ()">
-            <span class="float-q-no" id="floatQNo">—</span>
-            <span class="float-q-arrow" id="floatQArrow">▲</span>
-        </div>
-        <div class="float-q-list" id="floatQList"></div>
     </div>
 
     <script src="js/common.js"></script>
     <script defer src="vendor/katex/katex.min.js"></script>
     <script defer src="vendor/katex/auto-render.min.js"></script>
-    <script defer src="js/exam.js"></script>
+    <script defer src="js/category.js"></script>
 </body>
 </html>
