@@ -872,10 +872,10 @@
           {
             "no": 15,
             "kind": "blank",
-            "stem": "设连续函数 $f(x)$ 满足 $f(x+2)-f(x)=x$，$\\int_0^2 f(x)\\,dx=0$，则 $\\int_0^3 f(x)\\,dx=$ ____。",
+            "stem": "设连续函数 $f(x)$ 满足 $f(x+2)-f(x)=x$，$\\int_0^2 f(x)\\,dx=0$，则 $\\int_1^3 f(x)\\,dx=$ ____。",
             "options": [],
-            "answer": "【答案】$\\frac12$（注：题干条件不足——仅 $\\int_0^2f=0$ 与 $f(x+2)-f(x)=x$ 不能唯一确定 $\\int_0^1f$，可叠加周期 $2$、积分为 $0$ 的扰动（如 $\\varepsilon\\sin\\pi x$）改变 $\\int_0^3f$。答案为 $1/2$ 需补充条件，待核）\n$\\int_0^3 f(x)dx=\\int_0^1 f(x)dx+\\int_1^2 f(x)dx+\\int_2^3 f(x)dx$。\n令 $x=u+2$ 得 $\\int_2^3 f(x)dx=\\int_0^1 f(u+2)du=\\int_0^1[f(u)+u]du=\\int_0^1 f(u)du+\\frac12$。\n故 $\\int_0^3 f(x)dx=\\int_0^1f+\\int_1^2f+\\int_0^1f+\\frac12=\\int_0^2f\\,dx+2\\int_0^1f+\\frac12=2\\int_0^1f+\\frac12$，一般情形不定。",
-            "idea": "**思路**：换元 $f(x+2)=f(x)+x$ 逐段化简。\n① $\\int_2^3f(x)dx=\\int_0^1f(u+2)du=\\int_0^1f(u)du+\\tfrac12$。\n② 代回得 $\\int_0^3f=2\\int_0^1f+\\tfrac12$，题干条件不足以定出 $\\int_0^1f$（可叠加周期扰动改变结果）。"
+            "answer": "【答案】$\\frac12$\n【解析】拆区间：$\\int_1^3 f(x)dx=\\int_1^2 f(x)dx+\\int_2^3 f(x)dx$。\n由 $f(x+2)=f(x)+x$，令 $u=x-2$ 得 $\\int_2^3 f(x)dx=\\int_0^1 f(u+2)du=\\int_0^1[f(u)+u]du=\\int_0^1 f(u)du+\\frac12$。\n又 $\\int_0^2 f(x)dx=0\\Rightarrow\\int_1^2 f(x)dx=-\\int_0^1 f(x)dx$。\n代回：$\\int_1^3 f(x)dx=-\\int_0^1 f(x)dx+\\int_0^1 f(x)dx+\\frac12=\\frac12$。",
+            "idea": "**思路**：换元 $f(x+2)=f(x)+x$ 将 $[2,3]$ 折回 $[0,1]$。\n① $\\int_2^3f=\\int_0^1f(u)du+\\tfrac12$。\n② 由 $\\int_0^2f=0$ 得 $\\int_1^2f=-\\int_0^1f$。\n③ 二者相加正好消去 $\\int_0^1f$，得 $\\tfrac12$。"
           },
           {
             "no": 16,
