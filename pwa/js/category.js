@@ -29,6 +29,16 @@ function fmtFavShort(ts) {   // 星标旁的短日期：月-日
     const d = new Date(ts), p = n => String(n).padStart(2, '0');
     return p(d.getMonth() + 1) + '-' + p(d.getDate());
 }
+// 一次性迁移：旧格式收藏（{qid:1}，无时间戳）补上「今天」的时间并写回存储
+function migrateFavTimes() {
+    const f = favGet();
+    let changed = false;
+    for (const k in f) {
+        if (!f[k] || typeof f[k] !== 'object') { f[k] = { t: Date.now() }; changed = true; }
+    }
+    if (changed) favSave(f);
+}
+migrateFavTimes();
 function toggleFav(qid, btn) {
     const f = favGet();
     if (f[qid]) delete f[qid]; else f[qid] = { t: Date.now() };
