@@ -40,14 +40,24 @@ function favSave(obj) {
 }
 function qidOf(paperId, no) { return paperId + '-' + no; }
 function isFav(qid) { return !!favGet()[qid]; }
+function favTime(qid) {
+    const v = favGet()[qid];
+    return (v && typeof v === 'object') ? (v.t || 0) : 0;
+}
+function fmtFavTime(ts) {
+    if (!ts) return '';
+    const d = new Date(ts), p = n => String(n).padStart(2, '0');
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+}
 function toggleFav(qid, btn) {
     const f = favGet();
-    if (f[qid]) delete f[qid]; else f[qid] = 1;
+    if (f[qid]) delete f[qid]; else f[qid] = { t: Date.now() };
     favSave(f);
     if (btn) {
-        btn.classList.toggle('on', !!f[qid]);
-        btn.textContent = f[qid] ? '⭐' : '☆';   // 同步切换实心/空心星（之前只切 class 导致 UI 不更新）
-        btn.title = f[qid] ? '取消收藏' : '收藏此题';
+        const on = !!f[qid];
+        btn.classList.toggle('on', on);
+        btn.textContent = on ? '⭐' : '☆';   // 同步切换实心/空心星（之前只切 class 导致 UI 不更新）
+        btn.title = on ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏（时间未知）') : '收藏此题';
     }
     if (favOnly) renderCurrent();
 }
@@ -442,7 +452,7 @@ function qCard(p, sec, q, secIdx) {
         <div class="q-head">
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindTag}</span>
-            <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="收藏此题">${fav ? '⭐' : '☆'}</button>
+            <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
         </div>
         <div class="q-body">${stem}${figHtml}${options}</div>
         <div class="q-ops">

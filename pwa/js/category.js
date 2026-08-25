@@ -15,14 +15,24 @@ function favSave(obj) {
     catch (e) { console.error('收藏保存失败:', e); alert('收藏存储空间不足，保存失败。'); }
 }
 function isFav(qid) { return !!favGet()[qid]; }
+function favTime(qid) {
+    const v = favGet()[qid];
+    return (v && typeof v === 'object') ? (v.t || 0) : 0;
+}
+function fmtFavTime(ts) {
+    if (!ts) return '';
+    const d = new Date(ts), p = n => String(n).padStart(2, '0');
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+}
 function toggleFav(qid, btn) {
     const f = favGet();
-    if (f[qid]) delete f[qid]; else f[qid] = 1;
+    if (f[qid]) delete f[qid]; else f[qid] = { t: Date.now() };
     favSave(f);
     if (btn) {
-        btn.classList.toggle('on', !!f[qid]);
-        btn.textContent = f[qid] ? '⭐' : '☆';
-        btn.title = f[qid] ? '取消收藏' : '收藏此题';
+        const on = !!f[qid];
+        btn.classList.toggle('on', on);
+        btn.textContent = on ? '⭐' : '☆';
+        btn.title = on ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏（时间未知）') : '收藏此题';
     }
     // 收藏过滤开启时，实时刷新分类树与题目列表
     if (favOnly) { renderTree(); renderMain(); }
@@ -327,7 +337,7 @@ function catCard(paper, secTitle, q) {
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindLabel}</span>
             <span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>
-            <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="收藏此题">${fav ? '⭐' : '☆'}</button>
+            <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
         </div>
         <div class="q-body">${stem}${figHtml}${options}</div>
         <div class="q-ops">
@@ -348,7 +358,12 @@ function renderMain() {
     }
     const entries = activeEntries().filter(e => String(e.catId) === String(curCat));
     const c = cats[curCat];
-    entries.sort((a, b) => parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10));
+    if (favOnly) {
+        // 收藏过滤：按收藏时间倒序（最近收藏的排最前）
+        entries.sort((a, b) => favTime(qidOf(b.paper.id, b.q.no)) - favTime(qidOf(a.paper.id, a.q.no)));
+    } else {
+        entries.sort((a, b) => parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10));
+    }
     if (!entries.length) {
         el.innerHTML = `<div class="paper-head"><h1>${c ? c.display : curCat}</h1><div class="paper-sub">${c ? c.path : ''}</div></div>` +
             `<div class="empty-tip">${favOnly ? '该章节下没有收藏的题目。' : '暂无题目。'}</div>`;
