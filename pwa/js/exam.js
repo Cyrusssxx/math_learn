@@ -49,6 +49,11 @@ function fmtFavTime(ts) {
     const d = new Date(ts), p = n => String(n).padStart(2, '0');
     return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
 }
+function fmtFavShort(ts) {   // 星标旁的短日期：月-日
+    if (!ts) return '';
+    const d = new Date(ts), p = n => String(n).padStart(2, '0');
+    return p(d.getMonth() + 1) + '-' + p(d.getDate());
+}
 function toggleFav(qid, btn) {
     const f = favGet();
     if (f[qid]) delete f[qid]; else f[qid] = { t: Date.now() };
@@ -58,6 +63,21 @@ function toggleFav(qid, btn) {
         btn.classList.toggle('on', on);
         btn.textContent = on ? '⭐' : '☆';   // 同步切换实心/空心星（之前只切 class 导致 UI 不更新）
         btn.title = on ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏（时间未知）') : '收藏此题';
+        // 就地同步星标左侧的日期徽标
+        const card = btn.closest('.q-card');
+        if (card) {
+            let badge = card.querySelector('.q-fav-date');
+            const t = favTime(qid);
+            if (on && t) {
+                if (!badge) {
+                    badge = document.createElement('span');
+                    badge.className = 'q-fav-date';
+                    btn.parentNode.insertBefore(badge, btn);
+                }
+                badge.textContent = fmtFavShort(t);
+                badge.title = '收藏于 ' + fmtFavTime(t);
+            } else if (badge) badge.remove();
+        }
     }
     if (favOnly) renderCurrent();
 }
@@ -452,6 +472,7 @@ function qCard(p, sec, q, secIdx) {
         <div class="q-head">
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindTag}</span>
+            ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
         </div>
         <div class="q-body">${stem}${figHtml}${options}</div>

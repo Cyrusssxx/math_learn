@@ -391,6 +391,19 @@ html.dark .exam-btn.on { color: #e5c860; }
 .q-fav:hover { color: var(--star-border); transform: scale(1.15); }
 .q-fav.on { color: #e0a800; }
 
+/* 星标左侧的收藏日期徽标（月-日）：接管靠右推挤，星标紧随其后 */
+.q-fav-date {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-faint);
+    background: var(--bg-hover);
+    border-radius: 999px;
+    padding: 2px 8px;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+.q-fav-date + .q-fav { margin-left: 0; }
+
 .q-body p { margin: 10px 0; }
 .q-body .q-options { margin-top: 12px; }
 .q-opt {
