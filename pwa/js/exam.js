@@ -144,8 +144,19 @@ function noteInput(ta) {
         const btn = ta.closest('.q-card') && ta.closest('.q-card').querySelector('[data-act="note"]');
         if (btn) btn.classList.toggle('has', !!newVal.trim());
         noteHint(ta, newVal.trim() ? '已保存 ✓' : '笔记是空的，不保存');
+        // 编辑态实时预览：输入即渲染 Markdown + 回填贴图（无需等「完成」）
+        if (ta.style.display !== 'none') renderNotePreview(ta);
     }, 500);
-    // 编辑态只显示输入框；预览在「完成」时统一渲染（避免原文+预览双份显示）
+}
+// 编辑态实时预览：从 textarea 当前内容渲染 Markdown + 图片（编辑时即可见贴图，无需等「完成」）
+function renderNotePreview(ta) {
+    const sec = ta.closest('.q-note');
+    const pv = sec && sec.querySelector('.q-note-preview');
+    if (!pv) return;
+    pv.hidden = false;
+    pv.innerHTML = mdBlockWithImg(ta.value);
+    renderMath(pv);
+    fillExamNoteImgs(pv);   // 异步回填 IndexedDB 中的 blob
 }
 // 笔记区 Ctrl+V 贴图：压缩后存 IndexedDB，再在光标处插入 [图:id]
 function notePasteImg(e) {
@@ -201,7 +212,8 @@ function toggleNoteEdit(btn) {
         btn.classList.remove('saved');   // 再次编辑恢复按钮常态
         noteHint(btn, '');
         ta.style.display = '';
-        if (pv) pv.hidden = true;
+        // 编辑态即展示实时预览（含已贴图片），输入时由 noteInput 持续刷新
+        if (pv) renderNotePreview(ta);
         if (!ta.dataset.bind) {
             ta.addEventListener('input', () => noteInput(ta));
             ta.addEventListener('paste', notePasteImg);
