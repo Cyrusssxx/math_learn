@@ -615,14 +615,14 @@ function renderCurrent() {
     const el = document.getElementById('examMain');
     if (!curPaper) { el.innerHTML = '<div class="loading">请选择一套卷</div>'; return; }
     const review = reviewGet(curPaper.id);
-    const reviewFirst = review.trim().split('\n')[0].trim();
+    const reviewText = review.trim();
     let html = `<div class="paper-head">
         <div class="paper-head-top">
             <h1>${curPaper.title}</h1>
             <button class="review-btn${review.trim() ? ' has' : ''}" data-pid="${curPaper.id}" title="写试卷点评" onclick="openReviewPop('${curPaper.id}', this)">▦</button>
         </div>
         <div class="paper-meta">共 ${curPaper.sections.reduce((a, s) => a + s.questions.length, 0)} 题 · 满分 150 分</div>
-        ${reviewFirst ? `<div class="paper-review-line">💬 ${esc(reviewFirst)}</div>` : ''}
+        ${reviewText ? `<div class="paper-review-line">💬 ${esc(reviewText)}</div>` : ''}
     </div>`;
     let shown = 0, total = 0;
     curPaper.sections.forEach((sec, si) => {

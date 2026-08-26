@@ -266,14 +266,14 @@ html.dark .exam-btn.on { color: #e5c860; }
 .paper-review-line {
     margin-top: 6px;
     font-size: 13px;
+    line-height: 1.6;
     color: var(--text-dim);
     background: var(--bg-hover);
     border-left: 3px solid var(--accent);
     border-radius: 6px;
-    padding: 4px 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding: 6px 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
     max-width: 100%;
 }
 /* 试卷点评 popover（锚定小方块，无全屏遮罩） */
