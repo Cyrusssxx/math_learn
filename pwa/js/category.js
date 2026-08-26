@@ -149,7 +149,34 @@ function noteGet(qid) {
 }
 function mdBlockWithImg(s) {
     return mdBlock(s).replace(/\[图:([a-z0-9]+)\]/g,
-        (_, id) => `<img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)">`);
+        (_, id) => `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"><button type="button" class="exam-note-img-del" title="删除图片" onclick="delExamNoteImg('${id}', this)">×</button></span>`);
+}
+// 分类页（只读预览）单图删除：删 IndexedDB + 删文本占位 + 重渲染预览 + 同步「笔记」标记
+function delExamNoteImg(id, btn) {
+    const wrap = btn.closest('.q-note');
+    if (!wrap) return;
+    const qid = wrap.dataset.qid;
+    if (!qid) return;
+    let v = noteGet(qid);
+    const re = new RegExp('\\[图:' + id + '\\]', 'g');
+    v = v.replace(re, '').replace(/\s{2,}/g, ' ').trim();
+    try { localStorage.setItem('examNote-' + qid, v); } catch (e) { }
+    examImgDel([id]);
+    const pv = wrap.querySelector('.q-note-preview');
+    if (pv) pv.innerHTML = mdBlockWithImg(v);
+    const opBtn = wrap.closest('.q-card') && wrap.closest('.q-card').querySelector('[data-act="note"]');
+    if (opBtn) opBtn.classList.toggle('has', !!v.trim());
+    noteHint(btn, '已删除图片');
+}
+function noteHint(anchor, msg) {
+    const sec = anchor && anchor.closest && anchor.closest('.q-note');
+    const el = sec && sec.querySelector('.q-note-hint');
+    if (!el) return;
+    if (!msg) { el.textContent = ''; el.classList.remove('show'); return; }
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.classList.remove('show'); }, 2000);
 }
 async function fillExamNoteImgs(root) {
     if (!root) return;
@@ -182,6 +209,14 @@ function examImgGet(id) {
         const rq = d.transaction('imgs').objectStore('imgs').get(id);
         rq.onsuccess = () => res(rq.result || null);
         rq.onerror = () => res(null);
+    }));
+}
+function examImgDel(ids) {
+    if (!ids || !ids.length) return Promise.resolve();
+    return examImgDB().then(d => new Promise(res => {
+        const tx = d.transaction('imgs', 'readwrite');
+        ids.forEach(id => tx.objectStore('imgs').delete(id));
+        tx.oncomplete = res; tx.onerror = res;
     }));
 }
 
@@ -363,7 +398,7 @@ function catCard(paper, secTitle, q) {
     const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';
     const note = noteGet(qid);
     const hasNote = !!note.trim();
-    const noteHtml = hasNote ? `<div class="q-sec q-note"><div class="q-note-preview">${mdBlockWithImg(note)}</div></div>` : '';
+    const noteHtml = hasNote ? `<div class="q-sec q-note" data-qid="${qid}"><div class="q-note-preview">${mdBlockWithImg(note)}</div><div class="q-note-hint"></div></div>` : '';
     const noteBtn = hasNote ? `<button class="q-op has" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>` : '';
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
     return `<div class="q-card" id="q-${qid}">

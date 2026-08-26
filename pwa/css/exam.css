@@ -683,7 +683,7 @@ html.dark .exam-btn.on { color: #e5c860; }
 .q-note .q-note-input {
     width: 100%;
     min-height: 64px;
-    resize: vertical;
+    resize: none;
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 8px 10px;
@@ -692,6 +692,7 @@ html.dark .exam-btn.on { color: #e5c860; }
     background: var(--bg);
     color: var(--text);
     outline: none;
+    overflow-y: hidden;
 }
 .q-note .q-note-input:focus { border-color: var(--accent); }
 
@@ -728,5 +729,48 @@ html.dark .exam-btn.on { color: #e5c860; }
     margin: 6px 0;
     border: 1px solid var(--border);
     cursor: zoom-in;
+}
+
+/* 笔记保存状态提示（自动保存中…/已保存 ✓/已删除图片…） */
+.q-note-hint {
+    margin-top: 4px;
+    min-height: 16px;
+    font-size: 12px;
+    color: var(--text-dim);
+    opacity: 0;
+    transition: opacity .3s;
+}
+.q-note-hint.show { opacity: 1; }
+
+/* 单图删除按钮：hover 笔记图时右上角显示 × */
+.exam-note-img-wrap {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+}
+.exam-note-img-del {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 22px;
+    height: 22px;
+    line-height: 20px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .55);
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+    z-index: 2;
+}
+.exam-note-img-wrap:hover .exam-note-img-del { display: block; }
+
+/* 「完成」保存后淡化编辑按钮 */
+.q-note-editbtn.saved {
+    color: var(--accent);
+    border-color: var(--accent);
+    opacity: .65;
 }
 

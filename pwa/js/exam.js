@@ -132,6 +132,8 @@ function noteInput(ta) {
     const qid = ta.dataset.qid;
     const newVal = ta.value;
     const newRefs = examImgRefs(newVal);
+    autoResizeNote(ta);                 // 输入即自适应高度
+    noteHint(ta, '自动保存中…');
     clearTimeout(_noteTimer[qid]);
     _noteTimer[qid] = setTimeout(() => {
         const olds = localStorage.getItem('examNote-' + qid) || '';
@@ -141,17 +143,19 @@ function noteInput(ta) {
         try { localStorage.setItem('examNote-' + qid, newVal); } catch (e) { }
         const btn = ta.closest('.q-card') && ta.closest('.q-card').querySelector('[data-act="note"]');
         if (btn) btn.classList.toggle('has', !!newVal.trim());
+        noteHint(ta, newVal.trim() ? '已保存 ✓' : '笔记是空的，不保存');
     }, 500);
     // 编辑态只显示输入框；预览在「完成」时统一渲染（避免原文+预览双份显示）
 }
-// 笔记区 Ctrl+V 贴图：存 IndexedDB 后在光标处插入 [图:id]
+// 笔记区 Ctrl+V 贴图：压缩后存 IndexedDB，再在光标处插入 [图:id]
 function notePasteImg(e) {
     const it = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith('image/'));
     if (!it) return;
     e.preventDefault();
     const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
     const ta = e.target;
-    examImgPut(id, it.getAsFile()).then(() => {
+    const file = it.getAsFile();
+    compressImage(file).then(blob => examImgPut(id, blob)).then(() => {
         const tag = `[图:${id}]`;
         const p = ta.selectionStart;
         ta.value = ta.value.slice(0, p) + tag + ta.value.slice(ta.selectionEnd);
@@ -179,6 +183,7 @@ function toggleQSec(btn, act) {
                     ta.dataset.bind = '1';
                 }
                 ta.focus();
+                autoResizeNote(ta);   // 展开即按内容自适应高度
                 noteInput(ta);
             }
         }
@@ -193,6 +198,8 @@ function toggleNoteEdit(btn) {
     if (!editing) {
         // 进入编辑
         btn.textContent = '💾 完成';
+        btn.classList.remove('saved');   // 再次编辑恢复按钮常态
+        noteHint(btn, '');
         ta.style.display = '';
         if (pv) pv.hidden = true;
         if (!ta.dataset.bind) {
@@ -201,6 +208,7 @@ function toggleNoteEdit(btn) {
             ta.dataset.bind = '1';
         }
         ta.focus();
+        autoResizeNote(ta);   // 进入编辑按内容自适应高度
     } else {
         // 完成：清防抖定时器，立即落盘
         clearTimeout(_noteTimer[ta.dataset.qid]);
@@ -209,6 +217,7 @@ function toggleNoteEdit(btn) {
         const v = ta.value.trim();
         if (v) {
             btn.textContent = '✏️ 编辑';
+            btn.classList.add('saved');   // 保存后淡化按钮
             ta.style.display = 'none';
             if (pv) {
                 pv.innerHTML = mdBlockWithImg(ta.value);
@@ -216,8 +225,10 @@ function toggleNoteEdit(btn) {
             renderMath(pv);
             fillExamNoteImgs(pv);   // 无条件回填 [图:id] 贴图，保证编辑完成后实时显示
             }
+            noteHint(btn, '已保存 ✓');
         } else {
             // 清空了内容：收起整节，重置为「空笔记」形态（下次展开直接是输入框）
+            noteHint(btn, '已删除笔记');
             const opBtn = sec.closest('.q-card')?.querySelector('[data-act="note"]');
             sec.hidden = true;
             if (opBtn) opBtn.classList.remove('has');
@@ -276,11 +287,87 @@ function examImgRefs(t) {
     return [...(t || '').matchAll(/\[图:([a-z0-9]+)\]/g)].map(m => m[1]);
 }
 // 渲染笔记文本时，把 [图:id] 换成占位 img（后续 fillExamNoteImgs 回填 blob）
+// 外包 .exam-note-img-wrap 以支持单图删除按钮（hover 显示 ×）
 function mdBlockWithImg(s) {
     return mdBlock(s)
         .replace(/\[图:([a-z0-9]+)\]/g,
-            (_, id) => `<img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)">`);
+            (_, id) => `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"><button type="button" class="exam-note-img-del" title="删除图片" onclick="delExamNoteImg('${id}', this)">×</button></span>`);
 }
+
+// ============ 笔记编辑体验增强（移植自 408-quiz 批注，保留 IndexedDB 架构） ============
+// 贴图压缩：最长边 1200px 的 JPEG(0.85)，透明底铺白，控制 IndexedDB 体积
+function compressImage(file) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            const scale = Math.min(1, 1200 / Math.max(img.width, img.height));
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            URL.revokeObjectURL(img.src);
+            canvas.toBlob(b => b ? resolve(b) : reject(new Error('图片压缩失败')), 'image/jpeg', 0.85);
+        };
+        img.onerror = () => reject(new Error('图片读取失败'));
+        img.src = URL.createObjectURL(file);
+    });
+}
+
+// textarea 高度自适应：随内容增高，超过 60% 视口高出现滚动条
+function autoResizeNote(el) {
+    if (!el) return;
+    el.style.height = 'auto';
+    const maxH = Math.round(window.innerHeight * 0.6);
+    el.style.height = Math.min(el.scrollHeight, maxH) + 'px';
+    el.style.overflowY = el.scrollHeight > maxH ? 'auto' : 'hidden';
+}
+
+// 笔记保存状态提示（自动保存中… / 已保存 ✓ / 已删除图片 …），2s 后淡出
+function noteHint(anchor, msg) {
+    const sec = anchor && anchor.closest && anchor.closest('.q-note');
+    const el = sec && sec.querySelector('.q-note-hint');
+    if (!el) return;
+    if (!msg) { el.textContent = ''; el.classList.remove('show'); return; }
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.classList.remove('show'); }, 2000);
+}
+
+// 单图删除：删 IndexedDB 图 + 从文本删 [图:id] 占位 + 重渲染预览 + 同步「笔记」标记
+function delExamNoteImg(id, btn) {
+    const wrap = btn.closest('.q-note');
+    if (!wrap) return;
+    const ta = wrap.querySelector('.q-note-input');
+    const qid = (ta && ta.dataset.qid) || wrap.dataset.qid;
+    if (!qid) return;
+    let v = ta ? ta.value : noteGet(qid);
+    const re = new RegExp('\\[图:' + id + '\\]', 'g');
+    v = v.replace(re, '').replace(/\s{2,}/g, ' ').trim();
+    try { localStorage.setItem('examNote-' + qid, v); } catch (e) { }
+    examImgDel([id]);
+    if (ta) ta.value = v;
+    const pv = wrap.querySelector('.q-note-preview');
+    if (pv) pv.innerHTML = mdBlockWithImg(v);
+    const opBtn = wrap.closest('.q-card') && wrap.closest('.q-card').querySelector('[data-act="note"]');
+    if (opBtn) opBtn.classList.toggle('has', !!v.trim());
+    noteHint(btn, '已删除图片');
+}
+
+// 切题/卸载前冲刷未落盘的输入，防 <500ms 防抖窗口内丢字
+function flushNoteSave() {
+    for (const qid in _noteTimer) {
+        if (_noteTimer[qid]) {
+            clearTimeout(_noteTimer[qid]); _noteTimer[qid] = null;
+            const ta = document.querySelector('.q-note-input[data-qid="' + qid + '"]');
+            if (ta) { try { localStorage.setItem('examNote-' + qid, ta.value); } catch (e) { } }
+        }
+    }
+}
+window.addEventListener('pagehide', flushNoteSave);
 async function fillExamNoteImgs(root) {
     if (!root) return;
     const imgs = root.querySelectorAll('img.exam-note-img[data-img]');
@@ -476,14 +563,16 @@ function qCard(p, sec, q, secIdx) {
     const note = noteGet(qid);
     const hasNote = !!note.trim();
     const noteHtml = hasNote
-        ? `<div class="q-sec q-note">
+        ? `<div class="q-sec q-note" data-qid="${qid}">
             <div class="q-note-preview">${mdBlockWithImg(note)}</div>
             <textarea class="q-note-input" data-qid="${qid}" style="display:none" placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）">${esc(note)}</textarea>
             <button class="q-note-editbtn" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
+            <div class="q-note-hint"></div>
         </div>`
-        : `<div class="q-sec q-note" hidden>
+        : `<div class="q-sec q-note" hidden data-qid="${qid}">
             <textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）"></textarea>
             <div class="q-note-preview" hidden></div>
+            <div class="q-note-hint"></div>
         </div>`;
     const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';
     const ideaHtml = q.idea ? `<div class="q-sec q-idea" hidden>${mdBlock(q.idea)}</div>` : '';
