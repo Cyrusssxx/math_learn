@@ -289,25 +289,52 @@ function cleanLabel(s) {
     return (s || '').replace(/\$[^$]*\$/g, '').replace(/\$/g, '').replace(/\s+/g, '').slice(0, 22);
 }
 
-// 按「学科 → 章节 → 知识点(L3)」三级聚合；只保留有题数的节点；subject 固定序，chapter/leaf 按题数降序
+// 给定任意层级的分类 id，向上回溯到它所属的「学科(L0)」与「章节(L1)」
+// 适配大观园深层分类（L2~L8 叶子）在三级分类树中正确归并到现有章节节点下；
+// 返回 { subjId, chId }，找不到学科(L0)祖先时 chId 为 null（该节点不进树）。
+function catLink(cid) {
+    const c = cats[String(cid)];
+    if (!c) return null;
+    let cur = c;
+    while (cur) {
+        const pid = cur.parentId;
+        if (pid == null) {
+            return cur.level === 0 ? { subjId: cur.id, chId: null } : null;
+        }
+        const parent = cats[String(pid)];
+        if (parent && parent.level === 0) {
+            // cur 是 parent(学科) 的直接子节点 => 章节(L1)
+            return { subjId: parent.id, chId: cur.id };
+        }
+        cur = parent;
+    }
+    return null;
+}
+
+// 按「学科(L0) → 章节(L1) → 知识点(任意深度叶子)」三级聚合；
+// 任意层级的叶子都向上归并到其所属章节，subject 固定序，chapter/leaf 按题数降序
 function buildTree(entries) {
     const byCat = {};
-    for (const e of entries) byCat[e.catId] = (byCat[e.catId] || 0) + 1;
+    const linkOf = {};   // catId -> { subjId, chId }
+    for (const e of entries) {
+        if (!cats[String(e.catId)]) continue;
+        byCat[e.catId] = (byCat[e.catId] || 0) + 1;
+        if (!(e.catId in linkOf)) linkOf[e.catId] = catLink(e.catId);
+    }
     const subjMap = {};   // 学科名 -> { chapters: { chId: {id,name,display,count,leaves:[]} } }
-    for (const id in cats) {
-        const c = cats[id];
-        if (c.level !== 2) continue;                 // 仅处理 L3 知识点叶子
-        const ch = cats[String(c.parentId)];
-        if (!ch || ch.level !== 1) continue;
-        const subj = cats[String(ch.parentId)];
-        if (!subj) continue;
-        const cnt = byCat[c.id] || 0;
-        if (cnt <= 0) continue;
+    for (const cid in byCat) {
+        const link = linkOf[cid];
+        if (!link || link.chId == null) continue;
+        const subj = cats[String(link.subjId)];
+        const ch = cats[String(link.chId)];
+        if (!subj || !ch) continue;
+        const cnt = byCat[cid];
         if (!subjMap[subj.name]) subjMap[subj.name] = { chapters: {} };
         const cm = subjMap[subj.name].chapters;
         if (!cm[ch.id]) cm[ch.id] = { id: ch.id, name: ch.name, display: ch.display, count: 0, leaves: [] };
         cm[ch.id].count += cnt;
-        cm[ch.id].leaves.push({ id: c.id, name: c.name, display: c.display, count: cnt });
+        const leaf = cats[String(cid)];
+        cm[ch.id].leaves.push({ id: cid, name: leaf.name, display: leaf.display, count: cnt });
     }
     const order = ['高等数学', '线性代数', '概率统计'];
     const subs = Object.keys(subjMap)
