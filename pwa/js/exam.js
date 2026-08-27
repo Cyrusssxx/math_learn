@@ -611,7 +611,27 @@ function secTag(secIdx) {
     return ['一', '二', '三', '四', '五'][secIdx] || (secIdx + 1);
 }
 
+// 一键展开/收起当前卷所有题卡的答案
+let examAllAnsOpen = false;
+function examToggleAllAnswers(btn) {
+    examAllAnsOpen = !examAllAnsOpen;
+    const el = document.getElementById('examMain');
+    if (!el) return;
+    el.querySelectorAll('.q-card').forEach(card => {
+        const sec = card.querySelector('.q-answer');
+        const b = card.querySelector('.q-op[data-act="answer"]');
+        if (sec) sec.hidden = !examAllAnsOpen;
+        if (b) {
+            b.classList.toggle('on', examAllAnsOpen);
+            b.textContent = examAllAnsOpen ? '收起答案' : '查看答案';
+        }
+    });
+    btn.classList.toggle('on', examAllAnsOpen);
+    btn.textContent = examAllAnsOpen ? '🔽 收起全部答案' : '🔼 展开全部答案';
+}
+
 function renderCurrent() {
+    examAllAnsOpen = false;   // 切卷/重绘时重置
     const el = document.getElementById('examMain');
     if (!curPaper) { el.innerHTML = '<div class="loading">请选择一套卷</div>'; return; }
     const review = reviewGet(curPaper.id);
@@ -623,6 +643,7 @@ function renderCurrent() {
         </div>
         <div class="paper-meta">共 ${curPaper.sections.reduce((a, s) => a + s.questions.length, 0)} 题 · 满分 150 分</div>
         ${reviewText ? `<div class="paper-review-line">💬 ${esc(reviewText)}</div>` : ''}
+        <button class="all-ans-btn" id="examAllAnsBtn" onclick="examToggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
     let shown = 0, total = 0;
     curPaper.sections.forEach((sec, si) => {
