@@ -59,3 +59,47 @@ function toggleDark() {
 }
 
 renderDarkSwitch();
+
+// ============ Service Worker 注册 + 新版本自动刷新 ============
+// 部署新版本后，旧 SW 仍控制当前页面；这里监听新 SW 激活并自动重载，
+// 避免「强刷一次还是旧版」的困扰（SW 双刷新问题）。
+(function registerSW() {
+    if (!('serviceWorker' in navigator)) return;
+    let reloaded = false;
+    // 仅当页面原本就已被 SW 控制（即部署前的旧版本）时，才在 controllerchange 后重载，
+    // 避免「首次访问 SW 刚 claim」也触发一次多余刷新。
+    const wasControlled = !!navigator.serviceWorker.controller;
+    function showUpdateBanner(reg) {
+        if (document.getElementById('swUpdateBanner')) return;
+        const b = document.createElement('div');
+        b.id = 'swUpdateBanner';
+        b.innerHTML = '发现新版本，<a href="#" id="swUpdateReload">点击刷新</a>';
+        b.setAttribute('style', 'position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;' +
+            'background:var(--accent,#2b8a6b);color:#fff;padding:8px 14px;border-radius:8px;' +
+            'cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.25);font-size:14px');
+        b.querySelector('#swUpdateReload').addEventListener('click', e => {
+            e.preventDefault();
+            if (reg && reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+            location.reload();
+        });
+        document.body.appendChild(b);
+    }
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then(reg => {
+            reg.addEventListener('updatefound', () => {
+                const nw = reg.installing;
+                if (!nw) return;
+                nw.addEventListener('statechange', () => {
+                    if (nw.state === 'installed' && navigator.serviceWorker.controller) showUpdateBanner(reg);
+                });
+            });
+            if (reg.waiting && navigator.serviceWorker.controller) showUpdateBanner(reg);
+        }).catch(err => console.warn('SW 注册失败（file:// 下属正常）:', err));
+        // 新 SW 接管后自动重载一次，确保拿到最新资源（仅限原本已被控制的页面）
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (reloaded || !wasControlled) return;
+            reloaded = true;
+            location.reload();
+        });
+    });
+})();
