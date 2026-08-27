@@ -241,6 +241,10 @@ function toggleQSec(btn, act) {
     const open = sec.hidden;
     sec.hidden = !open;
     btn.classList.toggle('on', open);
+    if (open) {
+        renderMath(sec);
+        fillExamNoteImgs(sec);
+    }
 }
 
 // 一键展开/收起当前列表所有题卡的答案
@@ -258,6 +262,10 @@ function toggleAllAnswers(btn) {
             b.textContent = allAnsOpen ? '收起答案' : '查看答案';
         }
     });
+    if (allAnsOpen) {
+        renderMath(root);
+        fillExamNoteImgs(root);
+    }
     btn.classList.toggle('on', allAnsOpen);
     btn.textContent = allAnsOpen ? '🔽 收起全部答案' : '🔼 展开全部答案';
 }

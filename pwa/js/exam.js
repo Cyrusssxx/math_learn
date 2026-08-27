@@ -182,6 +182,9 @@ function toggleQSec(btn, act) {
     const open = sec.hidden;
     sec.hidden = !open;
     btn.classList.toggle('on', open);
+    if (open && act !== 'note') {
+        renderMath(sec);   // 展开答案/思路时渲染 KaTeX
+    }
     if (act === 'note') {
         const ta = sec.querySelector('textarea');
         if (ta) {
@@ -626,6 +629,10 @@ function examToggleAllAnswers(btn) {
             b.textContent = examAllAnsOpen ? '收起答案' : '查看答案';
         }
     });
+    if (examAllAnsOpen) {
+        renderMath(el);
+        fillExamNoteImgs(el);
+    }
     btn.classList.toggle('on', examAllAnsOpen);
     btn.textContent = examAllAnsOpen ? '🔽 收起全部答案' : '🔼 展开全部答案';
 }
