@@ -455,13 +455,21 @@ function renderMain() {
 
 // ============ 初始化 ============
 async function init() {
-    const [er, cr] = await Promise.all([
+    const [er, pr, cr] = await Promise.all([
         fetch('data/exam.json'),
+        fetch('data/practice.json').catch(() => null),  // practice.json 可选
         fetch('data/exam_categories.json'),
     ]);
     if (!er.ok) throw new Error('加载真题失败: ' + er.status);
     if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
     papers = await er.json();
+    // 合并 practice.json（如果存在）
+    if (pr && pr.ok) {
+        const practice = await pr.json();
+        if (Array.isArray(practice)) {
+            papers = papers.concat(practice);
+        }
+    }
     cats = await cr.json();
     const btn = document.getElementById('favOnly');
     if (btn) btn.classList.toggle('on', favOnly);
