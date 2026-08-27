@@ -140,6 +140,43 @@
 }
 .cat-leaf.on .cat-count { color: var(--accent); background: rgba(74,144,217,.12); }
 
+/* 多级分类树（参照大观园层级，递归可逐级展开） */
+.tree-root { margin-bottom: 4px; }
+.tree-node {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 8px;
+    margin-bottom: 2px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 13px;
+    cursor: default;
+}
+.tree-node:hover { background: var(--bg-hover); }
+.tree-node.on {
+    background: var(--bg-active);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+.tree-arrow {
+    width: 12px;
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 11px;
+    flex: none;
+    cursor: pointer;
+    user-select: none;
+}
+.tree-arrow-empty { cursor: default; }
+.tree-name {
+    flex: 1;
+    cursor: pointer;
+    line-height: 1.35;
+}
+.tree-node.on .cat-count { color: var(--accent); background: rgba(74,144,217,.12); }
+
 /* 主区标题下的路径面包屑 */
 .paper-sub {
     font-size: 12px;

@@ -274,9 +274,7 @@ function toggleAllAnswers(btn) {
 let papers = [];
 let cats = {};          // { id: {id,name,path,parent} }
 let allEntries = [];    // { paper, secTitle, q, catId }
-let curCat = null;      // 选中的知识点(L3) id
-const collapsedSubjects = new Set();   // 折叠的学科
-const collapsedChapters = new Set();   // 折叠的章节
+let curCat = null;      // 选中的分类节点 id（任意层级）
 
 // 由 section 标题判定题型（比 exam.js 的 no 区间启发式更稳：老卷填空/选择编号不固定）
 function secKindLabel(t) {
@@ -308,120 +306,112 @@ function cleanLabel(s) {
     return (s || '').replace(/\$[^$]*\$/g, '').replace(/\$/g, '').replace(/\s+/g, '').slice(0, 22);
 }
 
-// 给定任意层级的分类 id，向上回溯到它所属的「学科(L0)」与「章节(L1)」
-// 适配大观园深层分类（L2~L8 叶子）在三级分类树中正确归并到现有章节节点下；
-// 返回 { subjId, chId }，找不到学科(L0)祖先时 chId 为 null（该节点不进树）。
-function catLink(cid) {
-    const c = cats[String(cid)];
-    if (!c) return null;
-    let cur = c;
-    while (cur) {
-        const pid = cur.parentId;
-        if (pid == null) {
-            return cur.level === 0 ? { subjId: cur.id, chId: null } : null;
+// ============ 完整多级分类树（参照大观园层级） ============
+// 由 exam_categories.json 的 parentId 还原 L0~L8 整棵树；
+// 题数从叶子向上累计：父节点显示其整棵子树的题数（含后代）。
+let childrenMap = {};   // parentId(str) -> [childId]
+let directCount = {};   // catId(str) -> 直接挂在该节点的题数
+let subCount = {};      // catId(str) -> 子树题数（自身 + 全部后代）
+const collapsedNodes = new Set();   // 收起（不显示子节点）的节点 id
+
+function buildTreeData() {
+    childrenMap = {};
+    for (const id in cats) {
+        const pid = cats[id].parentId;
+        if (pid != null) {
+            const pk = String(pid);
+            (childrenMap[pk] || (childrenMap[pk] = [])).push(id);
         }
-        const parent = cats[String(pid)];
-        if (parent && parent.level === 0) {
-            // cur 是 parent(学科) 的直接子节点 => 章节(L1)
-            return { subjId: parent.id, chId: cur.id };
-        }
-        cur = parent;
     }
-    return null;
+    directCount = {};
+    for (const e of allEntries) {
+        const cid = String(e.catId);
+        if (cats[cid]) directCount[cid] = (directCount[cid] || 0) + 1;
+    }
+    subCount = {};
+    const propagate = (id) => {
+        let total = directCount[id] || 0;
+        for (const ch of (childrenMap[id] || [])) total += propagate(ch);
+        subCount[id] = total;
+        return total;
+    };
+    for (const id in cats) if (cats[id].level === 0) propagate(id);
+    // 默认展开到 L1，L2 及以上收起，避免初始过长
+    collapsedNodes.clear();
+    for (const id in cats) if ((cats[id].level || 0) >= 2) collapsedNodes.add(id);
 }
 
-// 按「学科(L0) → 章节(L1) → 知识点(任意深度叶子)」三级聚合；
-// 任意层级的叶子都向上归并到其所属章节，subject 固定序，chapter/leaf 按题数降序
-function buildTree(entries) {
-    const byCat = {};
-    const linkOf = {};   // catId -> { subjId, chId }
-    for (const e of entries) {
-        if (!cats[String(e.catId)]) continue;
-        byCat[e.catId] = (byCat[e.catId] || 0) + 1;
-        if (!(e.catId in linkOf)) linkOf[e.catId] = catLink(e.catId);
+// 取某节点整棵子树（含自身）的所有 id，用于选中节点时拉取其全部题目
+function subIdsOf(id) {
+    const start = String(id);
+    const out = [start];
+    const stack = [start];
+    while (stack.length) {
+        const cur = stack.pop();
+        for (const ch of (childrenMap[cur] || [])) { out.push(String(ch)); stack.push(String(ch)); }
     }
-    const subjMap = {};   // 学科名 -> { chapters: { chId: {id,name,display,count,leaves:[]} } }
-    for (const cid in byCat) {
-        const link = linkOf[cid];
-        if (!link || link.chId == null) continue;
-        const subj = cats[String(link.subjId)];
-        const ch = cats[String(link.chId)];
-        if (!subj || !ch) continue;
-        const cnt = byCat[cid];
-        if (!subjMap[subj.name]) subjMap[subj.name] = { chapters: {} };
-        const cm = subjMap[subj.name].chapters;
-        if (!cm[ch.id]) cm[ch.id] = { id: ch.id, name: ch.name, display: ch.display, count: 0, leaves: [] };
-        cm[ch.id].count += cnt;
-        const leaf = cats[String(cid)];
-        cm[ch.id].leaves.push({ id: cid, name: leaf.name, display: leaf.display, count: cnt });
-    }
-    const order = ['高等数学', '线性代数', '概率统计'];
-    const subs = Object.keys(subjMap)
-        .filter(s => Object.keys(subjMap[s].chapters).length)
-        .sort((a, b) => { const ia = order.indexOf(a), ib = order.indexOf(b); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib); });
-    return subs.map(s => {
-        const chapters = Object.values(subjMap[s].chapters).sort((a, b) => b.count - a.count);
-        chapters.forEach(ch => ch.leaves.sort((a, b) => b.count - a.count));
-        return { subject: s, chapters };
-    });
+    return out;
 }
 
-// ============ 渲染：三级分类树 ============
+// ============ 渲染：多级分类树（递归，可逐级展开） ============
+function treeNodeHtml(id, depth) {
+    const cnt = subCount[id] || 0;
+    if (!cnt) return '';                     // 空分支不渲染
+    const c = cats[id];
+    const kids = (childrenMap[id] || []).filter(k => (subCount[k] || 0) > 0);
+    const isLeafNode = kids.length === 0;
+    const collapsed = collapsedNodes.has(id);
+    const selected = String(curCat) === String(id);
+    const indent = 8 + depth * 15;
+    const arrow = isLeafNode
+        ? '<span class="tree-arrow tree-arrow-empty"></span>'
+        : `<span class="tree-arrow" onclick="toggleNode('${id}',event)">${collapsed ? '▸' : '▾'}</span>`;
+    let html = `<div class="tree-node${selected ? ' on' : ''}" style="padding-left:${indent}px" title="${(c.path || c.name).replace(/"/g, '&quot;')}">
+        ${arrow}
+        <span class="tree-name" onclick="selectCat('${id}')">${c.display || c.name}</span>
+        <span class="cat-count">${cnt}</span>
+    </div>`;
+    if (!isLeafNode && !collapsed) {
+        for (const k of kids) html += treeNodeHtml(k, depth + 1);
+    }
+    return html;
+}
+
 function renderTree() {
-    const entries = activeEntries();
     const el = document.getElementById('catTree');
-    if (!entries.length) {
+    if (!el) return;
+    if (!allEntries.length) {
         el.innerHTML = `<div class="empty-tip">暂无分类数据。</div>`;
         return;
     }
-    const tree = buildTree(entries);
-    el.innerHTML = tree.map(s => {
-        const open = !collapsedSubjects.has(s.subject);
-        const total = s.chapters.reduce((a, c) => a + c.count, 0);
-        return `<div class="paper-group">
-            <div class="paper-group-head" onclick="toggleSubject('${s.subject.replace(/'/g, "\\'")}')">
-                <span class="paper-group-arrow">${open ? '▼' : '▶'}</span>
-                <span class="paper-group-name">${s.subject}</span>
-                <span class="paper-group-count">${total}</span>
-            </div>
-            <div class="paper-group-body" style="display:${open ? 'block' : 'none'}">
-                ${s.chapters.map(ch => {
-                    const copen = !collapsedChapters.has(ch.id);
-                    const leafOn = String(curCat) === String(ch.id);
-                    return `<div class="cat-chapter">
-                        <div class="cat-chapter-head${leafOn ? ' on' : ''}" onclick="toggleChapter(${ch.id})">
-                            <span class="cat-chapter-arrow">${copen ? '▾' : '▸'}</span>
-                            <span class="cat-chapter-name">${ch.display || ch.name}</span>
-                            <span class="cat-count">${ch.count}</span>
-                        </div>
-                        <div class="cat-chapter-body" style="display:${copen ? 'block' : 'none'}">
-                            ${ch.leaves.map(l => `<button class="cat-leaf${String(curCat) === String(l.id) ? ' on' : ''}" onclick="selectCat(${l.id})" title="${l.name}">
-                                <span class="cat-leaf-name">${l.display || l.name}</span>
-                                <span class="cat-count">${l.count}</span>
-                            </button>`).join('')}
-                        </div>
-                    </div>`;
-                }).join('')}
-            </div>
-        </div>`;
-    }).join('');
+    // 仅渲染有题数的 L0 根（空根 / 归档分类 / 数一数三等自动隐藏）
+    const order = ['高等数学', '线性代数', '概率统计', '事件与概率', '一维随机变量', '二维随机变量', '数字特征', '大数定律中心极限定理', '统计初步'];
+    const roots = Object.keys(cats).filter(id => (cats[id].level || 0) === 0 && (subCount[id] || 0) > 0);
+    roots.sort((a, b) => {
+        const ia = order.indexOf(cats[a].name), ib = order.indexOf(cats[b].name);
+        const ra = ia < 0 ? 99 : ia, rb = ib < 0 ? 99 : ib;
+        return ra - rb || cats[a].name.localeCompare(cats[b].name, 'zh');
+    });
+    el.innerHTML = roots.map(id => `<div class="tree-root">${treeNodeHtml(id, 0)}</div>`).join('')
+        || `<div class="empty-tip">暂无分类数据。</div>`;
 }
 
-function toggleSubject(subj) {
-    if (collapsedSubjects.has(subj)) collapsedSubjects.delete(subj);
-    else collapsedSubjects.add(subj);
-    renderTree();
-}
-
-function toggleChapter(id) {
-    if (collapsedChapters.has(id)) collapsedChapters.delete(id);
-    else collapsedChapters.add(id);
+// 展开/收起某节点（箭头按钮触发，阻止冒泡避免误选中）
+function toggleNode(id, ev) {
+    if (ev) ev.stopPropagation();
+    if (collapsedNodes.has(id)) collapsedNodes.delete(id); else collapsedNodes.add(id);
     renderTree();
 }
 
 function selectCat(id) {
     viewMode = 'cat';
-    curCat = id;
+    curCat = String(id);
+    // 自动展开从根到所选节点的路径，确保高亮节点在抽屉内可见
+    let cur = cats[curCat];
+    while (cur && cur.parentId != null) {
+        collapsedNodes.delete(String(cur.parentId));
+        cur = cats[String(cur.parentId)];
+    }
     renderTree();
     renderMain();
     closeCatDrawer();   // 选中知识点后自动收起抽屉
@@ -477,7 +467,17 @@ function renderMain() {
         el.innerHTML = `<div class="cat-empty">点击下方 📂 按钮展开分类抽屉，选择考点查看历年真题</div>`;
         return;
     }
-    const entries = activeEntries().filter(e => String(e.catId) === String(curCat));
+    // 选中任意层级节点：拉取其整棵子树（含自身）的题目，同一题被多个子分类引用时去重
+    const subSet = new Set(subIdsOf(String(curCat)));
+    const seen = new Set();
+    const entries = [];
+    for (const e of activeEntries()) {
+        if (!subSet.has(String(e.catId))) continue;
+        const qid = qidOf(e.paper.id, e.q.no);
+        if (seen.has(qid)) continue;
+        seen.add(qid);
+        entries.push(e);
+    }
     const c = cats[curCat];
     entries.sort((a, b) => parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10));
     if (!entries.length) {
@@ -543,6 +543,7 @@ async function init() {
     const btn = document.getElementById('favOnly');
     if (btn) btn.classList.toggle('on', viewMode === 'fav');
     buildEntries();
+    buildTreeData();
     renderTree();
     renderMain();
 }
