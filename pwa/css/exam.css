@@ -276,7 +276,26 @@ html.dark .exam-btn.on { color: #e5c860; }
     word-break: break-word;
     max-width: 100%;
 }
-/* 试卷点评 popover（锚定小方块，无全屏遮罩） */
+
+/* 一键展开/收起全部答案按钮 */
+.all-ans-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent, #4a90d9);
+    background: transparent;
+    border: 1.5px solid var(--accent, #4a90d9);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all .15s;
+}
+.all-ans-btn:hover { background: rgba(74,144,217,.1); }
+.all-ans-btn.on {
+    background: var(--accent, #4a90d9);
+    color: #fff;
+}
 .review-pop {
     display: none;
     position: fixed;
@@ -707,6 +726,15 @@ html.dark .exam-btn.on { color: #e5c860; }
     word-break: break-word;
 }
 .q-note-preview:empty { display: none; }
+
+/* 纯文字笔记（无 [图:id]）：去掉内层预览框的盒子感，文字直接融入外层 */
+.q-note:not(.has-img) .q-note-preview {
+    margin-top: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
 
 /* 笔记「✏️编辑/💾完成」小按钮 */
 .q-note-editbtn {

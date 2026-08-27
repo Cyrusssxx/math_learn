@@ -405,7 +405,8 @@ function catCard(paper, secTitle, q) {
     const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';
     const note = noteGet(qid);
     const hasNote = !!note.trim();
-    const noteHtml = hasNote ? `<div class="q-sec q-note" data-qid="${qid}"><div class="q-note-preview">${mdBlockWithImg(note)}</div><div class="q-note-hint"></div></div>` : '';
+    const hasImg = /\[图:[a-z0-9]+\]/.test(note);
+    const noteHtml = hasNote ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}"><div class="q-note-preview">${mdBlockWithImg(note)}</div><div class="q-note-hint"></div></div>` : '';
     const noteBtn = hasNote ? `<button class="q-op has" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>` : '';
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
     return `<div class="q-card" id="q-${qid}">

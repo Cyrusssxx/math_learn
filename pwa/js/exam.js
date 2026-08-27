@@ -577,8 +577,9 @@ function qCard(p, sec, q, secIdx) {
         : '';
     const note = noteGet(qid);
     const hasNote = !!note.trim();
+    const hasImg = /\[图:[a-z0-9]+\]/.test(note);
     const noteHtml = hasNote
-        ? `<div class="q-sec q-note" data-qid="${qid}">
+        ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}">
             <div class="q-note-preview">${mdBlockWithImg(note)}</div>
             <textarea class="q-note-input" data-qid="${qid}" style="display:none" placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）">${esc(note)}</textarea>
             <button class="q-note-editbtn" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
