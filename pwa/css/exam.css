@@ -774,3 +774,31 @@ html.dark .exam-btn.on { color: #e5c860; }
     opacity: .65;
 }
 
+/* ============ 底部导航栏 ============ */
+.exam-btm {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+    display: flex;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -2px 8px rgba(0,0,0,.08);
+}
+.exam-btm-item {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color .2s, background .2s;
+}
+.exam-btm-item:hover, .exam-btm-item:active {
+    color: var(--accent);
+    background: var(--bg-hover);
+}
+/* 底部栏留出空间，避免最后一张卡片被遮挡 */
+body { padding-bottom: 48px; }
+
