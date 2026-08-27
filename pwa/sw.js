@@ -2,7 +2,7 @@
  * 预缓存全部页面/样式/脚本/笔记数据/KaTeX/图标，安装后完全离线可用。
  * 升级笔记数据或代码后：改 CACHE_VER 版本号即可让客户端自动换新缓存。
  */
-const CACHE_VER = 'mathcards-e800517012';
+const CACHE_VER = 'mathcards-7ecf1b1867';
 
 const PRECACHE = [
     'index.html',
@@ -30,7 +30,6 @@ const PRECACHE = [
     'data/notes.json',
     'data/exam.json',
     'data/exam_categories.json',
-    'data/practice.json',
     'data/good.json',
     // 常见函数图形（30 张 SVG，共约 424KB）——预缓存后图形区秒开、离线可用
     'data/img/func_01_const_linear.svg',

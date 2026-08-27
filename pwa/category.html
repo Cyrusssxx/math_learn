@@ -20,34 +20,31 @@
             <span class="exam-logo">🗂</span>
             <div>
                 <div class="exam-title">真题分类</div>
-                <div class="exam-sub" id="examSub">按大观园多级分类（学科 / 章节 / 考点…）· 点击任意节点查看该分类下所有真题</div>
+                <div class="exam-sub" id="examSub">按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题</div>
             </div>
         </div>
         <div class="exam-topbtns">
-            <button class="exam-btn" id="favOnly" onclick="toggleFavView()" title="打开收藏夹（不分类，列出所有已收藏题目）">⭐ 收藏夹</button>
+            <button class="exam-btn" id="favOnly" onclick="toggleFavOnly()" title="只看已收藏题目">⭐ 收藏夹</button>
             <button class="exam-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
             <a class="exam-btn" href="exam.html" title="返回真题页">📝 真题</a>
             <a class="exam-btn" href="index.html" title="打开笔记站">📚 笔记</a>
         </div>
     </header>
 
-    <!-- 悬浮分类抽屉触发按钮 -->
-    <button class="cat-drawer-trigger" id="catDrawerTrigger" onclick="toggleCatDrawer()" title="展开分类树">📂</button>
+    <div class="exam-wrap">
+        <!-- 左：分类树（学科 / 章节，可折叠） -->
+        <aside class="exam-side" id="catSide">
+            <div class="exam-side-head">
+                <div class="exam-side-title">知识点分类</div>
+            </div>
+            <div id="catTree"></div>
+        </aside>
 
-    <!-- 悬浮分类抽屉 -->
-    <div class="cat-drawer-overlay" id="catDrawerOverlay" onclick="closeCatDrawer()"></div>
-    <aside class="cat-drawer" id="catDrawer">
-        <div class="cat-drawer-head">
-            <div class="exam-side-title">知识点分类</div>
-            <button class="cat-drawer-close" onclick="closeCatDrawer()" title="关闭">✕</button>
-        </div>
-        <div id="catTree"></div>
-    </aside>
-
-    <!-- 主内容区 -->
-    <main class="exam-main cat-main-full" id="catMain">
-        <div class="loading">加载中…</div>
-    </main>
+        <!-- 中：选中章节的跨年真题 -->
+        <main class="exam-main" id="catMain">
+            <div class="loading">加载中…</div>
+        </main>
+    </div>
 
     <script src="js/common.js"></script>
     <script defer src="vendor/katex/katex.min.js"></script>

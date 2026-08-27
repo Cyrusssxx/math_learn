@@ -2,22 +2,8 @@
  * 分类口径：大观园「知识点/章节」体系（exam_categories.json 的 12 个二级章节）。
  * 复用 exam.js 的渲染 / 收藏辅助函数（独立副本，避免改动 exam.js 既有行为）。 */
 
-const FAV_KEY = 'examFav';            // { qid: {t: 时间戳} }，qid = 套卷id-题no
-
-// ============ 悬浮分类抽屉 ============
-function toggleCatDrawer() {
-    const drawer = document.getElementById('catDrawer');
-    const overlay = document.getElementById('catDrawerOverlay');
-    const trigger = document.getElementById('catDrawerTrigger');
-    const isOpen = drawer.classList.toggle('open');
-    overlay.classList.toggle('open', isOpen);
-    trigger.classList.toggle('hidden', isOpen);
-}
-function closeCatDrawer() {
-    document.getElementById('catDrawer').classList.remove('open');
-    document.getElementById('catDrawerOverlay').classList.remove('open');
-    document.getElementById('catDrawerTrigger').classList.remove('hidden');
-}
+const FAV_KEY = 'examFav';            // { qid: 1 }，qid = 套卷id-题no
+const FAV_ONLY_KEY = 'examFavOnly';   // 是否只看收藏
 
 // ============ 收藏存储 ============
 function qidOf(paperId, no) { return paperId + '-' + no; }
@@ -78,15 +64,17 @@ function toggleFav(qid, btn) {
             } else if (badge) badge.remove();
         }
     }
-    // 收藏夹视图下，实时刷新列表（取消收藏即移出）
-    if (viewMode === 'fav') renderMain();
+    // 收藏过滤开启时，实时刷新分类树与题目列表
+    if (favOnly) { renderTree(); renderMain(); }
 }
 
-let viewMode = 'cat';   // 'cat' | 'fav'：分类浏览 / 收藏夹
-function toggleFavView() {
-    viewMode = (viewMode === 'fav') ? 'cat' : 'fav';
+let favOnly = localStorage.getItem(FAV_ONLY_KEY) === '1';
+function toggleFavOnly() {
+    favOnly = !favOnly;
+    localStorage.setItem(FAV_ONLY_KEY, favOnly ? '1' : '0');
     const btn = document.getElementById('favOnly');
-    if (btn) btn.classList.toggle('on', viewMode === 'fav');
+    if (btn) btn.classList.toggle('on', favOnly);
+    renderTree();
     renderMain();
 }
 
@@ -241,9 +229,9 @@ function toggleQSec(btn, act) {
     const open = sec.hidden;
     sec.hidden = !open;
     btn.classList.toggle('on', open);
-    if (open) {
+    if (open) {                 // 展开时内容刚可见，需补调 KaTeX 渲染 $$ 块
         renderMath(sec);
-        fillExamNoteImgs(sec);
+        if (act === 'note') fillExamNoteImgs(sec.querySelector('.q-note-preview'));
     }
 }
 
@@ -262,10 +250,9 @@ function toggleAllAnswers(btn) {
             b.textContent = allAnsOpen ? '收起答案' : '查看答案';
         }
     });
-    if (allAnsOpen) {
-        renderMath(root);
-        fillExamNoteImgs(root);
-    }
+    // 批量展开后内容刚可见，需补调 KaTeX 渲染 $$ 块
+    renderMath(root);
+    root.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
     btn.classList.toggle('on', allAnsOpen);
     btn.textContent = allAnsOpen ? '🔽 收起全部答案' : '🔼 展开全部答案';
 }
@@ -274,7 +261,9 @@ function toggleAllAnswers(btn) {
 let papers = [];
 let cats = {};          // { id: {id,name,path,parent} }
 let allEntries = [];    // { paper, secTitle, q, catId }
-let curCat = null;      // 选中的分类节点 id（任意层级）
+let curCat = null;      // 选中的知识点(L3) id
+const collapsedSubjects = new Set();   // 折叠的学科
+const collapsedChapters = new Set();   // 折叠的章节
 
 // 由 section 标题判定题型（比 exam.js 的 no 区间启发式更稳：老卷填空/选择编号不固定）
 function secKindLabel(t) {
@@ -298,7 +287,8 @@ function buildEntries() {
 }
 
 function activeEntries() {
-    return allEntries;
+    if (!favOnly) return allEntries;
+    return allEntries.filter(e => isFav(qidOf(e.paper.id, e.q.no)));
 }
 
 // 清洗标签：去 LaTeX $...$、去空白、截断（用于分类树显示）
@@ -306,121 +296,100 @@ function cleanLabel(s) {
     return (s || '').replace(/\$[^$]*\$/g, '').replace(/\$/g, '').replace(/\s+/g, '').slice(0, 22);
 }
 
-// ============ 完整多级分类树（参照大观园层级） ============
-// 由 exam_categories.json 的 parentId 还原 L0~L8 整棵树；
-// 题数从叶子向上累计：父节点显示其整棵子树的题数（含后代）。
-let childrenMap = {};   // parentId(str) -> [childId]
-let directCount = {};   // catId(str) -> 直接挂在该节点的题数
-let subCount = {};      // catId(str) -> 子树题数（自身 + 全部后代）
-const collapsedNodes = new Set();   // 收起（不显示子节点）的节点 id
-
-function buildTreeData() {
-    childrenMap = {};
+// 按「学科 → 章节 → 知识点(L3)」三级聚合；只保留有题数的节点；subject 固定序，chapter/leaf 按题数降序
+function buildTree(entries) {
+    const byCat = {};
+    for (const e of entries) byCat[e.catId] = (byCat[e.catId] || 0) + 1;
+    const subjMap = {};   // 学科名 -> { chapters: { chId: {id,name,display,count,leaves:[]} } }
     for (const id in cats) {
-        const pid = cats[id].parentId;
-        if (pid != null) {
-            const pk = String(pid);
-            (childrenMap[pk] || (childrenMap[pk] = [])).push(id);
-        }
+        const c = cats[id];
+        if (c.level !== 2) continue;                 // 仅处理 L3 知识点叶子
+        const ch = cats[String(c.parentId)];
+        if (!ch || ch.level !== 1) continue;
+        const subj = cats[String(ch.parentId)];
+        if (!subj) continue;
+        const cnt = byCat[c.id] || 0;
+        if (cnt <= 0) continue;
+        if (!subjMap[subj.name]) subjMap[subj.name] = { chapters: {} };
+        const cm = subjMap[subj.name].chapters;
+        if (!cm[ch.id]) cm[ch.id] = { id: ch.id, name: ch.name, display: ch.display, count: 0, leaves: [] };
+        cm[ch.id].count += cnt;
+        cm[ch.id].leaves.push({ id: c.id, name: c.name, display: c.display, count: cnt });
     }
-    directCount = {};
-    for (const e of allEntries) {
-        const cid = String(e.catId);
-        if (cats[cid]) directCount[cid] = (directCount[cid] || 0) + 1;
-    }
-    subCount = {};
-    const propagate = (id) => {
-        let total = directCount[id] || 0;
-        for (const ch of (childrenMap[id] || [])) total += propagate(ch);
-        subCount[id] = total;
-        return total;
-    };
-    for (const id in cats) if (cats[id].level === 0) propagate(id);
-    // 默认展开到 L1，L2 及以上收起，避免初始过长
-    collapsedNodes.clear();
-    for (const id in cats) if ((cats[id].level || 0) >= 2) collapsedNodes.add(id);
+    const order = ['高等数学', '线性代数', '概率统计'];
+    const subs = Object.keys(subjMap)
+        .filter(s => Object.keys(subjMap[s].chapters).length)
+        .sort((a, b) => { const ia = order.indexOf(a), ib = order.indexOf(b); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib); });
+    return subs.map(s => {
+        const chapters = Object.values(subjMap[s].chapters).sort((a, b) => b.count - a.count);
+        chapters.forEach(ch => ch.leaves.sort((a, b) => b.count - a.count));
+        return { subject: s, chapters };
+    });
 }
 
-// 取某节点整棵子树（含自身）的所有 id，用于选中节点时拉取其全部题目
-function subIdsOf(id) {
-    const start = String(id);
-    const out = [start];
-    const stack = [start];
-    while (stack.length) {
-        const cur = stack.pop();
-        for (const ch of (childrenMap[cur] || [])) { out.push(String(ch)); stack.push(String(ch)); }
-    }
-    return out;
-}
-
-// ============ 渲染：多级分类树（递归，可逐级展开） ============
-function treeNodeHtml(id, depth) {
-    const cnt = subCount[id] || 0;
-    if (!cnt) return '';                     // 空分支不渲染
-    const c = cats[id];
-    const kids = (childrenMap[id] || []).filter(k => (subCount[k] || 0) > 0);
-    const isLeafNode = kids.length === 0;
-    const collapsed = collapsedNodes.has(id);
-    const selected = String(curCat) === String(id);
-    const indent = 8 + depth * 15;
-    const arrow = isLeafNode
-        ? '<span class="tree-arrow tree-arrow-empty"></span>'
-        : `<span class="tree-arrow" onclick="toggleNode('${id}',event)">${collapsed ? '▸' : '▾'}</span>`;
-    let html = `<div class="tree-node${selected ? ' on' : ''}" style="padding-left:${indent}px" title="${(c.path || c.name).replace(/"/g, '&quot;')}">
-        ${arrow}
-        <span class="tree-name" onclick="selectCat('${id}')">${c.display || c.name}</span>
-        <span class="cat-count">${cnt}</span>
-    </div>`;
-    if (!isLeafNode && !collapsed) {
-        for (const k of kids) html += treeNodeHtml(k, depth + 1);
-    }
-    return html;
-}
-
+// ============ 渲染：三级分类树 ============
 function renderTree() {
+    const entries = activeEntries();
     const el = document.getElementById('catTree');
-    if (!el) return;
-    if (!allEntries.length) {
-        el.innerHTML = `<div class="empty-tip">暂无分类数据。</div>`;
+    if (!entries.length) {
+        el.innerHTML = `<div class="empty-tip">${favOnly
+            ? '还没有收藏的题目。到真题页点卡片右上角 ☆ 收藏后，这里会按章节汇总。'
+            : '暂无分类数据。'}</div>`;
         return;
     }
-    // 仅渲染有题数的 L0 根（空根 / 归档分类 / 数一数三等自动隐藏）
-    const order = ['高等数学', '线性代数', '概率统计', '事件与概率', '一维随机变量', '二维随机变量', '数字特征', '大数定律中心极限定理', '统计初步'];
-    const roots = Object.keys(cats).filter(id => (cats[id].level || 0) === 0 && (subCount[id] || 0) > 0);
-    roots.sort((a, b) => {
-        const ia = order.indexOf(cats[a].name), ib = order.indexOf(cats[b].name);
-        const ra = ia < 0 ? 99 : ia, rb = ib < 0 ? 99 : ib;
-        return ra - rb || cats[a].name.localeCompare(cats[b].name, 'zh');
-    });
-    el.innerHTML = roots.map(id => `<div class="tree-root">${treeNodeHtml(id, 0)}</div>`).join('')
-        || `<div class="empty-tip">暂无分类数据。</div>`;
+    const tree = buildTree(entries);
+    el.innerHTML = tree.map(s => {
+        const open = !collapsedSubjects.has(s.subject);
+        const total = s.chapters.reduce((a, c) => a + c.count, 0);
+        return `<div class="paper-group">
+            <div class="paper-group-head" onclick="toggleSubject('${s.subject.replace(/'/g, "\\'")}')">
+                <span class="paper-group-arrow">${open ? '▼' : '▶'}</span>
+                <span class="paper-group-name">${s.subject}</span>
+                <span class="paper-group-count">${total}</span>
+            </div>
+            <div class="paper-group-body" style="display:${open ? 'block' : 'none'}">
+                ${s.chapters.map(ch => {
+                    const copen = !collapsedChapters.has(ch.id);
+                    const leafOn = String(curCat) === String(ch.id);
+                    return `<div class="cat-chapter">
+                        <div class="cat-chapter-head${leafOn ? ' on' : ''}" onclick="toggleChapter(${ch.id})">
+                            <span class="cat-chapter-arrow">${copen ? '▾' : '▸'}</span>
+                            <span class="cat-chapter-name">${ch.display || ch.name}</span>
+                            <span class="cat-count">${ch.count}</span>
+                        </div>
+                        <div class="cat-chapter-body" style="display:${copen ? 'block' : 'none'}">
+                            ${ch.leaves.map(l => `<button class="cat-leaf${String(curCat) === String(l.id) ? ' on' : ''}" onclick="selectCat(${l.id})" title="${l.name}">
+                                <span class="cat-leaf-name">${l.display || l.name}</span>
+                                <span class="cat-count">${l.count}</span>
+                            </button>`).join('')}
+                        </div>
+                    </div>`;
+                }).join('')}
+            </div>
+        </div>`;
+    }).join('');
 }
 
-// 展开/收起某节点（箭头按钮触发，阻止冒泡避免误选中）
-function toggleNode(id, ev) {
-    if (ev) ev.stopPropagation();
-    if (collapsedNodes.has(id)) collapsedNodes.delete(id); else collapsedNodes.add(id);
+function toggleSubject(subj) {
+    if (collapsedSubjects.has(subj)) collapsedSubjects.delete(subj);
+    else collapsedSubjects.add(subj);
+    renderTree();
+}
+
+function toggleChapter(id) {
+    if (collapsedChapters.has(id)) collapsedChapters.delete(id);
+    else collapsedChapters.add(id);
     renderTree();
 }
 
 function selectCat(id) {
-    viewMode = 'cat';
-    curCat = String(id);
-    // 自动展开从根到所选节点的路径，确保高亮节点在抽屉内可见
-    let cur = cats[curCat];
-    while (cur && cur.parentId != null) {
-        collapsedNodes.delete(String(cur.parentId));
-        cur = cats[String(cur.parentId)];
-    }
+    curCat = id;
     renderTree();
     renderMain();
-    closeCatDrawer();   // 选中知识点后自动收起抽屉
-    const fb = document.getElementById('favOnly');
-    if (fb) fb.classList.remove('on');
 }
 
 // ============ 渲染：题目卡片 ============
-function catCard(paper, secTitle, q, catLabel) {
+function catCard(paper, secTitle, q) {
     const qid = qidOf(paper.id, q.no);
     const fav = isFav(qid);
     const kindLabel = secKindLabel(secTitle);
@@ -439,12 +408,10 @@ function catCard(paper, secTitle, q, catLabel) {
     const noteHtml = hasNote ? `<div class="q-sec q-note" data-qid="${qid}"><div class="q-note-preview">${mdBlockWithImg(note)}</div><div class="q-note-hint"></div></div>` : '';
     const noteBtn = hasNote ? `<button class="q-op has" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>` : '';
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
-    const tagHtml = catLabel ? `<span class="q-cat-tag" title="所属考点">${catLabel}</span>` : '';
     return `<div class="q-card" id="q-${qid}">
         <div class="q-head">
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindLabel}</span>
-            ${tagHtml}
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
             <span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
@@ -462,27 +429,21 @@ function catCard(paper, secTitle, q, catLabel) {
 // ============ 渲染：主区 ============
 function renderMain() {
     const el = document.getElementById('catMain');
-    if (viewMode === 'fav') { renderFavView(el); return; }
     if (curCat == null) {
-        el.innerHTML = `<div class="cat-empty">点击下方 📂 按钮展开分类抽屉，选择考点查看历年真题</div>`;
+        el.innerHTML = `<div class="cat-empty">← 选择左侧章节，查看该考点的历年真题</div>`;
         return;
     }
-    // 选中任意层级节点：拉取其整棵子树（含自身）的题目，同一题被多个子分类引用时去重
-    const subSet = new Set(subIdsOf(String(curCat)));
-    const seen = new Set();
-    const entries = [];
-    for (const e of activeEntries()) {
-        if (!subSet.has(String(e.catId))) continue;
-        const qid = qidOf(e.paper.id, e.q.no);
-        if (seen.has(qid)) continue;
-        seen.add(qid);
-        entries.push(e);
-    }
+    const entries = activeEntries().filter(e => String(e.catId) === String(curCat));
     const c = cats[curCat];
-    entries.sort((a, b) => parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10));
+    if (favOnly) {
+        // 收藏过滤：按收藏时间倒序（最近收藏的排最前）
+        entries.sort((a, b) => favTime(qidOf(b.paper.id, b.q.no)) - favTime(qidOf(a.paper.id, a.q.no)));
+    } else {
+        entries.sort((a, b) => parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10));
+    }
     if (!entries.length) {
         el.innerHTML = `<div class="paper-head"><h1>${c ? c.display : curCat}</h1><div class="paper-sub">${c ? c.path : ''}</div></div>` +
-            `<div class="empty-tip">暂无题目。</div>`;
+            `<div class="empty-tip">${favOnly ? '该章节下没有收藏的题目。' : '暂无题目。'}</div>`;
         return;
     }
     const years = new Set(entries.map(e => e.paper.year)).size;
@@ -492,31 +453,8 @@ function renderMain() {
         <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年</div>
         <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
+    if (favOnly) html += `<div class="cat-filter-tip">⭐ 收藏过滤中：仅显示已收藏题目</div>`;
     entries.forEach(e => { html += catCard(e.paper, e.secTitle, e.q); });
-    el.innerHTML = html;
-    renderMath(el);
-    el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
-}
-
-// 收藏夹视图：不分类，按收藏时间倒序列出所有已收藏题目（每张卡片标注所属考点）
-function renderFavView(el) {
-    const favEntries = allEntries.filter(e => isFav(qidOf(e.paper.id, e.q.no)));
-    if (!favEntries.length) {
-        el.innerHTML = `<div class="cat-empty">还没有收藏的题目。<br>到真题页点卡片右上角 ☆ 收藏后，这里会汇总成收藏夹。</div>`;
-        return;
-    }
-    favEntries.sort((a, b) => favTime(qidOf(b.paper.id, b.q.no)) - favTime(qidOf(a.paper.id, a.q.no)));
-    let html = `<div class="paper-head">
-        <h1>⭐ 收藏夹</h1>
-        <div class="paper-meta">共 ${favEntries.length} 题 · 按收藏时间排序（新收藏在前）</div>
-        <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
-    </div>`;
-    favEntries.forEach(e => {
-        const cid = e.q.categoryIds && e.q.categoryIds[0];
-        const cl = cid != null ? cats[String(cid)] : null;
-        const label = cl ? (cl.display || cl.name) : '';
-        html += catCard(e.paper, e.secTitle, e.q, label);
-    });
     el.innerHTML = html;
     renderMath(el);
     el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
@@ -524,26 +462,17 @@ function renderFavView(el) {
 
 // ============ 初始化 ============
 async function init() {
-    const [er, pr, cr] = await Promise.all([
+    const [er, cr] = await Promise.all([
         fetch('data/exam.json'),
-        fetch('data/practice.json').catch(() => null),  // practice.json 可选
         fetch('data/exam_categories.json'),
     ]);
     if (!er.ok) throw new Error('加载真题失败: ' + er.status);
     if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
     papers = await er.json();
-    // 合并 practice.json（如果存在）
-    if (pr && pr.ok) {
-        const practice = await pr.json();
-        if (Array.isArray(practice)) {
-            papers = papers.concat(practice);
-        }
-    }
     cats = await cr.json();
     const btn = document.getElementById('favOnly');
-    if (btn) btn.classList.toggle('on', viewMode === 'fav');
+    if (btn) btn.classList.toggle('on', favOnly);
     buildEntries();
-    buildTreeData();
     renderTree();
     renderMain();
 }
