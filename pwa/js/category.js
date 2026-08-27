@@ -2,8 +2,22 @@
  * 分类口径：大观园「知识点/章节」体系（exam_categories.json 的 12 个二级章节）。
  * 复用 exam.js 的渲染 / 收藏辅助函数（独立副本，避免改动 exam.js 既有行为）。 */
 
-const FAV_KEY = 'examFav';            // { qid: 1 }，qid = 套卷id-题no
-const FAV_ONLY_KEY = 'examFavOnly';   // 是否只看收藏
+const FAV_KEY = 'examFav';            // { qid: {t: 时间戳} }，qid = 套卷id-题no
+
+// ============ 悬浮分类抽屉 ============
+function toggleCatDrawer() {
+    const drawer = document.getElementById('catDrawer');
+    const overlay = document.getElementById('catDrawerOverlay');
+    const trigger = document.getElementById('catDrawerTrigger');
+    const isOpen = drawer.classList.toggle('open');
+    overlay.classList.toggle('open', isOpen);
+    trigger.classList.toggle('hidden', isOpen);
+}
+function closeCatDrawer() {
+    document.getElementById('catDrawer').classList.remove('open');
+    document.getElementById('catDrawerOverlay').classList.remove('open');
+    document.getElementById('catDrawerTrigger').classList.remove('hidden');
+}
 
 // ============ 收藏存储 ============
 function qidOf(paperId, no) { return paperId + '-' + no; }
@@ -64,17 +78,15 @@ function toggleFav(qid, btn) {
             } else if (badge) badge.remove();
         }
     }
-    // 收藏过滤开启时，实时刷新分类树与题目列表
-    if (favOnly) { renderTree(); renderMain(); }
+    // 收藏夹视图下，实时刷新列表（取消收藏即移出）
+    if (viewMode === 'fav') renderMain();
 }
 
-let favOnly = localStorage.getItem(FAV_ONLY_KEY) === '1';
-function toggleFavOnly() {
-    favOnly = !favOnly;
-    localStorage.setItem(FAV_ONLY_KEY, favOnly ? '1' : '0');
+let viewMode = 'cat';   // 'cat' | 'fav'：分类浏览 / 收藏夹
+function toggleFavView() {
+    viewMode = (viewMode === 'fav') ? 'cat' : 'fav';
     const btn = document.getElementById('favOnly');
-    if (btn) btn.classList.toggle('on', favOnly);
-    renderTree();
+    if (btn) btn.classList.toggle('on', viewMode === 'fav');
     renderMain();
 }
 
@@ -280,8 +292,7 @@ function buildEntries() {
 }
 
 function activeEntries() {
-    if (!favOnly) return allEntries;
-    return allEntries.filter(e => isFav(qidOf(e.paper.id, e.q.no)));
+    return allEntries;
 }
 
 // 清洗标签：去 LaTeX $...$、去空白、截断（用于分类树显示）
@@ -352,9 +363,7 @@ function renderTree() {
     const entries = activeEntries();
     const el = document.getElementById('catTree');
     if (!entries.length) {
-        el.innerHTML = `<div class="empty-tip">${favOnly
-            ? '还没有收藏的题目。到真题页点卡片右上角 ☆ 收藏后，这里会按章节汇总。'
-            : '暂无分类数据。'}</div>`;
+        el.innerHTML = `<div class="empty-tip">暂无分类数据。</div>`;
         return;
     }
     const tree = buildTree(entries);
@@ -403,13 +412,17 @@ function toggleChapter(id) {
 }
 
 function selectCat(id) {
+    viewMode = 'cat';
     curCat = id;
     renderTree();
     renderMain();
+    closeCatDrawer();   // 选中知识点后自动收起抽屉
+    const fb = document.getElementById('favOnly');
+    if (fb) fb.classList.remove('on');
 }
 
 // ============ 渲染：题目卡片 ============
-function catCard(paper, secTitle, q) {
+function catCard(paper, secTitle, q, catLabel) {
     const qid = qidOf(paper.id, q.no);
     const fav = isFav(qid);
     const kindLabel = secKindLabel(secTitle);
@@ -428,10 +441,12 @@ function catCard(paper, secTitle, q) {
     const noteHtml = hasNote ? `<div class="q-sec q-note" data-qid="${qid}"><div class="q-note-preview">${mdBlockWithImg(note)}</div><div class="q-note-hint"></div></div>` : '';
     const noteBtn = hasNote ? `<button class="q-op has" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>` : '';
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
+    const tagHtml = catLabel ? `<span class="q-cat-tag" title="所属考点">${catLabel}</span>` : '';
     return `<div class="q-card" id="q-${qid}">
         <div class="q-head">
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindLabel}</span>
+            ${tagHtml}
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
             <span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
@@ -449,21 +464,17 @@ function catCard(paper, secTitle, q) {
 // ============ 渲染：主区 ============
 function renderMain() {
     const el = document.getElementById('catMain');
+    if (viewMode === 'fav') { renderFavView(el); return; }
     if (curCat == null) {
-        el.innerHTML = `<div class="cat-empty">← 选择左侧章节，查看该考点的历年真题</div>`;
+        el.innerHTML = `<div class="cat-empty">点击下方 📂 按钮展开分类抽屉，选择考点查看历年真题</div>`;
         return;
     }
     const entries = activeEntries().filter(e => String(e.catId) === String(curCat));
     const c = cats[curCat];
-    if (favOnly) {
-        // 收藏过滤：按收藏时间倒序（最近收藏的排最前）
-        entries.sort((a, b) => favTime(qidOf(b.paper.id, b.q.no)) - favTime(qidOf(a.paper.id, a.q.no)));
-    } else {
-        entries.sort((a, b) => parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10));
-    }
+    entries.sort((a, b) => parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10));
     if (!entries.length) {
         el.innerHTML = `<div class="paper-head"><h1>${c ? c.display : curCat}</h1><div class="paper-sub">${c ? c.path : ''}</div></div>` +
-            `<div class="empty-tip">${favOnly ? '该章节下没有收藏的题目。' : '暂无题目。'}</div>`;
+            `<div class="empty-tip">暂无题目。</div>`;
         return;
     }
     const years = new Set(entries.map(e => e.paper.year)).size;
@@ -473,8 +484,31 @@ function renderMain() {
         <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年</div>
         <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
-    if (favOnly) html += `<div class="cat-filter-tip">⭐ 收藏过滤中：仅显示已收藏题目</div>`;
     entries.forEach(e => { html += catCard(e.paper, e.secTitle, e.q); });
+    el.innerHTML = html;
+    renderMath(el);
+    el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+}
+
+// 收藏夹视图：不分类，按收藏时间倒序列出所有已收藏题目（每张卡片标注所属考点）
+function renderFavView(el) {
+    const favEntries = allEntries.filter(e => isFav(qidOf(e.paper.id, e.q.no)));
+    if (!favEntries.length) {
+        el.innerHTML = `<div class="cat-empty">还没有收藏的题目。<br>到真题页点卡片右上角 ☆ 收藏后，这里会汇总成收藏夹。</div>`;
+        return;
+    }
+    favEntries.sort((a, b) => favTime(qidOf(b.paper.id, b.q.no)) - favTime(qidOf(a.paper.id, a.q.no)));
+    let html = `<div class="paper-head">
+        <h1>⭐ 收藏夹</h1>
+        <div class="paper-meta">共 ${favEntries.length} 题 · 按收藏时间排序（新收藏在前）</div>
+        <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
+    </div>`;
+    favEntries.forEach(e => {
+        const cid = e.q.categoryIds && e.q.categoryIds[0];
+        const cl = cid != null ? cats[String(cid)] : null;
+        const label = cl ? (cl.display || cl.name) : '';
+        html += catCard(e.paper, e.secTitle, e.q, label);
+    });
     el.innerHTML = html;
     renderMath(el);
     el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
@@ -499,7 +533,7 @@ async function init() {
     }
     cats = await cr.json();
     const btn = document.getElementById('favOnly');
-    if (btn) btn.classList.toggle('on', favOnly);
+    if (btn) btn.classList.toggle('on', viewMode === 'fav');
     buildEntries();
     renderTree();
     renderMain();
