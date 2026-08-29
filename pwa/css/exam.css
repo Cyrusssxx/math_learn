@@ -580,6 +580,24 @@ html.dark .exam-btn.on { color: #e5c860; }
     line-height: 1.7;
 }
 .q-sec.q-idea { border-left: 3px solid var(--accent, #4a90d9); background: var(--warn-bg, #f4f8ff); font-size: 15px; line-height: 1.75; }
+/* 📌 点睛块：本题专属 公式/易错/技巧/注意 四段 */
+.q-sec.q-tips { border-left: 3px solid #9a6cd9; background: var(--bg-hover); font-size: 14.5px; line-height: 1.75; padding: 10px 12px; }
+.q-tip-sec { padding: 6px 0; }
+.q-tip-sec + .q-tip-sec { border-top: 1px dashed var(--border); margin-top: 4px; padding-top: 10px; }
+.q-tip-label { font-size: 12.5px; font-weight: 700; letter-spacing: .04em; margin-bottom: 3px; }
+.q-tip-sec.tip-gs .q-tip-label { color: #4a6fd9; }
+.q-tip-sec.tip-yc .q-tip-label { color: #c2410c; }
+.q-tip-sec.tip-jq .q-tip-label { color: #1a7f4f; }
+.q-tip-sec.tip-zy .q-tip-label { color: #8a6d1a; }
+html.dark .q-tip-sec.tip-gs .q-tip-label { color: #89b4fa; }
+html.dark .q-tip-sec.tip-yc .q-tip-label { color: #fab387; }
+html.dark .q-tip-sec.tip-jq .q-tip-label { color: #74b06f; }
+html.dark .q-tip-sec.tip-zy .q-tip-label { color: #e5c860; }
+.q-tip-body p { margin: 4px 0; }
+.q-tips-btn { color: #7a4fd9; border-color: #c9b3ee; }
+.q-tips-btn.on, .q-tips-btn:hover { background: #f1eafd; }
+html.dark .q-tips-btn { color: #c9b3ee; }
+html.dark .q-tips-btn.on, html.dark .q-tips-btn:hover { background: #2e2545; }
 .q-sec.q-idea p { margin: 10px 0; }
 .q-sec.q-idea .katex-display { margin: 14px 0; }
 .q-note textarea {

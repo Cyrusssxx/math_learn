@@ -55,9 +55,12 @@ def parse(path):
              'file': path.stem + '.md', 'sections': []}
 
     cur_sec = None      # {title, questions:[]}
-    cur_q = None        # {no, kind, stem:[], options:[], answer:[], idea:[]}
+    cur_q = None        # {no, kind, stem:[], options:[], answer:[], idea:[], tips:{}}
     in_answer = False
     in_idea = False
+    in_tips = False
+    tip_key = None      # 当前点睛段位：gs公式/yc易错/jq技巧/zy注意
+    TIP_KEYS = {'公式': 'gs', '易错': 'yc', '技巧': 'jq', '注意': 'zy', '坑': 'yc'}
     i = 0
     while i < len(lines):
         raw = lines[i]
@@ -68,16 +71,29 @@ def parse(path):
         if line == ':::':
             in_answer = False
             in_idea = False
+            in_tips = False
+            tip_key = None
             i += 1
             continue
         if line.startswith('::: answer'):
             in_answer = True
             in_idea = False
+            in_tips = False
             i += 1
             continue
         if line.startswith('::: idea'):
             in_idea = True
             in_answer = False
+            in_tips = False
+            i += 1
+            continue
+        if line.startswith('::: 点睛'):
+            in_tips = True
+            in_answer = False
+            in_idea = False
+            tip_key = None
+            if cur_q is not None and 'tips' not in cur_q:
+                cur_q['tips'] = {}
             i += 1
             continue
         if line.startswith('## '):
@@ -104,6 +120,8 @@ def parse(path):
                      'options': [], 'answer': [], 'idea': []}
             in_answer = False
             in_idea = False
+            in_tips = False
+            tip_key = None
             i += 1
             continue
         # 普通行
@@ -111,6 +129,15 @@ def parse(path):
             cur_q['answer'].append(raw)
         elif in_idea:
             cur_q['idea'].append(raw)
+        elif in_tips:
+            m = re.match(r'^【([^】]+)】\s*(.*)$', line)
+            if m and m.group(1) in TIP_KEYS:
+                tip_key = TIP_KEYS[m.group(1)]
+                cur_q['tips'].setdefault(tip_key, [])
+                if m.group(2):
+                    cur_q['tips'][tip_key].append(m.group(2))
+            elif tip_key:
+                cur_q['tips'][tip_key].append(raw)
         elif cur_q is not None and re.match(r'^\((A|B|C|D)\)', line):
             cur_q['options'].append(line)
         elif cur_q is not None:
@@ -134,6 +161,11 @@ def finalize_q(sec, q):
         q['idea'] = '\n'.join(x for x in q['idea'] if x).strip()
     else:
         q.pop('idea', None)
+    if q.get('tips'):
+        tips = {k: '\n'.join(x for x in v if x).strip() for k, v in q['tips'].items()}
+        q['tips'] = {k: v for k, v in tips.items() if v}   # 空段位丢弃
+        if not q['tips']:
+            del q['tips']
     if q['options']:
         q['kind'] = 'choice'
     if not q['answer'] and q['kind'] == 'choice':

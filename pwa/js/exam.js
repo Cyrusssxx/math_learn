@@ -743,6 +743,22 @@ function qCard(p, sec, q, secIdx) {
         </div>`;
     const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';
     const ideaHtml = q.idea ? `<div class="q-sec q-idea" hidden>${mdBlock(q.idea)}</div>` : '';
+    // 📌 点睛：本题专属 公式/易错/技巧/注意 四段块（数据来自源 md ::: 点睛）
+    const TIP_META = [
+        ['gs', '📌 公式', 'tip-gs'],
+        ['yc', '⚠️ 易错', 'tip-yc'],
+        ['jq', '💡 技巧', 'tip-jq'],
+        ['zy', '🔍 注意', 'tip-zy'],
+    ];
+    let tipsHtml = '';
+    if (q.tips) {
+        const secs = TIP_META.filter(([k]) => q.tips[k])
+            .map(([k, label, cls]) => `<div class="q-tip-sec ${cls}"><div class="q-tip-label">${label}</div><div class="q-tip-body">${mdBlock(q.tips[k])}</div></div>`).join('');
+        if (secs) {
+            tipsHtml = `<div class="q-sec q-tips" hidden>${secs}</div>`;
+        }
+    }
+    const tipsBtn = tipsHtml ? `<button class="q-op q-tips-btn" data-act="tips" onclick="toggleQSec(this,'tips')" title="本题专属公式/易错点/技巧/注意">📌 点睛</button>` : '';
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
             <span class="q-no">${q.no}</span>
@@ -754,9 +770,11 @@ function qCard(p, sec, q, secIdx) {
         <div class="q-ops">
             <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
             ${ideaBtn}
+            ${tipsBtn}
             <button class="q-op${hasNote ? ' has' : ''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
         </div>
         ${ideaHtml}
+        ${tipsHtml}
         ${noteHtml}
         <div class="q-sec q-answer" hidden><div class="q-answer-body">${mdBlock(q.answer)}</div></div>
     </div>`;
