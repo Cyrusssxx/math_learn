@@ -264,6 +264,23 @@ let allEntries = [];    // { paper, secTitle, q, catId }
 let curCat = null;      // 选中的知识点(L3) id
 const collapsedSubjects = new Set();   // 折叠的学科
 const collapsedChapters = new Set();   // 折叠的章节
+// 刷新保持：选中分类 + 树折叠态（localStorage 持久化）
+const CAT_STATE_KEY = 'catViewState';
+try {
+    const st = JSON.parse(localStorage.getItem(CAT_STATE_KEY) || '{}');
+    if (st.curCat !== undefined && st.curCat !== null) curCat = st.curCat;
+    (st.collapsedSubjects || []).forEach(s => collapsedSubjects.add(s));
+    (st.collapsedChapters || []).forEach(c => collapsedChapters.add(c));
+} catch (e) { }
+function saveCatState() {
+    try {
+        localStorage.setItem(CAT_STATE_KEY, JSON.stringify({
+            curCat,
+            collapsedSubjects: [...collapsedSubjects],
+            collapsedChapters: [...collapsedChapters],
+        }));
+    } catch (e) { }
+}
 
 // 由 section 标题判定题型（比 exam.js 的 no 区间启发式更稳：老卷填空/选择编号不固定）
 function secKindLabel(t) {
@@ -373,17 +390,20 @@ function renderTree() {
 function toggleSubject(subj) {
     if (collapsedSubjects.has(subj)) collapsedSubjects.delete(subj);
     else collapsedSubjects.add(subj);
+    saveCatState();
     renderTree();
 }
 
 function toggleChapter(id) {
     if (collapsedChapters.has(id)) collapsedChapters.delete(id);
     else collapsedChapters.add(id);
+    saveCatState();
     renderTree();
 }
 
 function selectCat(id) {
     curCat = id;
+    saveCatState();
     renderTree();
     renderMain();
 }
@@ -473,6 +493,8 @@ async function init() {
     cats = await cr.json();
     const btn = document.getElementById('favOnly');
     if (btn) btn.classList.toggle('on', favOnly);
+    // 恢复的选中分类若已不在分类表里（数据变更），清掉防悬空
+    if (curCat !== null && !cats[String(curCat)]) { curCat = null; saveCatState(); }
     buildEntries();
     renderTree();
     renderMain();

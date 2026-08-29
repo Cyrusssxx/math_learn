@@ -53,7 +53,11 @@ async function init() {
     goodNotes.sort((a, b) => a.order - b.order);
     renderSidebar();
     renderDarkSwitch();
-    if (goodNotes[0]) openTopic(goodNotes[0].id);
+    // 恢复上次打开的专题（不存在则回第一篇）
+    let savedId = null;
+    try { savedId = localStorage.getItem('goodCur'); } catch (e) { }
+    const target = goodNotes.find(n => n.id === savedId);
+    if (goodNotes[0]) openTopic(target ? target.id : goodNotes[0].id);
 }
 
 // ============ 左侧专题分组 ============
@@ -106,6 +110,7 @@ function toggleBoard(b) {
 
 function openTopic(id) {
     curNote = goodNotes.find(n => n.id === id) || null;
+    try { localStorage.setItem('goodCur', id); } catch (e) { }   // 刷新保持当前专题
     renderSidebar();
     renderCurrent();
 }
