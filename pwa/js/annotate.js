@@ -268,7 +268,7 @@ const Annot = (() => {
         const box = document.createElement('div');
         box.className = 'ann-box';
         if (editing) {
-            box.innerHTML = `<textarea class="ann-edit" placeholder="写点批注…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）">${escA(text || '')}</textarea>
+            box.innerHTML = `<textarea class="ann-edit" spellcheck="false" placeholder="写点批注…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）">${escA(text || '')}</textarea>
                 <div class="ann-preview" hidden></div>
                 <div class="ann-ops"><button onclick="Annot.saveNote(this)">保存</button>
                 <button onclick="Annot.cancelNote(this)">取消</button></div>`;

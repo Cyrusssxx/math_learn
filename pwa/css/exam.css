@@ -755,6 +755,40 @@ html.dark .q-tips-btn.on, html.dark .q-tips-btn:hover { background: #2e2545; }
 }
 .q-note .q-note-input:focus { border-color: var(--accent); }
 
+/* 笔记格式工具条：字色/高亮/清除 */
+.q-note-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 6px;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    flex-wrap: wrap;
+}
+.q-note-toolbar[hidden] { display: none; }
+.q-nt-lab { font-size: 11.5px; color: var(--text-faint); }
+.q-nt-sep { width: 1px; height: 14px; background: var(--border); margin: 0 2px; }
+.q-nt-c {
+    border: 1px solid var(--border); background: var(--bg);
+    font-size: 13px; font-weight: 700; line-height: 1;
+    width: 22px; height: 22px; border-radius: 5px; cursor: pointer; padding: 0;
+}
+.q-nt-c:hover { transform: scale(1.12); }
+.q-nt-h {
+    border: 1px solid var(--border); width: 22px; height: 16px;
+    border-radius: 4px; cursor: pointer; padding: 0;
+}
+.q-nt-h:hover { transform: scale(1.15); }
+.q-nt-x {
+    border: 1px solid var(--border); background: var(--bg);
+    font-size: 12px; line-height: 1; border-radius: 5px;
+    padding: 3px 6px; cursor: pointer;
+}
+.q-nt-x:hover { background: var(--bg-hover); }
+mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
+
 .q-note-preview {
     margin-top: 8px;
     padding: 8px 10px;

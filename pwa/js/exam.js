@@ -128,19 +128,45 @@ function noteGet(qid) {
     try { return localStorage.getItem('examNote-' + qid) || ''; } catch (e) { return ''; }
 }
 let _noteTimer = {};
-// ---- contenteditable 富编辑器：[图:id] 直接以内嵌图片呈现，不再显示占位文本 ----
-const NOTE_TOKEN_RE = /\[图:([a-z0-9]+)\]/g;
-/** 存储文本 → 编辑器 DOM（文本段保序，[图:id] 变内嵌图片卡片） */
+// ---- contenteditable 富编辑器：[图:id] 内嵌图片 + 字色/高亮（存储为令牌 <c:#hex>…</c> <h:#hex>…</h>） ----
+const NOTE_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>/g;
+/** 存储文本 → 编辑器 DOM：文本/换行原样，[图:id] 变内嵌图片，格式令牌变 span/mark（栈式嵌套） */
 function noteToEditor(el, text) {
     el.innerHTML = '';
-    let last = 0, m;
-    NOTE_TOKEN_RE.lastIndex = 0;
-    while ((m = NOTE_TOKEN_RE.exec(text))) {
-        if (m.index > last) appendNoteText(el, text.slice(last, m.index));
-        el.appendChild(noteImgNode(m[1]));
-        last = m.index + m[0].length;
+    const stack = [el];
+    const emitText = s => {
+        const lines = s.split('\n');
+        lines.forEach((line, k) => {
+            if (k > 0) stack[stack.length - 1].appendChild(document.createElement('br'));
+            if (line) stack[stack.length - 1].appendChild(document.createTextNode(line));
+        });
+    };
+    let i = 0;
+    while (i < text.length) {
+        const mi = text.indexOf('[图:', i);
+        NOTE_FMT_RE.lastIndex = i;
+        const mf = NOTE_FMT_RE.exec(text);
+        if (mf && (mi < 0 || mf.index <= mi)) {
+            emitText(text.slice(i, mf.index));
+            if (mf[0] === '</c>' || mf[0] === '</h>') {
+                if (stack.length > 1) stack.pop();
+            } else {
+                const node = mf[1] ? Object.assign(document.createElement('span'), { style: 'color:' + mf[1] })
+                                   : Object.assign(document.createElement('mark'), { style: 'background:' + mf[2] });
+                stack[stack.length - 1].appendChild(node);
+                stack.push(node);
+            }
+            i = mf.index + mf[0].length;
+        } else if (mi >= 0) {
+            emitText(text.slice(i, mi));
+            const m2 = /\[图:([a-z0-9]+)\]/.exec(text.slice(mi));
+            stack[stack.length - 1].appendChild(noteImgNode(m2[1]));
+            i = mi + m2[0].length;
+        } else {
+            emitText(text.slice(i));
+            i = text.length;
+        }
     }
-    if (last < text.length) appendNoteText(el, text.slice(last));
 }
 function appendNoteText(el, chunk) {
     const lines = chunk.split('\n');
@@ -167,29 +193,44 @@ function noteImgNode(id) {
     wrap.append(img, del);
     return wrap;
 }
-/** 编辑器 DOM → 存储文本（图片包装层整体还原为 [图:id]，块边界/br → 换行） */
+/** 编辑器 DOM → 存储文本：图片还原 [图:id]，带格式的文本节点包令牌（按祖先有效格式扁平化） */
 function editorToNote(el) {
+    const rgbToHex = v => {
+        const m = /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(v || '');
+        return m ? '#' + [1, 2, 3].map(k => (+m[k]).toString(16).padStart(2, '0')).join('') : null;
+    };
     const parts = [];
-    (function walk(n) {
-        for (const c of n.childNodes) {
-            if (c.nodeType === 3) parts.push(c.nodeValue);
-            else if (c.nodeType === 1) {
-                if (c.classList && c.classList.contains('exam-note-img-wrap')) {
-                    const img = c.querySelector('img[data-img]');
+    (function walk(n, c, h) {
+        for (const ch of n.childNodes) {
+            if (ch.nodeType === 3) {
+                const t = ch.nodeValue.replace(/\u00A0/g, ' ');
+                if (!t) continue;
+                let inner = t;
+                if (h) inner = '<h:' + h + '>' + inner + '</h>';
+                if (c) inner = '<c:' + c + '>' + inner + '</c>';
+                parts.push(inner);
+            } else if (ch.nodeType === 1) {
+                if (ch.classList && ch.classList.contains('exam-note-img-wrap')) {
+                    const img = ch.querySelector('img[data-img]');
                     if (img) parts.push('[图:' + img.dataset.img + ']');
                 }
-                else if (c.tagName === 'IMG' && c.dataset.img) parts.push('[图:' + c.dataset.img + ']');
-                else if (c.tagName === 'BR') parts.push('\n');
+                else if (ch.tagName === 'IMG' && ch.dataset.img) parts.push('[图:' + ch.dataset.img + ']');
+                else if (ch.tagName === 'BR') parts.push('\n');
                 else {
-                    const block = c.tagName === 'DIV' || c.tagName === 'P';
+                    let nc = c, nh = h;
+                    if (ch.style) {
+                        const hc = rgbToHex(ch.style.color); if (hc) nc = hc;
+                        const hb = rgbToHex(ch.style.backgroundColor); if (hb) nh = hb;
+                    }
+                    const block = ch.tagName === 'DIV' || ch.tagName === 'P';
                     if (block && parts.length && parts[parts.length - 1] !== '\n') parts.push('\n');
-                    walk(c);
+                    walk(ch, nc, nh);
                     if (block && parts.length && parts[parts.length - 1] !== '\n') parts.push('\n');
                 }
             }
         }
-    })(el);
-    return parts.join('').replace(/\u00A0/g, ' ');
+    })(el, null, null);
+    return parts.join('');
 }
 /** 统一取值：textarea.value 或 编辑器序列化文本 */
 function noteVal(el) {
@@ -298,9 +339,30 @@ function toggleQSec(btn, act) {
                     if (ta.tagName === 'TEXTAREA') autoResizeNote(ta);
                     noteInput(ta);
                 }
+                syncNoteToolbar(sec);
             }
         }
     }
+}
+// 笔记格式工具条：对当前选区应用字色/高亮/清除（execCommand + styleWithCSS）
+function applyNoteFormat(sec, cmd, val) {
+    const ed = sec.querySelector('.q-note-input');
+    if (!ed || ed.style.display === 'none' || !ed.isContentEditable) return;
+    const sel = getSelection();
+    if (!sel.rangeCount || sel.isCollapsed || !ed.contains(sel.anchorNode)) {
+        noteHint(ed, '先选中要设置格式的文字'); return;
+    }
+    ed.focus();
+    try { document.execCommand('styleWithCSS', false, true); } catch (e) { }
+    document.execCommand(cmd, false, val || null);
+    noteInput(ed);   // 触发自动保存 + 预览刷新
+}
+/** 工具条显隐与编辑态同步 */
+function syncNoteToolbar(sec) {
+    if (!sec) return;
+    const ed = sec.querySelector('.q-note-input');
+    const bar = sec.querySelector('.q-note-toolbar');
+    if (bar) bar.hidden = sec.hidden || !ed || ed.style.display === 'none';
 }
 // 空笔记「💾 保存」：立即落盘并收起输入框——非空转为「有笔记」形态（预览 + ✏️ 编辑），空则收起整节
 function saveNoteBtn(btn) {
@@ -316,6 +378,7 @@ function saveNoteBtn(btn) {
     if (v.trim()) {
         ta.style.display = 'none';
         btn.style.display = 'none';
+        syncNoteToolbar(sec);
         sec.classList.toggle('has-img', /\[图:[a-z0-9]+\]/.test(v));
         if (pv) {
             pv.innerHTML = mdBlockWithImg(v);
@@ -358,6 +421,7 @@ function toggleNoteEdit(btn) {
             setNoteContent(ta, noteGet(ta.dataset.qid));   // 编辑器首次展开：从存储重建（含内嵌图片）
         }
         fillExamNoteImgs(ta);   // 编辑器内嵌图片回填 blob
+        syncNoteToolbar(sec);
         ta.focus();
         if (ta.tagName === 'TEXTAREA') autoResizeNote(ta);
     } else {
@@ -371,6 +435,7 @@ function toggleNoteEdit(btn) {
             btn.textContent = '✏️ 编辑';
             btn.classList.add('saved');   // 保存后淡化按钮
             ta.style.display = 'none';
+            syncNoteToolbar(sec);
             if (pv) {
                 pv.innerHTML = mdBlockWithImg(raw);
                 pv.hidden = false;
@@ -584,7 +649,7 @@ function reviewPop() {
     ov.innerHTML =
         '<div class="review-pop-head"><span class="review-pop-title">试卷点评</span>' +
         '<button class="review-pop-x" title="关闭">×</button></div>' +
-        '<textarea class="review-pop-ta" placeholder="写下对这套卷的整体点评：难度、易错点、时间分配、复习建议…（自动保存）"></textarea>' +
+        '<textarea class="review-pop-ta" spellcheck="false" placeholder="写下对这套卷的整体点评：难度、易错点、时间分配、复习建议…（自动保存）"></textarea>' +
         '<div class="review-pop-tip">自动保存到本机浏览器 · 仅自己可见</div>';
     document.body.appendChild(ov);
     // 关闭按钮
@@ -699,7 +764,10 @@ function mdBlock(s) {
     }
     // 未闭合的 $$ 当普通行
     if (mathBuf) out.push('<p>' + mdInline(mathBuf) + '</p>');
-    return out.join('');
+    // 笔记颜色/高亮令牌还原（存储转义后形如 &lt;c:#rrggbb&gt;…&lt;/c&gt;；高亮先转、字色后转以正确嵌套）
+    return out.join('')
+        .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, '<mark class="note-hl" style="background:$1">$2</mark>')
+        .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>');
 }
 
 function renderPaperList() {
@@ -726,15 +794,29 @@ function qCard(p, sec, q, secIdx) {
     const hasNote = !!note.trim();
     const hasImg = /\[图:[a-z0-9]+\]/.test(note);
     // 编辑器：contenteditable 富文本，[图:id] 直接以内嵌图片呈现（不再显示占位文本）
-    const editorHtml = `<div class="q-note-input" contenteditable="true" data-qid="${qid}" data-placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）"></div>`;
+    // 笔记格式工具条：字色 + 高亮 + 清除（作用于选区）
+    const NOTE_COLORS = ['#e03131', '#e8590c', '#2f9e44', '#1971c2', '#9c36b5'];
+    const NOTE_HLS = ['#fff3bf', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4'];
+    const NOTE_TOOLBAR = `<div class="q-note-toolbar" hidden>
+        <span class="q-nt-lab">字色</span>
+        ${NOTE_COLORS.map(c => `<button type="button" class="q-nt-c" style="color:${c}" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'foreColor','${c}')" title="字色 ${c}">A</button>`).join('')}
+        <span class="q-nt-sep"></span>
+        <span class="q-nt-lab">高亮</span>
+        ${NOTE_HLS.map(c => `<button type="button" class="q-nt-h" style="background:${c}" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'hiliteColor','${c}')" title="高亮 ${c}"></button>`).join('')}
+        <span class="q-nt-sep"></span>
+        <button type="button" class="q-nt-x" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'removeFormat')" title="清除所选格式">🧹</button>
+    </div>`;
+    const editorHtml = `<div class="q-note-input" contenteditable="true" spellcheck="false" data-qid="${qid}" data-placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；选中文字可上色/高亮；用 $...$ 写公式会自动渲染）"></div>`;
     const noteHtml = hasNote
         ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}">
             <div class="q-note-preview">${mdBlockWithImg(note)}</div>
+            ${NOTE_TOOLBAR}
             ${editorHtml.replace('<div class=', '<div style="display:none" class=')}
             <button class="q-note-editbtn" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
             <div class="q-note-hint"></div>
         </div>`
         : `<div class="q-sec q-note" hidden data-qid="${qid}">
+            ${NOTE_TOOLBAR}
             ${editorHtml}
             <div class="q-note-preview" hidden></div>
             <button class="q-note-savebtn" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
