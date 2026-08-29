@@ -30,6 +30,10 @@
     --ann-border: #e0c968;
     --code-bg: #f0f0f4;
     --shadow: 0 4px 18px rgba(0, 0, 0, .12);
+    /* 背景自定义变量 */
+    --card-rgb: 255, 255, 255;
+    --sidebar-rgb: 246, 247, 249;
+    --ui-alpha: 1;
 }
 
 html.dark {
@@ -61,6 +65,10 @@ html.dark {
     --ann-border: #8a7a3a;
     --code-bg: #2a2a3c;
     --shadow: 0 4px 18px rgba(0, 0, 0, .45);
+    /* 背景自定义变量 - 暗色模式 */
+    --card-rgb: 31, 36, 45;
+    --sidebar-rgb: 24, 24, 37;
+    --ui-alpha: 1;
 }
 
 * { box-sizing: border-box; }
@@ -795,4 +803,125 @@ sup.fml-note-mark { cursor: pointer; color: var(--accent); font-size: .7em; marg
 .fml-pop-foot { display: flex; gap: 6px; margin-top: 8px; align-items: center; }
 .fml-label-input { flex: 1; min-width: 0; padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font-size: 12px; }
 .fml-pop-foot button { border: 1px solid var(--border); background: var(--accent); color: #fff; border-radius: 6px; padding: 3px 12px; font-size: 12px; cursor: pointer; }
+
+
+/* ============ 背景自定义：盒子变换 ============ */
+/* 统一应用 rgba 背景 + 自适应边框，仅改背景 alpha，文字/按钮永不透明 */
+.sidebar,
+.doc,
+.toc,
+.exam-top,
+.exam-side,
+.exam-main,
+.q-card,
+.paper-group-head,
+.paper-item,
+.float-q,
+.review-pop,
+.ann-modal-box,
+.search-results,
+#annBar,
+#fmlBar,
+.fml-pop,
+.side-toggle,
+.exam-btn,
+.exam-top-toggle,
+.dark-btn,
+.exam-side-title,
+.paper-search,
+.tree-group,
+.tree-file-row a,
+.q-op,
+.q-fav,
+.q-note-editbtn,
+.exam-note-img-wrap,
+.q-note-preview,
+.q-sec,
+.q-answer-body,
+.q-fig-img,
+.ans-img,
+.zoom-overlay img,
+.sa-float,
+.all-ans-btn,
+.review-btn,
+.review-dot,
+.nav-q,
+.menu-btn,
+.foot-btns button,
+.search-chips button,
+.q-note textarea,
+.ann-edit,
+.ann-ops button,
+.ab-btn,
+.fml-pop-foot button,
+.fml-label-input,
+.ann-rec-claim,
+.ann-rec-smart,
+.ann-rec-done {
+    background: rgba(var(--card-rgb), var(--ui-alpha));
+    border-color: rgba(128, 128, 128, calc((1 - var(--ui-alpha)) * 0.5 + 0.001));
+}
+
+/* 特殊处理：保持原有的特定背景色（如 .exam-btn.on, .paper-item.on 等）不被覆盖 */
+.sidebar { background: rgba(var(--sidebar-rgb), var(--ui-alpha)); }
+.exam-side { background: rgba(var(--sidebar-rgb), var(--ui-alpha)); }
+
+/* 边框颜色在暗色模式下统一 */
+html.dark .sidebar,
+html.dark .doc,
+html.dark .toc,
+html.dark .exam-top,
+html.dark .exam-side,
+html.dark .exam-main,
+html.dark .q-card,
+html.dark .paper-group-head,
+html.dark .paper-item,
+html.dark .float-q,
+html.dark .review-pop,
+html.dark .ann-modal-box,
+html.dark .search-results,
+html.dark #annBar,
+html.dark #fmlBar,
+html.dark .fml-pop,
+html.dark .side-toggle,
+html.dark .exam-btn,
+html.dark .exam-top-toggle,
+html.dark .dark-btn,
+html.dark .exam-side-title,
+html.dark .paper-search,
+html.dark .tree-group,
+html.dark .tree-file-row a,
+html.dark .q-op,
+html.dark .q-fav,
+html.dark .q-note-editbtn,
+html.dark .exam-note-img-wrap,
+html.dark .q-note-preview,
+html.dark .q-sec,
+html.dark .q-answer-body,
+html.dark .q-fig-img,
+html.dark .ans-img,
+html.dark .zoom-overlay img,
+html.dark .sa-float,
+html.dark .all-ans-btn,
+html.dark .review-btn,
+html.dark .review-dot,
+html.dark .nav-q,
+html.dark .menu-btn,
+html.dark .foot-btns button,
+html.dark .search-chips button,
+html.dark .q-note textarea,
+html.dark .ann-edit,
+html.dark .ann-ops button,
+html.dark .ab-btn,
+html.dark .fml-pop-foot button,
+html.dark .fml-label-input,
+html.dark .ann-rec-claim,
+html.dark .ann-rec-smart,
+html.dark .ann-rec-done {
+    border-color: rgba(128, 128, 128, calc((1 - var(--ui-alpha)) * 0.5 + 0.001));
+}
+html.dark .sidebar { background: rgba(var(--sidebar-rgb), var(--ui-alpha)); }
+html.dark .exam-side { background: rgba(var(--sidebar-rgb), var(--ui-alpha)); }
+
+/* body 背景保持原样（由 JS 控制背景图/颜色/遮罩） */
 

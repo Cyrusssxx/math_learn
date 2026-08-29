@@ -71,5 +71,209 @@
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/annotate.js"></script>
     <script defer src="js/reader.js"></script>
+
+    <!-- 背景自定义面板 -->
+    <button class="bg-fab" id="bgFab" onclick="toggleBgPanel()" title="背景设置" aria-label="背景设置">🎨</button>
+    <div class="bg-panel" id="bgPanel" hidden>
+        <div class="bg-panel-head">
+            <span>背景设置</span>
+            <button class="bg-panel-close" onclick="toggleBgPanel()" aria-label="关闭">✕</button>
+        </div>
+        <div class="bg-section">
+            <label>预设背景</label>
+            <div class="bg-swatches" id="bgSwatches"></div>
+        </div>
+        <div class="bg-section">
+            <label>自定义图片</label>
+            <input type="file" id="bgUpload" accept="image/jpeg,image/png,image/webp" hidden onchange="handleBgUpload(this.files[0])">
+            <button class="bg-btn" onclick="document.getElementById('bgUpload').click()">上传图片</button>
+            <span class="bg-hint">支持 jpg/png/webp，自动压缩至 1920px</span>
+        </div>
+        <div class="bg-section">
+            <label>遮罩强度 <span id="bgOverlayVal">35%</span></label>
+            <input type="range" id="bgOverlay" min="0" max="90" value="35" oninput="setBgOverlay(this.value)">
+        </div>
+        <div class="bg-section">
+            <label>UI 透明度 <span id="bgUiAlphaVal">100%</span></label>
+            <input type="range" id="bgUiAlpha" min="0" max="100" value="100" oninput="setBgUiAlpha(this.value)">
+        </div>
+        <div class="bg-section">
+            <button class="bg-btn bg-btn-danger" onclick="resetBg()">重置为默认</button>
+        </div>
+    </div>
+
+    <!-- 背景自定义逻辑 -->
+    <script>
+(function() {
+    const K = { type: 'mathnote_bg_type', value: 'mathnote_bg_value', overlay: 'mathnote_bg_overlay', uiAlpha: 'mathnote_ui_opacity' };
+    const PRESETS = {
+        light: 'linear-gradient(135deg, #fdfbf7, #ebf5fb)',
+        dark: '#1f242c',
+        blue: '#e8f0fe',
+        green: '#e6f4ea',
+        orange: '#fef3c7',
+        purple: '#f3e8ff',
+        grad1: 'linear-gradient(135deg, #84fab0, #8fd3f4)',
+        grad2: 'linear-gradient(135deg, #fa709a, #fee140)',
+        grad3: 'linear-gradient(135deg, #a1c4fd, #c2e9fb)',
+        grad4: 'linear-gradient(135deg, #ff9a9e, #fad0c4)',
+        grad5: 'linear-gradient(135deg, #d299c2, #fef9d7)',
+        grad6: 'linear-gradient(135deg, #89f7fe, #66a6ff)'
+    };
+
+    function $(sel) { return document.querySelector(sel); }
+    function $id(id) { return document.getElementById(id); }
+
+    function applyBg() {
+        const type = localStorage.getItem(K.type);
+        const value = localStorage.getItem(K.value);
+        const overlay = +localStorage.getItem(K.overlay) || 35;
+        const uiAlpha = (+localStorage.getItem(K.uiAlpha) || 100) / 100;
+
+        document.documentElement.style.setProperty('--ui-alpha', uiAlpha);
+
+        const body = document.body;
+        const overlayEl = $id('bgOverlayEl');
+
+        // 清除之前的背景
+        body.style.backgroundImage = '';
+        body.style.background = '';
+        removeOverlay();
+
+        if (type === 'custom' && value) {
+            body.style.backgroundImage = `url("${value}")`;
+            body.style.backgroundSize = 'cover';
+            body.style.backgroundAttachment = 'fixed';
+            body.style.backgroundPosition = 'center';
+            setOverlay(overlay);
+        } else if (type === 'preset' && value && PRESETS[value]) {
+            body.style.background = PRESETS[value];
+            setOverlay(overlay);
+        } else {
+            // 默认：无背景图，仅遮罩
+            setOverlay(overlay);
+        }
+
+        // 更新 UI 控件
+        $id('bgOverlay').value = overlay;
+        $id('bgOverlayVal').textContent = overlay + '%';
+        $id('bgUiAlpha').value = Math.round(uiAlpha * 100);
+        $id('bgUiAlphaVal').textContent = Math.round(uiAlpha * 100) + '%';
+
+        // 高亮当前选中的预设
+        document.querySelectorAll('.bg-swatch').forEach(el => {
+            el.classList.toggle('active', el.dataset.preset === value);
+        });
+    }
+
+    function removeOverlay() {
+        const el = $id('bgOverlayEl');
+        if (el) el.remove();
+    }
+
+    function setOverlay(pct) {
+        const isDark = document.documentElement.classList.contains('dark');
+        let el = $id('bgOverlayEl');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'bgOverlayEl';
+            Object.assign(el.style, {
+                position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none'
+            });
+            document.body.prepend(el);
+        }
+        el.style.background = isDark
+            ? `rgba(0, 0, 0, ${pct / 100 * 0.6})`
+            : `rgba(255, 255, 255, ${pct / 100 * 0.85})`;
+    }
+
+    function compressAndStore(file, callback) {
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+            alert('仅支持 jpg / png / webp 格式');
+            return;
+        }
+        const img = new Image();
+        img.onload = () => {
+            const max = 1920;
+            let w = img.width, h = img.height;
+            if (w > max || h > max) {
+                if (w > h) { h = Math.round(h * max / w); w = max; }
+                else { w = Math.round(w * max / h); h = max; }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            callback(canvas.toDataURL('image/jpeg', 0.8));
+            URL.revokeObjectURL(img.src);
+        };
+        img.src = URL.createObjectURL(file);
+    }
+
+    function handleBgUpload(file) {
+        if (!file) return;
+        compressAndStore(file, dataUrl => {
+            localStorage.setItem(K.type, 'custom');
+            localStorage.setItem(K.value, dataUrl);
+            applyBg();
+        });
+    }
+
+    function setBgOverlay(val) {
+        localStorage.setItem(K.overlay, val);
+        const type = localStorage.getItem(K.type);
+        if (type === 'custom' || (type === 'preset' && localStorage.getItem(K.value))) {
+            setOverlay(+val);
+        }
+        $id('bgOverlayVal').textContent = val + '%';
+    }
+
+    function setBgUiAlpha(val) {
+        const alpha = +val / 100;
+        localStorage.setItem(K.uiAlpha, val);
+        document.documentElement.style.setProperty('--ui-alpha', alpha);
+        $id('bgUiAlphaVal').textContent = val + '%';
+    }
+
+    function resetBg() {
+        Object.values(K).forEach(k => localStorage.removeItem(k));
+        applyBg();
+    }
+
+    function toggleBgPanel() {
+        const panel = $id('bgPanel');
+        panel.hidden = !panel.hidden;
+    }
+
+    // 初始化预设色块
+    function initPresets() {
+        const container = $id('bgSwatches');
+        Object.entries(PRESETS).forEach(([key, val]) => {
+            const btn = document.createElement('button');
+            btn.className = 'bg-swatch';
+            btn.dataset.preset = key;
+            btn.style.background = val;
+            btn.title = key;
+            btn.onclick = () => {
+                localStorage.setItem(K.type, 'preset');
+                localStorage.setItem(K.value, key);
+                applyBg();
+            };
+            container.appendChild(btn);
+        });
+    }
+
+    // 监听暗色模式切换，自动更新遮罩颜色
+    new MutationObserver(() => {
+        const overlay = localStorage.getItem(K.overlay);
+        if (overlay) setOverlay(+overlay);
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+        initPresets();
+        applyBg();
+    });
+})();
+</script>
 </body>
 </html>
