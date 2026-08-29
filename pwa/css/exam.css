@@ -588,8 +588,8 @@ html.dark .exam-btn.on { color: #e5c860; }
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 8px 10px;
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.7;
     background: var(--bg);
     color: var(--text);
     resize: vertical;
@@ -721,11 +721,27 @@ html.dark .exam-btn.on { color: #e5c860; }
     border: 1px dashed var(--border);
     border-radius: 8px;
     background: var(--bg-soft, rgba(0,0,0,.02));
-    font-size: 14px;
-    line-height: 1.7;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.75;
     word-break: break-word;
 }
 .q-note-preview:empty { display: none; }
+
+/* 笔记「💾 保存」按钮（空笔记展开态）：醒目主色，保存即收起输入框 */
+.q-note-savebtn {
+    margin-top: 6px;
+    border: 1px solid var(--accent, #4a90d9);
+    background: var(--accent, #4a90d9);
+    color: #fff;
+    border-radius: 6px;
+    padding: 3px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.q-note-savebtn:hover { filter: brightness(1.1); }
+html.dark .q-note-savebtn { color: #1e1e2e; }
 
 /* 纯文字笔记（无 [图:id]）：去掉内层预览框的盒子感，文字直接融入外层 */
 .q-note:not(.has-img) .q-note-preview {
