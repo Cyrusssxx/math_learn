@@ -152,6 +152,33 @@ def check_math_balance(paper):
                           f"$$ 不配对({v.count('$$')}个)，KaTeX 可能渲染失败")
 
 
+def preserve_category_ids(papers, out):
+    """重建会把分类脚本后处理写入的 categoryIds 抹掉——从现有 exam.json 按
+    「套卷id + 题目顺序」原样搬回（顺序由源 md 决定，重建不会改变）。"""
+    if not out.exists():
+        return
+    try:
+        old = json.loads(out.read_text(encoding='utf-8'))
+    except (json.JSONDecodeError, OSError):
+        print('  [WARN] 旧 exam.json 读取失败，跳过 categoryIds 保留')
+        return
+    old_map = {p['id']: [q for s in p['sections'] for q in s['questions']] for p in old}
+    kept = 0
+    for p in papers:
+        oqs = old_map.get(p['id'])
+        if not oqs:
+            continue
+        nqs = [q for s in p['sections'] for q in s['questions']]
+        if len(oqs) != len(nqs):
+            print(f"  [WARN] {p['id']} 题数变化({len(oqs)}→{len(nqs)})，categoryIds 不搬运，需重跑分类")
+            continue
+        for oq, nq in zip(oqs, nqs):
+            if oq.get('categoryIds'):
+                nq['categoryIds'] = oq['categoryIds']
+                kept += 1
+    print(f"  categoryIds 保留: {kept} 题")
+
+
 def main():
     src = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_SRC
     papers = []
@@ -167,6 +194,7 @@ def main():
     papers.sort(key=lambda p: p['year'], reverse=True)  # 新→旧
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     out = DATA_DIR / 'exam.json'
+    preserve_category_ids(papers, out)
     out.write_text(json.dumps(papers, ensure_ascii=False), encoding='utf-8')
     for p in papers:
         nq = sum(len(s['questions']) for s in p['sections'])

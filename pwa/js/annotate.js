@@ -167,7 +167,13 @@ const Annot = (() => {
         let occ = 0;
         for (let i = all.indexOf(t); i >= 0 && i < gStart; i = all.indexOf(t, i + 1)) occ++;
         const rec = { k: block.dataset.sid, t, c: color, n: occ };
-        if (!wrapText(block, t, color, occ, gidOf(rec))) return false;
+        const g = gidOf(rec);
+        const dup = bucket().marks.filter(m => gidOf(m) === g);
+        if (dup.length) {
+            // 同一块同一段文字已有荧光：改为换色（清掉旧组再包新色），避免嵌套重复标记
+            removeMarkGroup(g);
+        }
+        if (!wrapText(block, t, color, occ, g)) return false;
         bucket().marks.push(rec);
         save();
         sel.removeAllRanges();
@@ -391,11 +397,20 @@ const Annot = (() => {
         }
         const byKey = {};
         article.querySelectorAll('[data-sid]').forEach(el => { byKey[el.dataset.sid] = el; });
-        // 嵌入批注（源 md 中「📝 批注：…」）已是正文内容，其对应的旧 localStorage 批注属重复，
-        // 不计入「无法定位」提示（内容已可见），也不重复渲染。
+        // 嵌入批注（源 md 中「📝 批注：…」）已是正文内容，其对应的旧 localStorage 批注属重复：
+        // 不渲染、不计入「无法定位」，并就地自愈清理（storage 去重）
         const embTexts = embeddedNoteTexts(article);
         const norm = t => (t || '').replace(/\s+/g, ' ').trim();
-        let orphans = 0;
+        let orphans = 0, dirty = false;
+        // marks 按 gid 去重（历史重复划荧光会产生同 gid 多条记录）
+        if (b.marks && b.marks.length) {
+            const seenG = new Set(); const kept = [];
+            for (const m of b.marks) {
+                const g = gidOf(m);
+                if (!seenG.has(g)) { seenG.add(g); kept.push(m); }
+            }
+            if (kept.length !== b.marks.length) { b.marks = kept; dirty = true; }
+        }
         for (const [k, c] of Object.entries(b.hl || {})) {
             if (byKey[k]) byKey[k].classList.add('hl-' + c); else orphans++;
         }
@@ -404,9 +419,11 @@ const Annot = (() => {
             else if (!embTexts.has(norm(m.t))) orphans++;
         }
         for (const [k, t] of Object.entries(b.notes || {})) {
+            if (embTexts.has(norm(t))) { delete b.notes[k]; dirty = true; continue; }  // 与嵌入批注重复 → 清除
             if (byKey[k]) renderNoteBox(byKey[k], t, false);
-            else if (!embTexts.has(norm(t))) orphans++;
+            else orphans++;
         }
+        if (dirty) save();
         if (orphans > 0 && !_notified) {
             _notified = true;
             annNotify(`有 ${orphans} 条标注因笔记结构变动（增/删/移动条目）已无法定位，可「恢复标注」找回。`, { recover: true });
@@ -452,22 +469,26 @@ const Annot = (() => {
         return best;
     }
 
-    /** 收集当前笔记里「键不在当前 DOM」的标注 = 待恢复孤儿（含迁移残留 b.orphans） */
+    /** 收集当前笔记里「键不在当前 DOM」的标注 = 待恢复孤儿（含迁移残留 b.orphans）。
+     *  文本已嵌入正文的批注（📝 批注：…）不算丢失，过滤掉以防认领后重复 */
     function buildRecoverList() {
         const article = document.querySelector('.note-article');
         if (!article) return [];
         const byKey = {};
         article.querySelectorAll('[data-sid]').forEach(el => byKey[el.dataset.sid] = el);
         const b = data[curId]; if (!b) return [];
+        const norm = t => (t || '').replace(/\s+/g, ' ').trim();
+        const emb = embeddedNoteTexts(article);
+        const isEmb = t => emb.has(norm(t));
         const list = [];
         for (const [k, c] of Object.entries(b.hl || {})) if (!byKey[k]) list.push({ kind: 'hl', key: k, color: c, text: '(整块荧光·' + colorName(c) + ')' });
-        for (const [k, t] of Object.entries(b.notes || {})) if (!byKey[k]) list.push({ kind: 'note', key: k, text: t });
-        for (const m of (b.marks || [])) if (!byKey[m.k]) list.push({ kind: 'mark', key: m.k, text: m.t, color: m.c, n: m.n });
+        for (const [k, t] of Object.entries(b.notes || {})) if (!byKey[k] && !isEmb(t)) list.push({ kind: 'note', key: k, text: t });
+        for (const m of (b.marks || [])) if (!byKey[m.k] && !isEmb(m.t)) list.push({ kind: 'mark', key: m.k, text: m.t, color: m.c, n: m.n });
         const o = b.orphans;
         if (o) {
             for (const [k, c] of Object.entries(o.hl || {})) list.push({ kind: 'hl', key: k, color: c, text: '(整块荧光·' + colorName(c) + ')' });
-            for (const [k, t] of Object.entries(o.notes || {})) list.push({ kind: 'note', key: k, text: t });
-            for (const m of (o.marks || [])) list.push({ kind: 'mark', key: m.k, text: m.t, color: m.c, n: m.n });
+            for (const [k, t] of Object.entries(o.notes || {})) if (!isEmb(t)) list.push({ kind: 'note', key: k, text: t });
+            for (const m of (o.marks || [])) if (!isEmb(m.t)) list.push({ kind: 'mark', key: m.k, text: m.t, color: m.c, n: m.n });
         }
         return list;
     }
@@ -589,7 +610,7 @@ const Annot = (() => {
         if (!src) { alert('该备份里没有当前笔记（' + curId + '）的标注。'); return; }
         const dst = data[curId] || (data[curId] = { hl: {}, notes: {}, marks: [] });
         for (const [k, c] of Object.entries(src.hl || {})) if (!dst.hl[k]) dst.hl[k] = c;
-        for (const [k, t] of Object.entries(src.notes || {})) if (!dst.notes[k]) dst.notes[k] = t;
+        mergeNotes(dst, src);
         const gids = new Set((dst.marks || []).map(gidOf));
         dst.marks = dst.marks || [];
         for (const m of src.marks || []) if (m && m.k && m.t && !gids.has(gidOf(m))) { dst.marks.push(m); gids.add(gidOf(m)); }
@@ -787,6 +808,16 @@ const Annot = (() => {
         return touched;
     }
 
+    /** 合并批注文本：同笔记内归一化文本已存在则跳过（跨设备合并防重复批注框） */
+    function mergeNotes(dst, src) {
+        const norm = t => (t || '').replace(/\s+/g, ' ').trim();
+        const have = new Set(Object.values(dst.notes || {}).map(norm));
+        for (const [k, t] of Object.entries(src || {})) {
+            if (have.has(norm(t))) continue;
+            dst.notes[k] = t; have.add(norm(t));
+        }
+    }
+
     async function exportAnnot() {
         const ids = new Set();
         for (const b of Object.values(data))
@@ -821,7 +852,7 @@ const Annot = (() => {
                 for (const [id, src] of Object.entries(annot)) {
                     const dst = data[id] || (data[id] = { hl: {}, notes: {}, marks: [] });
                     Object.assign(dst.hl, src.hl || {});
-                    Object.assign(dst.notes, src.notes || {});
+                    mergeNotes(dst, src);
                     const gids = new Set((dst.marks || []).map(gidOf));
                     for (const m of src.marks || [])
                         if (m && m.k && m.t && !gids.has(gidOf(m))) dst.marks.push(m);

@@ -722,18 +722,12 @@ function saveExamPos() {
 }
 
 function jumpToQ(no) {
-    const qid = qidOf(curPaper.id, no);
-    const el = document.getElementById('q-' + qid);
-    console.log('Jump to:', no, qid, 'Element:', el);
-    if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-        console.error('Element not found for:', qid);
-    }
+    const el = document.getElementById('q-' + qidOf(curPaper.id, no));
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 let _qPosTimer = null;
-document.addEventListener('scroll', () => {
+window.addEventListener('scroll', () => {
     highlightNav();
     if (!_qPosTimer) _qPosTimer = setTimeout(() => { _qPosTimer = null; saveExamPos(); }, 600);
 }, { passive: true });
