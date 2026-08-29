@@ -699,19 +699,41 @@ html.dark .exam-btn.on { color: #e5c860; }
 }
 
 /* ============ 笔记区贴图 ============ */
+/* 输入区：textarea 与 contenteditable 富编辑器通用 */
 .q-note .q-note-input {
     width: 100%;
     min-height: 64px;
-    resize: none;
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 8px 10px;
     font: inherit;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.7;
     background: var(--bg);
     color: var(--text);
     outline: none;
-    overflow-y: hidden;
+    box-sizing: border-box;
+}
+.q-note textarea.q-note-input { resize: none; overflow-y: hidden; }
+/* contenteditable 编辑器：图片内嵌显示（替代 [图:id] 占位文本） */
+.q-note .q-note-input[contenteditable] {
+    white-space: pre-wrap;
+    word-break: break-word;
+    cursor: text;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+.q-note .q-note-input[contenteditable]:empty::before {
+    content: attr(data-placeholder);
+    color: var(--text-faint);
+    pointer-events: none;
+}
+.q-note .q-note-input[contenteditable] img.exam-note-img {
+    max-width: 100%;
+    max-height: 260px;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 4px 0;
 }
 .q-note .q-note-input:focus { border-color: var(--accent); }
 
@@ -771,7 +793,6 @@ html.dark .q-note-savebtn { color: #1e1e2e; }
     border-radius: 6px;
     display: block;
     margin: 6px 0;
-    border: 1px solid var(--border);
     cursor: zoom-in;
 }
 

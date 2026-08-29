@@ -128,12 +128,85 @@ function noteGet(qid) {
     try { return localStorage.getItem('examNote-' + qid) || ''; } catch (e) { return ''; }
 }
 let _noteTimer = {};
+// ---- contenteditable 富编辑器：[图:id] 直接以内嵌图片呈现，不再显示占位文本 ----
+const NOTE_TOKEN_RE = /\[图:([a-z0-9]+)\]/g;
+/** 存储文本 → 编辑器 DOM（文本段保序，[图:id] 变内嵌图片卡片） */
+function noteToEditor(el, text) {
+    el.innerHTML = '';
+    let last = 0, m;
+    NOTE_TOKEN_RE.lastIndex = 0;
+    while ((m = NOTE_TOKEN_RE.exec(text))) {
+        if (m.index > last) appendNoteText(el, text.slice(last, m.index));
+        el.appendChild(noteImgNode(m[1]));
+        last = m.index + m[0].length;
+    }
+    if (last < text.length) appendNoteText(el, text.slice(last));
+}
+function appendNoteText(el, chunk) {
+    const lines = chunk.split('\n');
+    lines.forEach((line, i) => {
+        if (i > 0) el.appendChild(document.createElement('br'));
+        if (line) el.appendChild(document.createTextNode(line));
+    });
+}
+function noteImgNode(id) {
+    const wrap = document.createElement('span');
+    wrap.className = 'exam-note-img-wrap';
+    const img = document.createElement('img');
+    img.className = 'exam-note-img';
+    img.dataset.img = id;
+    img.alt = '笔记图片';
+    img.setAttribute('contenteditable', 'false');
+    img.onclick = () => zoomAnsImg(img);
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'exam-note-img-del';
+    del.title = '删除图片';
+    del.textContent = '×';
+    del.onclick = () => delExamNoteImg(id, del);
+    wrap.append(img, del);
+    return wrap;
+}
+/** 编辑器 DOM → 存储文本（图片包装层整体还原为 [图:id]，块边界/br → 换行） */
+function editorToNote(el) {
+    const parts = [];
+    (function walk(n) {
+        for (const c of n.childNodes) {
+            if (c.nodeType === 3) parts.push(c.nodeValue);
+            else if (c.nodeType === 1) {
+                if (c.classList && c.classList.contains('exam-note-img-wrap')) {
+                    const img = c.querySelector('img[data-img]');
+                    if (img) parts.push('[图:' + img.dataset.img + ']');
+                }
+                else if (c.tagName === 'IMG' && c.dataset.img) parts.push('[图:' + c.dataset.img + ']');
+                else if (c.tagName === 'BR') parts.push('\n');
+                else {
+                    const block = c.tagName === 'DIV' || c.tagName === 'P';
+                    if (block && parts.length && parts[parts.length - 1] !== '\n') parts.push('\n');
+                    walk(c);
+                    if (block && parts.length && parts[parts.length - 1] !== '\n') parts.push('\n');
+                }
+            }
+        }
+    })(el);
+    return parts.join('').replace(/\u00A0/g, ' ');
+}
+/** 统一取值：textarea.value 或 编辑器序列化文本 */
+function noteVal(el) {
+    return el.tagName === 'TEXTAREA' ? el.value : editorToNote(el);
+}
+/** 统一写入 */
+function setNoteContent(el, text) {
+    if (el.tagName === 'TEXTAREA') el.value = text;
+    else noteToEditor(el, text);
+}
+let _noteLastRendered = {};   // qid → 上次渲染预览的文本（内容没变不重渲，防闪烁）
 function noteInput(ta) {
     const qid = ta.dataset.qid;
-    const newVal = ta.value;
+    const newVal = noteVal(ta);
     const newRefs = examImgRefs(newVal);
-    autoResizeNote(ta);                 // 输入即自适应高度
-    noteHint(ta, '自动保存中…');
+    if (ta.tagName === 'TEXTAREA') autoResizeNote(ta);   // 编辑器自增长，无需 JS 调高
+    noteHint(ta, '自动保存中…', true);
     clearTimeout(_noteTimer[qid]);
     _noteTimer[qid] = setTimeout(() => {
         const olds = localStorage.getItem('examNote-' + qid) || '';
@@ -144,33 +217,56 @@ function noteInput(ta) {
         const btn = ta.closest('.q-card') && ta.closest('.q-card').querySelector('[data-act="note"]');
         if (btn) btn.classList.toggle('has', !!newVal.trim());
         noteHint(ta, newVal.trim() ? '已保存 ✓' : '笔记是空的，不保存');
-        // 编辑态实时预览：输入即渲染 Markdown + 回填贴图（无需等「完成」）
+        // 编辑态实时预览：内容有变化才重渲染（KaTeX/图片回填开销大，无变化重渲是闪烁根源）
         if (ta.style.display !== 'none') renderNotePreview(ta);
-    }, 500);
+    }, 1500);
 }
-// 编辑态实时预览：从 textarea 当前内容渲染 Markdown + 图片（编辑时即可见贴图，无需等「完成」）
+// 编辑态实时预览：从编辑器当前内容渲染 Markdown + 图片（内容未变直接跳过，避免闪烁）
 function renderNotePreview(ta) {
     const sec = ta.closest('.q-note');
     const pv = sec && sec.querySelector('.q-note-preview');
     if (!pv) return;
+    const v = noteVal(ta);
+    if (_noteLastRendered[ta.dataset.qid] === v) return;   // 内容没变：跳过
+    _noteLastRendered[ta.dataset.qid] = v;
     pv.hidden = false;
-    pv.innerHTML = mdBlockWithImg(ta.value);
-    renderMath(pv);
+    pv.innerHTML = mdBlockWithImg(v);
+    if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
     fillExamNoteImgs(pv);   // 异步回填 IndexedDB 中的 blob
 }
-// 笔记区 Ctrl+V 贴图：压缩后存 IndexedDB，再在光标处插入 [图:id]
+// 笔记区 Ctrl+V 贴图：压缩后存 IndexedDB，再在光标处插入内嵌图片（编辑器）或 [图:id]（textarea）
 function notePasteImg(e) {
     const it = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith('image/'));
-    if (!it) return;
+    if (!it) {
+        // 富文本粘贴降级为纯文本，防外来 HTML 污染编辑器
+        if (e.target.tagName !== 'TEXTAREA' && e.clipboardData?.getData) {
+            e.preventDefault();
+            const txt = e.clipboardData.getData('text/plain');
+            if (txt) document.execCommand('insertText', false, txt);
+        }
+        return;
+    }
     e.preventDefault();
     const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
     const ta = e.target;
-    const file = it.getAsFile();
-    compressImage(file).then(blob => examImgPut(id, blob)).then(() => {
-        const tag = `[图:${id}]`;
-        const p = ta.selectionStart;
-        ta.value = ta.value.slice(0, p) + tag + ta.value.slice(ta.selectionEnd);
-        ta.selectionStart = ta.selectionEnd = p + tag.length;
+    compressImage(it.getAsFile()).then(blob => examImgPut(id, blob)).then(() => {
+        if (ta.tagName === 'TEXTAREA') {
+            const tag = `[图:${id}]`;
+            const p = ta.selectionStart;
+            ta.value = ta.value.slice(0, p) + tag + ta.value.slice(ta.selectionEnd);
+            ta.selectionStart = ta.selectionEnd = p + tag.length;
+        } else {
+            ta.focus();
+            const sel = getSelection();
+            if (sel && sel.rangeCount && ta.contains(sel.anchorNode)) {
+                const range = sel.getRangeAt(0);
+                range.deleteContents();
+                range.insertNode(noteImgNode(id));
+                range.collapse(false);
+            } else {
+                ta.appendChild(noteImgNode(id));
+            }
+        }
         noteInput(ta);   // 触发保存 + 预览
     }).catch(() => alert('图片保存失败'));
 }
@@ -186,11 +282,12 @@ function toggleQSec(btn, act) {
         renderMath(sec);   // 展开答案/思路时渲染 KaTeX
     }
     if (act === 'note') {
-        const ta = sec.querySelector('textarea');
+        const ta = sec.querySelector('textarea, .q-note-input[contenteditable]');
         if (ta) {
             if (open) {
                 const pv = sec.querySelector('.q-note-preview');
-                if (pv) fillExamNoteImgs(pv);   // 展开笔记时确保 [图:id] 贴图已回填
+                fillExamNoteImgs(sec.querySelector('.q-note-input'));   // 编辑器内嵌图片回填
+                if (pv) fillExamNoteImgs(pv);   // 展开笔记时确保预览里贴图已回填
                 if (!ta.dataset.bind) {
                     ta.addEventListener('input', () => noteInput(ta));
                     ta.addEventListener('paste', notePasteImg);
@@ -198,7 +295,7 @@ function toggleQSec(btn, act) {
                 }
                 if (ta.style.display !== 'none') {   // 编辑态才聚焦 + 自动保存；只读预览态不动
                     ta.focus();
-                    autoResizeNote(ta);   // 展开即按内容自适应高度
+                    if (ta.tagName === 'TEXTAREA') autoResizeNote(ta);
                     noteInput(ta);
                 }
             }
@@ -213,16 +310,17 @@ function saveNoteBtn(btn) {
     const qid = ta.dataset.qid;
     clearTimeout(_noteTimer[qid]);
     delete _noteTimer[qid];
-    try { localStorage.setItem('examNote-' + qid, ta.value); } catch (e) { }
+    const v = noteVal(ta);
+    try { localStorage.setItem('examNote-' + qid, v); } catch (e) { }
     const opBtn = sec.closest('.q-card')?.querySelector('[data-act="note"]');
-    if (ta.value.trim()) {
+    if (v.trim()) {
         ta.style.display = 'none';
         btn.style.display = 'none';
-        sec.classList.toggle('has-img', /\[图:[a-z0-9]+\]/.test(ta.value));
+        sec.classList.toggle('has-img', /\[图:[a-z0-9]+\]/.test(v));
         if (pv) {
-            pv.innerHTML = mdBlockWithImg(ta.value);
+            pv.innerHTML = mdBlockWithImg(v);
             pv.hidden = false;
-            renderMath(pv);
+            if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
             fillExamNoteImgs(pv);
         }
         const edit = sec.querySelector('.q-note-editbtn');
@@ -251,30 +349,33 @@ function toggleNoteEdit(btn) {
         btn.classList.remove('saved');   // 再次编辑恢复按钮常态
         noteHint(btn, '');
         ta.style.display = '';
-        // 编辑态即展示实时预览（含已贴图片），输入时由 noteInput 持续刷新
-        if (pv) renderNotePreview(ta);
         if (!ta.dataset.bind) {
             ta.addEventListener('input', () => noteInput(ta));
             ta.addEventListener('paste', notePasteImg);
             ta.dataset.bind = '1';
         }
+        if (ta.tagName !== 'TEXTAREA' && !ta.childNodes.length) {
+            setNoteContent(ta, noteGet(ta.dataset.qid));   // 编辑器首次展开：从存储重建（含内嵌图片）
+        }
+        fillExamNoteImgs(ta);   // 编辑器内嵌图片回填 blob
         ta.focus();
-        autoResizeNote(ta);   // 进入编辑按内容自适应高度
+        if (ta.tagName === 'TEXTAREA') autoResizeNote(ta);
     } else {
         // 完成：清防抖定时器，立即落盘
         clearTimeout(_noteTimer[ta.dataset.qid]);
         delete _noteTimer[ta.dataset.qid];
-        try { localStorage.setItem('examNote-' + ta.dataset.qid, ta.value); } catch (e) { }
-        const v = ta.value.trim();
+        const raw = noteVal(ta);
+        try { localStorage.setItem('examNote-' + ta.dataset.qid, raw); } catch (e) { }
+        const v = raw.trim();
         if (v) {
             btn.textContent = '✏️ 编辑';
             btn.classList.add('saved');   // 保存后淡化按钮
             ta.style.display = 'none';
             if (pv) {
-                pv.innerHTML = mdBlockWithImg(ta.value);
+                pv.innerHTML = mdBlockWithImg(raw);
                 pv.hidden = false;
-            renderMath(pv);
-            fillExamNoteImgs(pv);   // 无条件回填 [图:id] 贴图，保证编辑完成后实时显示
+                if (raw.includes('$') || raw.includes('\\(') || raw.includes('\\[')) renderMath(pv);
+                fillExamNoteImgs(pv);   // 无条件回填 [图:id] 贴图，保证编辑完成后实时显示
             }
             noteHint(btn, '已保存 ✓');
         } else {
@@ -284,6 +385,7 @@ function toggleNoteEdit(btn) {
             sec.hidden = true;
             if (opBtn) opBtn.classList.remove('has');
             ta.style.display = '';
+            setNoteContent(ta, '');
             const sb = sec.querySelector('.q-note-savebtn');
             if (sb) sb.style.display = '';
             btn.style.display = 'none';
@@ -378,12 +480,14 @@ function autoResizeNote(el) {
     el.style.overflowY = el.scrollHeight > maxH ? 'auto' : 'hidden';
 }
 
-// 笔记保存状态提示（自动保存中… / 已保存 ✓ / 已删除图片 …），2s 后淡出
-function noteHint(anchor, msg) {
+// 笔记保存状态提示（自动保存中… / 已保存 ✓ / 已删除图片 …），2s 后淡出。
+// quiet=true（打字过程中的"自动保存中…"）：提示已显示时不重启动画，避免反复闪烁
+function noteHint(anchor, msg, quiet) {
     const sec = anchor && anchor.closest && anchor.closest('.q-note');
     const el = sec && sec.querySelector('.q-note-hint');
     if (!el) return;
     if (!msg) { el.textContent = ''; el.classList.remove('show'); return; }
+    if (quiet && el.classList.contains('show')) { if (el.textContent !== msg) el.textContent = msg; return; }
     el.textContent = msg;
     el.classList.add('show');
     clearTimeout(el._t);
@@ -397,26 +501,31 @@ function delExamNoteImg(id, btn) {
     const ta = wrap.querySelector('.q-note-input');
     const qid = (ta && ta.dataset.qid) || wrap.dataset.qid;
     if (!qid) return;
-    let v = ta ? ta.value : noteGet(qid);
+    let v = ta ? noteVal(ta) : noteGet(qid);
     const re = new RegExp('\\[图:' + id + '\\]', 'g');
     v = v.replace(re, '').replace(/\s{2,}/g, ' ').trim();
     try { localStorage.setItem('examNote-' + qid, v); } catch (e) { }
     examImgDel([id]);
-    if (ta) ta.value = v;
+    if (ta) setNoteContent(ta, v);
     const pv = wrap.querySelector('.q-note-preview');
-    if (pv) pv.innerHTML = mdBlockWithImg(v);
+    if (pv && !pv.hidden) {
+        pv.innerHTML = mdBlockWithImg(v);
+        if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
+        fillExamNoteImgs(pv);
+    }
+    _noteLastRendered[qid] = v;   // 同步预览渲染缓存，防下次 renderNotePreview 误跳过
     const opBtn = wrap.closest('.q-card') && wrap.closest('.q-card').querySelector('[data-act="note"]');
     if (opBtn) opBtn.classList.toggle('has', !!v.trim());
     noteHint(btn, '已删除图片');
 }
 
-// 切题/卸载前冲刷未落盘的输入，防 <500ms 防抖窗口内丢字
+// 切题/卸载前冲刷未落盘的输入，防 <防抖窗口内丢字
 function flushNoteSave() {
     for (const qid in _noteTimer) {
         if (_noteTimer[qid]) {
             clearTimeout(_noteTimer[qid]); _noteTimer[qid] = null;
             const ta = document.querySelector('.q-note-input[data-qid="' + qid + '"]');
-            if (ta) { try { localStorage.setItem('examNote-' + qid, ta.value); } catch (e) { } }
+            if (ta) { try { localStorage.setItem('examNote-' + qid, noteVal(ta)); } catch (e) { } }
         }
     }
 }
@@ -616,15 +725,17 @@ function qCard(p, sec, q, secIdx) {
     const note = noteGet(qid);
     const hasNote = !!note.trim();
     const hasImg = /\[图:[a-z0-9]+\]/.test(note);
+    // 编辑器：contenteditable 富文本，[图:id] 直接以内嵌图片呈现（不再显示占位文本）
+    const editorHtml = `<div class="q-note-input" contenteditable="true" data-qid="${qid}" data-placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）"></div>`;
     const noteHtml = hasNote
         ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}">
             <div class="q-note-preview">${mdBlockWithImg(note)}</div>
-            <textarea class="q-note-input" data-qid="${qid}" style="display:none" placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）">${esc(note)}</textarea>
+            ${editorHtml.replace('<div class=', '<div style="display:none" class=')}
             <button class="q-note-editbtn" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
             <div class="q-note-hint"></div>
         </div>`
         : `<div class="q-sec q-note" hidden data-qid="${qid}">
-            <textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）"></textarea>
+            ${editorHtml}
             <div class="q-note-preview" hidden></div>
             <button class="q-note-savebtn" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
             <button class="q-note-editbtn" style="display:none" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
