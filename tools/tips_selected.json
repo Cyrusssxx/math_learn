@@ -286,5 +286,197 @@
   "yc": "实对称不同特征值的特征向量自动正交；展开 $\\alpha^T\\beta=0$ 得 $a$ 的一元方程。",
   "jq": "特征向量正交性直接列方程解参。",
   "zy": "验证解出的 $a$ 使 $\\alpha,\\beta$ 非零。"
+ },
+ "y24-cy-04-1": {
+  "gs": "隐函数：$2x-\\int_0^y\\mathrm e^{-t^2}\\,\\mathrm dt=xy$ 对 $x$ 求导：$2-\\mathrm e^{-y^2}\\cdot y'=y+xy'$ → $y'=\\dfrac{2-y}{x+\\mathrm e^{-y^2}}$。",
+  "yc": "变上限积分上限是 $y$（$y$ 是 $x$ 的函数）→ 链式 $\\mathrm e^{-y^2}\\cdot y'$；先代 $x=0$ 求 $y(0)$。",
+  "jq": "隐函数含变上限积分：两边直接 $\\frac{\\mathrm d}{\\mathrm dx}$，上限函数链式。",
+  "zy": "$x=0$ 时 $\\int_0^y\\mathrm e^{-t^2}\\mathrm dt=0$ → $y(0)=0$。"
+ },
+ "y24-cy-04-2": {
+  "gs": "$f(x)=x^\\alpha\\sin\\tfrac1x$（$x\\ne0$）、$0$：连续需 $\\alpha>0$；可导需 $\\alpha>1$；$f'$ 连续需 $\\alpha>2$。",
+  "yc": "$\\lim x^{\\alpha-1}\\sin\\tfrac1x$ 存在：$\\alpha>1$（$\\sin$ 有界压住）；$f'$ 在 0 处极限 $\\lim x^{\\alpha-1}\\cos(1/x)\\cdot? $ 需 $\\alpha>2$。",
+  "jq": "\"连续补充值 + 可导 + 导函数连续\"三档：$\\alpha>0,\\ >1,\\ >2$——按题问哪档。",
+  "zy": "题干问\"在 $(-\\infty,+\\infty)$ 连续可导\"→ $\\alpha>1$（可导自动连续）。"
+ },
+ "y24-cy-04-3": {
+  "gs": "$0<x<1$ 的常见结论：$\\ln(1+x)<x$、$\\sin x<x$、$\\cos$ 的放缩——按选项逐条核（常考 $\\ln(1+x)$ 的双侧估计）。",
+  "yc": "在 $(0,1)$ 上比较 $\\ln(1+x)$ 与 $x\\pm\\tfrac{x^2}2$ 的界；别把 $x>1$ 的结论搬到 $(0,1)$。",
+  "jq": "逐个选项凑 $\\ln(1+x)$、$\\sin$、$\\cos$ 在 $(0,1)$ 的经典不等式。",
+  "zy": "$\\ln(1+x)>x-\\tfrac{x^2}2$（$x>0$）等泰勒余项界面是常见判别。"
+ },
+ "y24-cy-04-4": {
+  "gs": "$y=(1+\\mathrm e^x)^{\\frac1x}$ 的渐近线：$x\\to0$（$1+\\mathrm e^x\\to2$）→ 能否补值连续？$x\\to-\\infty$：$\\mathrm e^x\\to0$ → $y\\to1$（水平）；$x\\to+\\infty$：$\\frac1x\\ln(1+\\mathrm e^x)\\to0$ → $y\\to1$？",
+  "yc": "$\\frac1x\\ln(1+\\mathrm e^x)\\xrightarrow{x\\to+\\infty}1$（$\\ln(1+\\mathrm e^x)\\sim x$）→ 指数 $\\to1$，$y\\to\\mathrm e$——注意不是 1。",
+  "jq": "渐近线逐方向：$x\\to\\pm\\infty$ 分别算 $\\lim y$；$x\\to0$ 看可否补值。",
+  "zy": "“不是渐近线”的选项=不需要的（$x=0$ 若可去则非垂直）。"
+ },
+ "y24-cy-04-5": {
+  "gs": "$f(x)f(a-x)=a^2$（$f>0$）→ 对称性：$\\int_0^a f(x)\\mathrm dx=\\int_0^a \\frac{a^2}{f(a-x)}$? 由 $t=a-x$ 得 $f(a-t)f(t)=a^2$。",
+  "yc": "换元 $t=a-x$：$\\int_0^a f=\\int_0^a f(a-t)\\mathrm dt=\\int_0^a\\tfrac{a^2}{f(t)}\\mathrm dt$——不直接给数值除非再条件。",
+  "jq": "配对 $\\int_0^a[f(x)+f(a-x)]$ 型：由乘积定和的下界（$u+v\\ge2\\sqrt{uv}=2a$）→ 积分 $\\ge a^2$?",
+  "zy": "选项常问 $\\int_0^a f$ 的范围（$\\ge a\\cdot? $ 用均值不等式）。"
+ },
+ "y24-cy-04-6": {
+  "gs": "$f(x,y)=\\dfrac{xy}{(x^2+y^2)^p}$ 在原点：连续/可微取决于 $p$——沿 $y=kx$ 路径 $\\dfrac{kx^2}{(1+k^2)^p x^{2p}}$。",
+  "yc": "沿 $y=kx$：$f\\sim\\dfrac{k}{(1+k^2)^p}x^{2-2p}$ → 极限存在且 0 需 $2-2p>0$ 即 $p<1$；可微再升。",
+  "jq": "路径法判原点半连续/可导：$p<1$ 连续、$p<\\tfrac32$? 偏导存在、$p<1$ 可微（$xy$ 分子强）。",
+  "zy": "题干问\"$f$ 在原点可微的 $p$ 范围\"——按定义余项 $o(\\rho)$。"
+ },
+ "y24-cy-04-7": {
+  "gs": "$D_1$ 圆、$D_2$/$D_3$ 椭圆、$D_4$ 菱形：比较 $\\iint$ 用包含关系或对称。",
+  "yc": "椭圆 $x^2+2y^2\\le2$ 面积 $=2\\pi/\\sqrt2$?；归一化比较 $\\iint x^2$ 或 $\\iint$ 常数时直接比面积。",
+  "jq": "被积若是 1 → 比面积；若是 $x^2+y^2$ 用对称/极坐标。",
+  "zy": "选项按\"哪个积分最小\"→ 面积最小者（若被积非负）。"
+ },
+ "y24-cy-04-8": {
+  "gs": "$A$ 是 $4\\times3$、$B$ 是 $3\\times3$（$r(B)=3$ 可逆）：$r(AB)=r(A)=2$——右乘可逆阵不改变秩。",
+  "yc": "$B$ 可逆（列满秩方阵）→ $r(AB)=r(A)$；题设 $r(AB)=1$? 与 $r(A)=2$ 矛盾 → 读题核 $r(AB)$ 的条件。",
+  "jq": "右乘可逆阵秩不变是核心；$B$ 的行列式 $=1\\cdot2\\cdot(3-2)? $ 算 $\\det B$ 判可逆。",
+  "zy": "$\\det B=(1)(2)(3)-? $ 按展开核（$\\begin{vmatrix}1&0&2\\\\0&2&0\\\\1&0&3\\end{vmatrix}=1\\cdot2\\cdot(3-2)=2\\ne0$）。"
+ },
+ "y24-cy-04-9": {
+  "gs": "$2AB+B=O\\Rightarrow(2A+E)B=O$；$B$ 列满秩（$4\\times3$，秩 3）→ $2A+E=O$（$B$ 的列线性无关，右端 0 → 系数为 0）。",
+  "yc": "(2A+E)B=O 且 $B$ 列满秩 → 每列是 $(2A+E)x=0$ 的解，解空间维数 $\\le1$ → $r(2A+E)\\le1$；再由 $|A|=0$ 核维数。",
+  "jq": "列满秩右乘：$MB=O\\Rightarrow M=O$？——$B$ 只有列满秩（3<4）不能直接推 $M=O$，但 $M$ 的秩 $\\le4-3=1$。",
+  "zy": "$|4A+E|$ 用 $2A+E$ 的结构：$4A+E=2(2A+E)-E$，特征值平移。"
+ },
+ "y24-cy-04-10": {
+  "gs": "$AA^T$ 是 $3\\times3$ 实对称；非零单特征值 $\\lambda$ 对应特征向量 $\\alpha=(1,-1,1)^T$ → $AA^T\\alpha=\\lambda\\alpha$ 三分量定 $\\lambda$ 与 $A$。",
+  "yc": "$A$ 是 $3\\times4$——$AA^T$ 是 $3\\times3$ 满秩? 非零单特征值 + 其余 0 → $r(A)=1$；$\\lambda=\\alpha^TAA^T\\alpha/\\alpha^T\\alpha=|A^T\\alpha|^2/3$。",
+  "jq": "由特征向量读 $\\lambda=|A^T\\alpha|^2/\\|\\alpha\\|^2$；结合 $A$ 的具体形态或选项。",
+  "zy": "$AA^T$ 半正定且秩 $=r(A)$；非零特征单值 + 秩 1 → $r(A)=1$。"
+ },
+ "y24-cy-04-11": {
+  "gs": "$\\sqrt[4]{\\cos x}-\\sqrt[3]{\\cos x}$：设 $u=\\cos x\\to1$，$u^{1/4}-u^{1/3}\\sim(1+\\tfrac{u-1}4+\\cdots)-(1+\\tfrac{u-1}3+\\cdots)=-\\tfrac{u-1}{12}\\sim-\\tfrac{-x^2/2}{12}=\\tfrac{x^2}{24}$。",
+  "yc": "两项都展开 $(1+v)^{1/k}\\sim1+\\tfrac vk$（$v=\\cos x-1\\sim-\\tfrac{x^2}2$）→ 差的主项 $\\tfrac{x^2}{24}$。",
+  "jq": "同底不同幂相减：先换元 $u=\\cos x$ 对 $u^{1/4}-u^{1/3}$ 展开。",
+  "zy": "分母 $\\ln(1+x^2)\\sim x^2$ → 极限 $\\tfrac{1}{24}$。"
+ },
+ "y24-cy-04-12": {
+  "gs": "心形线 $r=1+\\cos\\theta$ 在 $\\theta=\\tfrac{2\\pi}3$：$x=r\\cos\\theta,\\ y=r\\sin\\theta$；斜率 $\\dfrac{\\mathrm dy}{\\mathrm dx}=\\dfrac{r'\\sin+r\\cos}{r'\\cos-r\\sin}$。",
+  "yc": "$\\theta=\\tfrac{2\\pi}3$：$\\cos=-\\tfrac12,\\ \\sin=\\tfrac{\\sqrt3}2,\\ r=1-\\tfrac12=\\tfrac12$；法线斜率 = 切线斜率负倒数。",
+  "jq": "极坐标切线斜率公式代入定值。",
+  "zy": "心形线对 $\\theta$ 求导 $r'=-\\sin\\theta$。"
+ },
+ "y24-cy-04-13": {
+  "gs": "$xy=\\int_0^z\\dfrac{\\mathrm dt}{\\sqrt{1+t^2}}$：两边对 $x$ 求导 $y=\\dfrac{z_x}{\\sqrt{1+z^2}}$ → $\\dfrac{\\partial z}{\\partial x}=y\\sqrt{1+z^2}$；对 $y$ 同理 $\\dfrac{\\partial z}{\\partial y}=x\\sqrt{1+z^2}$。",
+  "yc": "$\\int_0^z\\frac{\\mathrm dt}{\\sqrt{1+t^2}}=\\operatorname{arsinh}z$；上限 $z$ 链式。",
+  "jq": "隐函数含变上限：直接链式求导，得 $z_x,z_y$ 的显式。",
+  "zy": "若问组合（如 $xz_y+yz_x$）：代入 $=2xy\\sqrt{1+z^2}$。"
+ },
+ "y24-cy-04-14": {
+  "gs": "椭圆 $x^2+y^2-xy=1$ 上点距原点：$d^2=x^2+y^2$；$x^2+y^2=1+xy\\le1+\\tfrac{x^2+y^2}2$ → $d^2\\le2$。",
+  "yc": "$xy\\le\\tfrac{x^2+y^2}2$（均值）→ $x^2+y^2=1+xy\\le1+\\tfrac{d^2}2\\Rightarrow d^2\\le2$；等号 $x=y=\\pm1$。",
+  "jq": "约束配方：$x^2+y^2-xy=(x-\\tfrac y2)^2+\\tfrac{3y^2}4=1$；拉格朗日或均值。",
+  "zy": "最大距离 $\\sqrt2$（点 $(1,1)$ 或 $(-1,-1)$）。"
+ },
+ "y24-cy-04-15": {
+  "gs": "$f(1)=0$ 且 $\\int_0^1[f'(x)]^2\\mathrm dx=? $：用 $f(x)=f(x)-f(1)=-\\int_x^1 f'$ 与 Cauchy 不等式（或分部）估计 $\\int_0^1 f^2\\le\\tfrac1{C}\\int (f')^2$——最值/不等式。",
+  "yc": "Poincaré 型：$\\int_0^1 f^2\\le\\tfrac1{\\lambda}\\int_0^1(f')^2$（端值 $f(1)=0$）；或分部 $\\int f^2=\\int f\\cdot f$。",
+  "jq": "$f(1)=0$ 配分部：$\\int_0^1 f\\,\\mathrm d? $ 用 $f^2$ 与 $(f')^2$ 的关联估计下界/范围。",
+  "zy": "最佳常数 $\\tfrac4{\\pi^2}$ 型（最小的 Poincaré 常数）——按题问形式。"
+ },
+ "y24-cy-04-16": {
+  "gs": "$A^2+2A=O\\Rightarrow A(A+2E)=O$，$A$ 可逆 → $A+2E=O\\Rightarrow A=-2E$；$|A|=(-2)^3=-8$。",
+  "yc": "$A$ 可逆左乘 $A^{-1}$：$A+2E=O$ → $A=-2E$——这是关键一步。",
+  "jq": "$2A^{-1}B=A^*+B\\Rightarrow(2A^{-1}-E)B=A^*\\Rightarrow B=(2A^{-1}-E)^{-1}A^*$；$A=-2E$ 代入 $A^*=|A|A^{-1}$。",
+  "zy": "$A=-2E$ 时 $A^*=|A|A^{-1}=(-8)(-\\tfrac12E)=4E$；$2A^{-1}=2(-\\tfrac12E)=-E$ → $(-2E)B=4E\\Rightarrow B=-2E\\Rightarrow|B|=-8$。"
+ },
+ "y24-cy-05-1": {
+  "gs": "$F(x)=\\int_0^{x-\\ln(1+x)}\\sin(x-t)\\mathrm dt$：先看看 $x-\\ln(1+x)\\sim\\tfrac{x^2}2$（$\\to0$）且被积正弦 $\\sin(x-t)$ 在 0 附近有界→ $F$ 的阶由上限决定。",
+  "yc": "被积 $\\sin(x-t)$（$x$ 在内部）——不能直接令被积 $\\to$ 常数；先替换 $u=x-t$ 使被积只含 $u$。",
+  "jq": "换元 $u=x-t$：$F=\\int_0^{x-\\ln(1+x)}\\sin u\\,\\mathrm du$，$\\sin u\\sim u$ → $F\\sim\\tfrac12[x-\\ln(1+x)]^2\\sim\\tfrac{x^4}{8}$ → 阶 4。",
+  "zy": "$x-\\ln(1+x)\\sim\\tfrac{x^2}2$（泰勒）是关键阶判断。"
+ },
+ "y24-cy-05-2": {
+  "gs": "偶函数 $f$ → $f'(x)$ 奇、$f''(x)$ 偶；$f(-1)=2$、$f'(-1)=-3$、$f''(-1)=4$ → $f(1)=2,\\ f'(1)=3,\\ f''(1)=4$。",
+  "yc": "奇偶传导：$f$ 偶 → $f'$ 奇（$f'(1)=-f'(-1)=3$）、$f''$ 偶。",
+  "jq": "反函数 $g$：$g'(y)=\\tfrac1{f'(g(y))}$；$g(2)=1$（因 $f(1)=2$）→ $g'(2)=\\tfrac1{f'(1)}=\\tfrac13$。",
+  "zy": "题干选项多用 $g$ 的导数/展开——先定位 $g(2),g'(2)$。"
+ },
+ "y24-cy-05-3": {
+  "gs": "$f'(0)=f''(0)=0$（二阶导数存在）→ 用 $f''(0)$ 判极值失效；拐点需 $f''$ 两侧变号（此题 $f''(0)=0$ 仅此）。",
+  "yc": "$f'(0)=0,\\ f''(0)=0$ → 极值判别法失效（需更高阶或两侧符号）；$f''(0)=0$ 也不是拐点的充分条件。",
+  "jq": "单个 $f''(0)=0$ 无足够信息判极值/拐点——找\"不能确定\"类选项。",
+  "zy": "反例 $f=x^4$（0 处极小但 $f''(0)=0$）；$f=x^3$（拐点但 $f''(0)=0$）——两类都行。"
+ },
+ "y24-cy-05-4": {
+  "gs": "$f(x)=\\dfrac{x^3-x}{\\sin\\pi x}=\\dfrac{x(x-1)(x+1)}{\\sin\\pi x}$：整数点是无定义点，$x=\\pm1,0$ 分子为 0 可去；其余整数为无穷间断。",
+  "yc": "分子零点（$x=0,\\pm1$）抵消分母 $\\sin\\pi x$ 的零点 → 可去；分子非零的整数（$x=\\pm2$ 等）→ 无穷。",
+  "jq": "$\\dfrac{x^3-x}{\\sin\\pi x}$ 在整数点的行为：看分子是否同为零。",
+  "zy": "可去间断点 3 个（$0,\\pm1$）；其余整数第二类。"
+ },
+ "y24-cy-05-5": {
+  "gs": "$\\int_a^{a+2\\pi}\\dfrac{\\mathrm e^{\\sin x}}{2+\\sin x}\\sin x\\,\\mathrm dx$：被积周期 $2\\pi$ → 积分值与 $a$ 无关；分子可拆 $\\mathrm e^{\\sin x}\\sin x$。",
+  "yc": "周期函数整周期积分与起点无关；$\n\\int_0^{2\\pi}\\dfrac{\\mathrm e^{\\sin x}\\sin x}{2+\\sin x}$ 用对称（$\\sin\\to-\\sin$ 配对）。",
+  "jq": "$\\int_0^{2\\pi}F(\\sin x)\\sin x\\,\\mathrm dx$：配对 $x\\to x+\\pi$ 或 $\\sin\\to-\\sin$ 消正负。",
+  "zy": "值往往为 0（$\\sin$ 奇函数配周期）。"
+ },
+ "y24-cy-05-6": {
+  "gs": "$\\dfrac{\\partial^2 f}{\\partial x^2}=\\dfrac{\\partial^2 f}{\\partial y^2}$（波动型：$\nf_{xx}=f_{yy}$）→ 特征线 $u=x+y,\\ v=x-y$ 化 $f_{uv}=0$（D'Alembert 型）→ $f=\\varphi(x+y)+\\psi(x-y)$。",
+  "yc": "$f_{xx}=f_{yy}\\Rightarrow f_{uv}=0$（以 $u=x+y,\\ v=x-y$）→ $f=\\varphi(u)+\\psi(v)$；边界条件定 $\\varphi,\\psi$。",
+  "jq": "双曲型 $f_{xx}-f_{yy}=0$ 的通用解是行波和。",
+  "zy": "二阶连续保证换序与特征线法合法。"
+ },
+ "y24-cy-05-7": {
+  "gs": "$D=\\{-1\\le x\\le y,\\ -1\\le y\\le1\\}$ 三角形区域：$\\iint x^2$ 或 $\\iint$ 类用对称与正方形减三角。",
+  "yc": "$D$ 是三角形（顶点 $(-1,-1),(1,1),(-1,1)$）；关于 $y$ 轴对称？区域不对称但被积奇偶可配对。",
+  "jq": "画区域先定型；$\\iint\\limits_D x$ 类奇函数积分按 $x\\mapsto-x$ 配对。",
+  "zy": "换序或直接积分限：$y\\in[-1,1],\\ x\\in[-1,y]$。"
+ },
+ "y24-cy-05-8": {
+  "gs": "$AB=A-B+E\\Rightarrow AB-A+B-E=O\\Rightarrow(A+E)(B-E)=O$：配完全平方。",
+  "yc": "加 $E$ 配：$AB-A+B-E=O\\iff(A+E)(B-E)=O$（验算 $AB+B-A-E$? 方向核对符号）。",
+  "jq": "矩阵方程配\"和差乘积\"：$AB=A-B+E$ → $(A+E)(B-E)=O$——用 $r(A+E)+r(B-E)\\le3$ 及非退化讨论。",
+  "zy": "\"不正确的\"选项：如断言 $A+E$ 或 $B-E$ 可逆（可能都不可逆但乘积 0）。"
+ },
+ "y24-cy-05-9": {
+  "gs": "初等行变换得到 $B$：行等价 → $Ax=0$ 与 $Bx=0$ 同解、$r(A)=r(B)$、存在可逆 $P$ 使 $PA=B$。",
+  "yc": "行变换保持行空间/同解/秩；但不保持列向量组关系，也不保 $AB$ 类乘积。",
+  "jq": "\"行等价\"的五种等价刻画：$PA=B$、同解、行向量组等价、$r$ 相等（+行空间同）。",
+  "zy": "选项\"$A$ 的列与 $B$ 的列等价\"是错的（行变换不保列）。"
+ },
+ "y24-cy-05-10": {
+  "gs": "$|A-E|=|A+E|=|A-2E|=0$ → $A$ 的特征值 $1,-1,2$；$|A|=1\\cdot(-1)\\cdot2=-2$、$|A^*|=|A|^{2}=4$。",
+  "yc": "$f(x)=|A^{-1}-xE|-|A^*|$：$A^{-1}$ 特征值 $1,-1,\\tfrac12$ → $|A^{-1}-xE|=\\prod(\\lambda_i-x)$；$f(0)=|A^{-1}|-4=-\\tfrac12-4<0$、$f(1)=0-4<0$? 端值符号核。",
+  "jq": "零点存在（$x_0\\in(0,1)$）用 $f(0),f(1)$ 异号：$f(0)=-\\tfrac12-4<0$、$f(1)=-4<0$——需 $(0,1)$ 内 $f$ 变号？$f(\\tfrac12)=0-4=-4$? 无变号点→ 或不依赖符号而用 $f(\\sqrt? )$ 型。按解析核对。",
+  "zy": "题目\"必存在 $x_0$ 使 $f(x_0)=0$\"——也许 $f(0)>0$ 版；以数据解析为准。"
+ },
+ "y24-cy-05-11": {
+  "gs": "$\\mathrm e^{xy}=2^x3^y$ 取对数：$xy=x\\ln2+y\\ln3$ → $y(x-\\ln3)=x\\ln2$ → $y=\\dfrac{x\\ln2}{x-\\ln3}$。",
+  "yc": "化成显式再求导最稳；$y''$ 用商法则（分母 $(x-\\ln3)^2$）。",
+  "jq": "指数方程先取对数线性化再解 $y$，后续 $(y-\\ln2)y''-2(y')^2$ 直接代。",
+  "zy": "注意 $x\\ne\\ln3$ 定义域。"
+ },
+ "y24-cy-05-12": {
+  "gs": "$\\int_1^{+\\infty}\\dfrac1{x^2}\\mathrm e^{-\\frac1{\\sqrt x}}\\mathrm dx$：换元 $u=\\tfrac1{\\sqrt x}$（$\\mathrm dx=-\\tfrac{2}{u^3}\\mathrm du$）→ $\\int_0^1 \\tfrac{2}{u}\\mathrm e^{-u}\\mathrm du$? 核：$\\dfrac{1}{x^2}\\mathrm dx=-? $",
+  "yc": "$x=1/u^2\\Rightarrow \\mathrm dx=-\\tfrac{2}{u^3}\\mathrm du$、$\\tfrac1{x^2}=u^4$ → 被积 $\\to -2u\\,\\mathrm e^{-u}\\mathrm du$ → $\\int_1^{0}-2u\\mathrm e^{-u}\\mathrm du=2\\int_0^1 u\\mathrm e^{-u}\\mathrm du$。",
+  "jq": "幂换元 $u=\\tfrac1{\\sqrt x}$ 化 $\\int u\\mathrm e^{-u}$（$\\int_0^1 u\\mathrm e^{-u}=1-\\tfrac2{\\mathrm e}$）。",
+  "zy": "$\\int u\\mathrm e^{-u}=-(u+1)\\mathrm e^{-u}$。"
+ },
+ "y24-cy-05-13": {
+  "gs": "椭圆 $\\tfrac{x^2}9+\\tfrac{y^2}4=1$ 上点 $C$ 到 $A(1,3),B(4,2)$ 的距离和（或 $AC+BC$ 最值）——费马/几何（两定点在椭圆同侧或异侧）。",
+  "yc": "$AC+BC$ 最值：若 $A,B$ 在椭圆同侧，最小值是到 $B'$（$A$ 的椭圆反射或对称点）距离；用拉格朗日兜底。",
+  "jq": "参数化 $C=(3\\cos t,2\\sin t)$（$x,y\\ge0$ → $t\\in[0,\\tfrac\\pi2]$）→ 一元函数最值。",
+  "zy": "题目问 $AC+BC$ 的范围——参数化 + 导数。"
+ },
+ "y24-cy-05-14": {
+  "gs": "$\\int_0^{\\pi/2}\\mathrm d\\theta\\int_0^1 \\mathrm e^{r\\sin\\theta}r\\,\\mathrm dr$：先 $r$ 内层 $\\int_0^1 r\\mathrm e^{r\\sin\\theta}\\mathrm dr=\\dfrac{\\mathrm e^{\\sin\\theta}(\\sin\\theta-1)+1}{\\sin^2\\theta}$。",
+  "yc": "内层 $\\int r\\mathrm e^{cr}\\mathrm dr=\\tfrac{r\\mathrm e^{cr}}{c}-\\tfrac{\\mathrm e^{cr}}{c^2}$（$c=\\sin\\theta$）代限；再对 $\\theta$ 积分。",
+  "jq": "无法闭式时换序（$r\\in[0,1],\\ \\theta\\in[0,\\tfrac\\pi2]$ 互换）或分部。",
+  "zy": "题干若是 $\\int_0^{\\pi/2}\\int_0^1\\mathrm e^{r\\sin\\theta}r\\,\\mathrm dr\\mathrm d\\theta$，内层先积 $r$ 是正路。"
+ },
+ "y24-cy-05-15": {
+  "gs": "$\\lim\\limits_{n\\to\\infty}\\sin\\tfrac2n\\sum_{k=1}^{n}\\dfrac{n}{\\sqrt{4n^2+k^2}}$：$\\sin\\tfrac2n\\sim\\tfrac2n$、$\\dfrac1n\\sum \\dfrac{1}{\\sqrt{4+(k/n)^2}}\\to\\int_0^1\\dfrac{\\mathrm dx}{\\sqrt{4+x^2}}$。",
+  "yc": "$\\sin\\tfrac2n\\to0$ 乘有限黎曼和→ 需和本身 $\\sim O(n)$？$\\dfrac{n}{\\sqrt{4n^2+k^2}}=\\tfrac1n\\cdot\\tfrac1{\\sqrt{4+(k/n)^2}}\\cdot n$? 核：$\\dfrac{n}{\\sqrt{4n^2+k^2}}=\\dfrac{1}{\\sqrt{4+(k/n)^2}}$——和 $\\to\\int$，再乘 $\\tfrac2n\\to0$ → 极限 ？",
+  "jq": "先配 $\\tfrac1n$：$\\sin\\tfrac2n\\sum_{k=1}^n\\dfrac{n}{\\sqrt{4n^2+k^2}}=2\\cdot\\dfrac1n\\sum\\dfrac{1}{\\sqrt{4+(k/n)^2}}\\to2\\int_0^1\\dfrac{\\mathrm dx}{\\sqrt{4+x^2}}$。",
+  "zy": "$\\int\\dfrac{\\mathrm dx}{\\sqrt{4+x^2}}=\\operatorname{arsinh}\\tfrac x2$，$\\int_0^1=\\ln(\\tfrac12+\\tfrac{\\sqrt5}2)$。"
+ },
+ "y24-cy-05-16": {
+  "gs": "$A^2B=A+B+E\\Rightarrow(A^2-E)B=A+E\\Rightarrow(A-E)(A+E)B=A+E$；$A+E$ 可逆时 $B=(A-E)^{-1}$。",
+  "yc": "左移项：$A^2B-B=A+E\\Rightarrow(A^2-E)B=A+E$；先判 $|A\\pm E|$ 非零（$A$ 特征值不含 $\\pm1$）。",
+  "jq": "矩阵方程标准化：$(A^2-E)B=A+E$；求 $|B|$ 用行列式 $\n|B|=\\dfrac{|A+E|}{|A-E||A+E|}=\\dfrac1{|A-E|}$（约去 $|A+E|$）。",
+  "zy": "$|A-E|$ 从 $A=\\begin{pmatrix}1&2&1\\\\1&1&0\\\\3&4&2\\end{pmatrix}$ 算：$\\det\\begin{pmatrix}0&2&1\\\\1&0&0\\\\3&4&1\\end{pmatrix}=2\\cdot? $ 按展开（$=-2? $ 核对）。"
  }
 }
