@@ -110,6 +110,38 @@ function balanceDollars(md) {
     const n = (md.match(/\$\$/g) || []).length;
     return n % 2 === 0 ? md : md + '$$';
 }
+/* ============ 📌 点睛块（::: 点睛 … :::）============
+ * 源 md 写法（Obsidian 亦可直接阅读）：
+ *   ::: 点睛
+ *   - **公式**：…
+ *   - **易错**：…
+ *   - **技巧**：…
+ *   - **注意**：…
+ *   :::
+ * 渲染为 <details class="fold tip-fold"> + 与真题页一致的 .q-tip-sec 四段块。 */
+const TIP_SEC_META = [['公式', 'gs', '📌 公式'], ['易错', 'yc', '⚠️ 易错'],
+['技巧', 'jq', '💡 技巧'], ['注意', 'zy', '🔍 注意']];
+
+function renderTipsBlock(md) {
+    const secs = new Map(), rest = [];
+    let cur = null;
+    for (const l of md.split('\n')) {
+        const m = l.match(/^\s*[-*]\s*\*\*(公式|易错|技巧|注意)\*\*[：:]\s*([\s\S]*)$/);
+        if (m) { cur = m[1]; secs.set(cur, [m[2]]); continue; }
+        if (!l.trim()) continue;
+        if (cur) secs.get(cur).push(l.trim()); else rest.push(l);
+    }
+    let inner = '';
+    for (const [key, cls, label] of TIP_SEC_META) {
+        const arr = secs.get(key);
+        if (!arr || !arr.join('').trim()) continue;
+        inner += `<div class="q-tip-sec tip-${cls}"><div class="q-tip-label">${label}</div>` +
+            `<div class="q-tip-body">${mdToHtml(arr.join('\n'))}</div></div>`;
+    }
+    if (!inner) inner = `<div class="q-tip-body">${mdToHtml(rest.join('\n'))}</div>`;
+    return `<details class="fold tip-fold"><summary>📌 点睛</summary><div class="fold-body q-tips">${inner}</div></details>`;
+}
+
 function mdToHtml(md) {
     md = balanceDollars(md);
     const lines = md.split('\n').map(l => l.replace(/<!--.*?-->/g, '').replace(/\s+$/, ''));
@@ -128,6 +160,13 @@ function mdToHtml(md) {
             const title = line.trim().replace(/^:::\s*fold\s*/, '') || '展开';
             out.push(`<details class="fold"><summary>${inline(title)}</summary><div class="fold-body">`);
             i++;
+        } else if (/^:::\s*点睛/.test(line.trim())) {
+            // 点睛块：::: 点睛 … :::（公式/易错/技巧/注意 四段，默认收起）
+            const body = [];
+            i++;
+            while (i < lines.length && lines[i].trim() !== ':::') { body.push(lines[i]); i++; }
+            i++;   // 跳过闭合 :::
+            out.push(renderTipsBlock(body.join('\n')));
         } else if (line.trim() === ':::') {
             out.push('</div></details>');
             i++;
