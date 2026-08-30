@@ -119,6 +119,15 @@ function qCard(p,sec,q){
     const figHtml=q.img?`<img class="q-fig-img" src="${q.img}" alt="题${q.no}配图" loading="lazy">${(q.img2?`<img class="q-fig-img" src="${q.img2}" alt="题${q.no}配图2" loading="lazy">`:'')}`:'';
     const options=q.options&&q.options.length?`<div class="q-options">${q.options.map((o,i)=>`<div class="q-opt"><span class="opt-label">${'ABCD'[i]}.</span>${mdInline(o)}</div>`).join('')}</div>`:'';
     const note=noteGet(qid);
+    // 📌 点睛：本题专属 公式/易错/技巧/注意 四段块（数据来自 selected.json 的 tips 字段）
+    const TIP_META=[['gs','📌 公式','tip-gs'],['yc','⚠️ 易错','tip-yc'],['jq','💡 技巧','tip-jq'],['zy','🔍 注意','tip-zy']];
+    let tipsHtml='';
+    if(q.tips){
+        const secs=TIP_META.filter(([k])=>q.tips[k])
+            .map(([k,label,cls])=>`<div class="q-tip-sec ${cls}"><div class="q-tip-label">${label}</div><div class="q-tip-body">${mdBlock(q.tips[k])}</div></div>`).join('');
+        if(secs) tipsHtml=`<div class="q-sec q-tips" hidden>${secs}</div>`;
+    }
+    const tipsBtn=tipsHtml?`<button class="q-op q-tips-btn" data-act="tips" onclick="toggleQSec(this,'tips')" title="本题专属公式/易错点/技巧/注意">📌 点睛</button>`:'';
     const ideaBtn=q.idea?`<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>`:'';
     const ideaHtml=q.idea?`<div class="q-sec q-idea" hidden>${mdBlock(q.idea)}</div>`:'';
     // 答案：优先 q.answer 文本，否则 q.answer_img 图片数组，否则占位
@@ -136,9 +145,11 @@ function qCard(p,sec,q){
         <div class="q-ops">
             <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
             ${ideaBtn}
+            ${tipsBtn}
             <button class="q-op${note.trim()?' has':''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
         </div>
         ${ideaHtml}
+        ${tipsHtml}
         <div class="q-sec q-answer" hidden><div class="q-answer-body">${ansInner}</div></div>
         <div class="q-sec q-note" hidden><textarea class="q-note-input" data-qid="${qid}" placeholder="记下你的思路、易错点…（自动保存）">${esc(note)}</textarea></div>
     </div>`;
