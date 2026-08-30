@@ -787,6 +787,17 @@ html.dark .q-tips-btn.on, html.dark .q-tips-btn:hover { background: #2e2545; }
     padding: 3px 6px; cursor: pointer;
 }
 .q-nt-x:hover { background: var(--bg-hover); }
+.q-nt-b, .q-nt-i, .q-nt-h1, .q-nt-h2 {
+    border: 1px solid var(--border); background: var(--bg);
+    font-size: 13px; line-height: 1; border-radius: 5px;
+    width: 24px; height: 22px; cursor: pointer; padding: 0;
+    color: var(--text);
+}
+.q-nt-b { font-weight: 800; }
+.q-nt-i { font-style: italic; font-family: Georgia, "Times New Roman", serif; }
+.q-nt-h1 { width: 26px; font-weight: 800; font-size: 14px; }
+.q-nt-h2 { width: 26px; font-weight: 800; font-size: 12px; }
+.q-nt-b:hover, .q-nt-i:hover, .q-nt-h1:hover, .q-nt-h2:hover { transform: scale(1.1); background: var(--bg-hover); }
 mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
 
 .q-note-preview {
@@ -801,6 +812,11 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
     word-break: break-word;
 }
 .q-note-preview:empty { display: none; }
+/* 富文本笔记里的标题/粗体/斜体渲染样式（与真题页编辑器输出对齐） */
+.q-note-preview h1 { font-size: 1.25em; font-weight: 800; margin: .5em 0 .3em; line-height: 1.4; }
+.q-note-preview h2 { font-size: 1.12em; font-weight: 700; margin: .45em 0 .3em; line-height: 1.4; }
+.q-note-preview b, .q-note-preview strong { font-weight: 800; }
+.q-note-preview i, .q-note-preview em { font-style: italic; }
 
 /* 笔记「💾 保存」按钮（空笔记展开态）：醒目主色，保存即收起输入框 */
 .q-note-savebtn {

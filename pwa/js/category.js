@@ -103,10 +103,22 @@ function mdBlock(s) {
             if (l.endsWith('$$')) { out.push('<p>' + mdInline(buf) + '</p>'); buf = null; }
             continue;
         }
-        out.push('<p>' + mdInline(l) + '</p>');
+        // 笔记标题令牌（<h1>/<h2>）独占整行时作为块级标题输出，不放进 <p>
+        if (l.startsWith('<h1>') || l.startsWith('<h2>')) {
+            out.push(mdInline(l));
+        } else {
+            out.push('<p>' + mdInline(l) + '</p>');
+        }
     }
     if (buf) out.push('<p>' + mdInline(buf) + '</p>');
-    return out.join('');
+    // 笔记令牌还原（与 exam.js 对齐：高亮/字色 → 行内标签，粗体/斜体 → 行内标签，H1/H2 → 块级标题）
+    return out.join('')
+        .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, '<mark class="note-hl" style="background:$1">$2</mark>')
+        .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
+        .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
+        .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
+        .replace(/&lt;h1&gt;([\s\S]*?)&lt;\/h1&gt;/g, '<h1>$1</h1>')
+        .replace(/&lt;h2&gt;([\s\S]*?)&lt;\/h2&gt;/g, '<h2>$1</h2>');
 }
 function renderMath(root) {
     if (!window.katex || !root) return;

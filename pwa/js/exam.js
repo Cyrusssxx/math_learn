@@ -129,7 +129,7 @@ function noteGet(qid) {
 }
 let _noteTimer = {};
 // ---- contenteditable 富编辑器：[图:id] 内嵌图片 + 字色/高亮（存储为令牌 <c:#hex>…</c> <h:#hex>…</h>） ----
-const NOTE_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>/g;
+const NOTE_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<h1>|<\/h1>|<h2>|<\/h2>/g;
 /** 存储文本 → 编辑器 DOM：文本/换行原样，[图:id] 变内嵌图片，格式令牌变 span/mark（栈式嵌套） */
 function noteToEditor(el, text) {
     el.innerHTML = '';
@@ -148,11 +148,17 @@ function noteToEditor(el, text) {
         const mf = NOTE_FMT_RE.exec(text);
         if (mf && (mi < 0 || mf.index <= mi)) {
             emitText(text.slice(i, mf.index));
-            if (mf[0] === '</c>' || mf[0] === '</h>') {
+            const m0 = mf[0];
+            if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</h1>' || m0 === '</h2>') {
                 if (stack.length > 1) stack.pop();
             } else {
-                const node = mf[1] ? Object.assign(document.createElement('span'), { style: 'color:' + mf[1] })
-                                   : Object.assign(document.createElement('mark'), { style: 'background:' + mf[2] });
+                let node;
+                if (m0 === '<b>') node = document.createElement('b');
+                else if (m0 === '<i>') node = document.createElement('i');
+                else if (m0 === '<h1>') node = document.createElement('h1');
+                else if (m0 === '<h2>') node = document.createElement('h2');
+                else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] });
+                else node = Object.assign(document.createElement('mark'), { style: 'background:' + mf[2] });
                 stack[stack.length - 1].appendChild(node);
                 stack.push(node);
             }
@@ -193,29 +199,51 @@ function noteImgNode(id) {
     wrap.append(img, del);
     return wrap;
 }
-/** 编辑器 DOM → 存储文本：图片还原 [图:id]，带格式的文本节点包令牌（按祖先有效格式扁平化） */
+/** 编辑器 DOM → 存储文本：图片还原 [图:id]，带格式的文本节点包令牌（字色/高亮/粗体/斜体走行内令牌，H1/H2 走块级令牌包裹整段） */
 function editorToNote(el) {
     const rgbToHex = v => {
         const m = /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(v || '');
         return m ? '#' + [1, 2, 3].map(k => (+m[k]).toString(16).padStart(2, '0')).join('') : null;
     };
-    const parts = [];
-    (function walk(n, c, h) {
+    const isBold = n => (n && n.nodeType === 1) && (n.tagName === 'B' || n.tagName === 'STRONG' || /bold/i.test(n.style.fontWeight || ''));
+    const isItalic = n => (n && n.nodeType === 1) && (n.tagName === 'I' || n.tagName === 'EM' || /italic/i.test(n.style.fontStyle || ''));
+    // 返回序列化片段；c/h=字色/高亮 hex，b/i=是否处于粗/斜上下文（行内令牌），heading 由 H1/H2 元素单独包块级令牌
+    return (function run(n, c, h, b, i) {
+        let s = '';
         for (const ch of n.childNodes) {
             if (ch.nodeType === 3) {
                 const t = ch.nodeValue.replace(/\u00A0/g, ' ');
                 if (!t) continue;
                 let inner = t;
+                if (i) inner = '<i>' + inner + '</i>';
+                if (b) inner = '<b>' + inner + '</b>';
                 if (h) inner = '<h:' + h + '>' + inner + '</h>';
                 if (c) inner = '<c:' + c + '>' + inner + '</c>';
-                parts.push(inner);
+                s += inner;
             } else if (ch.nodeType === 1) {
                 if (ch.classList && ch.classList.contains('exam-note-img-wrap')) {
                     const img = ch.querySelector('img[data-img]');
-                    if (img) parts.push('[图:' + img.dataset.img + ']');
+                    if (img) s += '[图:' + img.dataset.img + ']';
                 }
-                else if (ch.tagName === 'IMG' && ch.dataset.img) parts.push('[图:' + ch.dataset.img + ']');
-                else if (ch.tagName === 'BR') parts.push('\n');
+                else if (ch.tagName === 'IMG' && ch.dataset.img) s += '[图:' + ch.dataset.img + ']';
+                else if (ch.tagName === 'BR') s += '\n';
+                else if (ch.tagName === 'H1') {
+                    if (s && !s.endsWith('\n')) s += '\n';
+                    s += '<h1>' + run(ch, c, h, false, false) + '</h1>' + '\n';
+                }
+                else if (ch.tagName === 'H2') {
+                    if (s && !s.endsWith('\n')) s += '\n';
+                    s += '<h2>' + run(ch, c, h, false, false) + '</h2>' + '\n';
+                }
+                else if (isBold(ch)) {
+                    const block = ch.tagName === 'DIV' || ch.tagName === 'P';
+                    if (block && s && !s.endsWith('\n')) s += '\n';
+                    s += run(ch, c, h, true, i);
+                    if (block && s && !s.endsWith('\n')) s += '\n';
+                }
+                else if (isItalic(ch)) {
+                    s += run(ch, c, h, b, true);
+                }
                 else {
                     let nc = c, nh = h;
                     if (ch.style) {
@@ -223,14 +251,14 @@ function editorToNote(el) {
                         const hb = rgbToHex(ch.style.backgroundColor); if (hb) nh = hb;
                     }
                     const block = ch.tagName === 'DIV' || ch.tagName === 'P';
-                    if (block && parts.length && parts[parts.length - 1] !== '\n') parts.push('\n');
-                    walk(ch, nc, nh);
-                    if (block && parts.length && parts[parts.length - 1] !== '\n') parts.push('\n');
+                    if (block && s && !s.endsWith('\n')) s += '\n';
+                    s += run(ch, nc, nh, b, i);
+                    if (block && s && !s.endsWith('\n')) s += '\n';
                 }
             }
         }
-    })(el, null, null);
-    return parts.join('');
+        return s;
+    })(el, null, null, false, false);
 }
 /** 统一取值：textarea.value 或 编辑器序列化文本 */
 function noteVal(el) {
@@ -344,7 +372,7 @@ function toggleQSec(btn, act) {
         }
     }
 }
-// 笔记格式工具条：对当前选区应用字色/高亮/清除（execCommand + styleWithCSS）
+// 笔记格式工具条：对当前选区应用 加粗/斜体/标题/字色/高亮/清除
 function applyNoteFormat(sec, cmd, val) {
     const ed = sec.querySelector('.q-note-input');
     if (!ed || ed.style.display === 'none' || !ed.isContentEditable) return;
@@ -353,8 +381,13 @@ function applyNoteFormat(sec, cmd, val) {
         noteHint(ed, '先选中要设置格式的文字'); return;
     }
     ed.focus();
-    try { document.execCommand('styleWithCSS', false, true); } catch (e) { }
-    document.execCommand(cmd, false, val || null);
+    if (cmd === 'h1' || cmd === 'h2') {
+        // 标题用 formatBlock 生成 <h1>/<h2> 标签（禁用 styleWithCSS，否则退化成带样式的 <span>）
+        document.execCommand('formatBlock', false, cmd === 'h1' ? 'H1' : 'H2');
+    } else {
+        try { document.execCommand('styleWithCSS', false, true); } catch (e) { }
+        document.execCommand(cmd, false, val || null);
+    }
     noteInput(ed);   // 触发自动保存 + 预览刷新
 }
 /** 工具条显隐与编辑态同步 */
@@ -760,14 +793,23 @@ function mdBlock(s) {
             }
             continue;
         }
-        out.push('<p>' + mdInline(l) + '</p>');
+        // 笔记标题令牌（<h1>/<h2>）独占整行时作为块级标题输出，不放进 <p>
+        if (l.startsWith('<h1>') || l.startsWith('<h2>')) {
+            out.push(mdInline(l));
+        } else {
+            out.push('<p>' + mdInline(l) + '</p>');
+        }
     }
     // 未闭合的 $$ 当普通行
     if (mathBuf) out.push('<p>' + mdInline(mathBuf) + '</p>');
-    // 笔记颜色/高亮令牌还原（存储转义后形如 &lt;c:#rrggbb&gt;…&lt;/c&gt;；高亮先转、字色后转以正确嵌套）
+    // 笔记令牌还原（存储经 esc 后形如 &lt;b&gt;…&lt;/b&gt;；高亮/字色 → 行内标签，粗体/斜体 → 行内标签，H1/H2 → 块级标题）
     return out.join('')
         .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, '<mark class="note-hl" style="background:$1">$2</mark>')
-        .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>');
+        .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
+        .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
+        .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
+        .replace(/&lt;h1&gt;([\s\S]*?)&lt;\/h1&gt;/g, '<h1>$1</h1>')
+        .replace(/&lt;h2&gt;([\s\S]*?)&lt;\/h2&gt;/g, '<h2>$1</h2>');
 }
 
 function renderPaperList() {
@@ -803,6 +845,11 @@ function qCard(p, sec, q, secIdx) {
         <span class="q-nt-sep"></span>
         <span class="q-nt-lab">高亮</span>
         ${NOTE_HLS.map(c => `<button type="button" class="q-nt-h" style="background:${c}" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'hiliteColor','${c}')" title="高亮 ${c}"></button>`).join('')}
+        <span class="q-nt-sep"></span>
+        <button type="button" class="q-nt-b" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'bold')" title="加粗 (Ctrl+B)"><b>B</b></button>
+        <button type="button" class="q-nt-i" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'italic')" title="斜体 (Ctrl+I)"><i>I</i></button>
+        <button type="button" class="q-nt-h1" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'h1')" title="大标题">H1</button>
+        <button type="button" class="q-nt-h2" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'h2')" title="中标题">H2</button>
         <span class="q-nt-sep"></span>
         <button type="button" class="q-nt-x" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'removeFormat')" title="清除所选格式">🧹</button>
     </div>`;
