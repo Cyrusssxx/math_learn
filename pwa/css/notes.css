@@ -548,7 +548,7 @@ li.hl-b, p.hl-b { background: var(--hl-b); border-radius: 6px; }
     background: var(--ann-bg);
     border-left: 3px solid var(--ann-border);
     border-radius: 0 8px 8px 0;
-    color: var(--text-dim);
+    color: var(--text);
     display: flex;
     align-items: flex-start;
     gap: 6px;

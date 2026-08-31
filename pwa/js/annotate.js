@@ -234,6 +234,14 @@ const Annot = (() => {
             h = h.replace(/\$([^\$\n]+?)\$/g, (m, tex) => texToHtml(tex, false) || m);
             h = h.replace(/\\\(([\s\S]+?)\\\)/g, (m, tex) => texToHtml(tex, false) || m);
         }
+        // 富文本令牌还原（与真题页 exam.js mdBlock 同源）：字色 <c:>、高亮底 <h:>、粗 <b>、斜 <i>、标题 <h1>/<h2>
+        h = h
+            .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, '<mark class="note-hl" style="background:$1">$2</mark>')
+            .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
+            .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
+            .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
+            .replace(/&lt;h1&gt;([\s\S]*?)&lt;\/h1&gt;/g, '<h1>$1</h1>')
+            .replace(/&lt;h2&gt;([\s\S]*?)&lt;\/h2&gt;/g, '<h2>$1</h2>');
         return h;
     }
     const noteHtml = t => renderAnnot(t);
