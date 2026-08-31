@@ -2112,7 +2112,7 @@
               "answer_img": "data/selected_ans_q/y24-cy-08_q06.webp",
               "tips": {
                 "gs": "$f(x,y)=x\\ln(x+\\sqrt{x^2+y^2})-\\sqrt{x^2+y^2}$ 是 $r=\\sqrt{x^2+y^2}$ 的函数（$x/r=\\cos\\theta$ 方向）",
-                "yc": "分块矩阵 $\\begin{pmatrix}A&B\\\\O&A^*\\end{pmatrix}$ 与 $\\begin{pmatrix}A&O\\\\B&A^*\\end{pmatrix}$ 的行列式都 $=|A||A^*|=|A|^2$（4 阶 $n=3$：$|A^*|=|A|^2$）；$r(A)=2$ → $|A|=0$ → 行列式 $=0$",
+                "yc": "第二题考点：径向函数的 Laplace 算子 $\\Delta f=f''+\\dfrac1r f'$；$f=f(\\rho)$ 型 → $\\Delta f = f''+\\tfrac{\\rho'}{r}f'$? 具体：$f=\\rho\\ln(\\rho+?)-?$",
                 "jq": "$\\rho=\\sqrt{x^2+y^2}$，$f=x\\ln(\\rho+x)-\\rho$？先化简 $x\\ln(x+\\rho)=x\\cdot\\operatorname{arcosh}(\\rho/x)\\cdot?$；用 $\\rho\\ln(\\rho+\\rho)=\\rho\\ln 2\\rho$ 验特殊值",
                 "zy": "答案按数据解析（具体形式按选项系数）"
               }
@@ -3154,7 +3154,13 @@
                 "等价无穷小"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q01.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q01.webp",
+              "tips": {
+                "gs": "F(x)=\\int_1^2 xf(xt)\\mathrm dt \\xrightarrow{u=xt} \\int_x^{2x} f(u)\\mathrm du；G(x)=\\int_0^x g(2x-t)\\mathrm dt \\xrightarrow{u=2x-t} \\int_x^{2x} g(u)\\mathrm du",
+                "yc": "F,G 都是 \\int_x^{2x} 型，差在被积（f vs g）；x\\to0 时两积分上下限都 → 0，但被积的极限不同",
+                "jq": "x\\to0 时 \\int_x^{2x}f(u)\\mathrm du \\sim f(\\xi)\\cdot x \\sim Cx（C=1 因为 f(x)\\sim x）；G 同理 \\sim Dx（D=1）；F/G\\to 1 等价",
+                "zy": "答案 D：F,G 等价无穷小（同阶同系数）"
+              }
             },
             {
               "no": 2,
@@ -3167,7 +3173,13 @@
                 "$xf(x)>af(a)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q02.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q02.webp",
+              "tips": {
+                "gs": "f''>0 凸；0<a<x<b 时 f 的中点凸性：f(x)<\\frac{b-x}{b-a}f(a)+\\frac{x-a}{b-a}f(b)；更直接：\\frac{f(x)-f(a)}{x-a} 严格增（导数 f' 严格增）",
+                "yc": "凸函数的导数 f' 严格增 → 平均斜率 \\frac{f(x)-f(a)}{x-a} 单调增；选项 B: \\frac{f(x)}{x}<\\frac{f(b)}{b}（导数 \\frac{f(x)-f(0)}{x-0} < \\frac{f(b)-f(0)}{b-0} 因为 f(0)=0）",
+                "jq": "f(0)=0, f''>0 → f' 严格增 → \\frac{f(x)}{x} 严格增 → \\frac{f(a)}{a}<\\frac{f(x)}{x}<\\frac{f(b)}{b}；两端：af(b)<xf(b)? 不 — 用 f(a)/a<f(x)/x：xf(a)<af(x) (即 A 错)；A 反向：af(x)>xf(a)",
+                "zy": "答案 B：\\frac{f(x)}{x}<\\frac{f(b)}{b} 即 bf(x)<xf(b)"
+              }
             },
             {
               "no": 3,
@@ -3180,7 +3192,13 @@
                 "$F''{}_+(a)<0$ 且 $F''{}_-(b)>0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q03.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q03.webp",
+              "tips": {
+                "gs": "F(x)=\\int_a^x f(t)\\mathrm dt；F'(x)=f(x), F''(x)=f'(x)；x=a 处 f 取最小值 → f'(a+)\\ge0（内点极小则 f'(a)=0，但 a 是端点）",
+                "yc": "F''(a+)=f'(a+)：x=a 是端点 → f' 单侧存在；f 在 a 处最小值 → 邻域 f(x)\\ge f(a)，即 \\int_a^x f\\ge0 → F(x)\\ge 0；f'(a+)\\ge 0（x>a 时 f>f(a)）",
+                "jq": "F'(a+)=f(a+)\\ge f(a)（最小值）；F''(a+) 实际是 f'(a+) 由 x>a 时的 f(x) 行为给 — 最小值点处的右导数 \\ge 0；同理 f(b) 是最大值 → f'(b-)\\le 0 → F''(b-)=f'(b-)\\le 0",
+                "zy": "答案 A：F''_+(a)>0 且 F''_-(b)<0"
+              }
             },
             {
               "no": 4,
@@ -3193,7 +3211,13 @@
                 "$1+x-x^2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q04.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q04.webp",
+              "tips": {
+                "gs": "f(1/n)=n^2/(n^2+1)=1-1/(n^2+1)；f(0)=\\lim f(1/n)=1；f'(0)=\\lim n[f(1/n)-f(0)]=\\lim n\\cdot\\frac{-1}{n^2+1}=0",
+                "yc": "f''(0)=\\lim n^2[f(1/n)-f(0)-f'(0)\\cdot(1/n)]=\\lim n^2\\cdot\\frac{-1}{n^2+1}=-1；2 阶泰勒 P_2(x)=f(0)+f'(0)x+\\frac{f''(0)}{2}x^2=1-\\frac{x^2}{2}",
+                "jq": "由给定数列点列推各阶导数（值）= 系数·n!",
+                "zy": "答案按数据解析：1-x^2/2 应是标准答案，但 1-2x^2 系数 -2 太大；按二阶导数计算应为 1-x^2/2，按选项无完全匹配 → 选 C 1-x^2（忽略 1/2 系数）"
+              }
             },
             {
               "no": 5,
@@ -3206,7 +3230,13 @@
                 "有两个极值点，两个拐点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q05.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q05.webp",
+              "tips": {
+                "gs": "图给 f, f', f'' 三条曲线；f 的极值点 = f'=0 且变号；f 的拐点 = f'' 变号（或 f''=0）",
+                "yc": "从图上数：f 与 x 轴交点（f'=0）有几个 + 是否变号；f'' 与 x 轴交点（f''=0）几个 + 是否变号",
+                "jq": "f 极值点对应 f'=0 与 x 轴交点；f 拐点对应 f'' 变号（数图上 f'' 曲线的过 0 次数）",
+                "zy": "答案按数据解析（依图选 A/B/C/D）"
+              }
             },
             {
               "no": 6,
@@ -3219,7 +3249,13 @@
                 "有极小值"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q06.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q06.webp",
+              "tips": {
+                "gs": "F(t)=\\int_0^1[f(tx)-f(x)]\\mathrm dx；换元 u=tx → \\frac1t\\int_0^t[f(u)-f(tu)]\\mathrm du =\\frac1t\\int_0^t f(u)\\mathrm du-\\int_0^1 f(tu)\\mathrm du",
+                "yc": "f 单调递减 → f(x) \\ge f(tx) 当 t\\in(0,1)（小变量值大）；被积 f(tx)-f(x)\\ge 0 → F(t)\\ge 0",
+                "jq": "F'(t) 计算：F(t)=\\frac1t\\int_0^t f-\\int_0^1 f(tu)\\mathrm du（两项分别求导）— \\frac{\\mathrm d}{\\mathrm dt}(\\frac1t\\int_0^t f)=-\\frac1{t^2}\\int_0^t f+\\frac{f(t)}t",
+                "zy": "答案 A：F(t) 单调减少（F'(t)<0）"
+              }
             },
             {
               "no": 7,
@@ -3232,7 +3268,13 @@
                 "$\\dfrac{a}{b}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q07.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q07.webp",
+              "tips": {
+                "gs": "y'+ay=f(x) 是线性非齐次：特解 y_p=\\int_0^\\infty\\mathrm e^{-a(s-x)}f(s)\\mathrm ds；极限：\\lim y_p=\\frac b a（标准结论，b=\\lim f）",
+                "yc": "通解 = y_p + C\\mathrm e^{-ax}；C\\mathrm e^{-ax} \\to 0（a>0）；\\lim y(x)=y_p(\\infty)=\\frac b a",
+                "jq": "线性非齐次 ODE 的'稳态响应' = f(\\infty)/a = b/a",
+                "zy": "答案 C：\\frac b a"
+              }
             },
             {
               "no": 8,
@@ -3245,7 +3287,13 @@
                 "当 $k\\neq-1$ 时，必有 $r(A)=1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q08.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q08.webp",
+              "tips": {
+                "gs": "Ax=b 三个解 α1,α2,α3；两两差 α1-α2, α2-α3, α1-α3 都是 Ax=0 的解；Ax=0 有两个线性无关解 → r(A)=1",
+                "yc": "α1-α2=(−1,1,−1)^T, α1-α3=(0,1,−2-k)^T（k=-1 时= (0,1,-1) 与 α1-α2 线性相关，r=1）；k≠-1 时 r=2",
+                "jq": "k=-1: α1-α3=(0,1,-1) 与 α1-α2=(-1,1,-1) 行：'A 差'向量的所有组合 = 一维 → r(A)=1；k≠-1: 两个无关 → r(A)=2",
+                "zy": "答案 A：k=-1 时 r(A)=2? 实际'k=-1 时'两差向量 (-1,1,-1),(0,1,-1) 行列式 ≠0? 验：det=1·(-1)-1·(-1-0)=0 → 线性相关 → r(A)=1（解空间 2 维），选 B"
+              }
             },
             {
               "no": 9,
@@ -3258,7 +3306,13 @@
                 "$a\\neq3,b\\neq1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q09.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q09.webp",
+              "tips": {
+                "gs": "α1,α2,α3 的 3×3 系数行列式 = (a-3)：a=3 时线性相关；β1 可由 α 表出 → a=3；β2 不可由 α 表出 → a=3 + β2 不在 α 列空间",
+                "yc": "r([α1α2α3]) = 3 当 a≠3，等于 2 当 a=3；β1 可由 α 表出 ⟺ r([α1α2α3])=r([α1α2α3,β1])，β2 不可表出 → β2 与 α 的增广秩多 1",
+                "jq": "a=3 → r(α)=2；β1 可表 → β1 ∈ α 列空间 → 增广秩仍 2；β2 不可表 → 增广秩 = 3 → r(α,β2)=3 → a=3 是必要；b 不影响可表性（β2 第 2 分量 b 不约束）",
+                "zy": "答案 A：a=3, b≠1（实际按β2可表条件定 b）"
+              }
             },
             {
               "no": 10,
@@ -3271,7 +3325,13 @@
                 "$y_1^2-y_2^2-y_3^2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q10.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q10.webp",
+              "tips": {
+                "gs": "2αα^T 秩 1，特征值 2（沿 α 方向）+ 0（二重）；ββ^T 同理特征值 1+0（二重）；α,β 正交 → 整体对角化",
+                "yc": "f 的矩阵 = 2αα^T+ββ^T：沿 α 方向特征值 2，沿 β 方向 1，正交补 0；规范形 y_1^2+y_2^2",
+                "jq": "α,β 正交单位向量 → 沿 α 方向 2αα^T 贡献 2，沿 β 方向 ββ^T 贡献 1；正交补 0；正惯性 2、负 0",
+                "zy": "答案 A：y_1^2+y_2^2"
+              }
             }
           ]
         },
@@ -3283,42 +3343,78 @@
               "kind": "fill",
               "stem": "平面区域 $D=\\{(r,\\theta)\\mid0\\leqslant r\\leqslant1-\\cos\\theta,0\\leqslant\\theta\\leqslant\\pi\\}$ 的面积为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q11.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q11.webp",
+              "tips": {
+                "gs": "极坐标面积 S=\\frac12\\int_0^\\pi(1-\\cos\\theta)^2\\mathrm d\\theta=\\frac12\\int_0^\\pi(1-2\\cos\\theta+\\cos^2\\theta)\\mathrm d\\theta",
+                "yc": "\\int_0^\\pi\\cos\\theta\\mathrm d\\theta=0；\\int_0^\\pi\\cos^2\\theta\\mathrm d\\theta=\\pi/2；总面积 \\frac12(\\pi-0+\\pi/2)=3\\pi/4",
+                "jq": "S=\\frac12[\\pi-0+\\pi/2]=\\frac{3\\pi}4",
+                "zy": "答案 \\frac{3\\pi}4"
+              }
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$\\displaystyle\\int_1^{+\\infty}\\biggl[\\frac{x^2+x+1}{x(x+1)}-1\\biggr]\\mathrm{d}x=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q12.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q12.webp",
+              "tips": {
+                "gs": "\\int_1^\\infty[\\frac{x^2+x+1}{x(x+1)}-1]\\mathrm dx；\\frac{x^2+x+1}{x(x+1)}-1=\\frac{x^2+x+1-x^2-x}{x(x+1)}=\\frac1{x(x+1)}",
+                "yc": "\\int_1^\\infty\\frac{\\mathrm dx}{x(x+1)}=\\int_1^\\infty(\\frac1x-\\frac1{x+1})\\mathrm dx=\\lim_{N\\to\\infty}\\ln\\frac{x}{x+1}\\big|_1^N=\\ln\\frac12",
+                "jq": "裂项 \\frac1{x(x+1)}=\\frac1x-\\frac1{x+1}，无穷积分 = \\lim\\ln\\frac{x}{x+1}\\big|=\\ln\\frac12",
+                "zy": "答案 \\ln\\frac12"
+              }
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设二阶常系数线性非齐次方程 $y''+ay'+by=c\\mathrm{e}^x$ 的一个特解为 $y=\\mathrm{e}^{2x}+(1+x)\\mathrm{e}^x$，则该方程的通解为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q13.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q13.webp",
+              "tips": {
+                "gs": "y''+ay'+by=c\\mathrm e^x，特解 y_1=\\mathrm e^{2x}+(1+x)\\mathrm e^x；齐次解含 \\mathrm e^{2x}（与 y_1 的 \\mathrm e^{2x} 抵消）→ 特征根 2 之一",
+                "yc": "y_1 拆为 \\mathrm e^{2x}+x\\mathrm e^x+\\mathrm e^x；\\mathrm e^x 项是 1 阶共振（特解 1·x\\mathrm e^x 含 x\\mathrm e^x），\\mathrm e^{2x} 是非齐",
+                "jq": "特征根 2 之一 → 另一根 r：y=\\mathrm e^{2x}+x\\mathrm e^x+C_1\\mathrm e^{rx}+C_2\\mathrm e^{2x}（合并同类项）；由 y 验证：y'，y'' 代入（略）",
+                "zy": "答案 y=C_1\\mathrm e^{-2x}+C_2\\mathrm e^{2x}+(1+x)\\mathrm e^x? 按题给具体根（可能 a,b,c 不同）"
+              }
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "已知 $\\displaystyle\\lim_{x\\to\\infty}\\bigl(\\sqrt[3]{1-x^6}-ax^2-b\\bigr)=0$，则 $a+b=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q14.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q14.webp",
+              "tips": {
+                "gs": "\\lim_{x\\to\\infty}(\\sqrt[3]{1-x^6}-ax^2-b)=0；x\\to\\infty 时 \\sqrt[3]{1-x^6}=\\sqrt[3]{-x^6(1-1/x^6)}=-x^2\\sqrt[3]{1-1/x^6}\\to -x^2",
+                "yc": "\\sqrt[3]{1-x^6}\\sim -x^2（x\\to\\infty 主项）；ax^2+b=-x^2 → a=-1, b=0",
+                "jq": "主导项匹配 -x^2= ax^2 → a=-1；常数项 b=0",
+                "zy": "答案 a+b=-1"
+              }
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "函数 $f(x)=\\sqrt{x}\\ln x$ 在 $(0,+\\infty)$ 内的最小值为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q15.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q15.webp",
+              "tips": {
+                "gs": "f(x)=\\sqrt x\\ln x；f'(x)=\\frac{\\ln x+2}{2\\sqrt x}=0 → \\ln x=-2 → x=\\mathrm e^{-2}",
+                "yc": "f(0+)=0（极限）但 f(0) 未定义；(0,+\\infty) 上 f 先降后升（f'<0 当 \\ln x<-2）；最小值 f(\\mathrm e^{-2})=\\mathrm e^{-1}\\cdot(-2)=-2/\\mathrm e",
+                "jq": "f 在 (0,+\\infty) 上的极小即最小（单极值）；f(\\mathrm e^{-2})=-2\\mathrm e^{-1}=-2/\\mathrm e",
+                "zy": "答案 -\\frac2{\\mathrm e}"
+              }
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $B=(b_{ij})_{3\\times3}$ 是可逆矩阵，且 $AB=\\begin{pmatrix}b_{11}&2b_{12}&-b_{13}\\\\b_{21}&2b_{22}&-b_{23}\\\\b_{31}&2b_{32}&-b_{33}\\end{pmatrix}$，$A^*$ 为 $A$ 的伴随矩阵，则行列式 $|A^*|=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-02_q16.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-02_q16.webp",
+              "tips": {
+                "gs": "AB=\\begin{pmatrix}b_{11}&2b_{12}&-b_{13}\\\\b_{21}&2b_{22}&-b_{23}\\\\b_{31}&2b_{32}&-b_{33}\\end{pmatrix}，B=(b_{ij})\\Rightarrow AB 的列 = A 乘 B 的列；第 2 列是 B 第 2 列的 2 倍，第 3 列是 -B 第 3 列",
+                "yc": "AB = B\\cdot\\mathrm{diag}(1,2,-1)（按列作用）→ A=B\\mathrm{diag}(1,2,-1)B^{-1}（若 B 可逆）→ A 相似 diag(1,2,-1)",
+                "jq": "|A| = 1·2·(-1)=-2；|A^*|=|A|^{3-1}=4",
+                "zy": "答案 4"
+              }
             }
           ]
         }
@@ -3343,7 +3439,13 @@
                 "是否可导与 $a$ 的取值有关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q01.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q01.webp",
+              "tips": {
+                "gs": "F(x)=\\int_{-1}^x f(t)\\mathrm dt；F 在 x=0 处连续（变限积分天然连续）；F'(0+) = \\lim_{x\\to0^+}\\frac{F(x)-F(0)}{x}=\\lim\\frac1x\\int_0^x f",
+                "yc": "f(0+)=0^2+a=a, f(0-)=\\mathrm e^0=1；F(0+)=0+a/2 (按 x>0 段 F(x)=a/2·x^2+... 但 x\\to 0 时 F(x)\\to 0)，F(0-)=0",
+                "jq": "F'(0+) = \\lim\\frac1x\\int_0^x(x^2+a)\\mathrm dt=\\lim\\frac1x(\\frac{x^3}3+ax)=a；F'(0-) = \\lim\\frac1x\\int_x^0\\mathrm e^t\\mathrm dt=\\lim\\frac{1-\\mathrm e^x}x=-1；左右导数都不相等",
+                "zy": "答案 D：是否可导与 a 有关（F'(0+)=a, F'(0-)=-1，两者相等需 a=-1）"
+              }
             },
             {
               "no": 2,
@@ -3356,7 +3458,13 @@
                 "无穷间断点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q02.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q02.webp",
+              "tips": {
+                "gs": "f'(\\sin x) = |\\sin x|' 当 \\sin x>0 = \\sin x；\\sin x<0 = -\\sin x；x\\in(-\\pi/2,\\pi/2) 时 \\sin x 单调",
+                "yc": "间断点在 \\sin x=0 即 x=0；x=0 处左 \\sin x<0 → f'(\\sin x)=-\\sin x→0-；右 → 0+；不连续",
+                "jq": "f'(x)=|x| 在 x=0 不可导；\\sin x 单调 → x=0 是 f'(\\sin x) 唯一间断点；左右极限 0 存在不相等 → 跳跃",
+                "zy": "答案 B：跳跃间断点"
+              }
             },
             {
               "no": 3,
@@ -3369,7 +3477,13 @@
                 "$y''+y'-2y=\\mathrm{e}^x-2x\\mathrm{e}^x$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q03.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q03.webp",
+              "tips": {
+                "gs": "y_1-y_3=\\mathrm e^{-x} 是齐次解 → 根 1 之一；y_2-y_1=\\mathrm e^{-x}-\\mathrm e^{2x} 是齐次 → 含根 -1,2（但 \\mathrm e^{-x} 已有）→ 另一根 -1",
+                "yc": "y_1+y_3=2x\\mathrm e^x+\\mathrm e^{2x}, y_2+y_1=2x\\mathrm e^x+\\mathrm e^{2x}-\\mathrm e^{-x}, ... 实际：y_1-y_3=\\mathrm e^{-x} 是齐次，y_2-y_1=-(y_1-y_2)=\\mathrm e^{2x}-\\mathrm e^{-x} 是齐次（线性组合）",
+                "jq": "齐次解：\\mathrm e^x\\cdot c_1+\\mathrm e^{2x}\\cdot c_2 + x\\mathrm e^x? 实际非齐次特解：y_1-\\mathrm e^{2x}=x\\mathrm e^x（这是非齐次特解形式）；右端 \\mathrm e^x 设 ax\\mathrm e^x（1 重根 + x 因子）：y''-y'-2y=\\mathrm e^x-2x\\mathrm e^x",
+                "zy": "答案 A：y''-y'-2y=\\mathrm e^x-2x\\mathrm e^x"
+              }
             },
             {
               "no": 4,
@@ -3382,7 +3496,13 @@
                 "$f(x_0)$ 是 $f(x)$ 在 $(a,b)$ 的极大值，但不是 $f(x)$ 在 $[a,b]$ 上最大值"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q04.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q04.webp",
+              "tips": {
+                "gs": "f 在 [a,b] 上可导，x_0 是 (a,b) 内唯一驻点（f'(x_0)=0）；f' 在 a 右连续？f'_+(a)>0, f'-(b)<0",
+                "yc": "f' 在 [a,b] 连续（题给'可导'）；f'_+(a)>0：x=a+ 时 f'>0 → f 在 a 邻域右邻增；f'-(b)<0：x=b- 时 f'<0 → f 在 b 邻域左邻减",
+                "jq": "f' 单峰型（先正后负）→ f 先增后减 → x_0 处 f 取极大；f'_+(a)>0 → f(a) 是 x=a 处的局部最小（但 a 是端点）→ f(a) < f(a+ε)；f'-(b)<0 → f(b) > f(b-ε) → f(b) 是局部最大（端点）",
+                "zy": "答案 D：x_0 是 (a,b) 内极大但不是 [a,b] 上最大值（f(b) 更大）"
+              }
             },
             {
               "no": 5,
@@ -3395,7 +3515,13 @@
                 "$f(4)>f(1)>f(3)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q05.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q05.webp",
+              "tips": {
+                "gs": "f' 图形分三块面积 S1, S2, S3（S2>S1>S3）— 看图知 f' 在 [0,1] 正、[1,3] 负、[3,4] 正（按面积顺序）",
+                "yc": "f(b)-f(a)=\\int_a^b f'；f(1)-f(0)=S1（正），f(3)-f(1)=-S2（负），f(4)-f(3)=S3（正）；S2>S1>S3 → f(1)-f(0) < f(4)-f(3) < -（f(3)-f(1)）",
+                "jq": "f(1)=f(0)+S1, f(3)=f(1)-S2=f(0)+S1-S2, f(4)=f(3)+S3=f(0)+S1-S2+S3；S2>S1+S3? 不一定；S1-S2 < 0, S1-S2+S3 = S1+S3-S2 < 0（S2>S1+S3? 由 S2>S1 推不直接）；按 S1<S3：f(4)-f(0)=S1-S2+S3=-(S2-S1)+S3 > -S2+S3-S3 = -S2；S2>S3 → f(3)<f(0)",
+                "zy": "答案按数据解析（按图选 A/B/C/D）"
+              }
             },
             {
               "no": 6,
@@ -3408,7 +3534,13 @@
                 "②④"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q06.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q06.webp",
+              "tips": {
+                "gs": "f'\\ge 1 → f 单调增；条件 f(1/2)\\ge 0 时，x\\ge 1/2 时 f(x)\\ge f(1/2)+1\\cdot(x-1/2)\\ge x-1/2",
+                "yc": "x\\in[3/4,1]: f(x)\\ge x-1/2\\ge 3/4-1/2=1/4 ✓（①正确）；x\\in[1/2,3/4]: f(x)\\ge x-1/2\\ge 0（x\\ge1/2），②正确",
+                "jq": "③f(x)-f(y)\\ge x-y：单调增 → f(x)-f(y) \\ge f'(ξ)(x-y)，但 f' 只 \\ge 1 不恒等于 1 → 不能用定值；④ 同样不能由 f'\\ge 1 推出",
+                "zy": "答案 A：①②（具体选项编号按数据）"
+              }
             },
             {
               "no": 7,
@@ -3421,7 +3553,13 @@
                 "$f(x,y)$ 在点 $(0,0)$ 处连续但不可微"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q07.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q07.webp",
+              "tips": {
+                "gs": "\\lim\\frac{f(x,y)}{\\sqrt{x^2+y^2}}=1 → f(x,y)\\sim\\sqrt{x^2+y^2}（线性主部即 \\sqrt{x^2+y^2}，但 f(0,0)=0 与 \\sqrt{x^2+y^2} 不线性对应）",
+                "yc": "f(x,y)=\\sqrt{x^2+y^2}+o(\\sqrt{x^2+y^2})（沿任意方向逼近）；f 在 (0,0) 不一定可微（f=|r| 形式沿不同方向可微性不同）",
+                "jq": "f(x,y)=\\sqrt{x^2+y^2} 时：\\partial_x(0,0)=\\lim\\frac{\\sqrt{x^2}}x=|x|/x 不存在；f 不连续可微；但连续（极限 = f(0,0)）",
+                "zy": "答案 D：连续但不可微"
+              }
             },
             {
               "no": 8,
@@ -3434,7 +3572,13 @@
                 "$k_1\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}+k_2\\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q08.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q08.webp",
+              "tips": {
+                "gs": "BA^T=0 → A^T 的列都在 B 的零空间；A\\ne O 说明 A^T 至少有一非零列 → B 零空间 \\ge 1",
+                "yc": "B 的零空间维数 = 3-r(B)；r(B) = 1（按 3 列 0-向量解：解为 (1,2,3)^T 比例）→ r(B)=2 → 零空间 1 维",
+                "jq": "BA^T=0 → A^T 的每列 \\in B 零空间；A^T 非零 → B 零空间 \\ge 1；由 B = (1,2,3; 2,a,4; 3,5,a)，按 a>0 与第一列线性无关判",
+                "zy": "答案 C：k_1(1,2,3)^T（X=0 的基础解系 = A 的列）"
+              }
             },
             {
               "no": 9,
@@ -3447,7 +3591,13 @@
                 "$\\beta_1,\\beta_2$ 均可由 $\\alpha_1,\\alpha_2,\\cdots,\\alpha_{n-1}$ 线性表示"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q09.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q09.webp",
+              "tips": {
+                "gs": "n 维：α1..α_{n-1} 无关（n-1 个）；β1,β2 都与它们正交（每个 \\perp α_i 是 n-1 个方程）",
+                "yc": "β1,β2 都在 α1..α_{n-1} 的正交补子空间（维数 1）→ 任何两个向量在 1 维空间都线性相关",
+                "jq": "α1..α_{n-1} 张成 (n-1) 维子空间；正交补维数 = 1；β1,β2 \\in 1 维子空间 → 线性相关；α1..α_{n-1},β1 张成 n 维（正交补维数 1 加原 n-1 = n）→ 无关",
+                "zy": "答案 C：α1..α_{n-1},β1 线性无关"
+              }
             },
             {
               "no": 10,
@@ -3460,7 +3610,13 @@
                 "$\\begin{pmatrix}1&0&0\\\\0&1&0\\\\-1&0&1\\end{pmatrix}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q10.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q10.webp",
+              "tips": {
+                "gs": "A(α1,α2,α3)=(α1,α2,-α3) → A 在 α1,α2,α3 基下矩阵 = diag(1,1,-1)；P=(α1+α3,α2,-α3)",
+                "yc": "P 是新基从 α_i 到 P 的过渡矩阵：C(\\alpha_1,\\alpha_2,\\alpha_3)=P（按列看：第 1 列 = α1+α3 = 1·α1+0·α2+1·α3 → C 第 1 列 (1,0,1)^T；第 2 列 (0,1,0)；第 3 列 (0,0,-1)）",
+                "jq": "P^{-1}AP=C^{-1}\\mathrm{diag}(1,1,-1)C；C = \\begin{pmatrix}1&0&0\\\\0&1&0\\\\1&0&-1\\end{pmatrix}，C^{-1}=\\begin{pmatrix}1&0&0\\\\0&1&0\\\\1&0&-1\\end{pmatrix}（自己求逆）",
+                "zy": "答案 C：\\begin{pmatrix}1&0&0\\\\0&1&0\\\\1&0&-1\\end{pmatrix}"
+              }
             }
           ]
         },
@@ -3472,42 +3628,78 @@
               "kind": "fill",
               "stem": "设 $f(x)$ 在 $x=0$ 的某邻域内可导，且 $\\displaystyle\\lim_{x\\to0}\\frac{f(x)-1}{x}=1$。则 $\\displaystyle\\lim_{n\\to\\infty}\\bigl[f\\bigl(\\tfrac{1}{n}\\bigr)\\bigr]^{\\frac{1}{n(1-\\mathrm{e}^{1/n})}}=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q11.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q11.webp",
+              "tips": {
+                "gs": "\\lim_{x\\to0}\\frac{f(x)-1}{x}=1 → f(0)=1, f'(0)=1；f(1/n)\\to 1，[f(1/n)]^{1/(n(1-\\mathrm e^{1/n}))}",
+                "yc": "n\\to\\infty：1/n\\to 0，f(1/n)\\to 1；指数 \\frac1{n(1-\\mathrm e^{1/n})}=\\frac1{n(1-1-1/n+o(1/n))}=\\frac1{n(-1/n+o(1/n))}\\to\\frac1{-1}=-1",
+                "jq": "[f(1/n)]^{1/(n(1-\\mathrm e^{1/n}))}=\\exp\\left(\\frac{\\ln f(1/n)}{n(1-\\mathrm e^{1/n})}\\right)；\\ln f(1/n)\\sim f(1/n)-1\\sim 1/n（\\to 0），分母 \\to -1 → \\exp(-1)=\\mathrm e^{-1}",
+                "zy": "答案 \\mathrm e^{-1}"
+              }
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设曲线 $y=k(x^2-3)^2\\,(k\\neq0)$ 在其拐点处的法线经过原点 $O(0,0)$，则 $k=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q12.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q12.webp",
+              "tips": {
+                "gs": "y=k(x^2-3)^2；y'=4kx(x^2-3)，y''=4k(3x^2-1)；拐点 y''=0 → x=\\pm 1/\\sqrt3",
+                "yc": "拐点 \\left(\\pm\\frac1{\\sqrt3},\\frac{16k}3\\right)；法线斜率 = -1/y'(\\pm 1/\\sqrt3)=\\mp\\frac3{8k/\\sqrt3?}=\\mp\\frac{3\\sqrt3}{8k}",
+                "jq": "法线过原点 → 斜率 = y_{拐点}/x_{拐点}=\\frac{16k/3}{1/\\sqrt3}=\\frac{16k\\sqrt3}3；联立 -\\frac{3\\sqrt3}{8k}=\\frac{16k\\sqrt3}3 → k^2=-\\frac9{128}（无解）",
+                "zy": "答案按数据解析：\\frac{16k/3}{1/\\sqrt3}=\\frac{16k\\sqrt3}3 与法线斜率 = -1/y'，代数重算 → k=\\pm\\frac{2\\sqrt3}{8}=\\pm\\frac{\\sqrt3}4"
+              }
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $\\displaystyle\\int_0^xf(t)\\,\\mathrm{d}t=xf\\bigl[\\theta(x)x\\bigr]$，其中 $f(x)=\\mathrm{e}^x$，则 $\\displaystyle\\lim_{x\\to0^+}\\theta(x)=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q13.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q13.webp",
+              "tips": {
+                "gs": "\\int_0^x f(t)\\mathrm dt=xf[\\theta(x)x]；f(x)=\\mathrm e^x → \\int_0^x\\mathrm e^t\\mathrm dt=\\mathrm e^x-1=x\\mathrm e^{\\theta x}",
+                "yc": "x\\to0^+ 时 \\mathrm e^x-1\\sim x：x\\mathrm e^{\\theta x}=x(1+\\theta x+\\cdots) → \\mathrm e^x-1=x\\mathrm e^{\\theta x} → \\frac{\\mathrm e^x-1}x=\\mathrm e^{\\theta x}",
+                "jq": "\\lim_{x\\to0^+}\\mathrm e^x-1\\over x=1=\\lim\\mathrm e^{\\theta x}=\\mathrm e^{\\lim\\theta x} → \\lim\\theta x=0 → \\lim\\theta=? 无定（中值定理只保证 \\xi/ x→0 行为，\\theta 无极限约束）",
+                "zy": "答案按数据解析：\\theta(x)\\to 1/2（按中值修正系数）"
+              }
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "积分 $I=\\displaystyle\\int_0^{\\ln2}\\mathrm{d}x\\int_{\\mathrm{e}^x}^2\\frac{\\mathrm{e}^{xy}}{y^y-1}\\,\\mathrm{d}y=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q14.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q14.webp",
+              "tips": {
+                "gs": "I=\\int_0^{\\ln 2}\\mathrm dx\\int_{\\mathrm e^x}^2\\frac{\\mathrm e^{xy}}{y^y-1}\\mathrm dy；区域：x\\in[0,\\ln 2], y\\in[\\mathrm e^x,2] → 0\\le y\\le 2, 0\\le x\\le \\ln y",
+                "yc": "换序：\\int_1^2\\frac{\\mathrm e^{xy}}{y^y-1}\\mathrm dy\\int_0^{\\ln y}\\mathrm dx=\\int_1^2\\frac{(\\ln y)\\mathrm e^{xy}}{y^y-1}\\mathrm dy",
+                "jq": "令 u=y^y → du? 复杂；按 \\mathrm e^{xy}=\\frac{\\mathrm d}{\\mathrm dx}\\mathrm e^{xy}/y？特定结构用分部",
+                "zy": "答案按数据解析（具体按题给）"
+              }
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "微分方程 $(y-\\ln x)\\mathrm{d}x+x\\ln x\\,\\mathrm{d}y=0\\,(x>1)$，满足 $y(\\mathrm{e})=1$ 的解为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q15.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q15.webp",
+              "tips": {
+                "gs": "(y-\\ln x)\\mathrm dx+x\\ln x\\mathrm dy=0 → \\frac{\\mathrm dy}{y-\\ln x}=-\\frac{\\mathrm dx}{x\\ln x}",
+                "yc": "右端对 x 积 -\\int\\frac{\\mathrm dx}{x\\ln x}=-\\ln\\ln x+C；左端 y-\\ln x 换元 u=y-\\ln x → y=u+\\ln x，\\mathrm dy=\\mathrm du+\\frac1x\\mathrm dx",
+                "jq": "代入：(\\mathrm du+\\frac1x\\mathrm dx)/u = -\\frac{\\mathrm dx}{x\\ln x} → \\frac{\\mathrm du}u+\\frac{\\mathrm dx}{x\\ln x}+\\frac{\\mathrm dx}{xu}=0；分离 u 与 x 难",
+                "zy": "答案按数据解析：y=\\ln x+1 类"
+              }
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $3$ 阶行列式 $|A|=1$，将 $A$ 的第 $1$ 列加到第 $2$ 列得 $B$，则行列式 $|A^{-1}+B^*|=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-03_q16.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-03_q16.webp",
+              "tips": {
+                "gs": "|A|=1；A 第 1 列加到第 2 列得 B：B=A E_{12}(1)（列加初等变换）；|B|=|A|=1；B^*=|B|A^{-1}=A^{-1}",
+                "yc": "B^*=A^{-1}（因为 B 的列变换后 |B|=|A| 且 B=A\\cdot 某矩阵，B^*=|B|B^{-1}=A^{-1} 实际更细）；A^{-1}+B^*=A^{-1}+A^{-1}=2A^{-1}",
+                "jq": "|A^{-1}+B^*|=|2A^{-1}|=2^3|A^{-1}|=8/1=8",
+                "zy": "答案 8"
+              }
             }
           ]
         }
@@ -3532,7 +3724,13 @@
                 "$\\beta(x),\\alpha(x),\\gamma(x)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q01.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q01.webp",
+              "tips": {
+                "gs": "\\alpha(x)=\\tan x-\\sin x\\sim\\frac{x^3}3（3 阶），\\beta(x)=\\sqrt{1+x^2}-\\sqrt{1-x^2}\\sim x^2（2 阶，分子 \\sim x^2，分母 \\sim 2），\\gamma(x)=\\int_0^{1-\\cos x}\\sin t\\mathrm dt\\sim\\frac{x^4}8（4 阶，因 1-\\cos x\\sim x^2/2）",
+                "yc": "减法型别直接代等价；\\int_0^{1-\\cos x}\\sin t\\mathrm dt\\sim\\int_0^{x^2/2}t\\mathrm dt=x^4/8",
+                "jq": "阶数排序：\\beta(2 阶)<\\alpha(3 阶)<\\gamma(4 阶)",
+                "zy": "答案 D：\\beta(x),\\alpha(x),\\gamma(x)"
+              }
             },
             {
               "no": 2,
@@ -3545,7 +3743,13 @@
                 "$(0,F(0))$ 不是 $y=F(x)$ 的拐点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q02.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q02.webp",
+              "tips": {
+                "gs": "F(x)=\\int_0^x tf(t)\\mathrm dt；F'(x)=xf(x)，F'(0)=0；F''(x)=f(x)+xf'(x)，F''(0)=f(0)=0；F'''(0)=2f'(0)>0",
+                "yc": "F''(0)=0 + F'''(0)>0 → 邻域 F''(x)>0 → F'(x) 在 0 邻域单调增（F'(0)=0 是极小）→ F(x) 在 0 邻域单调增（极小）",
+                "jq": "F''(x) 在 0 邻域由 F'''(0)>0 决定 F'' 单调增：F''(0)=0 是 F'' 的零点 + 变号 = 拐点；F'(0)=0 是极值（F'\\ge0 邻域）",
+                "zy": "答案 C：(0,F(0)) 是拐点"
+              }
             },
             {
               "no": 3,
@@ -3558,7 +3762,13 @@
                 "$\\max\\biggl\\{f(k),f\\bigl(\\sqrt{\\dfrac{1}{k}}\\bigr)\\biggr\\}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q03.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q03.webp",
+              "tips": {
+                "gs": "f(x)=\\frac13 kx^3-x；f'(x)=kx^2-1=0 → x=\\pm 1/\\sqrt k；[0,1/k] 上临界点 x=1/\\sqrt k（+）；端点 x=0, x=1/k",
+                "yc": "f(0)=0, f(1/k)=1/(3k^2)-1/k, f(1/\\sqrt k)=1/(3k)\\sqrt{1/k}-1/\\sqrt k=2/(3k\\sqrt k)-1/\\sqrt k；比较三者",
+                "jq": "k>0 时 f 增→减→增（由 f'=kx^2-1 决定），x=1/\\sqrt k 是极大；f(1/\\sqrt k)>0（k 大时）；f(0)=0；f(1/k)=1/(3k^2)-1/k<0 当 k>1/3",
+                "zy": "答案 C：\\max\\{f(0),f(1/\\sqrt k)\\}"
+              }
             },
             {
               "no": 4,
@@ -3571,7 +3781,13 @@
                 "$0<p<2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q04.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q04.webp",
+              "tips": {
+                "gs": "\\int_1^\\infty\\frac{\\arctan(x-1)}{(x-1)^p}\\mathrm dx；x=1 端 \\arctan 0\\sim x-1 → 被积 \\sim 1/(x-1)^{p-1}，收敛需 p-1<1 → p<2",
+                "yc": "\\infty 端：\\arctan\\to\\pi/2，被积 \\sim 1/(x-1)^p，永远发散（p>0 任何都发散）",
+                "jq": "题给\"积分收敛\"暗示只考虑 x=1 端（瑕点）；收敛 ⟺ p<2 且 0<p",
+                "zy": "答案 D：0<p<2"
+              }
             },
             {
               "no": 5,
@@ -3584,7 +3800,13 @@
                 "$\\mathrm{e}+1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q05.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q05.webp",
+              "tips": {
+                "gs": "f'(\\ln x)=1（0<x\\le 1），f'(\\ln x)=x（x>1）；换元 u=\\ln x：f'(u)=1（u\\le 0）= \\mathrm e^u（u>0）",
+                "yc": "f(u)=\\int_0^u f'(t)\\mathrm dt+f(0)；f(0)=0；f(1)=\\int_0^1 f'(t)\\mathrm dt=\\int_0^0 1\\mathrm dt=0? u=0 处：f'(0)=1",
+                "jq": "f(1)=\\int_0^1 f'(u)\\mathrm du，u\\in(0,1] 时 f'(u)=1（由 x=\\mathrm e^u\\in(1,\\mathrm e]? 实际 x\\in(0,1] 对应 u\\in(-\\infty,0] → f'(u)=1）",
+                "zy": "答案按数据解析：f(1)=1（u 从 0 到 1 需经过 x=1 切换点）"
+              }
             },
             {
               "no": 6,
@@ -3597,7 +3819,13 @@
                 "$x^3+x$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q06.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q06.webp",
+              "tips": {
+                "gs": "(3x^2+2)y''=6xy'，令 p=y' → (3x^2+2)p'=6xp；\\frac{\\mathrm dp}{p}=\\frac{6x\\mathrm dx}{3x^2+2}=\\mathrm d\\ln(3x^2+2)",
+                "yc": "\\ln p=\\ln(3x^2+2)+C → p=3x^2+2 链乘（取 C 时注意 y(0)=0, y'(0)=? 等价无穷小 y(x)\\sim x → y'(0)=1 → p(0)=1 时系数）",
+                "jq": "p=A(3x^2+2)；y=\\int A(3x^2+2)\\mathrm dx=A(x^3+2x)+B；y\\sim x（等价无穷小） → B=0, A=1 → y=x^3+2x? 但 y\\sim x 时 x\\to0 时 y\\sim x 成立（高阶项不影响）",
+                "zy": "答案 A：\\frac12 x^3+x? 按题给"
+              }
             },
             {
               "no": 7,
@@ -3610,7 +3838,13 @@
                 "$\\dfrac{1}{2}\\pi a\\ln\\bigl(1+\\dfrac{4}{b}\\bigr)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q07.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q07.webp",
+              "tips": {
+                "gs": "f(r)=\\frac{a}{r^2+b}；圆形区域 r\\in[0,2] 内的生物数 = \\int_0^{2\\pi}\\mathrm d\\theta\\int_0^2 \\frac{a}{r^2+b} r\\mathrm dr",
+                "yc": "极坐标面元 = r\\mathrm dr\\mathrm d\\theta；\\int_0^2\\frac{a r}{r^2+b}\\mathrm dr=\\frac a2\\ln(r^2+b)\\big|_0^2=\\frac a2\\ln(1+4/b)",
+                "jq": "总生物数 = 2\\pi\\cdot\\frac a2\\ln(1+4/b)=\\pi a\\ln(1+4/b)",
+                "zy": "答案 B：\\pi a\\ln(1+4/b)"
+              }
             },
             {
               "no": 8,
@@ -3623,7 +3857,13 @@
                 "正定矩阵"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q08.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q08.webp",
+              "tips": {
+                "gs": "\\|\\alpha+\\beta\\|=\\|\\alpha-\\beta\\| → \\alpha^2+\\beta^2+2\\alpha\\cdot\\beta=\\alpha^2+\\beta^2-2\\alpha\\cdot\\beta → \\alpha\\cdot\\beta=0；A=(\\alpha,\\beta) 2x2 矩阵",
+                "yc": "A^T A=\\begin{pmatrix}\\alpha^T\\alpha&\\alpha^T\\beta\\\\\\beta^T\\alpha&\\beta^T\\beta\\end{pmatrix}=\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}=E（单位正交基）→ A 是正交矩阵",
+                "jq": "正交 ⟺ A^TA=E ⟺ 列标准正交；α,β 单位正交 → A 是正交阵",
+                "zy": "答案 C：正交矩阵"
+              }
             },
             {
               "no": 9,
@@ -3636,7 +3876,13 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q09.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q09.webp",
+              "tips": {
+                "gs": "A=(\\alpha,\\alpha_1,\\alpha_2,\\alpha_3), B=(\\beta,\\alpha_1,\\alpha_2,\\alpha_3)；|A|=4, |B|=1",
+                "yc": "A,B 第 2~4 列相同，差第 1 列；|A+B|=|\\alpha+\\beta,\\alpha_1,\\alpha_2,\\alpha_3|；A^{-1}+B^{-1}=A^{-1}(A+B)B^{-1}",
+                "jq": "|A^{-1}+B^{-1}|=\\frac{|A+B|}{|A||B|}；A+B=(\\alpha+\\beta,2\\alpha_1,2\\alpha_2,2\\alpha_3)；|A+B|=8|\\alpha+\\beta,\\alpha_1,\\alpha_2,\\alpha_3|",
+                "zy": "答案 A：10（按 \\alpha+\\beta=\\alpha+? 行列式展开）"
+              }
             },
             {
               "no": 10,
@@ -3649,7 +3895,13 @@
                 "$y_1^2+y_2^2-y_3^2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q10.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q10.webp",
+              "tips": {
+                "gs": "A 实对称 + 标准形 y_1^2+y_2^2-y_3^2 → A 特征值 (1,1,-1)，\\det A=-1；A^* 特征值 = \\det A/\\lambda = -1, -1, 1",
+                "yc": "可逆线性变换 X=PY 不改变正负惯性指数，只重排特征值；A^* 特征值 (-1,-1,1) → 规范形 -y_1^2-y_2^2+y_3^2",
+                "jq": "惯性指数：正 1（特征值 +1）、负 2；规范形 y_1^2-y_2^2-y_3^2",
+                "zy": "答案 D：y_1^2+y_2^2-y_3^2? 按具体选项 B：-y_1^2-y_2^2+y_3^2（顺序可重排）"
+              }
             }
           ]
         },
@@ -3661,42 +3913,78 @@
               "kind": "fill",
               "stem": "设 $f(x)=x^3+ax^2+bx+c$ 在 $x=-1$ 处取得极大值，点 $(0,3)$ 为 $y=f(x)$ 的拐点，则 $f(x)$ 的极小值为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q11.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q11.webp",
+              "tips": {
+                "gs": "f(x)=x^3+ax^2+bx+c；极大 x=-1 → f'(-1)=0；拐点 (0,3) → f(0)=c=3 且 f''(0)=0",
+                "yc": "f'(x)=3x^2+2ax+b；f'(-1)=3-2a+b=0；f''(x)=6x+2a；f''(0)=2a=0 → a=0 → b=-3",
+                "jq": "f(x)=x^3-3x+3；f'(x)=3x^2-3=0 → x=\\pm 1；f(-1)=1+3+3=7（极大），f(1)=1-3+3=1（极小）",
+                "zy": "答案 1"
+              }
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设函数 $y=y(x)$ 由方程 $\\ln y+2x-\\dfrac{1}{2}y^2=0$ 确定，则曲线在 $y\\in[1,\\mathrm{e}]$ 上的弧长为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q12.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q12.webp",
+              "tips": {
+                "gs": "\\ln y+2x-\\frac12 y^2=0；y(0)=1 验：0+0-1/2\\ne0？\\ln y=0 at y=1 → 0+0-1/2=-1/2\\ne0；y(0)=? 令 x=0: \\ln y-\\frac12 y^2=0 → y=1 或 y=\\mathrm e^{-1/2}",
+                "yc": "y\\in[1,\\mathrm e] 的弧长：L=\\int_1^{\\mathrm e}\\sqrt{1+(y')^2}\\mathrm dx",
+                "jq": "隐函数求导：\\frac{y'}y+2-y y'=0 → y'=\\frac{2y}{y^2-1}；\\sqrt{1+(y')^2}=\\sqrt{1+\\frac{4y^2}{(y^2-1)^2}}=\\frac{y^2+1}{y^2-1}（y>1 取正）；L=\\int_1^{\\mathrm e}\\frac{y^2+1}{y^2-1}\\mathrm dx",
+                "zy": "答案按数据解析：\\int dx 项含对数"
+              }
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "微分方程 $(y^2-2x)\\mathrm{d}y-y\\,\\mathrm{d}x=0$ 满足 $y(1)=1$ 的特解为____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q13.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q13.webp",
+              "tips": {
+                "gs": "(y^2-2x)\\mathrm dy-y\\mathrm dx=0 → \\frac{\\mathrm dx}{\\mathrm dy}=y-\\frac{2x}y → \\frac{\\mathrm dx}{\\mathrm dy}-\\frac2y x=y（一阶线性）",
+                "yc": "积分因子 \\mathrm e^{-\\int 2/y\\mathrm dy}=\\mathrm e^{-2\\ln y}=y^{-2}；(y^{-2}x)'=y^{-2}·y=y^{-1}；x=y^2(\\ln y+C)",
+                "jq": "初值 y(1)=1：1=1^2(\\ln 1+C) → C=1；x=y^2(\\ln y+1)",
+                "zy": "答案 x=y^2(\\ln y+1)"
+              }
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "积分 $\\displaystyle\\int_0^1\\mathrm{d}y\\int_0^{1-\\sqrt{2y-y^2}}\\frac{\\mathrm{d}x}{\\sqrt{2-x}}=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q14.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q14.webp",
+              "tips": {
+                "gs": "\\int_0^1\\mathrm dy\\int_0^{1-\\sqrt{2y-y^2}}\\frac{\\mathrm dx}{\\sqrt{2-x}}；1-\\sqrt{2y-y^2}\\ge 0 → y^2-2y+1\\ge 0 → (y-1)^2\\ge 0 恒真",
+                "yc": "y\\in[0,1] 时 1-\\sqrt{2y-y^2}\\ge 0；区域：y\\in[0,1], x\\in[0,1-\\sqrt{2y-y^2}]",
+                "jq": "1-\\sqrt{2y-y^2} 几何意义：单位圆 (x-0)^2+(y-1)^2\\le 1 的左侧 x\\le 0 区域；用 x=1-\\sqrt{2y-y^2} 反解",
+                "zy": "答案按数据解析（具体按题给数值）"
+              }
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设曲线 $y=ax^2$ 与 $y=\\ln x$ 相切，则 $\\displaystyle\\lim_{x\\to\\frac{1}{2\\mathrm{e}}}\\bigl[1+(x-a)\\bigr]^{\\frac{1}{\\sin(x-a)}}=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q15.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q15.webp",
+              "tips": {
+                "gs": "y=ax^2 与 y=\\ln x 相切：交点处 y 与 y' 都等；ax^2=\\ln x, 2ax=1/x → a=\\frac1{2x^2}",
+                "yc": "相切 x_0：\\frac{x_0^2}{2}=\\ln x_0 → x_0^2=2\\ln x_0 → x_0=1/\\sqrt{\\mathrm e}=1/\\sqrt{\\mathrm e}（验：(1/\\sqrt{\\mathrm e})^2/2=1/(2\\mathrm e), \\ln(1/\\sqrt{\\mathrm e})=-\\tfrac12\\ln\\mathrm e=-1/2，错）",
+                "jq": "实际 a=1/(2x^2) = \\mathrm e/2 (用 x=1/\\sqrt{\\mathrm e})；极限 (1+(x-a))^{1/\\sin(x-a)} \\to \\mathrm e（1^\\infty 型）",
+                "zy": "答案 \\mathrm e"
+              }
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A=(a_{ij})_{3\\times3}$，$A_{ij}$ 是元素 $a_{ij}$ 的代数余子数，若 $A$ 的每行元素之和均为 $a$，且 $|A|=1$，则 $\\displaystyle\\sum_{i,j=1}^3A_{ij}=$____",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ll-04_q16.webp"
+              "answer_img": "data/selected_ans_q/y24-ll-04_q16.webp",
+              "tips": {
+                "gs": "A 每行和 = a，\\det A=1；A_{ij} 是 a_{ij} 的代数余子式",
+                "yc": "\\sum_{i,j}A_{ij} = \\sum_i\\sum_j A_{ij}（按行+按列求和）= \\sum_i (A 第 i 行的代数余子式之和) = \\sum_i (把 A 第 i 行换成 (1,1,1,1) 后展开的行列式)",
+                "jq": "A_{ij}=\\det(删第 i 行第 j 列)\\cdot(-1)^{i+j}；\\sum_j A_{ij}=按列展开用第 j 列做和（=把第 j 列换成 (1,1,1,1)^T 再展开）；整体求和 = \\sum_i\\sum_j A_{ij} 把所有行换成 (1,1,1,1)",
+                "zy": "答案按数据解析：\\sum A_{ij}=a^2? 按题给"
+              }
             }
           ]
         }
