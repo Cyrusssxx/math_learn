@@ -377,13 +377,21 @@ function applyNoteFormat(sec, cmd, val) {
     const ed = sec.querySelector('.q-note-input');
     if (!ed || ed.style.display === 'none' || !ed.isContentEditable) return;
     const sel = getSelection();
-    if (!sel.rangeCount || sel.isCollapsed || !ed.contains(sel.anchorNode)) {
+    const inEd = !!sel.rangeCount && ed.contains(sel.anchorNode);
+    // 'plain'（转普通正文）允许光标直接停在标题行内，无需先选中文字
+    if (!inEd || (sel.isCollapsed && cmd !== 'plain')) {
         noteHint(ed, '先选中要设置格式的文字'); return;
     }
     ed.focus();
     if (cmd === 'h1' || cmd === 'h2') {
-        // 标题用 formatBlock 生成 <h1>/<h2> 标签（禁用 styleWithCSS，否则退化成带样式的 <span>）
+        // 标题用 formatBlock 生成 <h1>/<h2> 标签（须显式禁用 styleWithCSS，否则退化成带样式的 <span>）
+        try { document.execCommand('styleWithCSS', false, false); } catch (e) { }
         document.execCommand('formatBlock', false, cmd === 'h1' ? 'H1' : 'H2');
+    } else if (cmd === 'plain') {
+        // 转为普通正文：先去掉 H1/H2 块级标题，再清除字色/高亮/粗斜等内联格式
+        try { document.execCommand('styleWithCSS', false, false); } catch (e) { }
+        document.execCommand('formatBlock', false, 'P');
+        document.execCommand('removeFormat');
     } else {
         try { document.execCommand('styleWithCSS', false, true); } catch (e) { }
         document.execCommand(cmd, false, val || null);
@@ -851,7 +859,7 @@ function qCard(p, sec, q, secIdx) {
         <button type="button" class="q-nt-h1" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'h1')" title="大标题">H1</button>
         <button type="button" class="q-nt-h2" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'h2')" title="中标题">H2</button>
         <span class="q-nt-sep"></span>
-        <button type="button" class="q-nt-x" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'removeFormat')" title="清除所选格式">🧹</button>
+        <button type="button" class="q-nt-x" onmousedown="event.preventDefault()" onclick="applyNoteFormat(this.closest('.q-note'),'plain')" title="转为普通正文（去掉标题/字色/高亮）">正文</button>
     </div>`;
     const editorHtml = `<div class="q-note-input" contenteditable="true" spellcheck="false" data-qid="${qid}" data-placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；选中文字可上色/高亮；用 $...$ 写公式会自动渲染）"></div>`;
     const noteHtml = hasNote
