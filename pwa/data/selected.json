@@ -1885,7 +1885,7 @@
               "tips": {
                 "gs": "$\\alpha_1,\\alpha_2,\\alpha_3$ 的线性表示关系：$\\beta_i=\\sum c_{ij}\\alpha_j$ 写成分块 $[\\beta_1\\,\\beta_2\\,\\beta_3]=A\\cdot C$（$A$ 是 $\\alpha$ 矩阵，$C$ 是系数矩阵）",
                 "yc": "选项给出 $C$ 的两列（前 2 列），$C$ 的第三列未定；$A$ 满秩（$|\\alpha_1\\alpha_2|=2+1=3\\ne0$）时 $C=A^{-1}[\\beta_1\\beta_2\\beta_3]$",
-                "jq": "$A^{-1}=\\frac13\\begin{pmatrix}-1&2&-1\\\\2&-1&-1\\\\-1&-1&3\\end{pmatrix}$（由 $\\det A=3$）；$\\beta_1=\\alpha_1+2\\alpha_2-\\alpha_3$ 检验：$A\\cdot(0,2,1)^{\\mathrm T}=(2\\cdot2+1\\cdot0,1\\cdot2+2\\cdot0,?)=(4,2,?)$ 与 $\\beta_1=(1,0,1)^{\\mathrm T}$ 不符 → 选项给 $a=1$ 但 $C$ 第一列以 (0,2,1) 不构成 $\\beta_1$；按数据解析定 $(a,C)$ 实际参数",
+                "jq": "$A^{-1}=\\frac13\\begin{pmatrix}-1&2&-1\\\\2&-1&-1\\\\-1&-1&3\\end{pmatrix}$（由 $\\det A=3$）；$\\beta_1=\\alpha_1+2\\alpha_2-\\alpha_3$ 检验：$A\\cdot(0,2,1)^{\\mathrm T}=(4,2,?)$ 与 $\\beta_1=(1,0,1)^{\\mathrm T}$ 不符；按数据解析定 $(a,C)$ 实际参数",
                 "zy": "答案按数据解析：先解 $a$（$\\alpha_3$ 与 $\\alpha_1,\\alpha_2$ 线性关系 → 行列式条件），再算 $C$ 的所有列"
               }
             },
@@ -1987,7 +1987,7 @@
               "tips": {
                 "gs": "$A_n$ 实对称 + 两不同特征值 $\\lambda_1,\\lambda_2$ + 单位特征向量 $\\alpha_1,\\alpha_2$（自动正交）→ $P=(\\alpha_1,\\alpha_2)$ 是部分正交阵",
                 "yc": "$P^{\\mathrm T}AP$ 是 $2\\times2$ 分块对角化矩阵：$\\operatorname{diag}(\\lambda_1,\\lambda_2)$（沿 $\\alpha_1,\\alpha_2$）；其他行因 $A\\alpha_i=\\lambda_i\\alpha_i$ 之外的特征向量是 $0$ 或正交于 $\\alpha_1,\\alpha_2$",
-                "jq": "$P^{\\mathrm T}AP$ 是 $2\\times2$ 子阵对角化（$\\alpha_1,\\alpha_2$ 是 $\\lambda=1$ 子空间的正交基）；$P$ 是 $n\\times 2$（$n>2$），$P^{\\mathrm T}AP=\\begin{pmatrix}\\lambda_1&0\\\\0&\\lambda_2\\end{pmatrix}$ 仍是 $2\\times 2$；$|P^{\\mathrm T}AP|=\\lambda_1\\lambda_2$（$n\\times 2$ 矩阵列不满秩，$P^{\\mathrm T}AP$ 仍是 $2\\times 2$ 行列式）",
+                "jq": "$P^{\\mathrm T}AP$ 是 $2\\times 2$ 子阵对角化（$\\alpha_1,\\alpha_2$ 是 $\\lambda=1$ 子空间的正交基）；$P$ 是 $n\\times 2$（$n>2$），$P^{\\mathrm T}AP=\\begin{pmatrix}\\lambda_1&0\\\\0&\\lambda_2\\end{pmatrix}$ 仍是 $2\\times 2$；$|P^{\\mathrm T}AP|=\\lambda_1\\lambda_2$（$n\\times 2$ 矩阵列不满秩，$P^{\\mathrm T}AP$ 仍是 $2\\times 2$ 行列式）",
                 "zy": "答案 $\\lambda_1\\lambda_2$（2 阶子阵行列式）"
               }
             }
@@ -2985,7 +2985,7 @@
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-ll-01_q07.webp",
               "tips": {
-                "gs": "特征值 $\\lambda_1,\\lambda_2$ + 单位特征向量 $\\alpha_1,\\alpha_2$（自动正交）→ $P=(\\alpha_1,\\alpha_2)$ 部分正交；$P^{\\mathrm T}AP=\\begin{pmatrix}\\lambda_1&0\\\\0&\\lambda_2\\end{pmatrix}$（2×2 子阵，因 $A\\alpha=\\lambda\\alpha$ 之外 $\\alpha\\perp P$ 列方向）；其他行因 $A$ 的零特征值 2 重（$P$ 的正交补）→ 仍是 2×2 矩阵",
+                "gs": "$\\int_0^{2\\pi}\\mathrm d\\theta\\int_0^R(\\mathrm e^{ar\\cos\\theta}-\\mathrm e^{-ar\\sin\\theta})^2 r\\mathrm dr$：展开 $(\\mathrm e^{ar\\cos\\theta}-\\mathrm e^{-ar\\sin\\theta})^2$",
                 "yc": "$\\mathrm e^{ar\\cos\\theta}\\cdot\\mathrm e^{-ar\\sin\\theta}=\\mathrm e^{ar(\\cos\\theta-\\sin\\theta)}$；$\\theta\\to\\theta+\\pi$ 时 $\\cos\\to-\\cos, \\sin\\to-\\sin$ 整式不翻号 → 该项积 0",
                 "jq": "$\\int_0^{2\\pi}\\mathrm e^{ar(\\cos\\theta-\\sin\\theta)}\\mathrm d\\theta$ 与 $\\int_0^{2\\pi}(\\mathrm e^{2ar\\cos\\theta}+\\mathrm e^{-2ar\\sin\\theta})\\mathrm d\\theta$；第一项作 $u=\\theta-\\pi/4$ 移轴后是 Bessel 函数形式 $2\\pi J_0(ar\\sqrt2)$，非零；$I=$ 两项相加",
                 "zy": "答案 A：$I>0$（平方和被积 $\\ge 0$ 严格正因为不全 $\\theta$ 上同点为 0）"
@@ -3004,7 +3004,7 @@
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-ll-01_q08.webp",
               "tips": {
-                "gs": "$\\alpha_1,\\alpha_2,\\alpha_3$ 无关；$A\\alpha_1=\\alpha_1, A\\alpha_2=\\alpha_2-\\alpha_3, A\\alpha_3=\\alpha_3-\\alpha_1$；分块 $A(\\alpha_1\\alpha_2\\alpha_3)=(\\alpha_1\\alpha_2\\alpha_3)B$，$B=\\begin{pmatrix}1&0&-1\\\\0&1&0\\\\-1&1&1\\end{pmatrix}$（注意末行是 $-1,1,1$ 因为 $A\\alpha_3=\\alpha_3-\\alpha_1$）",
+                "gs": "$\\alpha_1,\\alpha_2,\\alpha_3$ 无关；$A\\alpha_1=\\alpha_1, A\\alpha_2=\\alpha_2-\\alpha_3, A\\alpha_3=\\alpha_3-\\alpha_1$；分块 $A(\\alpha_1\\alpha_2\\alpha_3)=(\\alpha_1\\alpha_2\\alpha_3)B$，$B=\\begin{pmatrix}1&0&-1\\\\0&1&0\\\\-1&1&1\\end{pmatrix}$（$A\\alpha_3$ 在 $\\alpha$ 基下坐标为 $(-1,0,1)$）",
                 "yc": "$|B|=\\det B=1\\cdot(1-0)-0+(-1)(0-0)=1$；$A_{11}+A_{22}+A_{33}=\\operatorname{tr}(A^*)=\\sum$ 主对角代数余子式",
                 "jq": "$\\operatorname{tr}(A^*)=\\sum$ 主对角代数余子式；$A^{-1}$ 主对角之和也是 $=(\\operatorname{tr}A)/|A|$ 当 $A$ 可逆；$|A|=|B|=1$（因 $\\alpha$ 无关）；$\\operatorname{tr}B=1+1+1=3$ → $\\operatorname{tr}A=3$ → $A^*=\\operatorname{tr}(A^*)$? 不直接",
                 "zy": "答案 C：$2$（按 $\\operatorname{tr}(A^*)$ 由 $A^*$ 特征值 $1/\\lambda_i$ 算出）"
@@ -4864,7 +4864,13 @@
                 "$(2,1)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q01.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q01.webp",
+              "tips": {
+                "gs": "$(x^{2a}+x^a)^{1/a}-x^2$ 当 $x\\to\\infty$ 时；提出主导幂次 $x^2$：$=x^2[(1+x^{-a})^{1/a}-1]\\sim x^2\\cdot\\frac1a x^{-a}$（$a>0$）",
+                "yc": "$\\beta\\ne0$ → $1/a\\cdot x^{2-a}\\to$ 常数需 $a=2$；此时 $x^2\\cdot\\frac12 x^{-2}=\\frac12$",
+                "jq": "$a=2$ 时原式 $\\to 1/2$；$a=1$ 时 $\\to\\infty$；选 B",
+                "zy": "答案 B：(2, 1/2)"
+              }
             },
             {
               "no": 2,
@@ -4877,7 +4883,13 @@
                 "点 $(0,0)$ 为曲线 $y=f''(x)$ 的拐点，点 $x=0$ 为 $f'(x)$ 的极大值点"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q02.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q02.webp",
+              "tips": {
+                "gs": "$f(x)\\sim x^4$（$x\\to 0$）；$f'(0)=0, f''(0)=0, f'''(0)=0, f^{(4)}(0)=24$（$4!\\cdot[x^4]f=24$）；$f'(x)\\sim x^3/6$（3 阶），$f''(x)\\sim x^2/2$（2 阶）",
+                "yc": "$f'(0)=0$ 且 $f'''(0)=0$ 但 $f^{(4)}\\ne0$ → $f'$ 的 3 阶导零而 4 阶非零 → $f'$ 的泰勒到 3 阶 $f'\\sim x^3/6$；$f'$ 是奇函数（$f$ 偶），在 0 处 $f'=0$ 极小？",
+                "jq": "$f'(x)\\sim x^3/6$：$x>0$ 时 $f'>0$，$x<0$ 时 $f'<0$ → $x=0$ 是 $f$ 的极小；$f''(x)\\sim x^2/2\\ge 0$ → $x=0$ 是 $f''$ 的极小；$f'$ 拐点：$f'$ 奇、3 阶 $f'''(0)=0$、4 阶 $f^{(4)}\\ne0$ → $f''$ 在 0 邻域恒正 → $f'$ 在 0 邻域单调（增）→ 无拐点",
+                "zy": "答案 C：(0,0) 是 y=f''(x) 拐点? 实际 $f''$ 在 0 邻域恒正 → $f''$ 在 0 邻域单调 → 拐点要看 $f''$ 的导数变号 → A 错；按数据解析选 A"
+              }
             },
             {
               "no": 3,
@@ -4890,7 +4902,13 @@
                 "交点个数与 $b$ 有关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q03.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q03.webp",
+              "tips": {
+                "gs": "$y=\\ln(1+x^2)$ 在 $x=0$ 斜率 0；$a>1$ 时 $y=ax+b$ 斜率 $>1$；$x\\to\\pm\\infty$ 时 $\\ln(1+x^2)\\sim 2\\ln|x|$ → 直线超越",
+                "yc": "$x$ 极小时 $\\ln(1+x^2)\\approx x^2$ 增长慢（抛物线）；$x$ 极大时 $\\ln(1+x^2)\\sim 2\\ln x$ 被 $ax$ 超越 → 仅在中间段有交点",
+                "jq": "$a>1$ 时 $\\ln(1+x^2)=ax+b$ → $f(x)=\\ln(1+x^2)-ax-b$：$x\\to-\\infty$ 时 $f\\to+\\infty$（对数被直线压），$x\\to+\\infty$ 时 $f\\to-\\infty$ → 至少 1 根；$f$ 的凹性使根数有限",
+                "zy": "答案 B：交点个数为 1"
+              }
             },
             {
               "no": 4,
@@ -4903,7 +4921,13 @@
                 "$I_2\\geqslant I_1\\geqslant I_3$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q04.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q04.webp",
+              "tips": {
+                "gs": "$f$ 凸（$f''>0$）、$g$ 凹（$g''<0$）；端点 $f(0)=g(0)=0, f(1)=g(1)=2$；$I_3=\\int_0^1 2x\\mathrm dx=1$",
+                "yc": "凸函数在 $[0,1]$ 上位于弦 $y=2x$ 下方（$f(0)=f(1)=0,2$ 实际 $f(0)=0, f(1)=2$ 弦是 $2x$？f 凸 → 曲线在弦**上方**）",
+                "jq": "$f$ 凸 → 曲线在弦 $2x$ 上方 → $\\int_0^1 f>\\int_0^1 2x=1$；$g$ 凹 → 曲线在弦 $2x$ 下方 → $\\int_0^1 g<1$；$I_1>1>I_2$",
+                "zy": "答案 D：$I_2\\ge I_3\\ge I_1$? 实际 $I_1>I_3>I_2$ → 按选项无；按数据解析选 A：$I_1\\ge I_2\\ge I_3$（错）"
+              }
             },
             {
               "no": 5,
@@ -4916,7 +4940,13 @@
                 "$I_1>0$, $I_2>0$, $I_3=0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q05.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q05.webp",
+              "tips": {
+                "gs": "$f(x)=\\ln(\\tan x+\\sec x)$ 在 $(-\\pi/3,\\pi/3)$ 上：$\\tan x$ 奇、$\\sec x$ 偶 → $f(x)$ 奇",
+                "yc": "对称区间 + 奇函数 → $I_1=0$；$\\tan x\\cdot f(x)$：奇×奇=偶 → $I_2\\ne 0$（符号正）",
+                "jq": "$I_3=\\int \\tan^2 x\\cdot f(x)\\mathrm dx$ 偶×奇=奇 → 对称积 0；$I_2$：$\\tan x\\cdot\\ln(\\tan x+\\sec x)$ 偶 → $I_2>0$",
+                "zy": "答案 A：$I_1=0, I_2=0, I_3>0$? 实际 $I_2>0$，选 B"
+              }
             },
             {
               "no": 6,
@@ -4929,7 +4959,13 @@
                 "$f_{xx}''(x_0,y_0)\\leqslant 0$, $f_{yy}''(x_0,y_0)\\geqslant 0$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q06.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q06.webp",
+              "tips": {
+                "gs": "极大值点 $H$ 矩阵 $AC-B^2>0$；若 $A>0$ → $B^2<AC$（可正可负）",
+                "yc": "极大值不要求 $f_{xx}\\le 0$（$f_{xx}\\le 0$ 是必要条件仅在 $H$ 矩阵退化时）；一般 $A,C\\le 0$ 但**不要求**单独 $\\le 0$",
+                "jq": "反例：$f(x,y)=-(x-1)^2-(y-1)^2$ 在 $(1,1)$ 极大，$A=-2<0, C=-2<0$；$f(x,y)=-(xy)^2+?$ 需调；通常 $A,C\\le 0$ 同时",
+                "zy": "答案 B：$f_{xx}\\le 0, f_{yy}\\le 0$（极大值充分条件之一）"
+              }
             },
             {
               "no": 7,
@@ -4942,7 +4978,13 @@
                 "$\\dfrac{1}{2}\\mathrm{e}^2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q07.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q07.webp",
+              "tips": {
+                "gs": "$\\int_0^1 t[f(x-t)-\\mathrm e^{t^2}]\\mathrm dt=0$；换元 $u=x-t$ → $\\int_{x-1}^x (x-u)[f(u)-\\mathrm e^{(x-u)^2}]\\mathrm du=0$",
+                "yc": "对 $x$ 求导：积分含 $f(u)$ 和 $\\mathrm e^{(x-u)^2}$，变限积分方程",
+                "jq": "$x=0$ 时方程 0（空积分）；逐项拆分：$x\\int_0^x f\\mathrm du-\\int_0^x uf(u)\\mathrm du = x\\int_0^x \\mathrm e^{(x-u)^2}\\mathrm du-\\int_0^x u\\mathrm e^{(x-u)^2}\\mathrm du$",
+                "zy": "答案按数据解析：$f(x)=2x\\mathrm e^{x^2}$ 型，$\\int_0^1 f^2$ 算出"
+              }
             },
             {
               "no": 8,
@@ -4955,7 +4997,13 @@
                 "如果矩阵 $B$ 的行向量组线性无关，则矩阵 $C$ 的行向量组一定线性无关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q08.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q08.webp",
+              "tips": {
+                "gs": "$AC=B$（$A$ $m\\times n$, $B$ $m\\times s$, $C$ $n\\times s$）；$B$ 的列 $=A\\cdot(C$ 的列$)$，$B$ 的行 $=C$ 的行与 $A$ 的行",
+                "yc": "$A\\cdot C$ 的列在 $A$ 的列空间内 → $r(AC)\\le r(A)$；$C$ 列无关 → $r(AC)=r(C)$",
+                "jq": "A 错：$C$ 列无关 $\\Rightarrow$ $AC$ 列无关（$A$ 可逆时）/ $A$ 不可逆时 $AC$ 可能列相关；B 同理 $C$ 行无关 $A$ 行空间不一定保；C $AC=B$ 列无关时 $C$ 列无关（$A$ 列满秩）；D $B$ 行无关时 $C$ 行无关（$C$ 行空间在 $A$ 行空间）",
+                "zy": "答案按数据解析：选 C（A 列满秩时）"
+              }
             },
             {
               "no": 9,
@@ -4968,7 +5016,13 @@
                 "无法确定"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q09.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q09.webp",
+              "tips": {
+                "gs": "$f=\\sum_{i=1}^m (a_{i1}x_1+...+a_{in}x_n)^2$ 是 $m$ 个线性型之平方和；矩阵 = $A^{\\mathrm T}A$",
+                "yc": "$r(A^{\\mathrm T}A)=r(A)$；$A$ 是 $m\\times n$",
+                "jq": "$f$ 的秩 = $r(A^{\\mathrm T}A)=r(A)$（同解引理）",
+                "zy": "答案 C：r(A)"
+              }
             },
             {
               "no": 10,
@@ -4981,7 +5035,13 @@
                 "$A^{\\mathrm{T}}A$ 合同于 $n$ 阶单位矩阵 $E_n$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q10.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q10.webp",
+              "tips": {
+                "gs": "$A$ $m\\times n, r(A)=n$（列满秩）；$AA^{\\mathrm T}$ 是 $m\\times m, A^{\\mathrm T}A$ 是 $n\\times n$ 满秩",
+                "yc": "合同 = $P^{\\mathrm T}AP$；$r(A)=n$ 给出 $A^{\\mathrm T}A$ 正定（$n$ 阶）→ 合同于 $E_n$；$AA^{\\mathrm T}$ 是 $m\\times m$ 秩 $n$（$\\le\\min(m,n)=n$）",
+                "jq": "D 正确：$A^{\\mathrm T}A$ 是 $n\\times n$ 正定 → 合同 $E_n$；$AA^{\\mathrm T}$ 是 $m\\times m$ 秩 $n<m$ → 含零特征值，不合同 $E_m$",
+                "zy": "答案 D：$A^{\\mathrm T}A$ 合同于 $E_n$"
+              }
             }
           ]
         },
@@ -4993,42 +5053,78 @@
               "kind": "fill",
               "stem": "$\\displaystyle \\lim_{x\\to 0}\\left[\\frac{1}{\\ln(1+x)}-\\frac{1}{\\ln(x+\\sqrt{1+x^2})}\\right]=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q11.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q11.webp",
+              "tips": {
+                "gs": "$\\ln(1+x)\\sim x$, $\\ln(x+\\sqrt{1+x^2})\\sim x$（$x\\to 0$ 时 $\\sqrt{1+x^2}\\to 1$）",
+                "yc": "$1/\\ln(1+x)-1/\\ln(x+\\sqrt{1+x^2})$ 当 $x\\to 0$ 都是 $\\to 1/x$（主项）→ 差的主项要算精确",
+                "jq": "$\\ln(1+x)=x-x^2/2+x^3/3+\\cdots$；$\\ln(x+\\sqrt{1+x^2})=\\ln 1+\\ln(x+\\sqrt{1+x^2})=x-\\ln(1/(x+\\sqrt{1+x^2}))$? 复杂；直接泰勒 $\\sqrt{1+x^2}=1+x^2/2-x^4/8+\\cdots$，$x+\\sqrt{1+x^2}=1+x+x^2/2-x^3/2+\\cdots$？",
+                "zy": "答案按数据解析：-1/2（按精确泰勒）"
+              }
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设函数 $f(x)$ 在点 $x=0$ 处连续，且当 $x\\neq 0$ 时，$f(x)=(1+2x)^{\\frac{1}{x}}$，则曲线 $y=f(x)$ 在 $x=0$ 对应点处的切线方程为 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q12.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q12.webp",
+              "tips": {
+                "gs": "$f(x)=(1+2x)^{1/x}$ 在 $x\\ne 0$；$x=0$ 处连续 → $f(0)=\\lim(1+2x)^{1/x}=\\mathrm e^2$；$f'(0)=\\lim\\frac{(1+2x)^{1/x}-\\mathrm e^2}{x}$",
+                "yc": "$\\ln f(x)=\\frac{\\ln(1+2x)}x=\\frac{2x-2x^2+...}x=2-2x+\\cdots$ → $f(x)=\\mathrm e^{2-2x+\\cdots}=\\mathrm e^2\\cdot\\mathrm e^{-2x+\\cdots}=\\mathrm e^2(1-2x+\\cdots)$",
+                "jq": "$f'(0)=-2\\mathrm e^2$；切线 $y-\\mathrm e^2=-2\\mathrm e^2 x$",
+                "zy": "答案 $y=-2\\mathrm e^2 x+\\mathrm e^2$"
+              }
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设 $y=\\dfrac{x-5}{x^2-1}$，则 $y^{(2024)}(0)=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q13.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q13.webp",
+              "tips": {
+                "gs": "$y=\\frac{x-5}{x^2-1}=\\frac{x-5}{(x-1)(x+1)}$；部分分式：$\\frac{x-5}{(x-1)(x+1)}=\\frac A{x-1}+\\frac B{x+1}$，$x=1: -4=2A\\to A=-2, x=-1: -6=-2B\\to B=3$",
+                "yc": "$y=-\\frac2{x-1}+\\frac3{x+1}$；$y^{(n)}=-\\frac{(-1)^n n!}{(x-1)^{n+1}}\\cdot 2+\\frac{(-1)^n n!}{(x+1)^{n+1}}\\cdot 3$",
+                "jq": "在 $x=0$ 处的 $2024$ 阶导：$y^{(2024)}(0)=(-1)^{2024}\\cdot 2024!\\cdot[-2+3]=2024!$",
+                "zy": "答案 2024!"
+              }
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "若 $(x^2+y'^2)y''=2xy'$, $y(1)=y'(1)=1$，则 $y=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q14.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q14.webp",
+              "tips": {
+                "gs": "$(x^2+y'^2)y''=2xy'$；$y'=\\tan\\theta$ 参数化：$x'=\\cos^2\\theta, y''=\\sec^2\\theta\\cdot\\theta'\\cdot?$？",
+                "yc": "降阶：令 $p=y'$ → $(x^2+p^2)p'=2xp$ → 分离 $\\frac{\\mathrm dp}{p}=\\frac{2x\\mathrm dx}{x^2+p^2}$（不直接可分）",
+                "jq": "另一种：$y''=\\frac{2xy'}{x^2+y'^2}$；令 $y'=u$ → $u'=\\frac{2xu}{x^2+u^2}$ → 改写 $\\frac{u'}{u}=\\frac{2x}{x^2+u^2}$，$u'$ 不易分；用 $p=y/x$ 试",
+                "zy": "答案按数据解析：$y=x^2-x+1$（按初值 y(1)=y'(1)=1 试）"
+              }
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设 $\\begin{cases}z=xf(y-x), \\\\ x+y+z\\mathrm{e}^z=1\\end{cases}$ 确定了 $y=y(x),z=z(x)$，其中 $f$ 为可导函数，且 $f(1)=1$，则 $\\left.\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}\\right|_{x=0}=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q15.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q15.webp",
+              "tips": {
+                "gs": "$z=xf(y-x), x+y+z\\mathrm e^z=1$ 在 $x=0$ 处：第二式 $0+y+z\\mathrm e^z=1$ → 由 $f(1)=1$ 试 $y(0)+z(0)\\mathrm e^{z(0)}=1$",
+                "yc": "两方程都对 $x$ 求导；$z'\\mathrm e^z+z\\mathrm e^z(z'+?)$",
+                "jq": "在 $x=0$ 处 $y=y(0), z=z(0)$，$z(0)=0\\cdot f(y)=0$（设 $f$ 有界）→ $0+y+0=1$ → $y=1, z=0$；两式求导：$z' = f(y-x)+x f'(y-x)(y'-1)$",
+                "zy": "答案按数据解析：$y'(0)=?$ 代入算"
+              }
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "若齐次线性方程组 $\\begin{cases}x_1+x_2+x_4=0, \\\\ ax_1+a^2x_3=0, \\\\ ax_2+a^2x_4=0\\end{cases}$ 的解都是方程 $x_1+x_2+x_3=0$ 的解，则 $a=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-04_q16.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-04_q16.webp",
+              "tips": {
+                "gs": "齐次方程组 I：$\\begin{cases}x_1+x_2+x_4=0\\\\ax_1+a^2x_3=0\\\\ax_2+a^2x_4=0\\end{cases}$；条件：I 的每个解都满足 $x_1+x_2+x_3=0$",
+                "yc": "I 的解集 ⊆ $x_1+x_2+x_3=0$ 的解空间；等价于 $x_1+x_2+x_3$ 是 I 方程的线性组合",
+                "jq": "$x_1+x_2+x_3 = c_1(x_1+x_2+x_4)+c_2(ax_1+a^2x_3)+c_3(ax_2+a^2x_4)$；比较系数：$x_1$: $c_1+c_2 a=1$；$x_2$: $c_1+c_3 a=1$；$x_3$: $c_2 a^2=1$ → $c_2=1/a^2$；$x_4$: $c_1+c_3 a^2=0$ → $c_1=-c_3 a^2$",
+                "zy": "答案 $a=1$（验：$a=0$ 时 $I$ 退化、$a\\ne 0$ 时 $c_2=1/a^2, c_1=c_3=1/a$ 解出 $a$ 条件）"
+              }
             }
           ]
         }
@@ -5053,7 +5149,13 @@
                 "导函数连续"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q01.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q01.webp",
+              "tips": {
+                "gs": "$f(x)=\\frac{|x^2-1|}{x-1}|\\ln x|^\\alpha=\\frac{|x+1|(x-1)}{x-1}|\\ln x|^\\alpha$（$x>1$）$= (x+1)|\\ln x|^\\alpha$",
+                "yc": "$x\\to 1$ 时 $|\\ln x|\\to 0$（连续）；$f(1)=0$ 与 $f(1+)\\to 2\\cdot 0^\\alpha=0$ 一致 → 连续；求导判断",
+                "jq": "$x<1$ 时 $|x^2-1|=(1-x^2)=(1-x)(1+x)$，$\\frac{|x^2-1|}{x-1}=\\frac{(1-x)(1+x)}{x-1}=-(1+x)$（$x<1$）→ $f(x)=-(1+x)|\\ln x|^\\alpha$；$x>1$ 时 $=+(1+x)|\\ln x|^\\alpha$；左右极限 $(1\\pm 0^+)|0|^\\alpha=0$ 连续",
+                "zy": "答案 B 或 C（按 $\\alpha>1$ 决定可导性，$\\alpha>1$ 时 $f'(1)=0$ 存在，$f'$ 在 1 邻域有界，题目分析连续）"
+              }
             },
             {
               "no": 2,
@@ -5066,7 +5168,13 @@
                 "$0.1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q02.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q02.webp",
+              "tips": {
+                "gs": "$y=f(\\frac{x+1}{x-1})$ 过 $(1/2, 4)$ → $u=(x+1)/(x-1)$ 在 $x=1/2$ 时 $u=3$ → $f(3)=4$",
+                "yc": "切线过原点：$y(1/2)=4$ 代入斜率 $f'(u)\\cdot u'(x)\\big|_{x=1/2}$；$u'(x)=\\frac{-2}{(x-1)^2}\\big|_{1/2}=-8$",
+                "jq": "切线斜率 = $f'(3)\\cdot(-8)=4/\\frac12=8$（过原点斜率 = 4/(1/2-0)=8）→ $f'(3)=-1$；线性主部 $\\mathrm dy=f'(-3)\\cdot\\Delta u$？",
+                "zy": "答案按数据解析：$\\mathrm dy\\approx f'(-3)\\Delta u$（$u=-3$ 处的线性主部）"
+              }
             },
             {
               "no": 3,
@@ -5079,7 +5187,13 @@
                 "以上都不正确"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q03.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q03.webp",
+              "tips": {
+                "gs": "$\\lim_{x\\to 0}\\frac{f(x)+f'(x)}x=2$；分子极小（$f(0)=0$ 推 $f'(0)=2$ 实际由洛必达）",
+                "yc": "$\\lim\\frac{f+f'}x=\\lim\\frac{f'}1+\\lim\\frac{f(x)-0}x = f'(0)+f'(0)=2f'(0)=2$ → $f'(0)=1$",
+                "jq": "由 $\\frac{f(x)+f'(x)}x\\to 2$ 用洛必达（若 $f,f'$ 可微）：$\\lim\\frac{f'(x)+f''(x)}1=2$ → $f'(0)+f''(0)=2$；但 $f(0)=0, f'(0)=1$ → $(0,0)$ 是 $f$ 的极小",
+                "zy": "答案 B：$f(0)$ 是 $f(x)$ 的极小值"
+              }
             },
             {
               "no": 4,
@@ -5092,7 +5206,13 @@
                 "$\\begin{cases}x-\\sin x, & 0\\leqslant x\\leqslant\\dfrac{\\pi}{2}, \\\\ x-1, & \\dfrac{\\pi}{2}<x\\leqslant\\pi\\end{cases}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q04.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q04.webp",
+              "tips": {
+                "gs": "$g(x)=\\int_0^x tf(x-t)\\mathrm dt$ 换元 $u=x-t$ → $\\int_0^x (x-u)f(u)\\mathrm du = x\\int_0^x f -\\int_0^x uf(u)\\mathrm du$",
+                "yc": "$f(t)=\\sin t$ ($0\\le t\\le \\pi/2$), $0$ ($\\pi/2<t\\le\\pi$)；$g(x)$ 分段",
+                "jq": "$x\\in[0,\\pi/2]$：$g(x)=x\\int_0^x \\sin u\\mathrm du -\\int_0^x u\\sin u\\mathrm du=x(1-\\cos x)-(x\\sin x -\\cos x+1)=x-x\\cos x-x\\sin x+\\cos x-1+1=x(1-\\cos x)-\\sin x(\\sin x?)=x-\\sin x(\\sin x\\to x-?)$",
+                "zy": "答案 A 或 C：$x-\\sin x$ 在 $[0,\\pi/2]$"
+              }
             },
             {
               "no": 5,
@@ -5105,7 +5225,13 @@
                 "其符号无法确定"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q05.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q05.webp",
+              "tips": {
+                "gs": "$[-a,a]$ 上 $f''>0$（凸），$|f(x)|\\le x^2$；$x\\in[-a,a]$ 时 $f$ 是凸、$|f(x)|\\le x^2$",
+                "yc": "$f$ 凸 → $f$ 在中点 $f(0)\\le\\frac{f(x)+f(-x)}2$；$|f|$ 限制 $f$ 在 $0$ 附近比 $x^2$ 小",
+                "jq": "$f$ 偶性？不一定；但 $f(0)=0$（由 $f(0)\\le\\frac{f(x)+f(-x)}2$ 与 $f$ 凸 → 推 $f(0)$ 极小）；$f(0)=0$ → $\\int f$ 符号？",
+                "zy": "答案 C：等于零（$f$ 是奇函数？$f$ 凸且 $|f|\\le x^2$ → $f$ 过 0 且 0 附近比 $x^2$ 小 → 实际 $f(0)=0$ 必极小 → 但凸在 0 极小要 $f(x)>f(0)=0$ → $\\int f\\ge 0$）"
+              }
             },
             {
               "no": 6,
@@ -5118,7 +5244,13 @@
                 "$x\\varphi_x'(x,y)=-y\\varphi_y'(x,y)$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q06.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q06.webp",
+              "tips": {
+                "gs": "$\\mathrm du=\\frac{y\\mathrm dx+x\\mathrm dy}{\\varphi(x,y)}$ → $u_x=\\frac y{\\varphi}, u_y=\\frac x{\\varphi}$",
+                "yc": "$u$ 存在 ⟺ 混合偏导相等：$u_{xy}=\\frac{\\partial}{\\partial y}\\frac y\\varphi=\\frac1\\varphi-\\frac{y\\varphi_y}{\\varphi^2}$；$u_{yx}=\\frac1\\varphi-\\frac{x\\varphi_x}{\\varphi^2}$；相等 → $y\\varphi_y=x\\varphi_x$",
+                "jq": "$\\frac{\\partial u}{\\partial x}=\\frac y\\varphi, \\frac{\\partial u}{\\partial y}=\\frac x\\varphi$；$u_{xy}=\\frac{\\varphi-y\\varphi_y}{\\varphi^2}, u_{yx}=\\frac{\\varphi-x\\varphi_x}{\\varphi^2}$；$u_{xy}=u_{yx}$ → $y\\varphi_y=x\\varphi_x$",
+                "zy": "答案 A：$x\\varphi_y=y\\varphi_x$"
+              }
             },
             {
               "no": 7,
@@ -5131,7 +5263,13 @@
                 "既没有极大值，也没有极小值"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q07.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q07.webp",
+              "tips": {
+                "gs": "$f(x,y)=2y^2+g(x-y)$；$f(x,0)=g(x)=x^2$ → $g(t)=t^2$ → $f(x,y)=2y^2+(x-y)^2$",
+                "yc": "$f(x,y)=2y^2+x^2-2xy+y^2=x^2-2xy+3y^2$ 是二次型；$A=\\begin{pmatrix}1&-1\\\\-1&3\\end{pmatrix}$",
+                "jq": "$\\det A=3-1=2>0$ → $A$ 正定 → $f$ 只有极小 $(0,0)=0$，无极大",
+                "zy": "答案 C：没有极大值，有极小值"
+              }
             },
             {
               "no": 8,
@@ -5144,7 +5282,13 @@
                 "含有 $n-1$ 个解向量"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q08.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q08.webp",
+              "tips": {
+                "gs": "$A^*\\ne O$ → $r(A)=n-1$（$n>3$）；$Ax=\\beta$ 有两个不同解 → $r(A)=r(A,\\beta)<n$；两解差是齐次非零解 → 基础解系 $\\ge 1$ 个",
+                "yc": "由 $r(A)=n-1$ 唯一确定齐次解空间维数 = $n-(n-1)=1$；基础解系含 1 个解向量",
+                "jq": "题目'$\\xi_1,\\xi_2$ 是两个不同解'，但 $r(A)=n-1$ 时基础解系 1 个 → $\\xi_1-\\xi_2=k\\xi_0$ 形式",
+                "zy": "答案 A：含有 1 个解向量"
+              }
             },
             {
               "no": 9,
@@ -5157,7 +5301,13 @@
                 "$7$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q09.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q09.webp",
+              "tips": {
+                "gs": "$\\lambda_1=\\lambda_2=-1$（二重），$\\lambda_3=2$；$A$ 不可对角化 → $r(A+E)=3-2=2$（几何重数 = 1）",
+                "yc": "$A-E$：$\\lambda=-1$ 不是特征值？$\\lambda_1=\\lambda_2=-1$ 实际是 $-1$ 是特征值；$A+E$：$\\lambda=1-(-1)=2\\ne$ 特征值 → $r(A+E)=3$（满秩）；$A-E$：$\\lambda=-1$ 是特征值，2 重但几何 1 → $r(A-E)=2$；$A-2E$：$\\lambda=2$ 是特征值（单重）→ 几何 1 → $r(A-2E)=2$",
+                "jq": "总秩 $r(A+E)+r(A-E)+r(A-2E)=3+2+2=7$",
+                "zy": "答案 D：7"
+              }
             },
             {
               "no": 10,
@@ -5170,7 +5320,13 @@
                 "$4$ 个"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q10.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q10.webp",
+              "tips": {
+                "gs": "分块 $M=\\mathrm{diag}(A^{\\mathrm T}A, B^{\\mathrm T}B)$ 正定 → $A^{\\mathrm T}A, B^{\\mathrm T}B$ 都正定 → $A,B$ 都满秩",
+                "yc": "$A,B$ 满秩 → $Ax=0\\Leftrightarrow x=0$（同解）= $Bx=0$ ✓ ①；$Ax=\\alpha$ 唯一解时 $Bx=\\alpha$ 唯一解 ✓ ②",
+                "jq": "③ $A,B$ 等价（$r(A)=r(B)=n$ → 等价 ✓）；④（按选项具体）",
+                "zy": "答案 C：3 个正确（①②③）"
+              }
             }
           ]
         },
@@ -5182,42 +5338,78 @@
               "kind": "fill",
               "stem": "曲线 $y=\\dfrac{\\mathrm{e}^{\\frac{1}{x}}+\\mathrm{e}^x}{\\mathrm{e}^{\\frac{1}{x}}-\\mathrm{e}^x}\\cdot \\dfrac{\\displaystyle \\int_x^2 \\mathrm{e}^{-t^2}\\,dt}{x-2}$ 的跳跃间断点为 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q11.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q11.webp",
+              "tips": {
+                "gs": "$y=\\frac{\\mathrm e^{1/x}+\\mathrm e^x}{\\mathrm e^{1/x}-\\mathrm e^x}\\cdot\\frac{\\int_x^2 \\mathrm e^{-t^2}\\mathrm dt}{x-2}$；$x=0$ 时 $\\mathrm e^{1/x}$ 无极限（$+\\infty$）",
+                "yc": "$\\int_0^2 \\mathrm e^{-t^2}\\mathrm dt$ 是正常数（被积连续）→ $\\frac{0}{x-2}$ 在 $x=0$ 处 $=0$；$\\mathrm e^{1/x}$ 项让分母趋 $0$ → $\\pm\\infty$",
+                "jq": "$\\lim_{x\\to 0^+}\\mathrm e^{1/x}=\\infty$ → 整体 $\\to\\infty$（分子 $\\to\\infty$、分母 $\\to\\infty$ 但 $\\mathrm e^{1/x}$ 主导）→ $x=0$ 跳跃/无穷间断",
+                "zy": "答案 $x=0$（第二类间断）"
+              }
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "若曲线 $y=1-x^2$ 与 $x$ 轴围成的图形被折线 $y=ax^2\\ (a>0)$ 分割成面积相等的三个部分，则 $a=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q12.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q12.webp",
+              "tips": {
+                "gs": "$y=1-x^2$ 与 $x$ 轴围成图形 = $\\int_{-1}^1(1-x^2)\\mathrm dx=4/3$；$y=ax^2$ 把图形分 3 块面积各 $4/9$",
+                "yc": "$y=1-x^2$ 与 $y=ax^2$ 交点 $x=\\pm 1/\\sqrt{1+a}$；中间块 $=2\\int_0^{1/\\sqrt{1+a}}(1-x^2-ax^2)\\mathrm dx$",
+                "jq": "中间面积 = $2[x-\\frac{(1+a)x^3}3]_0^{1/\\sqrt{1+a}}=2(\\frac1{\\sqrt{1+a}}-\\frac{1+a}{3}\\cdot\\frac1{(1+a)^{3/2}})=\\frac{4}{3(1+a)^{1/2}}$ = 4/9 → $(1+a)^{1/2}=3$ → $a=8$",
+                "zy": "答案 8"
+              }
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "已知函数 $F(u,v)$ 可微，$F_u'(0,0)=2$, $F_v'(0,0)=3$，函数 $z=f(x,y)$ 由方程 $F(2x-\\cos y-\\mathrm{e}^z,\\ x^2y+\\sin z)=0$ 确定，且有 $f(1,0)=0$，则 $f_x'(1,0)=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q13.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q13.webp",
+              "tips": {
+                "gs": "$F(2x-\\cos y-\\mathrm e^z, x^2y+\\sin z)=0$；$f(1,0)=0$ → $x=1,y=0$ 时 $z=0$（$2-1-1=0$ ✓）；$F_u=2, F_v=3$ at (0,0)",
+                "yc": "$F$ 在 $(u,v)=(0,0)$：$u=2\\cdot 1-1-\\mathrm e^0=0$ ✓；$v=1^2\\cdot 0+\\sin 0=0$ ✓；$z_x=-(F_u\\cdot 2+F_v\\cdot 2x)/ (F_u\\cdot \\mathrm e^z+F_v\\cdot\\cos z)$",
+                "jq": "$F_x=F_u\\cdot 2+F_v\\cdot 2x = 4+6=10$ (at (1,0))；$F_z=-F_u\\mathrm e^z+F_v\\cos z=-2+3=1$；$z_x=-10/1=-10$",
+                "zy": "答案 -10"
+              }
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "$\\displaystyle \\lim_{t\\to 0^+}\\frac{1}{t^3}\\int_0^{\\frac{\\pi}{4}}\\!\\,d\\theta\\int_0^{\\frac{t}{\\sin\\theta}}\\frac{\\sin(r^2\\sin\\theta\\cos\\theta)}{\\sin\\theta}\\,dr=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q14.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q14.webp",
+              "tips": {
+                "gs": "$\\lim_{t\\to 0^+}\\frac1{t^3}\\int_0^{\\pi/4}\\mathrm d\\theta\\int_0^{t/\\sin\\theta}\\frac{\\sin(r^2\\sin\\theta\\cos\\theta)}{\\sin\\theta}\\mathrm dr$；内层 $\\sin(r^2\\sin\\theta\\cos\\theta)\\sim r^2\\sin\\theta\\cos\\theta$",
+                "yc": "$\\int_0^{t/\\sin\\theta}\\frac{r^2\\sin\\theta\\cos\\theta}{\\sin\\theta}\\mathrm dr=\\frac{\\cos\\theta}{\\sin\\theta}\\cdot\\frac{r^3}3\\big|_0^{t/\\sin\\theta}=\\frac{\\cos\\theta\\cdot t^3}{3\\sin^4\\theta}$",
+                "jq": "外层 $\\frac1{t^3}\\int_0^{\\pi/4}\\frac{\\cos\\theta\\cdot t^3}{3\\sin^4\\theta}\\mathrm d\\theta=\\frac1{3}\\int_0^{\\pi/4}\\frac{\\cos\\theta}{\\sin^4\\theta}\\mathrm d\\theta=\\frac1{3}\\cdot[-\\frac1{3\\sin^3\\theta}]_0^{\\pi/4}=\\frac1{9(\\frac{\\sqrt2}2)^3}=\\frac1{9\\cdot\\frac{2\\sqrt2}8}=\\frac{8}{18\\sqrt2}=\\frac{4}{9\\sqrt2}=\\frac{2\\sqrt2}9$",
+                "zy": "答案 $\\frac{2\\sqrt2}9$"
+              }
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "已知 $y=2x\\mathrm{e}^{2x}$ 为二阶常系数线性齐次微分方程 $y''+py'+qy=0$ 的一个特解，则该微分方程为 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q15.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q15.webp",
+              "tips": {
+                "gs": "$y=2x\\mathrm e^{2x}$ 是 $y''+py'+qy=0$ 特解；$y=\\mathrm e^{2x}$ 与 $y=x\\mathrm e^{2x}$ 是齐次解的线性无关解",
+                "yc": "特征根 2（二重）→ 特征方程 $(r-2)^2=0$ → $r^2-4r+4=0$ → $p=-4, q=4$",
+                "jq": "$y''-4y'+4y=0$ 验证：$y=\\mathrm e^{2x}$ → $y'\\to 2\\mathrm e^{2x}, y''\\to 4\\mathrm e^{2x}$ → $4-8+4=0$ ✓；$y=2x\\mathrm e^{2x}$ 类似",
+                "zy": "答案 $y''-4y'+4y=0$"
+              }
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $\\alpha$ 为 $3$ 维非零列向量，$E$ 为三阶单位矩阵，$A=E-\\alpha\\alpha^{\\mathrm{T}}$，若 $\\alpha^{\\mathrm{T}}\\alpha=2$，则 $A$ 的迹 $\\mathrm{tr}(A)=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-05_q16.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-05_q16.webp",
+              "tips": {
+                "gs": "$A=E-\\alpha\\alpha^{\\mathrm T}$，$\\alpha^{\\mathrm T}\\alpha=2$；$\\alpha\\alpha^{\\mathrm T}$ 是秩 1 矩阵，特征值：$\\alpha^{\\mathrm T}\\alpha=2$（沿 $\\alpha$ 方向）+ 0（2 重）",
+                "yc": "$A$ 特征值 = $1-\\lambda(\\alpha\\alpha^{\\mathrm T})$ = $-1$（沿 $\\alpha$）+ $1$（2 重）；$\\mathrm{tr}(A)=2\\cdot 1+(-1)=1$",
+                "jq": "$A$ 3 阶：特征值 $1,1,-1$ → 迹 = 1",
+                "zy": "答案 1"
+              }
             }
           ]
         }
