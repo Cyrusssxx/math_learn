@@ -1099,14 +1099,22 @@ async function init() {
     renderCurrent();
     const sub = document.getElementById('examSub');
     if (sub && curPaper) sub.textContent = curPaper.title;
-    // 滚动到上次题号（收藏过滤下该题可能被隐藏，找不到则留在顶部）
-    if (startNo) {
-        const q = document.getElementById('q-' + qidOf(curPaper.id, startNo));
-        if (q) q.scrollIntoView({ block: 'start' });
-    }
-    // 顶部栏整体折叠（恢复上次状态）+ 高度联动
+    // 顶部栏整体折叠（恢复上次状态）+ 高度联动：必须放在定位之前，
+    // 否则顶栏由折叠变展开会撑高文档、把刚定位好的题号顶偏。
     restoreTopBar();
     syncTopH();
+    // 滚动到上次题号（收藏过滤下该题可能被隐藏，找不到则留在顶部）
+    if (startNo) {
+        const qid = qidOf(curPaper.id, startNo);
+        const go = () => {
+            const el = document.getElementById('q-' + qid);
+            if (el) el.scrollIntoView({ block: 'start' });
+        };
+        go();
+        // 批注贴图从 IndexedDB 异步回填、KaTeX 渲染都会改变文档高度，稳定后再校准
+        requestAnimationFrame(go);
+        window.addEventListener('load', go, { once: true });
+    }
     if (window.ResizeObserver) {
         new ResizeObserver(syncTopH).observe(document.getElementById('examTop'));
     } else {

@@ -89,11 +89,20 @@ function restorePos() {
     const parts = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
     if (parts[0] !== cur.id || (pos.ch >= 0 && parts[1] === undefined)) {
         location.hash = '#/' + cur.id + (pos.ch >= 0 ? '/' + pos.ch : '');
-        setTimeout(() => window.scrollTo(0, pos.y), 50);   // hashchange 渲染完成后恢复滚动
+        setTimeout(() => applyScroll(pos.y), 50);   // hashchange 渲染完成后恢复滚动
         return;
     }
     // KaTeX 已渲染（renderDoc 同步完成），直接恢复滚动
-    window.scrollTo(0, pos.y);
+    applyScroll(pos.y);
+}
+
+/** 滚动到 y：图片/字体/批注贴图异步回填会改变文档高度把位置顶偏，故定位后再校准两轮 */
+function applyScroll(y) {
+    const fix = () => { if (Math.abs(window.scrollY - y) > 2) window.scrollTo(0, y); };
+    window.scrollTo(0, y);
+    requestAnimationFrame(fix);
+    if (document.readyState === 'complete') fix();
+    else window.addEventListener('load', fix, { once: true });
 }
 
 // ============ Markdown 渲染（针对导图 md 的语法子集） ============

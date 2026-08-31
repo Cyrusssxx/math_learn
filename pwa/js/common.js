@@ -11,6 +11,14 @@ function applyDark() {
 
 applyDark();
 
+// ============ 接管浏览器的滚动恢复 ============
+// 浏览器默认 scrollRestoration='auto'，刷新后会自行把页面滚回「刷新前的位置」，
+// 与页面自己用 localStorage 做的定位（真题题号 / 笔记章节+滚动量）互相覆盖，表现为：
+//   F5 普通刷新 → 浏览器的恢复后执行并赢，看不到跳转（甚至停在顶部）
+//   Ctrl+Shift+R 强刷 → Chrome 硬性重载不做滚动恢复（重置到顶部），只剩 JS 定位生效 → 看到「自动跳转」
+// 这里统一切成 manual，滚动位置完全交给各页面自己的逻辑，两种刷新行为一致。
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
 // ============ 今日学习计时器（按天累计，存localStorage，页面不可见时暂停） ============
 (function () {
     const el = document.getElementById('navTimer');

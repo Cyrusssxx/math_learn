@@ -356,6 +356,12 @@ async function init(){
     }catch(e){}
     curPaper=startPaper;renderPaperList();renderCurrent();
     const sub=document.getElementById('examSub');if(sub&&curPaper)sub.textContent=curPaper.title;
-    if(startNo){const q=document.getElementById('q-'+qidOf(curPaper.id,startNo));if(q)q.scrollIntoView({block:'start'});}
+    if(startNo){
+        const qid=qidOf(curPaper.id,startNo);
+        const go=()=>{const el=document.getElementById('q-'+qid);if(el)el.scrollIntoView({block:'start'});};
+        go();                                        // 贴图异步回填会改变高度，稳定后再校准
+        requestAnimationFrame(go);
+        window.addEventListener('load',go,{once:true});
+    }
 }
 init();
