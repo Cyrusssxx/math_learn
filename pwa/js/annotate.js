@@ -262,11 +262,25 @@ const Annot = (() => {
         e.preventDefault();
         const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
         imgPut(id, it.getAsFile()).then(() => {
-            const ta = e.target;
-            const tag = `[图:${id}]`;
-            const p = ta.selectionStart;
-            ta.value = ta.value.slice(0, p) + tag + ta.value.slice(ta.selectionEnd);
-            ta.selectionStart = ta.selectionEnd = p + tag.length;
+            const ed = e.target;
+            if (!ed.isContentEditable) {   // 降级：理论上不再有 textarea
+                const tag = `[图:${id}]`;
+                const p = ed.selectionStart;
+                ed.value = ed.value.slice(0, p) + tag + ed.value.slice(ed.selectionEnd);
+                ed.selectionStart = ed.selectionEnd = p + tag.length;
+                return;
+            }
+            const sel = getSelection();
+            const r = sel.rangeCount ? sel.getRangeAt(0) : null;
+            const node = annImgNode(id);
+            if (r && ed.contains(r.commonAncestorContainer)) {
+                r.deleteContents();
+                r.insertNode(node);
+                r.setStartAfter(node); r.collapse(true);
+                sel.removeAllRanges(); sel.addRange(r);
+            } else {
+                ed.appendChild(node);
+            }
         }).catch(() => alert('图片保存失败'));
     }
 
@@ -276,20 +290,14 @@ const Annot = (() => {
         const box = document.createElement('div');
         box.className = 'ann-box';
         if (editing) {
-            box.innerHTML = `<textarea class="ann-edit" spellcheck="false" placeholder="写点批注…（Ctrl+V 可贴图；用 $...$ 写公式会自动渲染）">${escA(text || '')}</textarea>
-                <div class="ann-preview" hidden></div>
+            box.innerHTML = annToolbarHtml() +
+                `<div class="ann-edit" contenteditable="true" spellcheck="false" data-placeholder="写点批注…（Ctrl+V 可贴图；选中文字可上色/高亮；用 $...$ 写公式会自动渲染）"></div>
                 <div class="ann-ops"><button onclick="Annot.saveNote(this)">保存</button>
                 <button onclick="Annot.cancelNote(this)">取消</button></div>`;
-            const ta = box.querySelector('textarea');
-            ta.addEventListener('paste', onPasteImg);
-            const pv = box.querySelector('.ann-preview');
-            const upd = () => {
-                const v = ta.value.trim();
-                if (v) { pv.innerHTML = renderAnnot(v); pv.hidden = false; fillImgs(pv); }
-                else { pv.innerHTML = ''; pv.hidden = true; }
-            };
-            ta.addEventListener('input', () => upd());
-            upd();
+            const ed = box.querySelector('.ann-edit');
+            if (text) annNoteToEditor(ed, text);
+            ed.addEventListener('paste', onPasteImg);
+            box.querySelector('.ann-toolbar').hidden = false;
         } else {
             box.innerHTML = `<span class="ann-icon">📝</span><span class="ann-text" data-raw="${escAttr(text)}">${noteHtml(text)}</span>
                 <span class="ann-ops"><button onclick="Annot.editNote(this)">改</button>
@@ -298,12 +306,14 @@ const Annot = (() => {
         }
         const childUl = block.querySelector(':scope > ul');
         block.insertBefore(box, childUl);  // 批注紧跟条目本身文字，在子列表之前
-        if (editing) box.querySelector('textarea').focus();
+        if (editing) box.querySelector('.ann-edit').focus();
     }
 
     function saveNote(btn) {
         const block = btn.closest('[data-sid]');
-        const text = btn.closest('.ann-box').querySelector('textarea').value.trim();
+        const box = btn.closest('.ann-box');
+        const ed = box.querySelector('.ann-edit');
+        const text = ed ? annEditorToNote(ed).trim() : '';
         const prev = bucket().notes[block.dataset.sid] || '';
         const kept = refsOf(text);
         imgDel(refsOf(prev).filter(id => !kept.includes(id)));  // 删掉不再引用的图
@@ -319,7 +329,10 @@ const Annot = (() => {
         const saved = bucket().notes[block.dataset.sid];
         // 丢弃编辑中新贴但未保存的图
         const kept = refsOf(saved || '');
-        imgDel(refsOf(btn.closest('.ann-box').querySelector('textarea').value).filter(id => !kept.includes(id)));
+        const box = btn.closest('.ann-box');
+        const ed = box.querySelector('.ann-edit');
+        const draft = ed ? annEditorToNote(ed) : '';
+        imgDel(refsOf(draft).filter(id => !kept.includes(id)));
         if (saved) renderNoteBox(block, saved, false);
         else block.querySelector(':scope > .ann-box').remove();
     }
@@ -971,9 +984,129 @@ const Annot = (() => {
 
     initBar();
     initFmlUI();
+
+    // ============ 富文本编辑（移植自 exam.js 笔记富文本体系，令牌对齐） ============
+    const ANN_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<h1>|<\/h1>|<h2>|<\/h2>/g;
+    const ANN_COLORS = ['#e03131', '#e8590c', '#2f9e44', '#1971c2', '#9c36b5'];
+    const ANN_HLS = ['#fff3bf', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4'];
+
+    // 图片节点（批注内嵌）：img.ann-img[data-img] + 删除按钮（contenteditable 内不可编辑）
+    function annImgNode(id) {
+        const img = document.createElement('img');
+        img.className = 'ann-img'; img.dataset.img = id; img.alt = '批注图片';
+        img.setAttribute('contenteditable', 'false');
+        img.onclick = () => openLightbox(img.src || '');
+        const del = document.createElement('button');
+        del.type = 'button'; del.className = 'ann-img-del';
+        del.title = '删除图片'; del.textContent = '×';
+        del.setAttribute('contenteditable', 'false');
+        del.onclick = e => { e.stopPropagation(); img.remove(); del.remove(); };
+        const wrap = document.createElement('span');
+        wrap.className = 'ann-img-wrap'; wrap.append(img, del);
+        return wrap;
+    }
+    // contenteditable DOM → 存储 token 文本（与 exam.js editorToNote 同源；图片走 IMG[data-img]）
+    function annEditorToNote(el) {
+        const rgbToHex = v => { const m = /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(v || ''); return m ? '#' + [1, 2, 3].map(k => (+m[k]).toString(16).padStart(2, '0')).join('') : null; };
+        const isBold = n => (n && n.nodeType === 1) && (n.tagName === 'B' || n.tagName === 'STRONG' || /bold/i.test(n.style.fontWeight || ''));
+        const isItalic = n => (n && n.nodeType === 1) && (n.tagName === 'I' || n.tagName === 'EM' || /italic/i.test(n.style.fontStyle || ''));
+        return (function run(n, c, h, b, i) {
+            let s = '';
+            for (const ch of n.childNodes) {
+                if (ch.nodeType === 3) {
+                    const t = ch.nodeValue.replace(/\u00A0/g, ' '); if (!t) continue;
+                    let inner = t;
+                    if (i) inner = '<i>' + inner + '</i>';
+                    if (b) inner = '<b>' + inner + '</b>';
+                    if (h) inner = '<h:' + h + '>' + inner + '</h>';
+                    if (c) inner = '<c:' + c + '>' + inner + '</c>';
+                    s += inner;
+                } else if (ch.nodeType === 1) {
+                    if (ch.classList && ch.classList.contains('ann-img-wrap')) { const img = ch.querySelector('img[data-img]'); if (img) s += '[图:' + img.dataset.img + ']'; }
+                    else if (ch.tagName === 'IMG' && ch.dataset.img) s += '[图:' + ch.dataset.img + ']';
+                    else if (ch.tagName === 'BR') s += '\n';
+                    else if (ch.tagName === 'H1') { if (s && !s.endsWith('\n')) s += '\n'; s += '<h1>' + run(ch, c, h, false, false) + '</h1>' + '\n'; }
+                    else if (ch.tagName === 'H2') { if (s && !s.endsWith('\n')) s += '\n'; s += '<h2>' + run(ch, c, h, false, false) + '</h2>' + '\n'; }
+                    else if (isBold(ch)) { const block = ch.tagName === 'DIV' || ch.tagName === 'P'; if (block && s && !s.endsWith('\n')) s += '\n'; s += run(ch, c, h, true, i); if (block && s && !s.endsWith('\n')) s += '\n'; }
+                    else if (isItalic(ch)) { s += run(ch, c, h, b, true); }
+                    else { let nc = c, nh = h; if (ch.style) { const hc = rgbToHex(ch.style.color); if (hc) nc = hc; const hb = rgbToHex(ch.style.backgroundColor); if (hb) nh = hb; } const block = ch.tagName === 'DIV' || ch.tagName === 'P'; if (block && s && !s.endsWith('\n')) s += '\n'; s += run(ch, nc, nh, b, i); if (block && s && !s.endsWith('\n')) s += '\n'; }
+                }
+            }
+            return s;
+        })(el, null, null, false, false);
+    }
+    // token 文本 → contenteditable DOM（与 exam.js noteToEditor 同源）
+    function annNoteToEditor(el, text) {
+        el.innerHTML = '';
+        const stack = [el];
+        const emitText = s => { const lines = s.split('\n'); lines.forEach((line, k) => { if (k > 0) stack[stack.length - 1].appendChild(document.createElement('br')); if (line) stack[stack.length - 1].appendChild(document.createTextNode(line)); }); };
+        let i = 0;
+        while (i < text.length) {
+            const mi = text.indexOf('[图:', i);
+            ANN_FMT_RE.lastIndex = i;
+            const mf = ANN_FMT_RE.exec(text);
+            if (mf && (mi < 0 || mf.index <= mi)) {
+                emitText(text.slice(i, mf.index));
+                const m0 = mf[0];
+                if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</h1>' || m0 === '</h2>') { if (stack.length > 1) stack.pop(); }
+                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:' + mf[2] }); stack[stack.length - 1].appendChild(node); stack.push(node); }
+                i = mf.index + mf[0].length;
+            } else if (mi >= 0) {
+                emitText(text.slice(i, mi));
+                const m2 = /\[图:([a-z0-9]+)\]/.exec(text.slice(mi));
+                stack[stack.length - 1].appendChild(annImgNode(m2[1]));
+                i = mi + m2[0].length;
+            } else { emitText(text.slice(i)); i = text.length; }
+        }
+    }
+    function annHint(ed, msg) {
+        const box = ed.closest('.ann-box');
+        let el = box && box.querySelector('.ann-hint');
+        if (!el && box) { el = document.createElement('span'); el.className = 'ann-hint'; box.appendChild(el); }
+        if (!el) return;
+        if (!msg) { el.textContent = ''; el.classList.remove('show'); return; }
+        el.textContent = msg; el.classList.add('show');
+        clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 2000);
+    }
+    function annApplyFormat(box, cmd, val) {
+        const ed = box.querySelector('.ann-edit');
+        if (!ed || !ed.isContentEditable) return;
+        const sel = getSelection();
+        const inEd = !!sel.rangeCount && ed.contains(sel.anchorNode);
+        if (!inEd || (sel.isCollapsed && cmd !== 'plain')) { annHint(ed, '先选中要设置格式的文字'); return; }
+        ed.focus();
+        if (cmd === 'h1' || cmd === 'h2') {
+            try { document.execCommand('styleWithCSS', false, false); } catch (e) { }
+            document.execCommand('formatBlock', false, cmd === 'h1' ? 'H1' : 'H2');
+        } else if (cmd === 'plain') {
+            try { document.execCommand('styleWithCSS', false, false); } catch (e) { }
+            document.execCommand('formatBlock', false, 'P');
+            document.execCommand('removeFormat');
+        } else {
+            try { document.execCommand('styleWithCSS', false, true); } catch (e) { }
+            document.execCommand(cmd, false, val || null);
+        }
+    }
+    function annToolbarHtml() {
+        return `<div class="ann-toolbar" hidden>
+            <span class="ann-nt-lab">字色</span>
+            ${ANN_COLORS.map(c => `<button type="button" class="ann-nt-c" style="color:${c}" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'foreColor','${c}')" title="字色 ${c}">A</button>`).join('')}
+            <span class="ann-nt-sep"></span>
+            <span class="ann-nt-lab">高亮</span>
+            ${ANN_HLS.map(c => `<button type="button" class="ann-nt-h" style="background:${c}" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'hiliteColor','${c}')" title="高亮 ${c}"></button>`).join('')}
+            <span class="ann-nt-sep"></span>
+            <button type="button" class="ann-nt-b" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'bold')" title="加粗 (Ctrl+B)"><b>B</b></button>
+            <button type="button" class="ann-nt-i" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'italic')" title="斜体 (Ctrl+I)"><i>I</i></button>
+            <button type="button" class="ann-nt-h1" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'h1')" title="大标题">H1</button>
+            <button type="button" class="ann-nt-h2" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'h2')" title="中标题">H2</button>
+            <span class="ann-nt-sep"></span>
+            <button type="button" class="ann-nt-x" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'plain')" title="转为普通正文（去掉标题/字色/高亮）">正文</button>
+        </div>`;
+    }
+
     return { apply, saveNote, cancelNote, editNote, delNote, exportAnnot, importAnnot,
              openRecover, closeRecover, claimRecover, smartRecover, loadBackup,
-             fmlSaveNote, fmlClosePop };
+             fmlSaveNote, fmlClosePop, applyFmt: annApplyFormat };
 })();
 
 window.Annot = Annot;  // 顶层 const 不上 window，reader.js 靠 window.Annot 判断
