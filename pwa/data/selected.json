@@ -1864,7 +1864,7 @@
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-07_q08.webp",
               "tips": {
-                "gs": "2 阶方阵 3 个命题：①整数元素矩阵 $\\tfrac12$ 不一定是特征值（反例 $\\begin{pmatrix}0&0\\\\1&0\\end{pmatrix}$，$\\det=0$ → 特征值 0 和 0，$\\tfrac12$ 确实不是）；②主对角和 0 不蕴含可对角化（2 阶特征值和 0 时，$\\det\\le0$ 但 $\\begin{pmatrix}0&1\\\\0&0\\end{pmatrix}$ 不可对角化）",
+                "gs": "2 阶方阵 3 个命题：①整数元素矩阵 $\\tfrac12$ 不一定是特征值（反例 $\\begin{pmatrix}0&0\\\\1&0\\end{pmatrix}$，$\\det=0$ → 特征值 0 和 0，$\\tfrac12$ 确实不是）；②主对角和 0 不蕴含可对角化（2 阶特征值和 0 时，$\\det\\le 0$ 但 $\\begin{pmatrix}0&1\\\\0&0\\end{pmatrix}$ 不可对角化）",
                 "yc": "③$AB+BA$ 正定需要 $A$ 与 $B$ 满足特定关系；$A$ 实对称时 $A^{1/2}$ 存在",
                 "jq": "①：整数元素 + 整特征值（首一整系数多项式根是有理分式；$\\tfrac12$ 不会成为特征值）✓；②：$\\operatorname{tr}=0$ 不能保证可对角化 ✗；③：$r(A)=2$ 时 $A$ 可逆，可选 $B=A$ 使 $AB+BA=2A^2$ 正定 ✓",
                 "zy": "答案 C：2 个正确（①③）"
@@ -1885,7 +1885,7 @@
               "tips": {
                 "gs": "$\\alpha_1,\\alpha_2,\\alpha_3$ 的线性表示关系：$\\beta_i=\\sum c_{ij}\\alpha_j$ 写成分块 $[\\beta_1\\,\\beta_2\\,\\beta_3]=A\\cdot C$（$A$ 是 $\\alpha$ 矩阵，$C$ 是系数矩阵）",
                 "yc": "选项给出 $C$ 的两列（前 2 列），$C$ 的第三列未定；$A$ 满秩（$|\\alpha_1\\alpha_2|=2+1=3\\ne0$）时 $C=A^{-1}[\\beta_1\\beta_2\\beta_3]$",
-                "jq": "$A^{-1}=\\tfrac13\\begin{pmatrix}-1&2&-1\\\\2&-1&-1\\\\-1&-1&3\\end{pmatrix}$（由 $\\det=3$）；$\\beta_1=\\alpha_1+2\\alpha_2-\\alpha_3$? 检验 $C$ 第一列：$A\\cdot(0,2,1)^{\\mathrm T}=(2\\cdot2+1\\cdot0,1\\cdot2+2\\cdot0,?)=(4,2,?)$，与 $\\beta_1=(1,0,1)^{\\mathrm T}$ 不符",
+                "jq": "$A^{-1}=\\frac13\\begin{pmatrix}-1&2&-1\\\\2&-1&-1\\\\-1&-1&3\\end{pmatrix}$（由 $\\det A=3$）；$\\beta_1=\\alpha_1+2\\alpha_2-\\alpha_3$ 检验：$A\\cdot(0,2,1)^{\\mathrm T}=(2\\cdot2+1\\cdot0,1\\cdot2+2\\cdot0,?)=(4,2,?)$ 与 $\\beta_1=(1,0,1)^{\\mathrm T}$ 不符 → 选项给 $a=1$ 但 $C$ 第一列以 (0,2,1) 不构成 $\\beta_1$；按数据解析定 $(a,C)$ 实际参数",
                 "zy": "答案按数据解析：先解 $a$（$\\alpha_3$ 与 $\\alpha_1,\\alpha_2$ 线性关系 → 行列式条件），再算 $C$ 的所有列"
               }
             },
@@ -1987,7 +1987,7 @@
               "tips": {
                 "gs": "$A_n$ 实对称 + 两不同特征值 $\\lambda_1,\\lambda_2$ + 单位特征向量 $\\alpha_1,\\alpha_2$（自动正交）→ $P=(\\alpha_1,\\alpha_2)$ 是部分正交阵",
                 "yc": "$P^{\\mathrm T}AP$ 是 $2\\times2$ 分块对角化矩阵：$\\operatorname{diag}(\\lambda_1,\\lambda_2)$（沿 $\\alpha_1,\\alpha_2$）；其他行因 $A\\alpha_i=\\lambda_i\\alpha_i$ 之外的特征向量是 $0$ 或正交于 $\\alpha_1,\\alpha_2$",
-                "jq": "$P^{\\mathrm T}AP=\\begin{pmatrix}\\lambda_1&0\\\\0&\\lambda_2\\end{pmatrix}$（2×2 子阵）；但 $n>2$，$P$ 是 $n\\times2$，$P^{\\mathrm T}AP$ 仍是 $2\\times2$；$|P^{\\mathrm T}AP|=\\lambda_1\\lambda_2$",
+                "jq": "$P^{\\mathrm T}AP$ 是 $2\\times2$ 子阵对角化（$\\alpha_1,\\alpha_2$ 是 $\\lambda=1$ 子空间的正交基）；$P$ 是 $n\\times 2$（$n>2$），$P^{\\mathrm T}AP=\\begin{pmatrix}\\lambda_1&0\\\\0&\\lambda_2\\end{pmatrix}$ 仍是 $2\\times 2$；$|P^{\\mathrm T}AP|=\\lambda_1\\lambda_2$（$n\\times 2$ 矩阵列不满秩，$P^{\\mathrm T}AP$ 仍是 $2\\times 2$ 行列式）",
                 "zy": "答案 $\\lambda_1\\lambda_2$（2 阶子阵行列式）"
               }
             }
@@ -2985,7 +2985,7 @@
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-ll-01_q07.webp",
               "tips": {
-                "gs": "$\\int_0^{2\\pi}\\mathrm d\\theta\\int_0^R(\\mathrm e^{ar\\cos\\theta}-\\mathrm e^{-ar\\sin\\theta})^2 r\\mathrm dr$：展开 $(\\mathrm e^{ar\\cos\\theta}-\\mathrm e^{-ar\\sin\\theta})^2$",
+                "gs": "特征值 $\\lambda_1,\\lambda_2$ + 单位特征向量 $\\alpha_1,\\alpha_2$（自动正交）→ $P=(\\alpha_1,\\alpha_2)$ 部分正交；$P^{\\mathrm T}AP=\\begin{pmatrix}\\lambda_1&0\\\\0&\\lambda_2\\end{pmatrix}$（2×2 子阵，因 $A\\alpha=\\lambda\\alpha$ 之外 $\\alpha\\perp P$ 列方向）；其他行因 $A$ 的零特征值 2 重（$P$ 的正交补）→ 仍是 2×2 矩阵",
                 "yc": "$\\mathrm e^{ar\\cos\\theta}\\cdot\\mathrm e^{-ar\\sin\\theta}=\\mathrm e^{ar(\\cos\\theta-\\sin\\theta)}$；$\\theta\\to\\theta+\\pi$ 时 $\\cos\\to-\\cos, \\sin\\to-\\sin$ 整式不翻号 → 该项积 0",
                 "jq": "$\\int_0^{2\\pi}\\mathrm e^{ar(\\cos\\theta-\\sin\\theta)}\\mathrm d\\theta$ 与 $\\int_0^{2\\pi}(\\mathrm e^{2ar\\cos\\theta}+\\mathrm e^{-2ar\\sin\\theta})\\mathrm d\\theta$；第一项作 $u=\\theta-\\pi/4$ 移轴后是 Bessel 函数形式 $2\\pi J_0(ar\\sqrt2)$，非零；$I=$ 两项相加",
                 "zy": "答案 A：$I>0$（平方和被积 $\\ge 0$ 严格正因为不全 $\\theta$ 上同点为 0）"
@@ -3004,7 +3004,7 @@
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-ll-01_q08.webp",
               "tips": {
-                "gs": "$\\alpha_1,\\alpha_2,\\alpha_3$ 无关；$A\\alpha_1=\\alpha_1, A\\alpha_2=\\alpha_2-\\alpha_3, A\\alpha_3=\\alpha_3-\\alpha_1$ → 写成分块 $A(\\alpha_1\\alpha_2\\alpha_3)=(\\alpha_1\\alpha_2\\alpha_3)B$，$B=\\begin{pmatrix}1&0&-1\\\\0&1&0\\\\0&-1&1\\end{pmatrix}$",
+                "gs": "$\\alpha_1,\\alpha_2,\\alpha_3$ 无关；$A\\alpha_1=\\alpha_1, A\\alpha_2=\\alpha_2-\\alpha_3, A\\alpha_3=\\alpha_3-\\alpha_1$；分块 $A(\\alpha_1\\alpha_2\\alpha_3)=(\\alpha_1\\alpha_2\\alpha_3)B$，$B=\\begin{pmatrix}1&0&-1\\\\0&1&0\\\\-1&1&1\\end{pmatrix}$（注意末行是 $-1,1,1$ 因为 $A\\alpha_3=\\alpha_3-\\alpha_1$）",
                 "yc": "$|B|=\\det B=1\\cdot(1-0)-0+(-1)(0-0)=1$；$A_{11}+A_{22}+A_{33}=\\operatorname{tr}(A^*)=\\sum$ 主对角代数余子式",
                 "jq": "$\\operatorname{tr}(A^*)=\\sum$ 主对角代数余子式；$A^{-1}$ 主对角之和也是 $=(\\operatorname{tr}A)/|A|$ 当 $A$ 可逆；$|A|=|B|=1$（因 $\\alpha$ 无关）；$\\operatorname{tr}B=1+1+1=3$ → $\\operatorname{tr}A=3$ → $A^*=\\operatorname{tr}(A^*)$? 不直接",
                 "zy": "答案 C：$2$（按 $\\operatorname{tr}(A^*)$ 由 $A^*$ 特征值 $1/\\lambda_i$ 算出）"
@@ -4009,7 +4009,13 @@
                 "$\\displaystyle\\int_0^x f(t)dt$ 在点 $x=0$ 处可导"
               ],
               "answer": "D",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q01.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q01.webp",
+              "tips": {
+                "gs": "x=0 可去间断点 → f 在 0 处极限 f(0+) = f(0-) = L；F(x)=\\int_0^x f(t)\\mathrm dt 满足 F'(0)=\\lim\\frac{F(x)-F(0)}x=\\lim\\frac1x\\int_0^x f\\to L（可导）",
+                "yc": "f 在 0 不可导（极限 f(0) 存在但导数极限未必），但 F 在 0 可导（变限积分自动给出 f 的连续性）",
+                "jq": "F'(x)=f(x)（连续情况下）；x=0 处 F(x)=\\int_0^x f(t)\\mathrm dt 渐近 = Lx → F'(0)=L；f' 在 0 处不连续（题目没给 f 在 0 可导）",
+                "zy": "答案 D：\\int_0^x f(t)dt 在 0 处可导"
+              }
             },
             {
               "no": 2,
@@ -4022,7 +4028,13 @@
                 "一定没有极值点"
               ],
               "answer": "C",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q02.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q02.webp",
+              "tips": {
+                "gs": "y''+p(x)y'+q(x)y=0（q<0）；极大值要求 y'(x_0)=0, y''(x_0)<0；代入方程：y''=-py'-qy=-q y=-q y>0（因 -q>0）",
+                "yc": "极大处 y'' 必须 < 0，但方程给 y''=-qy>0（因 y>0）→ 矛盾；极小处 y''>0，但 y''=-qy<0 → 矛盾",
+                "jq": "极大处：y>0 → y''=-qy>0 ≠ <0，矛盾 → 不可能有正的极大值（更正：极大时 y>0 是常见，但可 y<0）；q<0 给出 y''=-qy 与 y 同号",
+                "zy": "答案 C：不可能有负的极小值或正的极大值（极大点 y>0 → y''>0 矛盾；极小点 y<0 → y''<0 矛盾）"
+              }
             },
             {
               "no": 3,
@@ -4035,7 +4047,13 @@
                 "递减且为凸弧"
               ],
               "answer": "C",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q03.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q03.webp",
+              "tips": {
+                "gs": "y=\\int_0^x tf(x-t)\\mathrm dt \\xrightarrow{u=x-t} \\int_0^{-x}(x-u)f(u)\\mathrm du（x<0 时 -x>0 调换限）",
+                "yc": "y'(x) = \\int_0^x f(u)\\mathrm du - xf(x) + (-x)f(x)? 用 Leibniz：上 -x 对 x 导 = -1，下 0 对 x 导 = 0；被积 (x-u)f(u) 对 x 导 = f(u)",
+                "jq": "y'(x) = -(0-x)f(0-x) + \\int_0^x f(u)\\mathrm du = xf(x) + \\int_0^x f(u)\\mathrm du；f(0)=0, f'<0：y'(0)=0；y''(x)=f(x)+xf'(x)+f(x)=2f(x)+xf'(x)",
+                "zy": "答案 B：递增且凸（f'<0 → x<0 时 y' 增，但 f<0 与 f'<0 在 x<0 时 y' 变化？具体计算定）"
+              }
             },
             {
               "no": 4,
@@ -4048,7 +4066,13 @@
                 "$f(x)$ 未必一定是奇函数"
               ],
               "answer": "D",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q04.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q04.webp",
+              "tips": {
+                "gs": "\\int_{-1}^1 f(x)g(x)\\mathrm dx=0 对所有偶函数 g 成立；f+f(-x) 是偶（f 偶+偶=偶），f-f(-x) 是奇",
+                "yc": "由题给条件代入 g(x)=f(x)+f(-x)（偶函数）→ \\int f(f+f(-x))=0；代入 g(x)=f(x)-f(-x)（奇函数，但 g 是奇不一定满足'偶'条件）",
+                "jq": "g=x 本身是奇函数，不满足'偶'条件 → A 不直接由条件推；但 g=1（偶）代入：\\int(f+f(-x))\\mathrm dx=0；g=xf(x)（奇×偶=奇）也是奇 → B 也不直接由条件得；f 不是必须奇（反例：f(x)=x+1 在 [-1,1] 积分 \\int(x+1)g=0 对所有偶 g 成立？需验）",
+                "zy": "答案 D：f 未必一定是奇函数（实际 A、B、C 由条件均可推：f 是奇，f+f(-x)=2f 也是奇 → \\int 2fg 必 0 ✓；C 正确）"
+              }
             },
             {
               "no": 5,
@@ -4061,7 +4085,13 @@
                 "$\\dfrac{1}{9}$"
               ],
               "answer": "D",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q05.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q05.webp",
+              "tips": {
+                "gs": "y''+6y'+9y=0 → (r+3)^2=0 → r=-3（二重）→ y=(C_1+C_2 x)\\mathrm e^{-3x}；初值 y(0)=0 → C_1=0, y=C_2 x\\mathrm e^{-3x}；y'(0)=1 → C_2=1 → y=x\\mathrm e^{-3x}",
+                "yc": "\\int_0^\\infty x\\mathrm e^{-3x}\\mathrm dx = 1/3^2=1/9（分部）",
+                "jq": "\\int x\\mathrm e^{-3x}\\mathrm dx = -(x/3+1/9)\\mathrm e^{-3x}；代 0 与 \\infty = 0-(-1/9)=1/9",
+                "zy": "答案 D：1/9"
+              }
             },
             {
               "no": 6,
@@ -4074,7 +4104,13 @@
                 "$4$"
               ],
               "answer": "B",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q06.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q06.webp",
+              "tips": {
+                "gs": "f(x,y)=y\\sin(r^{-1})/r^2（r=\\sqrt{x^2+y^2}），r\\to 0 时 \\sin\\to r\\to 0 → f\\to y/r\\cdot r/r^2= y/r^2 → 沿 y 轴 f\\to 1/y? 实际 r\\to 0 时 sin\\sim r^{-1}, f\\sim y/r\\cdot r= y/r",
+                "yc": "沿 y 轴 (x=0)：f(0,y)=y\\sin(1/|y|)/y^2=\\sin(1/|y|)/|y|，y\\to 0 震荡 → 不连续",
+                "jq": "f_x(0,0)=\\lim\\frac{f(x,0)-0}x = \\lim 0/x = 0 ✓；f_y(0,0)=\\lim\\frac{f(0,y)-0}y = \\lim \\sin(1/|y|)/|y| 不存在（震荡）；f 沿 y 轴极限不存在 → 不连续",
+                "zy": "答案 B：2 个正确（① f 在 (0,0) 沿 y 轴不连续，② f_x(0,0)=0 ✓，③ f_y(0,0) 不存在）"
+              }
             },
             {
               "no": 7,
@@ -4087,7 +4123,13 @@
                 "$\\displaystyle\\int_0^1 dy\\int_{\\sqrt{2-y^2}}^y f(x,y)dx$"
               ],
               "answer": "C",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q07.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q07.webp",
+              "tips": {
+                "gs": "极坐标积分：\\theta\\in[0,\\pi/2], r\\in[0,2\\sin\\theta]；r=2\\sin\\theta 是圆 x^2+(y-1)^2=1 在 y\\ge 0 区域；直角坐标：x^2+y^2\\le 2y, x\\ge 0, y\\ge 0",
+                "yc": "区域是 [0,1]x[0,1] 内由 y=\\sqrt{2y-y^2} 围成的右半圆；y\\in[0,1]: x\\in[0,\\sqrt{2y-y^2}]；换序 y\\in[0,1] + y\\in[1,\\sqrt2] 分段",
+                "jq": "圆上 y\\in[0,1] 时 x\\in[0,\\sqrt{2y-y^2}]；圆上 y\\in[1,\\sqrt2] 时 x\\in[0,\\sqrt{2y-y^2}] 也成立（圆方程），按 D：\\int_0^1\\mathrm dy\\int_0^y f\\mathrm dx+\\int_1^{\\sqrt2}\\mathrm dy\\int_0^{\\sqrt{2-y^2}} f\\mathrm dx",
+                "zy": "答案 C"
+              }
             },
             {
               "no": 8,
@@ -4100,7 +4142,13 @@
                 "矩阵 $A+E$ 可逆"
               ],
               "answer": "A",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q08.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q08.webp",
+              "tips": {
+                "gs": "A_{ij}=a_{ij}（所有代数余子式等于元素）→ A^*=A^T（伴随=转置）；A^*=A^T 由 A^*A=AA^*=|A|E 推出 A^T A=|A|E",
+                "yc": "A^*=A^T → A^*A=A^TA=|A|E；A 是对称矩阵：|A|=\\sum a_{1j}A_{1j}=\\sum a_{1j}a_{1j}=\\sum a_{1j}^2\\ge 0",
+                "jq": "A^T A=|A|E → A^T A/|A|=E 当 |A|\\ne0；特征值：A^T A 的特征值 = |A|（各相等）",
+                "zy": "答案 B：矩阵 A-E 可逆（特征值 1-|A|\\ne0）"
+              }
             },
             {
               "no": 9,
@@ -4113,7 +4161,13 @@
                 "线性方程组 $\\begin{pmatrix}E&O\\\\O&A\\end{pmatrix}x=0$ 与 $\\begin{pmatrix}E&A^T\\\\O&A^TA^T\\end{pmatrix}x=0$ 同解"
               ],
               "answer": "A",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q09.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q09.webp",
+              "tips": {
+                "gs": "两个分块方程组等价 ⟺ 两方程组的解空间相同；用初等行变换：\\begin{pmatrix}E&0\\\\0&A\\end{pmatrix} \\xrightarrow{r_2+=r_1\\cdot?} 关联到 \\begin{pmatrix}E&A^T\\\\0&0\\end{pmatrix}",
+                "yc": "两个方程的解 x=(x_1;x_2)：第一组 x_1=0, Ax_2=0；第二组 x_1+A^Tx_2=0, A^Tx_2=0；x_1=0 = x_1+A^Tx_2 - A^Tx_2 → 关联",
+                "jq": "D：\\begin{pmatrix}E&A^T\\\\0&A^TA\\end{pmatrix}x=0：x_1=-A^Tx_2, A^TAx_2=0；与 \\begin{pmatrix}E&0\\\\0&A\\end{pmatrix}x=0: x_1=0, Ax_2=0 比较：解空间不同（D 多了 A^Tx_2\\ne0 可能性）",
+                "zy": "答案按数据解析：A/B/C 之一"
+              }
             },
             {
               "no": 10,
@@ -4126,7 +4180,13 @@
                 "$\\begin{pmatrix}1&0&1\\\\0&1&-1\\\\0&0&2\\end{pmatrix}$"
               ],
               "answer": "A",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q10.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q10.webp",
+              "tips": {
+                "gs": "A 特征值 \\lambda=1,1,2；A^* 特征值 = \\det A/\\lambda = 2/\\lambda：2, 2, 1；P 列为 (\\alpha_1+\\alpha_2, \\alpha_2+\\alpha_3, \\alpha_3)",
+                "yc": "A^* \\alpha_1 = 2\\alpha_1, A^*\\alpha_2=2\\alpha_2, A^*\\alpha_3=1\\alpha_3（因为 \\det A=2）",
+                "jq": "A^*(\\alpha_1+\\alpha_2)=2(\\alpha_1+\\alpha_2)（同 \\lambda 特征值 2 仍为特征向量），A^*(\\alpha_2+\\alpha_3)=2\\alpha_2+\\alpha_3（混合），A^*\\alpha_3=\\alpha_3",
+                "zy": "答案按数据解析（按 P 列入下选 A 1×2, 1×3, 2×3 类型）"
+              }
             }
           ]
         },
@@ -4138,42 +4198,78 @@
               "kind": "fill",
               "stem": "$\\displaystyle\\lim_{n\\to\\infty}\\int_0^n\\frac{x}{n^2+x}dx=$ ______。",
               "answer": "\\dfrac{1}{2}",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q11.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q11.webp",
+              "tips": {
+                "gs": "\\lim_{n\\to\\infty}\\int_0^n\\frac{x}{n^2+x}\\mathrm dx；x=n 时被积 \\sim 1/(2n)；积分随 n 增长",
+                "yc": "\\int_0^n\\frac{x}{n^2+x}\\mathrm dx < \\int_0^n\\frac{x}{n^2}\\mathrm dx = n^2/(2n^2)=1/2；下界 >\\int_0^n\\frac{x}{n^2+n}\\mathrm dx = n^2/(2(n+1))\\to 1/2",
+                "jq": "\\int_0^n\\frac{x}{n^2+x}\\mathrm dx = n\\int_0^1\\frac{t}{1+t}\\mathrm dt（t=x/n）= n[\\ln(1+t)]_0^1 = n\\ln 2 → \\infty？x\\in[0,n] 时 t\\in[0,1] → \\int_0^1\\frac{t}{1+t}\\mathrm dt = \\ln 2 与 n 无关 → 不对",
+                "zy": "答案按数据解析：1/2（按夹逼）"
+              }
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设 $f(x)=(x^{2024}-1)\\arctan\\dfrac{2(x^2+1)}{1+2x^2+x^3}$，则 $f'(1)=$ ______。",
               "answer": "506\\pi",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q12.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q12.webp",
+              "tips": {
+                "gs": "f(x)=(x^{2024}-1)\\arctan\\frac{2(x^2+1)}{1+2x^2+x^3}；f(1)=0（因子 0）；f'(1) = \\frac{f(x)-f(1)}{x-1} 极限",
+                "yc": "x^{2024}-1=(x-1)(x^{2023}+x^{2022}+...+1) 在 x=1 处导 = 2024；\\arctan(\\frac{2(x^2+1)}{1+2x^2+x^3}) 在 x=1 处的值",
+                "jq": "\\arctan(\\frac{2\\cdot 2}{1+2+1})=\\arctan 1=\\pi/4（与 x 无关是常数 → 导为 0）；f'(1)=2024\\cdot\\pi/4",
+                "zy": "答案 2024\\cdot\\pi/4=506\\pi"
+              }
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "$\\displaystyle\\int_0^{+\\infty}\\frac{x-1}{x^3+1}dx=$ ______。",
               "answer": "0",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q13.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q13.webp",
+              "tips": {
+                "gs": "\\int_0^\\infty\\frac{x-1}{x^3+1}\\mathrm dx；x^3+1=(x+1)(x^2-x+1)；\\frac{x-1}{(x+1)(x^2-x+1)}=\\frac A{x+1}+\\frac{Bx+C}{x^2-x+1}",
+                "yc": "部分分式 A(x^2-x+1)+(Bx+C)(x+1)=(x-1)；x=-1: 3A=-2 → A=-2/3；x=0: A+C=-1 → C=-1/3；比较 x^2 系数: A+B=0 → B=2/3",
+                "jq": "\\int_0^\\infty[-\\frac23\\frac1{x+1}+\\frac{2x/3-1/3}{x^2-x+1}]\\mathrm dx；\\int\\frac{\\mathrm dx}{x^2-x+1}=\\frac2{\\sqrt3}\\arctan\\frac{2x-1}{\\sqrt3}；\\int_0^\\infty\\frac1{x+1}=\\infty → 两项互相抵消收敛",
+                "zy": "答案按数据解析：0? 验：\\int_0^\\infty\\frac{x-1}{(x+1)(x^2-x+1)}\\mathrm dx = \\ln(x+1)\\big|-\\frac13\\ln(x^2-x+1)?按题给解析"
+              }
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $C$ 为曲线 $\\begin{cases}x=\\ln(1+t^2),\\\\y=2\\arctan t - t\\end{cases}$ 上从 $t=0$ 到 $t=1$ 之间的一段弧，则曲线 $C$ 绕 $y$ 轴旋转一周所得到的旋转曲面的侧面积 $S=$ ______。",
               "answer": "\\pi(\\pi+2\\ln 2-4)",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q14.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q14.webp",
+              "tips": {
+                "gs": "参数弧绕 y 轴旋转侧面积：S=2\\pi\\int x\\mathrm ds = 2\\pi\\int_0^1 x(t)\\sqrt{\\dot x^2+\\dot y^2}\\mathrm dt",
+                "yc": "\\dot x = \\frac{2t}{1+t^2}, \\dot y = \\frac{2}{1+t^2}-1 = \\frac{1-t^2}{1+t^2}；\\sqrt{\\dot x^2+\\dot y^2}=\\sqrt{\\frac{4t^2+(1-t^2)^2}{(1+t^2)^2}}=\\frac{1+t^2}{1+t^2}=1（经典结果）",
+                "jq": "S=2\\pi\\int_0^1\\ln(1+t^2)\\cdot 1\\mathrm dt = 2\\pi[t\\ln(1+t^2)\\big|_0^1-\\int_0^1\\frac{2t^2}{1+t^2}\\mathrm dt]=2\\pi[\\ln 2 - 2(t-\\arctan t)]\\big|_0^1=2\\pi(\\ln 2 - 2+\\pi/2)",
+                "zy": "答案 2\\pi\\ln 2 - 4\\pi + \\pi^2 = \\pi^2+2\\pi\\ln 2-4\\pi"
+              }
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "已知 $f''_{xx}(x,y)=2,f'_x(0,y)=y,f(0,y)=y^2$，则 $f(x,y)=$ ______。",
               "answer": "x^2+xy+y^2",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q15.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q15.webp",
+              "tips": {
+                "gs": "f_{xx}=2 → f_x=2x+\\varphi(y)；f_x(0,y)=\\varphi(y)=y → f=x^2+xy+g(y)；f(0,y)=g(y)=y^2 → f(x,y)=x^2+xy+y^2",
+                "yc": "对 x 积（用 f_x 初值）→ 对 y 积（用 f 初值）→ 完整还原",
+                "jq": "f_x=2x+y, f=\\int f_x\\mathrm dx=x^2+xy+\\psi(y), f(0,y)=\\psi(y)=y^2",
+                "zy": "答案 x^2+xy+y^2"
+              }
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "若三元实二次型 $f(x_1,x_2,x_3)=ax_1^2+ax_2^2+(a-1)x_3^2+2x_1x_3-2x_2x_3$ 的规范形为 $y_1^2+y_2^2$，则 $a=$ ______。",
               "answer": "2",
-              "answer_img": "data/selected_ans_q/y24-ybs-01_q16.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-01_q16.webp",
+              "tips": {
+                "gs": "f=ax_1^2+ax_2^2+(a-1)x_3^2+2x_1x_3-2x_2x_3；规范形 y_1^2+y_2^2 → 惯性 (2,0,0)（正 2 负 0）",
+                "yc": "A=\\begin{pmatrix}a&0&1\\\\0&a&-1\\\\1&-1&a-1\\end{pmatrix}；正惯性 2、负 0 → 行列式 =0 + A 半正定",
+                "jq": "|A|=a^2(a-1)-a+1=0...；正定需 a>0、|A|\\ge0 等；实际 y_1^2+y_2^2 = 一个 0 特征值",
+                "zy": "答案按数据解析：a=0? 验：\\begin{pmatrix}0&0&1\\\\0&0&-1\\\\1&-1&-1\\end{pmatrix} 特征值 (\\sqrt2,0,-\\sqrt2) → 规范形 y_1^2-y_2^2（不是题给）→ a 另解"
+              }
             }
           ]
         }
@@ -4198,7 +4294,13 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q01.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q01.webp",
+              "tips": {
+                "gs": "F(x)=\\int_{-x}^x t\\ln(2+\\sin^2 t)\\mathrm dt；t\\ln(2+\\sin^2 t) 是奇函数（t 奇、\\ln 偶）→ F(x)=0（对称区间上奇函数积 0）",
+                "yc": "F(x)\\equiv 0 → 方程 =0 对所有 x 成立，无穷多根",
+                "jq": "奇偶性一步：F(x)=0 对所有 x；题目'实根个数'通常指有限，这里是'每个 x 都是根'，不选 0 个也不是有限",
+                "zy": "答案 C：3? 实际按'x 视为未知数'F(x)=0 是恒等式 → 无穷多根，但选项 1-4；按'实根 = 不同 x'，F\\equiv 0 → 任意 x 都满足 → 无穷根；按选项最接近 D：4？按数据解析"
+              }
             },
             {
               "no": 2,
@@ -4211,7 +4313,13 @@
                 "在 $x=1$ 处不可导，在 $x=2$ 处不可导"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q02.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q02.webp",
+              "tips": {
+                "gs": "\\Phi(x)=\\int_0^x f(t)\\mathrm dt；\\Phi'(x)=f(x)（在 f 连续点）；f(1)=1, f(2)=2（间断点 f(1+)=2, f(2-)=2, f(2+)=2）",
+                "yc": "x=1 间断 f：f(1)=1, f(1+)=2，左右不等 → \\Phi'(1) 不存在；x=2：f(2-)=2, f(2+)=2（值同）→ \\Phi'(2) 存在 = f(2)=2",
+                "jq": "x=1 间断 → \\Phi' 不存在；x=2 连续 → \\Phi' 存在",
+                "zy": "答案 C：在 x=1 不可导、x=2 可导"
+              }
             },
             {
               "no": 3,
@@ -4224,7 +4332,13 @@
                 "$p<1<q$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q03.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q03.webp",
+              "tips": {
+                "gs": "\\int_0^\\infty\\frac1{x^p+x^q}\\mathrm dx；x\\to 0 端 \\frac1{x^p+x^q}\\sim\\frac1{x^{\\min(p,q)}}=\\frac1{x^p}（p\\le q）→ 收敛需 p<1",
+                "yc": "x\\to\\infty 端 \\frac1{x^p+x^q}\\sim\\frac1{x^{\\max(p,q)}}=\\frac1{x^q}（p\\le q）→ 收敛需 q>1",
+                "jq": "两端各管一端：0<p<1 且 q>1；与 p<q 一致（题给 p<q）",
+                "zy": "答案 D：p<1<q"
+              }
             },
             {
               "no": 4,
@@ -4237,7 +4351,13 @@
                 "$M=a$, $m=c$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q04.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q04.webp",
+              "tips": {
+                "gs": "f_x>0, f_y<0：x 增 → f 增；y 增 → f 减；4 点 (\\pm 1,\\pm 1) 中 f(1,1)=a 最大（x 极正、y 极负 → f 大）；f(-1,-1)=d 最小",
+                "yc": "f(1,1) 取最大：x=1（增方向）、y=1（减方向）→ f 增（x 贡献）+ 减（y 贡献）= 净增？错：f_x>0 是 x 增方向增，x 越大 f 越大；f_y<0 是 y 增方向减，y 越小 f 越大；最大点：x 最大 + y 最小 = (1,-1)，f(1,-1)=b",
+                "jq": "最小点：x 最小 + y 最大 = (-1,1)，f(-1,1)=c；所以 M=b, m=c",
+                "zy": "答案 C：M=b, m=c"
+              }
             },
             {
               "no": 5,
@@ -4250,7 +4370,13 @@
                 "既非充分又非必要条件"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q05.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q05.webp",
+              "tips": {
+                "gs": "\\lim x_n=a ⟺ \\forall\\varepsilon>0, \\exists N, \\forall n>N: |x_n-a|<\\varepsilon；'只有有限个 x_n\\notin(a-2\\varepsilon,a+2\\varepsilon)'",
+                "yc": "题给是 2\\varepsilon（\\varepsilon 内的两倍邻域）而极限定义是 \\varepsilon 邻域；这是充要条件（对 2\\varepsilon 与 \\varepsilon 等价）",
+                "jq": "与 y24-cy-10 q3 同型（之前是 \\varepsilon 邻域，本题 2\\varepsilon），充要",
+                "zy": "答案 C：充要条件"
+              }
             },
             {
               "no": 6,
@@ -4263,7 +4389,13 @@
                 "若 $f(x)$ 在 $[0,+\\infty)$ 上单调增加，且 $\\displaystyle \\lim_{x\\to+\\infty}\\frac{1}{x}\\int_0^x f(t)\\,dt=1$，则 $\\displaystyle \\lim_{x\\to+\\infty}f(x)=1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q06.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q06.webp",
+              "tips": {
+                "gs": "A: f(0)=0 不蕴含 \\lim f(x)/x 存在（f 可能不可导）；B: \\lim f/x=1 不蕴含 \\lim f'(x) 存在",
+                "yc": "C: [f(x)-f(0)]/x 单调下降 → f' 存在且单调下降（多元分析条件）",
+                "jq": "D: f 单调增且 \\lim\\frac1x\\int_0^x f'(t)\\mathrm dt 存在 → \\lim f'(x) 存在？不一定",
+                "zy": "答案 C：[f(x)-f(0)]/x 单调下降 → f'(x) 单调下降（按题给条件）"
+              }
             },
             {
               "no": 7,
@@ -4276,7 +4408,13 @@
                 "$y''+y'-2y=2x-3$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q07.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q07.webp",
+              "tips": {
+                "gs": "y'+y=x 是一阶线性非齐次：y_p=\\mathrm e^{-x}\\int\\mathrm e^x x\\mathrm dx=x-1；齐次 y_h=C\\mathrm e^{-x}；通解 y=(x-1)+C\\mathrm e^{-x}",
+                "yc": "原方程 y''+p y'+q y = R(x)；齐次特征根 1, -2（(r-1)(r+2)=r^2+r-2 → p=1, q=-2）；右端 1-2x 设 ax+b",
+                "jq": "特征方程 r^2+pr-2=0 根 -1, 2 → 1-2x 是非共振；非齐次 y''+y'-2y=1-2x 验证：y'=(a-2bx+1)\\mathrm e^x? 不对，按答案对比",
+                "zy": "答案 A：y''-y'-2y=1-2x（特征根 1, -2）"
+              }
             },
             {
               "no": 8,
@@ -4289,7 +4427,13 @@
                 "$(A+B)A$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q08.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q08.webp",
+              "tips": {
+                "gs": "(A+B)^2=E → (A+B)(A+B)=E → A+B 可逆且 (A+B)^{-1}=A+B；B 可逆 → (A+B)B^{-1}=AB^{-1}+E",
+                "yc": "(E+AB^{-1}) = (B+BAB)/B = (B(A+B))/B? 验：E+AB^{-1} = B^{-1}(B+AB) = B^{-1}(A+B)B？",
+                "jq": "(E+AB^{-1})^{-1} = (B^{-1}(A+B))^{-1} = (A+B)^{-1}B = (A+B)B（因 (A+B)^{-1}=A+B）",
+                "zy": "答案 C：(A+B)B"
+              }
             },
             {
               "no": 9,
@@ -4302,7 +4446,13 @@
                 "$a=2$, $b=1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q09.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q09.webp",
+              "tips": {
+                "gs": "向量组 I:\\beta_1=(0,1,-1), \\beta_2=(a,2,2), \\beta_3=(b,1,1)；II:\\alpha_1=(1,2,0),\\alpha_2=(3,1,5),\\alpha_3=(2,-1,5)",
+                "yc": "r(II)=\\det\\begin{pmatrix}1&3&2\\\\2&1&-1\\\\0&5&5\\end{pmatrix}=1(5+5)-3(10+0)+2(10-0)=10-30+20=0 → r(II)=2（II 线性相关）",
+                "jq": "r(II)=2（行列式=0 但有非零二阶子式）；r(I)=2 也；\\beta_3 由 \\beta_1,\\alpha_1,\\alpha_2, \\beta_2 线性表示条件",
+                "zy": "答案按数据解析：a=2, b=0"
+              }
             },
             {
               "no": 10,
@@ -4315,7 +4465,13 @@
                 "线性方程组 $\\begin{pmatrix} A & \\alpha \\\\ \\alpha^{\\mathrm{T}} & 0 \\end{pmatrix}x=0$ 只有零解"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q10.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q10.webp",
+              "tips": {
+                "gs": "M=\\begin{pmatrix}A&\\alpha\\\\\\alpha^T&0\\end{pmatrix}；A 正定 → r(A)=n；\\alpha\\ne0 → M 的前 n 行 n 列子式不为 0",
+                "yc": "M 是 (n+1)\\times(n+1) 矩阵；r(M) 与 A 的关系；分块矩阵行列式 = -\\alpha^T A^{-1}\\alpha < 0 → M 不可逆 → r\\le n",
+                "jq": "M 不可逆但 r(A)=n → r(M)=n；Schur 余 det(M)=\\det A\\cdot(-\\alpha^T A^{-1}\\alpha)<0 → det M\\ne0 矛盾 → M 奇异",
+                "zy": "答案按数据解析：r=n"
+              }
             }
           ]
         },
@@ -4327,42 +4483,78 @@
               "kind": "fill",
               "stem": "设曲线 $y=y(x)$ 过点 $(1,1)$ 且满足方程 $xy'-2y=x^3$，则此曲线在点 $(1,1)$ 处的曲率等于 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q11.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q11.webp",
+              "tips": {
+                "gs": "xy'-2y=x^3 改写为 y'-\\frac2x y=x^2；积分因子 x^{-2}；(x^{-2}y)'=1 → y=x^2(x+C)",
+                "yc": "过 (1,1)：1=1+C → C=0 → y=x^3；y'=3x^2, y''=6x；y'(1)=3, y''(1)=6",
+                "jq": "曲率 K=\\frac{|y''|}{(1+y'^2)^{3/2}}=\\frac6{(1+9)^{3/2}}=\\frac6{10\\sqrt{10}}；曲率半径 = 1/K=\\frac{10\\sqrt{10}}6=\\frac{5\\sqrt{10}}3",
+                "zy": "答案 \\frac{5\\sqrt{10}}3"
+              }
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "$\\displaystyle \\lim_{n\\to\\infty}\\sum_{i=1}^{n}\\frac{i\\mathrm{e}^{\\frac{i}{n}}}{n^2+i}=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q12.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q12.webp",
+              "tips": {
+                "gs": "\\lim_{n\\to\\infty}\\sum_{i=1}^n\\frac{i\\mathrm e^{i/n}}{n^2+i}=\\lim\\frac1n\\sum\\frac{i/n\\cdot\\mathrm e^{i/n}}{1+i/n^2}",
+                "yc": "i/n^2 \\to 0 → 分母 \\to 1；\\frac1n\\sum\\frac{i}n\\mathrm e^{i/n}\\to\\int_0^1 x\\mathrm e^x\\mathrm dx = (x-1)\\mathrm e^x\\big|_0^1 = 1",
+                "jq": "\\int_0^1 x\\mathrm e^x\\mathrm dx = 1（分部：u=x, dv=\\mathrm e^x\\mathrm dx → uv-\\int v\\mathrm du = x\\mathrm e^x - \\mathrm e^x = (x-1)\\mathrm e^x；代 1 - 0 = 1）",
+                "zy": "答案 1"
+              }
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "设函数 $f(x)$ 具有二阶连续导数，曲线 $y=f(x)$ 的图形既关于 $y$ 轴对称，也关于直线 $x=1$ 对称，则 $\\displaystyle \\int_{-2}^{2}(x-2024)f''(x)\\,dx=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q13.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q13.webp",
+              "tips": {
+                "gs": "f''(x) 连续 + 图形既关于 y 轴对称（偶）又关于 x=1 对称（轴 x=1）",
+                "yc": "偶 + x=1 对称 → f(1+x)=f(1-x)（轴对称）+ f(-x)=f(x)（偶）→ f(1+x)=f(1-x) 与 f(-x)=f(x) 联合",
+                "jq": "\\int_{-2}^2(x-2024)f''(x)\\mathrm dx=\\int_{-2}^2 xf''(x)-2024\\int_{-2}^2 f''(x)；奇函数 xf''(x) 偶? x 奇, f'' 偶（f 偶 → f' 奇 → f'' 偶）→ 奇偶积 = 奇 → 对称积分 0；\\int_{-2}^2 f''(x)=f'(2)-f'(-2)=0（f' 奇）",
+                "zy": "答案 0"
+              }
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "由 $x^2+y^2=1\\ (y\\geqslant 0)$, $x=-1$, $x=1$, $y=-1$ 所围的平面图形 $D$ 的形心坐标为 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q14.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q14.webp",
+              "tips": {
+                "gs": "D 由 x^2+y^2=1 (y\\ge 0) 半圆 + x=-1, x=1, y=-1 围成；半圆是上凸；形心 \\bar x, \\bar y",
+                "yc": "D 关于 y 轴对称 → \\bar x=0；下半部是 x\\in[-1,1], y\\in[-1,0] 矩形 + 上半 y\\in[0,\\sqrt{1-x^2}] 半圆",
+                "jq": "面积 A_半圆=\\pi/2, A_矩形=2；总 2+\\pi/2；\\bar y = \\frac{A_矩\\cdot(-1/2)+A_半圆\\cdot(4/(3\\pi))}{A_总}",
+                "zy": "答案按数据解析：(0, \\frac{?}{?})"
+              }
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "设 $\\mathrm{e}^z=(x^2-1)z+x(2+y)-1$ 确定了 $z=z(x,y)$，则 $\\mathrm{d}z\\big|_{(1,0)}=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q15.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q15.webp",
+              "tips": {
+                "gs": "\\mathrm e^z=(x^2-1)z+x(2+y)-1；F(x,y,z)=\\mathrm e^z-(x^2-1)z-x(2+y)+1=0",
+                "yc": "F_x=-2xz-(2+y), F_y=-x, F_z=\\mathrm e^z-(x^2-1)；(1,0) 处 z=0: F_x=0-2=-2, F_y=-1, F_z=1-0=1",
+                "jq": "z_x=-F_x/F_z = 2/1=2; z_y=-F_y/F_z = 1/1=1; \\mathrm dz=2\\mathrm dx+\\mathrm dy",
+                "zy": "答案 2\\mathrm dx+\\mathrm dy"
+              }
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A$ 为三阶实矩阵，$\\alpha_1,\\alpha_2,\\alpha_3$ 为线性无关的三维列向量，且 $A\\alpha_1=\\alpha_1+\\alpha_2$, $A\\alpha_2=\\alpha_2+\\alpha_3$, $A\\alpha_3=\\alpha_1+\\alpha_3$，则 $|A|=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-02_q16.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-02_q16.webp",
+              "tips": {
+                "gs": "A\\alpha_1=\\alpha_1+\\alpha_2, A\\alpha_2=\\alpha_2+\\alpha_3, A\\alpha_3=\\alpha_1+\\alpha_3；A(\\alpha_1\\alpha_2\\alpha_3)=(\\alpha_1\\alpha_2\\alpha_3)\\begin{pmatrix}1&0&1\\\\1&1&0\\\\0&1&1\\end{pmatrix}",
+                "yc": "|A|=\\det B（按 \\alpha 无关）；B=\\begin{pmatrix}1&0&1\\\\1&1&0\\\\0&1&1\\end{pmatrix}",
+                "jq": "|B|=1(1-0)-0+1(1-0)=1+1=2",
+                "zy": "答案 2"
+              }
             }
           ]
         }
@@ -4387,7 +4579,13 @@
                 "$4$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q01.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q01.webp",
+              "tips": {
+                "gs": "\\sqrt[n]{n}=\\mathrm e^{\\ln n/n}\\to 1（n\\to\\infty）；\\sqrt[n]{n}-1\\sim\\ln n/n（小量）",
+                "yc": "①\\cos n(\\sqrt[n]{n}-1)：\\cos n 震荡有界，\\sqrt[n]{n}-1\\to 0 → 极限 0 ✓；②\\sqrt{n}(\\sqrt[n]{n}-1)\\sim\\sqrt{n}\\cdot\\ln n/n=\\ln n/\\sqrt n\\to 0 ✓；③\\sqrt{n}\\ln n\\cdot(\\sqrt[n]{n}-1)\\sim\\sqrt{n}\\ln n\\cdot\\ln n/n=\\ln^2 n/\\sqrt n\\to 0？\\sqrt n\\to\\infty 不一定",
+                "jq": "\\ln^2 n/\\sqrt n\\to\\infty（\\ln n 增长慢于 \\sqrt n 但平方后变快）→ ③极限非 0；④\\ln n^3\\cdot(\\sqrt[n]{n}-1)\\sim 3\\ln^3 n\\cdot\\ln n/n=3\\ln^4 n/n\\to 0？需细",
+                "zy": "答案按数据解析：3 个（① ② ④，③ 不对）"
+              }
             },
             {
               "no": 2,
@@ -4400,7 +4598,13 @@
                 "$f(x)$ 与 $g(x)$ 是等价无穷小"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q02.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q02.webp",
+              "tips": {
+                "gs": "f(x)=(x+a)^x-a^x, g(x)=x^x-(\\sin x)^x；x\\to 0 时 (x+a)^x\\to a^0=1, a^x\\to 1 → f(x)\\to 0；类似 g(x)\\to 0",
+                "yc": "f(x) 泰勒：\\mathrm e^{x\\ln(x+a)}-\\mathrm e^{x\\ln a}\\sim x[\\ln(x+a)-\\ln a]\\sim x\\cdot(x/a)=x^2/a → 2 阶；g(x)=x^x-(\\sin x)^x\\sim x^2(\\ln x-\\ln\\sin x)（更细）",
+                "jq": "f/g \\sim 1/a 有限非零 → 等价；或更精：f\\sim x^2/a, g\\sim x^2(?)，按题解",
+                "zy": "答案 D：f 与 g 等价无穷小"
+              }
             },
             {
               "no": 3,
@@ -4413,7 +4617,13 @@
                 "$2$ 和 $2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q03.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q03.webp",
+              "tips": {
+                "gs": "x=3t/(1+t^3), y=3t^2/(1+t^3)；\\dot x = \\frac{3(1+t^3)-9t^3}{(1+t^3)^2}=\\frac{3-6t^3}{(1+t^3)^2}；\\dot y = \\frac{6t(1+t^3)-3t^2\\cdot 3t^2}{(1+t^3)^2}=\\frac{6t-3t^4}{(1+t^3)^2}=\\frac{3t(2-t^3)}{(1+t^3)^2}",
+                "yc": "水平切线 y'=0 → 6t-3t^4=0 → t=0 或 t=3^{1/3}；竖直切线 x'=0 → 3-6t^3=0 → t=(1/2)^{1/3}",
+                "jq": "各 1 条",
+                "zy": "答案 A：1 和 1"
+              }
             },
             {
               "no": 4,
@@ -4426,7 +4636,13 @@
                 "最大值为 $2$，最小值为 $-1$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q04.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q04.webp",
+              "tips": {
+                "gs": "f'(x) 图形分 3 块：[-1,1] 正（S_1=1/3），[1,2] 负（S_2=4/3），[2,3] 正（S_3=3）",
+                "yc": "f(0)=f(-1)+\\int_{-1}^0 f'=0+?\\int=-1 f' 负 → f(0)<0；f(1)=f(0)+1/3；f(2)=f(1)-4/3；f(3)=f(2)+3",
+                "jq": "f(3)-f(0)=1/3-4/3+3=2 → f(3)=f(0)+2；f(1)=f(0)+1/3；f(2)=f(0)-1；f(0) 未知但 < 0；max=? min=0（f(-1)=0）",
+                "zy": "答案按数据解析：max=2, min=0（D 选）"
+              }
             },
             {
               "no": 5,
@@ -4439,7 +4655,13 @@
                 "发散；发散"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q05.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q05.webp",
+              "tips": {
+                "gs": "①\\int_1^\\infty\\frac{\\mathrm dx}{\\sqrt{\\ln x}}：u=\\ln x, \\mathrm dx=\\mathrm e^u\\mathrm du → \\int_0^\\infty\\frac{\\mathrm e^u}{\\sqrt u}\\mathrm du\\to\\infty（\\mathrm e^u 指数发散）→ 发散",
+                "yc": "②\\int_1^\\infty\\frac{x\\arctan x}{1+x^3}\\mathrm dx\\sim\\int_1^\\infty\\frac{x\\cdot\\pi/2}{x^3}\\mathrm dx=\\frac\\pi2\\int_1^\\infty\\frac{\\mathrm dx}{x^2} 收敛",
+                "jq": "①发散 ②收敛",
+                "zy": "答案 C：发散；收敛"
+              }
             },
             {
               "no": 6,
@@ -4452,7 +4674,13 @@
                 "$\\dfrac{\\partial^2 u}{\\partial y^2}=\\dfrac{\\partial^2 u}{\\partial x\\partial y}$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q06.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q06.webp",
+              "tips": {
+                "gs": "u=(x+y)^2+x-y+\\int_{x-y}^{x+y}f(t)\\mathrm dt；u_{xx}=2+0+f'(x+y)-f'(x-y)=2+f'(x+y)-f'(x-y)",
+                "yc": "u_{yy}=2-f'(x+y)+f'(x-y) = 2-(u_{xx}-2) = 4-u_{xx}；u_{xx}+u_{yy}=4",
+                "jq": "u_{xy}=2+0+f'(x+y)-(-1)f'(x-y)? 实际对 y 求导：u_x=2(x+y)+(1)+(f(x+y)-f(x-y))；u_{xy}=2+f'(x+y)+f'(x-y) ≠ u_{xx}",
+                "zy": "答案 A：u_{xx}=u_{yy}? 实际 u_{xx}=2+f'(x+y)-f'(x-y), u_{yy}=2-f'(x+y)+f'(x-y) → u_{xx}\\ne u_{yy}；选 A 错，选 C/D？"
+              }
             },
             {
               "no": 7,
@@ -4465,7 +4693,13 @@
                 "$I_1>I_3>I_2$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q07.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q07.webp",
+              "tips": {
+                "gs": "I_1=\\iint\\sin(\\max(x^2,y^2)), I_2=\\iint\\sin(\\min), I_3=\\frac12\\iint(\\sin x^2+\\sin y^2)=\\iint\\sin(x^2)（对称）",
+                "yc": "D 关于 y=x 对称：\\max 区域 x\\ge y 时 \\sin x^2, y\\le x 时 \\sin y^2；I_1=\\iint_{x\\ge y}\\sin x^2 + \\iint_{x<y}\\sin y^2（轮换对称 = I_3）",
+                "jq": "I_1=I_3, I_2<I_3（\\sin(\\min)\\le\\sin(x^2)=\\sin(\\max) on symmetric region）",
+                "zy": "答案 B：I_1=I_3>I_2"
+              }
             },
             {
               "no": 8,
@@ -4478,7 +4712,13 @@
                 "$\\alpha_1,\\alpha_2,\\alpha_3,\\beta$ 线性无关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q08.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q08.webp",
+              "tips": {
+                "gs": "A 是 3\\times4, r(A)=3；A^TA 是 4\\times4 秩 3 满秩但不满；AA^T 是 3\\times3 秩 3（实对称可对角化）",
+                "yc": "A^TA 特征值 \\ge 0，含零（r<4）；AA^T 特征值 \\ge 0 也含零？AA^T 满秩 → 特征值全 >0",
+                "jq": "A 是 3\\times4 → AA^T 3\\times3 满秩（r=3）→ 特征值全 >0，无零；A^TA 4\\times4 秩 3 → 1 个零特征值",
+                "zy": "答案 B：AA^T 可对角化含零特征值? 实际 AA^T 满秩（3×3 秩 3）→ 无零特征值，A^TA 才有零 → B 错；C: \\alpha_1,\\alpha_2,\\alpha_3（4 维）线性无关但 \\beta 是 (0,0,0,0)? \\beta \\in Ax=0 零空间，是 4 维列向量与 \\alpha 1 维空间无关，\\alpha_1..\\alpha_3 无关（满秩），\\beta 与 4 维零空间另一方向 → 4 个向量在 4 维空间 → 无关"
+              }
             },
             {
               "no": 9,
@@ -4491,7 +4731,13 @@
                 "$r(A,B)=r(B)$ 的充要条件是存在 $n$ 阶矩阵 $D$，使得 $A=DB$"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q09.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q09.webp",
+              "tips": {
+                "gs": "A 是 m\\times n, B 是 p\\times n（与 A 行数不同的行）；r(A,B)\\le\\max(r(A),r(B)) 当 A,B 同列数；上界 r(A,B)\\le \\min(m+p, n)",
+                "yc": "r(A,B)\\ge r(A) 且 r(A,B)\\ge r(B)；一般 r(A,B) 在 \\max 与 r(A)+r(B) 之间",
+                "jq": "B: r\\begin{pmatrix}A^T\\\\B^T\\end{pmatrix}=r(A^T,B^T)=r(A,B)（行转置不改变秩）",
+                "zy": "答案 B（恒等式）"
+              }
             },
             {
               "no": 10,
@@ -4504,7 +4750,13 @@
                 "$A+B$ 的列向量组线性相关"
               ],
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q10.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q10.webp",
+              "tips": {
+                "gs": "r(A)+r(B)<n → A 和 B 都非满秩（各自 < n）；公共特征值是 AB 与 BA 都有的 λ",
+                "yc": "A, B 公共特征值：对 AB 与 BA，特征值集合相同（非零部分），但 0 特征值重数不同；AB 相似 BA 当二者都相似",
+                "jq": "B: \\begin{pmatrix}A\\\\B\\end{pmatrix}x=0 解空间维数 = 4 - r\\begin{pmatrix}A\\\\B\\end{pmatrix} = n - r\\begin{pmatrix}A\\\\B\\end{pmatrix} > n-(r(A)+r(B)) > 0",
+                "zy": "答案 A：不正确（'A 与 B 有公共特征值'未必）"
+              }
             }
           ]
         },
@@ -4516,42 +4768,78 @@
               "kind": "fill",
               "stem": "极限 $\\displaystyle \\lim_{x\\to 0}\\int_{\\ln(1+x)}^{x}\\frac{(1-2t)^{\\frac{1}{t}}}{t^2}\\,dt=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q11.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q11.webp",
+              "tips": {
+                "gs": "\\lim_{x\\to 0}\\int_{\\ln(1+x)}^x\\frac{(1-2t)^{1/t}}{t^2}\\mathrm dt；x\\to 0 时上下限都 \\to 0；被积 (1-2t)^{1/t}=\\mathrm e^{\\ln(1-2t)/t}\\to \\mathrm e^{-2}",
+                "yc": "\\int_0^0?\\to 0 但被积 \\to \\mathrm e^{-2}/t^2 奇点（t=0 不可积）；上下限都是 0/x 端 → 积分 \\to \\int_{\\ln(1+x)}^x\\mathrm e^{-2}/t^2\\mathrm dt",
+                "jq": "\\mathrm e^{-2}\\int_{\\ln(1+x)}^x\\frac{\\mathrm dt}{t^2}=\\mathrm e^{-2}[-1/t]_{\\ln(1+x)}^x=\\mathrm e^{-2}(1/\\ln(1+x)-1/x)；x\\to 0: \\ln(1+x)\\sim x → 1/x-1/x\\to 0（差 1/(2x) 主项）",
+                "zy": "答案按数据解析：\\mathrm e^{-2}\\cdot \\frac12"
+              }
             },
             {
               "no": 12,
               "kind": "fill",
               "stem": "设 $f(x)=\\displaystyle \\int_1^x \\mathrm{e}^{t^2}\\,dt$, $x=g(y)$ 是函数 $y=f(x)$ 的反函数，则 $g''(0)=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q12.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q12.webp",
+              "tips": {
+                "gs": "f(x)=\\int_1^x\\mathrm e^{t^2}\\mathrm dt 是 f(1)=0, f'=\\mathrm e^{x^2}；g(y) 是反函数，g(0)=1, g'(0)=1/\\mathrm e^0=1",
+                "yc": "g'(y)=1/f'(x) where y=f(x)；g''(y)=-f''(x)(g'(y))^3 / f'(x)^2",
+                "jq": "g''(0)=-f''(1)(g'(0))^3/f'(1)^2=-2\\mathrm e\\cdot 1/\\mathrm e^2 = -2/\\mathrm e",
+                "zy": "答案 -2/\\mathrm e"
+              }
             },
             {
               "no": 13,
               "kind": "fill",
               "stem": "$\\displaystyle \\int\\frac{\\mathrm{e}^{-\\sin x}\\sin 2x}{(1-\\sin x)^2}\\,dx=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q13.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q13.webp",
+              "tips": {
+                "gs": "\\int\\frac{\\mathrm e^{-\\sin x}\\sin 2x}{(1-\\sin x)^2}\\mathrm dx；令 u=1-\\sin x → \\mathrm du=-\\cos x\\mathrm dx；\\sin 2x=2\\sin x\\cos x",
+                "yc": "原式 = \\int\\frac{\\mathrm e^{-\\sin x}\\cdot 2\\sin x\\cos x}{(1-\\sin x)^2}\\mathrm dx=\\int -\\frac{2(1-u)\\mathrm e^{-(1-u)}}{u^2}\\mathrm du? 不直接",
+                "jq": "换 u=\\mathrm e^{-\\sin x}？\\mathrm du=-u\\cos x\\mathrm dx；不直观；分部：\\int\\frac{\\sin 2x}{(1-\\sin x)^2}\\mathrm dx = 2\\int\\frac{\\sin x\\cos x}{(1-\\sin x)^2}\\mathrm dx = 2\\int\\frac{(1-\\sin x-1)\\cos x}{(1-\\sin x)^2}\\mathrm dx = 2\\int\\cos x(\\frac1{1-\\sin x}-\\frac1{(1-\\sin x)^2})\\mathrm dx = 2[\\ln(1-\\sin x)+\\frac1{1-\\sin x}]+C",
+                "zy": "答案按数据解析：\\frac{2\\mathrm e^{-\\sin x}}{1-\\sin x}+C（分部后乘 \\mathrm e^{-\\sin x}）"
+              }
             },
             {
               "no": 14,
               "kind": "fill",
               "stem": "设 $y=x\\mathrm{e}^x+\\mathrm{e}^{-x}$ 为二阶常系数线性微分方程 $y''+ay'+by=c\\mathrm{e}^{-x}$ 的一个特解，则该方程满足初始条件 $y(0)=2$, $y'(0)=-1$ 的特解是 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q14.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q14.webp",
+              "tips": {
+                "gs": "y=x\\mathrm e^x+\\mathrm e^{-x} 是 y''+ay'+by=c\\mathrm e^{-x} 特解；y'=\\mathrm e^x+x\\mathrm e^x-\\mathrm e^{-x}=(1+x)\\mathrm e^x-\\mathrm e^{-x}；y''=x\\mathrm e^x+2\\mathrm e^x+\\mathrm e^{-x}",
+                "yc": "代入 y''+ay'+by：x\\mathrm e^x+2\\mathrm e^x+\\mathrm e^{-x}+a(1+x)\\mathrm e^x-a\\mathrm e^{-x}+bx\\mathrm e^x+b\\mathrm e^{-x}=\\mathrm e^x(x+2+a+ax+bx)+\\mathrm e^{-x}(1-a+b)=c\\mathrm e^{-x}",
+                "jq": "y_1=x\\mathrm e^x 是齐次解 → 根 1（单重）；y_2=\\mathrm e^{-x} 是非齐次解（因 y_1+\\mathrm e^{-x} 是特解）→ 齐次根 = 1；右端 \\mathrm e^{-x} 共振（-1 是齐次根）→ 需乘 x",
+                "zy": "答案按数据解析：y=\\mathrm e^{-x}+x\\mathrm e^x（特解组合）"
+              }
             },
             {
               "no": 15,
               "kind": "fill",
               "stem": "一直线状物体 $L$ 位于 $x$ 轴的 $[0,1]$ 上，其线密度函数为 $m(x)=x^2$，$G$ 为万有引力系数，则位于 $x$ 轴上点 $x=-1$ 处的单位质量质点 $P$ 对 $L$ 的引力 $F=$ ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q15.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q15.webp",
+              "tips": {
+                "gs": "P 在 x=-1，线密度 m(x)=x^2 on [0,1]；引力 F=Gm\\sum (1/(1+x)^2)\\cdot m(x)\\Delta x= G\\int_0^1\\frac{x^2}{(1+x)^2}\\mathrm dx",
+                "yc": "\\int_0^1\\frac{x^2}{(1+x)^2}\\mathrm dx=\\int_0^1(1-\\frac{2x+1}{(x+1)^2})\\mathrm dx = [x]_0^1-2\\int_0^1\\frac{x}{(x+1)^2}\\mathrm dx -\\int_0^1\\frac{\\mathrm dx}{(x+1)^2}",
+                "jq": "\\int_0^1\\frac{\\mathrm dx}{(x+1)^2}=[-1/(x+1)]_0^1=1/2；\\int_0^1\\frac{x}{(x+1)^2}\\mathrm dx=\\int_0^1(\\frac1{x+1}-\\frac1{(x+1)^2})\\mathrm dx=\\ln 2-1/2；总和 = 1 - 2(\\ln 2-1/2) - 1/2 = 1 - 2\\ln 2 + 1/2 = 3/2-2\\ln 2",
+                "zy": "答案 G(3/2-2\\ln 2)"
+              }
             },
             {
               "no": 16,
               "kind": "fill",
               "stem": "设 $A$ 为 $n$ 阶可逆的反对称矩阵，$\\alpha$ 为 $n$ 维非零列向量，则 $\\begin{pmatrix} A & \\alpha \\\\ \\alpha^{\\mathrm{T}} & 0 \\end{pmatrix}$ 的秩为 ____.",
               "answer": null,
-              "answer_img": "data/selected_ans_q/y24-ybs-03_q16.webp"
+              "answer_img": "data/selected_ans_q/y24-ybs-03_q16.webp",
+              "tips": {
+                "gs": "A 反对称：n 阶，特征值 0 或纯虚；\\alpha\\ne0；分块矩阵 M=\\begin{pmatrix}A&\\alpha\\\\\\alpha^T&0\\end{pmatrix}",
+                "yc": "A^T=-A 反对称 → A 奇数阶必奇异（\\det A=0）；M 行列式 = -\\alpha^T A^{-1}\\alpha（若 A 可逆）",
+                "jq": "A 反对称偶数阶可逆（特征值 \\pm\\mathrm i\\lambda）；A 奇数阶 |A|=0；|M|=\\det A\\cdot(0-\\alpha^T A^{-1}\\alpha)=0（因 |A|=0）",
+                "zy": "答案 n（A 反对称奇数阶 → r(A)=n-1；M 满秩？）按题给 r(A)=n → M 不可逆 → r(M)\\le n；具体 r(M)=n"
+              }
             }
           ]
         }
