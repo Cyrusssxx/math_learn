@@ -164,7 +164,7 @@
         if (!el) {
             el = document.createElement('div');
             el.id = 'bgOverlayEl';
-            Object.assign(el.style, { position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' });
+            Object.assign(el.style, { position: 'fixed', inset: 0, zIndex: -1, pointerEvents: 'none' });
             document.body.prepend(el);
         }
         el.style.background = isDark
