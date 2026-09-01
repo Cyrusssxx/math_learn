@@ -127,7 +127,7 @@
     function applyBg() {
         const type = localStorage.getItem(K.type);
         const value = localStorage.getItem(K.value);
-        const overlay = +localStorage.getItem(K.overlay) || 35;
+        const overlay = +localStorage.getItem(K.overlay) || 0;
         const inScope = getBgScope().includes(PAGE_ID);
         const uiAlpha = inScope ? (+localStorage.getItem(K.uiAlpha) || 100) / 100 : 1;
 

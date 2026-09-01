@@ -26,7 +26,7 @@ a { color: var(--accent); text-decoration: none; }
     align-items: center;
     justify-content: space-between;
     padding: 10px 56px 10px 16px;
-    background: var(--bg-side);
+    background: rgba(var(--sidebar-rgb), var(--ui-alpha));
     border-bottom: 1px solid var(--border);
 }
 .exam-brand { display: flex; align-items: center; gap: 10px; }
@@ -45,7 +45,7 @@ a { color: var(--accent); text-decoration: none; }
     height: 30px;
     border-radius: 50%;
     border: 1px solid var(--border);
-    background: var(--bg-side);
+    background: rgba(var(--sidebar-rgb), var(--ui-alpha));
     color: var(--text-dim);
     cursor: pointer;
     display: flex;
@@ -95,7 +95,7 @@ html.dark .exam-btn.on { color: #e5c860; }
 
 /* 左栏：套卷列表 */
 .exam-side {
-    background: var(--bg-side);
+    background: rgba(var(--sidebar-rgb), var(--ui-alpha));
     border-right: 1px solid var(--border);
     padding: 14px 10px;
     overflow-y: auto;
@@ -371,7 +371,8 @@ html.dark .exam-btn.on { color: #e5c860; }
 .q-card {
     border: 1px solid var(--border);
     border-radius: 12px;
-    background: var(--bg);
+    background: rgba(var(--card-rgb), var(--ui-alpha));
+    border-color: rgba(128, 128, 128, calc((1 - var(--ui-alpha)) * 0.5 + 0.001));
     padding: 18px 20px;
     margin-bottom: 20px;
     box-shadow: var(--shadow);
@@ -465,7 +466,7 @@ html.dark .exam-btn.on { color: #e5c860; }
     bottom: 24px;
     top: auto;
     z-index: 40;
-    background: var(--bg-side);
+    background: rgba(var(--sidebar-rgb), var(--ui-alpha));
     border: 1px solid var(--border);
     border-radius: 14px;
     box-shadow: 0 4px 20px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.08);
