@@ -73,8 +73,8 @@
             <input type="range" id="bgOverlay" min="0" max="90" value="35" oninput="setBgOverlay(this.value)">
         </div>
         <div class="bg-section">
-            <label>UI 透明度 <span id="bgUiAlphaVal">100%</span></label>
-            <input type="range" id="bgUiAlpha" min="0" max="100" value="100" oninput="setBgUiAlpha(this.value)">
+            <label>UI 透明度 <span id="bgUiAlphaVal">30%</span></label>
+            <input type="range" id="bgUiAlpha" min="0" max="100" value="30" oninput="setBgUiAlpha(this.value)">
         </div>
         <div class="bg-section">
             <label>应用范围</label>
@@ -117,7 +117,7 @@
         const value = localStorage.getItem(K.value);
         const overlay = +localStorage.getItem(K.overlay) || 0;
         const inScope = getBgScope().includes(PAGE_ID);
-        const uiAlpha = inScope ? (+localStorage.getItem(K.uiAlpha) || 100) / 100 : 1;
+        const uiAlpha = inScope ? (+localStorage.getItem(K.uiAlpha) || 30) / 100 : 1;
 
         document.documentElement.style.setProperty('--ui-alpha', uiAlpha);
 
@@ -177,6 +177,15 @@
     function resetBg() { Object.values(K).forEach(k => localStorage.removeItem(k)); applyBg(); }
 
     function toggleBgPanel() { const panel = $id('bgPanel'); panel.hidden = !panel.hidden; if (!panel.hidden) renderBgScope(); }
+
+    // 点击面板或 🎨 按钮以外的区域：关闭面板
+    document.addEventListener('click', function (e) {
+        const panel = $id('bgPanel');
+        const fab = $id('bgFab');
+        if (!panel || panel.hidden) return;
+        if (panel.contains(e.target) || (fab && fab.contains(e.target))) return;
+        panel.hidden = true;
+    });
 
     // ============ 应用范围：背景/遮罩/UI 透明度作用于哪些页面 ============
     const PAGE_ID = 'category';   // 本页标识（index / exam / category 三页各不相同）
