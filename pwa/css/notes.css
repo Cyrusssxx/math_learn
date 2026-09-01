@@ -697,7 +697,6 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
     white-space: pre-wrap;
     word-break: break-word;
 }
-.ann-preview { flex: 1 1 100%; margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--border); white-space: pre-wrap; word-break: break-word; color: var(--text); }
 .ann-preview:empty { display: none; }
 .ann-preview .ann-img { display: block; max-width: min(100%, 320px); margin: 6px 0; border: 1px solid var(--border); border-radius: 8px; }
 /* 批注内公式：display 模式独占一行居中；inline 自然嵌入 */

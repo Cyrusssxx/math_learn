@@ -474,11 +474,14 @@ function toggleNoteEdit(btn) {
     const pv = sec.querySelector('.q-note-preview');
     const editing = ta.style.display !== 'none';
     if (!editing) {
-        // 进入编辑
+        // 进入编辑：编辑器在上（预览在下实时刷新），独立 💾 保存按钮显示，✏️ 编辑按钮隐藏
         btn.textContent = '💾 保存';
         btn.classList.remove('saved');   // 再次编辑恢复按钮常态
         noteHint(btn, '');
         ta.style.display = '';
+        const sb = sec.querySelector('.q-note-savebtn');
+        if (sb) sb.style.display = '';
+        btn.style.display = 'none';
         if (!ta.dataset.bind) {
             ta.addEventListener('input', () => noteInput(ta));
             ta.addEventListener('paste', notePasteImg);
@@ -890,10 +893,11 @@ function qCard(p, sec, q, secIdx) {
     const editorHtml = `<div class="q-note-input" contenteditable="true" spellcheck="false" data-qid="${qid}" data-placeholder="记下你的思路、易错点、类比题…（Ctrl+V 可贴图；选中文字可上色/高亮；用 $...$ 写公式会自动渲染）"></div>`;
     const noteHtml = hasNote
         ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}">
-            <div class="q-note-preview">${mdBlockWithImg(note)}</div>
             ${NOTE_TOOLBAR}
             ${editorHtml.replace('<div class=', '<div style="display:none" class=')}
-            <button class="q-note-editbtn" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
+            <div class="q-note-preview">${mdBlockWithImg(note)}</div>
+            <button class="q-note-savebtn" style="display:none" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
+            <button class="q-note-editbtn saved" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
             <div class="q-note-hint"></div>
         </div>`
         : `<div class="q-sec q-note" hidden data-qid="${qid}">
