@@ -205,6 +205,8 @@ function editorToNote(el) {
         const m = /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(v || '');
         return m ? '#' + [1, 2, 3].map(k => (+m[k]).toString(16).padStart(2, '0')).join('') : null;
     };
+    // 任意颜色串（hex/rgb/命名色）归一为 #rrggbb；借助临时元素让浏览器自行规范化
+    const normColor = v => { if (!v) return null; const tmp = document.createElement('span'); tmp.style.color = v; return rgbToHex(tmp.style.color); };
     const isBold = n => (n && n.nodeType === 1) && (n.tagName === 'B' || n.tagName === 'STRONG' || /bold/i.test(n.style.fontWeight || ''));
     const isItalic = n => (n && n.nodeType === 1) && (n.tagName === 'I' || n.tagName === 'EM' || /italic/i.test(n.style.fontStyle || ''));
     // 返回序列化片段；c/h=字色/高亮 hex，b/i=是否处于粗/斜上下文（行内令牌），heading 由 H1/H2 元素单独包块级令牌
@@ -247,9 +249,14 @@ function editorToNote(el) {
                 else {
                     let nc = c, nh = h;
                     if (ch.style) {
-                        const hc = rgbToHex(ch.style.color); if (hc) nc = hc;
-                        const hb = rgbToHex(ch.style.backgroundColor); if (hb) nh = hb;
+                        const hc = normColor(ch.style.color); if (hc) nc = hc;
+                        const hb = normColor(ch.style.backgroundColor); if (hb) nh = hb;
                     }
+                    // 兼容 <font color="..."> / <font bgcolor="...">：部分浏览器 foreColor/hiliteColor 生成 font 而非 span，颜色只在属性上、style.color 为空
+                    const fattr = ch.getAttribute && ch.getAttribute('color');
+                    if (fattr) { const fc = normColor(fattr); if (fc) nc = fc; }
+                    const fbg = ch.getAttribute && ch.getAttribute('bgcolor');
+                    if (fbg) { const fb = normColor(fbg); if (fb) nh = fb; }
                     const block = ch.tagName === 'DIV' || ch.tagName === 'P';
                     if (block && s && !s.endsWith('\n')) s += '\n';
                     s += run(ch, nc, nh, b, i);

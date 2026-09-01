@@ -1008,6 +1008,8 @@ const Annot = (() => {
     // contenteditable DOM → 存储 token 文本（与 exam.js editorToNote 同源；图片走 IMG[data-img]）
     function annEditorToNote(el) {
         const rgbToHex = v => { const m = /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(v || ''); return m ? '#' + [1, 2, 3].map(k => (+m[k]).toString(16).padStart(2, '0')).join('') : null; };
+        // 任意颜色串（hex/rgb/命名色）归一为 #rrggbb；借助临时元素让浏览器自行规范化
+        const normColor = v => { if (!v) return null; const tmp = document.createElement('span'); tmp.style.color = v; return rgbToHex(tmp.style.color); };
         const isBold = n => (n && n.nodeType === 1) && (n.tagName === 'B' || n.tagName === 'STRONG' || /bold/i.test(n.style.fontWeight || ''));
         const isItalic = n => (n && n.nodeType === 1) && (n.tagName === 'I' || n.tagName === 'EM' || /italic/i.test(n.style.fontStyle || ''));
         return (function run(n, c, h, b, i) {
@@ -1029,7 +1031,19 @@ const Annot = (() => {
                     else if (ch.tagName === 'H2') { if (s && !s.endsWith('\n')) s += '\n'; s += '<h2>' + run(ch, c, h, false, false) + '</h2>' + '\n'; }
                     else if (isBold(ch)) { const block = ch.tagName === 'DIV' || ch.tagName === 'P'; if (block && s && !s.endsWith('\n')) s += '\n'; s += run(ch, c, h, true, i); if (block && s && !s.endsWith('\n')) s += '\n'; }
                     else if (isItalic(ch)) { s += run(ch, c, h, b, true); }
-                    else { let nc = c, nh = h; if (ch.style) { const hc = rgbToHex(ch.style.color); if (hc) nc = hc; const hb = rgbToHex(ch.style.backgroundColor); if (hb) nh = hb; } const block = ch.tagName === 'DIV' || ch.tagName === 'P'; if (block && s && !s.endsWith('\n')) s += '\n'; s += run(ch, nc, nh, b, i); if (block && s && !s.endsWith('\n')) s += '\n'; }
+                    else {
+                        let nc = c, nh = h;
+                        if (ch.style) { const hc = normColor(ch.style.color); if (hc) nc = hc; const hb = normColor(ch.style.backgroundColor); if (hb) nh = hb; }
+                        // 兼容 <font color="..."> / <font bgcolor="...">：部分浏览器 foreColor/hiliteColor 生成 font 而非 span，颜色只在属性上、style.color 为空
+                        const fattr = ch.getAttribute && ch.getAttribute('color');
+                        if (fattr) { const fc = normColor(fattr); if (fc) nc = fc; }
+                        const fbg = ch.getAttribute && ch.getAttribute('bgcolor');
+                        if (fbg) { const fb = normColor(fbg); if (fb) nh = fb; }
+                        const block = ch.tagName === 'DIV' || ch.tagName === 'P';
+                        if (block && s && !s.endsWith('\n')) s += '\n';
+                        s += run(ch, nc, nh, b, i);
+                        if (block && s && !s.endsWith('\n')) s += '\n';
+                    }
                 }
             }
             return s;
