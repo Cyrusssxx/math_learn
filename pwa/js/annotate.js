@@ -254,6 +254,18 @@ const Annot = (() => {
             });
         });
     }
+    /** 编辑态实时预览：编辑器在上、预览在下，随输入防抖刷新（与真题页 noteInput 同源思路） */
+    function annPreviewOnInput(ed) {
+        const box = ed.closest('.ann-box');
+        const pv = box && box.querySelector('.ann-preview');
+        if (!pv) return;
+        clearTimeout(ed._prevT);
+        ed._prevT = setTimeout(() => {
+            const v = annEditorToNote(ed);
+            pv.innerHTML = noteHtml(v);
+            fillImgs(pv);
+        }, 350);
+    }
 
     /** 编辑框内 Ctrl+V 贴图：存库后在光标处插入 [图:id] 占位 */
     function onPasteImg(e) {
@@ -292,11 +304,14 @@ const Annot = (() => {
         if (editing) {
             box.innerHTML = annToolbarHtml() +
                 `<div class="ann-edit" contenteditable="true" spellcheck="false" data-placeholder="写点批注…（Ctrl+V 可贴图；选中文字可上色/高亮；用 $...$ 写公式会自动渲染）"></div>
+                <div class="ann-preview"></div>
                 <div class="ann-ops"><button onclick="Annot.saveNote(this)">保存</button>
                 <button onclick="Annot.cancelNote(this)">取消</button></div>`;
             const ed = box.querySelector('.ann-edit');
             if (text) annNoteToEditor(ed, text);
             ed.addEventListener('paste', onPasteImg);
+            ed.addEventListener('input', () => annPreviewOnInput(ed));
+            if (text) annPreviewOnInput(ed);   // 进入编辑即有内容时立即渲染预览
             box.querySelector('.ann-toolbar').hidden = false;
         } else {
             box.innerHTML = `<span class="ann-icon">📝</span><span class="ann-text" data-raw="${escAttr(text)}">${noteHtml(text)}</span>
