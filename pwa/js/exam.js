@@ -130,11 +130,10 @@ function noteGet(qid) {
 let _noteTimer = {};
 // ---- contenteditable 富编辑器：[图:id] 内嵌图片 + 字色/高亮（存储为令牌 <c:#hex>…</c> <h:#hex>…</h>） ----
 const NOTE_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<h1>|<\/h1>|<h2>|<\/h2>/g;
-/** 存储文本 → 编辑器 DOM：文本/换行原样，[图:id] 变内嵌图片，格式令牌变 span/mark（栈式嵌套） */
+/** 存储文本 → 编辑器 DOM：文本/换行原样，[图:id] 变为编辑器内联图片（contenteditable=false，可拖拽排序/删除/点击放大），格式令牌变 span/mark（栈式嵌套） */
 function noteToEditor(el, text) {
     el.innerHTML = '';
     const stack = [el];
-    const imgIds = [];   // 贴图不进编辑器 DOM：令牌收集后在下方缩略图条显示
     const emitText = s => {
         const lines = s.split('\n');
         lines.forEach((line, k) => {
@@ -167,49 +166,13 @@ function noteToEditor(el, text) {
         } else if (mi >= 0) {
             emitText(text.slice(i, mi));
             const m2 = /\[图:([a-z0-9]+)\]/.exec(text.slice(mi));
-            if (m2) imgIds.push(m2[1]);
-            i = mi + m2[0].length;
+            if (m2) stack[stack.length - 1].appendChild(noteImgNode(m2[1]));
+            i = mi + (m2 ? m2[0].length : 1);
         } else {
             emitText(text.slice(i));
             i = text.length;
         }
     }
-    // 贴图缩略图条：图片不进编辑器，只在编辑框下方以卡片显示（与 408 笔记交互对齐）
-    const strip = el.closest('.q-note') && el.closest('.q-note').querySelector('.q-note-imgs');
-    if (strip) renderNoteStrip(strip, imgIds);
-}
-/** 缩略图条渲染：每图一卡片（缩略图 + × 删除），blob 由 fillExamNoteImgs 异步回填 */
-function renderNoteStrip(strip, ids) {
-    strip.innerHTML = '';
-    ids.forEach(id => strip.appendChild(noteThumbCard(id)));
-    strip.hidden = !ids.length;
-    fillExamNoteImgs(strip);
-}
-function noteThumbCard(id) {
-    const card = document.createElement('span');
-    card.className = 'q-note-img-card';
-    card.dataset.img = id;
-    const img = document.createElement('img');
-    img.dataset.img = id;
-    img.alt = '笔记贴图';
-    img.onclick = () => zoomAnsImg(img);
-    const del = document.createElement('button');
-    del.type = 'button';
-    del.className = 'q-note-img-del';
-    del.title = '删除图片';
-    del.textContent = '×';
-    del.onclick = () => {
-        card.remove();
-        const strip = card.parentElement;
-        if (strip && !strip.querySelector('.q-note-img-card')) strip.hidden = true;
-    };
-    card.append(img, del);
-    return card;
-}
-/** 收集缩略图条中的贴图 id（序列化时以令牌追加到文本末尾） */
-function noteStripIds(el) {
-    const strip = el.closest('.q-note') && el.closest('.q-note').querySelector('.q-note-imgs');
-    return strip ? [...strip.querySelectorAll('.q-note-img-card')].map(c => c.dataset.img) : [];
 }
 function appendNoteText(el, chunk) {
     const lines = chunk.split('\n');
@@ -221,6 +184,7 @@ function appendNoteText(el, chunk) {
 function noteImgNode(id) {
     const wrap = document.createElement('span');
     wrap.className = 'exam-note-img-wrap';
+    wrap.draggable = true;
     const img = document.createElement('img');
     img.className = 'exam-note-img';
     img.dataset.img = id;
@@ -234,6 +198,30 @@ function noteImgNode(id) {
     del.textContent = '×';
     del.onclick = () => delExamNoteImg(id, del);
     wrap.append(img, del);
+    // 编辑器内拖拽排序：拖动图片调整顺序，落点顺序即存储顺序（editorToNote 按 DOM 位置序列化）
+    wrap.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', id);
+        e.dataTransfer.effectAllowed = 'move';
+        wrap.classList.add('dragging');
+    });
+    wrap.addEventListener('dragend', () => {
+        wrap.classList.remove('dragging');
+        document.querySelectorAll('.exam-note-img-wrap.over').forEach(w => w.classList.remove('over'));
+    });
+    wrap.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; wrap.classList.add('over'); });
+    wrap.addEventListener('dragleave', () => wrap.classList.remove('over'));
+    wrap.addEventListener('drop', e => {
+        e.preventDefault();
+        wrap.classList.remove('over');
+        const dragged = document.querySelector('.exam-note-img-wrap.dragging');
+        if (!dragged || dragged === wrap) return;
+        const r = wrap.getBoundingClientRect();
+        const after = (e.clientY - r.top) > r.height / 2;
+        if (after) wrap.after(dragged); else wrap.before(dragged);
+        const sec = wrap.closest('.q-note');
+        const ta = sec && sec.querySelector('.q-note-input');
+        if (ta) noteInput(ta);   // 顺序变更即落盘 + 刷新预览
+    });
     return wrap;
 }
 /** 编辑器 DOM → 存储文本：图片还原 [图:id]，带格式的文本节点包令牌（字色/高亮/粗体/斜体走行内令牌，H1/H2 走块级令牌包裹整段） */
@@ -303,12 +291,6 @@ function editorToNote(el) {
         }
         return s;
     })(el, null, null, false, false);
-    // 贴图不进编辑器 DOM：缩略图条中的令牌统一追加到文本末尾
-    const stripIds = noteStripIds(el);
-    if (stripIds.length) {
-        if (base && !base.endsWith('\n')) base += '\n';
-        base += stripIds.map(id => '[图:' + id + ']').join('');
-    }
     return base;
 }
 /** 统一取值：textarea.value 或 编辑器序列化文本 */
@@ -377,13 +359,20 @@ function notePasteImg(e) {
             ta.value = ta.value.slice(0, p) + tag + ta.value.slice(ta.selectionEnd);
             ta.selectionStart = ta.selectionEnd = p + tag.length;
         } else {
-            // 编辑器内不插图片节点：缩略图卡片进下方贴图条，令牌序列化时统一追加到文本末尾
-            const strip = ta.closest('.q-note') && ta.closest('.q-note').querySelector('.q-note-imgs');
-            if (strip) {
-                strip.appendChild(noteThumbCard(id));
-                strip.hidden = false;
-                fillExamNoteImgs(strip);   // 立即回填缩略图 blob
+            // 编辑器内联：在光标处插入可拖拽图片节点（顺序即存储顺序），立即回填 blob
+            const node = noteImgNode(id);
+            const sel = getSelection();
+            const range = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
+            if (range && ta.contains(range.startContainer)) {
+                range.insertNode(node);
+                range.setStartAfter(node);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            } else {
+                ta.appendChild(node);
             }
+            fillExamNoteImgs(ta);
         }
         noteInput(ta);   // 触发保存 + 预览
     }).catch(() => alert('图片保存失败'));
@@ -469,8 +458,6 @@ function saveNoteBtn(btn) {
         ta.style.display = 'none';
         btn.style.display = 'none';
         syncNoteToolbar(sec);
-        const strip = sec.querySelector('.q-note-imgs');
-        if (strip) strip.hidden = true;   // 显示态只留预览，缩略图条收起
         sec.classList.toggle('has-img', /\[图:[a-z0-9]+\]/.test(v));
         if (pv) {
             pv.innerHTML = mdBlockWithImg(v);
@@ -528,7 +515,7 @@ function toggleNoteEdit(btn) {
             ta.dataset.bind = '1';
         }
         if (ta.tagName !== 'TEXTAREA') {
-            setNoteContent(ta, noteGet(ta.dataset.qid));   // 每次进入编辑都从存储重建（文本 + 下方贴图缩略图条）
+            setNoteContent(ta, noteGet(ta.dataset.qid));   // 每次进入编辑都从存储重建（文本 + 内联图片）
             fillExamNoteImgs(ta);   // 兜底回填（缩略图条已在 noteToEditor 内回填）
         } else {
             autoResizeNote(ta);
@@ -683,7 +670,7 @@ function delExamNoteImg(id, btn) {
     v = v.replace(re, '').replace(/\s{2,}/g, ' ').trim();
     try { localStorage.setItem('examNote-' + qid, v); } catch (e) { }
     examImgDel([id]);
-    if (ta) setNoteContent(ta, v);
+    if (ta) { setNoteContent(ta, v); fillExamNoteImgs(ta); }
     const pv = wrap.querySelector('.q-note-preview');
     if (pv && !pv.hidden) {
         pv.innerHTML = mdBlockWithImg(v);
@@ -937,7 +924,6 @@ function qCard(p, sec, q, secIdx) {
         ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}">
             ${NOTE_TOOLBAR}
             ${editorHtml.replace('<div class=', '<div style="display:none" class=')}
-            <div class="q-note-imgs" hidden></div>
             <div class="q-note-preview">${mdBlockWithImg(note)}</div>
             <button class="q-note-savebtn" style="display:none" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
             <button class="q-note-editbtn saved" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
@@ -946,7 +932,6 @@ function qCard(p, sec, q, secIdx) {
         : `<div class="q-sec q-note" hidden data-qid="${qid}">
             ${NOTE_TOOLBAR}
             ${editorHtml}
-            <div class="q-note-imgs" hidden></div>
             <div class="q-note-preview" hidden></div>
             <button class="q-note-savebtn" style="display:none" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
             <button class="q-note-editbtn" style="display:none" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>

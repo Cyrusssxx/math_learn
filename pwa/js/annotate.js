@@ -1007,6 +1007,7 @@ const Annot = (() => {
         const card = document.createElement('span');
         card.className = 'ann-img-card';
         card.dataset.img = id;
+        card.draggable = true;
         const img = document.createElement('img');
         img.dataset.img = id;
         img.alt = '批注图片';
@@ -1023,6 +1024,22 @@ const Annot = (() => {
             if (strip && !strip.querySelector('.ann-img-card')) strip.hidden = true;
         };
         card.append(img, del);
+        // 缩略图条内拖拽排序：拖动调整顺序，顺序即存储顺序（annStripIds 按 DOM 位置序列化）
+        card.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; card.classList.add('dragging'); });
+        card.addEventListener('dragend', () => { card.classList.remove('dragging'); document.querySelectorAll('.ann-img-card.over').forEach(c => c.classList.remove('over')); });
+        card.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; card.classList.add('over'); });
+        card.addEventListener('dragleave', () => card.classList.remove('over'));
+        card.addEventListener('drop', e => {
+            e.preventDefault();
+            card.classList.remove('over');
+            const dragged = document.querySelector('.ann-img-card.dragging');
+            if (!dragged || dragged === card) return;
+            const r = card.getBoundingClientRect();
+            const after = (e.clientX - r.left) > r.width / 2;   // 横向条：按左右半区决定插前/插后
+            if (after) card.after(dragged); else card.before(dragged);
+            const ed = card.closest('.ann-box') && card.closest('.ann-box').querySelector('.ann-edit');
+            if (ed) annPreviewOnInput(ed);   // 实时预览同步新顺序（保存后落盘）
+        });
         return card;
     }
     function renderAnnStrip(strip, ids) {
