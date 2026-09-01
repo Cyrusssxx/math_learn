@@ -212,7 +212,7 @@ function editorToNote(el) {
         let s = '';
         for (const ch of n.childNodes) {
             if (ch.nodeType === 3) {
-                const t = ch.nodeValue.replace(/\u00A0/g, ' ');
+                const t = ch.nodeValue.replace(/\u00A0/g, ' ').replace(/\u200B/g, '');  // 丢弃零宽空格分隔符
                 if (!t) continue;
                 let inner = t;
                 if (i) inner = '<i>' + inner + '</i>';
@@ -316,7 +316,8 @@ function notePasteImg(e) {
         return;
     }
     e.preventDefault();
-    const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    // 碰撞免疫：优先 crypto.randomUUID（去连字符后全 [a-z0-9]，匹配现有正则），杜绝毫秒内连贴同 id
+    const id = (crypto.randomUUID ? crypto.randomUUID().replace(/-/g, '') : (Date.now().toString(36) + Math.random().toString(36).slice(2, 6)));
     const ta = e.target;
     compressImage(it.getAsFile()).then(blob => examImgPut(id, blob)).then(() => {
         if (ta.tagName === 'TEXTAREA') {
@@ -327,14 +328,32 @@ function notePasteImg(e) {
         } else {
             ta.focus();
             const sel = getSelection();
+            let range = null;
             if (sel && sel.rangeCount && ta.contains(sel.anchorNode)) {
-                const range = sel.getRangeAt(0);
+                range = sel.getRangeAt(0);
+                // 防御：光标若落在已有图片原子节点内部，移到该 wrap 之后，避免新图被嵌套进旧图导致 id 丢失
+                const aNode = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement;
+                const inWrap = aNode && aNode.closest('.exam-note-img-wrap');
+                if (inWrap) {
+                    range = document.createRange();
+                    range.setStartAfter(inWrap);
+                    range.collapse(true);
+                }
+            }
+            if (range) {
                 range.deleteContents();
-                range.insertNode(noteImgNode(id));
-                range.collapse(false);
+                const node = noteImgNode(id);
+                range.insertNode(node);
+                // 在图片后插入零宽空格：防止两个 contenteditable=false 原子节点相邻被浏览器合并/吞掉
+                node.after(document.createTextNode('​'));
+                const after = node.nextSibling;
+                range.setStartAfter(after);
+                range.collapse(true);
+                if (sel) { sel.removeAllRanges(); sel.addRange(range); }
             } else {
                 ta.appendChild(noteImgNode(id));
             }
+            fillExamNoteImgs(ta);   // 立即回填编辑器内新图，避免编辑态一直显示裂图
         }
         noteInput(ta);   // 触发保存 + 预览
     }).catch(() => alert('图片保存失败'));
