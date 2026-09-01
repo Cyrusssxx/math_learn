@@ -492,6 +492,21 @@ function saveNoteBtn(btn) {
         noteHint(btn, '笔记是空的，未保存');
     }
 }
+// 顶部「💾 保存」按钮（.q-ops 行，位于 笔记 右侧）：定位本题卡的笔记区并保存。
+// 仅在编辑态（编辑器可见）生效；只读展示态直接提示先编辑，避免误把空编辑器内容覆盖已存笔记。
+function saveNoteFromOps(btn) {
+    const card = btn.closest('.q-card');
+    if (!card) return;
+    const sec = card.querySelector('.q-note');
+    if (!sec) return;
+    const ta = sec.querySelector('.q-note-input');
+    if (!ta) return;
+    if (sec.hidden) { const nb = card.querySelector('button[data-act="note"]'); if (nb) nb.click(); }
+    if (ta.style.display === 'none') { noteHint(ta, '请先点 ✏️编辑 再保存', false); return; }
+    const sb = sec.querySelector('.q-note-savebtn');
+    if (sb) saveNoteBtn(sb);
+    else { try { localStorage.setItem('examNote-' + ta.dataset.qid, noteVal(ta)); } catch (e) { } }
+}
 // 笔记「✏️ 编辑 / 💾 完成」：编辑态只显示输入框，完成时落盘并渲染预览
 function toggleNoteEdit(btn) {
     const sec = btn.closest('.q-note');
@@ -505,7 +520,7 @@ function toggleNoteEdit(btn) {
         noteHint(btn, '');
         ta.style.display = '';
         const sb = sec.querySelector('.q-note-savebtn');
-        if (sb) sb.style.display = '';
+        if (sb) sb.style.display = 'none';
         btn.style.display = 'none';
         if (!ta.dataset.bind) {
             ta.addEventListener('input', () => noteInput(ta));
@@ -549,7 +564,7 @@ function toggleNoteEdit(btn) {
             ta.style.display = '';
             setNoteContent(ta, '');
             const sb = sec.querySelector('.q-note-savebtn');
-            if (sb) sb.style.display = '';
+            if (sb) sb.style.display = 'none';
             btn.style.display = 'none';
         }
     }
@@ -933,7 +948,7 @@ function qCard(p, sec, q, secIdx) {
             ${editorHtml}
             <div class="q-note-imgs" hidden></div>
             <div class="q-note-preview" hidden></div>
-            <button class="q-note-savebtn" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
+            <button class="q-note-savebtn" style="display:none" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
             <button class="q-note-editbtn" style="display:none" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
             <div class="q-note-hint"></div>
         </div>`;
@@ -968,6 +983,7 @@ function qCard(p, sec, q, secIdx) {
             ${ideaBtn}
             ${tipsBtn}
             <button class="q-op${hasNote ? ' has' : ''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
+            <button class="q-op q-save-op" onclick="saveNoteFromOps(this)" title="保存当前笔记（编辑态可用）">💾 保存</button>
         </div>
         ${ideaHtml}
         ${tipsHtml}
