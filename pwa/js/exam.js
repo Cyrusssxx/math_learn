@@ -134,6 +134,7 @@ const NOTE_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>
 function noteToEditor(el, text) {
     el.innerHTML = '';
     const stack = [el];
+    const imgIds = [];   // 贴图不进编辑器 DOM：令牌收集后在下方缩略图条显示
     const emitText = s => {
         const lines = s.split('\n');
         lines.forEach((line, k) => {
@@ -166,13 +167,49 @@ function noteToEditor(el, text) {
         } else if (mi >= 0) {
             emitText(text.slice(i, mi));
             const m2 = /\[图:([a-z0-9]+)\]/.exec(text.slice(mi));
-            stack[stack.length - 1].appendChild(noteImgNode(m2[1]));
+            if (m2) imgIds.push(m2[1]);
             i = mi + m2[0].length;
         } else {
             emitText(text.slice(i));
             i = text.length;
         }
     }
+    // 贴图缩略图条：图片不进编辑器，只在编辑框下方以卡片显示（与 408 笔记交互对齐）
+    const strip = el.closest('.q-note') && el.closest('.q-note').querySelector('.q-note-imgs');
+    if (strip) renderNoteStrip(strip, imgIds);
+}
+/** 缩略图条渲染：每图一卡片（缩略图 + × 删除），blob 由 fillExamNoteImgs 异步回填 */
+function renderNoteStrip(strip, ids) {
+    strip.innerHTML = '';
+    ids.forEach(id => strip.appendChild(noteThumbCard(id)));
+    strip.hidden = !ids.length;
+    fillExamNoteImgs(strip);
+}
+function noteThumbCard(id) {
+    const card = document.createElement('span');
+    card.className = 'q-note-img-card';
+    card.dataset.img = id;
+    const img = document.createElement('img');
+    img.dataset.img = id;
+    img.alt = '笔记贴图';
+    img.onclick = () => zoomAnsImg(img);
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'q-note-img-del';
+    del.title = '删除图片';
+    del.textContent = '×';
+    del.onclick = () => {
+        card.remove();
+        const strip = card.parentElement;
+        if (strip && !strip.querySelector('.q-note-img-card')) strip.hidden = true;
+    };
+    card.append(img, del);
+    return card;
+}
+/** 收集缩略图条中的贴图 id（序列化时以令牌追加到文本末尾） */
+function noteStripIds(el) {
+    const strip = el.closest('.q-note') && el.closest('.q-note').querySelector('.q-note-imgs');
+    return strip ? [...strip.querySelectorAll('.q-note-img-card')].map(c => c.dataset.img) : [];
 }
 function appendNoteText(el, chunk) {
     const lines = chunk.split('\n');
@@ -210,7 +247,7 @@ function editorToNote(el) {
     const isBold = n => (n && n.nodeType === 1) && (n.tagName === 'B' || n.tagName === 'STRONG' || /bold/i.test(n.style.fontWeight || ''));
     const isItalic = n => (n && n.nodeType === 1) && (n.tagName === 'I' || n.tagName === 'EM' || /italic/i.test(n.style.fontStyle || ''));
     // 返回序列化片段；c/h=字色/高亮 hex，b/i=是否处于粗/斜上下文（行内令牌），heading 由 H1/H2 元素单独包块级令牌
-    return (function run(n, c, h, b, i) {
+    let base = (function run(n, c, h, b, i) {
         let s = '';
         for (const ch of n.childNodes) {
             if (ch.nodeType === 3) {
@@ -266,6 +303,13 @@ function editorToNote(el) {
         }
         return s;
     })(el, null, null, false, false);
+    // 贴图不进编辑器 DOM：缩略图条中的令牌统一追加到文本末尾
+    const stripIds = noteStripIds(el);
+    if (stripIds.length) {
+        if (base && !base.endsWith('\n')) base += '\n';
+        base += stripIds.map(id => '[图:' + id + ']').join('');
+    }
+    return base;
 }
 /** 统一取值：textarea.value 或 编辑器序列化文本 */
 function noteVal(el) {
@@ -310,7 +354,7 @@ function renderNotePreview(ta) {
     if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
     fillExamNoteImgs(pv);   // 异步回填 IndexedDB 中的 blob
 }
-// 笔记区 Ctrl+V 贴图：压缩后存 IndexedDB，再在光标处插入内嵌图片（编辑器）或 [图:id]（textarea）
+// 笔记区 Ctrl+V 贴图：压缩后存 IndexedDB，编辑框内不显示图片，缩略图卡片出现在编辑框下方
 function notePasteImg(e) {
     const it = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith('image/'));
     if (!it) {
@@ -333,34 +377,13 @@ function notePasteImg(e) {
             ta.value = ta.value.slice(0, p) + tag + ta.value.slice(ta.selectionEnd);
             ta.selectionStart = ta.selectionEnd = p + tag.length;
         } else {
-            ta.focus();
-            const sel = getSelection();
-            let range = null;
-            if (sel && sel.rangeCount && ta.contains(sel.anchorNode)) {
-                range = sel.getRangeAt(0);
-                // 防御：光标若落在已有图片原子节点内部，移到该 wrap 之后，避免新图被嵌套进旧图导致 id 丢失
-                const aNode = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement;
-                const inWrap = aNode && aNode.closest('.exam-note-img-wrap');
-                if (inWrap) {
-                    range = document.createRange();
-                    range.setStartAfter(inWrap);
-                    range.collapse(true);
-                }
+            // 编辑器内不插图片节点：缩略图卡片进下方贴图条，令牌序列化时统一追加到文本末尾
+            const strip = ta.closest('.q-note') && ta.closest('.q-note').querySelector('.q-note-imgs');
+            if (strip) {
+                strip.appendChild(noteThumbCard(id));
+                strip.hidden = false;
+                fillExamNoteImgs(strip);   // 立即回填缩略图 blob
             }
-            if (range) {
-                range.deleteContents();
-                const node = noteImgNode(id);
-                range.insertNode(node);
-                // 在图片后插入零宽空格：防止两个 contenteditable=false 原子节点相邻被浏览器合并/吞掉
-                node.after(document.createTextNode('​'));
-                const after = node.nextSibling;
-                range.setStartAfter(after);
-                range.collapse(true);
-                if (sel) { sel.removeAllRanges(); sel.addRange(range); }
-            } else {
-                ta.appendChild(noteImgNode(id));
-            }
-            fillExamNoteImgs(ta);   // 立即回填编辑器内新图，避免编辑态一直显示裂图
         }
         noteInput(ta);   // 触发保存 + 预览
     }).catch(() => alert('图片保存失败'));
@@ -446,6 +469,8 @@ function saveNoteBtn(btn) {
         ta.style.display = 'none';
         btn.style.display = 'none';
         syncNoteToolbar(sec);
+        const strip = sec.querySelector('.q-note-imgs');
+        if (strip) strip.hidden = true;   // 显示态只留预览，缩略图条收起
         sec.classList.toggle('has-img', /\[图:[a-z0-9]+\]/.test(v));
         if (pv) {
             pv.innerHTML = mdBlockWithImg(v);
@@ -487,10 +512,12 @@ function toggleNoteEdit(btn) {
             ta.addEventListener('paste', notePasteImg);
             ta.dataset.bind = '1';
         }
-        if (ta.tagName !== 'TEXTAREA' && !ta.childNodes.length) {
-            setNoteContent(ta, noteGet(ta.dataset.qid));   // 编辑器首次展开：从存储重建（含内嵌图片）
+        if (ta.tagName !== 'TEXTAREA') {
+            setNoteContent(ta, noteGet(ta.dataset.qid));   // 每次进入编辑都从存储重建（文本 + 下方贴图缩略图条）
+            fillExamNoteImgs(ta);   // 兜底回填（缩略图条已在 noteToEditor 内回填）
+        } else {
+            autoResizeNote(ta);
         }
-        fillExamNoteImgs(ta);   // 编辑器内嵌图片回填 blob
         syncNoteToolbar(sec);
         ta.focus();
         if (ta.tagName === 'TEXTAREA') autoResizeNote(ta);
@@ -895,6 +922,7 @@ function qCard(p, sec, q, secIdx) {
         ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}">
             ${NOTE_TOOLBAR}
             ${editorHtml.replace('<div class=', '<div style="display:none" class=')}
+            <div class="q-note-imgs" hidden></div>
             <div class="q-note-preview">${mdBlockWithImg(note)}</div>
             <button class="q-note-savebtn" style="display:none" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
             <button class="q-note-editbtn saved" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
@@ -903,6 +931,7 @@ function qCard(p, sec, q, secIdx) {
         : `<div class="q-sec q-note" hidden data-qid="${qid}">
             ${NOTE_TOOLBAR}
             ${editorHtml}
+            <div class="q-note-imgs" hidden></div>
             <div class="q-note-preview" hidden></div>
             <button class="q-note-savebtn" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
             <button class="q-note-editbtn" style="display:none" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>

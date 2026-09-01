@@ -77,6 +77,15 @@
             <input type="range" id="bgUiAlpha" min="0" max="100" value="100" oninput="setBgUiAlpha(this.value)">
         </div>
         <div class="bg-section">
+            <label>应用范围</label>
+            <div class="bg-scope-btns">
+                <button class="bg-btn" id="bgScopeAll" onclick="setBgScopeAll()">全站</button>
+                <button class="bg-btn" id="bgScopePage" onclick="setBgScopePage()">仅本页</button>
+            </div>
+            <div class="bg-scope-list" id="bgScopeList"></div>
+            <span class="bg-hint">仅应用到勾选的页面。</span>
+        </div>
+        <div class="bg-section">
             <button class="bg-btn bg-btn-danger" onclick="resetBg()">重置为默认</button>
         </div>
     </div>
@@ -84,7 +93,7 @@
     <!-- 背景自定义逻辑 -->
     <script>
 (function() {
-    const K = { type: 'mathnote_bg_type', value: 'mathnote_bg_value', overlay: 'mathnote_bg_overlay', uiAlpha: 'mathnote_ui_opacity' };
+    const K = { type: 'mathnote_bg_type', value: 'mathnote_bg_value', overlay: 'mathnote_bg_overlay', uiAlpha: 'mathnote_ui_opacity', scope: 'mathnote_bg_scope' };
     const PRESETS = {
         light: 'linear-gradient(135deg, #fdfbf7, #ebf5fb)',
         dark: '#1f242c',
@@ -107,7 +116,8 @@
         const type = localStorage.getItem(K.type);
         const value = localStorage.getItem(K.value);
         const overlay = +localStorage.getItem(K.overlay) || 35;
-        const uiAlpha = (+localStorage.getItem(K.uiAlpha) || 100) / 100;
+        const inScope = getBgScope().includes(PAGE_ID);
+        const uiAlpha = inScope ? (+localStorage.getItem(K.uiAlpha) || 100) / 100 : 1;
 
         document.documentElement.style.setProperty('--ui-alpha', uiAlpha);
 
@@ -117,6 +127,9 @@
         body.style.backgroundImage = '';
         body.style.background = '';
         removeOverlay();
+
+        // 本页不在应用范围内：不铺背景图、不叠遮罩，UI 透明度回默认
+        if (!inScope) return;
 
         if (type === 'custom' && value) {
             body.style.backgroundImage = `url("${value}")`;
@@ -163,13 +176,59 @@
 
     function resetBg() { Object.values(K).forEach(k => localStorage.removeItem(k)); applyBg(); }
 
-    function toggleBgPanel() { const panel = $id('bgPanel'); panel.hidden = !panel.hidden; }
+    function toggleBgPanel() { const panel = $id('bgPanel'); panel.hidden = !panel.hidden; if (!panel.hidden) renderBgScope(); }
+
+    // ============ 应用范围：背景/遮罩/UI 透明度作用于哪些页面 ============
+    const PAGE_ID = 'category';   // 本页标识（index / exam / category 三页各不相同）
+    const BG_PAGES = [
+        { id: 'index', label: '笔记站首页' },
+        { id: 'exam', label: '真题刷题' },
+        { id: 'category', label: '分类页' },
+    ];
+    function getBgScope() {
+        try {
+            const arr = JSON.parse(localStorage.getItem(K.scope) || 'null');
+            if (Array.isArray(arr) && arr.length) return arr;
+        } catch (e) { }
+        return BG_PAGES.map(p => p.id);   // 默认全站勾选
+    }
+    function renderBgScope() {
+        const list = $id('bgScopeList');
+        if (!list) return;
+        const cur = getBgScope();
+        list.innerHTML = BG_PAGES.map(p =>
+            `<label><input type="checkbox" ${cur.includes(p.id) ? 'checked' : ''} onchange="toggleBgPage('${p.id}', this.checked)">${p.label}</label>`).join('');
+        $id('bgScopeAll').classList.toggle('on', cur.length === BG_PAGES.length);
+        $id('bgScopePage').classList.toggle('on', cur.length === 1 && cur[0] === PAGE_ID);
+    }
+    function saveBgScope(arr) { localStorage.setItem(K.scope, JSON.stringify(arr)); renderBgScope(); applyBg(); }
+    function toggleBgPage(id, on) {
+        let s = getBgScope();
+        if (on && !s.includes(id)) s.push(id);
+        if (!on) s = s.filter(x => x !== id);
+        if (!s.length) s = [PAGE_ID];   // 至少保留本页，避免所有页面都没背景
+        saveBgScope(s);
+    }
+    function setBgScopeAll() { saveBgScope(BG_PAGES.map(p => p.id)); }
+    function setBgScopePage() { saveBgScope([PAGE_ID]); }
 
     function initPresets() { const container = $id('bgSwatches'); Object.entries(PRESETS).forEach(([key, val]) => { const btn = document.createElement('button'); btn.className = 'bg-swatch'; btn.dataset.preset = key; btn.style.background = val; btn.title = key; btn.onclick = () => { localStorage.setItem(K.type, 'preset'); localStorage.setItem(K.value, key); applyBg(); }; container.appendChild(btn); }); }
 
     new MutationObserver(() => { const overlay = localStorage.getItem(K.overlay); if (overlay) setOverlay(+overlay); }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     document.addEventListener('DOMContentLoaded', () => { initPresets(); applyBg(); });
+
+    // 关键：面板 HTML 用内联 onclick/oninput，IIFE 内函数必须显式挂到 window 才能被调到
+    Object.assign(window, {
+        toggleBgPanel, handleBgUpload, setBgOverlay, setBgUiAlpha, resetBg,
+        toggleBgPage, setBgScopeAll, setBgScopePage,
+    });
+
+    // 关键：面板 HTML 用内联 onclick/oninput，IIFE 内函数必须显式挂到 window 才能被调到
+    Object.assign(window, {
+        toggleBgPanel, handleBgUpload, setBgOverlay, setBgUiAlpha, resetBg,
+        toggleBgPage, setBgScopeAll, setBgScopePage,
+    });
 })();
 </script>
 </body>

@@ -267,7 +267,7 @@ const Annot = (() => {
         }, 350);
     }
 
-    /** 编辑框内 Ctrl+V 贴图：存库后在光标处插入 [图:id] 占位 */
+    /** 编辑框内 Ctrl+V 贴图：存库后不进编辑器 DOM，缩略图卡片出现在编辑框下方 */
     function onPasteImg(e) {
         const it = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith('image/'));
         if (!it) return;
@@ -282,17 +282,13 @@ const Annot = (() => {
                 ed.selectionStart = ed.selectionEnd = p + tag.length;
                 return;
             }
-            const sel = getSelection();
-            const r = sel.rangeCount ? sel.getRangeAt(0) : null;
-            const node = annImgNode(id);
-            if (r && ed.contains(r.commonAncestorContainer)) {
-                r.deleteContents();
-                r.insertNode(node);
-                r.setStartAfter(node); r.collapse(true);
-                sel.removeAllRanges(); sel.addRange(r);
-            } else {
-                ed.appendChild(node);
+            const strip = ed.closest('.ann-box') && ed.closest('.ann-box').querySelector('.ann-imgs');
+            if (strip) {
+                strip.appendChild(annThumbCard(id));
+                strip.hidden = false;
+                fillImgs(strip);   // 立即回填缩略图 blob
             }
+            annPreviewOnInput(ed);   // 刷新下方实时预览
         }).catch(() => alert('图片保存失败'));
     }
 
@@ -304,6 +300,7 @@ const Annot = (() => {
         if (editing) {
             box.innerHTML = annToolbarHtml() +
                 `<div class="ann-edit" contenteditable="true" spellcheck="false" data-placeholder="写点批注…（Ctrl+V 可贴图；选中文字可上色/高亮；用 $...$ 写公式会自动渲染）"></div>
+                <div class="ann-imgs" hidden></div>
                 <div class="ann-preview"></div>
                 <div class="ann-ops"><button onclick="Annot.saveNote(this)">保存</button>
                 <button onclick="Annot.cancelNote(this)">取消</button></div>`;
@@ -1005,6 +1002,40 @@ const Annot = (() => {
     const ANN_COLORS = ['#e03131', '#e8590c', '#2f9e44', '#1971c2', '#9c36b5'];
     const ANN_HLS = ['#fff3bf', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4'];
 
+    // ---- 贴图缩略图条：编辑器内不显示图片，只在编辑框下方以卡片显示（与真题页笔记交互对齐） ----
+    function annThumbCard(id) {
+        const card = document.createElement('span');
+        card.className = 'ann-img-card';
+        card.dataset.img = id;
+        const img = document.createElement('img');
+        img.dataset.img = id;
+        img.alt = '批注图片';
+        img.onclick = () => openLightbox(img.src || '');
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'ann-img-del';
+        del.title = '删除图片';
+        del.textContent = '×';
+        del.onclick = e => {
+            e.stopPropagation();
+            card.remove();
+            const strip = card.parentElement;
+            if (strip && !strip.querySelector('.ann-img-card')) strip.hidden = true;
+        };
+        card.append(img, del);
+        return card;
+    }
+    function renderAnnStrip(strip, ids) {
+        strip.innerHTML = '';
+        ids.forEach(id => strip.appendChild(annThumbCard(id)));
+        strip.hidden = !ids.length;
+        fillImgs(strip);
+    }
+    function annStripIds(el) {
+        const strip = el.closest('.ann-box') && el.closest('.ann-box').querySelector('.ann-imgs');
+        return strip ? [...strip.querySelectorAll('.ann-img-card')].map(c => c.dataset.img) : [];
+    }
+
     // 图片节点（批注内嵌）：img.ann-img[data-img] + 删除按钮（contenteditable 内不可编辑）
     function annImgNode(id) {
         const img = document.createElement('img');
@@ -1027,7 +1058,7 @@ const Annot = (() => {
         const normColor = v => { if (!v) return null; const tmp = document.createElement('span'); tmp.style.color = v; return rgbToHex(tmp.style.color); };
         const isBold = n => (n && n.nodeType === 1) && (n.tagName === 'B' || n.tagName === 'STRONG' || /bold/i.test(n.style.fontWeight || ''));
         const isItalic = n => (n && n.nodeType === 1) && (n.tagName === 'I' || n.tagName === 'EM' || /italic/i.test(n.style.fontStyle || ''));
-        return (function run(n, c, h, b, i) {
+        let base = (function run(n, c, h, b, i) {
             let s = '';
             for (const ch of n.childNodes) {
                 if (ch.nodeType === 3) {
@@ -1063,11 +1094,19 @@ const Annot = (() => {
             }
             return s;
         })(el, null, null, false, false);
+        // 贴图不进编辑器 DOM：缩略图条中的令牌统一追加到文本末尾
+        const stripIds = annStripIds(el);
+        if (stripIds.length) {
+            if (base && !base.endsWith('\n')) base += '\n';
+            base += stripIds.map(id => '[图:' + id + ']').join('');
+        }
+        return base;
     }
-    // token 文本 → contenteditable DOM（与 exam.js noteToEditor 同源）
+    // token 文本 → contenteditable DOM（与 exam.js noteToEditor 同源；[图:id] 不进编辑器，进下方缩略图条）
     function annNoteToEditor(el, text) {
         el.innerHTML = '';
         const stack = [el];
+        const imgIds = [];
         const emitText = s => { const lines = s.split('\n'); lines.forEach((line, k) => { if (k > 0) stack[stack.length - 1].appendChild(document.createElement('br')); if (line) stack[stack.length - 1].appendChild(document.createTextNode(line)); }); };
         let i = 0;
         while (i < text.length) {
@@ -1083,10 +1122,13 @@ const Annot = (() => {
             } else if (mi >= 0) {
                 emitText(text.slice(i, mi));
                 const m2 = /\[图:([a-z0-9]+)\]/.exec(text.slice(mi));
-                stack[stack.length - 1].appendChild(annImgNode(m2[1]));
+                if (m2) imgIds.push(m2[1]);
                 i = mi + m2[0].length;
             } else { emitText(text.slice(i)); i = text.length; }
         }
+        // 贴图缩略图条：编辑框下方卡片显示
+        const strip = el.closest('.ann-box') && el.closest('.ann-box').querySelector('.ann-imgs');
+        if (strip) renderAnnStrip(strip, imgIds);
     }
     function annHint(ed, msg) {
         const box = ed.closest('.ann-box');
