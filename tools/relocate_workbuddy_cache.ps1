@@ -65,6 +65,17 @@ if (-not $Finalize) {
 }
 
 # ---------- PHASE 2: FINALIZE (requires WorkBuddy fully closed) ----------
+# Idempotency guard: if source is already a junction, migration is already done.
+if (Test-Path $src) {
+    try {
+        $attrs = (Get-Item $src -Force).Attributes
+        if ($attrs -band [System.IO.FileAttributes]::ReparsePoint) {
+            Write-Host '[finalize] Source is already a junction -> migration already complete. Nothing to do.'
+            exit 0
+        }
+    } catch {}
+}
+
 Start-Transcript -Path $log -Append | Out-Null
 Write-Host ('[finalize] Logging to ' + $log)
 
@@ -124,6 +135,8 @@ if (Test-Path (Join-Path $src 'binaries') -or (Test-Path (Join-Path $src 'memory
     Write-Host ('C drive freed ~' + [math]::Round($srcBytes/1GB, 2) + ' GB.')
     Write-Host 'Original folder C:\Users\<user>\.workbuddy has been permanently deleted per your instruction.'
     Write-Host 'Open WorkBuddy to verify. If anything looks off, the junction can be removed and the data is intact on E.'
+    # best-effort self-cleanup of the scheduler trigger (if this run was launched by it)
+    try { & schtasks.exe /delete /tn 'WorkBuddyCacheFinalize' /f 2>$null } catch {}
 } else {
     Write-Error '[finalize] Junction verification FAILED.'; Stop-Transcript | Out-Null; exit 1
 }
