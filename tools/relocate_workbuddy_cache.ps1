@@ -17,7 +17,7 @@
   - Safety gates:
       1) Refuses to run while WorkBuddy processes are detected (and -AutoWait polls for close).
       2) Mirrors, then verifies byte-parity (dst >= 99.9% of src bytes) before deleting.
-      3) If the original cannot be deleted (files still locked), it aborts with the original intact.
+      3) If the original cannot be moved aside (dir still locked by a live process), it aborts with the original intact. Otherwise it is moved aside atomically (NTFS rename, no child unlock needed) before the junction is created; any leftover is cleaned up best-effort (killing orphaned processes under $src).
       4) If junction creation fails, data is already safe on E:\workbuddy-data; only the junction
          needs recreating manually.
   - Junction (New-Item -ItemType Junction) is transparent at FS level; WorkBuddy notices nothing.
@@ -113,19 +113,50 @@ if ($dstBytes -lt [math]::Floor($srcBytes * 0.999)) {
     Write-Error '[finalize] Parity check failed (dst materially smaller than src). Aborting to avoid data loss.'; Stop-Transcript | Out-Null; exit 1
 }
 
-Write-Host ('[finalize] Parity OK. Deleting original ' + $src + ' and creating junction...')
+# Kill any process still running from within $src (orphaned node.exe / electron helpers that outlived
+# the main app). These hold files open and block the move/delete. We only target images whose path is
+# under $src, so unrelated user processes are untouched.
+Get-Process -ErrorAction SilentlyContinue |
+    Where-Object { $_.Path -and $_.Path.StartsWith($src, [System.StringComparison]::OrdinalIgnoreCase) } |
+    ForEach-Object { try { Write-Host ('[finalize] killing lingering ' + $_.Name + ' (pid ' + $_.Id + ') from ' + $src); $_.Kill() } catch {} }
+Start-Sleep -Seconds 2
+
+Write-Host ('[finalize] Parity OK. Moving original ' + $src + ' aside (atomic; no child unlock needed), then creating junction...')
+$bak = $src + '.bak.' + (Get-Date -Format 'yyyyMMddHHmmss')
 try {
-    Remove-Item $src -Recurse -Force -ErrorAction Stop
+    # Renaming a directory on NTFS does NOT require its child files to be unlocked, so a still-running
+    # node.exe under .workbuddy will not block the move. This avoids any partial-delete risk.
+    Move-Item -Path $src -Destination $bak -Force -ErrorAction Stop
+    Write-Host ('[finalize] Moved original aside to ' + $bak)
 } catch {
-    Write-Error ('[finalize] Could not delete original: ' + $_.Exception.Message + '. Aborting WITHOUT touching anything else; the original folder is intact and no junction was created.'); Stop-Transcript | Out-Null; exit 1
+    Write-Error ('[finalize] Could not move original aside: ' + $_.Exception.Message + '. Aborting; original folder is intact and no junction created.'); Stop-Transcript | Out-Null; exit 1
 }
 
 Write-Host ('[finalize] Creating junction ' + $src + ' -> ' + $dst + ' ...')
 try {
     New-Item -ItemType Junction -Path $src -Target $dst -Force | Out-Null
 } catch {
-    Write-Error ('[finalize] Junction creation failed: ' + $_.Exception.Message + '. Data is SAFE on E:\workbuddy-data; recreate the junction manually: New-Item -ItemType Junction -Path "' + $src + '" -Target "' + $dst + '"')
+    Write-Error ('[finalize] Junction creation failed: ' + $_.Exception.Message + '. Data is SAFE on E:\workbuddy-data. The original was moved to ' + $bak + ' (NOT deleted). Recreate the junction manually: New-Item -ItemType Junction -Path "' + $src + '" -Target "' + $dst + '"')
     Stop-Transcript | Out-Null; exit 1
+}
+
+# Best-effort cleanup of the moved-aside original. A still-running node.exe may keep a file locked;
+# if so, migration is already COMPLETE (junction live) and the leftover .bak can be deleted after a reboot.
+for ($attempt = 1; $attempt -le 6; $attempt++) {
+    try {
+        Remove-Item $bak -Recurse -Force -ErrorAction Stop
+        Write-Host ('[finalize] Removed moved-aside original ' + $bak)
+        break
+    } catch {
+        Write-Host ('[finalize] cleanup attempt ' + $attempt + ' for ' + $bak + ' blocked: ' + $_.Exception.Message)
+        Get-Process -ErrorAction SilentlyContinue |
+            Where-Object { $_.Path -and $_.Path.StartsWith($src, [System.StringComparison]::OrdinalIgnoreCase) } |
+            ForEach-Object { try { $_.Kill() } catch {} }
+        Start-Sleep -Seconds 2
+    }
+}
+if (Test-Path $bak) {
+    Write-Host ('[finalize] NOTE: ' + $bak + ' could not be fully removed (a process still holds a file). Migration is COMPLETE (junction live). Delete ' + $bak + ' manually after closing all apps or a reboot.')
 }
 
 Start-Sleep -Seconds 1
