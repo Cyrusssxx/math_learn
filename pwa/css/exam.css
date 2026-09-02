@@ -906,15 +906,9 @@ html.dark .q-note-savebtn { color: #1e1e2e; }
 }
 .exam-note-img-wrap:hover .exam-note-img-del { display: block; }
 
-/* 编辑态内联图片：保持原始比例与尺寸，可随文字流排布，拖拽时给视觉反馈 */
+/* 编辑态内联图片：不在编辑器里显示，仅在渲染预览（.q-note-preview）里可见 */
 .q-note-input .exam-note-img-wrap {
-    display: inline-block;
-    width: auto;        /* 不固定 160px：按图片原始尺寸显示 */
-    max-width: 100%;    /* 不超出编辑框 */
-    margin: 2px 4px;
-    vertical-align: middle;
-    border-radius: 8px;
-    cursor: grab;
+    display: none;      /* 编辑器不显示图片，用户通过预览区查看/删除 */
 }
 .q-note-input .exam-note-img {
     margin: 0;
