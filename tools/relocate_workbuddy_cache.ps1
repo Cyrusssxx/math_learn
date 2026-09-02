@@ -38,10 +38,13 @@ function Test-WorkBuddyRunning {
 }
 
 function Invoke-Copy {
-    $rb = Get-Command robocopy.exe -ErrorAction SilentlyContinue
+    # Prefer an explicit System32 path so we never depend on PATH resolution.
+    $rb = @('C:\Windows\System32\robocopy.exe', 'C:\Windows\Sysnative\robocopy.exe') |
+          Where-Object { Test-Path $_ } | Select-Object -First 1
+    if (-not $rb) { $rb = (Get-Command robocopy.exe -ErrorAction SilentlyContinue).Source }
     if ($rb) {
-        Write-Host '[copy] robocopy mirror (this may take a while for ~5 GB)...'
-        & robocopy.exe "$src" "$dst" /MIR /COPYALL /R:1 /W:1 /MT:8 /NFL /NDL /NJH /NJS
+        Write-Host ('[copy] robocopy mirror via ' + $rb + ' (this may take a while for ~5 GB)...')
+        & $rb "$src" "$dst" /MIR /COPY:DAT /DCOPY:T /R:1 /W:1 /MT:8 /NFL /NDL /NJH /NJS
     } else {
         Write-Host '[copy] robocopy not found, falling back to python...'
         & $py $copyScript
