@@ -749,7 +749,6 @@ html.dark .q-tips-btn.on, html.dark .q-tips-btn:hover { background: #2e2545; }
 }
 .q-note .q-note-input[contenteditable] img.exam-note-img {
     max-width: 100%;
-    max-height: 260px;
     vertical-align: middle;
     display: inline-block;
     margin: 4px 0;
@@ -857,10 +856,14 @@ html.dark .q-note-savebtn { color: #1e1e2e; }
 }
 .q-note-editbtn:hover { background: var(--bg-hover); }
 
+/* 笔记图片：保持原始比例与尺寸，不强制铺满笔记框。
+   仅在图片宽度超出容器时按 max-width 等比缩小防溢出；小图不放大。
+   用户手动调整后写入的 inline style（width/height）优先级高于此处，可覆盖默认值。 */
 .exam-note-img {
     display: block;
-    width: 100%;
-    height: auto;
+    width: auto;        /* 不拉伸铺满：按图片原始宽度显示 */
+    max-width: 100%;    /* 仅超宽时等比缩，防溢出 */
+    height: auto;       /* 保持原始宽高比，不变形 */
     border-radius: 6px;
     margin: 6px 0;
     cursor: zoom-in;
@@ -881,7 +884,8 @@ html.dark .q-note-savebtn { color: #1e1e2e; }
 .exam-note-img-wrap {
     position: relative;
     display: block;
-    width: 100%;
+    width: fit-content;   /* 收缩到图片实际宽度，使删除按钮贴合图片右上角而非容器边缘 */
+    max-width: 100%;      /* 不超出笔记框 */
 }
 .exam-note-img-del {
     position: absolute;
@@ -902,11 +906,11 @@ html.dark .q-note-savebtn { color: #1e1e2e; }
 }
 .exam-note-img-wrap:hover .exam-note-img-del { display: block; }
 
-/* 编辑态内联图片：定宽缩略感，可随文字流排布，拖拽时给视觉反馈 */
+/* 编辑态内联图片：保持原始比例与尺寸，可随文字流排布，拖拽时给视觉反馈 */
 .q-note-input .exam-note-img-wrap {
     display: inline-block;
-    width: 160px;
-    max-width: 45%;
+    width: auto;        /* 不固定 160px：按图片原始尺寸显示 */
+    max-width: 100%;    /* 不超出编辑框 */
     margin: 2px 4px;
     vertical-align: middle;
     border-radius: 8px;
