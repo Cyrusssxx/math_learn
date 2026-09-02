@@ -469,7 +469,7 @@
           {
             "no": 28,
             "kind": "choice",
-            "stem": "设 $A=(a_{ij})$ 为 $n$ 阶矩阵，且 $a_{ij}=-a_{ji}$，$\\beta$ 为 $n$ 维非零列向量，矩阵 $B=\\begin{pmatrix}A&\\beta\\\\\\beta^T&0\\end{pmatrix}$，则（ ）\nA. 若 $r(A)=n$，则 $n$ 为奇数，且 $r(B)=n$\nB. 若 $r(A)=n$，则 $n$ 为奇数，且 $r(B)=n+1$\nC. 若 $r(A)=n$，则 $n$ 为偶数，且 $r(B)=n$\nD. 若 $r(A)=n$，则 $n$ 为偶数，且 $r(B)=n+1$",
+            "stem": "设 $A=(a_{ij})$ 为 $n$ 阶矩阵，且 $a_{ij}=-a_{ji}$，$\\beta$ 为 $n$ 维非零列向量，矩阵 $B=\\begin{pmatrix}A&\\beta\\beta^T&0\\end{pmatrix}$，则（ ）\nA. 若 $r(A)=n$，则 $n$ 为奇数，且 $r(B)=n$\nB. 若 $r(A)=n$，则 $n$ 为奇数，且 $r(B)=n+1$\nC. 若 $r(A)=n$，则 $n$ 为偶数，且 $r(B)=n$\nD. 若 $r(A)=n$，则 $n$ 为偶数，且 $r(B)=n+1$",
             "options": [
               "若 $r(A)=n$，则 $n$ 为奇数，且 $r(B)=n$",
               "若 $r(A)=n$，则 $n$ 为奇数，且 $r(B)=n+1$",
@@ -1830,7 +1830,7 @@
             "kind": "blank",
             "stem": "设矩阵 $\\mathbf{A} = \\begin{pmatrix} 0 & 1 & a \\\\ 1 & 0 & 1 \\end{pmatrix}, \\mathbf{B} = \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\\\ b & 2 \\end{pmatrix}$，二次型 $f(x_1, x_2, x_3) = \\mathbf{x}^T \\mathbf{B}\\mathbf{A}\\mathbf{x}$。已知方程组 $\\mathbf{A}\\mathbf{x}=0$ 的解均是 $\\mathbf{B}^T\\mathbf{x}=0$ 的解，但这两个方程组不同解。(I) 求 a,b 的值；(II) 求正交变换 $\\mathbf{x}=\\mathbf{Q}\\mathbf{y}$ 将 $f(x_1, x_2, x_3)$ 化为标准形。",
             "options": [],
-            "answer": "【答案】$a=1,\\ b=2$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt6}&\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\\\\\frac1{\\sqrt6}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\\\\\frac2{\\sqrt6}&0&-\\frac1{\\sqrt3}\\end{pmatrix},\n$$\n在正交变换 $x=Qy$ 下，标准形为\n$$\nf=6y_1^2.\n$$\n\n【解析】由 $Ax=0$ 的解均是 $B^Tx=0$ 的解但不同解，知 $N(A)\\subsetneqq N(B^T)$。矩阵 $A$ 的秩恒为 $2$，所以 $N(A)$ 为一维；要使包含且不同，必须 $r(B^T)=1$，从而 $b=2$。此时 $B^Tx=0$ 为 $x_1+x_2+2x_3=0$。又 $Ax=0$ 的基础解向量可取 $(-1,-a,1)^T$，代入得 $-1-a+2=0$，故 $a=1$。于是\n$$\nBA=\\begin{pmatrix}1&1&2\\\\1&1&2\\\\2&2&4\\end{pmatrix}=uu^T,\\quad u=(1,1,2)^T.\n$$\n取 $Q$ 的第一列为 $u/\\|u\\|=(1,1,2)^T/\\sqrt6$，其余两列取与其正交的单位向量，即题示 $Q$，则 $Q^TBAQ=\\operatorname{diag}(6,0,0)$，故 $f=6y_1^2$。",
+            "answer": "【答案】$a=1,\\ b=2$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt6}&\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\frac1{\\sqrt6}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\frac2{\\sqrt6}&0&-\\frac1{\\sqrt3}\\end{pmatrix},\n$$\n在正交变换 $x=Qy$ 下，标准形为\n$$\nf=6y_1^2.\n$$\n\n【解析】由 $Ax=0$ 的解均是 $B^Tx=0$ 的解但不同解，知 $N(A)\\subsetneqq N(B^T)$。矩阵 $A$ 的秩恒为 $2$，所以 $N(A)$ 为一维；要使包含且不同，必须 $r(B^T)=1$，从而 $b=2$。此时 $B^Tx=0$ 为 $x_1+x_2+2x_3=0$。又 $Ax=0$ 的基础解向量可取 $(-1,-a,1)^T$，代入得 $-1-a+2=0$，故 $a=1$。于是\n$$\nBA=\\begin{pmatrix}1&1&2\\\\1&1&2\\\\2&2&4\\end{pmatrix}=uu^T,\\quad u=(1,1,2)^T.\n$$\n取 $Q$ 的第一列为 $u/\\|u\\|=(1,1,2)^T/\\sqrt6$，其余两列取与其正交的单位向量，即题示 $Q$，则 $Q^TBAQ=\\operatorname{diag}(6,0,0)$，故 $f=6y_1^2$。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -1891,7 +1891,7 @@
             "kind": "blank",
             "stem": "设矩阵 $A=\\begin{pmatrix}1&1&-1\\\\-1&1&1\\\\1&-1&1\\end{pmatrix}$，矩阵 $X$ 满足 $A^*X=A^{-1}+2X$，其中 $A^*$ 是 $A$ 的伴随矩阵，求矩阵 $X$。",
             "options": [],
-            "answer": "【答案】$X=\\begin{pmatrix}\\frac14&\\frac14&0\\\\0&\\frac14&\\frac14\\\\\\frac14&0&\\frac14\\end{pmatrix}$。\n\n【解析】由 $|A|=4$，有 $A^*=|A|A^{-1}=4A^{-1}$。原方程可写为\n$$\n(A^*-2E)X=A^{-1}.\n$$\n因为 $A^*-2E$ 可逆，所以\n$$\nX=(A^*-2E)^{-1}A^{-1}.\n$$\n代入矩阵 $A$ 计算得\n$$\nX=\\begin{pmatrix}\\frac14&\\frac14&0\\\\0&\\frac14&\\frac14\\\\\\frac14&0&\\frac14\\end{pmatrix}.\n$$",
+            "answer": "【答案】$X=\\begin{pmatrix}\\frac14&\\frac14&0\\\\0&\\frac14&\\frac14\\frac14&0&\\frac14\\end{pmatrix}$。\n\n【解析】由 $|A|=4$，有 $A^*=|A|A^{-1}=4A^{-1}$。原方程可写为\n$$\n(A^*-2E)X=A^{-1}.\n$$\n因为 $A^*-2E$ 可逆，所以\n$$\nX=(A^*-2E)^{-1}A^{-1}.\n$$\n代入矩阵 $A$ 计算得\n$$\nX=\\begin{pmatrix}\\frac14&\\frac14&0\\\\0&\\frac14&\\frac14\\frac14&0&\\frac14\\end{pmatrix}.\n$$",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -1975,7 +1975,7 @@
             "kind": "blank",
             "stem": "设矩阵  $ A = \\begin{pmatrix} 1 & 1 & 0 & 0 \\\\ -1 & 1 & 0 & 0 \\\\ 0 & 0 & 0 & 1 \\\\ 0 & 0 & -1 & 0 \\end{pmatrix} $ ，矩阵  $ B $  满足  $ A^{-1}BA = \\frac{1}{4}A^*B + \\frac{1}{16}E $ ，求矩阵  $ B $ 。",
             "options": [],
-            "answer": "【答案】$$\nB=\\begin{pmatrix}\\frac3{40}&-\\frac1{40}&0&0\\\\\\frac1{40}&\\frac3{40}&0&0\\\\0&0&\\frac1{20}&-\\frac1{40}\\\\0&0&\\frac1{40}&\\frac1{20}\\end{pmatrix}.\n$$\n\n【解析】计算 $|A|=2$，故 $A^*=2A^{-1}$。将原方程乘以 $16$，再设 $B=(b_{ij})$ 比较对应元素，所得线性方程组有唯一解，即题示矩阵。代回可验证等式成立。",
+            "answer": "【答案】$$\nB=\\begin{pmatrix}\\frac3{40}&-\\frac1{40}&0&0\\frac1{40}&\\frac3{40}&0&0\\\\0&0&\\frac1{20}&-\\frac1{40}\\\\0&0&\\frac1{40}&\\frac1{20}\\end{pmatrix}.\n$$\n\n【解析】计算 $|A|=2$，故 $A^*=2A^{-1}$。将原方程乘以 $16$，再设 $B=(b_{ij})$ 比较对应元素，所得线性方程组有唯一解，即题示矩阵。代回可验证等式成立。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -2003,7 +2003,7 @@
             "kind": "blank",
             "stem": "设矩阵  $ A = \\begin{pmatrix} 1 & 2 & -1 & 3 \\\\ 0 & 1 & -1 & -4 \\\\ 1 & -2 & 0 & 6 \\end{pmatrix} $ ,  $ E $  为 3 阶单位矩阵。(I) 求方程组  $ Ax=0 $  的一个基础解系；(II) 求满足  $ AB = E $  的所有矩阵  $ B $ 。",
             "options": [],
-            "answer": "【答案】(I) 一个基础解系为\n$$\n\\left\\{\\begin{pmatrix}-20\\\\-1\\\\-13\\\\3\\end{pmatrix}\\right\\}.\n$$\n (II) 全部解为\n$$\nB=\\begin{pmatrix}\\frac23-\\frac{20}3r&-\\frac23-\\frac{20}3s&\\frac13-\\frac{20}3t\\\\\\frac13-\\frac13r&-\\frac13-\\frac13s&-\\frac13-\\frac13t\\\\\\frac13-\\frac{13}3r&-\\frac43-\\frac{13}3s&-\\frac13-\\frac{13}3t\\\\r&s&t\\end{pmatrix},\\quad r,s,t\\in\\mathbb R.\n$$\n\n【解析】行化简得 $r(A)=3$，故 $Ax=0$ 的解空间维数为 $1$，可取基础解向量 $(-20,-1,-13,3)^T$。再将 $AB=E$ 按列求解，每列的自由变量分别记为 $r,s,t$，合并即得全部右逆矩阵。",
+            "answer": "【答案】(I) 一个基础解系为\n$$\n\\left\\{\\begin{pmatrix}-20\\\\-1\\\\-13\\\\3\\end{pmatrix}\\right\\}.\n$$\n (II) 全部解为\n$$\nB=\\begin{pmatrix}\\frac23-\\frac{20}3r&-\\frac23-\\frac{20}3s&\\frac13-\\frac{20}3t\\frac13-\\frac13r&-\\frac13-\\frac13s&-\\frac13-\\frac13t\\frac13-\\frac{13}3r&-\\frac43-\\frac{13}3s&-\\frac13-\\frac{13}3t\\\\r&s&t\\end{pmatrix},\\quad r,s,t\\in\\mathbb R.\n$$\n\n【解析】行化简得 $r(A)=3$，故 $Ax=0$ 的解空间维数为 $1$，可取基础解向量 $(-20,-1,-13,3)^T$。再将 $AB=E$ 按列求解，每列的自由变量分别记为 $r,s,t$，合并即得全部右逆矩阵。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -2017,7 +2017,7 @@
             "kind": "blank",
             "stem": "设矩阵  $ A = \\begin{pmatrix} 1 & 1 \\\\ 1 & 0 \\\\ 0 & -1 \\end{pmatrix} $ 。(I) 求所有满足  $ BA = E $  的矩阵  $ B $ ，并求  $ AB $  的特征值；(II) 在满足  $ BA = E $  的基础上，找到一个矩阵  $ B $ ，使得  $ AB $  有一个特征向量为  $ \\beta = (1,2,3)^T $ 。",
             "options": [],
-            "answer": "【答案】(I) 全部解为\n$$\nB=\\begin{pmatrix}p&1-p&p\\\\q+1&-q-1&q\\end{pmatrix},\\quad p,q\\in\\mathbb R.\n$$\n 此时 $AB$ 的特征值为 $1,1,0$。(II) 可取\n$$\nB=\\begin{pmatrix}-1&2&-1\\\\\\frac32&-\\frac32&\\frac12\\end{pmatrix}.\n$$\n\n【解析】直接解 $BA=E$ 得所列二参数矩阵。又因 $(AB)^2=A(BA)B=AB$，且 $r(AB)=r(A)=2$，所以 $AB$ 为秩为 $2$ 的幂等矩阵，特征值为 $1,1,0$。令 $AB\\beta=0$，解得 $p=-1,q=1/2$，即得一组符合要求的 $B$。",
+            "answer": "【答案】(I) 全部解为\n$$\nB=\\begin{pmatrix}p&1-p&p\\\\q+1&-q-1&q\\end{pmatrix},\\quad p,q\\in\\mathbb R.\n$$\n 此时 $AB$ 的特征值为 $1,1,0$。(II) 可取\n$$\nB=\\begin{pmatrix}-1&2&-1\\frac32&-\\frac32&\\frac12\\end{pmatrix}.\n$$\n\n【解析】直接解 $BA=E$ 得所列二参数矩阵。又因 $(AB)^2=A(BA)B=AB$，且 $r(AB)=r(A)=2$，所以 $AB$ 为秩为 $2$ 的幂等矩阵，特征值为 $1,1,0$。令 $AB\\beta=0$，解得 $p=-1,q=1/2$，即得一组符合要求的 $B$。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -2031,7 +2031,7 @@
             "kind": "blank",
             "stem": "设  $ A, B, X $  均为 3 阶矩阵，其中  $ A = \\begin{pmatrix} 2 & 2 & 2 \\\\ 2a & 3a & 3a \\\\ 2a^2 & 3a^2 & 4a^2 \\end{pmatrix} $ ,  $ B = \\begin{pmatrix} 1 & 2 & 2 \\\\ 2 & 1 & 1 \\\\ 5 & 6 & 9 \\end{pmatrix} $ 。问  $ a $  为何值时，矩阵方程  $ AX - BX = A $  无解、有唯一解、有无穷多解？在有解时，解此方程。",
             "options": [],
-            "answer": "【答案】令 $D=(3a-1)(a^2-3)$。当 $a=\\frac13,\\sqrt3,-\\sqrt3$ 时无解；不存在无穷多解的情形。其余 $a$ 下有唯一解\n$$\nX=\\begin{pmatrix}2&2&2\\\\\\frac{2(-a^3+7a^2-6a-13)}D&\\frac{-a^3+15a^2-21a-26}D&\\frac{-4a^3+16a^2-21a-26}D\\\\\\frac{2(-5a^2+9a+7)}D&\\frac{-11a^2+24a+14}D&\\frac{3a^3-12a^2+24a+14}D\\end{pmatrix}.\n$$\n\n【解析】原方程为 $(A-B)X=A$，且 $|A-B|=(3a-1)(a^2-3)$。当该行列式非零时，$X=(A-B)^{-1}A$，计算得所列矩阵；当 $a=1/3,\\pm\\sqrt3$ 时，$r(A-B)=2$，但增广矩阵至少有一列的秩为 $3$，故无解。",
+            "answer": "【答案】令 $D=(3a-1)(a^2-3)$。当 $a=\\frac13,\\sqrt3,-\\sqrt3$ 时无解；不存在无穷多解的情形。其余 $a$ 下有唯一解\n$$\nX=\\begin{pmatrix}2&2&2\\frac{2(-a^3+7a^2-6a-13)}D&\\frac{-a^3+15a^2-21a-26}D&\\frac{-4a^3+16a^2-21a-26}D\\frac{2(-5a^2+9a+7)}D&\\frac{-11a^2+24a+14}D&\\frac{3a^3-12a^2+24a+14}D\\end{pmatrix}.\n$$\n\n【解析】原方程为 $(A-B)X=A$，且 $|A-B|=(3a-1)(a^2-3)$。当该行列式非零时，$X=(A-B)^{-1}A$，计算得所列矩阵；当 $a=1/3,\\pm\\sqrt3$ 时，$r(A-B)=2$，但增广矩阵至少有一列的秩为 $3$，故无解。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -2184,9 +2184,9 @@
           {
             "no": 7,
             "kind": "blank",
-            "stem": "设 $A=\\begin{pmatrix}\\cos\\theta&-\\sin\\theta&a\\\\\\sin\\theta&\\cos\\theta&b\\\\c&d&e\\end{pmatrix}$ 为正交矩阵，且 $|A|=-1$，则 $A\\mathbf{x}=\\begin{pmatrix}\\cos\\theta\\\\\\sin\\theta\\\\-1\\end{pmatrix}$ 的解为 $\\mathbf{x}=$__________。",
+            "stem": "设 $A=\\begin{pmatrix}\\cos\\theta&-\\sin\\theta&a\\sin\\theta&\\cos\\theta&b\\\\c&d&e\\end{pmatrix}$ 为正交矩阵，且 $|A|=-1$，则 $A\\mathbf{x}=\\begin{pmatrix}\\cos\\theta\\sin\\theta\\\\-1\\end{pmatrix}$ 的解为 $\\mathbf{x}=$__________。",
             "options": [],
-            "answer": "【答案】$\\begin{pmatrix}1-c\\\\-d\\\\a\\cos\\theta+b\\sin\\theta-e\\end{pmatrix}$\n\n【解析】因 $A$ 为正交矩阵，$A^{-1}=A^T$。令 $\\mathbf v=(\\cos\\theta,\\sin\\theta,-1)^T$，则 $\\mathbf x=A^T\\mathbf v$，故\n$$\n\\mathbf x=\\begin{pmatrix}\\cos\\theta&\\sin\\theta&c\\\\-\\sin\\theta&\\cos\\theta&d\\\\a&b&e\\end{pmatrix}\\begin{pmatrix}\\cos\\theta\\\\\\sin\\theta\\\\-1\\end{pmatrix}=\\begin{pmatrix}1-c\\\\-d\\\\a\\cos\\theta+b\\sin\\theta-e\\end{pmatrix}.\n$$",
+            "answer": "【答案】$\\begin{pmatrix}1-c\\\\-d\\\\a\\cos\\theta+b\\sin\\theta-e\\end{pmatrix}$\n\n【解析】因 $A$ 为正交矩阵，$A^{-1}=A^T$。令 $\\mathbf v=(\\cos\\theta,\\sin\\theta,-1)^T$，则 $\\mathbf x=A^T\\mathbf v$，故\n$$\n\\mathbf x=\\begin{pmatrix}\\cos\\theta&\\sin\\theta&c\\\\-\\sin\\theta&\\cos\\theta&d\\\\a&b&e\\end{pmatrix}\\begin{pmatrix}\\cos\\theta\\sin\\theta\\\\-1\\end{pmatrix}=\\begin{pmatrix}1-c\\\\-d\\\\a\\cos\\theta+b\\sin\\theta-e\\end{pmatrix}.\n$$",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -2198,14 +2198,14 @@
           {
             "no": 8,
             "kind": "choice",
-            "stem": "设矩阵 $A=\\begin{pmatrix}\\frac32&-\\frac12\\\\\\frac12&\\frac12\\end{pmatrix}$，向量 $\\boldsymbol{\\alpha}$ 满足 $A\\boldsymbol{\\alpha}=\\begin{pmatrix}1\\\\1\\end{pmatrix}+\\boldsymbol{\\alpha}$，则下列向量中可能为 $A^{11}\\boldsymbol{\\alpha}$ 的是（ ）。\nA. $\\begin{pmatrix}9\\\\11\\end{pmatrix}$\nB. $\\begin{pmatrix}10\\\\11\\end{pmatrix}$\nC. $\\begin{pmatrix}11\\\\9\\end{pmatrix}$\nD. $\\begin{pmatrix}11\\\\10\\end{pmatrix}$",
+            "stem": "设矩阵 $A=\\begin{pmatrix}\\frac32&-\\frac12\\frac12&\\frac12\\end{pmatrix}$，向量 $\\boldsymbol{\\alpha}$ 满足 $A\\boldsymbol{\\alpha}=\\begin{pmatrix}1\\\\1\\end{pmatrix}+\\boldsymbol{\\alpha}$，则下列向量中可能为 $A^{11}\\boldsymbol{\\alpha}$ 的是（ ）。\nA. $\\begin{pmatrix}9\\\\11\\end{pmatrix}$\nB. $\\begin{pmatrix}10\\\\11\\end{pmatrix}$\nC. $\\begin{pmatrix}11\\\\9\\end{pmatrix}$\nD. $\\begin{pmatrix}11\\\\10\\end{pmatrix}$",
             "options": [
               "$\\begin{pmatrix}9\\\\11\\end{pmatrix}$",
               "$\\begin{pmatrix}10\\\\11\\end{pmatrix}$",
               "$\\begin{pmatrix}11\\\\9\\end{pmatrix}$",
               "$\\begin{pmatrix}11\\\\10\\end{pmatrix}$"
             ],
-            "answer": "【答案】C\n\n【解析】令 $N=A-E$，则 $N=\\begin{pmatrix}\\frac12&-\\frac12\\\\\\frac12&-\\frac12\\end{pmatrix}$，且 $N^2=O$。由题设得 $N\\boldsymbol{\\alpha}=\\begin{pmatrix}1\\\\1\\end{pmatrix}$，于是\n$$\nA^{11}\\boldsymbol{\\alpha}=(E+N)^{11}\\boldsymbol{\\alpha}=\\boldsymbol{\\alpha}+11N\\boldsymbol{\\alpha}=\\boldsymbol{\\alpha}+\\begin{pmatrix}11\\\\11\\end{pmatrix}.\n$$\n若 $\\boldsymbol{\\alpha}=(x,y)^T$，由 $N\\boldsymbol{\\alpha}=(1,1)^T$ 得 $x-y=2$，因此 $A^{11}\\boldsymbol{\\alpha}$ 的两个分量之差也为 $2$。四个选项中只有 C 满足，且可取 $\\boldsymbol{\\alpha}=(0,-2)^T$，故选 C。",
+            "answer": "【答案】C\n\n【解析】令 $N=A-E$，则 $N=\\begin{pmatrix}\\frac12&-\\frac12\\frac12&-\\frac12\\end{pmatrix}$，且 $N^2=O$。由题设得 $N\\boldsymbol{\\alpha}=\\begin{pmatrix}1\\\\1\\end{pmatrix}$，于是\n$$\nA^{11}\\boldsymbol{\\alpha}=(E+N)^{11}\\boldsymbol{\\alpha}=\\boldsymbol{\\alpha}+11N\\boldsymbol{\\alpha}=\\boldsymbol{\\alpha}+\\begin{pmatrix}11\\\\11\\end{pmatrix}.\n$$\n若 $\\boldsymbol{\\alpha}=(x,y)^T$，由 $N\\boldsymbol{\\alpha}=(1,1)^T$ 得 $x-y=2$，因此 $A^{11}\\boldsymbol{\\alpha}$ 的两个分量之差也为 $2$。四个选项中只有 C 满足，且可取 $\\boldsymbol{\\alpha}=(0,-2)^T$，故选 C。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -2872,7 +2872,7 @@
             "kind": "blank",
             "stem": "设二次型 $f(x_1, x_2, x_3) = 2x_1x_2 + 3x_2x_3 + 4x_1x_3$。求可逆线性变换 $\\mathbf{x} = \\mathbf{P}\\mathbf{z}$，使得 $f(x_1, x_2, x_3)$ 化为标准形，并求二次型的秩及正、负惯性指数。",
             "options": [],
-            "answer": "【答案】可取\n$$\nP=\\begin{pmatrix}\\frac12&\\frac12&-\\frac32\\\\\\frac12&-\\frac12&-2\\\\0&0&1\\end{pmatrix},\n$$\n此时\n$$\nf=\\frac12z_1^2-\\frac12z_2^2-6z_3^2.\n$$\n二次型的秩为 $3$，正惯性指数为 $1$，负惯性指数为 $2$。\n\n【解析】令 $u=x_1+x_2$，$v=x_1-x_2$，$w=x_3$，则\n$$\nf=\\frac12u^2-\\frac12v^2+\\frac72uw+\\frac12vw.\n$$\n配方得\n$$\nf=\\frac12\\left(u+\\frac72w\\right)^2-\\frac12\\left(v-\\frac12w\\right)^2-6w^2.\n$$\n取 $z_1=u+\\frac72w$，$z_2=v-\\frac12w$，$z_3=w$，解回 $x=Pz$，即得题示 $P$。标准形中三个平方项系数均非零，故秩为 $3$，正、负惯性指数分别为 $1,2$。",
+            "answer": "【答案】可取\n$$\nP=\\begin{pmatrix}\\frac12&\\frac12&-\\frac32\\frac12&-\\frac12&-2\\\\0&0&1\\end{pmatrix},\n$$\n此时\n$$\nf=\\frac12z_1^2-\\frac12z_2^2-6z_3^2.\n$$\n二次型的秩为 $3$，正惯性指数为 $1$，负惯性指数为 $2$。\n\n【解析】令 $u=x_1+x_2$，$v=x_1-x_2$，$w=x_3$，则\n$$\nf=\\frac12u^2-\\frac12v^2+\\frac72uw+\\frac12vw.\n$$\n配方得\n$$\nf=\\frac12\\left(u+\\frac72w\\right)^2-\\frac12\\left(v-\\frac12w\\right)^2-6w^2.\n$$\n取 $z_1=u+\\frac72w$，$z_2=v-\\frac12w$，$z_3=w$，解回 $x=Pz$，即得题示 $P$。标准形中三个平方项系数均非零，故秩为 $3$，正、负惯性指数分别为 $1,2$。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -2905,7 +2905,7 @@
             "kind": "blank",
             "stem": "设二次型 $f(\\mathbf{x})=\\mathbf{x}^TA\\mathbf{x}$，其中 $A$ 为实对称矩阵。已知 $A$ 的各行元素之和均为 $4$，且存在 3 维非零列向量 $\\alpha,\\beta$，使得 $A=E+\\alpha\\beta^T$。(I) 求 $A$ 的特征值与特征向量；(II) 求正交变换 $\\mathbf{x}=Q\\mathbf{y}$ 将 $f(x_1,x_2,x_3)$ 化为标准形。",
             "options": [],
-            "answer": "【答案】$A$ 的特征值为 $4,1,1$。属于特征值 $4$ 的特征向量为 $k(1,1,1)^T\\ (k\\ne0)$；属于特征值 $1$ 的特征向量为满足 $x_1+x_2+x_3=0$ 的非零向量。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\\\frac1{\\sqrt3}&0&-\\frac2{\\sqrt6}\\end{pmatrix},\n$$\n在正交变换 $\\mathbf{x}=Q\\mathbf{y}$ 下，标准形为\n$$\nf=4y_1^2+y_2^2+y_3^2.\n$$\n\n【解析】由 $A$ 的各行元素之和均为 $4$，得\n$$\nA(1,1,1)^T=4(1,1,1)^T.\n$$\n又 $A=E+\\alpha\\beta^T$，故 $A-E$ 的秩为 $1$。因为 $A$ 为实对称矩阵，$A-E$ 也是实对称矩阵。向量 $(1,1,1)^T$ 是 $A-E$ 的特征向量，对应特征值为 $3$；而 $A-E$ 秩为 $1$，其余两个特征值为 $0$。所以 $A$ 的特征值为 $4,1,1$，且特征值 $1$ 的特征子空间为\n$$\nx_1+x_2+x_3=0.\n$$\n取一组标准正交特征向量\n$$\nq_1=\\frac1{\\sqrt3}(1,1,1)^T,\\quad q_2=\\frac1{\\sqrt2}(1,-1,0)^T,\\quad q_3=\\frac1{\\sqrt6}(1,1,-2)^T,\n$$\n令 $Q=(q_1,q_2,q_3)$，则 $Q^TAQ=\\operatorname{diag}(4,1,1)$，标准形为 $4y_1^2+y_2^2+y_3^2$。",
+            "answer": "【答案】$A$ 的特征值为 $4,1,1$。属于特征值 $4$ 的特征向量为 $k(1,1,1)^T\\ (k\\ne0)$；属于特征值 $1$ 的特征向量为满足 $x_1+x_2+x_3=0$ 的非零向量。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\frac1{\\sqrt3}&0&-\\frac2{\\sqrt6}\\end{pmatrix},\n$$\n在正交变换 $\\mathbf{x}=Q\\mathbf{y}$ 下，标准形为\n$$\nf=4y_1^2+y_2^2+y_3^2.\n$$\n\n【解析】由 $A$ 的各行元素之和均为 $4$，得\n$$\nA(1,1,1)^T=4(1,1,1)^T.\n$$\n又 $A=E+\\alpha\\beta^T$，故 $A-E$ 的秩为 $1$。因为 $A$ 为实对称矩阵，$A-E$ 也是实对称矩阵。向量 $(1,1,1)^T$ 是 $A-E$ 的特征向量，对应特征值为 $3$；而 $A-E$ 秩为 $1$，其余两个特征值为 $0$。所以 $A$ 的特征值为 $4,1,1$，且特征值 $1$ 的特征子空间为\n$$\nx_1+x_2+x_3=0.\n$$\n取一组标准正交特征向量\n$$\nq_1=\\frac1{\\sqrt3}(1,1,1)^T,\\quad q_2=\\frac1{\\sqrt2}(1,-1,0)^T,\\quad q_3=\\frac1{\\sqrt6}(1,1,-2)^T,\n$$\n令 $Q=(q_1,q_2,q_3)$，则 $Q^TAQ=\\operatorname{diag}(4,1,1)$，标准形为 $4y_1^2+y_2^2+y_3^2$。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -2933,7 +2933,7 @@
             "kind": "blank",
             "stem": "已知矩阵 $\\mathbf{A} = \\begin{pmatrix} 1 & 1 & 0 \\\\ a & -1 & 0 \\\\ 0 & 1 & 1 \\\\ 1 & b & -1 \\end{pmatrix}$，二次型 $f(\\mathbf{x}) = \\mathbf{x}^T \\mathbf{A}^T \\mathbf{A} \\mathbf{x}$ 的秩为 2。\n(I) 求 $a, b$ 的值；\n(II) 求正交变换 $\\mathbf{x} = \\mathbf{Q}\\mathbf{y}$ 将 $f(x_1, x_2, x_3)$ 化为标准形。",
             "options": [],
-            "answer": "【答案】$a=-1,\\ b=0$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt2}&-\\frac1{\\sqrt6}&\\frac1{\\sqrt3}\\\\\\frac1{\\sqrt2}&\\frac1{\\sqrt6}&-\\frac1{\\sqrt3}\\\\0&\\frac2{\\sqrt6}&\\frac1{\\sqrt3}\\end{pmatrix},\n$$\n在 $x=Qy$ 下\n$$\nf=5y_1^2+3y_2^2.\n$$\n\n【解析】因为 $f=x^TA^TAx$，所以 $r(f)=r(A)$。题设 $r(A)=2$，故所有三阶子式为 $0$。由第 $1,2,3$ 行构成的三阶子式得 $-1-a=0$，由第 $1,3,4$ 行构成的三阶子式得 $-b=0$，所以 $a=-1,\\ b=0$。此时\n$$\nA^TA=\\begin{pmatrix}3&2&-1\\\\2&3&1\\\\-1&1&2\\end{pmatrix},\n$$\n其特征值为 $5,3,0$，对应特征向量可取 $(1,1,0)^T,(-1,1,2)^T,(1,-1,1)^T$。单位化后组成 $Q$，即得标准形 $5y_1^2+3y_2^2$。",
+            "answer": "【答案】$a=-1,\\ b=0$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt2}&-\\frac1{\\sqrt6}&\\frac1{\\sqrt3}\\frac1{\\sqrt2}&\\frac1{\\sqrt6}&-\\frac1{\\sqrt3}\\\\0&\\frac2{\\sqrt6}&\\frac1{\\sqrt3}\\end{pmatrix},\n$$\n在 $x=Qy$ 下\n$$\nf=5y_1^2+3y_2^2.\n$$\n\n【解析】因为 $f=x^TA^TAx$，所以 $r(f)=r(A)$。题设 $r(A)=2$，故所有三阶子式为 $0$。由第 $1,2,3$ 行构成的三阶子式得 $-1-a=0$，由第 $1,3,4$ 行构成的三阶子式得 $-b=0$，所以 $a=-1,\\ b=0$。此时\n$$\nA^TA=\\begin{pmatrix}3&2&-1\\\\2&3&1\\\\-1&1&2\\end{pmatrix},\n$$\n其特征值为 $5,3,0$，对应特征向量可取 $(1,1,0)^T,(-1,1,2)^T,(1,-1,1)^T$。单位化后组成 $Q$，即得标准形 $5y_1^2+3y_2^2$。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -2947,7 +2947,7 @@
             "kind": "blank",
             "stem": "已知二次型 $f(x_1,x_2,x_3)=x_1^2+3x_2^2+x_3^2+2ax_1x_2+2x_2x_3+2x_1x_3$ 通过正交变换化为标准形 $y_1^2+4y_2^2$，求参数 $a$ 以及所用的正交变换。",
             "options": [],
-            "answer": "【答案】$a=1$。可取正交矩阵\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt6}&-\\frac1{\\sqrt2}\\\\-\\frac1{\\sqrt3}&\\frac2{\\sqrt6}&0\\\\\\frac1{\\sqrt3}&\\frac1{\\sqrt6}&\\frac1{\\sqrt2}\\end{pmatrix},\n$$\n在正交变换 $\\mathbf{x}=Q\\mathbf{y}$ 下，\n$$\nf=y_1^2+4y_2^2.\n$$\n\n【解析】二次型矩阵为\n$$\nA=\\begin{pmatrix}1&a&1\\\\a&3&1\\\\1&1&1\\end{pmatrix}.\n$$\n标准形为 $y_1^2+4y_2^2$，故 $A$ 的特征值为 $1,4,0$。计算 $|A|=0$ 并结合二阶主子式和为 $4$，得 $a=1$。此时\n$$\nA=\\begin{pmatrix}1&1&1\\\\1&3&1\\\\1&1&1\\end{pmatrix},\n$$\n其对应特征值 $1,4,0$ 的一组两两正交特征向量可取\n$$\n\\xi_1=(1,-1,1)^T,\\quad \\xi_2=(1,2,1)^T,\\quad \\xi_3=(-1,0,1)^T.\n$$\n单位化后令\n$$\nQ=\\left(\\frac{\\xi_1}{\\sqrt3},\\frac{\\xi_2}{\\sqrt6},\\frac{\\xi_3}{\\sqrt2}\\right)=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt6}&-\\frac1{\\sqrt2}\\\\-\\frac1{\\sqrt3}&\\frac2{\\sqrt6}&0\\\\\\frac1{\\sqrt3}&\\frac1{\\sqrt6}&\\frac1{\\sqrt2}\\end{pmatrix},\n$$\n则 $Q^TAQ=\\operatorname{diag}(1,4,0)$，所求标准形为 $y_1^2+4y_2^2$。",
+            "answer": "【答案】$a=1$。可取正交矩阵\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt6}&-\\frac1{\\sqrt2}\\\\-\\frac1{\\sqrt3}&\\frac2{\\sqrt6}&0\\frac1{\\sqrt3}&\\frac1{\\sqrt6}&\\frac1{\\sqrt2}\\end{pmatrix},\n$$\n在正交变换 $\\mathbf{x}=Q\\mathbf{y}$ 下，\n$$\nf=y_1^2+4y_2^2.\n$$\n\n【解析】二次型矩阵为\n$$\nA=\\begin{pmatrix}1&a&1\\\\a&3&1\\\\1&1&1\\end{pmatrix}.\n$$\n标准形为 $y_1^2+4y_2^2$，故 $A$ 的特征值为 $1,4,0$。计算 $|A|=0$ 并结合二阶主子式和为 $4$，得 $a=1$。此时\n$$\nA=\\begin{pmatrix}1&1&1\\\\1&3&1\\\\1&1&1\\end{pmatrix},\n$$\n其对应特征值 $1,4,0$ 的一组两两正交特征向量可取\n$$\n\\xi_1=(1,-1,1)^T,\\quad \\xi_2=(1,2,1)^T,\\quad \\xi_3=(-1,0,1)^T.\n$$\n单位化后令\n$$\nQ=\\left(\\frac{\\xi_1}{\\sqrt3},\\frac{\\xi_2}{\\sqrt6},\\frac{\\xi_3}{\\sqrt2}\\right)=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt6}&-\\frac1{\\sqrt2}\\\\-\\frac1{\\sqrt3}&\\frac2{\\sqrt6}&0\\frac1{\\sqrt3}&\\frac1{\\sqrt6}&\\frac1{\\sqrt2}\\end{pmatrix},\n$$\n则 $Q^TAQ=\\operatorname{diag}(1,4,0)$，所求标准形为 $y_1^2+4y_2^2$。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -3032,7 +3032,7 @@
             "kind": "blank",
             "stem": "设三元二次型 $f(\\mathbf{x}) = \\mathbf{x}^T \\mathbf{A} \\mathbf{x}$ 在正交变换 $\\mathbf{x} = \\mathbf{Q}\\mathbf{y}$ 下的标准形为 $2y_1^2 - y_2^2 - y_3^2$，且 $\\mathbf{A}^* \\boldsymbol{\\alpha}_1 = \\boldsymbol{\\alpha}_1$，其中 $\\boldsymbol{\\alpha}_1 = (1, 1, -1)^T$。\n(1) 求正交矩阵 $\\mathbf{Q}$；\n(2) 求二次型 $f(x_1, x_2, x_3)$ 的表达式；\n(3) 求可逆线性变换 $\\mathbf{x} = \\mathbf{P}\\mathbf{z}$ 化二次型 $f(x_1, x_2, x_3)$ 为规范形。",
             "options": [],
-            "answer": "【答案】可取 \n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\-\\frac1{\\sqrt3}&0&\\frac2{\\sqrt6}\\end{pmatrix}.\n$$\n 此时 \n$$\nA=\\begin{pmatrix}0&1&-1\\\\1&0&-1\\\\-1&-1&0\\end{pmatrix},\\quad f=2x_1x_2-2x_1x_3-2x_2x_3.\n$$\n 若令 \n$$\nM=\\operatorname{diag}\\left(\\frac1{\\sqrt2},1,1\\right),\n$$\n 则 $y=Mz$ 时 \n$$\n2y_1^2-y_2^2-y_3^2=z_1^2-z_2^2-z_3^2.\n$$\n 因为 $x=Qy=QMz$，所以可取 \n$$\nP=QM=Q\\operatorname{diag}\\left(\\frac1{\\sqrt2},1,1\\right).\n$$\n\n【解析】由标准形知 $A$ 的特征值为 $2,-1,-1$，故 $A^*$ 的特征值为 $1,-2,-2$。条件 $A^*\\alpha_1=\\alpha_1$ 说明 $\\alpha_1=(1,1,-1)^T$ 是 $A$ 关于特征值 $2$ 的特征向量。取 $\\dfrac1{\\sqrt3}(1,1,-1)^T$ 为 $Q$ 第一列，并在其正交补中取单位正交向量 $\\dfrac1{\\sqrt2}(1,-1,0)^T,\\dfrac1{\\sqrt6}(1,1,2)^T$，得上述 $Q$。由谱分解 \n$$\nA=Q\\operatorname{diag}(2,-1,-1)Q^T=-E+3uu^T\n$$\n 可得 $A$ 和 $f$。最后先令 $y=Mz$，其中 $M=\\operatorname{diag}\\left(\\dfrac1{\\sqrt2},1,1\\right)$，把 $2y_1^2-y_2^2-y_3^2$ 化为 $z_1^2-z_2^2-z_3^2$；又 $x=Qy$，所以总变换为 $x=QMz$，即 $P=QM$。",
+            "answer": "【答案】可取 \n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\-\\frac1{\\sqrt3}&0&\\frac2{\\sqrt6}\\end{pmatrix}.\n$$\n 此时 \n$$\nA=\\begin{pmatrix}0&1&-1\\\\1&0&-1\\\\-1&-1&0\\end{pmatrix},\\quad f=2x_1x_2-2x_1x_3-2x_2x_3.\n$$\n 若令 \n$$\nM=\\operatorname{diag}\\left(\\frac1{\\sqrt2},1,1\\right),\n$$\n 则 $y=Mz$ 时 \n$$\n2y_1^2-y_2^2-y_3^2=z_1^2-z_2^2-z_3^2.\n$$\n 因为 $x=Qy=QMz$，所以可取 \n$$\nP=QM=Q\\operatorname{diag}\\left(\\frac1{\\sqrt2},1,1\\right).\n$$\n\n【解析】由标准形知 $A$ 的特征值为 $2,-1,-1$，故 $A^*$ 的特征值为 $1,-2,-2$。条件 $A^*\\alpha_1=\\alpha_1$ 说明 $\\alpha_1=(1,1,-1)^T$ 是 $A$ 关于特征值 $2$ 的特征向量。取 $\\dfrac1{\\sqrt3}(1,1,-1)^T$ 为 $Q$ 第一列，并在其正交补中取单位正交向量 $\\dfrac1{\\sqrt2}(1,-1,0)^T,\\dfrac1{\\sqrt6}(1,1,2)^T$，得上述 $Q$。由谱分解 \n$$\nA=Q\\operatorname{diag}(2,-1,-1)Q^T=-E+3uu^T\n$$\n 可得 $A$ 和 $f$。最后先令 $y=Mz$，其中 $M=\\operatorname{diag}\\left(\\dfrac1{\\sqrt2},1,1\\right)$，把 $2y_1^2-y_2^2-y_3^2$ 化为 $z_1^2-z_2^2-z_3^2$；又 $x=Qy$，所以总变换为 $x=QMz$，即 $P=QM$。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -3135,7 +3135,7 @@
             "kind": "blank",
             "stem": "设矩阵 $\\mathbf{A} = \\begin{pmatrix} 1 & a & 0 \\\\ a & 2 & b \\\\ 0 & b & 1 \\end{pmatrix}$，且 $\\boldsymbol{\\alpha} = (1,1,1)^T$ 是矩阵 $\\mathbf{A}$ 的属于特征值 $\\lambda$ 的一个特征向量。\n(I) 求 $a, b$；\n(II) 求正交变换 $\\mathbf{x} = \\mathbf{Q}\\mathbf{y}$ 将二次型 $f(\\mathbf{x}) = \\mathbf{x}^T \\mathbf{A} \\mathbf{x}$ 化为标准形；\n(III) 求 $f(x_1, x_2, x_3) = 0$ 的解。",
             "options": [],
-            "answer": "【答案】$a=b=-1$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\\\frac1{\\sqrt3}&0&-\\frac2{\\sqrt6}\\\\\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\end{pmatrix},\n$$\n则\n$$\nQ^TAQ=\\operatorname{diag}(0,1,3),\\quad f=y_2^2+3y_3^2.\n$$\n方程 $f=0$ 的解为 $x=t(1,1,1)^T$。\n\n【解析】由 $A(1,1,1)^T=\\lambda(1,1,1)^T$ 得\n$$\n1+a=a+2+b=b+1.\n$$\n解得 $a=b=-1$，且 $\\lambda=0$。此时\n$$\nA=\\begin{pmatrix}1&-1&0\\\\-1&2&-1\\\\0&-1&1\\end{pmatrix},\n$$\n其特征值为 $0,1,3$，对应单位特征向量可取 $\\frac1{\\sqrt3}(1,1,1)^T,\\frac1{\\sqrt2}(1,0,-1)^T,\\frac1{\\sqrt6}(1,-2,1)^T$，组成 $Q$ 得标准形。由于该二次型半正定，$f=0$ 的解就是零特征值对应的特征子空间，即 $t(1,1,1)^T$。",
+            "answer": "【答案】$a=b=-1$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\frac1{\\sqrt3}&0&-\\frac2{\\sqrt6}\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\end{pmatrix},\n$$\n则\n$$\nQ^TAQ=\\operatorname{diag}(0,1,3),\\quad f=y_2^2+3y_3^2.\n$$\n方程 $f=0$ 的解为 $x=t(1,1,1)^T$。\n\n【解析】由 $A(1,1,1)^T=\\lambda(1,1,1)^T$ 得\n$$\n1+a=a+2+b=b+1.\n$$\n解得 $a=b=-1$，且 $\\lambda=0$。此时\n$$\nA=\\begin{pmatrix}1&-1&0\\\\-1&2&-1\\\\0&-1&1\\end{pmatrix},\n$$\n其特征值为 $0,1,3$，对应单位特征向量可取 $\\frac1{\\sqrt3}(1,1,1)^T,\\frac1{\\sqrt2}(1,0,-1)^T,\\frac1{\\sqrt6}(1,-2,1)^T$，组成 $Q$ 得标准形。由于该二次型半正定，$f=0$ 的解就是零特征值对应的特征子空间，即 $t(1,1,1)^T$。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -3288,14 +3288,14 @@
           {
             "no": 32,
             "kind": "choice",
-            "stem": "设 $\\mathbf{A}$ 为 $n$ 阶实矩阵，$\\mathbf{A}\\ne\\mathbf{A}^T$，$\\mathbf{B}=\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{A}\\\\\\mathbf{A}^T&\\mathbf{O}\\end{pmatrix}$，则下列矩阵中，可能与 $\\mathbf{B}$ 合同的是（ ）。\nA. $\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\\\\\mathbf{O}&\\mathbf{E}_n\\end{pmatrix}$。\nB. $\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\\\\\mathbf{O}&-\\mathbf{E}_n\\end{pmatrix}$。\nC. $\\begin{pmatrix}\\mathbf{E}_p&\\mathbf{O}\\\\\\mathbf{O}&-\\mathbf{E}_q\\end{pmatrix}$，其中 $p>q$。\nD. $\\begin{pmatrix}\\mathbf{E}_p&\\mathbf{O}\\\\\\mathbf{O}&-\\mathbf{E}_q\\end{pmatrix}$，其中 $p<q$。",
+            "stem": "设 $\\mathbf{A}$ 为 $n$ 阶实矩阵，$\\mathbf{A}\\ne\\mathbf{A}^T$，$\\mathbf{B}=\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{A}\\mathbf{A}^T&\\mathbf{O}\\end{pmatrix}$，则下列矩阵中，可能与 $\\mathbf{B}$ 合同的是（ ）。\nA. $\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\mathbf{O}&\\mathbf{E}_n\\end{pmatrix}$。\nB. $\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\mathbf{O}&-\\mathbf{E}_n\\end{pmatrix}$。\nC. $\\begin{pmatrix}\\mathbf{E}_p&\\mathbf{O}\\mathbf{O}&-\\mathbf{E}_q\\end{pmatrix}$，其中 $p>q$。\nD. $\\begin{pmatrix}\\mathbf{E}_p&\\mathbf{O}\\mathbf{O}&-\\mathbf{E}_q\\end{pmatrix}$，其中 $p<q$。",
             "options": [
-              "$\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\\\\\mathbf{O}&\\mathbf{E}_n\\end{pmatrix}$。",
-              "$\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\\\\\mathbf{O}&-\\mathbf{E}_n\\end{pmatrix}$。",
-              "$\\begin{pmatrix}\\mathbf{E}_p&\\mathbf{O}\\\\\\mathbf{O}&-\\mathbf{E}_q\\end{pmatrix}$，其中 $p>q$。",
-              "$\\begin{pmatrix}\\mathbf{E}_p&\\mathbf{O}\\\\\\mathbf{O}&-\\mathbf{E}_q\\end{pmatrix}$，其中 $p<q$。"
+              "$\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\mathbf{O}&\\mathbf{E}_n\\end{pmatrix}$。",
+              "$\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\mathbf{O}&-\\mathbf{E}_n\\end{pmatrix}$。",
+              "$\\begin{pmatrix}\\mathbf{E}_p&\\mathbf{O}\\mathbf{O}&-\\mathbf{E}_q\\end{pmatrix}$，其中 $p>q$。",
+              "$\\begin{pmatrix}\\mathbf{E}_p&\\mathbf{O}\\mathbf{O}&-\\mathbf{E}_q\\end{pmatrix}$，其中 $p<q$。"
             ],
-            "answer": "【答案】B\n\n【解析】取可逆分块矩阵\n$$\n\\mathbf{S}=\\begin{pmatrix}\\mathbf{E}_n&-\\mathbf{A}\\\\\\mathbf{O}&\\mathbf{E}_n\\end{pmatrix},\n$$\n则\n$$\n\\mathbf{S}^T\\mathbf{B}\\mathbf{S}\n=\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\\\\\mathbf{O}&-\\mathbf{A}^T\\mathbf{A}\\end{pmatrix}.\n$$\n因此 $\\mathbf{B}$ 的正惯性指数恒为 $n$，负惯性指数为 $r(\\mathbf{A})$。当 $\\mathbf{A}$ 可逆且 $\\mathbf{A}\\ne\\mathbf{A}^T$ 时，$\\mathbf{A}^T\\mathbf{A}$ 正定，$\\mathbf{B}$ 与 $\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\\\\\mathbf{O}&-\\mathbf{E}_n\\end{pmatrix}$ 合同，所以选项 B 可能成立。选项 A 无负惯性指数，不可能；选项 C、D 为 $2n$ 阶非奇异对角型时有 $p+q=2n$，但 $\\mathbf{B}$ 的正惯性指数必须为 $n$，故 $p>q$ 或 $p<q$ 均不可能。",
+            "answer": "【答案】B\n\n【解析】取可逆分块矩阵\n$$\n\\mathbf{S}=\\begin{pmatrix}\\mathbf{E}_n&-\\mathbf{A}\\mathbf{O}&\\mathbf{E}_n\\end{pmatrix},\n$$\n则\n$$\n\\mathbf{S}^T\\mathbf{B}\\mathbf{S}\n=\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\mathbf{O}&-\\mathbf{A}^T\\mathbf{A}\\end{pmatrix}.\n$$\n因此 $\\mathbf{B}$ 的正惯性指数恒为 $n$，负惯性指数为 $r(\\mathbf{A})$。当 $\\mathbf{A}$ 可逆且 $\\mathbf{A}\\ne\\mathbf{A}^T$ 时，$\\mathbf{A}^T\\mathbf{A}$ 正定，$\\mathbf{B}$ 与 $\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{O}\\mathbf{O}&-\\mathbf{E}_n\\end{pmatrix}$ 合同，所以选项 B 可能成立。选项 A 无负惯性指数，不可能；选项 C、D 为 $2n$ 阶非奇异对角型时有 $p+q=2n$，但 $\\mathbf{B}$ 的正惯性指数必须为 $n$，故 $p>q$ 或 $p<q$ 均不可能。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -3501,7 +3501,7 @@
           {
             "no": 44,
             "kind": "choice",
-            "stem": "设 $n$（$n\\ge3$）阶正定矩阵\n$$\nA=\\begin{pmatrix}1&a&a&\\cdots&a\\\\a&1&a&\\cdots&a\\\\\\vdots&\\ddots&\\ddots&\\ddots&\\vdots\\\\a&\\cdots&a&1&a\\\\a&a&\\cdots&a&1\\end{pmatrix},\n$$\n则 $a$ 不可能为（ ）。\nA. $\\frac1{n-1}$\nB. $\\frac1n$\nC. $-\\frac1{n-1}$\nD. $-\\frac1n$",
+            "stem": "设 $n$（$n\\ge3$）阶正定矩阵\n$$\nA=\\begin{pmatrix}1&a&a&\\cdots&a\\\\a&1&a&\\cdots&a\\vdots&\\ddots&\\ddots&\\ddots&\\vdots\\\\a&\\cdots&a&1&a\\\\a&a&\\cdots&a&1\\end{pmatrix},\n$$\n则 $a$ 不可能为（ ）。\nA. $\\frac1{n-1}$\nB. $\\frac1n$\nC. $-\\frac1{n-1}$\nD. $-\\frac1n$",
             "options": [
               "$\\frac1{n-1}$",
               "$\\frac1n$",
@@ -3852,7 +3852,7 @@
           {
             "no": 23,
             "kind": "blank",
-            "stem": "设\n$$\n\\begin{vmatrix}A&\\alpha\\\\\\beta^T&b\\end{vmatrix}=x,\\qquad \\begin{vmatrix}A&\\alpha\\\\\\beta^T&c\\end{vmatrix}=y,\\qquad b\\ne c,\n$$\n求 $|A|$。",
+            "stem": "设\n$$\n\\begin{vmatrix}A&\\alpha\\beta^T&b\\end{vmatrix}=x,\\qquad \\begin{vmatrix}A&\\alpha\\beta^T&c\\end{vmatrix}=y,\\qquad b\\ne c,\n$$\n求 $|A|$。",
             "options": [],
             "answer": "【答案】$$\n|A|=\\frac{x-y}{b-c}\n$$\n\n【解析】同题 48，分块行列式关于右下角元素是斜率为 $|A|$ 的一次函数。",
             "idea": "",
@@ -3866,7 +3866,7 @@
           {
             "no": 24,
             "kind": "blank",
-            "stem": "设 $A$ 为 $n$ 阶矩阵，$\\alpha$ 为 $n$ 维列向量。已知 $|A|\\ne0,b\\ne0$ 且 $A^T=-A$，\n$$\n\\begin{vmatrix}A&\\alpha\\\\\\alpha^T&b\\end{vmatrix}=c,\n$$\n求 $|A|$。",
+            "stem": "设 $A$ 为 $n$ 阶矩阵，$\\alpha$ 为 $n$ 维列向量。已知 $|A|\\ne0,b\\ne0$ 且 $A^T=-A$，\n$$\n\\begin{vmatrix}A&\\alpha\\alpha^T&b\\end{vmatrix}=c,\n$$\n求 $|A|$。",
             "options": [],
             "answer": "【答案】$$\n|A|=\\frac cb\n$$\n\n【解析】由 Schur 补，\n$$\nc=|A|\\bigl(b-\\alpha^TA^{-1}\\alpha\\bigr).\n$$\n而 $A^{-1}$ 仍为反对称矩阵，所以 $\\alpha^TA^{-1}\\alpha=0$。",
             "idea": "",
@@ -4104,7 +4104,7 @@
           {
             "no": 41,
             "kind": "blank",
-            "stem": "计算 $n$ 阶行列式\n$$\nD_n=\\begin{vmatrix}1-a&a&0&\\cdots&0\\\\-1&1-a&a&\\cdots&0\\\\0&-1&1-a&\\cdots&0\\\\\\vdots&\\vdots&\\vdots&\\ddots&a\\\\0&0&0&-1&1-a\\end{vmatrix}.\n$$",
+            "stem": "计算 $n$ 阶行列式\n$$\nD_n=\\begin{vmatrix}1-a&a&0&\\cdots&0\\\\-1&1-a&a&\\cdots&0\\\\0&-1&1-a&\\cdots&0\\vdots&\\vdots&\\vdots&\\ddots&a\\\\0&0&0&-1&1-a\\end{vmatrix}.\n$$",
             "options": [],
             "answer": "【答案】$$\nD_n=\\frac{1+(-1)^n a^{n+1}}{1+a}\n$$\n其中 $a=-1$ 时取极限值 $n+1$。\n\n【解析】递推为\n$$\nD_n=(1-a)D_{n-1}+aD_{n-2},\n$$\n特征根为 $1$ 与 $-a$。",
             "idea": "",
@@ -4133,7 +4133,7 @@
             "kind": "blank",
             "stem": "设矩阵 $\\mathbf{A} = \\begin{pmatrix} 1 & 2 \\\\ a & 0 \\end{pmatrix}, \\mathbf{B} = \\begin{pmatrix} 1 & b \\\\ 0 & -1 \\end{pmatrix}$。 (I) 当 $a, b$ 满足什么条件时，存在矩阵 $\\mathbf{C}$ 使得 $\\mathbf{A}\\mathbf{C} - \\mathbf{C}\\mathbf{A} = \\mathbf{B}$； (II) 进一步，若 $a = \\frac{1}{2}$，求所有矩阵 $\\mathbf{C}$。",
             "options": [],
-            "answer": "【答案】(I) 条件为 $a\\ne0$ 且 $ab=-1$。(II) 当 $a=\\frac12$ 时，$b=-2$，全部解为\n$$\nC=\\begin{pmatrix}\\frac{s}{2}+t+1&s\\\\\\frac{s}{4}+\\frac12&t\\end{pmatrix},\\quad s,t\\in\\mathbb R.\n$$\n\n【解析】设 $C=\\begin{pmatrix}x&y\\\\z&w\\end{pmatrix}$，比较 $AC-CA=B$ 的元素可得 $2z-ay=1$、$ax-z-aw=0$ 以及 $b=y+2w-2x$。消元后必须有 $a\\ne0$、$b=-1/a$，且\n$$\nx=\\frac y2+w+\\frac1{2a},\\qquad z=\\frac{ay}{2}+\\frac12.\n$$\n取 $a=1/2$ 并令 $y=s,w=t$ 即得结论。",
+            "answer": "【答案】(I) 条件为 $a\\ne0$ 且 $ab=-1$。(II) 当 $a=\\frac12$ 时，$b=-2$，全部解为\n$$\nC=\\begin{pmatrix}\\frac{s}{2}+t+1&s\\frac{s}{4}+\\frac12&t\\end{pmatrix},\\quad s,t\\in\\mathbb R.\n$$\n\n【解析】设 $C=\\begin{pmatrix}x&y\\\\z&w\\end{pmatrix}$，比较 $AC-CA=B$ 的元素可得 $2z-ay=1$、$ax-z-aw=0$ 以及 $b=y+2w-2x$。消元后必须有 $a\\ne0$、$b=-1/a$，且\n$$\nx=\\frac y2+w+\\frac1{2a},\\qquad z=\\frac{ay}{2}+\\frac12.\n$$\n取 $a=1/2$ 并令 $y=s,w=t$ 即得结论。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -5317,7 +5317,7 @@
             "kind": "blank",
             "stem": "设 $y = y(x)$ 是区间 $(- \\pi, \\pi)$ 内过点 $\\left(-\\frac{\\pi}{\\sqrt{2}}, \\frac{\\pi}{\\sqrt{2}}\\right)$ 的光滑曲线。当 $-\\pi \\lt x \\lt 0$ 时，曲线上任一点处的法线都过原点；当 $0 \\leqslant x \\lt \\pi$ 时，函数 $y(x)$ 满足 $y'' + y + x = 0$ 。求 $y(x)$ 的表达式。",
             "options": [],
-            "answer": "【答案】$y=\\begin{cases}\\sqrt{\\pi^2-x^2},&-\\pi<x<0,\\\\\\pi\\cos x+\\sin x-x,&0\\le x<\\pi,\\end{cases}$\n\n【解析】当 $x \\in (-\\pi, 0)$ 时，曲线上点 $(x, y)$ 处的法线过原点，故法线斜率为 $\\frac{y}{x}$，切线斜率 $y' = -\\frac{x}{y}$。分离变量得 $y\\mathrm{d}y = -x\\mathrm{d}x$，积分得 $x^{2} + y^{2} = C$。代入点 $\\left(-\\frac{\\pi}{\\sqrt{2}}, \\frac{\\pi}{\\sqrt{2}}\\right)$ 得 $C = \\pi^{2}$，故 $y(x) = \\sqrt{\\pi^{2} - x^{2}}$。\n\n当 $x \\in [0, \\pi)$ 时，解微分方程 $y'' + y + x = 0$。对应齐次方程 $y'' + y = 0$ 的通解为 $y = C_1 \\cos x + C_2 \\sin x$。设特解为 $y^{*} = ax + b$，代入得 $a = -1, b = 0$，即 $y^{*} = -x$。故通解为 $y = C_{1}\\cos x + C_{2}\\sin x - x$。\n\n由曲线光滑性，在 $x=0$ 处连续且一阶导连续。$y(0^{-}) = \\pi$，$y(0^{+}) = C_1$，得 $C_1 = \\pi$。\n$y'(x) = \\begin{cases} -\\frac{x}{\\sqrt{\\pi^{2}-x^{2}}}, & x\\in(-\\pi,0) \\\\ -C_{1}\\sin x+C_{2}\\cos x-1, & x\\in(0,\\pi) \\end{cases}$。由 $y'(0^{-}) = 0$，$y'(0^{+}) = C_2 - 1$，得 $C_2 = 1$。\n综上，$y(x)=\\begin{cases}\\sqrt{\\pi^{2}-x^{2}},&x\\in(-\\pi,0),\\\\ \\pi\\cos x+\\sin x-x,&x\\in[0,\\pi).\\end{cases}$",
+            "answer": "【答案】$y=\\begin{cases}\\sqrt{\\pi^2-x^2},&-\\pi<x<0,\\pi\\cos x+\\sin x-x,&0\\le x<\\pi,\\end{cases}$\n\n【解析】当 $x \\in (-\\pi, 0)$ 时，曲线上点 $(x, y)$ 处的法线过原点，故法线斜率为 $\\frac{y}{x}$，切线斜率 $y' = -\\frac{x}{y}$。分离变量得 $y\\mathrm{d}y = -x\\mathrm{d}x$，积分得 $x^{2} + y^{2} = C$。代入点 $\\left(-\\frac{\\pi}{\\sqrt{2}}, \\frac{\\pi}{\\sqrt{2}}\\right)$ 得 $C = \\pi^{2}$，故 $y(x) = \\sqrt{\\pi^{2} - x^{2}}$。\n\n当 $x \\in [0, \\pi)$ 时，解微分方程 $y'' + y + x = 0$。对应齐次方程 $y'' + y = 0$ 的通解为 $y = C_1 \\cos x + C_2 \\sin x$。设特解为 $y^{*} = ax + b$，代入得 $a = -1, b = 0$，即 $y^{*} = -x$。故通解为 $y = C_{1}\\cos x + C_{2}\\sin x - x$。\n\n由曲线光滑性，在 $x=0$ 处连续且一阶导连续。$y(0^{-}) = \\pi$，$y(0^{+}) = C_1$，得 $C_1 = \\pi$。\n$y'(x) = \\begin{cases} -\\frac{x}{\\sqrt{\\pi^{2}-x^{2}}}, & x\\in(-\\pi,0) \\\\ -C_{1}\\sin x+C_{2}\\cos x-1, & x\\in(0,\\pi) \\end{cases}$。由 $y'(0^{-}) = 0$，$y'(0^{+}) = C_2 - 1$，得 $C_2 = 1$。\n综上，$y(x)=\\begin{cases}\\sqrt{\\pi^{2}-x^{2}},&x\\in(-\\pi,0),\\\\ \\pi\\cos x+\\sin x-x,&x\\in[0,\\pi).\\end{cases}$",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -7647,7 +7647,7 @@
           {
             "no": 83,
             "kind": "blank",
-            "stem": "计算\n$$\n\\begin{vmatrix}\\lambda&0&0&\\mu\\\\\\mu&\\lambda&\\mu&\\mu\\\\\\lambda&\\mu&\\lambda&\\mu\\\\\\mu&\\mu&\\mu&\\lambda\\end{vmatrix}.\n$$",
+            "stem": "计算\n$$\n\\begin{vmatrix}\\lambda&0&0&\\mu\\mu&\\lambda&\\mu&\\mu\\lambda&\\mu&\\lambda&\\mu\\mu&\\mu&\\mu&\\lambda\\end{vmatrix}.\n$$",
             "options": [],
             "answer": "【答案】$$\n\\lambda(\\lambda-\\mu)^2(\\lambda+2\\mu)\n$$\n\n【解析】直接展开并整理，得\n$$\nD=\\lambda^4-3\\lambda^2\\mu^2+2\\lambda\\mu^3=\\lambda\\left(\\lambda^3-3\\lambda\\mu^2+2\\mu^3\\right).\n$$\n利用恒等式\n$$\n\\lambda^3-3\\lambda\\mu^2+2\\mu^3=(\\lambda-\\mu)^2(\\lambda+2\\mu),\n$$\n可得\n$$\nD=\\lambda(\\lambda-\\mu)^2(\\lambda+2\\mu).\n$$\n若进一步把 $D=0$ 看作关于 $\\lambda$ 的方程，则在 $\\mu\\ne0$ 时有三个不同的根\n$$\n\\lambda=0,\\ \\lambda=\\mu,\\ \\lambda=-2\\mu,\n$$\n其中 $\\lambda=\\mu$ 是二重根。这与行列式的因式分解一致。",
             "idea": "",
@@ -13508,7 +13508,7 @@
             "kind": "blank",
             "stem": "求极限 $\\displaystyle\\lim_{n\\to\\infty}\\frac{1}{n^{2}}\\left(\\arcsin\\frac{1}{n}+2\\arcsin\\frac{2}{n}+\\cdots+n\\arcsin\\frac{n}{n}\\right)$。",
             "options": [],
-            "answer": "【答案】$\\dfrac{\\pi}{8}$\n\n【解析】答案 $ \\frac{\\pi}{8} $。\n解 整理和式，提出因子 $ \\frac{1}{n} $，得\n$$\n \\frac{1}{n^{2}}\\Big(\\arcsin\\frac{1}{n}+2\\arcsin\\frac{2}{n}+\\cdots+n\\arcsin\\frac{n}{n}\\Big)=\\frac{1}{n}\\Big(\\frac{1}{n}\\arcsin\\frac{1}{n}+\\frac{2}{n}\\arcsin\\frac{2}{n}+\\cdots+\\frac{n}{n}\\arcsin\\frac{n}{n}\\Big). \n$$\n \n因此，\n$$\n \\begin{aligned} 原极限 &=\\lim_{n\\rightarrow\\infty}\\frac{1}{n}\\sum_{i=1}^{n}\\frac{i}{n}\\arcsin\\frac{i}{n}=\\int_{0}^{1}x\\arcsin x\\mathrm{d}x=\\frac{1}{2}\\int_{0}^{1}\\arcsin x\\mathrm{d}(x^{2})\\\\&=\\frac{x^{2}}{2}\\arcsin x\\left|\\begin{matrix}{{{1}}} \\\\{{{0}}} \\\\\\end{matrix}\\right.-\\frac{1}{2}\\int_{0}^{1}\\frac{x^{2}}{\\sqrt{1-x^{2}}}\\mathrm{d}x\\xlongequal{x=\\sin t}\\frac{\\pi}{4}-\\frac{1}{2}\\int_{0}^{\\frac{\\pi}{2}}\\frac{\\sin^{2}t}{\\cos t}\\cdot\\cos t\\mathrm{d}t\\\\&=\\frac{\\pi}{4}-\\frac{1}{2}\\int_{0}^{\\frac{\\pi}{2}}\\sin^{2}t\\mathrm{d}t=\\frac{\\pi}{4}-\\frac{\\pi}{8}=\\frac{\\pi}{8}.\\end{aligned} \n$$",
+            "answer": "【答案】$\\dfrac{\\pi}{8}$\n\n【解析】答案 $ \\frac{\\pi}{8} $。\n解 整理和式，提出因子 $ \\frac{1}{n} $，得\n$$\n \\frac{1}{n^{2}}\\Big(\\arcsin\\frac{1}{n}+2\\arcsin\\frac{2}{n}+\\cdots+n\\arcsin\\frac{n}{n}\\Big)=\\frac{1}{n}\\Big(\\frac{1}{n}\\arcsin\\frac{1}{n}+\\frac{2}{n}\\arcsin\\frac{2}{n}+\\cdots+\\frac{n}{n}\\arcsin\\frac{n}{n}\\Big). \n$$\n \n因此，\n$$\n \\begin{aligned} 原极限 &=\\lim_{n\\rightarrow\\infty}\\frac{1}{n}\\sum_{i=1}^{n}\\frac{i}{n}\\arcsin\\frac{i}{n}=\\int_{0}^{1}x\\arcsin x\\mathrm{d}x=\\frac{1}{2}\\int_{0}^{1}\\arcsin x\\mathrm{d}(x^{2})\\\\&=\\frac{x^{2}}{2}\\arcsin x\\left|\\begin{matrix}{{{1}}} \\\\{{{0}}} \\end{matrix}\\right.-\\frac{1}{2}\\int_{0}^{1}\\frac{x^{2}}{\\sqrt{1-x^{2}}}\\mathrm{d}x\\xlongequal{x=\\sin t}\\frac{\\pi}{4}-\\frac{1}{2}\\int_{0}^{\\frac{\\pi}{2}}\\frac{\\sin^{2}t}{\\cos t}\\cdot\\cos t\\mathrm{d}t\\\\&=\\frac{\\pi}{4}-\\frac{1}{2}\\int_{0}^{\\frac{\\pi}{2}}\\sin^{2}t\\mathrm{d}t=\\frac{\\pi}{4}-\\frac{\\pi}{8}=\\frac{\\pi}{8}.\\end{aligned} \n$$",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -13705,7 +13705,7 @@
             "kind": "blank",
             "stem": "设 $x \\geqslant 0$，则 $\\displaystyle\\lim_{n \\to \\infty} \\sqrt[n]{1 + x^n + \\left(\\frac{x^2}{2}\\right)^n} = $ ___。",
             "options": [],
-            "answer": "【答案】$\\left\\{\\begin{array}{ll}1,&0\\leqslant x\\lt1,\\\\ x,&1\\leqslant x\\lt2,\\\\ \\dfrac{x^{2}}{2},&x\\geqslant2.\\end{array}\\right.$\n\n【解析】$I=\\left\\{\\begin{array}{ll}1,&0\\leqslant x<1\\\\x,&1\\leqslant x<2\\\\\\frac{x^{2}}{2},&x\\geqslant2\\end{array}\\right.$。",
+            "answer": "【答案】$\\left\\{\\begin{array}{ll}1,&0\\leqslant x\\lt1,\\\\ x,&1\\leqslant x\\lt2,\\\\ \\dfrac{x^{2}}{2},&x\\geqslant2.\\end{array}\\right.$\n\n【解析】$I=\\left\\{\\begin{array}{ll}1,&0\\leqslant x<1\\\\x,&1\\leqslant x<2\\frac{x^{2}}{2},&x\\geqslant2\\end{array}\\right.$。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -14347,7 +14347,7 @@
             "kind": "blank",
             "stem": "设 $ I=\\displaystyle\\lim_{x\\to0}\\frac{\\sqrt{1+f(x)\\ln(1+x)}-1}{e^{2x^{3}}-1}=3 $ , 则 $ \\displaystyle\\lim_{x\\to0}\\frac{f(x)}{x^{2}}= $ ___.",
             "options": [],
-            "answer": "【答案】$12$\n\n【解析】分式极限存在，分母的极限 $ \\lim_{x\\to0}\\left(\\mathrm{e}^{2x^{3}}-1\\right)=0\\Rightarrow $分子极限 $ \\lim_{x\\to0}\\left(\\sqrt{1+f(x)\\ln(1+x)}-1\\right)=0\\Rightarrow\\lim_{x\\to0}f(x)\\ln(1+x)=0, $又 $ \\exists\\delta>0, $当 $ 0<|x|<\\delta $时 $ f(x)\\neq0. $\n用等价无穷小因子替换 $ (1+t)^{a}-1\\sim\\alpha t,\\mathrm{e}^{t}-1\\sim t,(t\\rightarrow0) $\n$$\n \\begin{aligned}I&=\\lim_{x\\to0}\\frac{\\frac{1}{2}f(x)\\ln(1+x)}{2x^{3}}=\\lim_{x\\to0}\\left(\\frac{f(x)}{x^{2}}\\cdot\\frac{\\ln(1+x)}{4x}\\right)=3\\\\\\Rightarrow\\quad\\lim_{x\\to0}\\frac{f(x)}{x^{2}}&=\\lim_{x\\to0}\\frac{f(x)}{x^{2}}\\cdot\\frac{\\ln(1+x)}{4x}\\cdot\\lim_{x\\to0}\\frac{4x}{\\ln(1+x)}=3\\times4=12.\\end{aligned} \n$$",
+            "answer": "【答案】$12$\n\n【解析】分式极限存在，分母的极限 $ \\lim_{x\\to0}\\left(\\mathrm{e}^{2x^{3}}-1\\right)=0\\Rightarrow $分子极限 $ \\lim_{x\\to0}\\left(\\sqrt{1+f(x)\\ln(1+x)}-1\\right)=0\\Rightarrow\\lim_{x\\to0}f(x)\\ln(1+x)=0, $又 $ \\exists\\delta>0, $当 $ 0<|x|<\\delta $时 $ f(x)\\neq0. $\n用等价无穷小因子替换 $ (1+t)^{a}-1\\sim\\alpha t,\\mathrm{e}^{t}-1\\sim t,(t\\rightarrow0) $\n$$\n \\begin{aligned}I&=\\lim_{x\\to0}\\frac{\\frac{1}{2}f(x)\\ln(1+x)}{2x^{3}}=\\lim_{x\\to0}\\left(\\frac{f(x)}{x^{2}}\\cdot\\frac{\\ln(1+x)}{4x}\\right)=3\\Rightarrow\\quad\\lim_{x\\to0}\\frac{f(x)}{x^{2}}&=\\lim_{x\\to0}\\frac{f(x)}{x^{2}}\\cdot\\frac{\\ln(1+x)}{4x}\\cdot\\lim_{x\\to0}\\frac{4x}{\\ln(1+x)}=3\\times4=12.\\end{aligned} \n$$",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -14560,7 +14560,7 @@
             "kind": "blank",
             "stem": "设 $f(x)=\\displaystyle\\lim_{n\\to\\infty}\\frac{(n-1)x}{nx^{2}+1}$，则 $f(x)$ 的间断点为 $x=$",
             "options": [],
-            "answer": "【答案】0\n\n【解析】计算极限：$ f(x)=\\lim_{n\\to\\infty}\\frac{(n-1)x}{nx^{2}+1}=\\lim_{n\\to\\infty}\\frac{\\left(1-\\frac{1}{n}\\right)x}{x^{2}+\\frac{1}{n}} $。当 $ x=0 $ 时，$ f(0)=0 $；当 $ x\\neq0 $ 时，$ f(x)=\\frac{x}{x^{2}}=\\frac{1}{x} $。因此 $ f(x)=\\left\\{\\begin{array}{ll}0,&x=0\\\\\\frac{1}{x},&x\\neq0\\end{array}\\right. $。由于 $ \\lim_{x\\to0}f(x)=\\infty $，$ f(x) $ 在 $ x=0 $ 处间断。",
+            "answer": "【答案】0\n\n【解析】计算极限：$ f(x)=\\lim_{n\\to\\infty}\\frac{(n-1)x}{nx^{2}+1}=\\lim_{n\\to\\infty}\\frac{\\left(1-\\frac{1}{n}\\right)x}{x^{2}+\\frac{1}{n}} $。当 $ x=0 $ 时，$ f(0)=0 $；当 $ x\\neq0 $ 时，$ f(x)=\\frac{x}{x^{2}}=\\frac{1}{x} $。因此 $ f(x)=\\left\\{\\begin{array}{ll}0,&x=0\\frac{1}{x},&x\\neq0\\end{array}\\right. $。由于 $ \\lim_{x\\to0}f(x)=\\infty $，$ f(x) $ 在 $ x=0 $ 处间断。",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -15381,7 +15381,7 @@
             "kind": "blank",
             "stem": "设函数 $f(x)=\\begin{cases}1-2x^{2},&x\\lt -1,\\\\x^{3},&-1\\leq x\\leq2,\\\\12x-16,&x\\gt 2.\\end{cases}$ （1）写出 $f(x)$ 的反函数 $g(x)$ 的表达式；（2） $g(x)$ 是否有间断点、不可导点?若有,指出这些点.",
             "options": [],
-            "answer": "【答案】$$\ng(x)=\\begin{cases}-\\sqrt{\\frac{1-x}{2}},&x\\lt-1,\\\\\\sqrt[3]{x},&-1\\leqslant x\\leqslant8,\\\\\\frac{x+16}{12},&x\\gt8.\\end{cases}\n$$\n$g(x)$ 无间断点，不可导点为 $x=-1$ 和 $x=0$。\n\n【解析】(1) 当 $ x < -1 $ 时， $ y < -1 $；当 $ -1 \\leqslant x \\leqslant 2 $ 时， $ -1 \\leqslant y \\leqslant 8 $；当 $ x > 2 $ 时， $ y > 8 $，当 $ f(x)=1-2x^{2} $ 时，有 $ 2x^{2}=1-f(x) $ 即 $ x = -\\sqrt{\\frac{1-f(x)}{2}} $，当 $ f(x) = x^{3} $，有 $ x = \\sqrt[3]{f(x)} $，当 $ f(x) = 12x - 16 $ 时，有 $ x = \\frac{f(x) + 16}{12} $，根据反函数的定义，交换 x 和 y，所以有 $ f(x) $ 的反函数为 \n$$\n g(x)=\\left\\{\\begin{array}{l}-\\sqrt{\\frac{1-x}{2}},x<-1,\\\\\\sqrt[3]{x},-1\\leqslant x\\leqslant8,\\\\\\frac{x+16}{12},x>8\\end{array}\\right. \n$$\n (2) 因为 $ g(-1) = \\sqrt[3]{-1} = -1 $， \n$$\n g\\left(-1^{-}\\right)=\\lim_{x\\rightarrow-1^{-}}g(x)=-\\sqrt{\\frac{1+1}{2}}=-1, \n$$\n \n$$\n g\\left(-1^{+}\\right)=\\lim_{x\\rightarrow-1^{+}}g(x)=\\sqrt[3]{-1}=-1; \n$$\n \n$$\n g(8)=\\sqrt[3]{8}=2 \n$$\n \n$$\n g\\left(8^{-}\\right)=\\lim_{x\\rightarrow8^{-}}g(x)=\\sqrt[3]{8}=2, \n$$\n \n$$\n g\\left(8^{+}\\right)=\\lim_{x\\rightarrow8^{+}}g(x)=\\frac{8+16}{12}=2, \n$$\n 及初等函数在有定义的区间内处处连续，所以这个分段函数 $ g(x) $ 在 R 上处处连续，没有间断点. \n$$\n g_{-}^{\\prime}(-1)=\\left.\\left(-\\sqrt{\\frac{1-x}{2}}\\right)^{\\prime}\\right|_{x=-1} = \\frac{1}{4} \n$$\n \n$$\n g_{+}^{\\prime}(-1)=\\left(\\sqrt[3]{x}\\right)^{\\prime}|_{x=-1}=\\frac{1}{3}(-1)^{-\\frac{2}{3}}=\\frac{1}{3}; \n$$\n \n$$\n g_{-}^{\\prime}(8)=\\left(\\sqrt[3]{x}\\right)^{\\prime}|_{x=8}=\\frac{1}{3}(8)^{-\\frac{2}{3}}=\\frac{1}{12}, \n$$\n \n$$\n g_{+}^{\\prime}(8)=\\tfrac{1}{12}; \n$$\n 又 $ \\lim_{x\\to0}\\frac{g(x)-g(0)}{x}=\\lim_{x\\to0}\\frac{\\sqrt[3]{x}}{x}=\\infty. $ 所以 $ g(x) $ 不可导的点有两个：$ x = -1 $ 和 $ x = 0 $.",
+            "answer": "【答案】$$\ng(x)=\\begin{cases}-\\sqrt{\\frac{1-x}{2}},&x\\lt-1,\\sqrt[3]{x},&-1\\leqslant x\\leqslant8,\\frac{x+16}{12},&x\\gt8.\\end{cases}\n$$\n$g(x)$ 无间断点，不可导点为 $x=-1$ 和 $x=0$。\n\n【解析】(1) 当 $ x < -1 $ 时， $ y < -1 $；当 $ -1 \\leqslant x \\leqslant 2 $ 时， $ -1 \\leqslant y \\leqslant 8 $；当 $ x > 2 $ 时， $ y > 8 $，当 $ f(x)=1-2x^{2} $ 时，有 $ 2x^{2}=1-f(x) $ 即 $ x = -\\sqrt{\\frac{1-f(x)}{2}} $，当 $ f(x) = x^{3} $，有 $ x = \\sqrt[3]{f(x)} $，当 $ f(x) = 12x - 16 $ 时，有 $ x = \\frac{f(x) + 16}{12} $，根据反函数的定义，交换 x 和 y，所以有 $ f(x) $ 的反函数为 \n$$\n g(x)=\\left\\{\\begin{array}{l}-\\sqrt{\\frac{1-x}{2}},x<-1,\\sqrt[3]{x},-1\\leqslant x\\leqslant8,\\frac{x+16}{12},x>8\\end{array}\\right. \n$$\n (2) 因为 $ g(-1) = \\sqrt[3]{-1} = -1 $， \n$$\n g\\left(-1^{-}\\right)=\\lim_{x\\rightarrow-1^{-}}g(x)=-\\sqrt{\\frac{1+1}{2}}=-1, \n$$\n \n$$\n g\\left(-1^{+}\\right)=\\lim_{x\\rightarrow-1^{+}}g(x)=\\sqrt[3]{-1}=-1; \n$$\n \n$$\n g(8)=\\sqrt[3]{8}=2 \n$$\n \n$$\n g\\left(8^{-}\\right)=\\lim_{x\\rightarrow8^{-}}g(x)=\\sqrt[3]{8}=2, \n$$\n \n$$\n g\\left(8^{+}\\right)=\\lim_{x\\rightarrow8^{+}}g(x)=\\frac{8+16}{12}=2, \n$$\n 及初等函数在有定义的区间内处处连续，所以这个分段函数 $ g(x) $ 在 R 上处处连续，没有间断点. \n$$\n g_{-}^{\\prime}(-1)=\\left.\\left(-\\sqrt{\\frac{1-x}{2}}\\right)^{\\prime}\\right|_{x=-1} = \\frac{1}{4} \n$$\n \n$$\n g_{+}^{\\prime}(-1)=\\left(\\sqrt[3]{x}\\right)^{\\prime}|_{x=-1}=\\frac{1}{3}(-1)^{-\\frac{2}{3}}=\\frac{1}{3}; \n$$\n \n$$\n g_{-}^{\\prime}(8)=\\left(\\sqrt[3]{x}\\right)^{\\prime}|_{x=8}=\\frac{1}{3}(8)^{-\\frac{2}{3}}=\\frac{1}{12}, \n$$\n \n$$\n g_{+}^{\\prime}(8)=\\tfrac{1}{12}; \n$$\n 又 $ \\lim_{x\\to0}\\frac{g(x)-g(0)}{x}=\\lim_{x\\to0}\\frac{\\sqrt[3]{x}}{x}=\\infty. $ 所以 $ g(x) $ 不可导的点有两个：$ x = -1 $ 和 $ x = 0 $.",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -15575,7 +15575,7 @@
               "$f(x)$有可去间断点和无穷间断点，没有跳跃间断点",
               "$f(x)$有可去间断点、跳跃间断点和无穷间断点"
             ],
-            "answer": "【答案】C\n\n【解析】由 $ f(x) $ 的表达式可知， $ f(x) $ 仅在点 $ x = 0, x = -1 $ 和 $ x = 1 $ 处无定义，在其他点处连续。于是，这三个点是函数 $ f(x) $ 的全部间断点。先考虑 $ x = \\pm 1 $ 时的情况。 \n$$\n \\begin{aligned}\\lim_{x\\to-1}f(x)&=\\lim_{x\\to-1}\\frac{\\left|x\\right|^{\\left|x\\right|}-x}{\\left|x\\right|^{\\left|x\\right|}\\ln\\left|x\\right|}=\\lim_{x\\to-1}\\frac{\\left(-x\\right)^{\\left(-x\\right)}-x}{\\ln\\left(-x\\right)}=\\lim_{x\\to-1}\\frac{1-\\left(-1\\right)}{\\ln\\left(-x\\right)}=\\infty.\\\\\\lim_{x\\to1}f(x)&=\\lim_{x\\to1}\\frac{\\left|x\\right|^{\\left|x\\right|}-x}{\\left|x\\right|^{\\left|x\\right|}\\ln\\left|x\\right|}=\\lim_{x\\to1}\\frac{x^{x}-x}{\\ln x}=\\lim_{x\\to1}\\frac{\\mathrm{e}^{x\\ln x}-x}{\\ln x}\\xlongequal{ 洛必达 }\\lim_{x\\to1}\\frac{\\mathrm{e}^{x\\ln x}\\left(1+\\ln x\\right)-1}{\\frac{1}{x}}\\\\&=\\frac{1\\times\\left(1+0\\right)-1}{1}=0.\\end{aligned} \n$$\n 于是，$ x = -1 $ 为 $ f(x) $ 的无穷间断点，$ x = 1 $ 为 $ f(x) $ 的可去间断点。下面考虑 $ x = 0 $ 时的情况。首先说明 $ \\lim_{x\\to0}\\left|x\\right|^{|x|}=1. $ \n$$\n \\lim_{x\\to0^{+}}\\left|x\\right|^{\\left|x\\right|}=\\lim_{x\\to0^{+}}x^{x}=\\lim_{x\\to0^{+}}e^{x\\ln x}=e^{\\lim_{x\\to0^{+}}x\\ln x}=e^{0}=1. \n$$\n \n$$\n \\lim_{x\\to0^{-}}\\left|x\\right|^{\\left|x\\right|}=\\lim_{x\\to0^{-}}\\left(-x\\right)^{(-x)}\\xlongequal{t=-x}\\lim_{t\\to0^{+}}t^{t}=1. \n$$\n 进一步可得， $ \\lim_{x\\to0}\\left(\\left|x\\right|^{\\left|x\\right|}-x\\right)=1-0=1 $. 从而， \n$$\n \\lim_{x\\to0}f(x)=\\lim_{x\\to0}\\frac{\\left|x\\right|^{\\left|x\\right|}-x}{|x|^{\\left|x\\right|}\\ln|x|}=\\lim_{x\\to0}\\frac{1}{\\ln|x|}=0. \n$$\n 于是，$ x=0 $ 为 $ f(x) $ 的可去间断点。因此， $ f(x) $ 有可去间断点和无穷间断点，没有跳跃间断点。应选 C.",
+            "answer": "【答案】C\n\n【解析】由 $ f(x) $ 的表达式可知， $ f(x) $ 仅在点 $ x = 0, x = -1 $ 和 $ x = 1 $ 处无定义，在其他点处连续。于是，这三个点是函数 $ f(x) $ 的全部间断点。先考虑 $ x = \\pm 1 $ 时的情况。 \n$$\n \\begin{aligned}\\lim_{x\\to-1}f(x)&=\\lim_{x\\to-1}\\frac{\\left|x\\right|^{\\left|x\\right|}-x}{\\left|x\\right|^{\\left|x\\right|}\\ln\\left|x\\right|}=\\lim_{x\\to-1}\\frac{\\left(-x\\right)^{\\left(-x\\right)}-x}{\\ln\\left(-x\\right)}=\\lim_{x\\to-1}\\frac{1-\\left(-1\\right)}{\\ln\\left(-x\\right)}=\\infty.\\lim_{x\\to1}f(x)&=\\lim_{x\\to1}\\frac{\\left|x\\right|^{\\left|x\\right|}-x}{\\left|x\\right|^{\\left|x\\right|}\\ln\\left|x\\right|}=\\lim_{x\\to1}\\frac{x^{x}-x}{\\ln x}=\\lim_{x\\to1}\\frac{\\mathrm{e}^{x\\ln x}-x}{\\ln x}\\xlongequal{ 洛必达 }\\lim_{x\\to1}\\frac{\\mathrm{e}^{x\\ln x}\\left(1+\\ln x\\right)-1}{\\frac{1}{x}}\\\\&=\\frac{1\\times\\left(1+0\\right)-1}{1}=0.\\end{aligned} \n$$\n 于是，$ x = -1 $ 为 $ f(x) $ 的无穷间断点，$ x = 1 $ 为 $ f(x) $ 的可去间断点。下面考虑 $ x = 0 $ 时的情况。首先说明 $ \\lim_{x\\to0}\\left|x\\right|^{|x|}=1. $ \n$$\n \\lim_{x\\to0^{+}}\\left|x\\right|^{\\left|x\\right|}=\\lim_{x\\to0^{+}}x^{x}=\\lim_{x\\to0^{+}}e^{x\\ln x}=e^{\\lim_{x\\to0^{+}}x\\ln x}=e^{0}=1. \n$$\n \n$$\n \\lim_{x\\to0^{-}}\\left|x\\right|^{\\left|x\\right|}=\\lim_{x\\to0^{-}}\\left(-x\\right)^{(-x)}\\xlongequal{t=-x}\\lim_{t\\to0^{+}}t^{t}=1. \n$$\n 进一步可得， $ \\lim_{x\\to0}\\left(\\left|x\\right|^{\\left|x\\right|}-x\\right)=1-0=1 $. 从而， \n$$\n \\lim_{x\\to0}f(x)=\\lim_{x\\to0}\\frac{\\left|x\\right|^{\\left|x\\right|}-x}{|x|^{\\left|x\\right|}\\ln|x|}=\\lim_{x\\to0}\\frac{1}{\\ln|x|}=0. \n$$\n 于是，$ x=0 $ 为 $ f(x) $ 的可去间断点。因此， $ f(x) $ 有可去间断点和无穷间断点，没有跳跃间断点。应选 C.",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -17018,7 +17018,7 @@
             "kind": "blank",
             "stem": "设函数 $ z = f(x \\cos y, y g(x)) $，其中函数 $ f $ 具有二阶连续偏导数，且 $ f_{12}''(1,0) = 1 $，函数 $ g(x) $ 可导，且在 $ x = 1 $ 处取得极值 $ g(1) = 2 $。求 $ \\left. \\frac{\\partial^{2}z}{\\partial x \\partial y} \\right|_{x=1\\atop y=0} $。",
             "options": [],
-            "answer": "【答案】$2$。\n\n【解析】由链式法则，\n$$\n \\begin{aligned}\\frac{\\partial z}{\\partial x}&=f_{1}^{\\prime}\\left(x\\cos y,yg(x)\\right)\\frac{\\partial\\left(x\\cos y\\right)}{\\partial x}+f_{2}^{\\prime}\\left(x\\cos y,yg(x)\\right)\\frac{\\partial\\left[yg(x)\\right]}{\\partial x}\\\\&=\\cos yf_{1}^{\\prime}\\left(x\\cos y,yg(x)\\right)+yg^{\\prime}(x)f_{2}^{\\prime}\\left(x\\cos y,yg(x)\\right),\\\\\\frac{\\partial^{2}z}{\\partial x\\partial y}&=\\frac{\\partial\\left[\\cos yf_{1}^{\\prime}\\left(x\\cos y,yg(x)\\right)+yg^{\\prime}(x)f_{2}^{\\prime}\\left(x\\cos y,yg(x)\\right)\\right]}{\\partial y}\\\\&=-\\sin yf_{1}^{\\prime}\\left(x\\cos y,yg(x)\\right)+\\cos y\\left[f_{11}^{\\prime \\prime}\\left(x\\cos y,yg(x)\\right)\\cdot\\left(-x\\sin y\\right)\\right.\\\\&\\left.\\quad+f_{12}^{\\prime \\prime}\\left(x\\cos y,yg(x)\\right)g(x)\\right]+g^{\\prime}(x)f_{2}^{\\prime}\\left(x\\cos y,yg(x)\\right)\\\\&\\quad+yg^{\\prime}(x)\\left[f_{21}^{\\prime \\prime}\\left(x\\cos y,yg(x)\\right)\\cdot\\left(-x\\sin y\\right)+f_{22}^{\\prime \\prime}\\left(x\\cos y,yg(x)\\right)g(x)\\right]\\end{aligned} \n$$\n \n由 $ g(x) $ 可导且在 $ x = 1 $ 处取得极值 $ g(1) = 2 $ 知， $ g'(1) = 0 $。将 $ x = 1, y = 0, g(1) = 2, g'(1) = 0 $ 代入 $ \\frac{\\partial^{2}z}{\\partial x \\partial y} $，得\n$$\n \\left.\\frac{\\partial^{2}z}{\\partial x\\partial y}\\right|_{\\substack{x=1\\\\ y=0}}=2f_{12}^{\\prime \\prime}\\left(1,0\\right)=2. \n$$",
+            "answer": "【答案】$2$。\n\n【解析】由链式法则，\n$$\n \\begin{aligned}\\frac{\\partial z}{\\partial x}&=f_{1}^{\\prime}\\left(x\\cos y,yg(x)\\right)\\frac{\\partial\\left(x\\cos y\\right)}{\\partial x}+f_{2}^{\\prime}\\left(x\\cos y,yg(x)\\right)\\frac{\\partial\\left[yg(x)\\right]}{\\partial x}\\\\&=\\cos yf_{1}^{\\prime}\\left(x\\cos y,yg(x)\\right)+yg^{\\prime}(x)f_{2}^{\\prime}\\left(x\\cos y,yg(x)\\right),\\frac{\\partial^{2}z}{\\partial x\\partial y}&=\\frac{\\partial\\left[\\cos yf_{1}^{\\prime}\\left(x\\cos y,yg(x)\\right)+yg^{\\prime}(x)f_{2}^{\\prime}\\left(x\\cos y,yg(x)\\right)\\right]}{\\partial y}\\\\&=-\\sin yf_{1}^{\\prime}\\left(x\\cos y,yg(x)\\right)+\\cos y\\left[f_{11}^{\\prime \\prime}\\left(x\\cos y,yg(x)\\right)\\cdot\\left(-x\\sin y\\right)\\right.\\\\&\\left.\\quad+f_{12}^{\\prime \\prime}\\left(x\\cos y,yg(x)\\right)g(x)\\right]+g^{\\prime}(x)f_{2}^{\\prime}\\left(x\\cos y,yg(x)\\right)\\\\&\\quad+yg^{\\prime}(x)\\left[f_{21}^{\\prime \\prime}\\left(x\\cos y,yg(x)\\right)\\cdot\\left(-x\\sin y\\right)+f_{22}^{\\prime \\prime}\\left(x\\cos y,yg(x)\\right)g(x)\\right]\\end{aligned} \n$$\n \n由 $ g(x) $ 可导且在 $ x = 1 $ 处取得极值 $ g(1) = 2 $ 知， $ g'(1) = 0 $。将 $ x = 1, y = 0, g(1) = 2, g'(1) = 0 $ 代入 $ \\frac{\\partial^{2}z}{\\partial x \\partial y} $，得\n$$\n \\left.\\frac{\\partial^{2}z}{\\partial x\\partial y}\\right|_{\\substack{x=1\\\\ y=0}}=2f_{12}^{\\prime \\prime}\\left(1,0\\right)=2. \n$$",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -18538,7 +18538,7 @@
           {
             "no": 29,
             "kind": "choice",
-            "stem": "若函数 $ f(x)=\\begin{cases}\\lim\\limits_{t\\to-\\infty}\\frac{\\sin\\left[tx\\left(\\sqrt{t^{2}+2e}+t\\right)\\right]}{x\\arctan t},&x\\neq0,\\\\\\frac{2e}{\\pi},&x=0,\\end{cases} $ 则下列说法中，正确的是（）\nA. $ f(x) $ 在 $x = 0$ 处的极限存在，但不连续。\nB. $ f(x) $ 在 $x = 0$ 处连续，但不可导。\nC. $ f(x) $ 在 $x=0$ 处可导，且 $ f'(0)=0. $\nD. $ f(x) $ 在 $x=0$ 处可导，且 $ f'(0)\\neq0. $",
+            "stem": "若函数 $ f(x)=\\begin{cases}\\lim\\limits_{t\\to-\\infty}\\frac{\\sin\\left[tx\\left(\\sqrt{t^{2}+2e}+t\\right)\\right]}{x\\arctan t},&x\\neq0,\\frac{2e}{\\pi},&x=0,\\end{cases} $ 则下列说法中，正确的是（）\nA. $ f(x) $ 在 $x = 0$ 处的极限存在，但不连续。\nB. $ f(x) $ 在 $x = 0$ 处连续，但不可导。\nC. $ f(x) $ 在 $x=0$ 处可导，且 $ f'(0)=0. $\nD. $ f(x) $ 在 $x=0$ 处可导，且 $ f'(0)\\neq0. $",
             "options": [
               "$ f(x) $ 在 $x = 0$ 处的极限存在，但不连续。",
               "$ f(x) $ 在 $x = 0$ 处连续，但不可导。",
@@ -18616,7 +18616,7 @@
               "$ x = 0 $ 是 $ f(x) $ 的第一类间断点.",
               "$ x = 0 $ 是 $ f(x) $ 的第二类间断点."
             ],
-            "answer": "【答案】A\n\n【解析】由题设可知， $ f(0)=0 $。由于 \n$$\n \\lim_{x\\to0}\\frac{\\sin x}{x}=1,\\quad\\lim_{x\\to0}\\frac{\\tan x}{x}=1, \n$$\n 故对任意 $ \\varepsilon > 0 $，存在 $ \\delta_{1} > 0 $，使得当 $ 0 < |x| < \\delta_{1} $ 时， $ \\left|\\frac{\\sin x}{x} - 1\\right| < \\varepsilon $，存在 $ \\delta_{2} > 0 $，使得当 $ 0 < |x| < \\delta_{2} $ 时， $ \\left|\\frac{\\tan x}{x} - 1\\right| < \\varepsilon $。令 $ \\delta = \\min\\{\\delta_{1}, \\delta_{2}\\} $，则当 $ 0 < |x| < \\delta $ 时，由 \n$$\n \\left|\\frac{f(x)-f(0)}{x-0}-1\\right|=\\left|\\frac{f(x)}{x}-1\\right|=\\left\\{\\begin{array}{ll}\\left|\\frac{\\sin x}{x}-1\\right|,&x\\in\\mathbf{Q}\\cap(-1,1),\\\\\\left|\\frac{\\tan x}{x}-1\\right|,&x\\in(-1,1)\\backslash\\mathbf{Q}\\end{array}\\right. \n$$\n 可得 $ \\left|\\frac{f(x)-f(0)}{x-0}-1\\right|<\\varepsilon $ , 从而 $ \\lim_{x\\to0}\\frac{f(x)-f(0)}{x-0}=1 $ , 即 $ f^{\\prime}(0)=1 $。因此， $ f(x) $ 在 $ x = 0 $ 处可导且 $ f'(0) = 1 $，应选 A.",
+            "answer": "【答案】A\n\n【解析】由题设可知， $ f(0)=0 $。由于 \n$$\n \\lim_{x\\to0}\\frac{\\sin x}{x}=1,\\quad\\lim_{x\\to0}\\frac{\\tan x}{x}=1, \n$$\n 故对任意 $ \\varepsilon > 0 $，存在 $ \\delta_{1} > 0 $，使得当 $ 0 < |x| < \\delta_{1} $ 时， $ \\left|\\frac{\\sin x}{x} - 1\\right| < \\varepsilon $，存在 $ \\delta_{2} > 0 $，使得当 $ 0 < |x| < \\delta_{2} $ 时， $ \\left|\\frac{\\tan x}{x} - 1\\right| < \\varepsilon $。令 $ \\delta = \\min\\{\\delta_{1}, \\delta_{2}\\} $，则当 $ 0 < |x| < \\delta $ 时，由 \n$$\n \\left|\\frac{f(x)-f(0)}{x-0}-1\\right|=\\left|\\frac{f(x)}{x}-1\\right|=\\left\\{\\begin{array}{ll}\\left|\\frac{\\sin x}{x}-1\\right|,&x\\in\\mathbf{Q}\\cap(-1,1),\\left|\\frac{\\tan x}{x}-1\\right|,&x\\in(-1,1)\\backslash\\mathbf{Q}\\end{array}\\right. \n$$\n 可得 $ \\left|\\frac{f(x)-f(0)}{x-0}-1\\right|<\\varepsilon $ , 从而 $ \\lim_{x\\to0}\\frac{f(x)-f(0)}{x-0}=1 $ , 即 $ f^{\\prime}(0)=1 $。因此， $ f(x) $ 在 $ x = 0 $ 处可导且 $ f'(0) = 1 $，应选 A.",
             "idea": "",
             "img": null,
             "categoryIds": [
@@ -18737,7 +18737,7 @@
           {
             "no": 40,
             "kind": "blank",
-            "stem": "设函数 $ f(x)=\\begin{cases}x^{a}\\sin\\frac{1}{x},&x>0,\\\\b,&x=0,\\\\\\frac{1-\\cos x}{(-x)^{a-2}},&x<0\\end{cases} $，有连续的导函数，求 a 的取值范围.",
+            "stem": "设函数 $ f(x)=\\begin{cases}x^{a}\\sin\\frac{1}{x},&x>0,\\\\b,&x=0,\\frac{1-\\cos x}{(-x)^{a-2}},&x<0\\end{cases} $，有连续的导函数，求 a 的取值范围.",
             "options": [],
             "answer": "【答案】$2\\lt a\\lt3$\n\n【解析】由于 $ f(x) $ 有连续的导函数，故 $ f(x) $ 连续，从而 $ b = \\lim_{x \\to 0^{+}} f(x) = \\lim_{x \\to 0^{-}} f(x) $。注意到 $ \\sin\\frac{1}{x} $ 有界，但是 $ \\lim_{x\\to0^{+}}\\sin\\frac{1}{x} $ 不存在。当 a>0 时，由有界变量与无穷小量的乘积为无穷小量可得 $ \\lim_{x\\to0^{+}}x^{\\alpha}\\sin\\frac{1}{x}=0 $。当 $ a\\leqslant0 $ 时， $ \\lim_{x\\to0^{+}}x^{\\alpha}\\sin\\frac{1}{x} $ 不存在。于是， $ \\lim_{x\\to0^{+}}x^{\\alpha}\\sin\\frac{1}{x} $ 存在当且仅当 a>0。此时， $ b=\\lim_{x\\to0^{+}}f(x)=\\lim_{x\\to0^{+}}x^{\\alpha}\\sin\\frac{1}{x}=0 $。进一步可得 $ \\lim_{x\\to0^{-}}\\frac{1-\\cos x}{(-x)^{a-2}}=0 $。又因为 $ 0=\\lim_{x\\to0^{-}}\\frac{1-\\cos x}{\\left(-x\\right)^{a-2}}=\\lim_{x\\to0^{-}}\\frac{\\frac{x^{2}}{2}}{\\left(-x\\right)^{a-2}}=\\frac{1}{2}\\lim_{x\\to0^{-}}\\left(-x\\right)^{4-a} $，所以 4 - a > 0 ，即 a < 4 。当x=0时， $ f^{\\prime}(0)=f_{+}^{\\prime}(0)=\\lim_{x\\to0^{+}}\\frac{f(x)-f(0)}{x-0}=\\lim_{x\\to0^{+}}x^{a-1}\\sin\\frac{1}{x} $。同前面的推理可得 a > 1 且 $ f'(0) = 0 $。进一步，由 $ 0=f^{\\prime}(0)=f_{-}^{\\prime}(0)=\\lim_{x\\to0^{-}}\\frac{f(x)-f(0)}{x-0}=\\lim_{x\\to0^{-}}\\frac{1-\\cos x}{-\\left(-x\\right)^{a-1}}=\\lim_{x\\to0^{-}}\\frac{\\frac{x^{2}}{2}}{\\left(-x\\right)^{a-1}} $ 可知 2 > a - 1 ，即 a < 3 。当x>0时， $ f^{\\prime}(x)=ax^{a-1}\\sin\\frac{1}{x}+x^{a}\\cos\\frac{1}{x}\\cdot\\left(-\\frac{1}{x^{2}}\\right)=ax^{a-1}\\sin\\frac{1}{x}-x^{a-2}\\cos\\frac{1}{x} $。当x<0时， $ f^{\\prime}(x)=\\frac{\\sin x\\cdot\\left(-x\\right)^{a-2}+\\left(1-\\cos x\\right)\\cdot\\left(a-2\\right)\\left(-x\\right)^{a-3}}{\\left(-x\\right)^{2a-4}}=\\frac{\\sin x}{\\left(-x\\right)^{a-2}}+\\left(a-2\\right)\\frac{1-\\cos x}{\\left(-x\\right)^{a-1}} $。因为 $ f'(x) $连续，所以 $ \\lim_{x\\to0}f'(x)=\\lim_{x\\to0}f'(x)=f'(0)=0 $。又由a>1可知 $ \\lim_{x\\to0^{+}}f^{\\prime}(x)=\\lim_{x\\to0^{+}}\\left(ax^{a-1}\\sin\\frac{1}{x}-x^{a-2}\\cos\\frac{1}{x}\\right)=-\\lim_{x\\to0^{+}}x^{a-2}\\cos\\frac{1}{x} $， $ a>2 $。由 $ 0 = \\lim_{x \\to 0} f'(x) $ 可知 $ \\begin{aligned}\\lim_{x\\to0^{-}}\\left[\\frac{\\sin x}{(-x)^{a-2}}+(a-2)\\frac{1-\\cos x}{(-x)^{a-1}}\\right]&=\\lim_{x\\to0^{-}}\\frac{-x\\sin x+(a-2)(1-\\cos x)}{(-x)^{a-1}}\\\\&=\\lim_{x\\to0^{-}}\\frac{-x\\left[x+o(x)\\right]+(a-2)\\left[\\frac{1}{2}x^{2}+o(x^{2})\\right]}{(-x)^{a-1}}\\\\&=\\lim_{x\\to0^{-}}\\frac{-x^{2}+\\left(\\frac{a}{2}-1\\right)x^{2}+o(x^{2})}{(-x)^{a-1}}\\\\&=\\lim_{x\\to0^{-}}\\frac{\\left(\\frac{a}{2}-2\\right)x^{2}+o(x^{2})}{(-x)^{a-1}}.\\end{aligned} $ 由于 a < 4，故 $ \\frac{a}{2} - 2 < 0 $，从而若要使该极限为 0，则 2 > a - 1，即 a < 3。综上所述， $ 2<a<3 $.",
             "idea": "",
@@ -19802,7 +19802,7 @@
             "kind": "blank",
             "stem": "设函数 $ f(x)=\\frac{[ax^{2}+(1-2a)x-2]^{n}}{e^{x-2}}(a\\neq0) $. 若 $ f^{(n)}(2)=2^{n}n! $，则 $a=$ ___.",
             "options": [],
-            "answer": "【答案】$$\na=\\begin{cases}\\dfrac12,&n\\text{ 为奇数},\\\\\\dfrac12\\text{ 或 }-\\dfrac32,&n\\text{ 为偶数}.\\end{cases}\n$$\n\n【解析】因 $ax^2+(1-2a)x-2=(ax+1)(x-2)$，令 $u(x)=(x-2)^n$、$v(x)=(ax+1)^n e^{-(x-2)}$。在 $x=2$ 处，$u^{(k)}(2)=0$（$k\\lt n$），$u^{(n)}(2)=n!$，故 $f^{(n)}(2)=(2a+1)^n n!$。题设等价于 $(2a+1)^n=2^n$：$n$ 为奇数时 $2a+1=2$；$n$ 为偶数时 $2a+1=\\pm2$。因此分别得到上述答案。",
+            "answer": "【答案】$$\na=\\begin{cases}\\dfrac12,&n\\text{ 为奇数},\\dfrac12\\text{ 或 }-\\dfrac32,&n\\text{ 为偶数}.\\end{cases}\n$$\n\n【解析】因 $ax^2+(1-2a)x-2=(ax+1)(x-2)$，令 $u(x)=(x-2)^n$、$v(x)=(ax+1)^n e^{-(x-2)}$。在 $x=2$ 处，$u^{(k)}(2)=0$（$k\\lt n$），$u^{(n)}(2)=n!$，故 $f^{(n)}(2)=(2a+1)^n n!$。题设等价于 $(2a+1)^n=2^n$：$n$ 为奇数时 $2a+1=2$；$n$ 为偶数时 $2a+1=\\pm2$。因此分别得到上述答案。",
             "idea": "",
             "img": null,
             "categoryIds": [

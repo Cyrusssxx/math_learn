@@ -1436,7 +1436,7 @@
             {
               "no": 1,
               "kind": "choice",
-              "stem": "设 $f(x)$ 在 $x_0$ 的某一部域内有定义, 且 $\\\\lim\\\\limits_{x \\\\to x_0} \\\\frac{f(x)-f(x_0)}{(x-x_0)^2} = 1$, 则 $f(x)$ 在 $x_0$ 处 ( ).",
+              "stem": "设 $f(x)$ 在 $x_0$ 的某一部域内有定义, 且 $\\lim\\\\limits_{x \\to x_0} \\frac{f(x)-f(x_0)}{(x-x_0)^2} = 1$, 则 $f(x)$ 在 $x_0$ 处 ( ).",
               "options": [
                 "A. 有极小值",
                 "B. 有极大值",
@@ -1455,7 +1455,7 @@
             {
               "no": 2,
               "kind": "choice",
-              "stem": "设 $f(x) = \\\\int_0^{\\\\sqrt{\\\\sin x}} \\\\tan t\\\\, dt$, $g(x) = \\\\int_0^{\\\\sqrt{\\\\tan x}} \\\\sin t\\\\, dt$, 则当 $x \\\\to 0^+$ 时 ( ).",
+              "stem": "设 $f(x) = \\int_0^{\\sqrt{\\sin x}} \\tan t\\\\, dt$, $g(x) = \\int_0^{\\sqrt{\\tan x}} \\sin t\\\\, dt$, 则当 $x \\to 0^+$ 时 ( ).",
               "options": [
                 "A. $f(x)$ 是 $g(x)$ 的高阶无穷小",
                 "B. $f(x)$ 是 $g(x)$ 的低阶无穷小",
@@ -1474,7 +1474,7 @@
             {
               "no": 3,
               "kind": "choice",
-              "stem": "函数 $f(x) = \\\\dfrac{\\\\arctan\\\\frac{1}{x}}{\\\\sec x}$ 在 $[-\\\\pi, \\\\pi]$ 内有 ( ).",
+              "stem": "函数 $f(x) = \\dfrac{\\\\arctan\\frac{1}{x}}{\\\\sec x}$ 在 $[-\\pi, \\pi]$ 内有 ( ).",
               "options": [
                 "A. 一个跳跃间断点",
                 "B. 一个跳跃间断点和一个可去间断点",
@@ -1493,12 +1493,12 @@
             {
               "no": 4,
               "kind": "choice",
-              "stem": "设 $f''(x) > 0$, 且 $f(0) = 0$, $f(1) > 0$, 则 $f(1), f'(0), \\\\int_1^2 f(x)\\\\, dx$ 的大小次序为 ( ).",
+              "stem": "设 $f''(x) > 0$, 且 $f(0) = 0$, $f(1) > 0$, 则 $f(1), f'(0), \\int_1^2 f(x)\\\\, dx$ 的大小次序为 ( ).",
               "options": [
-                "A. $\\\\int_1^2 f(x)\\\\, dx < f(1) < f'(0)$",
-                "B. $f'(0) < f(1) < \\\\int_1^2 f(x)\\\\, dx$",
-                "C. $f(1) < \\\\int_1^2 f(x)\\\\, dx < f'(0)$",
-                "D. $f(1) < f'(0) < \\\\int_1^2 f(x)\\\\, dx$"
+                "A. $\\int_1^2 f(x)\\\\, dx < f(1) < f'(0)$",
+                "B. $f'(0) < f(1) < \\int_1^2 f(x)\\\\, dx$",
+                "C. $f(1) < \\int_1^2 f(x)\\\\, dx < f'(0)$",
+                "D. $f(1) < f'(0) < \\int_1^2 f(x)\\\\, dx$"
               ],
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-06_q04.webp",
@@ -1512,7 +1512,7 @@
             {
               "no": 5,
               "kind": "choice",
-              "stem": "方程 $\\\\ln x = \\\\dfrac{x}{e} - 1$ 根的个数为 ( ).",
+              "stem": "方程 $\\ln x = \\dfrac{x}{e} - 1$ 根的个数为 ( ).",
               "options": [
                 "A. 0",
                 "B. 1",
@@ -1531,7 +1531,7 @@
             {
               "no": 6,
               "kind": "choice",
-              "stem": "设函数 $f(x,y) = \\begin{cases} (y + \\lambda \\sqrt{x^2+y^2})\\arctan\\dfrac{1}{x^2+y^2}, & (x,y) \\neq (0,0) \\ 0, & (x,y) = (0,0) \\end{cases}$, 则下列说法中正确的有 ( ) 个.\\n① $f(x,y)$ 在点 $(0,0)$ 处的连续性与 $\\\\lambda$ 的取值无关;\\n② $f(x,y)$ 在点 $(0,0)$ 处的可偏导性与 $\\\\lambda$ 的取值无关;\\n③ $f(x,y)$ 在点 $(0,0)$ 处的可微性与 $\\\\lambda$ 的取值有关;\\n④ 若 $f(x,y)$ 在点 $(0,0)$ 处可偏导, 那么 $f(x,y)$ 在点 $(0,0)$ 处可微.",
+              "stem": "设函数 $f(x,y) = \\begin{cases} (y + \\lambda \\sqrt{x^2+y^2})\\arctan\\dfrac{1}{x^2+y^2}, & (x,y) \\neq (0,0) \\ 0, & (x,y) = (0,0) \\end{cases}$, 则下列说法中正确的有 ( ) 个.\\n① $f(x,y)$ 在点 $(0,0)$ 处的连续性与 $\\lambda$ 的取值无关;\\n② $f(x,y)$ 在点 $(0,0)$ 处的可偏导性与 $\\lambda$ 的取值无关;\\n③ $f(x,y)$ 在点 $(0,0)$ 处的可微性与 $\\lambda$ 的取值有关;\\n④ 若 $f(x,y)$ 在点 $(0,0)$ 处可偏导, 那么 $f(x,y)$ 在点 $(0,0)$ 处可微.",
               "options": [
                 "A. 1",
                 "B. 2",
@@ -1550,7 +1550,7 @@
             {
               "no": 7,
               "kind": "choice",
-              "stem": "对于方程 $e^z + xyz + x + \\\\cos x = 2$, 在点 $(0, 1, 0)$ 的某一邻域内, 下列结论正确的是 ( ).",
+              "stem": "对于方程 $e^z + xyz + x + \\cos x = 2$, 在点 $(0, 1, 0)$ 的某一邻域内, 下列结论正确的是 ( ).",
               "options": [
                 "A. 由方程可确定两个具有连续偏导数的隐函数 $x = x(y,z)$ 和 $y = y(x,z)$",
                 "B. 由方程可确定两个具有连续偏导数的隐函数 $x = x(y,z)$ 和 $z = z(x,y)$",
@@ -1607,7 +1607,7 @@
             {
               "no": 10,
               "kind": "choice",
-              "stem": "设 $a, b, \\\\gamma$ 为两两正交的 3 维列向量, 且 $\\\\|a\\\\|=1, \\\\|b\\\\|=2, \\\\|\\\\gamma\\\\|=3$, 则二次型 $f = x^T(4aa^T + bb^T - \\\\gamma\\\\gamma^T)x$ 在正交变换 $x = Py$ 下的标准形为 ( ).",
+              "stem": "设 $a, b, \\gamma$ 为两两正交的 3 维列向量, 且 $\\\\|a\\\\|=1, \\\\|b\\\\|=2, \\\\|\\gamma\\\\|=3$, 则二次型 $f = x^T(4aa^T + bb^T - \\gamma\\gamma^T)x$ 在正交变换 $x = Py$ 下的标准形为 ( ).",
               "options": [
                 "A. $4y_1^2 + 2y_2^2 - y_3^2$",
                 "B. $4y_1^2 + 2y_2^2 - 3y_3^2$",
@@ -1631,7 +1631,7 @@
             {
               "no": 11,
               "kind": "fill",
-              "stem": "设 $f(x) = e^x \\\\sin x + x \\\\sin x$, 则 $f^{(2024)}(0) = $ ____ .",
+              "stem": "设 $f(x) = e^x \\sin x + x \\sin x$, 则 $f^{(2024)}(0) = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-06_q11.webp",
               "tips": {
@@ -1644,7 +1644,7 @@
             {
               "no": 12,
               "kind": "fill",
-              "stem": "曲线 $f(x) = \\\\dfrac{1}{1+e^x}$ ($x \\\\ge 0$) 与其渐近线及 $y$ 轴围成的曲边三角形的面积为 ____ .",
+              "stem": "曲线 $f(x) = \\dfrac{1}{1+e^x}$ ($x \\\\ge 0$) 与其渐近线及 $y$ 轴围成的曲边三角形的面积为 ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-06_q12.webp",
               "tips": {
@@ -1657,7 +1657,7 @@
             {
               "no": 13,
               "kind": "fill",
-              "stem": "极限 $L = \\\\lim\\\\limits_{n \\\\to \\\\infty} \\\\dfrac{1}{n^2} \\\\sum\\\\limits_{i=1}^{n} \\\\sum\\\\limits_{j=1}^{2n} \\\\max\\\\left(\\\\dfrac{i^2}{n^2}, \\\\dfrac{j^2}{n^2}\\\\right) = $ ____ .",
+              "stem": "极限 $L = \\lim\\\\limits_{n \\to \\infty} \\dfrac{1}{n^2} \\sum\\\\limits_{i=1}^{n} \\sum\\\\limits_{j=1}^{2n} \\\\max\\left(\\dfrac{i^2}{n^2}, \\dfrac{j^2}{n^2}\\right) = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-06_q13.webp",
               "tips": {
@@ -1683,7 +1683,7 @@
             {
               "no": 15,
               "kind": "fill",
-              "stem": "设 $f(\\\\cos^2 x) = \\\\dfrac{x}{\\\\cos x}$, 则 $\\\\int_0^1 \\\\dfrac{\\\\sqrt{x}}{\\\\sqrt{1-x}} f(x)\\\\, dx = $ ____ .",
+              "stem": "设 $f(\\cos^2 x) = \\dfrac{x}{\\cos x}$, 则 $\\int_0^1 \\dfrac{\\sqrt{x}}{\\sqrt{1-x}} f(x)\\\\, dx = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-06_q15.webp",
               "tips": {
@@ -1721,7 +1721,7 @@
             {
               "no": 1,
               "kind": "choice",
-              "stem": "已知反常积分 $\\\\int_0^{+\\\\infty} \\\\dfrac{\\\\ln^p(1+x)}{x^q}\\\\, dx$ ($p>0, q>0$) 收敛, 则参数 $p, q$ 需满足的条件为 ( ).",
+              "stem": "已知反常积分 $\\int_0^{+\\infty} \\dfrac{\\ln^p(1+x)}{x^q}\\\\, dx$ ($p>0, q>0$) 收敛, 则参数 $p, q$ 需满足的条件为 ( ).",
               "options": [
                 "A. $p>1, q>1$",
                 "B. $p>1, p-q>1$",
@@ -1740,12 +1740,12 @@
             {
               "no": 2,
               "kind": "choice",
-              "stem": "设函数 $f(x)$ 在区间 $(0, +\\\\infty)$ 内有界且存在二阶导数, 则下列说法正确的是 ( ).",
+              "stem": "设函数 $f(x)$ 在区间 $(0, +\\infty)$ 内有界且存在二阶导数, 则下列说法正确的是 ( ).",
               "options": [
-                "A. 若 $\\\\lim\\\\limits_{x \\\\to \\\\infty} f(x)$ 存在, 则 $\\\\lim\\\\limits_{x \\\\to \\\\infty} f''(x)$ 存在",
-                "B. 若 $\\\\lim\\\\limits_{x \\\\to \\\\infty} f''(x)$ 存在, 则 $\\\\lim\\\\limits_{x \\\\to \\\\infty} f(x)$ 存在",
-                "C. 若 $\\\\lim\\\\limits_{x \\\\to \\\\infty} f''(x)$ 存在, 则 $\\\\lim\\\\limits_{x \\\\to \\\\infty} f''(x) = 0$",
-                "D. 若 $\\\\lim\\\\limits_{x \\\\to +\\\\infty} f(x) = 0$ 存在, 则 $\\\\lim\\\\limits_{x \\\\to +\\\\infty} f''(x) = 0$"
+                "A. 若 $\\lim\\\\limits_{x \\to \\infty} f(x)$ 存在, 则 $\\lim\\\\limits_{x \\to \\infty} f''(x)$ 存在",
+                "B. 若 $\\lim\\\\limits_{x \\to \\infty} f''(x)$ 存在, 则 $\\lim\\\\limits_{x \\to \\infty} f(x)$ 存在",
+                "C. 若 $\\lim\\\\limits_{x \\to \\infty} f''(x)$ 存在, 则 $\\lim\\\\limits_{x \\to \\infty} f''(x) = 0$",
+                "D. 若 $\\lim\\\\limits_{x \\to +\\infty} f(x) = 0$ 存在, 则 $\\lim\\\\limits_{x \\to +\\infty} f''(x) = 0$"
               ],
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-07_q02.webp",
@@ -1759,7 +1759,7 @@
             {
               "no": 3,
               "kind": "choice",
-              "stem": "设 $f(x)$ 在 $(-1, 1)$ 上有定义且为奇函数, 当 $x \\\\in (0,1)$ 时, $f(x) = \\\\dfrac{x - \\\\cos x \\\\ln(1+x)}{x}$, 则函数 $f(x)$ 在 $x=0$ 处 ( ).",
+              "stem": "设 $f(x)$ 在 $(-1, 1)$ 上有定义且为奇函数, 当 $x \\in (0,1)$ 时, $f(x) = \\dfrac{x - \\cos x \\ln(1+x)}{x}$, 则函数 $f(x)$ 在 $x=0$ 处 ( ).",
               "options": [
                 "A. 左导数不存在, 右导数存在",
                 "B. 左导数存在, 右导数不存在",
@@ -1778,7 +1778,7 @@
             {
               "no": 4,
               "kind": "choice",
-              "stem": "设 $f(x)$ 二阶可导, $f'(0) = 0$ 且 $\\\\lim\\\\limits_{x \\\\to 0} \\\\dfrac{f''(x)}{|x| + \\\\sin x} = 1$, 则 ( ).",
+              "stem": "设 $f(x)$ 二阶可导, $f'(0) = 0$ 且 $\\lim\\\\limits_{x \\to 0} \\dfrac{f''(x)}{|x| + \\sin x} = 1$, 则 ( ).",
               "options": [
                 "A. $x=0$ 为 $f(x)$ 的极小值点",
                 "B. $x=0$ 为 $f(x)$ 的极大值点",
@@ -1797,11 +1797,11 @@
             {
               "no": 5,
               "kind": "choice",
-              "stem": "曲线 $L: x^{\\\\frac{2}{3}} + y^{\\\\frac{2}{3}} = 1$ 的周长是 ( ).",
+              "stem": "曲线 $L: x^{\\frac{2}{3}} + y^{\\frac{2}{3}} = 1$ 的周长是 ( ).",
               "options": [
                 "A. 4",
-                "B. $4\\\\pi$",
-                "C. $6\\\\pi$",
+                "B. $4\\pi$",
+                "C. $6\\pi$",
                 "D. 6"
               ],
               "answer": null,
@@ -1835,12 +1835,12 @@
             {
               "no": 7,
               "kind": "choice",
-              "stem": "设连续函数 $f(x)$ 满足 $\\\\int_0^x t[f(x-t) - \\\\sin(t^2)]\\\\, dt = 0$, 则 $\\\\int_0^1 dx \\\\int_0^x f(y)\\\\, dy = $ ( ).",
+              "stem": "设连续函数 $f(x)$ 满足 $\\int_0^x t[f(x-t) - \\sin(t^2)]\\\\, dt = 0$, 则 $\\int_0^1 dx \\int_0^x f(y)\\\\, dy = $ ( ).",
               "options": [
-                "A. $\\\\sin 1$",
-                "B. $\\\\dfrac{1}{2} \\\\sin 1$",
-                "C. $\\\\sin^2 1$",
-                "D. $\\\\dfrac{1}{2} \\\\sin^2 1$"
+                "A. $\\sin 1$",
+                "B. $\\dfrac{1}{2} \\sin 1$",
+                "C. $\\sin^2 1$",
+                "D. $\\dfrac{1}{2} \\sin^2 1$"
               ],
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-07_q07.webp",
@@ -1854,7 +1854,7 @@
             {
               "no": 8,
               "kind": "choice",
-              "stem": "设 $A$ 为 2 阶方阵, 下列说法正确的有几个 ( ).\\n① 若 $A$ 的所有元素为整数, 则 $\\\\dfrac{1}{2}$ 一定不是 $A$ 的特征值;\\n② 若 $A$ 的主对角元素之和为 0, 则 $A$ 相似于一个对角阵;\\n③ 若 $r(A) = 2$, 则存在 2 阶方阵 $B$, 使得 $AB + BA$ 正定.",
+              "stem": "设 $A$ 为 2 阶方阵, 下列说法正确的有几个 ( ).\\n① 若 $A$ 的所有元素为整数, 则 $\\dfrac{1}{2}$ 一定不是 $A$ 的特征值;\\n② 若 $A$ 的主对角元素之和为 0, 则 $A$ 相似于一个对角阵;\\n③ 若 $r(A) = 2$, 则存在 2 阶方阵 $B$, 使得 $AB + BA$ 正定.",
               "options": [
                 "A. 0",
                 "B. 1",
@@ -1873,7 +1873,7 @@
             {
               "no": 9,
               "kind": "choice",
-              "stem": "设 $\\\\alpha_1 = \\\\begin{pmatrix} 1 \\\\ 2 \\\\ -1 \\\\end{pmatrix}, \\\\alpha_2 = \\\\begin{pmatrix} 2 \\\\ 1 \\\\ 0 \\\\end{pmatrix}, \\\\alpha_3 = \\\\begin{pmatrix} 1 \\\\ -1 \\\\ a \\\\end{pmatrix}, \\\\beta_1 = \\\\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\\\end{pmatrix}, \\\\beta_2 = \\\\begin{pmatrix} 3 \\\\ 2 \\\\ -1 \\\\end{pmatrix}$, 若存在矩阵 $C$ 使得 $(\\\\beta_1, \\\\beta_2) = (\\\\alpha_1, \\\\alpha_2, \\\\alpha_3)C$, 且 $C$ 不唯一, 则 $a$ 和 $C$ 分别可以为 ( ).",
+              "stem": "设 $\\alpha_1 = \\begin{pmatrix} 1 \\\\ 2 \\\\ -1 \\end{pmatrix}, \\alpha_2 = \\begin{pmatrix} 2 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\alpha_3 = \\begin{pmatrix} 1 \\\\ -1 \\\\ a \\end{pmatrix}, \\beta_1 = \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix}, \\beta_2 = \\begin{pmatrix} 3 \\\\ 2 \\\\ -1 \\end{pmatrix}$, 若存在矩阵 $C$ 使得 $(\\beta_1, \\beta_2) = (\\alpha_1, \\alpha_2, \\alpha_3)C$, 且 $C$ 不唯一, 则 $a$ 和 $C$ 分别可以为 ( ).",
               "options": [
                 "A. $a=1, C = \\begin{pmatrix} 0 & 2 \\ 1 & -1 \\ 0 & 0 \\end{pmatrix}$",
                 "B. $a=1, C = \\begin{pmatrix} 0 & 2 \\ 1 & -1 \\ 1 & 1 \\end{pmatrix}$",
@@ -1916,7 +1916,7 @@
             {
               "no": 11,
               "kind": "fill",
-              "stem": "设 $f(x) = \\\\int_0^x \\\\cos(x-t)^2\\\\, dt$, $\\varphi(x) = \\begin{cases} \\dfrac{x - \\sin x}{x - \\ln(1+x)}, & x \\ne 0 \\ 0, & x = 0 \\end{cases}$, 则 $\\\\left.\\\\dfrac{df(\\\\varphi(x))}{dx}\\\\right|_{x=0} = $ ____ .",
+              "stem": "设 $f(x) = \\int_0^x \\cos(x-t)^2\\\\, dt$, $\\varphi(x) = \\begin{cases} \\dfrac{x - \\sin x}{x - \\ln(1+x)}, & x \\ne 0 \\ 0, & x = 0 \\end{cases}$, 则 $\\left.\\dfrac{df(\\\\varphi(x))}{dx}\\right|_{x=0} = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-07_q11.webp",
               "tips": {
@@ -1929,7 +1929,7 @@
             {
               "no": 12,
               "kind": "fill",
-              "stem": "设 $y = \\\\sin 2x + \\\\cos 2x - \\\\sin x$ 是二阶常系数线性微分方程 $y'' + \\\\alpha y' + \\\\beta y = \\\\gamma \\\\sin x$ 的一个特解, 则 $(\\\\alpha + \\\\beta + \\\\gamma)^2 = $ ____ .",
+              "stem": "设 $y = \\sin 2x + \\cos 2x - \\sin x$ 是二阶常系数线性微分方程 $y'' + \\alpha y' + \\beta y = \\gamma \\sin x$ 的一个特解, 则 $(\\alpha + \\beta + \\gamma)^2 = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-07_q12.webp",
               "tips": {
@@ -1942,7 +1942,7 @@
             {
               "no": 13,
               "kind": "fill",
-              "stem": "极限 $\\\\lim\\\\limits_{n \\\\to \\\\infty} \\\\dfrac{1}{n}\\\\left(\\\\int_0^{\\\\frac{1}{n}} e^{-x^2}\\\\, dx + \\\\int_0^{\\\\frac{2}{n}} e^{-x^2}\\\\, dx + \\\\cdots + \\\\int_0^{\\\\frac{n-1}{n}} e^{-x^2}\\\\, dx\\\\right) = $ ____ .",
+              "stem": "极限 $\\lim\\\\limits_{n \\to \\infty} \\dfrac{1}{n}\\left(\\int_0^{\\frac{1}{n}} e^{-x^2}\\\\, dx + \\int_0^{\\frac{2}{n}} e^{-x^2}\\\\, dx + \\cdots + \\int_0^{\\frac{n-1}{n}} e^{-x^2}\\\\, dx\\right) = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-07_q13.webp",
               "tips": {
@@ -1955,7 +1955,7 @@
             {
               "no": 14,
               "kind": "fill",
-              "stem": "设 $f(x,y)$ 为可微函数, 且 $f(x, \\\\cos x) = \\\\sin x \\\\cos x$, $f'_y(x, \\\\cos x) = \\\\cos x$, 则 $df(0, 1) = $ ____ .",
+              "stem": "设 $f(x,y)$ 为可微函数, 且 $f(x, \\cos x) = \\sin x \\cos x$, $f'_y(x, \\cos x) = \\cos x$, 则 $df(0, 1) = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-07_q14.webp",
               "tips": {
@@ -1968,7 +1968,7 @@
             {
               "no": 15,
               "kind": "fill",
-              "stem": "已知 $x \\\\to 0$ 时, $\\\\sqrt{1 - ax^3} - 1 + bx^2$ 是 $\\\\cos 2x - e^{-2x^2}$ 的等阶无穷小量, 则 $ab = $ ____ .",
+              "stem": "已知 $x \\to 0$ 时, $\\sqrt{1 - ax^3} - 1 + bx^2$ 是 $\\cos 2x - e^{-2x^2}$ 的等阶无穷小量, 则 $ab = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-07_q15.webp",
               "tips": {
@@ -1981,13 +1981,13 @@
             {
               "no": 16,
               "kind": "fill",
-              "stem": "设 $A_n$ ($n > 2$) 为实对称矩阵, $\\\\lambda_1, \\\\lambda_2$ 为两个不同的特征值, $\\\\alpha_1, \\\\alpha_2$ 为分别对应 $\\\\lambda_1, \\\\lambda_2$ 的单位特征向量, 记 $P = (\\\\alpha_1, \\\\alpha_2)$, 则 $|P^T A P| = $ ____ .",
+              "stem": "设 $A_n$ ($n > 2$) 为实对称矩阵, $\\lambda_1, \\lambda_2$ 为两个不同的特征值, $\\alpha_1, \\alpha_2$ 为分别对应 $\\lambda_1, \\lambda_2$ 的单位特征向量, 记 $P = (\\alpha_1, \\alpha_2)$, 则 $|P^T A P| = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-07_q16.webp",
               "tips": {
                 "gs": "$A_n$ 实对称 + 两不同特征值 $\\lambda_1,\\lambda_2$ + 单位特征向量 $\\alpha_1,\\alpha_2$（自动正交）→ $P=(\\alpha_1,\\alpha_2)$ 是部分正交阵",
                 "yc": "$P^{\\mathrm T}AP$ 是 $2\\times2$ 分块对角化矩阵：$\\operatorname{diag}(\\lambda_1,\\lambda_2)$（沿 $\\alpha_1,\\alpha_2$）；其他行因 $A\\alpha_i=\\lambda_i\\alpha_i$ 之外的特征向量是 $0$ 或正交于 $\\alpha_1,\\alpha_2$",
-                "jq": "$P^{\\mathrm T}AP=\\begin{pmatrix}\\\\lambda_1&0\\\\0&\\\\lambda_2\\end{pmatrix}$（2×2 子阵）；但 $n>2$，$P$ 是 $n\\times2$，$P^{\\mathrm T}AP$ 仍是 $2\\times2$；$|P^{\\mathrm T}AP|=\\lambda_1\\lambda_2$",
+                "jq": "$P^{\\mathrm T}AP=\\begin{pmatrix}\\lambda_1&0\\\\0&\\lambda_2\\end{pmatrix}$（2×2 子阵）；但 $n>2$，$P$ 是 $n\\times2$，$P^{\\mathrm T}AP$ 仍是 $2\\times2$；$|P^{\\mathrm T}AP|=\\lambda_1\\lambda_2$",
                 "zy": "答案 $\\lambda_1\\lambda_2$（2 阶子阵行列式）"
               }
             }
@@ -2006,7 +2006,7 @@
             {
               "no": 1,
               "kind": "choice",
-              "stem": "设函数 $f(x) = 1 + 2x^2 + o(x^2)$, $x \\\\in \\\\mathring{U}(0, \\\\delta)$, 且 $f(0) = 1$, 则下列命题:\\n① $f'(x) = 4x + o(x)$, $x \\\\in \\\\mathring{U}(0, \\\\delta)$;\\n② $f'(0) = 0$;\\n③ $f''(0) = 4$;\\n④ $f(x)$ 在 $(-\\\\delta, \\\\delta)$ 内为四函数.\\n正确的个数是 ( ).",
+              "stem": "设函数 $f(x) = 1 + 2x^2 + o(x^2)$, $x \\in \\\\mathring{U}(0, \\delta)$, 且 $f(0) = 1$, 则下列命题:\\n① $f'(x) = 4x + o(x)$, $x \\in \\\\mathring{U}(0, \\delta)$;\\n② $f'(0) = 0$;\\n③ $f''(0) = 4$;\\n④ $f(x)$ 在 $(-\\delta, \\delta)$ 内为四函数.\\n正确的个数是 ( ).",
               "options": [
                 "A. 1",
                 "B. 2",
@@ -2025,12 +2025,12 @@
             {
               "no": 2,
               "kind": "choice",
-              "stem": "设函数 $f(x)$ 在区间 $(0, +\\\\infty)$ 内可导, 则下列说法正确的是 ( ).",
+              "stem": "设函数 $f(x)$ 在区间 $(0, +\\infty)$ 内可导, 则下列说法正确的是 ( ).",
               "options": [
-                "A. 若 $f'_+(0)$ 存在, 则 $\\\\lim\\\\limits_{x \\\\to 0^+} f'(x)$ 存在",
-                "B. 若 $\\\\lim\\\\limits_{x \\\\to 0^+} f'(x)$ 存在, 则 $f'_+(0)$ 存在",
-                "C. 若 $f'_+(0) > 0$, 则存在 $\\\\delta > 0$, 当 $x \\\\in (0, \\\\delta)$ 时, $f(x)$ 单增",
-                "D. 若 $\\\\lim\\\\limits_{x \\\\to 0^+} f'(x) > 0$, 则存在 $\\\\delta > 0$, 当 $x \\\\in (0, \\\\delta)$ 时, $f(x)$ 单增"
+                "A. 若 $f'_+(0)$ 存在, 则 $\\lim\\\\limits_{x \\to 0^+} f'(x)$ 存在",
+                "B. 若 $\\lim\\\\limits_{x \\to 0^+} f'(x)$ 存在, 则 $f'_+(0)$ 存在",
+                "C. 若 $f'_+(0) > 0$, 则存在 $\\delta > 0$, 当 $x \\in (0, \\delta)$ 时, $f(x)$ 单增",
+                "D. 若 $\\lim\\\\limits_{x \\to 0^+} f'(x) > 0$, 则存在 $\\delta > 0$, 当 $x \\in (0, \\delta)$ 时, $f(x)$ 单增"
               ],
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-08_q02.webp",
@@ -2044,12 +2044,12 @@
             {
               "no": 3,
               "kind": "choice",
-              "stem": "已知当 $x \\\\ge 0$ 时, $\\\\sqrt{x+1} - \\\\sqrt{x} = \\\\dfrac{1}{2\\\\sqrt{x + \\\\theta(x)}}$, 则 ( ).",
+              "stem": "已知当 $x \\\\ge 0$ 时, $\\sqrt{x+1} - \\sqrt{x} = \\dfrac{1}{2\\sqrt{x + \\theta(x)}}$, 则 ( ).",
               "options": [
-                "A. $0 < \\\\theta(x) < \\\\dfrac{1}{4}$",
-                "B. $\\\\dfrac{1}{4} < \\\\theta(x) < \\\\dfrac{1}{2}$",
-                "C. $\\\\dfrac{1}{2} < \\\\theta(x) < \\\\dfrac{3}{4}$",
-                "D. $\\\\dfrac{3}{4} < \\\\theta(x) < 1$"
+                "A. $0 < \\theta(x) < \\dfrac{1}{4}$",
+                "B. $\\dfrac{1}{4} < \\theta(x) < \\dfrac{1}{2}$",
+                "C. $\\dfrac{1}{2} < \\theta(x) < \\dfrac{3}{4}$",
+                "D. $\\dfrac{3}{4} < \\theta(x) < 1$"
               ],
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-08_q03.webp",
@@ -2063,7 +2063,7 @@
             {
               "no": 4,
               "kind": "choice",
-              "stem": "设奇函数 $f(x)$ 可导, $g(x) = f(\\\\cos x)$, 令 $F(x) = \\\\int_0^x \\\\left(\\\\int_0^{\\\\sin u} f(t)\\\\, dt\\\\right) du$, $G(x) = \\\\int_0^x g'(t)\\\\, dt$, 则 ( ).",
+              "stem": "设奇函数 $f(x)$ 可导, $g(x) = f(\\cos x)$, 令 $F(x) = \\int_0^x \\left(\\int_0^{\\sin u} f(t)\\\\, dt\\right) du$, $G(x) = \\int_0^x g'(t)\\\\, dt$, 则 ( ).",
               "options": [
                 "A. $F(x)$ 为偶函数, $G(x)$ 为奇函数",
                 "B. $F(x)$ 为偶函数, $G(x)$ 为偶函数",
@@ -2082,12 +2082,12 @@
             {
               "no": 5,
               "kind": "choice",
-              "stem": "设函数 $f(x)$ 在区间 $[0, 2]$ 上连续, 则 $\\\\int_0^2 f(x)\\\\, dx = $ ( ).",
+              "stem": "设函数 $f(x)$ 在区间 $[0, 2]$ 上连续, 则 $\\int_0^2 f(x)\\\\, dx = $ ( ).",
               "options": [
-                "A. $\\\\lim\\\\limits_{n \\\\to \\\\infty} \\\\sum\\\\limits_{k=1}^{n} f\\\\left(\\\\dfrac{2k-1}{2n}\\\\right) \\\\cdot \\\\dfrac{2}{n}$",
-                "B. $\\\\lim\\\\limits_{n \\\\to \\\\infty} \\\\sum\\\\limits_{k=1}^{n} f\\\\left(\\\\dfrac{2k}{n}\\\\right) \\\\cdot \\\\dfrac{1}{n}$",
-                "C. $\\\\lim\\\\limits_{n \\\\to \\\\infty} \\\\sum\\\\limits_{k=1}^{2n} f\\\\left(\\\\dfrac{k-1}{n}\\\\right) \\\\cdot \\\\dfrac{1}{n}$",
-                "D. $\\\\lim\\\\limits_{n \\\\to \\\\infty} \\\\sum\\\\limits_{k=1}^{4n} f\\\\left(\\\\dfrac{k}{2n}\\\\right) \\\\cdot \\\\dfrac{1}{n}$"
+                "A. $\\lim\\\\limits_{n \\to \\infty} \\sum\\\\limits_{k=1}^{n} f\\left(\\dfrac{2k-1}{2n}\\right) \\cdot \\dfrac{2}{n}$",
+                "B. $\\lim\\\\limits_{n \\to \\infty} \\sum\\\\limits_{k=1}^{n} f\\left(\\dfrac{2k}{n}\\right) \\cdot \\dfrac{1}{n}$",
+                "C. $\\lim\\\\limits_{n \\to \\infty} \\sum\\\\limits_{k=1}^{2n} f\\left(\\dfrac{k-1}{n}\\right) \\cdot \\dfrac{1}{n}$",
+                "D. $\\lim\\\\limits_{n \\to \\infty} \\sum\\\\limits_{k=1}^{4n} f\\left(\\dfrac{k}{2n}\\right) \\cdot \\dfrac{1}{n}$"
               ],
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-08_q05.webp",
@@ -2101,12 +2101,12 @@
             {
               "no": 6,
               "kind": "choice",
-              "stem": "设 $f(x, y) = x \\\\ln(x + \\\\sqrt{x^2 + y^2}) - \\\\sqrt{x^2 + y^2}$, 则有 ( ).",
+              "stem": "设 $f(x, y) = x \\ln(x + \\sqrt{x^2 + y^2}) - \\sqrt{x^2 + y^2}$, 则有 ( ).",
               "options": [
-                "A. $\\\\dfrac{\\\\partial^2 f}{\\\\partial x^2} + \\\\dfrac{\\\\partial^2 f}{\\\\partial y^2} + \\\\dfrac{1}{x} \\\\dfrac{\\\\partial f}{\\\\partial x} = 0$",
-                "B. $\\\\dfrac{\\\\partial^2 f}{\\\\partial x^2} + \\\\dfrac{\\\\partial^2 f}{\\\\partial y^2} + \\\\dfrac{1}{y} \\\\dfrac{\\\\partial f}{\\\\partial x} = 0$",
-                "C. $\\\\dfrac{\\\\partial^2 f}{\\\\partial x^2} + \\\\dfrac{\\\\partial^2 f}{\\\\partial y^2} - \\\\dfrac{1}{x} \\\\dfrac{\\\\partial f}{\\\\partial x} = 0$",
-                "D. $\\\\dfrac{\\\\partial^2 f}{\\\\partial x^2} + \\\\dfrac{\\\\partial^2 f}{\\\\partial y^2} + \\\\dfrac{1}{y} \\\\dfrac{\\\\partial f}{\\\\partial y} = 0$"
+                "A. $\\dfrac{\\partial^2 f}{\\partial x^2} + \\dfrac{\\partial^2 f}{\\partial y^2} + \\dfrac{1}{x} \\dfrac{\\partial f}{\\partial x} = 0$",
+                "B. $\\dfrac{\\partial^2 f}{\\partial x^2} + \\dfrac{\\partial^2 f}{\\partial y^2} + \\dfrac{1}{y} \\dfrac{\\partial f}{\\partial x} = 0$",
+                "C. $\\dfrac{\\partial^2 f}{\\partial x^2} + \\dfrac{\\partial^2 f}{\\partial y^2} - \\dfrac{1}{x} \\dfrac{\\partial f}{\\partial x} = 0$",
+                "D. $\\dfrac{\\partial^2 f}{\\partial x^2} + \\dfrac{\\partial^2 f}{\\partial y^2} + \\dfrac{1}{y} \\dfrac{\\partial f}{\\partial y} = 0$"
               ],
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-08_q06.webp",
@@ -2120,7 +2120,7 @@
             {
               "no": 7,
               "kind": "choice",
-              "stem": "设曲线 $L: y = \\\\cos x$, $L_1$ 与 $L_2$ 分别为 $L$ 上点 $\\\\left(-\\\\dfrac{\\\\pi}{2}, 0\\\\right)$ 与 $\\\\left(\\\\dfrac{\\\\pi}{2}, 0\\\\right)$ 处的切线, 若函数 $f(x, y)$ 在 $L, L_1$ 与 $L_2$ 所围闭区域 $D$ 上连续, 则下列等式成立的有 ( ) 个.\\n① $\\\\iint\\\\limits_D f(x,y)\\\\, d\\\\sigma = \\\\int_{-\\\\pi/2}^{\\\\pi/2} dx \\\\int_{\\\\cos x}^{\\\\frac{\\\\pi}{2} - |x|} f(x,y)\\\\, dy$\\n② $\\\\iint\\\\limits_D f(x,y)\\\\, d\\\\sigma = \\\\int_0^{\\\\frac{\\\\pi}{2}} dy \\\\int_{y - \\\\frac{\\\\pi}{2}}^{\\\\frac{\\\\pi}{2} - y} f(x,y)\\\\, dx$\\n③ $2\\\\iint\\\\limits_D f(x,y)\\\\, d\\\\sigma = 2\\\\int_0^{\\\\frac{\\\\pi}{2}} dy \\\\int_{y - \\\\frac{\\\\pi}{2}}^{\\\\frac{\\\\pi}{2} - y} f(x,y)\\\\, dx + \\\\int_{\\\\frac{\\\\pi}{2}}^{\\\\frac{\\\\pi}{2}} dy \\\\int_{y - \\\\frac{\\\\pi}{2}}^{\\\\frac{\\\\pi}{2} - y} f(x,y)\\\\, dx$\\n④ $\\\\iint\\\\limits_D f(x,y)\\\\, d\\\\sigma = \\\\int_{-\\\\pi/2}^{0} dx \\\\int_{\\\\cos x}^{\\\\frac{\\\\pi}{2} + x} f(x,y)\\\\, dy + \\\\int_0^{\\\\frac{\\\\pi}{2}} dx \\\\int_{\\\\cos x}^{\\\\frac{\\\\pi}{2} - x} f(x,y)\\\\, dy$",
+              "stem": "设曲线 $L: y = \\cos x$, $L_1$ 与 $L_2$ 分别为 $L$ 上点 $\\left(-\\dfrac{\\pi}{2}, 0\\right)$ 与 $\\left(\\dfrac{\\pi}{2}, 0\\right)$ 处的切线, 若函数 $f(x, y)$ 在 $L, L_1$ 与 $L_2$ 所围闭区域 $D$ 上连续, 则下列等式成立的有 ( ) 个.\\n① $\\\\iint\\\\limits_D f(x,y)\\\\, d\\sigma = \\int_{-\\pi/2}^{\\pi/2} dx \\int_{\\cos x}^{\\frac{\\pi}{2} - |x|} f(x,y)\\\\, dy$\\n② $\\\\iint\\\\limits_D f(x,y)\\\\, d\\sigma = \\int_0^{\\frac{\\pi}{2}} dy \\int_{y - \\frac{\\pi}{2}}^{\\frac{\\pi}{2} - y} f(x,y)\\\\, dx$\\n③ $2\\\\iint\\\\limits_D f(x,y)\\\\, d\\sigma = 2\\int_0^{\\frac{\\pi}{2}} dy \\int_{y - \\frac{\\pi}{2}}^{\\frac{\\pi}{2} - y} f(x,y)\\\\, dx + \\int_{\\frac{\\pi}{2}}^{\\frac{\\pi}{2}} dy \\int_{y - \\frac{\\pi}{2}}^{\\frac{\\pi}{2} - y} f(x,y)\\\\, dx$\\n④ $\\\\iint\\\\limits_D f(x,y)\\\\, d\\sigma = \\int_{-\\pi/2}^{0} dx \\int_{\\cos x}^{\\frac{\\pi}{2} + x} f(x,y)\\\\, dy + \\int_0^{\\frac{\\pi}{2}} dx \\int_{\\cos x}^{\\frac{\\pi}{2} - x} f(x,y)\\\\, dy$",
               "options": [
                 "A. 1",
                 "B. 2",
@@ -2158,7 +2158,7 @@
             {
               "no": 9,
               "kind": "choice",
-              "stem": "设 $A$ 是 $m \\\\times n$ 矩阵, $r(A) = m$, $B$ 是 $n \\\\times (n - m)$ 矩阵, $r(B) = n - m$ 且 $AB = O$, 若 $\\\\eta$ 是 $Ax = 0$ 的解, 则线性方程组 $By = \\\\eta$ ( ).",
+              "stem": "设 $A$ 是 $m \\times n$ 矩阵, $r(A) = m$, $B$ 是 $n \\times (n - m)$ 矩阵, $r(B) = n - m$ 且 $AB = O$, 若 $\\\\eta$ 是 $Ax = 0$ 的解, 则线性方程组 $By = \\\\eta$ ( ).",
               "options": [
                 "A. 无解",
                 "B. 无穷多解",
@@ -2177,7 +2177,7 @@
             {
               "no": 10,
               "kind": "choice",
-              "stem": "设 $\\\\alpha = \\\\begin{pmatrix} a_1 \\\\ a_2 \\\\ a_3 \\\\end{pmatrix}, \\\\beta = \\\\begin{pmatrix} b_1 \\\\ b_2 \\\\ b_3 \\\\end{pmatrix}$, $\\\\alpha, \\\\beta$ 线性无关, 二次型 $f(x_1, x_2, x_3) = (a_1 x_1 + a_2 x_2 + a_3 x_3)(b_1 x_1 + b_2 x_2 + b_3 x_3)$ 的规范型为 ( ).",
+              "stem": "设 $\\alpha = \\begin{pmatrix} a_1 \\\\ a_2 \\\\ a_3 \\end{pmatrix}, \\beta = \\begin{pmatrix} b_1 \\\\ b_2 \\\\ b_3 \\end{pmatrix}$, $\\alpha, \\beta$ 线性无关, 二次型 $f(x_1, x_2, x_3) = (a_1 x_1 + a_2 x_2 + a_3 x_3)(b_1 x_1 + b_2 x_2 + b_3 x_3)$ 的规范型为 ( ).",
               "options": [
                 "A. $y_1^2$",
                 "B. $y_1^2 + y_2^2$",
@@ -2201,7 +2201,7 @@
             {
               "no": 11,
               "kind": "fill",
-              "stem": "设 $f(x) = \\\\dfrac{1}{x^3} \\\\left[a - \\\\dfrac{x}{2} + e^x + x \\\\ln(1+x^2) + (b + \\\\cos x)\\\\sin x\\\\right]$, 若 $x = 0$ 为 $f(x)$ 的可去间断点, 则 $ab = $ ____ .",
+              "stem": "设 $f(x) = \\dfrac{1}{x^3} \\left[a - \\dfrac{x}{2} + e^x + x \\ln(1+x^2) + (b + \\cos x)\\sin x\\right]$, 若 $x = 0$ 为 $f(x)$ 的可去间断点, 则 $ab = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-08_q11.webp",
               "tips": {
@@ -2214,7 +2214,7 @@
             {
               "no": 12,
               "kind": "fill",
-              "stem": "计算 $\\\\int_0^{\\\\pi} \\\\left(\\\\left| x - \\\\dfrac{\\\\pi}{2} \\\\right| \\\\cos^3 x + \\\\cos^4 x\\\\right) dx = $ ____ .",
+              "stem": "计算 $\\int_0^{\\pi} \\left(\\left| x - \\dfrac{\\pi}{2} \\right| \\cos^3 x + \\cos^4 x\\right) dx = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-08_q12.webp",
               "tips": {
@@ -2227,7 +2227,7 @@
             {
               "no": 13,
               "kind": "fill",
-              "stem": "极限 $\\\\lim\\\\limits_{t \\\\to 0^+} \\\\dfrac{1}{t^4} \\\\int_0^t d\\\\theta \\\\int_0^{\\\\cos \\\\theta} r \\\\ln(1 + \\\\tan(r \\\\sin \\\\theta))\\\\, dr = $ ____ .",
+              "stem": "极限 $\\lim\\\\limits_{t \\to 0^+} \\dfrac{1}{t^4} \\int_0^t d\\theta \\int_0^{\\cos \\theta} r \\ln(1 + \\tan(r \\sin \\theta))\\\\, dr = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-08_q13.webp",
               "tips": {
@@ -2240,7 +2240,7 @@
             {
               "no": 14,
               "kind": "fill",
-              "stem": "设函数 $z = z(x,y)$ 由 $xy = \\\\int_0^z \\\\dfrac{dt}{\\\\sqrt{1 + t^2}}$ 确定, 则 $\\\\dfrac{1}{y^2} \\\\dfrac{\\\\partial^2 z}{\\\\partial x^2} + \\\\dfrac{1}{x^2} \\\\dfrac{\\\\partial^2 z}{\\\\partial y^2} = $ ____ .",
+              "stem": "设函数 $z = z(x,y)$ 由 $xy = \\int_0^z \\dfrac{dt}{\\sqrt{1 + t^2}}$ 确定, 则 $\\dfrac{1}{y^2} \\dfrac{\\partial^2 z}{\\partial x^2} + \\dfrac{1}{x^2} \\dfrac{\\partial^2 z}{\\partial y^2} = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-08_q14.webp",
               "tips": {
@@ -2253,7 +2253,7 @@
             {
               "no": 15,
               "kind": "fill",
-              "stem": "微分方程 $(xy + 1) \\\\dfrac{dy}{dx} = y^2$ 满足 $y(0) = 1$ 的特解为 ____ .",
+              "stem": "微分方程 $(xy + 1) \\dfrac{dy}{dx} = y^2$ 满足 $y(0) = 1$ 的特解为 ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-08_q15.webp",
               "tips": {
@@ -2266,7 +2266,7 @@
             {
               "no": 16,
               "kind": "fill",
-              "stem": "设 $A$ 为四阶实对称矩阵, 其特征值为 $\\\\lambda_1 = \\\\lambda_2 = 1, \\\\lambda_3 = 2, \\\\lambda_4 = 3$, 相应的特征向量依次为 $p_1, p_2, p_3, p_4$, 且 $p_1, p_2$ 线性无关, 令 $P = (4p_4, 5p_3, p_1 + p_2, p_1 - p_2)$, 则 $P^{-1} A P = $ ____ .",
+              "stem": "设 $A$ 为四阶实对称矩阵, 其特征值为 $\\lambda_1 = \\lambda_2 = 1, \\lambda_3 = 2, \\lambda_4 = 3$, 相应的特征向量依次为 $p_1, p_2, p_3, p_4$, 且 $p_1, p_2$ 线性无关, 令 $P = (4p_4, 5p_3, p_1 + p_2, p_1 - p_2)$, 则 $P^{-1} A P = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-08_q16.webp",
               "tips": {
@@ -2291,11 +2291,11 @@
             {
               "no": 1,
               "kind": "choice",
-              "stem": "设 $\\\\lim\\\\limits_{x \\\\to 0} \\\\dfrac{f(x)}{\\\\tan x} = 0$, $f(x)$ 二阶可导, 当 $x \\\\to 0$ 时, $e^{f(x)} - ax - 1$ 与 $bx^2$ ($b \\\\ne 0$) 是等价无穷小, 则 ( ).",
+              "stem": "设 $\\lim\\\\limits_{x \\to 0} \\dfrac{f(x)}{\\tan x} = 0$, $f(x)$ 二阶可导, 当 $x \\to 0$ 时, $e^{f(x)} - ax - 1$ 与 $bx^2$ ($b \\\\ne 0$) 是等价无穷小, 则 ( ).",
               "options": [
-                "A. $a = 0, \\\\dfrac{1}{2} f''(0) = b$",
+                "A. $a = 0, \\dfrac{1}{2} f''(0) = b$",
                 "B. $a = 0, f''(0) = b$",
-                "C. $a = 1, \\\\dfrac{1}{2} f''(0) = b$",
+                "C. $a = 1, \\dfrac{1}{2} f''(0) = b$",
                 "D. $a = 1, f''(0) = b$"
               ],
               "answer": null,
@@ -2310,7 +2310,7 @@
             {
               "no": 2,
               "kind": "choice",
-              "stem": "设 $a < 1$, 曲线 $y = \\\\dfrac{1}{2}(e^x - e^{-x})$ 与直线 $y = ax + b$ ( ).",
+              "stem": "设 $a < 1$, 曲线 $y = \\dfrac{1}{2}(e^x - e^{-x})$ 与直线 $y = ax + b$ ( ).",
               "options": [
                 "A. 没有交点",
                 "B. 交点个数为 1",
@@ -2329,7 +2329,7 @@
             {
               "no": 3,
               "kind": "choice",
-              "stem": "若积分 $I = \\\\int_a^b (-8 + 6x - x^2)\\\\, dx$ ($a < b$) 最大, 则 ( ).",
+              "stem": "若积分 $I = \\int_a^b (-8 + 6x - x^2)\\\\, dx$ ($a < b$) 最大, 则 ( ).",
               "options": [
                 "A. $a = 0, b = 3$",
                 "B. $a = -2, b = 3$",
@@ -2348,12 +2348,12 @@
             {
               "no": 4,
               "kind": "choice",
-              "stem": "设二阶可导函数 $f(x)$ 满足 $f(1) = 1, f''(x) > 0$, 且 $\\\\int_0^1 f(x)\\\\, dx > 0$, 则一定有 ( ).",
+              "stem": "设二阶可导函数 $f(x)$ 满足 $f(1) = 1, f''(x) > 0$, 且 $\\int_0^1 f(x)\\\\, dx > 0$, 则一定有 ( ).",
               "options": [
                 "A. $f(0) \\\\ge -1$",
                 "B. $f(0) > -1$",
-                "C. $f\\\\left(\\\\dfrac{1}{2}\\\\right) \\\\ge 0$",
-                "D. $f\\\\left(\\\\dfrac{1}{2}\\\\right) > 0$"
+                "C. $f\\left(\\dfrac{1}{2}\\right) \\\\ge 0$",
+                "D. $f\\left(\\dfrac{1}{2}\\right) > 0$"
               ],
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-09_q04.webp",
@@ -2367,7 +2367,7 @@
             {
               "no": 5,
               "kind": "choice",
-              "stem": "设积分 $I = \\\\int_0^{+\\\\infty} \\\\dfrac{\\\\arctan x}{x^p} \\\\ln(1+x)\\\\, dx$ 收敛, 则 ( ).",
+              "stem": "设积分 $I = \\int_0^{+\\infty} \\dfrac{\\\\arctan x}{x^p} \\ln(1+x)\\\\, dx$ 收敛, 则 ( ).",
               "options": [
                 "A. $1 < p < 3$",
                 "B. $0 < p < 3$",
@@ -2386,7 +2386,7 @@
             {
               "no": 6,
               "kind": "choice",
-              "stem": "当 $t \\\\to 0^+$ 时, $f(t) = \\\\int_0^t dx \\\\int_x^t \\\\tan \\\\sqrt{xy}\\\\, dy$ 是关于 $t$ 的 ( ) 阶无穷小.",
+              "stem": "当 $t \\to 0^+$ 时, $f(t) = \\int_0^t dx \\int_x^t \\tan \\sqrt{xy}\\\\, dy$ 是关于 $t$ 的 ( ) 阶无穷小.",
               "options": [
                 "A. 3",
                 "B. 4",
@@ -2405,7 +2405,7 @@
             {
               "no": 7,
               "kind": "choice",
-              "stem": "设 $D = \\\\{(x, y) | 0 \\\\le x \\\\le 1, 0 \\\\le y \\\\le 1\\\\}$, 则 $I = \\\\iint\\\\limits_D x\\\\left(\\\\sqrt{1+x^3} - \\\\sqrt{1+x^3}\\\\right) d\\\\sigma$ ( ).",
+              "stem": "设 $D = \\\\{(x, y) | 0 \\\\le x \\\\le 1, 0 \\\\le y \\\\le 1\\\\}$, 则 $I = \\\\iint\\\\limits_D x\\left(\\sqrt{1+x^3} - \\sqrt{1+x^3}\\right) d\\sigma$ ( ).",
               "options": [
                 "A. 大于 0",
                 "B. 小于 0",
@@ -2429,7 +2429,7 @@
                 "A. $(A + B)x = 0$",
                 "B. $(A - B)x = 0$",
                 "C. $ABx = 0$",
-                "D. $\\\\begin{pmatrix} A \\\\ B \\\\end{pmatrix} x = 0$"
+                "D. $\\begin{pmatrix} A \\\\ B \\end{pmatrix} x = 0$"
               ],
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-09_q08.webp",
@@ -2443,7 +2443,7 @@
             {
               "no": 9,
               "kind": "choice",
-              "stem": "设 $n$ 阶方阵 $A = (\\\\alpha_1, \\\\alpha_2, \\\\cdots, \\\\alpha_n)$, $B = (\\\\beta_1, \\\\beta_2, \\\\cdots, \\\\beta_n)$, $AB = (\\\\gamma_1, \\\\gamma_2, \\\\cdots, \\\\gamma_n)$. 记向量组 $\\\\uppercase\\\\expandafter{\\\\romannumeral1}: \\\\alpha_1, \\\\alpha_2, \\\\cdots, \\\\alpha_n$, $\\\\uppercase\\\\expandafter{\\\\romannumeral2}: \\\\beta_1, \\\\beta_2, \\\\cdots, \\\\beta_n$, $\\\\uppercase\\\\expandafter{\\\\romannumeral3}: \\\\gamma_1, \\\\gamma_2, \\\\cdots, \\\\gamma_n$. 如果向量组 $\\\\uppercase\\\\expandafter{\\\\romannumeral3}$ 线性相关, 则 ( ).",
+              "stem": "设 $n$ 阶方阵 $A = (\\alpha_1, \\alpha_2, \\cdots, \\alpha_n)$, $B = (\\beta_1, \\beta_2, \\cdots, \\beta_n)$, $AB = (\\gamma_1, \\gamma_2, \\cdots, \\gamma_n)$. 记向量组 $\\\\uppercase\\\\expandafter{\\\\romannumeral1}: \\alpha_1, \\alpha_2, \\cdots, \\alpha_n$, $\\\\uppercase\\\\expandafter{\\\\romannumeral2}: \\beta_1, \\beta_2, \\cdots, \\beta_n$, $\\\\uppercase\\\\expandafter{\\\\romannumeral3}: \\gamma_1, \\gamma_2, \\cdots, \\gamma_n$. 如果向量组 $\\\\uppercase\\\\expandafter{\\\\romannumeral3}$ 线性相关, 则 ( ).",
               "options": [
                 "A. 向量组 $\\\\uppercase\\\\expandafter{\\\\romannumeral1}$ 线性相关",
                 "B. 向量组 $\\\\uppercase\\\\expandafter{\\\\romannumeral2}$ 线性相关",
@@ -2462,7 +2462,7 @@
             {
               "no": 10,
               "kind": "choice",
-              "stem": "$A$ 为 $m \\\\times n$ 实矩阵, $x = (x_1, x_2, \\\\cdots, x_n)^T$, 则 $Ax = 0$ 只有零解是 $A^T A$ 正定的 ( ).",
+              "stem": "$A$ 为 $m \\times n$ 实矩阵, $x = (x_1, x_2, \\cdots, x_n)^T$, 则 $Ax = 0$ 只有零解是 $A^T A$ 正定的 ( ).",
               "options": [
                 "A. 充分而非必要条件",
                 "B. 必要而非充分条件",
@@ -2486,7 +2486,7 @@
             {
               "no": 11,
               "kind": "fill",
-              "stem": "设函数 $u = f(y)$ 二阶可导, 函数 $y = y(x)$ 由方程 $y + e^y = x$ 确定, 则 $\\\\left.\\\\dfrac{d^2 u}{dx^2}\\\\right|_{x=1} = $ ____ .",
+              "stem": "设函数 $u = f(y)$ 二阶可导, 函数 $y = y(x)$ 由方程 $y + e^y = x$ 确定, 则 $\\left.\\dfrac{d^2 u}{dx^2}\\right|_{x=1} = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-09_q11.webp",
               "tips": {
@@ -2499,7 +2499,7 @@
             {
               "no": 12,
               "kind": "fill",
-              "stem": "$\\\\lim\\\\limits_{x \\\\to +\\\\infty} \\\\left[\\\\sqrt[2024]{(x+1)(x+2)\\\\cdots(x+2024)} - x\\\\right] = $ ____ .",
+              "stem": "$\\lim\\\\limits_{x \\to +\\infty} \\left[\\sqrt[2024]{(x+1)(x+2)\\cdots(x+2024)} - x\\right] = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-09_q12.webp",
               "tips": {
@@ -2512,7 +2512,7 @@
             {
               "no": 13,
               "kind": "fill",
-              "stem": "$\\\\int_0^{\\\\frac{\\\\pi}{2}} \\\\dfrac{x + \\\\sin x}{1 + \\\\cos x}\\\\, dx + \\\\int_{\\\\pi}^{\\\\frac{3\\\\pi}{2}} \\\\dfrac{1 + \\\\cos x}{x + \\\\sin x}\\\\, dx = $ ____ .",
+              "stem": "$\\int_0^{\\frac{\\pi}{2}} \\dfrac{x + \\sin x}{1 + \\cos x}\\\\, dx + \\int_{\\pi}^{\\frac{3\\pi}{2}} \\dfrac{1 + \\cos x}{x + \\sin x}\\\\, dx = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-09_q13.webp",
               "tips": {
@@ -2525,7 +2525,7 @@
             {
               "no": 14,
               "kind": "fill",
-              "stem": "设 $f(x,y) = x - y + o(\\\\sqrt{x^2+y^2})$ 具有一阶连续偏导数, $g(x,y) = f\\\\left(xy, \\\\dfrac{x}{y}\\\\right)$, 则 $dg(x,y)\\\\big|_{(0,1)} = $ ____ .",
+              "stem": "设 $f(x,y) = x - y + o(\\sqrt{x^2+y^2})$ 具有一阶连续偏导数, $g(x,y) = f\\left(xy, \\dfrac{x}{y}\\right)$, 则 $dg(x,y)\\\\big|_{(0,1)} = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-09_q14.webp",
               "tips": {
@@ -2538,7 +2538,7 @@
             {
               "no": 15,
               "kind": "fill",
-              "stem": "设二元函数 $u(x,y)$ 具有二阶连续偏导数, 且 $du = \\\\dfrac{ax^2 y\\\\, dy - xy^3\\\\, dx}{x^4 + y^4}$ ($x > 0, y > 0$), 则 $(a, b) = $ ____ .",
+              "stem": "设二元函数 $u(x,y)$ 具有二阶连续偏导数, 且 $du = \\dfrac{ax^2 y\\\\, dy - xy^3\\\\, dx}{x^4 + y^4}$ ($x > 0, y > 0$), 则 $(a, b) = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-09_q15.webp",
               "tips": {
@@ -2551,7 +2551,7 @@
             {
               "no": 16,
               "kind": "fill",
-              "stem": "已知 $A = \\begin{pmatrix} 1 & 2 & 2^2 & 2^3 \\ 1 & 3 & 3^2 & 3^3 \\ 1 & 4 & 4^2 & 4^3 \\ 1 & 5 & 5^2 & 5^3 \\end{pmatrix}$, $A_{ij}$ 为 $|A|$ 中元素 $a_{ij}$ 的代数余子式, 则 $\\\\sum\\\\limits_{j=1}^{4} \\\\sum\\\\limits_{i=1}^{4} A_{ij} = $ ____ .",
+              "stem": "已知 $A = \\begin{pmatrix} 1 & 2 & 2^2 & 2^3 \\ 1 & 3 & 3^2 & 3^3 \\ 1 & 4 & 4^2 & 4^3 \\ 1 & 5 & 5^2 & 5^3 \\end{pmatrix}$, $A_{ij}$ 为 $|A|$ 中元素 $a_{ij}$ 的代数余子式, 则 $\\sum\\\\limits_{j=1}^{4} \\sum\\\\limits_{i=1}^{4} A_{ij} = $ ____ .",
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-09_q16.webp",
               "tips": {
@@ -3431,7 +3431,7 @@
             {
               "no": 1,
               "kind": "choice",
-              "stem": "设 $f(x)=\\begin{cases}x^2+a,&x>0\\\\\\mathrm{e}^x,&x\\leqslant0\\end{cases}$，则 $F(x)=\\displaystyle\\int_{-1}^xf(t)\\,\\mathrm{d}t$ 在 $x=0$ 处",
+              "stem": "设 $f(x)=\\begin{cases}x^2+a,&x>0\\mathrm{e}^x,&x\\leqslant0\\end{cases}$，则 $F(x)=\\displaystyle\\int_{-1}^xf(t)\\,\\mathrm{d}t$ 在 $x=0$ 处",
               "options": [
                 "极限存在但不连续",
                 "连续但不可导",
@@ -3860,7 +3860,7 @@
               "answer_img": "data/selected_ans_q/y24-ll-04_q08.webp",
               "tips": {
                 "gs": "\\|\\alpha+\\beta\\|=\\|\\alpha-\\beta\\| → \\alpha^2+\\beta^2+2\\alpha\\cdot\\beta=\\alpha^2+\\beta^2-2\\alpha\\cdot\\beta → \\alpha\\cdot\\beta=0；A=(\\alpha,\\beta) 2x2 矩阵",
-                "yc": "A^T A=\\begin{pmatrix}\\\\alpha^T\\\\alpha&\\\\alpha^T\\beta\\\\\\beta^T\\\\alpha&\\beta^T\\beta\\end{pmatrix}=\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}=E（单位正交基）→ A 是正交矩阵",
+                "yc": "A^T A=\\begin{pmatrix}\\alpha^T\\alpha&\\alpha^T\\beta\\beta^T\\alpha&\\beta^T\\beta\\end{pmatrix}=\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}=E（单位正交基）→ A 是正交矩阵",
                 "jq": "正交 ⟺ A^TA=E ⟺ 列标准正交；α,β 单位正交 → A 是正交阵",
                 "zy": "答案 C：正交矩阵"
               }
@@ -4467,7 +4467,7 @@
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-ybs-02_q10.webp",
               "tips": {
-                "gs": "M=\\begin{pmatrix}A&\\\\alpha\\\\\\\\alpha^T&0\\end{pmatrix}；A 正定 → r(A)=n；\\alpha\\ne0 → M 的前 n 行 n 列子式不为 0",
+                "gs": "M=\\begin{pmatrix}A&\\alpha\\alpha^T&0\\end{pmatrix}；A 正定 → r(A)=n；\\alpha\\ne0 → M 的前 n 行 n 列子式不为 0",
                 "yc": "M 是 (n+1)\\times(n+1) 矩阵；r(M) 与 A 的关系；分块矩阵行列式 = -\\alpha^T A^{-1}\\alpha < 0 → M 不可逆 → r\\le n",
                 "jq": "M 不可逆但 r(A)=n → r(M)=n；Schur 余 det(M)=\\det A\\cdot(-\\alpha^T A^{-1}\\alpha)<0 → det M\\ne0 矛盾 → M 奇异",
                 "zy": "答案按数据解析：r=n"
@@ -4835,7 +4835,7 @@
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-ybs-03_q16.webp",
               "tips": {
-                "gs": "A 反对称：n 阶，特征值 0 或纯虚；\\alpha\\ne0；分块矩阵 M=\\begin{pmatrix}A&\\\\alpha\\\\\\\\alpha^T&0\\end{pmatrix}",
+                "gs": "A 反对称：n 阶，特征值 0 或纯虚；\\alpha\\ne0；分块矩阵 M=\\begin{pmatrix}A&\\alpha\\alpha^T&0\\end{pmatrix}",
                 "yc": "A^T=-A 反对称 → A 奇数阶必奇异（\\det A=0）；M 行列式 = -\\alpha^T A^{-1}\\alpha（若 A 可逆）",
                 "jq": "A 反对称偶数阶可逆（特征值 \\pm\\mathrm i\\lambda）；A 奇数阶 |A|=0；|M|=\\det A\\cdot(0-\\alpha^T A^{-1}\\alpha)=0（因 |A|=0）",
                 "zy": "答案 n（A 反对称奇数阶 → r(A)=n-1；M 满秩？）按题给 r(A)=n → M 不可逆 → r(M)\\le n；具体 r(M)=n"
@@ -6263,7 +6263,7 @@
                 "gs": "$A^2=\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}$；$A$ 正定 → $A$ 与 $A^2$ 特征值关系：$\\lambda_A^2=\\lambda_{A^2}$ → $\\lambda_{A^2}=3,1$（$A^2$ 特征值）→ $\\lambda_A=\\sqrt 3, 1$",
                 "yc": "$A$ 的特征向量 = $A^2$ 的（实对称）→ $A^2$ 特征向量 $(1,1), (1,-1)$（对应 3, 1）；$A=\\sqrt{A^2}$ 用谱分解 $A=\\sum\\sqrt{\\lambda_i}e_i e_i^T$",
                 "jq": "$A=\\frac{\\sqrt 3+1}2\\begin{pmatrix}1\\\\1\\end{pmatrix}(1,1)+\\frac{\\sqrt 3-1}2\\begin{pmatrix}1\\\\-1\\end{pmatrix}(1,-1)$",
-                "zy": "答案 $\\begin{pmatrix}\\frac{\\\\sqrt 3+1}2&\\frac{\\\\sqrt 3-1}2\\\\\\frac{\\\\sqrt 3-1}2&\\frac{\\\\sqrt 3+1}2\\end{pmatrix}$"
+                "zy": "答案 $\\begin{pmatrix}\\frac{\\sqrt 3+1}2&\\frac{\\sqrt 3-1}2\\frac{\\sqrt 3-1}2&\\frac{\\sqrt 3+1}2\\end{pmatrix}$"
               }
             }
           ]
@@ -7269,7 +7269,7 @@
             {
               "no": 8,
               "kind": "choice",
-              "stem": "设 $A$ 是 3 阶秩为 2 的实对称矩阵,$\\alpha,\\beta$ 是 3 维非零列向量,$B=\\begin{pmatrix}A&\\beta\\\\\\alpha^T&1\\end{pmatrix}$,则 $r(B)=2$ 是方程组 $\\begin{cases}Ax=\\beta,\\\\\\alpha^Tx=1\\end{cases}$ 有解的",
+              "stem": "设 $A$ 是 3 阶秩为 2 的实对称矩阵,$\\alpha,\\beta$ 是 3 维非零列向量,$B=\\begin{pmatrix}A&\\beta\\alpha^T&1\\end{pmatrix}$,则 $r(B)=2$ 是方程组 $\\begin{cases}Ax=\\beta,\\alpha^Tx=1\\end{cases}$ 有解的",
               "options": [
                 "A. 充分非必要条件.",
                 "B. 必要非充分条件.",
@@ -7279,9 +7279,9 @@
               "answer": null,
               "answer_img": "data/selected_ans_q/y25-zy8-03_q08.webp",
               "tips": {
-                "gs": "$r(A)=2$ 实对称 → $|A|=0$（3 阶），特征值 0, 0, $\\lambda_3$（实）；$B=\\begin{pmatrix}A&\\beta\\\\\\\\alpha^T&1\\end{pmatrix}$ 4 阶",
-                "yc": "$r(B)=2$ 与 $\\begin{cases}Ax=\\beta\\\\\\alpha^Tx=1\\end{cases}$ 有解：$r(B)=r(B,\\eta)$",
-                "jq": "增广 $r\\begin{pmatrix}A&\\beta\\\\\\\\alpha^T&1\\end{pmatrix}=2$ ⟺ $A\\alpha=?$？按题解 $r(B)=2$ 是必要（$B$ 块结构）",
+                "gs": "$r(A)=2$ 实对称 → $|A|=0$（3 阶），特征值 0, 0, $\\lambda_3$（实）；$B=\\begin{pmatrix}A&\\beta\\alpha^T&1\\end{pmatrix}$ 4 阶",
+                "yc": "$r(B)=2$ 与 $\\begin{cases}Ax=\\beta\\alpha^Tx=1\\end{cases}$ 有解：$r(B)=r(B,\\eta)$",
+                "jq": "增广 $r\\begin{pmatrix}A&\\beta\\alpha^T&1\\end{pmatrix}=2$ ⟺ $A\\alpha=?$？按题解 $r(B)=2$ 是必要（$B$ 块结构）",
                 "zy": "答案 C：充要"
               }
             },
@@ -7554,7 +7554,7 @@
             {
               "no": 8,
               "kind": "choice",
-              "stem": "设 $A=\\begin{pmatrix}\\dfrac{2}{5}&-\\dfrac{3}{10}\\\\\\dfrac{2}{5}&\\dfrac{6}{5}\\end{pmatrix}$. 当 $n$ 充分大时,$A^n$ 为",
+              "stem": "设 $A=\\begin{pmatrix}\\dfrac{2}{5}&-\\dfrac{3}{10}\\dfrac{2}{5}&\\dfrac{6}{5}\\end{pmatrix}$. 当 $n$ 充分大时,$A^n$ 为",
               "options": [
                 "A. $\\begin{pmatrix}\\dfrac{1}{2}&-\\dfrac{3}{4}\\\\-1&\\dfrac{3}{2}\\end{pmatrix}$.",
                 "B. $\\begin{pmatrix}-\\dfrac{1}{2}&\\dfrac{3}{4}\\\\-1&\\dfrac{3}{2}\\end{pmatrix}$.",
@@ -7850,7 +7850,7 @@
               "answer_img": "data/selected_ans_q/y25-zy8-05_q08.webp",
               "tips": {
                 "gs": "$f=x_1^2+2x_2^2+3x_3^2-4x_1x_2-4x_2x_3$；$A=\\begin{pmatrix}1&-2&0\\\\-2&2&-2\\\\0&-2&3\\end{pmatrix}$",
-                "yc": "惯性指数 = 特征值正数个数；$|A-\\lambda E|=\\det\\begin{pmatrix}1-\\\\lambda&-2&0\\\\-2&2-\\\\lambda&-2\\\\0&-2&3-\\\\lambda\\end{pmatrix}$",
+                "yc": "惯性指数 = 特征值正数个数；$|A-\\lambda E|=\\det\\begin{pmatrix}1-\\lambda&-2&0\\\\-2&2-\\lambda&-2\\\\0&-2&3-\\lambda\\end{pmatrix}$",
                 "jq": "按第 1 行展开：$(1-\\lambda)[(2-\\lambda)(3-\\lambda)-4]=0$ → $\\lambda=1$ 或 $\\lambda^2-5\\lambda+2=0$ → $\\lambda=(5\\pm\\sqrt{17})/2$；$5+\\sqrt{17}\\approx 9.1, 5-\\sqrt{17}\\approx 0.9$；特征值 $9.1, 1, 0.9$ → 正惯性 3",
                 "zy": "答案 D：3"
               }
@@ -8658,10 +8658,10 @@
               "kind": "choice",
               "stem": "设 $f(x)=\\begin{cases}x,&0\\le x\\le 1,\\ &\\text{其他},\\end{cases}$ $g(x)=\\begin{cases}1,&0\\le x\\le 1,\\ &\\text{其他},\\end{cases}$ 则 $\\displaystyle\\int_{-\\infty}^{+\\infty}f(t-x)g(t)\\,dt=$",
               "options": [
-                "$\\begin{cases}\\dfrac{(x-1)^2}{2},&-1<x\\le 0,\\\\\\dfrac{x^2-1}{2},&0<x\\le 1,\\\\0,&|x|>1\\end{cases}$",
-                "$\\begin{cases}\\dfrac{(1-x)^2}{2},&-1\\le x\\le 0,\\\\\\dfrac{1-x^2}{2},&0<x\\le 1,\\\\0,&|x|>1\\end{cases}$",
-                "$\\begin{cases}\\dfrac{x^2-1}{2},&-1\\le x\\le 0,\\\\\\dfrac{(x-1)^2}{2},&0<x\\le 1,\\\\0,&|x|>1\\end{cases}$",
-                "$\\begin{cases}\\dfrac{1-x^2}{2},&-1\\le x\\le 0,\\\\\\dfrac{(1-x)^2}{2},&0<x\\le 1,\\\\0,&|x|>1\\end{cases}$"
+                "$\\begin{cases}\\dfrac{(x-1)^2}{2},&-1<x\\le 0,\\dfrac{x^2-1}{2},&0<x\\le 1,\\\\0,&|x|>1\\end{cases}$",
+                "$\\begin{cases}\\dfrac{(1-x)^2}{2},&-1\\le x\\le 0,\\dfrac{1-x^2}{2},&0<x\\le 1,\\\\0,&|x|>1\\end{cases}$",
+                "$\\begin{cases}\\dfrac{x^2-1}{2},&-1\\le x\\le 0,\\dfrac{(x-1)^2}{2},&0<x\\le 1,\\\\0,&|x|>1\\end{cases}$",
+                "$\\begin{cases}\\dfrac{1-x^2}{2},&-1\\le x\\le 0,\\dfrac{(1-x)^2}{2},&0<x\\le 1,\\\\0,&|x|>1\\end{cases}$"
               ],
               "answer": null,
               "answer_img": "data/selected_ans_q/y25-zy8-08_q06.webp",
