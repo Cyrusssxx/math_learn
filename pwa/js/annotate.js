@@ -272,24 +272,40 @@ const Annot = (() => {
         const it = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith('image/'));
         if (!it) return;
         e.preventDefault();
+        const ed = e.target;
         const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-        imgPut(id, it.getAsFile()).then(() => {
-            const ed = e.target;
-            if (!ed.isContentEditable) {   // 降级：理论上不再有 textarea
-                const tag = `[图:${id}]`;
-                const p = ed.selectionStart;
-                ed.value = ed.value.slice(0, p) + tag + ed.value.slice(ed.selectionEnd);
-                ed.selectionStart = ed.selectionEnd = p + tag.length;
-                return;
-            }
+        // 关键：先同步把缩略图卡片（即 [图:id] 令牌的载体）登记进编辑框下方的条，
+        // 再异步写 IndexedDB。否则「粘贴后立刻点保存」会在异步写入完成前触发保存，
+        // 此时条里还没有卡片 → annEditorToNote 漏抓令牌 → 图片丢失。
+        // （408-quiz 把 <img> 同步嵌进编辑器 DOM、serializeNote 直接返回含图 innerHTML，
+        //   故无此竞态；此处用「同步登记令牌」对齐其健壮性。）
+        if (ed && ed.isContentEditable) {
             const strip = ed.closest('.ann-box') && ed.closest('.ann-box').querySelector('.ann-imgs');
-            if (strip) {
-                strip.appendChild(annThumbCard(id));
-                strip.hidden = false;
-                fillImgs(strip);   // 立即回填缩略图 blob
+            if (strip) { strip.appendChild(annThumbCard(id)); strip.hidden = false; }
+        } else if (ed) {   // 降级：理论上不再有 textarea
+            const tag = `[图:${id}]`;
+            const p = ed.selectionStart;
+            ed.value = ed.value.slice(0, p) + tag + ed.value.slice(ed.selectionEnd);
+            ed.selectionStart = ed.selectionEnd = p + tag.length;
+        }
+        imgPut(id, it.getAsFile()).then(() => {
+            // 写入完成后再回填这张图的 blob——此时 id 对应的 blob 一定已落库，绝不误判丢失
+            if (ed && ed.isContentEditable) {
+                const card = ed.closest('.ann-box') && ed.closest('.ann-box').querySelector('.ann-imgs .ann-img-card[data-img="' + id + '"]');
+                const im = card && card.querySelector('img.ann-img');
+                if (im) imgGet(id).then(blob => { if (blob) im.src = URL.createObjectURL(blob); else im.replaceWith('[图片已丢失]'); });
+                annPreviewOnInput(ed);   // 刷新下方实时预览
             }
-            annPreviewOnInput(ed);   // 刷新下方实时预览
-        }).catch(() => alert('图片保存失败'));
+        }).catch(() => {
+            alert('图片保存失败');
+            // 写库失败：摘掉已登记的占位卡片，避免留下空卡片
+            if (ed && ed.isContentEditable) {
+                const strip = ed.closest('.ann-box') && ed.closest('.ann-box').querySelector('.ann-imgs');
+                const card = strip && strip.querySelector('.ann-img-card[data-img="' + id + '"]');
+                if (card) card.remove();
+                if (strip && !strip.querySelector('.ann-img-card')) strip.hidden = true;
+            }
+        });
     }
 
     function renderNoteBox(block, text, editing) {
@@ -324,10 +340,14 @@ const Annot = (() => {
     function saveNote(btn) {
         const block = btn.closest('[data-sid]');
         const box = btn.closest('.ann-box');
-        const ed = box.querySelector('.ann-edit');
-        const text = ed ? annEditorToNote(ed).trim() : '';
+        const ed = box && box.querySelector('.ann-edit');
+        if (!ed) return;   // 非编辑态（无编辑器）不执行保存，避免误把整条批注清空、连带删图
+        const text = annEditorToNote(ed).trim();
         const prev = bucket().notes[block.dataset.sid] || '';
-        const kept = refsOf(text);
+        // 防御：令牌以 [图:id] 形式存在编辑框下方缩略图条里，annEditorToNote 已并入；
+        // 若极端情况下令牌丢失（如竞态），仍以当前条内卡片为准，绝不误删已存的图。
+        const stripIds = annStripIds(ed);
+        const kept = [...new Set([...refsOf(text), ...stripIds])];
         imgDel(refsOf(prev).filter(id => !kept.includes(id)));  // 删掉不再引用的图
         if (text) bucket().notes[block.dataset.sid] = text;
         else delete bucket().notes[block.dataset.sid];
@@ -1009,6 +1029,7 @@ const Annot = (() => {
         card.dataset.img = id;
         card.draggable = true;
         const img = document.createElement('img');
+        img.className = 'ann-img';   // 必须有 ann-img 类，fillImgs 才匹配得到（回填 blob）
         img.dataset.img = id;
         img.alt = '批注图片';
         img.onclick = () => openLightbox(img.src || '');
