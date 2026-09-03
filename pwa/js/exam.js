@@ -886,7 +886,8 @@ function mdBlock(s) {
         if (!l) { if (mathBuf) { mathBuf += '\n'; } continue; }
 
         // 检测 $$ 开/闭（不在行内 $ 内的独立 $$）
-        if (mathBuf === null && l.startsWith('$$') && !l.endsWith('$$')) {
+        // 裸 "$$" 独占一行也要开块：'$$'.endsWith('$$') 恒为真，旧条件会让多行显示块整体失效
+        if (mathBuf === null && l.startsWith('$$') && (!l.endsWith('$$') || l === '$$')) {
             // $$ 块开始
             mathBuf = l;
             continue;

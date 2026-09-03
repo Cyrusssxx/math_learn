@@ -97,7 +97,8 @@ function mdBlock(s) {
     for (const raw of lines) {
         const l = raw.trim();
         if (!l) { if (buf) buf += '\n'; continue; }
-        if (buf === null && l.startsWith('$$') && !l.endsWith('$$')) { buf = l; continue; }
+        // 裸 "$$" 独占一行也要开块：'$$'.endsWith('$$') 恒为真，旧条件会让多行显示块整体失效（与 exam.js 同步修）
+        if (buf === null && l.startsWith('$$') && (!l.endsWith('$$') || l === '$$')) { buf = l; continue; }
         if (buf !== null) {
             buf += '\n' + l;
             if (l.endsWith('$$')) { out.push('<p>' + mdInline(buf) + '</p>'); buf = null; }
@@ -171,7 +172,8 @@ function delExamNoteImg(id, btn) {
     if (!qid) return;
     let v = noteGet(qid);
     const re = new RegExp('\\[图:' + id + '\\]', 'g');
-    v = v.replace(re, '').replace(/\s{2,}/g, ' ').trim();
+    // 只摘掉这一个图片令牌；严禁压缩空格/换行（\s{2,} 会把用户的段落空行和缩进空格全吃掉）
+    v = v.replace(re, '');
     try { localStorage.setItem('examNote-' + qid, v); } catch (e) { }
     examImgDel([id]);
     const pv = wrap.querySelector('.q-note-preview');
