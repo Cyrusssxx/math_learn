@@ -303,22 +303,26 @@ function setNoteContent(el, text) {
     else noteToEditor(el, text);
 }
 let _noteLastRendered = {};   // qid → 上次渲染预览的文本（内容没变不重渲，防闪烁）
+const _pendingImgs = new Set();   // 正在压缩/写库的图 id：orphan 清理必须跳过，否则会被误删
 function noteInput(ta) {
     const qid = ta.dataset.qid;
-    const newVal = noteVal(ta);
-    const newRefs = examImgRefs(newVal);
     if (ta.tagName === 'TEXTAREA') autoResizeNote(ta);   // 编辑器自增长，无需 JS 调高
     noteHint(ta, '自动保存中…', true);
     clearTimeout(_noteTimer[qid]);
     _noteTimer[qid] = setTimeout(() => {
+        // 落盘时重新取实时值，不用 1.5s 前的闭包旧快照：
+        // 异步贴图可能已在此期间登记进编辑器，用旧快照会把新贴的图判成"不再引用"而删掉（丢图根因）
+        const finalVal = noteVal(ta);
+        const newRefs = examImgRefs(finalVal);
         const olds = localStorage.getItem('examNote-' + qid) || '';
         const oldRefs = examImgRefs(olds);
-        const orphan = oldRefs.filter(id => !newRefs.includes(id));
+        // 写入中的图（压缩/写库未完成）绝不当孤儿删
+        const orphan = oldRefs.filter(id => !newRefs.includes(id) && !_pendingImgs.has(id));
         if (orphan.length) examImgDel(orphan);   // 清理不再引用的图，避免存储泄漏
-        try { localStorage.setItem('examNote-' + qid, newVal); } catch (e) { }
+        try { localStorage.setItem('examNote-' + qid, finalVal); } catch (e) { }
         const btn = ta.closest('.q-card') && ta.closest('.q-card').querySelector('[data-act="note"]');
-        if (btn) btn.classList.toggle('has', !!newVal.trim());
-        noteHint(ta, newVal.trim() ? '已保存 ✓' : '笔记是空的，不保存');
+        if (btn) btn.classList.toggle('has', !!finalVal.trim());
+        noteHint(ta, finalVal.trim() ? '已保存 ✓' : '笔记是空的，不保存');
         // 编辑态实时预览：内容有变化才重渲染（KaTeX/图片回填开销大，无变化重渲是闪烁根源）
         if (ta.style.display !== 'none') renderNotePreview(ta);
     }, 1500);
@@ -352,30 +356,43 @@ function notePasteImg(e) {
     // 碰撞免疫：优先 crypto.randomUUID（去连字符后全 [a-z0-9]，匹配现有正则），杜绝毫秒内连贴同 id
     const id = (crypto.randomUUID ? crypto.randomUUID().replace(/-/g, '') : (Date.now().toString(36) + Math.random().toString(36).slice(2, 6)));
     const ta = e.target;
-    compressImage(it.getAsFile()).then(blob => examImgPut(id, blob)).then(() => {
-        if (ta.tagName === 'TEXTAREA') {
-            const tag = `[图:${id}]`;
-            const p = ta.selectionStart;
-            ta.value = ta.value.slice(0, p) + tag + ta.value.slice(ta.selectionEnd);
-            ta.selectionStart = ta.selectionEnd = p + tag.length;
+    _pendingImgs.add(id);   // 标记写入中：orphan 清理跳过，杜绝「压缩未完成被当孤儿删掉」
+    // 关键：同步把图片节点登记进编辑器，让 editorToNote 立刻抓到 [图:id]。
+    // 原实现把插入放在 compressImage→examImgPut 两级异步之后，压缩大图要几百 ms，
+    // 期间任何保存（1.5s 防抖 / 翻页 flush）都会存下不含该图的版本并触发误删 → 丢图。
+    if (ta.tagName === 'TEXTAREA') {
+        const tag = `[图:${id}]`;
+        const p = ta.selectionStart;
+        ta.value = ta.value.slice(0, p) + tag + ta.value.slice(ta.selectionEnd);
+        ta.selectionStart = ta.selectionEnd = p + tag.length;
+    } else {
+        // 编辑器内联：在光标处插入可拖拽图片节点（顺序即存储顺序）
+        const node = noteImgNode(id);
+        const sel = getSelection();
+        const range = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
+        if (range && ta.contains(range.startContainer)) {
+            range.insertNode(node);
+            range.setStartAfter(node);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
         } else {
-            // 编辑器内联：在光标处插入可拖拽图片节点（顺序即存储顺序），立即回填 blob
-            const node = noteImgNode(id);
-            const sel = getSelection();
-            const range = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
-            if (range && ta.contains(range.startContainer)) {
-                range.insertNode(node);
-                range.setStartAfter(node);
-                range.collapse(true);
-                sel.removeAllRanges();
-                sel.addRange(range);
-            } else {
-                ta.appendChild(node);
-            }
-            fillExamNoteImgs(ta);
+            ta.appendChild(node);
         }
-        noteInput(ta);   // 触发保存 + 预览
-    }).catch(() => alert('图片保存失败'));
+        // 注意：此处绝不能调 fillExamNoteImgs —— blob 尚未写库，
+        // 它会在 300ms 重试失败后 replaceWith('[图片已丢失]')，把节点换成文本导致令牌永久丢失。
+    }
+    noteInput(ta);   // 触发保存 + 预览（此时值里已含令牌）
+    // 异步：压缩 → 写库 → 只回填这一张（写完后必定能取到 blob）
+    compressImage(it.getAsFile()).then(blob => examImgPut(id, blob)).then(() => {
+        fillOneExamNoteImg(ta, id);   // 回填这张图的 blob
+        renderNotePreview(ta);         // 回填后刷新预览
+    }).catch(() => {
+        alert('图片保存失败');
+        removeExamNoteImgRef(ta, id);  // 摘掉失败的图，避免留下永远取不到 blob 的空节点
+    }).then(() => {
+        _pendingImgs.delete(id);
+    });
 }
 function toggleQSec(btn, act) {
     const card = btn.closest('.q-card');
@@ -667,7 +684,8 @@ function delExamNoteImg(id, btn) {
     if (!qid) return;
     let v = ta ? noteVal(ta) : noteGet(qid);
     const re = new RegExp('\\[图:' + id + '\\]', 'g');
-    v = v.replace(re, '').replace(/\s{2,}/g, ' ').trim();
+    // 只摘掉这一个图片令牌；严禁压缩空格/换行（\s{2,} 会把用户的段落空行和缩进空格全吃掉）
+    v = v.replace(re, '');
     try { localStorage.setItem('examNote-' + qid, v); } catch (e) { }
     examImgDel([id]);
     if (ta) { setNoteContent(ta, v); fillExamNoteImgs(ta); }
@@ -709,6 +727,29 @@ async function fillExamNoteImgs(root) {
         if (blob) img.src = URL.createObjectURL(blob);
         else img.replaceWith(document.createTextNode('[图片已丢失]'));
     }
+}
+// 只回填指定一张图（写库完成后调用，此时必定能取到 blob）。
+// 与 fillExamNoteImgs 的关键区别：拿不到也绝不 replaceWith('[图片已丢失]')——
+// 同步登记的节点在压缩期间本来就没有 blob，误标会把图片节点换成文本、令牌永久丢失。
+async function fillOneExamNoteImg(ta, id) {
+    if (!ta || !id) return;
+    const img = ta.querySelector('img.exam-note-img[data-img="' + id + '"]');
+    if (!img || (img.src && img.src.startsWith('blob:'))) return;   // 已回填则跳过
+    let blob = await examImgGet(id);
+    if (!blob) { await new Promise(r => setTimeout(r, 200)); blob = await examImgGet(id); }
+    if (blob) img.src = URL.createObjectURL(blob);
+}
+// 压缩/写库失败时摘掉这张图的占位节点或文本，避免留下永远取不到 blob 的空图
+function removeExamNoteImgRef(ta, id) {
+    if (!ta) return;
+    if (ta.tagName === 'TEXTAREA') {
+        ta.value = ta.value.replace(new RegExp('\\[图:' + id + '\\]', 'g'), '');
+    } else {
+        const img = ta.querySelector('img.exam-note-img[data-img="' + id + '"]');
+        const wrap = img && img.closest('.exam-note-img-wrap');
+        if (wrap) wrap.remove(); else if (img) img.remove();
+    }
+    noteInput(ta);
 }
 
 // ============ 配图 / 笔记贴图 单击放大（复用 exam.css 的 .zoom-overlay 遮罩） ============
