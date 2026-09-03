@@ -1177,6 +1177,35 @@ const Annot = (() => {
         el.textContent = msg; el.classList.add('show');
         clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 2000);
     }
+    /** 清除格式·第三步：剥高亮与字色。
+     *  removeFormat 清不掉 background / background-color 内联样式，也拆不掉
+     *  <mark>（批注高亮在编辑器里就是 mark[style*=background]，见 annNoteToEditor），
+     *  字色同理（span[style*=color] / font[color]）。
+     *  这正是 408-quiz 复用文档强调的「三步缺一不可」的第三步。
+     *  只处理选区覆盖到的节点；无有效 range 时处理整个编辑框。 */
+    function annStripFormat(ed) {
+        const sel = getSelection();
+        let range = null;
+        if (sel && sel.rangeCount && ed.contains(sel.anchorNode)) range = sel.getRangeAt(0);
+        [...ed.querySelectorAll('*')].forEach(s => {
+            if (range && !range.intersectsNode(s)) return;
+            if (s.style) {
+                s.style.backgroundColor = '';
+                s.style.background = '';
+                s.style.color = '';
+                if (s.getAttribute('style') === '') s.removeAttribute('style');
+            }
+            // 部分浏览器 hiliteColor/foreColor 会生成 <font bgcolor/color="...">
+            if (s.removeAttribute) {
+                if (s.hasAttribute('bgcolor')) s.removeAttribute('bgcolor');
+                if (s.tagName === 'FONT' && s.hasAttribute('color')) s.removeAttribute('color');
+            }
+            if (s.tagName === 'MARK') {   // 高亮容器直接拆掉，只留文字
+                const p = s.parentNode;
+                if (p) { while (s.firstChild) p.insertBefore(s.firstChild, s); p.removeChild(s); }
+            }
+        });
+    }
     function annApplyFormat(box, cmd, val) {
         const ed = box.querySelector('.ann-edit');
         if (!ed || !ed.isContentEditable) return;
@@ -1188,9 +1217,18 @@ const Annot = (() => {
             try { document.execCommand('styleWithCSS', false, false); } catch (e) { }
             document.execCommand('formatBlock', false, cmd === 'h1' ? 'H1' : 'H2');
         } else if (cmd === 'plain') {
+            // 无选区（仅光标）时视为「整条批注清除格式」：先全选，再走三步清除
+            if (sel.isCollapsed) {
+                const r = document.createRange();
+                r.selectNodeContents(ed);
+                sel.removeAllRanges();
+                sel.addRange(r);
+            }
             try { document.execCommand('styleWithCSS', false, false); } catch (e) { }
-            document.execCommand('formatBlock', false, 'P');
-            document.execCommand('removeFormat');
+            document.execCommand('formatBlock', false, 'P');   // 1) 块级 → P（清 H1/H2）
+            document.execCommand('removeFormat');              // 2) 行内（粗/斜等）
+            annStripFormat(ed);                                // 3) 高亮/字色（removeFormat 清不掉的部分）
+            annPreviewOnInput(ed);                             // 手动改 DOM 后同步实时预览
         } else {
             try { document.execCommand('styleWithCSS', false, true); } catch (e) { }
             document.execCommand(cmd, false, val || null);
@@ -1209,7 +1247,7 @@ const Annot = (() => {
             <button type="button" class="ann-nt-h1" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'h1')" title="大标题">H1</button>
             <button type="button" class="ann-nt-h2" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'h2')" title="中标题">H2</button>
             <span class="ann-nt-sep"></span>
-            <button type="button" class="ann-nt-x" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'plain')" title="转为普通正文（去掉标题/字色/高亮）">正文</button>
+            <button type="button" class="ann-nt-x" onmousedown="event.preventDefault()" onclick="Annot.applyFmt(this.closest('.ann-box'),'plain')" title="清除格式（去掉标题/加粗斜体/字色/高亮）；未选中文字时清除整条批注">清除格式</button>
         </div>`;
     }
 
