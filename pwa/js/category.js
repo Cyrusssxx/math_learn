@@ -160,9 +160,10 @@ function zoomAnsImg(img) {
 function noteGet(qid) {
     try { return localStorage.getItem('examNote-' + qid) || ''; } catch (e) { return ''; }
 }
+// 预览态（只读展示）不带删除按钮——防误点丢图（与 exam.js 同步）
 function mdBlockWithImg(s) {
     return mdBlock(s).replace(/\[图:([a-z0-9]+)\]/g,
-        (_, id) => `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"><button type="button" class="exam-note-img-del" title="删除图片" onclick="delExamNoteImg('${id}', this)">×</button></span>`);
+        (_, id) => `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"></span>`);
 }
 // 分类页（只读预览）单图删除：删 IndexedDB + 删文本占位 + 重渲染预览 + 同步「笔记」标记
 function delExamNoteImg(id, btn) {

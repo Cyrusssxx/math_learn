@@ -196,7 +196,10 @@ function noteImgNode(id) {
     del.className = 'exam-note-img-del';
     del.title = '删除图片';
     del.textContent = '×';
-    del.onclick = () => delExamNoteImg(id, del);
+    del.onclick = () => {
+        // 编辑态删图前确认：图片 blob 一旦删除无法找回（除非有导出备份）
+        if (confirm('删除这张图片？（文字不受影响，删除后需重新插入）')) delExamNoteImg(id, del);
+    };
     wrap.append(img, del);
     // 编辑器内拖拽排序：拖动图片调整顺序，落点顺序即存储顺序（editorToNote 按 DOM 位置序列化）
     wrap.addEventListener('dragstart', e => {
@@ -623,11 +626,11 @@ function examImgRefs(t) {
     return [...(t || '').matchAll(/\[图:([a-z0-9]+)\]/g)].map(m => m[1]);
 }
 // 渲染笔记文本时，把 [图:id] 换成占位 img（后续 fillExamNoteImgs 回填 blob）
-// 外包 .exam-note-img-wrap 以支持单图删除按钮（hover 显示 ×）
+// 预览态（保存后只读展示）不带删除按钮——防误点丢图；删除仅在编辑态进行
 function mdBlockWithImg(s) {
     return mdBlock(s)
         .replace(/\[图:([a-z0-9]+)\]/g,
-            (_, id) => `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"><button type="button" class="exam-note-img-del" title="删除图片" onclick="delExamNoteImg('${id}', this)">×</button></span>`);
+            (_, id) => `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"></span>`);
 }
 
 // ============ 笔记编辑体验增强（移植自 408-quiz 批注，保留 IndexedDB 架构） ============
