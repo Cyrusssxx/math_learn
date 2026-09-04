@@ -1043,6 +1043,9 @@ const Annot = (() => {
             card.remove();
             const strip = card.parentElement;
             if (strip && !strip.querySelector('.ann-img-card')) strip.hidden = true;
+            // 删除后必须刷新下方预览：否则预览里残留旧图，用户以为「点了 × 但图没删」」。
+            const ed = strip && strip.closest('.ann-box') && strip.closest('.ann-box').querySelector('.ann-edit');
+            if (ed) annPreviewOnInput(ed);
         };
         card.append(img, del);
         // 缩略图条内拖拽排序：拖动调整顺序，顺序即存储顺序（annStripIds 按 DOM 位置序列化）
