@@ -36,6 +36,18 @@ for (const f of FILES) {
       balFail++;
       if (fails.length < 60) fails.push({ f: f.split('/').pop(), path, kind: 'dollar-odd', snippet: text.slice(0, 80) });
     }
+    // 行级奇数 $：mdToHtml 按行渲染，若某行 $ 为奇说明公式跨行断开(KaTeX 单$不跨行, 静默漏渲染)。
+    // 相邻两行都奇 => 跨行断; 单行孤立奇 => 孤儿 $。都报。
+    const lines = text.split('\n');
+    for (let li = 0; li < lines.length; li++) {
+      if (lines[li].match(/\$/g) && (lines[li].match(/\$/g) || []).length % 2 === 1) {
+        const solo = !(li > 0 && (lines[li - 1].match(/\$/g) || []).length % 2 === 1) &&
+                     !(li + 1 < lines.length && (lines[li + 1].match(/\$/g) || []).length % 2 === 1);
+        if (fails.length < 60) fails.push({ f: f.split('/').pop(), path, kind: solo ? 'dollar-line-solo' : 'dollar-line-pair',
+          tex: `行${li} $数奇: ${lines[li].slice(0, 90)}` });
+        balFail++;
+      }
+    }
     for (const { tex, disp } of extract(text)) {
       total++;
       try {
@@ -47,7 +59,7 @@ for (const f of FILES) {
     }
   }
 }
-console.log('公式总数:', total, '| 渲染失败:', fail, '| 奇数$块:', balFail);
+console.log('公式总数:', total, '| 渲染失败:', fail, '| 奇数$块/行:', balFail);
 if (fails.length) {
   console.log('--- 失败明细 ---');
   for (const x of fails) console.log(`[${x.f}] ${x.kind} ${x.path}\n   ${x.tex || x.snippet}\n   ${x.err || ''}`);

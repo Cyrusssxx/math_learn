@@ -1238,7 +1238,7 @@
               "answer_img": "data/selected_ans_q/y24-cy-05_q05.webp",
               "tips": {
                 "gs": "$\\int_a^{a+2\\pi}\\dfrac{\\mathrm e^{\\sin x}}{2+\\sin x}\\sin x\\,\\mathrm dx$：被积周期 $2\\pi$ → 积分值与 $a$ 无关；分子可拆 $\\mathrm e^{\\sin x}\\sin x$。",
-                "yc": "周期函数整周期积分与起点无关；$\n\\int_0^{2\\pi}\\dfrac{\\mathrm e^{\\sin x}\\sin x}{2+\\sin x}$ 用对称（$\\sin\\to-\\sin$ 配对）。",
+                "yc": "周期函数整周期积分与起点无关；$\\int_0^{2\\pi}\\dfrac{\\mathrm e^{\\sin x}\\sin x}{2+\\sin x}$ 用对称（$\\sin\\to-\\sin$ 配对）。",
                 "jq": "$\\int_0^{2\\pi}F(\\sin x)\\sin x\\,\\mathrm dx$：配对 $x\\to x+\\pi$ 或 $\\sin\\to-\\sin$ 消正负。",
                 "zy": "值往往为 0（$\\sin$ 奇函数配周期）。"
               }
@@ -1256,7 +1256,7 @@
               "answer": null,
               "answer_img": "data/selected_ans_q/y24-cy-05_q06.webp",
               "tips": {
-                "gs": "$\\dfrac{\\partial^2 f}{\\partial x^2}=\\dfrac{\\partial^2 f}{\\partial y^2}$（波动型：$\nf_{xx}=f_{yy}$）→ 特征线 $u=x+y,\\ v=x-y$ 化 $f_{uv}=0$（D'Alembert 型）→ $f=\\varphi(x+y)+\\psi(x-y)$。",
+                "gs": "$\\dfrac{\\partial^2 f}{\\partial x^2}=\\dfrac{\\partial^2 f}{\\partial y^2}$（波动型：$f_{xx}=f_{yy}$）→ 特征线 $u=x+y,\\ v=x-y$ 化 $f_{uv}=0$（D'Alembert 型）→ $f=\\varphi(x+y)+\\psi(x-y)$。",
                 "yc": "$f_{xx}=f_{yy}\\Rightarrow f_{uv}=0$（以 $u=x+y,\\ v=x-y$）→ $f=\\varphi(u)+\\psi(v)$；边界条件定 $\\varphi,\\psi$。",
                 "jq": "双曲型 $f_{xx}-f_{yy}=0$ 的通用解是行波和。",
                 "zy": "二阶连续保证换序与特征线法合法。"
@@ -1417,7 +1417,7 @@
               "tips": {
                 "gs": "$A^2B=A+B+E\\Rightarrow(A^2-E)B=A+E\\Rightarrow(A-E)(A+E)B=A+E$；$A+E$ 可逆时 $B=(A-E)^{-1}$。",
                 "yc": "左移项：$A^2B-B=A+E\\Rightarrow(A^2-E)B=A+E$；先判 $|A\\pm E|$ 非零（$A$ 特征值不含 $\\pm1$）。",
-                "jq": "矩阵方程标准化：$(A^2-E)B=A+E$；求 $|B|$ 用行列式 $\n|B|=\\dfrac{|A+E|}{|A-E||A+E|}=\\dfrac1{|A-E|}$（约去 $|A+E|$）。",
+                "jq": "矩阵方程标准化：$(A^2-E)B=A+E$；求 $|B|$ 用行列式 $|B|=\\dfrac{|A+E|}{|A-E||A+E|}=\\dfrac1{|A-E|}$（约去 $|A+E|$）。",
                 "zy": "$|A-E|$ 从 $A=\\begin{pmatrix}1&2&1\\\\1&1&0\\\\3&4&2\\end{pmatrix}$ 算：$\\det\\begin{pmatrix}0&2&1\\\\1&0&0\\\\3&4&1\\end{pmatrix}=2\\cdot? $ 按展开（$=-2? $ 核对）。"
               }
             }
