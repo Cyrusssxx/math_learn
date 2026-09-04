@@ -339,7 +339,7 @@ function renderNotePreview(ta) {
     if (_noteLastRendered[ta.dataset.qid] === v) return;   // 内容没变：跳过
     _noteLastRendered[ta.dataset.qid] = v;
     pv.hidden = false;
-    pv.innerHTML = mdBlockWithImg(v);
+    pv.innerHTML = mdBlockWithImg(v, true);   // 编辑态实时预览：图片带删除 ×
     if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
     fillExamNoteImgs(pv);   // 异步回填 IndexedDB 中的 blob
 }
@@ -541,6 +541,8 @@ function toggleNoteEdit(btn) {
             autoResizeNote(ta);
         }
         syncNoteToolbar(sec);
+        delete _noteLastRendered[ta.dataset.qid];   // 强制预览重渲为编辑态（带删除 ×）
+        renderNotePreview(ta);   // 进入编辑立即刷新下方预览（× 见 mdBlockWithImg editable）
         ta.focus();
         if (ta.tagName === 'TEXTAREA') autoResizeNote(ta);
     } else {
@@ -626,11 +628,16 @@ function examImgRefs(t) {
     return [...(t || '').matchAll(/\[图:([a-z0-9]+)\]/g)].map(m => m[1]);
 }
 // 渲染笔记文本时，把 [图:id] 换成占位 img（后续 fillExamNoteImgs 回填 blob）
-// 预览态（保存后只读展示）不带删除按钮——防误点丢图；删除仅在编辑态进行
-function mdBlockWithImg(s) {
+// editable=false：保存后只读展示，不带删除按钮——防误点丢图（6e9d167）
+// editable=true ：编辑态实时预览（renderNotePreview），图带右上 ×，点击走 delExamNoteImg
+//   ——编辑器内的内联图片被 CSS display:none 隐藏（contenteditable 内嵌图体验差），
+//     删除入口唯一落在编辑态预览的 × 上。注意 mdBlockWithImg 两处调用都必须正确传参。
+function mdBlockWithImg(s, editable) {
     return mdBlock(s)
         .replace(/\[图:([a-z0-9]+)\]/g,
-            (_, id) => `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"></span>`);
+            (_, id) => editable
+                ? `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"><button type="button" class="exam-note-img-del" title="删除图片" onclick="delExamNoteImg('${id}', this)">×</button></span>`
+                : `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"></span>`);
 }
 
 // ============ 笔记编辑体验增强（移植自 408-quiz 批注，保留 IndexedDB 架构） ============
@@ -694,7 +701,7 @@ function delExamNoteImg(id, btn) {
     if (ta) { setNoteContent(ta, v); fillExamNoteImgs(ta); }
     const pv = wrap.querySelector('.q-note-preview');
     if (pv && !pv.hidden) {
-        pv.innerHTML = mdBlockWithImg(v);
+        pv.innerHTML = mdBlockWithImg(v, true);   // 删除后仍处于编辑态，预览继续带 ×
         if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
         fillExamNoteImgs(pv);
     }
