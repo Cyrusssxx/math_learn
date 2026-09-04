@@ -153,14 +153,17 @@ function favCard(item) {
     const noteHtml = hasNote
         ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}"><div class="q-note-preview">${mdBlockWithImg(note)}</div></div>` : '';
     const answerHtml = q.answer ? `<div class="q-sec q-answer"><div class="q-sec-hd">答案</div>${mdBlock(q.answer)}</div>` : '';
-    const ideaHtml = q.idea ? `<div class="q-sec q-idea"><div class="q-sec-hd">思路</div>${mdBlock(q.idea)}</div>` : '';
+    const ideaHtml = q.idea ? `<div class="q-sec q-idea" data-copy-md="${copyMdAttr(q.idea)}"><div class="q-sec-hd">思路</div>${mdBlock(q.idea)}</div>` : '';
 
     const TIP_META = [['gs', '📌 公式'], ['yc', '⚠️ 易错'], ['jq', '💡 技巧'], ['zy', '🔍 注意']];
     let tipsHtml = '';
     if (q.tips) {
         const secs = TIP_META.filter(([k]) => q.tips[k])
-            .map(([k, label]) => `<div class="q-tip-sec"><div class="q-tip-label">${label}</div><div class="q-tip-body">${mdBlock(q.tips[k])}</div></div>`).join('');
-        if (secs) tipsHtml = `<div class="q-sec q-tips"><div class="q-sec-hd">点睛</div>${secs}</div>`;
+            .map(([k, label]) => `<div class="q-tip-sec" data-copy-md="${copyMdAttr(q.tips[k])}" data-copy-key="${k}"><div class="q-tip-label">${label}</div><div class="q-tip-body">${mdBlock(q.tips[k])}</div></div>`).join('');
+        if (secs) {
+            const tipsJson = JSON.stringify(Object.fromEntries(Object.entries(q.tips).filter(([k]) => ['gs','yc','jq','zy'].includes(k) && q.tips[k])));
+            tipsHtml = `<div class="q-sec q-tips" data-copy-tips="${copyMdAttr(tipsJson)}"><div class="q-sec-hd">点睛</div>${secs}</div>`;
+        }
     }
 
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">

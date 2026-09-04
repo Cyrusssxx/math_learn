@@ -111,3 +111,98 @@ renderDarkSwitch();
         });
     });
 })();
+
+// ============ 思路/点睛 → 批注可粘贴格式（全局 copy 拦截） ============
+// 需求：真题页「思路/点睛」手动框选复制到批注笔记时，希望少换行、公式可再渲染为图形。
+// 实现：渲染侧 .q-idea / .q-tip-sec 挂 data-copy-md（源 md），.q-tips 挂 data-copy-tips（{段key:md}）。
+//       用户在此类容器内复制（含整块跨段框选）时，改写剪贴板为「批注友好 HTML/纯文本」：
+//         - **粗体** → <b>（批注保存后为 <b> 令牌，查看加粗）
+//         - 每个逻辑行一个 <div>（批注序列化时每块单换行、无多余空行/大段留白）
+//         - $...$ / $$...$$ 公式保留源码 —— 批注预览/查看即渲染成公式图形，且可再编辑
+// 供各页渲染端挂 data-copy-md / data-copy-tips 用的属性转义（含双引号）
+window.copyMdAttr = function (md) {
+    return String(md).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+};
+(function () {
+    var TIP_LABEL = { gs: '公式', yc: '易错', jq: '技巧', zy: '注意' };
+    function escC(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    // 行内处理：转义 → 公式占位保护 → **加粗** → 还原公式
+    function lineToAnnotHtml(line) {
+        var h = escC(line);
+        var math = [];
+        h = h.replace(/(\$\$[\s\S]*?\$\$|\$[^$\n]*?\$)/g, function (m) {
+            math.push(m);
+            return '\u0000' + (math.length - 1) + '\u0000';
+        });
+        h = h.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+        h = h.replace(/\u0000(\d+)\u0000/g, function (m, i) { return math[+i]; });
+        return h;
+    }
+    // md → annotate 粘贴 HTML（每非空逻辑行一个 div；顺带在 md 里剥掉多余段落）
+    function mdToAnnotHtml(md) {
+        if (!md) return '';
+        var divs = [];
+        String(md).split('\n').forEach(function (raw) {
+            var l = raw.trim();
+            if (!l) return;
+            divs.push('<div>' + lineToAnnotHtml(l) + '</div>');
+        });
+        return divs.join('');
+    }
+    // 找选区锚点/终点都落在的「最近批注源容器」
+    function srcBox(sel) {
+        var node = function (n) { return n && n.nodeType === 3 ? n.parentElement : n; };
+        var a = node(sel.anchorNode), f = node(sel.focusNode);
+        if (!a || !f) return null;
+        var aBox = a.closest('[data-copy-md],[data-copy-tips]');
+        var fBox = f.closest('[data-copy-md],[data-copy-tips]');
+        if (!aBox || !fBox) return null;
+        // 同一容器；或分处不同 q-tip-sec 但同属一个 .q-tips（整块点睛）→ 用 q-tips 容器
+        if (aBox === fBox) return aBox;
+        var aTips = aBox.closest('.q-tips'), fTips = fBox.closest('.q-tips');
+        if (aTips && aTips === fTips) return aTips;
+        return null;
+    }
+    // 组装该容器的批注 HTML：idea=单 md；tip-sec=label+单段；q-tips=整块各段
+    function boxToAnnotHtml(box) {
+        var tips = box.dataset ? box.dataset.copyTips : null;
+        if (tips) {
+            var obj = {};
+            try { obj = JSON.parse(tips); } catch (e) { obj = {}; }
+            var out = [];
+            ['gs', 'yc', 'jq', 'zy'].forEach(function (k) {
+                var md = obj[k];
+                if (!md) return;
+                out.push('<div><b>' + (TIP_LABEL[k] || k) + '</b>：</div>' + mdToAnnotHtml(md));
+            });
+            return out.join('');
+        }
+        if (box.dataset && box.dataset.copyKey) {   // 单段点睛（带标签）
+            var label = TIP_LABEL[box.dataset.copyKey] || box.dataset.copyKey;
+            return '<div><b>' + label + '</b>：</div>' + mdToAnnotHtml(box.dataset.copyMd || '');
+        }
+        return mdToAnnotHtml(box.dataset ? (box.dataset.copyMd || '') : '');
+    }
+
+    document.addEventListener('copy', function (e) {
+        var sel = window.getSelection && window.getSelection();
+        if (!sel || sel.isCollapsed || !sel.rangeCount) return;
+        var box = srcBox(sel);
+        if (!box) return;               // 思路/点睛外：保持系统默认复制
+        e.preventDefault();
+        var html = boxToAnnotHtml(box);
+        var tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        // 纯文本按「行」拆分（div 间换行），避免长段落全粘在一起
+        var parts = [];
+        Array.prototype.forEach.call(tmp.querySelectorAll('div'), function (d) { parts.push(d.textContent); });
+        if (!parts.length) parts.push(tmp.textContent || '');
+        var plain = parts.join('\n').replace(/\n{3,}/g, '\n\n');
+        try {
+            e.clipboardData.setData('text/html', '<meta charset="utf-8">' + html);
+            e.clipboardData.setData('text/plain', plain);
+        } catch (err) { /* 个别浏览器只读剪贴板时静默 */ }
+    });
+})();

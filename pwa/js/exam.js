@@ -990,7 +990,7 @@ function qCard(p, sec, q, secIdx) {
             <div class="q-note-hint"></div>
         </div>`;
     const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';
-    const ideaHtml = q.idea ? `<div class="q-sec q-idea" hidden>${mdBlock(q.idea)}</div>` : '';
+    const ideaHtml = q.idea ? `<div class="q-sec q-idea" data-copy-md="${copyMdAttr(q.idea)}" hidden>${mdBlock(q.idea)}</div>` : '';
     // 📌 点睛：本题专属 公式/易错/技巧/注意 四段块（数据来自源 md ::: 点睛）
     const TIP_META = [
         ['gs', '📌 公式', 'tip-gs'],
@@ -1001,9 +1001,10 @@ function qCard(p, sec, q, secIdx) {
     let tipsHtml = '';
     if (q.tips) {
         const secs = TIP_META.filter(([k]) => q.tips[k])
-            .map(([k, label, cls]) => `<div class="q-tip-sec ${cls}"><div class="q-tip-label">${label}</div><div class="q-tip-body">${mdBlock(q.tips[k])}</div></div>`).join('');
+            .map(([k, label, cls]) => `<div class="q-tip-sec ${cls}" data-copy-md="${copyMdAttr(q.tips[k])}" data-copy-key="${k}"><div class="q-tip-label">${label}</div><div class="q-tip-body">${mdBlock(q.tips[k])}</div></div>`).join('');
         if (secs) {
-            tipsHtml = `<div class="q-sec q-tips" hidden>${secs}</div>`;
+            const tipsJson = JSON.stringify(Object.fromEntries(Object.entries(q.tips).filter(([k]) => ['gs','yc','jq','zy'].includes(k) && q.tips[k])));
+            tipsHtml = `<div class="q-sec q-tips" data-copy-tips="${copyMdAttr(tipsJson)}" hidden>${secs}</div>`;
         }
     }
     const tipsBtn = tipsHtml ? `<button class="q-op q-tips-btn" data-act="tips" onclick="toggleQSec(this,'tips')" title="本题专属公式/易错点/技巧/注意">📌 点睛</button>` : '';
