@@ -1192,12 +1192,14 @@ async function init() {
             if (p) { startPaper = p; startNo = pos.no ? parseInt(pos.no, 10) : null; }
         }
     } catch (e) { }
-    // 支持分类页下钻：exam.html?paper=<套卷id> 直接定位到该套卷
+    // 支持下钻：exam.html?paper=<套卷id> 定位到该套卷；?paper=<id>&no=<题号> 精确定位到某题（收藏汇总页跳回用）
     const up = new URLSearchParams(location.search);
     const wantPaper = up.get('paper');
     if (wantPaper) {
         const wp = papers.find(x => x.id === wantPaper);
         if (wp) { startPaper = wp; startNo = null; }
+        const wantNo = parseInt(up.get('no'), 10);
+        if (wp && Number.isFinite(wantNo)) { startNo = wantNo; }
     }
     curPaper = startPaper;
     renderPaperList();

@@ -1,0 +1,256 @@
+/* 真题收藏汇总页样式（含打印样式，PDF 导出依赖 @media print） */
+
+.fav-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: var(--card, #fff);
+    border-bottom: 1px solid var(--border, #d5dbe3);
+    padding: 10px 14px;
+}
+
+.fav-tb-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.fav-tb-lab {
+    font-size: 13px;
+    color: var(--text-2, #5f6b7a);
+    white-space: nowrap;
+}
+
+.fav-tb-sep {
+    width: 1px;
+    height: 18px;
+    background: var(--border, #d5dbe3);
+    margin: 0 4px;
+}
+
+.fav-sel {
+    font-size: 13px;
+    padding: 5px 8px;
+    border: 1px solid var(--border, #d5dbe3);
+    border-radius: 6px;
+    background: var(--card, #fff);
+    color: var(--text, #1f242a);
+}
+
+.fav-years {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-width: 60%;
+}
+
+.fav-year {
+    font-size: 12px;
+    padding: 3px 8px;
+    border: 1px solid var(--border, #d5dbe3);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-2, #5f6b7a);
+    cursor: pointer;
+}
+
+.fav-year.on {
+    background: var(--accent, #2b8a6b);
+    border-color: var(--accent, #2b8a6b);
+    color: #fff;
+}
+
+.fav-year-empty {
+    font-size: 12px;
+    color: var(--text-3, #9aa4b0);
+}
+
+.fav-mini {
+    font-size: 12px;
+    padding: 3px 8px;
+    border: 1px solid var(--border, #d5dbe3);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-2, #5f6b7a);
+    cursor: pointer;
+}
+
+.fav-search {
+    font-size: 13px;
+    padding: 5px 10px;
+    min-width: 200px;
+    border: 1px solid var(--border, #d5dbe3);
+    border-radius: 6px;
+    background: var(--card, #fff);
+    color: var(--text, #1f242a);
+}
+
+.fav-count {
+    font-size: 12px;
+    color: var(--text-3, #9aa4b0);
+    margin-left: auto;
+}
+
+.fav-body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px 14px 80px;
+}
+
+.fav-group {
+    margin-bottom: 8px;
+}
+
+.fav-group-hd {
+    position: sticky;
+    top: 52px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text, #1f242a);
+    background: var(--bg, #f6f8fa);
+    border-bottom: 2px solid var(--accent, #2b8a6b);
+}
+
+.fav-group-n {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-3, #9aa4b0);
+}
+
+.fav-src {
+    font-size: 12px;
+    color: var(--text-3, #9aa4b0);
+    margin-left: 4px;
+}
+
+/* 题卡右上角操作区：取消收藏 + 跳回原题 */
+.fav-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.fav-act {
+    font-size: 12px;
+    line-height: 1;
+    padding: 4px 9px;
+    border-radius: 6px;
+    border: 1px solid var(--border, #d5dbe3);
+    background: transparent;
+    color: var(--text-2, #5f6b7a);
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.fav-act:hover {
+    border-color: var(--accent, #2b8a6b);
+    color: var(--accent, #2b8a6b);
+}
+
+.fav-unfav {
+    color: var(--text-2, #5f6b7a);
+}
+
+.fav-unfav:hover {
+    border-color: #c0392b;
+    color: #c0392b;
+}
+
+/* 段落小标题（答案 / 思路 / 点睛） */
+.q-sec-hd {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent, #2b8a6b);
+    letter-spacing: .5px;
+    margin-bottom: 4px;
+}
+
+.q-sec.q-answer,
+.q-sec.q-idea,
+.q-sec.q-tips {
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-left: 3px solid var(--border, #d5dbe3);
+    background: var(--card-2, #f8fafb);
+    border-radius: 0 6px 6px 0;
+}
+
+/* 「隐藏答案」模式：只留题干与笔记，便于打印出来重做 */
+body.hide-answer .q-sec.q-answer,
+body.hide-answer .q-sec.q-idea,
+body.hide-answer .q-sec.q-tips {
+    display: none !important;
+}
+
+.empty-tip {
+    padding: 40px 16px;
+    text-align: center;
+    color: var(--text-2, #5f6b7a);
+    line-height: 1.8;
+}
+
+.loading {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-2, #5f6b7a);
+}
+
+/* ============ 打印 / 导出 PDF ============ */
+@media print {
+    .exam-top,
+    .fav-toolbar,
+    .q-fav,
+    .fav-actions,
+    .exam-top-toggle {
+        display: none !important;
+    }
+
+    .fav-body {
+        max-width: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .fav-group-hd {
+        position: static;
+        background: transparent;
+    }
+
+    .q-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: 14px;
+        border: 1px solid #d5dbe3;
+    }
+
+    /* 长公式与矩阵尽量不要被拦腰截断 */
+    .q-body p,
+    .q-sec,
+    .q-options {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .katex-display {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    body {
+        background: #fff;
+    }
+
+    .q-sec.q-answer,
+    .q-sec.q-idea,
+    .q-sec.q-tips {
+        background: transparent;
+    }
+}

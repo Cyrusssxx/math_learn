@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>真题收藏汇总 · 数学二</title>
+    <meta name="theme-color" content="#2b8a6b">
+    <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
+    <link rel="stylesheet" href="css/notes.css">
+    <link rel="stylesheet" href="css/exam.css">
+    <link rel="stylesheet" href="vendor/katex/katex.min.css">
+    <link rel="stylesheet" href="css/fav.css">
+</head>
+
+<body>
+    <header class="exam-top" id="favTop">
+        <div class="exam-brand">
+            <span class="exam-logo">📋</span>
+            <div>
+                <div class="exam-title">真题收藏汇总</div>
+                <div class="exam-sub" id="favSub">加载中…</div>
+            </div>
+        </div>
+        <div class="exam-topbtns">
+            <button class="exam-btn" id="hideAnsBtn" onclick="toggleHideAnswer()" title="隐藏答案/思路/点睛，只留题干与笔记（便于打印出来重做）">🙈 隐藏答案</button>
+            <button class="exam-btn" onclick="exportMarkdown()" title="导出为 Markdown（贴图以 base64 内嵌，单文件）">📄 导出 MD</button>
+            <button class="exam-btn" onclick="exportPDF()" title="调起打印，在对话框选择「另存为 PDF」">🖨 导出 PDF</button>
+            <a class="exam-btn" href="exam.html" title="回到真题页">📝 真题</a>
+        </div>
+    </header>
+
+    <div class="fav-toolbar" id="favToolbar">
+        <div class="fav-tb-row">
+            <label class="fav-tb-lab" for="sortSel">排序</label>
+            <select class="fav-sel" id="sortSel" onchange="onSortChange()">
+                <option value="year">按年份（卷）</option>
+                <option value="time">按收藏时间（新→旧）</option>
+                <option value="topic">按知识点</option>
+            </select>
+
+            <span class="fav-tb-sep"></span>
+
+            <span class="fav-tb-lab">年份筛选</span>
+            <div class="fav-years" id="yearFilter"></div>
+            <button class="fav-mini" onclick="clearYearFilter()" title="清空年份筛选">清空</button>
+
+            <span class="fav-tb-sep"></span>
+
+            <input class="fav-search" id="kwSearch" type="search" placeholder="搜索题干 / 答案 / 思路 / 笔记…"
+                oninput="onSearchInput()">
+            <span class="fav-count" id="favCount"></span>
+        </div>
+    </div>
+
+    <main class="fav-body" id="favBody">
+        <div class="loading">加载中…</div>
+    </main>
+
+    <script src="js/common.js"></script>
+    <script defer src="vendor/katex/katex.min.js"></script>
+    <script defer src="vendor/katex/auto-render.min.js"></script>
+    <script defer src="js/exam-shared.js"></script>
+    <script defer src="js/fav.js"></script>
+</body>
+
+</html>
