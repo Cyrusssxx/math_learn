@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """题图一致性双向检查：
 1) exam_fig/*.png 文件未被任何 q.img/q.img2 引用（孤儿文件）
-2) 题干含 如图/下图/如右图/图中曲线/图所示 等字样但 q.img/q.img2 为空（缺图题）
+2) 题干含 如图/下图/如右图/图中/图所示 等字样但 q.img/q.img2 为空（缺图题）
 用法: python -X utf8 tools/_scan_fig_consistency.py
 """
 import json, re, os, glob
@@ -14,7 +14,9 @@ d = json.load(open(EXAM, encoding='utf-8'))
 # 收集所有被引用图文件
 used = set()
 imgless_q = []
-PAT = re.compile(r'如图|下图|如右图|如左图|图所示|如图所示|图中曲线|由图中')
+# 含「图中」独立匹配（避免误报『函数图形』/『曲线图形』等纯文字描述）：
+# 真依赖图字 = 含『图』+ 紧邻『如/中/给/是/所/为/示/1-9』
+PAT = re.compile(r'如图|下图|如右图|如左图|图所示|如图所示|图中曲线|由图中|图中实线|图中阴影|图中虚线|图给|图是|图为|右图|左图|上图')
 for e in d:
     for s in e.get('sections', []):
         for q in s.get('questions', []):
