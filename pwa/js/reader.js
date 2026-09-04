@@ -230,14 +230,17 @@ function renderTipsBlock(md) {
         if (cur) secs.get(cur).push(l.trim()); else rest.push(l);
     }
     let inner = '';
+    const tipsJson = {};
     for (const [key, cls, label] of TIP_SEC_META) {
         const arr = secs.get(key);
         if (!arr || !arr.join('').trim()) continue;
-        inner += `<div class="q-tip-sec tip-${cls}"><div class="q-tip-label">${label}</div>` +
-            `<div class="q-tip-body">${mdToHtml(arr.join('\n'))}</div></div>`;
+        const segMd = arr.join('\n');
+        tipsJson[cls] = segMd;
+        inner += `<div class="q-tip-sec tip-${cls}" data-copy-md="${copyMdAttr(segMd)}" data-copy-key="${cls}"><div class="q-tip-label">${label}</div>` +
+            `<div class="q-tip-body">${mdToHtml(segMd)}</div></div>`;
     }
     if (!inner) inner = `<div class="q-tip-body">${mdToHtml(rest.join('\n'))}</div>`;
-    return `<details class="fold tip-fold"><summary>📌 点睛</summary><div class="fold-body q-tips">${inner}</div></details>`;
+    return `<details class="fold tip-fold"><summary>📌 点睛</summary><div class="fold-body q-tips" data-copy-tips="${copyMdAttr(JSON.stringify(tipsJson))}">${inner}</div></details>`;
 }
 
 function mdToHtml(md) {
