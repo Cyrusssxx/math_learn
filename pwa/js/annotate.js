@@ -1099,6 +1099,20 @@ const Annot = (() => {
         const normColor = v => { if (!v) return null; const tmp = document.createElement('span'); tmp.style.color = v; return rgbToHex(tmp.style.color); };
         const isBold = n => (n && n.nodeType === 1) && (n.tagName === 'B' || n.tagName === 'STRONG' || /bold/i.test(n.style.fontWeight || ''));
         const isItalic = n => (n && n.nodeType === 1) && (n.tagName === 'I' || n.tagName === 'EM' || /italic/i.test(n.style.fontStyle || ''));
+        // 粗/斜节点上同样可能携带字色/高亮（加粗后再上色、或 Chrome 把 font-weight 与 color 写进同一个
+        // span）——过去 isBold/isItalic 分支不读颜色 → 序列化只留 <b>/<i>，颜色丢失。与 exam.js colorOf 同步。
+        const colorOf = (ch, c, h) => {
+            let nc = c, nh = h;
+            if (ch.style) {
+                const hc = normColor(ch.style.color); if (hc) nc = hc;
+                const hb = normColor(ch.style.backgroundColor); if (hb) nh = hb;
+            }
+            const fattr = ch.getAttribute && ch.getAttribute('color');
+            if (fattr) { const fc = normColor(fattr); if (fc) nc = fc; }
+            const fbg = ch.getAttribute && ch.getAttribute('bgcolor');
+            if (fbg) { const fb = normColor(fbg); if (fb) nh = fb; }
+            return [nc, nh];
+        };
         let base = (function run(n, c, h, b, i) {
             let s = '';
             for (const ch of n.childNodes) {
@@ -1116,8 +1130,8 @@ const Annot = (() => {
                     else if (ch.tagName === 'BR') s += '\n';
                     else if (ch.tagName === 'H1') { if (s && !s.endsWith('\n')) s += '\n'; s += '<h1>' + run(ch, c, h, false, false) + '</h1>' + '\n'; }
                     else if (ch.tagName === 'H2') { if (s && !s.endsWith('\n')) s += '\n'; s += '<h2>' + run(ch, c, h, false, false) + '</h2>' + '\n'; }
-                    else if (isBold(ch)) { const block = ch.tagName === 'DIV' || ch.tagName === 'P'; if (block && s && !s.endsWith('\n')) s += '\n'; s += run(ch, c, h, true, i); if (block && s && !s.endsWith('\n')) s += '\n'; }
-                    else if (isItalic(ch)) { s += run(ch, c, h, b, true); }
+                    else if (isBold(ch)) { const [bc, bh] = colorOf(ch, c, h); const block = ch.tagName === 'DIV' || ch.tagName === 'P'; if (block && s && !s.endsWith('\n')) s += '\n'; s += run(ch, bc, bh, true, i); if (block && s && !s.endsWith('\n')) s += '\n'; }
+                    else if (isItalic(ch)) { const [ic, ih] = colorOf(ch, c, h); s += run(ch, ic, ih, b, true); }
                     else {
                         let nc = c, nh = h;
                         if (ch.style) { const hc = normColor(ch.style.color); if (hc) nc = hc; const hb = normColor(ch.style.backgroundColor); if (hb) nh = hb; }

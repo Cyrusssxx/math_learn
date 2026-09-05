@@ -237,6 +237,22 @@ function editorToNote(el) {
     const normColor = v => { if (!v) return null; const tmp = document.createElement('span'); tmp.style.color = v; return rgbToHex(tmp.style.color); };
     const isBold = n => (n && n.nodeType === 1) && (n.tagName === 'B' || n.tagName === 'STRONG' || /bold/i.test(n.style.fontWeight || ''));
     const isItalic = n => (n && n.nodeType === 1) && (n.tagName === 'I' || n.tagName === 'EM' || /italic/i.test(n.style.fontStyle || ''));
+    // 提取节点自身携带的「字色/高亮」：style.color / style.backgroundColor，并兼容浏览器 foreColor
+    // 生成的 <font color> / <font bgcolor>。元素没带颜色时沿用父级上下文（c/h）。
+    // 关键：粗/斜节点上同样可能带颜色（加粗后再上色、或 Chrome 把 font-weight 与 color 写在同一个
+    // span 上），过去 isBold/isItalic 分支不读颜色 → 序列化只留下 <b>/<i>，颜色「染不上」。
+    const colorOf = (ch, c, h) => {
+        let nc = c, nh = h;
+        if (ch.style) {
+            const hc = normColor(ch.style.color); if (hc) nc = hc;
+            const hb = normColor(ch.style.backgroundColor); if (hb) nh = hb;
+        }
+        const fattr = ch.getAttribute && ch.getAttribute('color');
+        if (fattr) { const fc = normColor(fattr); if (fc) nc = fc; }
+        const fbg = ch.getAttribute && ch.getAttribute('bgcolor');
+        if (fbg) { const fb = normColor(fbg); if (fb) nh = fb; }
+        return [nc, nh];
+    };
     // 返回序列化片段；c/h=字色/高亮 hex，b/i=是否处于粗/斜上下文（行内令牌），heading 由 H1/H2 元素单独包块级令牌
     let base = (function run(n, c, h, b, i) {
         let s = '';
@@ -266,13 +282,16 @@ function editorToNote(el) {
                     s += '<h2>' + run(ch, c, h, false, false) + '</h2>' + '\n';
                 }
                 else if (isBold(ch)) {
+                    // 粗体节点上的字色/高亮同样要保留（加粗后再上色的常见顺序）
+                    const [bc, bh] = colorOf(ch, c, h);
                     const block = ch.tagName === 'DIV' || ch.tagName === 'P';
                     if (block && s && !s.endsWith('\n')) s += '\n';
-                    s += run(ch, c, h, true, i);
+                    s += run(ch, bc, bh, true, i);
                     if (block && s && !s.endsWith('\n')) s += '\n';
                 }
                 else if (isItalic(ch)) {
-                    s += run(ch, c, h, b, true);
+                    const [ic, ih] = colorOf(ch, c, h);
+                    s += run(ch, ic, ih, b, true);
                 }
                 else {
                     let nc = c, nh = h;
