@@ -326,6 +326,12 @@ function setNoteContent(el, text) {
 }
 let _noteLastRendered = {};   // qid → 上次渲染预览的文本（内容没变不重渲，防闪烁）
 const _pendingImgs = new Set();   // 正在压缩/写库的图 id：orphan 清理必须跳过，否则会被误删
+const _pendingImgTasks = {};   // id → 写库 Promise：手动保存前 await，杜绝「压缩未完成就落盘 → 预览图变『图片已丢失』」
+/** 等待所有贴图压缩/写库完成（无 pending 立即 resolve；写库失败不抛出） */
+function waitPendingImgs() {
+    const tasks = Object.values(_pendingImgTasks).filter(Boolean);
+    return tasks.length ? Promise.all(tasks).catch(() => { }) : Promise.resolve();
+}
 function noteInput(ta) {
     const qid = ta.dataset.qid;
     if (ta.tagName === 'TEXTAREA') autoResizeNote(ta);   // 编辑器自增长，无需 JS 调高
@@ -351,6 +357,7 @@ function noteInput(ta) {
 }
 // 编辑态实时预览：从编辑器当前内容渲染 Markdown + 图片（内容未变直接跳过，避免闪烁）
 function renderNotePreview(ta) {
+    if (!ta || ta.style.display === 'none') return;   // 只读态：保存路径已渲染最终只读预览，跳过——避免被覆盖成编辑态样式
     const sec = ta.closest('.q-note');
     const pv = sec && sec.querySelector('.q-note-preview');
     if (!pv) return;
@@ -406,7 +413,7 @@ function notePasteImg(e) {
     }
     noteInput(ta);   // 触发保存 + 预览（此时值里已含令牌）
     // 异步：压缩 → 写库 → 只回填这一张（写完后必定能取到 blob）
-    compressImage(it.getAsFile()).then(blob => examImgPut(id, blob)).then(() => {
+    const imgTask = compressImage(it.getAsFile()).then(blob => examImgPut(id, blob)).then(() => {
         fillOneExamNoteImg(ta, id);   // 回填这张图的 blob
         renderNotePreview(ta);         // 回填后刷新预览
     }).catch(() => {
@@ -415,6 +422,8 @@ function notePasteImg(e) {
     }).then(() => {
         _pendingImgs.delete(id);
     });
+    _pendingImgTasks[id] = imgTask;
+    imgTask.then(() => { delete _pendingImgTasks[id]; }, () => { delete _pendingImgTasks[id]; });
 }
 function toggleQSec(btn, act) {
     const card = btn.closest('.q-card');
@@ -483,13 +492,15 @@ function syncNoteToolbar(sec) {
     if (bar) bar.hidden = sec.hidden || !ed || ed.style.display === 'none';
 }
 // 空笔记「💾 保存」：立即落盘并收起输入框——非空转为「有笔记」形态（预览 + ✏️ 编辑），空则收起整节
-function saveNoteBtn(btn) {
+async function saveNoteBtn(btn) {
     const sec = btn.closest('.q-note');
     const ta = sec.querySelector('.q-note-input');
     const pv = sec.querySelector('.q-note-preview');
     const qid = ta.dataset.qid;
     clearTimeout(_noteTimer[qid]);
     delete _noteTimer[qid];
+    if (Object.keys(_pendingImgTasks).length) noteHint(ta, '图片保存中…', true);   // 有贴图在写库：提示并等待
+    await waitPendingImgs();   // 关键：等所有贴图写库完成再落盘，只读预览回填必然成功——根治「手动保存存不上图」
     const v = noteVal(ta);
     try { localStorage.setItem('examNote-' + qid, v); } catch (e) { }
     const opBtn = sec.closest('.q-card')?.querySelector('[data-act="note"]');
@@ -520,7 +531,7 @@ function saveNoteBtn(btn) {
 }
 // 顶部「💾 保存」按钮（.q-ops 行，位于 笔记 右侧）：定位本题卡的笔记区并保存。
 // 仅在编辑态（编辑器可见）生效；只读展示态直接提示先编辑，避免误把空编辑器内容覆盖已存笔记。
-function saveNoteFromOps(btn) {
+async function saveNoteFromOps(btn) {
     const card = btn.closest('.q-card');
     if (!card) return;
     const sec = card.querySelector('.q-note');
@@ -530,11 +541,15 @@ function saveNoteFromOps(btn) {
     if (sec.hidden) { const nb = card.querySelector('button[data-act="note"]'); if (nb) nb.click(); }
     if (ta.style.display === 'none') { noteHint(ta, '请先点 ✏️编辑 再保存', false); return; }
     const sb = sec.querySelector('.q-note-savebtn');
-    if (sb) saveNoteBtn(sb);
-    else { try { localStorage.setItem('examNote-' + ta.dataset.qid, noteVal(ta)); } catch (e) { } }
+    if (sb) await saveNoteBtn(sb);
+    else {
+        if (Object.keys(_pendingImgTasks).length) noteHint(ta, '图片保存中…', true);
+        await waitPendingImgs();
+        try { localStorage.setItem('examNote-' + ta.dataset.qid, noteVal(ta)); } catch (e) { }
+    }
 }
 // 笔记「✏️ 编辑 / 💾 完成」：编辑态只显示输入框，完成时落盘并渲染预览
-function toggleNoteEdit(btn) {
+async function toggleNoteEdit(btn) {
     const sec = btn.closest('.q-note');
     const ta = sec.querySelector('.q-note-input');
     const pv = sec.querySelector('.q-note-preview');
@@ -565,9 +580,10 @@ function toggleNoteEdit(btn) {
         ta.focus();
         if (ta.tagName === 'TEXTAREA') autoResizeNote(ta);
     } else {
-        // 完成：清防抖定时器，立即落盘
+        // 完成：清防抖定时器，立即落盘（有贴图在写库则先等写库完成，防止存下「读不到图」的版本）
         clearTimeout(_noteTimer[ta.dataset.qid]);
         delete _noteTimer[ta.dataset.qid];
+        await waitPendingImgs();
         const raw = noteVal(ta);
         try { localStorage.setItem('examNote-' + ta.dataset.qid, raw); } catch (e) { }
         const v = raw.trim();
@@ -743,6 +759,12 @@ function flushNoteSave() {
 window.addEventListener('pagehide', flushNoteSave);
 async function fillExamNoteImgs(root) {
     if (!root) return;
+    // 编辑态（编辑器可见：编辑器 DOM + 下方实时预览）里 img 节点是数据载体——
+    // 回填失败绝不能 replaceWith 成文本：换掉 = editorToNote 序列化丢 [图:id] → 孤图清理删 blob → 图片永久丢失。
+    // 只读态 img 由存储文本渲染，替换成「图片已丢失」仅影响显示、不伤数据。
+    const sec = root.closest && root.closest('.q-note');
+    const ed = sec && sec.querySelector('.q-note-input');
+    const keepOnFail = !!ed && ed.style.display !== 'none';
     const imgs = root.querySelectorAll('img.exam-note-img[data-img]');
     for (const img of imgs) {
         // 已回填过（blob URL）则跳过，避免重复 createObjectURL 造成内存泄漏
@@ -754,6 +776,19 @@ async function fillExamNoteImgs(root) {
             blob = await examImgGet(img.dataset.img);
         }
         if (blob) img.src = URL.createObjectURL(blob);
+        else if (_pendingImgTasks[img.dataset.img]) {
+            // 图还在压缩/写库：绝不标「图片已丢失」——等写库完成后回填这一张
+            const id = img.dataset.img;
+            _pendingImgTasks[id].then(() => {
+                if (!img.isConnected) return;
+                examImgGet(id).then(b => { if (b && img.isConnected) img.src = URL.createObjectURL(b); });
+            });
+        }
+        else if (keepOnFail) {
+            // 编辑态取不到 blob（IDB 偶发失败）：保留节点与令牌，仅标记占位——保存不丢，下次进编辑自动重试
+            img.classList.add('img-fail');
+            img.title = '图片加载失败（保存不会丢失，重新进入编辑可恢复）';
+        }
         else img.replaceWith(document.createTextNode('[图片已丢失]'));
     }
 }

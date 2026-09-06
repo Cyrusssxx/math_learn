@@ -914,6 +914,13 @@ html.dark .q-note-savebtn { color: #1e1e2e; }
     margin: 0;
     border: 1px solid var(--border, #d5dbe3);
 }
+/* 编辑态回填失败：保留节点+令牌（数据不丢），以斜纹占位提示（保存后不丢，下次进编辑重试） */
+img.exam-note-img.img-fail {
+    min-width: 48px;
+    min-height: 36px;
+    border: 1px dashed var(--border, #c9a0a0) !important;
+    background: repeating-linear-gradient(45deg, rgba(127,127,127,.06), rgba(127,127,127,.06) 6px, rgba(127,127,127,.14) 6px, rgba(127,127,127,.14) 12px);
+}
 .exam-note-img-wrap.dragging { opacity: .35; }
 .exam-note-img-wrap.over { outline: 2px dashed var(--accent, #4a90d9); outline-offset: 2px; }
 
