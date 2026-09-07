@@ -164,9 +164,9 @@ function favCard(item) {
     const hasNote = !!note.trim();
     const hasImg = /\[图:[a-z0-9]+\]/.test(note);
     const noteHtml = hasNote
-        ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}"><div class="q-note-preview">${mdBlockWithImg(note)}</div></div>` : '';
-    const answerHtml = q.answer ? `<div class="q-sec q-answer"><div class="q-sec-hd">答案</div>${mdBlock(q.answer)}</div>` : '';
-    const ideaHtml = q.idea ? `<div class="q-sec q-idea" data-copy-md="${copyMdAttr(q.idea)}"><div class="q-sec-hd">思路</div>${mdBlock(q.idea)}</div>` : '';
+        ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}" hidden><div class="q-note-preview">${mdBlockWithImg(note)}</div></div>` : '';
+    const answerHtml = q.answer ? `<div class="q-sec q-answer" hidden><div class="q-sec-hd">答案</div>${mdBlock(q.answer)}</div>` : '';
+    const ideaHtml = q.idea ? `<div class="q-sec q-idea" data-copy-md="${copyMdAttr(q.idea)}" hidden><div class="q-sec-hd">思路</div>${mdBlock(q.idea)}</div>` : '';
 
     const TIP_META = [['gs', '📌 公式'], ['yc', '⚠️ 易错'], ['jq', '💡 技巧'], ['zy', '🔍 注意']];
     let tipsHtml = '';
@@ -175,10 +175,16 @@ function favCard(item) {
             .map(([k, label]) => `<div class="q-tip-sec" data-copy-md="${copyMdAttr(q.tips[k])}" data-copy-key="${k}"><div class="q-tip-label">${label}</div><div class="q-tip-body">${mdBlock(q.tips[k])}</div></div>`).join('');
         if (secs) {
             const tipsJson = JSON.stringify(Object.fromEntries(Object.entries(q.tips).filter(([k]) => ['gs','yc','jq','zy'].includes(k) && q.tips[k])));
-            tipsHtml = `<div class="q-sec q-tips" data-copy-tips="${copyMdAttr(tipsJson)}"><div class="q-sec-hd">点睛</div>${secs}</div>`;
+            tipsHtml = `<div class="q-sec q-tips" data-copy-tips="${copyMdAttr(tipsJson)}" hidden><div class="q-sec-hd">点睛</div>${secs}</div>`;
         }
     }
 
+    // 展开/收起（对照真题页：默认收起，点击切换；toggleQSec 来自 exam-shared.js，答案/思路/点睛展开时渲染 KaTeX）
+    const ops = [];
+    if (q.answer) ops.push('<button class="q-op" data-act="answer" onclick="toggleQSec(this,\'answer\')">查看答案</button>');
+    if (q.idea) ops.push('<button class="q-op" data-act="idea" onclick="toggleQSec(this,\'idea\')">思路</button>');
+    if (tipsHtml) ops.push('<button class="q-op" data-act="tips" onclick="toggleQSec(this,\'tips\')">点睛</button>');
+    if (hasNote) ops.push('<button class="q-op" data-act="note" onclick="toggleQSec(this,\'note\')">笔记</button>');
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
             <span class="q-no">${q.no}</span>
@@ -196,6 +202,7 @@ function favCard(item) {
             </span>
         </div>
         <div class="q-body">${stem}${options}</div>
+        <div class="q-ops">${ops.join('')}</div>
         ${answerHtml}${ideaHtml}${tipsHtml}${noteHtml}
     </div>`;
 }
