@@ -1068,6 +1068,7 @@ function qCard(p, sec, q, secIdx) {
             <span class="q-kind">${kindTag}</span>
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
+            <button class="q-copy-latex" onclick="copyQLatex(this)" title="复制本题 LaTeX 源码（题干+选项，含 $...$ 原始命令）">📋 LaTeX</button>
         </div>
         <div class="q-body">${stem}${figHtml}${options}</div>
         <div class="q-ops">
@@ -1082,6 +1083,43 @@ function qCard(p, sec, q, secIdx) {
         ${noteHtml}
         <div class="q-sec q-answer" hidden><div class="q-answer-body">${mdBlock(q.answer)}</div></div>
     </div>`;
+}
+
+// 复制文本到剪贴板（clipboard API，非安全上下文降级 execCommand），按钮短暂反馈
+function copyTextToClipboard(text, btn, okMsg) {
+    const flash = () => {
+        const old = btn.textContent;
+        btn.textContent = okMsg || '已复制 ✓';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = old; btn.classList.remove('copied'); }, 1500);
+    };
+    const fallback = () => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); flash(); } catch (e) { btn.textContent = '复制失败'; }
+        ta.remove();
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(flash).catch(fallback);
+    } else fallback();
+}
+// 复制本题 LaTeX 源文（题干 + 选项，保留 $...$ 原始命令）——供外部 LaTeX 编辑器/笔记粘贴
+function copyQLatex(btn) {
+    const card = btn.closest('.q-card');
+    if (!card || !curPaper) return;
+    const qid = card.id.replace(/^q-/, '');
+    let q = null;
+    for (const sec of curPaper.sections || []) {
+        const hit = (sec.questions || []).find(x => qidOf(curPaper.id, x.no) === qid);
+        if (hit) { q = hit; break; }
+    }
+    if (!q) return;
+    let text = q.stem || '';
+    if (q.options && q.options.length) text += '\n' + q.options.join('\n');
+    copyTextToClipboard(text, btn, '已复制 ✓');
 }
 
 function secTag(secIdx) {

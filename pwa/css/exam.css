@@ -424,6 +424,22 @@ html.dark .exam-btn.on { color: #e5c860; }
 }
 .q-fav-date + .q-fav { margin-left: 0; }
 
+/* 题头 LaTeX 复制按钮（跟随星标右侧） */
+.q-copy-latex {
+    margin-left: 4px;
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text-faint);
+    padding: 2px 6px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+.q-copy-latex:hover { color: var(--accent); background: var(--bg-hover); }
+.q-copy-latex.copied { color: var(--accent); font-weight: 600; }
+
 .q-body p { margin: 10px 0; }
 .q-body .q-options { margin-top: 12px; }
 .q-opt {
