@@ -444,21 +444,21 @@ html.dark .exam-btn.on { color: #e5c860; }
 #examMain .q-card { position: relative; }
 #examMain .q-status-rail {
     position: absolute;
-    right: -42px;
-    top: 14px;
+    right: -58px;
+    top: 12px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
     z-index: 3;
 }
 .q-st-btn {
     border: 1px solid var(--border, #d5dbe3);
     background: transparent;
     color: var(--text-faint, #888);
-    font-size: 11px;
-    line-height: 1;
-    padding: 5px 8px;
-    border-radius: 999px;
+    font-size: 14px;
+    line-height: 1.2;
+    padding: 8px 13px;
+    border-radius: 8px;
     cursor: pointer;
     white-space: nowrap;
     transition: background .15s, color .15s, border-color .15s;
@@ -473,9 +473,9 @@ html.dark .exam-btn.on { color: #e5c860; }
 
 /* 掌握度 / 收藏 标记 chip（汇总页 / 分类页题卡共用） */
 .q-mark-chip {
-    font-size: 11px;
-    line-height: 1.3;
-    padding: 1px 7px;
+    font-size: 12px;
+    line-height: 1.4;
+    padding: 2px 8px;
     border-radius: 999px;
     margin-left: 6px;
     white-space: nowrap;
@@ -485,7 +485,7 @@ html.dark .exam-btn.on { color: #e5c860; }
 .q-mark-chip.m-unfam { background: rgba(245, 159, 0, .18); color: #b26b00; }
 .q-mark-chip.m-unk { background: rgba(224, 49, 49, .14); color: #c92a2a; }
 /* 真题页：容器右侧留出侧条空间（仅桌宽；窄屏侧条已收进卡片内） */
-#examMain { padding-right: 64px; }
+#examMain { padding-right: 76px; }
 @media (max-width: 760px) { #examMain { padding-right: 14px; } }
 
 /* 汇总页 / 分类页 标记筛选 chips */
@@ -494,9 +494,9 @@ html.dark .exam-btn.on { color: #e5c860; }
     border: 1px solid var(--border, #d5dbe3);
     background: transparent;
     color: var(--text-faint, #666);
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.4;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 999px;
     cursor: pointer;
     white-space: nowrap;
