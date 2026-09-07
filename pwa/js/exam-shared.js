@@ -64,6 +64,23 @@ function favSave(obj) {
     catch (e) { console.error('收藏保存失败（可能超出存储配额）:', e); alert('收藏存储空间不足，保存失败。请清理部分收藏后重试。'); }
 }
 
+// ============ 掌握度标记（不熟/不会，互斥单选；与收藏独立） ============
+const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'unfamiliar' | 'unknown' }
+function statusGet() {
+    try { return JSON.parse(localStorage.getItem(EXAM_STATUS_KEY)) || {}; } catch (e) { return {}; }
+}
+function statusSave(obj) {
+    try { localStorage.setItem(EXAM_STATUS_KEY, JSON.stringify(obj)); } catch (e) { }
+}
+function statusOf(qid) { return statusGet()[qid] || null; }
+// 互斥切换：v='unfamiliar'|'unknown'；同值再次调用则清除（不熟 ⇄ 不会 ⇄ 无）
+function toggleStatus(qid, v) {
+    const s = statusGet();
+    if (s[qid] === v) delete s[qid]; else s[qid] = v;
+    statusSave(s);
+    return s[qid] || null;
+}
+
 function favTime(qid) {
     const v = favGet()[qid];
     return (v && typeof v === 'object') ? (v.t || 0) : 0;

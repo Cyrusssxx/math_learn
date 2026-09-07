@@ -6,7 +6,7 @@ let papers = [];
 let catMap = null;
 let favList = [];        // [{qid, paper, q, t}]
 let sortBy = 'year';     // year | time | topic
-let yearSel = new Set(); // 空集 = 全部年份
+let markSel = { fav: true, unfamiliar: true, unknown: true }; // 收藏 / 不熟 / 不会 多选筛选（默认全选，并集去重）
 let keyword = '';
 let hideAnswer = false;
 
@@ -24,31 +24,36 @@ async function initFav() {
         return;
     }
     buildFavList();
-    buildYearFilter();
     renderFav();
 }
 
-// 把 examFav 的 qid（paperId-题号）反解回题目对象
+// 构建候选池：收藏 ∪ 不熟 ∪ 不会（按 qid 去重，各来源独立标注；三选筛选在 visibleItems 做并集）
 function buildFavList() {
     const favs = favGet();
-    favList = [];
-    for (const qid of Object.keys(favs)) {
+    const statuses = statusGet();
+    const pool = new Map();   // qid -> { qid, paper, q, t, fav, status }
+    const push = (qid, srcFav, srcStatus) => {
         const idx = qid.lastIndexOf('-');
-        if (idx < 0) continue;
+        if (idx < 0) return;
         const paperId = qid.slice(0, idx);
         const no = parseInt(qid.slice(idx + 1), 10);
-        if (!Number.isFinite(no)) continue;
+        if (!Number.isFinite(no)) return;
         const paper = papers.find(p => p.id === paperId);
-        if (!paper) continue;                 // 套卷已下架等异常情况，跳过而非崩
+        if (!paper) return;                 // 套卷已下架等异常情况，跳过而非崩
         let q = null;
         for (const s of paper.sections || []) {
             const hit = (s.questions || []).find(x => x.no === no);
             if (hit) { q = hit; break; }
         }
-        if (!q) continue;
-        const v = favs[qid];
-        favList.push({ qid, paper, q, t: (v && typeof v === 'object') ? (v.t || 0) : 0 });
-    }
+        if (!q) return;
+        const cur = pool.get(qid) || { qid, paper, q, t: 0, fav: false, status: null };
+        if (srcFav) { cur.fav = true; const v = favs[qid]; cur.t = (v && typeof v === 'object') ? (v.t || 0) : 0; }
+        if (srcStatus) cur.status = srcStatus;
+        pool.set(qid, cur);
+    };
+    for (const qid of Object.keys(favs)) push(qid, true, null);
+    for (const qid in statuses) push(qid, false, statuses[qid]);
+    favList = [...pool.values()];
 }
 
 // ============ 筛选 / 排序 ============
@@ -63,7 +68,12 @@ function matchKw(item) {
 }
 
 function visibleItems() {
-    return favList.filter(it => (yearSel.size === 0 || yearSel.has(String(it.paper.year))) && matchKw(it));
+    // 三选筛选：勾选类别取并集（去重由 buildFavList 完成）；全不勾 → 空
+    return favList.filter(it => {
+        const m = markSel;
+        const hit = (m.fav && it.fav) || (m.unfamiliar && it.status === 'unfamiliar') || (m.unknown && it.status === 'unknown');
+        return hit && matchKw(it);
+    });
 }
 
 function sortItems(list) {
@@ -97,15 +107,18 @@ function renderFav() {
 
     const sub = document.getElementById('favSub');
     const cnt = document.getElementById('favCount');
-    if (sub) sub.textContent = `共收藏 ${favList.length} 题 · 当前显示 ${items.length} 题`;
+    if (sub) sub.textContent = `收藏 ${favList.filter(i => i.fav).length} · 不熟 ${favList.filter(i => i.status === 'unfamiliar').length} · 不会 ${favList.filter(i => i.status === 'unknown').length} ｜ 当前显示 ${items.length} 题`;
     if (cnt) cnt.textContent = `${items.length} / ${favList.length}`;
 
     if (!favList.length) {
-        body.innerHTML = '<div class="empty-tip">还没有收藏任何题目。<br>回到真题页，点击题目右上角的 ☆ 即可收藏。</div>';
+        body.innerHTML = '<div class="empty-tip">还没有收藏或标记任何题目。<br>回到真题页：点击题目右上角 ☆ 收藏，或点题右侧的「不熟/不会」打标记。</div>';
         return;
     }
     if (!items.length) {
-        body.innerHTML = '<div class="empty-tip">当前筛选条件下没有匹配的题目。试试清空年份筛选或搜索词。</div>';
+        const on = Object.values(markSel).some(Boolean);
+        body.innerHTML = on
+            ? '<div class="empty-tip">当前筛选条件下没有匹配的题目。试试切换右上方「收藏/不熟/不会」筛选或清空搜索词。</div>'
+            : '<div class="empty-tip">已取消全部筛选类别。请至少勾选「收藏 / 不熟 / 不会」中的一项。</div>';
         return;
     }
 
@@ -142,7 +155,7 @@ function groupBlock(title, arr) {
 
 // 只读题卡：默认全部展开（题干 + 答案 + 思路 + 点睛 + 笔记）
 function favCard(item) {
-    const { qid, paper, q, t } = item;
+    const { qid, paper, q, t, fav, status } = item;
     const kindTag = q.kind === 'choice' ? '选择' : (q.no >= 11 && q.no <= 16 ? '填空' : '解答');
     const stem = mdBlock(q.stem);
     const options = q.options && q.options.length
@@ -171,10 +184,15 @@ function favCard(item) {
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindTag}</span>
             <span class="fav-src">${esc(paper.year)} 年数二</span>
-            ${t ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(t)}">${fmtFavShort(t)}</span>` : ''}
+            ${fav ? `<span class="q-mark-chip m-fav" title="已收藏">📥 收藏</span>` : ''}
+            ${status === 'unfamiliar' ? '<span class="q-mark-chip m-unfam" title="不熟">🟡 不熟</span>' : ''}
+            ${status === 'unknown' ? '<span class="q-mark-chip m-unk" title="不会">🔴 不会</span>' : ''}
+            ${fav && t ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(t)}">${fmtFavShort(t)}</span>` : ''}
             <span class="fav-actions">
                 <a class="fav-act fav-goto" href="exam.html?paper=${encodeURIComponent(paper.id)}&no=${q.no}" target="_blank" title="在真题页打开此题（新标签页）">↗ 原题</a>
-                <button class="fav-act fav-unfav" onclick="unfavFromList('${qid}')" title="取消收藏此题">⭐ 取消收藏</button>
+                ${fav
+                    ? `<button class="fav-act fav-unfav" onclick="unfavFromList('${qid}')" title="取消收藏此题">⭐ 取消收藏</button>`
+                    : `<button class="fav-act" onclick="favFromList('${qid}')" title="收藏此题">☆ 收藏</button>`}
             </span>
         </div>
         <div class="q-body">${stem}${options}</div>
@@ -197,22 +215,21 @@ function onSearchInput() {
         renderFav();
     }, 200);
 }
-function buildYearFilter() {
-    const box = document.getElementById('yearFilter');
-    if (!box) return;
-    const years = [...new Set(favList.map(it => String(it.paper.year)))].sort((a, b) => b.localeCompare(a));
-    box.innerHTML = years.map(y =>
-        `<button class="fav-year" data-y="${esc(y)}" onclick="toggleYear('${esc(y)}')">${esc(y)}</button>`).join('')
-        || '<span class="fav-year-empty">（无）</span>';
-}
-function toggleYear(y) {
-    if (yearSel.has(y)) yearSel.delete(y); else yearSel.add(y);
-    document.querySelectorAll('.fav-year').forEach(b => b.classList.toggle('on', yearSel.has(b.dataset.y)));
+// 标记筛选（收藏/不熟/不会 多选，默认全选；全不勾时给出提示）
+function toggleMark(m) {
+    markSel[m] = !markSel[m];
+    document.querySelectorAll('.fav-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
+    const box = document.getElementById('markFilter');
+    if (box) box.classList.toggle('none-on', !Object.values(markSel).some(Boolean));
     renderFav();
 }
-function clearYearFilter() {
-    yearSel.clear();
-    document.querySelectorAll('.fav-year').forEach(b => b.classList.remove('on'));
+// 汇总页内直接收藏（未收藏但打了标记的题也能顺手收藏）
+function favFromList(qid) {
+    const f = favGet();
+    if (f[qid]) return;
+    f[qid] = { t: Date.now() };
+    favSave(f);
+    buildFavList();
     renderFav();
 }
 // 汇总页内直接取消收藏：删 localStorage → 移出列表 → 重渲染（带确认防误点）
@@ -221,8 +238,7 @@ function unfavFromList(qid) {
     const f = favGet();
     delete f[qid];
     favSave(f);
-    favList = favList.filter(it => it.qid !== qid);
-    buildYearFilter();
+    buildFavList();
     renderFav();
 }
 function toggleHideAnswer() {
@@ -335,7 +351,7 @@ function blobToDataURL(blob) {
 
 // 收藏在别的标签页变化时，回到本页自动刷新
 window.addEventListener('storage', e => {
-    if (e.key === 'examFav') { buildFavList(); buildYearFilter(); renderFav(); }
+    if (e.key === 'examFav' || e.key === 'examStatus') { buildFavList(); renderFav(); }
 });
 
 initFav();

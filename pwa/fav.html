@@ -41,9 +41,12 @@
 
             <span class="fav-tb-sep"></span>
 
-            <span class="fav-tb-lab">年份筛选</span>
-            <div class="fav-years" id="yearFilter"></div>
-            <button class="fav-mini" onclick="clearYearFilter()" title="清空年份筛选">清空</button>
+            <span class="fav-tb-lab">标记</span>
+            <div class="fav-marks" id="markFilter">
+                <button class="fav-mark on" data-m="fav" onclick="toggleMark('fav')" title="只看已收藏">📥 收藏</button>
+                <button class="fav-mark on" data-m="unfamiliar" onclick="toggleMark('unfamiliar')" title="只看标记为「不熟」的题">🟡 不熟</button>
+                <button class="fav-mark on" data-m="unknown" onclick="toggleMark('unknown')" title="只看标记为「不会」的题">🔴 不会</button>
+            </div>
 
             <span class="fav-tb-sep"></span>
 

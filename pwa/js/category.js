@@ -3,7 +3,8 @@
  * 复用 exam.js 的渲染 / 收藏辅助函数（独立副本，避免改动 exam.js 既有行为）。 */
 
 const FAV_KEY = 'examFav';            // { qid: 1 }，qid = 套卷id-题no
-const FAV_ONLY_KEY = 'examFavOnly';   // 是否只看收藏
+const FAV_ONLY_KEY = 'examFavOnly';   // 是否只看收藏（常量保留，界面已由三选筛选替代）
+const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'unfamiliar' | 'unknown' }：不熟/不会掌握度标记（互斥）
 
 // ============ 收藏存储 ============
 function qidOf(paperId, no) { return paperId + '-' + no; }
@@ -13,6 +14,21 @@ function favGet() {
 function favSave(obj) {
     try { localStorage.setItem(FAV_KEY, JSON.stringify(obj)); }
     catch (e) { console.error('收藏保存失败:', e); alert('收藏存储空间不足，保存失败。'); }
+}
+// ============ 掌握度标记（不熟/不会，互斥单选；与收藏独立） ============
+function statusGet() {
+    try { return JSON.parse(localStorage.getItem(EXAM_STATUS_KEY)) || {}; } catch (e) { return {}; }
+}
+function statusSave(obj) {
+    try { localStorage.setItem(EXAM_STATUS_KEY, JSON.stringify(obj)); } catch (e) { }
+}
+function statusOf(qid) { return statusGet()[qid] || null; }
+// 互斥切换：v='unfamiliar'|'unknown'；同值再次调用则清除（不熟 ⇄ 不会 ⇄ 无）
+function toggleStatus(qid, v) {
+    const s = statusGet();
+    if (s[qid] === v) delete s[qid]; else s[qid] = v;
+    statusSave(s);
+    return s[qid] || null;
 }
 function isFav(qid) { return !!favGet()[qid]; }
 function favTime(qid) {
@@ -64,16 +80,15 @@ function toggleFav(qid, btn) {
             } else if (badge) badge.remove();
         }
     }
-    // 收藏过滤开启时，实时刷新分类树与题目列表
-    if (favOnly) { renderTree(); renderMain(); }
+    // 任一筛选开启时，实时刷新分类树与题目列表
+    if (markSel.fav || markSel.unfamiliar || markSel.unknown) { renderTree(); renderMain(); }
 }
 
-let favOnly = localStorage.getItem(FAV_ONLY_KEY) === '1';
-function toggleFavOnly() {
-    favOnly = !favOnly;
-    localStorage.setItem(FAV_ONLY_KEY, favOnly ? '1' : '0');
-    const btn = document.getElementById('favOnly');
-    if (btn) btn.classList.toggle('on', favOnly);
+// 掌握度/收藏多选筛选（默认全选，并集去重；收藏/不熟/不会互不归属）
+let markSel = { fav: true, unfamiliar: true, unknown: true };
+function toggleMark(m) {
+    markSel[m] = !markSel[m];
+    document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
     renderTree();
     renderMain();
 }
@@ -319,8 +334,13 @@ function buildEntries() {
 }
 
 function activeEntries() {
-    if (!favOnly) return allEntries;
-    return allEntries.filter(e => isFav(qidOf(e.paper.id, e.q.no)));
+    // 三选筛选：收藏 / 不熟 / 不会 取并集（默认全选全部；全不勾 → 空）
+    const st = statusGet();
+    return allEntries.filter(e => {
+        const qid = qidOf(e.paper.id, e.q.no);
+        const s = st[qid] || null;
+        return (markSel.fav && isFav(qid)) || (markSel.unfamiliar && s === 'unfamiliar') || (markSel.unknown && s === 'unknown');
+    });
 }
 
 // 清洗标签：去 LaTeX $...$、去空白、截断（用于分类树显示）
@@ -364,9 +384,9 @@ function renderTree() {
     const entries = activeEntries();
     const el = document.getElementById('catTree');
     if (!entries.length) {
-        el.innerHTML = `<div class="empty-tip">${favOnly
-            ? '还没有收藏的题目。到真题页点卡片右上角 ☆ 收藏后，这里会按章节汇总。'
-            : '暂无分类数据。'}</div>`;
+        el.innerHTML = `<div class="empty-tip">${Object.values(markSel).some(Boolean)
+            ? '当前筛选条件下没有题目。到真题页点 ☆ 收藏，或点题右侧「不熟/不会」打标记后，这里会按章节汇总。'
+            : '已取消全部筛选类别。请至少勾选「收藏 / 不熟 / 不会」中的一项。'}</div>`;
         return;
     }
     const tree = buildTree(entries);
@@ -427,6 +447,7 @@ function selectCat(id) {
 function catCard(paper, secTitle, q) {
     const qid = qidOf(paper.id, q.no);
     const fav = isFav(qid);
+    const st = statusOf(qid);
     const kindLabel = secKindLabel(secTitle);
     const stem = mdBlock(q.stem || '');
     const figHtml = q.img
@@ -448,6 +469,9 @@ function catCard(paper, secTitle, q) {
         <div class="q-head">
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindLabel}</span>
+            ${fav ? `<span class="q-mark-chip m-fav" title="已收藏">📥</span>` : ''}
+            ${st === 'unfamiliar' ? '<span class="q-mark-chip m-unfam" title="不熟">🟡 不熟</span>' : ''}
+            ${st === 'unknown' ? '<span class="q-mark-chip m-unk" title="不会">🔴 不会</span>' : ''}
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
             <span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
@@ -471,15 +495,16 @@ function renderMain() {
     }
     const entries = activeEntries().filter(e => String(e.catId) === String(curCat));
     const c = cats[curCat];
-    if (favOnly) {
-        // 收藏过滤：按收藏时间倒序（最近收藏的排最前）
-        entries.sort((a, b) => favTime(qidOf(b.paper.id, b.q.no)) - favTime(qidOf(a.paper.id, a.q.no)));
-    } else {
-        entries.sort((a, b) => parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10));
-    }
+    // 排序：有收藏时间的按收藏时间倒序靠前，其余按年份倒序
+    entries.sort((a, b) => {
+        const ta = favTime(qidOf(a.paper.id, a.q.no));
+        const tb = favTime(qidOf(b.paper.id, b.q.no));
+        if (ta && tb) return tb - ta;
+        return parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10);
+    });
     if (!entries.length) {
         el.innerHTML = `<div class="paper-head"><h1>${c ? c.display : curCat}</h1><div class="paper-sub">${c ? c.path : ''}</div></div>` +
-            `<div class="empty-tip">${favOnly ? '该章节下没有收藏的题目。' : '暂无题目。'}</div>`;
+            `<div class="empty-tip">该章节下当前筛选没有匹配题目。试试切换「收藏/不熟/不会」筛选。</div>`;
         return;
     }
     const years = new Set(entries.map(e => e.paper.year)).size;
@@ -489,7 +514,9 @@ function renderMain() {
         <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年</div>
         <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
-    if (favOnly) html += `<div class="cat-filter-tip">⭐ 收藏过滤中：仅显示已收藏题目</div>`;
+    const markNames = { fav: '📥收藏', unfamiliar: '🟡不熟', unknown: '🔴不会' };
+    const activeMark = Object.keys(markSel).filter(k => markSel[k]);
+    if (activeMark.length < 3) html += `<div class="cat-filter-tip">筛选：${activeMark.map(k => markNames[k]).join(' / ') || '（无）'}</div>`;
     entries.forEach(e => { html += catCard(e.paper, e.secTitle, e.q); });
     el.innerHTML = html;
     renderMath(el);
@@ -506,8 +533,7 @@ async function init() {
     if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
     papers = await er.json();
     cats = await cr.json();
-    const btn = document.getElementById('favOnly');
-    if (btn) btn.classList.toggle('on', favOnly);
+    document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
     // 恢复的选中分类若已不在分类表里（数据变更），清掉防悬空
     if (curCat !== null && !cats[String(curCat)]) { curCat = null; saveCatState(); }
     buildEntries();

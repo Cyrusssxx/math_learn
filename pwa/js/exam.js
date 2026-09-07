@@ -2,6 +2,7 @@
 
 const FAV_KEY = 'examFav';           // { 套卷id: [题no, ...] } 或 {'qid':1}
 const FAV_ONLY_KEY = 'examFavOnly';  // 是否只看收藏
+const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'unfamiliar' | 'unknown' }：不熟/不会掌握度标记（互斥）
 const EXAM_POS_KEY = 'examLastPos';  // 刷新恢复上次位置：{paperId, no}
 const REVIEW_KEY = 'examReview-';    // 试卷点评（按套卷 id 存）：examReview-{paperId}
 
@@ -37,6 +38,21 @@ function favGet() {
 function favSave(obj) {
     try { localStorage.setItem(FAV_KEY, JSON.stringify(obj)); }
     catch (e) { console.error('收藏保存失败（可能超出存储配额）:', e); alert('收藏存储空间不足，保存失败。请清理部分收藏后重试。'); }
+}
+// ============ 掌握度标记（不熟/不会，互斥单选；与收藏独立） ============
+function statusGet() {
+    try { return JSON.parse(localStorage.getItem(EXAM_STATUS_KEY)) || {}; } catch (e) { return {}; }
+}
+function statusSave(obj) {
+    try { localStorage.setItem(EXAM_STATUS_KEY, JSON.stringify(obj)); } catch (e) { }
+}
+function statusOf(qid) { return statusGet()[qid] || null; }
+// 互斥切换：v='unfamiliar'|'unknown'；同值再次调用则清除（不熟 ⇄ 不会 ⇄ 无）
+function toggleStatus(qid, v) {
+    const s = statusGet();
+    if (s[qid] === v) delete s[qid]; else s[qid] = v;
+    statusSave(s);
+    return s[qid] || null;
 }
 function qidOf(paperId, no) { return paperId + '-' + no; }
 function isFav(qid) { return !!favGet()[qid]; }
@@ -1070,6 +1086,10 @@ function qCard(p, sec, q, secIdx) {
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
             <button class="q-copy-latex" onclick="copyQLatex(this)" title="复制本题 LaTeX 源码（题干+选项，含 $...$ 原始命令）">📋 LaTeX</button>
         </div>
+        <div class="q-status-rail" data-qid="${qid}">
+            <button class="q-st-btn q-st-unfam${statusOf(qid) === 'unfamiliar' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unfamiliar')" title="标记为「不熟」（黄色；再点取消）">不熟</button>
+            <button class="q-st-btn q-st-unk${statusOf(qid) === 'unknown' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unknown')" title="标记为「不会」（红色；再点取消）">不会</button>
+        </div>
         <div class="q-body">${stem}${figHtml}${options}</div>
         <div class="q-ops">
             <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
@@ -1120,6 +1140,15 @@ function copyQLatex(btn) {
     let text = q.stem || '';
     if (q.options && q.options.length) text += '\n' + q.options.join('\n');
     copyTextToClipboard(text, btn, '已复制 ✓');
+}
+// 掌握度标记「不熟/不会」互斥切换（与收藏独立；同值再点取消）
+function toggleQStatus(btn, qid, v) {
+    const nv = toggleStatus(qid, v);
+    const rail = btn.closest('.q-status-rail');
+    if (rail) {
+        rail.querySelector('.q-st-unfam').classList.toggle('on', nv === 'unfamiliar');
+        rail.querySelector('.q-st-unk').classList.toggle('on', nv === 'unknown');
+    }
 }
 
 function secTag(secIdx) {
