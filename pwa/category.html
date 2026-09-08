@@ -29,9 +29,8 @@
                 <button class="cat-mark" data-src="bank" onclick="switchSrc('bank')" title="按大观园分类浏览大观园数二真题">大观园真题</button>
             </div>
             <div class="cat-marks">
-                <button class="cat-mark on" data-m="fav" onclick="toggleMark('fav')" title="只看已收藏">📥 收藏</button>
-                <button class="cat-mark on" data-m="unfamiliar" onclick="toggleMark('unfamiliar')" title="只看标记为「不熟」的题">🟡 不熟</button>
-                <button class="cat-mark on" data-m="unknown" onclick="toggleMark('unknown')" title="只看标记为「不会」的题">🔴 不会</button>
+                <button class="cat-mark" data-m="mix" onmousedown="event.preventDefault()" onclick="toggleMark('mix')" title="只看已收藏或标记为「不熟」的题">📥收藏+🟡不熟</button>
+                <button class="cat-mark" data-m="unknown" onmousedown="event.preventDefault()" onclick="toggleMark('unknown')" title="只看标记为「不会」的题">🔴 不会</button>
             </div>
             <button class="exam-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
             <a class="exam-btn" href="exam.html" title="返回真题页">📝 真题</a>

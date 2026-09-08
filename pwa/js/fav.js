@@ -6,7 +6,7 @@ let papers = [];
 let catMap = null;
 let favList = [];        // [{qid, paper, q, t}]
 let sortBy = 'year';     // year | time | topic
-let markSel = { fav: true, unfamiliar: true, unknown: true }; // 收藏 / 不熟 / 不会 多选筛选（默认全选，并集去重）
+let markSel = { mix: false, unknown: false }; // 筛选项：「收藏+不熟」合并 / 「不会」；默认都不选 = 显示全部
 let keyword = '';
 let hideAnswer = false;
 
@@ -68,12 +68,14 @@ function matchKw(item) {
 }
 
 function visibleItems() {
-    // 三选筛选：勾选类别取并集（去重由 buildFavList 完成）；全不勾 → 空
+    // 两项筛选并集：mix=收藏∪不熟，unknown=不会；全部未选 → 不过滤（显示池内全部）
+    const active = markSel.mix || markSel.unknown;
     return favList.filter(it => {
-        const m = markSel;
-        const hit = (m.fav && it.fav) || (m.unfamiliar && it.status === 'unfamiliar') || (m.unknown && it.status === 'unknown');
-        return hit && matchKw(it);
-    });
+        if (!active) return true;
+        const mix = markSel.mix && (it.fav || it.status === 'unfamiliar');
+        const unk = markSel.unknown && it.status === 'unknown';
+        return mix || unk;
+    }).filter(it => matchKw(it));
 }
 
 function sortItems(list) {
@@ -115,10 +117,7 @@ function renderFav() {
         return;
     }
     if (!items.length) {
-        const on = Object.values(markSel).some(Boolean);
-        body.innerHTML = on
-            ? '<div class="empty-tip">当前筛选条件下没有匹配的题目。试试切换右上方「收藏/不熟/不会」筛选或清空搜索词。</div>'
-            : '<div class="empty-tip">已取消全部筛选类别。请至少勾选「收藏 / 不熟 / 不会」中的一项。</div>';
+        body.innerHTML = '<div class="empty-tip">当前筛选条件下没有匹配的题目。试试调整「收藏+不熟 / 不会」筛选或清空搜索词。</div>';
         return;
     }
 
@@ -222,12 +221,10 @@ function onSearchInput() {
         renderFav();
     }, 200);
 }
-// 标记筛选（收藏/不熟/不会 多选，默认全选；全不勾时给出提示）
+// 标记筛选（「收藏+不熟」合并 / 「不会」两项，可多选；全不选 = 显示全部）
 function toggleMark(m) {
     markSel[m] = !markSel[m];
     document.querySelectorAll('.fav-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
-    const box = document.getElementById('markFilter');
-    if (box) box.classList.toggle('none-on', !Object.values(markSel).some(Boolean));
     renderFav();
 }
 // 汇总页内直接收藏（未收藏但打了标记的题也能顺手收藏）

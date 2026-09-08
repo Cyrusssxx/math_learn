@@ -81,34 +81,22 @@ function toggleFav(qid, btn) {
         }
     }
     // 任一筛选开启时，实时刷新分类树与题目列表
-    if (markSel.fav || markSel.unfamiliar || markSel.unknown) { renderTree(); renderMain(); }
+    if (markSel.mix || markSel.unknown) { renderTree(); renderMain(); }
 }
 
 // 掌握度/收藏多选筛选（默认全选，并集去重；收藏/不熟/不会互不归属）
-let markSel = { fav: true, unfamiliar: true, unknown: true };
+let markSel = { mix: false, unknown: false }; // 「收藏+不熟」合并 / 「不会」；默认都不选 = 显示全部
 function toggleMark(m) {
     markSel[m] = !markSel[m];
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
+    const sy = window.scrollY;   // 保持滚动位置，避免树高变化导致弹跳
     renderTree();
     renderMain();
+    requestAnimationFrame(() => window.scrollTo(0, sy));
 }
 
-// ============ 数据源：exam（现有数二真题） / bank（大观园数二真题） ============
-let bankMode = false;
-let bankItems = [];      // [{ paper:{id,year,title}, q, catIds:[] }]
-let bankCats = {};       // id -> {id,parentId,name,path,level}
-const collapsedBank = new Set();   // 大观园树折叠节点 id
-
-function switchSrc(src) {
-    bankMode = (src === 'bank');
-    document.querySelectorAll('.cat-src .cat-mark').forEach(b =>
-        b.classList.toggle('on', (b.dataset.src === 'bank') === bankMode));
-    curCat = null;
-    saveCatState();
-    buildEntries();
-    renderTree();
-    renderMain();
-}
+// ============ 合并数据：现有数二真题 + 大观园数二真题（统一一棵分类树） ============
+let bankItems = [];      // 大观园数二真题（categoryIds 已映射到统一分类体系：知识点 L2 或 年份节点）
 
 // ============ Markdown / KaTeX 渲染（与 exam.js 同源） ============
 function esc(s) {
@@ -338,14 +326,6 @@ function secKindLabel(t) {
 
 function buildEntries() {
     allEntries = [];
-    if (bankMode) {
-        for (const e of bankItems) {
-            for (const cid of e.catIds) {
-                allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
-            }
-        }
-        return;
-    }
     for (const p of papers) {
         for (const sec of p.sections) {
             for (const q of sec.questions) {
@@ -356,15 +336,24 @@ function buildEntries() {
             }
         }
     }
+    // 合并大观园数二真题进同一棵分类树
+    for (const e of bankItems) {
+        for (const cid of e.catIds) {
+            allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
+        }
+    }
 }
 
 function activeEntries() {
-    // 三选筛选：收藏 / 不熟 / 不会 取并集（默认全选全部；全不勾 → 空）
+    // 筛选并集：mix=收藏∪不熟，unknown=不会；全部未选 → 不过滤（显示全部真题）
+    if (!markSel.mix && !markSel.unknown) return allEntries;
     const st = statusGet();
     return allEntries.filter(e => {
         const qid = qidOf(e.paper.id, e.q.no);
         const s = st[qid] || null;
-        return (markSel.fav && isFav(qid)) || (markSel.unfamiliar && s === 'unfamiliar') || (markSel.unknown && s === 'unknown');
+        const mix = markSel.mix && (isFav(qid) || s === 'unfamiliar');
+        const unk = markSel.unknown && s === 'unknown';
+        return mix || unk;
     });
 }
 
@@ -409,12 +398,9 @@ function renderTree() {
     const entries = activeEntries();
     const el = document.getElementById('catTree');
     if (!entries.length) {
-        el.innerHTML = `<div class="empty-tip">${Object.values(markSel).some(Boolean)
-            ? '当前筛选条件下没有题目。到真题页点 ☆ 收藏，或点题右侧「不熟/不会」打标记后，这里会按章节汇总。'
-            : '已取消全部筛选类别。请至少勾选「收藏 / 不熟 / 不会」中的一项。'}</div>`;
+        el.innerHTML = '<div class="empty-tip">当前筛选条件下没有题目。到真题页点 ☆ 收藏，或点题右侧「不熟/不会」打标记后，这里会按章节汇总。</div>';
         return;
     }
-    if (bankMode) { el.innerHTML = renderTreeBank(entries); return; }
     const tree = buildTree(entries);
     el.innerHTML = tree.map(s => {
         const open = !collapsedSubjects.has(s.subject);
@@ -446,65 +432,6 @@ function renderTree() {
             </div>
         </div>`;
     }).join('');
-}
-
-// 大观园通用树（任意深度，parentId 嵌套；节点计数含子孙；折叠记忆在 collapsedBank）
-function renderTreeBank(entries) {
-    const byCat = {};
-    for (const e of entries) byCat[String(e.catId)] = (byCat[String(e.catId)] || 0) + 1;
-    const nodes = {};
-    const children = {};
-    const roots = [];
-    for (const id in bankCats) {
-        const c = bankCats[id];
-        nodes[id] = { id: String(c.id), name: c.name || '', path: c.path || '', count: byCat[id] || 0, kids: [] };
-        const pid = c.parentId != null ? String(c.parentId) : null;
-        if (pid && bankCats[pid]) (children[pid] = children[pid] || []).push(id);
-        else roots.push(id);
-    }
-    const calc = id => {
-        let n = nodes[id].count;
-        for (const k of (children[id] || [])) n += calc(k);
-        nodes[id].count = n;
-        nodes[id].kids = (children[id] || []).filter(k => nodes[k].count > 0);
-        return n;
-    };
-    for (const id of roots) calc(id);
-    const escA = v => String(v).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const renderNode = (id, depth) => {
-        const nd = nodes[id];
-        const sel = String(curCat) === id;
-        if (!nd.kids.length) {
-            return `<button class="cat-leaf${sel ? ' on' : ''}" onclick="selectCat(${nd.id})" title="${escA(nd.path || nd.name)}">
-                <span class="cat-leaf-name">${nd.name}</span><span class="cat-count">${nd.count}</span></button>`;
-        }
-        const open = !collapsedBank.has(id);
-        return `<div class="cat-chapter">
-            <div class="cat-chapter-head${sel ? ' on' : ''}" onclick="toggleBankNode(${nd.id})" style="padding-left:${Math.min(depth, 6) * 12}px">
-                <span class="cat-chapter-arrow">${open ? '▾' : '▸'}</span>
-                <span class="cat-chapter-name">${nd.name}</span>
-                <span class="cat-count">${nd.count}</span>
-            </div>
-            <div class="cat-chapter-body" style="display:${open ? 'block' : 'none'}">${nd.kids.map(k => renderNode(k, depth + 1)).join('')}</div>
-        </div>`;
-    };
-    return roots.filter(id => nodes[id].count > 0).map(id => {
-        const nd = nodes[id];
-        const open = !collapsedBank.has(id);
-        return `<div class="paper-group">
-            <div class="paper-group-head" onclick="toggleBankNode(${nd.id})">
-                <span class="paper-group-arrow">${open ? '▼' : '▶'}</span>
-                <span class="paper-group-name">${nd.name}</span>
-                <span class="paper-group-count">${nd.count}</span>
-            </div>
-            <div class="paper-group-body" style="display:${open ? 'block' : 'none'}">${nd.kids.map(k => renderNode(k, 1)).join('')}</div>
-        </div>`;
-    }).join('');
-}
-function toggleBankNode(id) {
-    if (collapsedBank.has(String(id))) collapsedBank.delete(String(id));
-    else collapsedBank.add(String(id));
-    renderTree();
 }
 
 function toggleSubject(subj) {
@@ -544,14 +471,14 @@ function catCard(paper, secTitle, q) {
         ? `<div class="q-options">${q.options.map((o, i) => `<div class="q-opt">${!q.options.some(x => /^\([A-D]\)/.test(x)) ? `<span class="opt-label">${'ABCD'[i]}</span>` : ''}${mdInline(o)}</div>`).join('')}</div>`
         : '';
     const ideaHtml = q.idea ? `<div class="q-sec q-idea" data-copy-md="${copyMdAttr(q.idea)}" hidden>${mdBlock(q.idea)}</div>` : '';
-    const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">${bankMode ? '解析' : '思路'}</button>` : '';
+    const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">${paper.id === 'bank' ? '解析' : '思路'}</button>` : '';
     const note = noteGet(qid);
     const hasNote = !!note.trim();
     const hasImg = /\[图:[a-z0-9]+\]/.test(note);
     const noteHtml = hasNote ? `<div class="q-sec q-note${hasImg ? ' has-img' : ''}" data-qid="${qid}"><div class="q-note-preview">${mdBlockWithImg(note)}</div><div class="q-note-hint"></div></div>` : '';
     const noteBtn = hasNote ? `<button class="q-op has" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>` : '';
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
-    const yearHtml = bankMode
+    const yearHtml = paper.id === 'bank'
         ? `<span class="q-year">${paper.year}年</span>`
         : `<span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>`;
     return `<div class="q-card" id="q-${qid}">
@@ -583,7 +510,7 @@ function renderMain() {
         return;
     }
     const entries = activeEntries().filter(e => String(e.catId) === String(curCat));
-    const c = bankMode ? (bankCats[String(curCat)] || null) : cats[curCat];
+    const c = cats[curCat];
     // 排序：有收藏时间的按收藏时间倒序靠前，其余按年份倒序
     entries.sort((a, b) => {
         const ta = favTime(qidOf(a.paper.id, a.q.no));
@@ -603,9 +530,9 @@ function renderMain() {
         <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年</div>
         <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
-    const markNames = { fav: '📥收藏', unfamiliar: '🟡不熟', unknown: '🔴不会' };
+    const markNames = { mix: '📥收藏+🟡不熟', unknown: '🔴不会' };
     const activeMark = Object.keys(markSel).filter(k => markSel[k]);
-    if (activeMark.length < 3) html += `<div class="cat-filter-tip">筛选：${activeMark.map(k => markNames[k]).join(' / ') || '（无）'}</div>`;
+    if (activeMark.length) html += `<div class="cat-filter-tip">筛选：${activeMark.map(k => markNames[k]).join(' / ')}</div>`;
     entries.forEach(e => { html += catCard(e.paper, e.secTitle, e.q); });
     el.innerHTML = html;
     renderMath(el);
@@ -614,22 +541,18 @@ function renderMain() {
 
 // ============ 初始化 ============
 async function init() {
-    const [er, cr, br, bcr] = await Promise.all([
+    const [er, cr, br] = await Promise.all([
         fetch('data/exam.json'),
         fetch('data/exam_categories.json'),
         fetch('data/bank_questions.json').catch(() => null),
-        fetch('data/bank_categories.json').catch(() => null),
     ]);
     if (!er.ok) throw new Error('加载真题失败: ' + er.status);
     if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
     papers = await er.json();
     cats = await cr.json();
-    // 大观园真题库（数二真题，与 exam.json 题文去重；独立分类树）
-    if (br && br.ok && bcr && bcr.ok) {
+    // 大观园真题库（categoryIds 已映射到统一分类体系，与 exam.json 合并一棵树）
+    if (br && br.ok) {
         const bq = await br.json();
-        const bcj = await bcr.json();
-        bankCats = {};
-        (bcj.items || []).forEach(c => { bankCats[String(c.id)] = c; });
         bankItems = (bq.items || []).map((it, idx) => {
             const ym = /^(19\d\d|20\d\d)/.exec(it.source || '');
             const q = Object.assign({}, it, {
@@ -640,8 +563,6 @@ async function init() {
         });
     }
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
-    // 数据源切换按钮状态（默认数二真题）
-    document.querySelectorAll('.cat-src .cat-mark').forEach(b => b.classList.toggle('on', (b.dataset.src === 'bank') === bankMode));
     // 恢复的选中分类若已不在分类表里（数据变更），清掉防悬空
     if (curCat !== null && !cats[String(curCat)]) { curCat = null; saveCatState(); }
     buildEntries();
