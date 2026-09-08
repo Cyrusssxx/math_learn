@@ -553,6 +553,7 @@ async function init() {
     // 大观园真题库（categoryIds 已映射到统一分类体系，与 exam.json 合并一棵树）
     if (br && br.ok) {
         const bq = await br.json();
+        const examYears = new Set(papers.map(p => String(p.year)));
         bankItems = (bq.items || []).map((it, idx) => {
             const ym = /^(19\d\d|20\d\d)/.exec(it.source || '');
             const q = Object.assign({}, it, {
@@ -560,6 +561,11 @@ async function init() {
                 idea: it.explanation || '',   // 大观园解析 → 分类页「解析」按钮
             });
             return { paper: { id: 'bank', year: ym ? ym[1] : '', title: it.source || '大观园真题' }, q, catIds: it.categoryIds || [] };
+        })
+        // 同题去重：source 为「(YY)YY 数二(真题)」且现有已有同年套卷 → 隐藏大观园版（math-note 版已在），避免同题两版；1987-1999 等老年份与合卷题保留
+        .filter(e => {
+            const m = /^\(?(19\d\d|20\d\d) 数二(真题)?\)?$/.exec(e.q.source || '');
+            return !(m && examYears.has(m[1]));
         });
     }
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
