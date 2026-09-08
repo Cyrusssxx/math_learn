@@ -108,6 +108,14 @@
     white-space: nowrap;
 }
 .q-year a:hover { background: var(--bg-hover); border-color: var(--accent); }
+/* 大观园题年份（无真题页链接）：与现有题年份徽标视觉一致，仅不可点 */
+.q-year-tag {
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1px 7px;
+    white-space: nowrap;
+}
 
 /* 收藏过滤提示条 */
 .cat-filter-tip {

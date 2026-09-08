@@ -471,7 +471,7 @@ function catCard(paper, secTitle, q) {
         ? `<div class="q-options">${q.options.map((o, i) => `<div class="q-opt">${!q.options.some(x => /^\([A-D]\)/.test(x)) ? `<span class="opt-label">${'ABCD'[i]}</span>` : ''}${mdInline(o)}</div>`).join('')}</div>`
         : '';
     const ideaHtml = q.idea ? `<div class="q-sec q-idea" data-copy-md="${copyMdAttr(q.idea)}" hidden>${mdBlock(q.idea)}</div>` : '';
-    const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">${paper.id === 'bank' ? '解析' : '思路'}</button>` : '';
+    const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';
     const note = noteGet(qid);
     const hasNote = !!note.trim();
     const hasImg = /\[图:[a-z0-9]+\]/.test(note);
@@ -479,7 +479,7 @@ function catCard(paper, secTitle, q) {
     const noteBtn = hasNote ? `<button class="q-op has" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>` : '';
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
     const yearHtml = paper.id === 'bank'
-        ? `<span class="q-year">${paper.year}年</span>`
+        ? `<span class="q-year"><span class="q-year-tag">${paper.year}年</span></span>`
         : `<span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>`;
     return `<div class="q-card" id="q-${qid}">
         <div class="q-head">
