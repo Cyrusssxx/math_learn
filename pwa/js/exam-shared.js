@@ -204,7 +204,11 @@ function mdBlock(s) {
         .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
         .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
         .replace(/&lt;h1&gt;([\s\S]*?)&lt;\/h1&gt;/g, '<h1>$1</h1>')
-        .replace(/&lt;h2&gt;([\s\S]*?)&lt;\/h2&gt;/g, '<h2>$1</h2>');
+        .replace(/&lt;h2&gt;([\s\S]*?)&lt;\/h2&gt;/g, '<h2>$1</h2>')
+        .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (_, alt, src) =>
+            /^data\/img\/[a-zA-Z0-9_./-]+$/.test(src)
+                ? `<span class="exam-fig-wrap"><img class="exam-fig" src="${src}" alt="${String(alt).replace(/"/g, '&quot;')}" onclick="zoomAnsImg(this)" loading="lazy"></span>`
+                : '');
 }
 
 function mdBlockWithImg(s) {

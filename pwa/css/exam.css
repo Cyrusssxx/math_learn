@@ -961,6 +961,21 @@ html.dark .q-note-savebtn { color: #1e1e2e; }
 }
 .q-note-hint.show { opacity: 1; }
 
+/* 真题/大观园题配图（markdown ![]() 渲染，data/img/ 白名单） */
+.exam-fig-wrap {
+    display: block;
+    margin: 8px 0;
+    max-width: 100%;
+}
+.exam-fig {
+    max-width: 100%;
+    max-height: 320px;
+    border: 1px solid var(--border, #d5dbe3);
+    border-radius: 8px;
+    cursor: zoom-in;
+}
+.exam-fig:hover { border-color: var(--accent, #4a90d9); }
+
 /* 单图删除按钮：hover 笔记图时右上角显示 × */
 .exam-note-img-wrap {
     position: relative;
