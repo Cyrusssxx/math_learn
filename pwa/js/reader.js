@@ -448,6 +448,15 @@ function onSearchFocus(v) {
     else doSearch(v);
 }
 
+/** 命中词上下文片段：以命中词为中心取前后窗口，保证高亮词一定显示 */
+function snippet(text, q) {
+    const i = text.toLowerCase().indexOf(q.toLowerCase());
+    if (i < 0) return text.slice(0, 80);
+    const start = Math.max(0, i - 24);
+    const end = Math.min(text.length, i + q.length + 30);
+    return (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
+}
+
 function doSearch(q) {
     const box = document.getElementById('searchResults');
     q = q.trim().toLowerCase();
@@ -473,16 +482,17 @@ function doSearch(q) {
     }
     // 排序：科目（知识点在前、好题在后）→ 标题/章节/正文 → 原文顺序
     hits.sort((a, b) => a.r - b.r || a.w - b.w || a.idx - b.idx);
-    const top = hits.slice(0, 40);
+    const top = hits.slice(0, 100);
     lastHits = top;
     box.hidden = false;
-    box.innerHTML = top.length === 0 ? '<div class="sr-empty">无结果</div>' :
-        top.map((h, i) => {
+    box.innerHTML = top.length === 0
+        ? `<div class="sr-empty">无结果${subjFilter ? `（当前学科过滤：${SUBJECT_NAMES[subjFilter] || subjFilter}，可点上方 chips 切换）` : ''}</div>`
+        : top.map((h, i) => {
             const n = notes[h.ni];
             const ch = h.ci >= 0 ? n.chapters[h.ci] : '';
             return `<a class="sr-item" href="#/${n.id}${h.ci >= 0 ? '/' + h.ci : ''}" onclick="return locateHit(${i})">
                 <span class="sr-path"><span class="sr-tag ${n.subject}">${SUBJECT_NAMES[n.subject]}</span>${hlText(n.name, q)}${ch ? ' › ' + hlText(ch, q) : ''}</span>
-                <span class="sr-text">${hlText(h.text.slice(0, 80), q)}</span></a>`;
+                <span class="sr-text">${hlText(snippet(h.text, q), q)}</span></a>`;
         }).join('');
 }
 
