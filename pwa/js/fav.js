@@ -6,7 +6,7 @@ let papers = [];
 let catMap = null;
 let favList = [];        // [{qid, paper, q, t}]
 let sortBy = 'year';     // year | time | topic
-let markSel = { mix: false, unknown: false }; // 筛选项：「收藏+不熟」合并 / 「不会」；默认都不选 = 显示全部
+let markSel = { fav: false, unfamiliar: false, unknown: false }; // 收藏 / 不熟 / 不会 分开筛选；默认都不选 = 显示全部
 let keyword = '';
 let hideAnswer = false;
 
@@ -68,13 +68,14 @@ function matchKw(item) {
 }
 
 function visibleItems() {
-    // 两项筛选并集：mix=收藏∪不熟，unknown=不会；全部未选 → 不过滤（显示池内全部）
-    const active = markSel.mix || markSel.unknown;
+    // 三项筛选并集：收藏 / 不熟 / 不会 分别勾选；全部未选 → 不过滤（显示池内全部）
+    const active = markSel.fav || markSel.unfamiliar || markSel.unknown;
     return favList.filter(it => {
         if (!active) return true;
-        const mix = markSel.mix && (it.fav || it.status === 'unfamiliar');
-        const unk = markSel.unknown && it.status === 'unknown';
-        return mix || unk;
+        const f = markSel.fav && it.fav;
+        const u = markSel.unfamiliar && it.status === 'unfamiliar';
+        const k = markSel.unknown && it.status === 'unknown';
+        return f || u || k;
     }).filter(it => matchKw(it));
 }
 
@@ -82,6 +83,8 @@ function sortItems(list) {
     const arr = list.slice();
     if (sortBy === 'time') {
         arr.sort((a, b) => b.t - a.t);
+    } else if (sortBy === 'timeAsc') {
+        arr.sort((a, b) => a.t - b.t);
     } else if (sortBy === 'topic') {
         arr.sort((a, b) => (chapterOf(a.q) === chapterOf(b.q)
             ? (String(b.paper.year).localeCompare(String(a.paper.year)) || a.q.no - b.q.no)
@@ -117,7 +120,7 @@ function renderFav() {
         return;
     }
     if (!items.length) {
-        body.innerHTML = '<div class="empty-tip">当前筛选条件下没有匹配的题目。试试调整「收藏+不熟 / 不会」筛选或清空搜索词。</div>';
+        body.innerHTML = '<div class="empty-tip">当前筛选条件下没有匹配的题目。试试调整「收藏 / 不熟 / 不会」筛选或清空搜索词。</div>';
         return;
     }
 
@@ -269,7 +272,7 @@ async function exportMarkdown() {
     lines.push('');
     lines.push('> 导出时间：' + fmtFavTime(Date.now()));
     lines.push('> 共 ' + items.length + ' 题（全部收藏）');
-    lines.push('> 排序：' + ({ year: '按年份', time: '按收藏时间', topic: '按知识点' })[sortBy]);
+    lines.push('> 排序：' + ({ year: '按年份', time: '按收藏时间（新→旧）', timeAsc: '按收藏时间（旧→新）', topic: '按知识点' })[sortBy]);
     lines.push('> 公式保留 LaTeX 源码，在支持数学渲染的编辑器（Obsidian / Typora）中可正常显示。');
     lines.push('');
 

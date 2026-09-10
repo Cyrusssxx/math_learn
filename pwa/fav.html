@@ -36,6 +36,7 @@
             <select class="fav-sel" id="sortSel" onchange="onSortChange()">
                 <option value="year">按年份（卷）</option>
                 <option value="time">按收藏时间（新→旧）</option>
+                <option value="timeAsc">按收藏时间（旧→新）</option>
                 <option value="topic">按知识点</option>
             </select>
 
@@ -43,7 +44,8 @@
 
             <span class="fav-tb-lab">标记</span>
             <div class="fav-marks" id="markFilter">
-                <button class="fav-mark" data-m="mix" onmousedown="event.preventDefault()" onclick="toggleMark('mix')" title="只看已收藏或标记为「不熟」的题">📥收藏+🟡不熟</button>
+                <button class="fav-mark" data-m="fav" onmousedown="event.preventDefault()" onclick="toggleMark('fav')" title="只看已收藏">📥 收藏</button>
+                <button class="fav-mark" data-m="unfamiliar" onmousedown="event.preventDefault()" onclick="toggleMark('unfamiliar')" title="只看标记为「不熟」的题">🟡 不熟</button>
                 <button class="fav-mark" data-m="unknown" onmousedown="event.preventDefault()" onclick="toggleMark('unknown')" title="只看标记为「不会」的题">🔴 不会</button>
             </div>
 
