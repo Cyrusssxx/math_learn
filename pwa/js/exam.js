@@ -429,7 +429,11 @@ function notePasteImg(e) {
     }
     noteInput(ta);   // 触发保存 + 预览（此时值里已含令牌）
     // 异步：压缩 → 写库 → 只回填这一张（写完后必定能取到 blob）
-    const imgTask = compressImage(it.getAsFile()).then(blob => examImgPut(id, blob)).then(() => {
+    // 兜底策略：先立即写入【原始图】再后台压缩覆盖——IDB 写原图比压缩快一个量级，
+    // 即使贴图后立刻关页/切走导致压缩中断，原图 blob 也已落库，不会变成永久「图片已丢失」。
+    const raw = it.getAsFile();
+    const rawPut = examImgPut(id, raw).catch(() => { });   // 原图兜底写入失败不影响后续压缩写入
+    const imgTask = compressImage(raw).then(blob => examImgPut(id, blob)).then(() => rawPut).then(() => {
         fillOneExamNoteImg(ta, id);   // 回填这张图的 blob
         renderNotePreview(ta);         // 回填后刷新预览
     }).catch(() => {
