@@ -433,15 +433,16 @@ function notePasteImg(e) {
     // 即使贴图后立刻关页/切走导致压缩中断，原图 blob 也已落库，不会变成永久「图片已丢失」。
     const raw = it.getAsFile();
     const rawPut = examImgPut(id, raw).catch(() => { });   // 原图兜底写入失败不影响后续压缩写入
-    const imgTask = compressImage(raw).then(blob => examImgPut(id, blob)).then(() => rawPut).then(() => {
-        fillOneExamNoteImg(ta, id);   // 回填这张图的 blob
-        renderNotePreview(ta);         // 回填后刷新预览
-    }).catch(() => {
-        alert('图片保存失败');
-        removeExamNoteImgRef(ta, id);  // 摘掉失败的图，避免留下永远取不到 blob 的空节点
-    }).then(() => {
-        _pendingImgs.delete(id);
-    });
+    const imgTask = compressImage(raw).then(blob => examImgPut(id, blob)).then(() => rawPut).then(() => true)
+        // 压缩（或压缩写库）偶发失败：原图兜底已先行落库——保留引用、回填原图继续显示，
+        // 绝不摘除节点（摘除 = 文本引用永失 → 用户看到"后贴的图消失"，即使 blob 还在 DB）
+        .catch(() => fillOneExamNoteImg(ta, id))
+        .then(ok => {
+            if (ok) { fillOneExamNoteImg(ta, id); renderNotePreview(ta); }   // 回填这张图 + 刷新预览
+            else { alert('图片保存失败'); removeExamNoteImgRef(ta, id); }     // 原图兜底也没有才摘除
+        }).then(() => {
+            _pendingImgs.delete(id);
+        });
     _pendingImgTasks[id] = imgTask;
     imgTask.then(() => { delete _pendingImgTasks[id]; }, () => { delete _pendingImgTasks[id]; });
 }
@@ -816,12 +817,13 @@ async function fillExamNoteImgs(root) {
 // 与 fillExamNoteImgs 的关键区别：拿不到也绝不 replaceWith('[图片已丢失]')——
 // 同步登记的节点在压缩期间本来就没有 blob，误标会把图片节点换成文本、令牌永久丢失。
 async function fillOneExamNoteImg(ta, id) {
-    if (!ta || !id) return;
+    if (!ta || !id) return false;
     const img = ta.querySelector('img.exam-note-img[data-img="' + id + '"]');
-    if (!img || (img.src && img.src.startsWith('blob:'))) return;   // 已回填则跳过
+    if (!img || (img.src && img.src.startsWith('blob:'))) return true;   // 已回填则跳过
     let blob = await examImgGet(id);
     if (!blob) { await new Promise(r => setTimeout(r, 200)); blob = await examImgGet(id); }
-    if (blob) img.src = URL.createObjectURL(blob);
+    if (blob) { img.src = URL.createObjectURL(blob); return true; }
+    return false;
 }
 // 压缩/写库失败时摘掉这张图的占位节点或文本，避免留下永远取不到 blob 的空图
 function removeExamNoteImgRef(ta, id) {
