@@ -1,0 +1,136 @@
+/* ============ 「分析与建议」共享面板（真题页 + 收藏汇总页） ============ */
+.an-mask {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 20, 28, .45);
+    z-index: 3000;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: auto;
+    padding: 4vh 16px 6vh;
+}
+.an-mask.show { display: flex; }
+
+.an-panel {
+    width: 100%;
+    max-width: 860px;
+    background: var(--bg-card, #fff);
+    color: var(--text, #1f2430);
+    border: 1px solid var(--border, #d5dbe3);
+    border-radius: 14px;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, .28);
+    overflow: hidden;
+}
+
+.an-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--border, #d5dbe3);
+}
+.an-title { font-size: 17px; font-weight: 800; }
+.an-sub { font-size: 12.5px; color: var(--text-faint, #7b8794); margin-top: 4px; line-height: 1.5; }
+.an-x {
+    flex: none;
+    border: 1px solid var(--border, #d5dbe3);
+    background: transparent;
+    color: inherit;
+    border-radius: 8px;
+    width: 30px; height: 30px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.an-x:hover { background: var(--bg-hover, #f2f5f9); }
+
+.an-body { padding: 14px 18px 6px; max-height: 62vh; overflow: auto; }
+.an-loading, .an-empty { padding: 26px 6px; text-align: center; color: var(--text-faint, #7b8794); font-size: 13.5px; line-height: 1.7; }
+
+.an-ov {
+    font-size: 13px;
+    color: var(--text, #1f2430);
+    background: var(--bg-hover, #f4f7fb);
+    border: 1px solid var(--border, #d5dbe3);
+    border-radius: 10px;
+    padding: 9px 12px;
+    margin-bottom: 12px;
+    line-height: 1.7;
+}
+.an-ov b { font-weight: 800; }
+
+.an-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 12px 12px 10px;
+    border: 1px solid var(--border, #d5dbe3);
+    border-left-width: 4px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background: var(--bg-card, #fff);
+}
+.an-row.an-high { border-left-color: #e03131; }
+.an-row.an-mid { border-left-color: #f59f00; }
+.an-row.an-low { border-left-color: #37b24d; }
+
+.an-rank {
+    flex: none;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--bg-hover, #eef2f7);
+    color: var(--text-faint, #7b8794);
+    font-size: 12.5px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
+}
+.an-info { flex: 1; min-width: 0; }
+.an-name { font-size: 14.5px; font-weight: 700; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.an-tag { font-size: 11.5px; font-weight: 700; padding: 1px 8px; border-radius: 999px; border: 1px solid currentColor; }
+.an-tag.an-tag-high { color: #e03131; }
+.an-tag.an-tag-mid { color: #b8860b; }
+.an-tag.an-tag-low { color: #2f9e44; }
+.an-path { font-size: 12px; color: var(--text-faint, #7b8794); margin-top: 3px; }
+.an-stat { font-size: 12.5px; color: var(--text, #1f2430); margin-top: 5px; }
+.an-advice { font-size: 13px; line-height: 1.75; margin-top: 5px; color: var(--text, #1f2430); }
+
+.an-jump {
+    flex: none;
+    align-self: center;
+    border: 1px solid var(--accent, #4a90d9);
+    color: var(--accent, #4a90d9);
+    background: transparent;
+    border-radius: 8px;
+    padding: 7px 11px;
+    font-size: 12.5px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.an-jump:hover { background: var(--accent, #4a90d9); color: #fff; }
+
+.an-foot {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 12px 18px 16px;
+    border-top: 1px solid var(--border, #d5dbe3);
+}
+.an-btn {
+    flex: none;
+    border: 1px solid var(--border, #d5dbe3);
+    background: var(--bg-hover, #f2f5f9);
+    color: inherit;
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 13px;
+    cursor: pointer;
+}
+.an-btn:hover { border-color: var(--accent, #4a90d9); color: var(--accent, #4a90d9); }
+.an-note { font-size: 11.5px; color: var(--text-faint, #7b8794); line-height: 1.6; flex: 1; min-width: 220px; }
+
+@media (max-width: 640px) {
+    .an-row { flex-wrap: wrap; }
+    .an-jump { width: 100%; }
+}

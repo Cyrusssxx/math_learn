@@ -11,6 +11,7 @@
     <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
     <link rel="stylesheet" href="css/notes.css">
     <link rel="stylesheet" href="css/exam.css">
+    <link rel="stylesheet" href="css/analysis.css">
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -25,6 +26,7 @@
         <div class="exam-topbtns">
             <a class="exam-btn" href="category.html" target="_blank" title="按知识点分类浏览真题（新标签页）">🗂 分类</a>
             <a class="exam-btn" href="fav.html" target="_blank" title="收藏汇总：跨套卷一键查看全部收藏题，可排序/筛选/搜索/导出（新标签页）">📋 收藏汇总</a>
+            <button class="exam-btn" onclick="openAnalysisPanel()" title="基于你的收藏与「不熟/不会」标记，分析薄弱知识点并给出训练建议（分析与建议，真题页/收藏汇总页共用）">📊 分析与建议</button>
             <button class="exam-btn" id="favOnly" onclick="toggleFavOnly()" title="只看已收藏题目">⭐ 收藏夹</button>
             <button class="exam-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
             <a class="exam-btn" href="index.html" title="打开笔记站">📚 笔记</a>
@@ -63,6 +65,7 @@
     <script defer src="vendor/katex/katex.min.js"></script>
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/exam.js"></script>
+    <script defer src="js/analysis.js"></script>
 
     <!-- 背景自定义面板 -->
     <button class="bg-fab" id="bgFab" onclick="toggleBgPanel()" title="背景设置" aria-label="背景设置">🎨</button>

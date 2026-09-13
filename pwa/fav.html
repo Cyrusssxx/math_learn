@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/exam.css">
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
     <link rel="stylesheet" href="css/fav.css">
+    <link rel="stylesheet" href="css/analysis.css">
 </head>
 
 <body>
@@ -23,6 +24,7 @@
             </div>
         </div>
         <div class="exam-topbtns">
+            <button class="exam-btn" onclick="openAnalysisPanel()" title="基于你的收藏与「不熟/不会」标记，分析薄弱知识点并给出训练建议（与真题页共用同一分析面板）">📊 分析与建议</button>
             <button class="exam-btn" id="hideAnsBtn" onclick="toggleHideAnswer()" title="隐藏答案/思路/点睛，只留题干与笔记（便于打印出来重做）">🙈 隐藏答案</button>
             <button class="exam-btn" onclick="exportMarkdown()" title="导出为 Markdown（贴图以 base64 内嵌，单文件）">📄 导出 MD</button>
             <button class="exam-btn" onclick="exportPDF()" title="调起打印，在对话框选择「另存为 PDF」">🖨 导出 PDF</button>
@@ -66,6 +68,7 @@
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/exam-shared.js"></script>
     <script defer src="js/fav.js"></script>
+    <script defer src="js/analysis.js"></script>
 </body>
 
 </html>

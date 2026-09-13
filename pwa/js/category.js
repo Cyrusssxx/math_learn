@@ -81,11 +81,11 @@ function toggleFav(qid, btn) {
         }
     }
     // 任一筛选开启时，实时刷新分类树与题目列表
-    if (markSel.mix || markSel.unknown) { renderTree(); renderMain(); }
+    if (markSel.fav || markSel.unfamiliar || markSel.unknown) { renderTree(); renderMain(); }
 }
 
 // 掌握度/收藏多选筛选（默认全选，并集去重；收藏/不熟/不会互不归属）
-let markSel = { mix: false, unknown: false }; // 「收藏+不熟」合并 / 「不会」；默认都不选 = 显示全部
+let markSel = { fav: false, unfamiliar: false, unknown: false }; // 收藏 / 不熟 / 不会 分开筛选；默认都不选 = 显示全部
 function toggleMark(m) {
     markSel[m] = !markSel[m];
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
@@ -349,15 +349,16 @@ function buildEntries() {
 }
 
 function activeEntries() {
-    // 筛选并集：mix=收藏∪不熟，unknown=不会；全部未选 → 不过滤（显示全部真题）
-    if (!markSel.mix && !markSel.unknown) return allEntries;
+    // 筛选并集：收藏 / 不熟 / 不会 分别勾选；全部未选 → 不过滤（显示全部真题）
+    if (!markSel.fav && !markSel.unfamiliar && !markSel.unknown) return allEntries;
     const st = statusGet();
     return allEntries.filter(e => {
         const qid = qidOf(e.paper.id, e.q.no);
         const s = st[qid] || null;
-        const mix = markSel.mix && (isFav(qid) || s === 'unfamiliar');
-        const unk = markSel.unknown && s === 'unknown';
-        return mix || unk;
+        const f = markSel.fav && isFav(qid);
+        const u = markSel.unfamiliar && s === 'unfamiliar';
+        const k = markSel.unknown && s === 'unknown';
+        return f || u || k;
     });
 }
 
@@ -534,7 +535,7 @@ function renderMain() {
         <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年</div>
         <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
-    const markNames = { mix: '📥收藏+🟡不熟', unknown: '🔴不会' };
+    const markNames = { fav: '📥收藏', unfamiliar: '🟡不熟', unknown: '🔴不会' };
     const activeMark = Object.keys(markSel).filter(k => markSel[k]);
     if (activeMark.length) html += `<div class="cat-filter-tip">筛选：${activeMark.map(k => markNames[k]).join(' / ')}</div>`;
     entries.forEach(e => { html += catCard(e.paper, e.secTitle, e.q); });
@@ -575,6 +576,14 @@ async function init() {
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
     // 恢复的选中分类若已不在分类表里（数据变更），清掉防悬空
     if (curCat !== null && !cats[String(curCat)]) { curCat = null; saveCatState(); }
+    // 支持 ?cid=<知识点id> 直达（来自「分析与建议」面板的「跳转刷题」）
+    const _cid = new URLSearchParams(location.search).get('cid');
+    if (_cid && cats[String(_cid)]) {
+        curCat = Number(_cid);
+        collapsedSubjects.clear();   // 跳转时全展开，保证该知识点在树中可见
+        collapsedChapters.clear();
+        saveCatState();
+    }
     buildEntries();
     renderTree();
     renderMain();
