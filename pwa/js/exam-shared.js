@@ -169,7 +169,8 @@ function mdBlock(s) {
     let mathBuf = null;   // 累积跨行 $$ 块
 
     for (const raw of lines) {
-        const l = raw.trim();
+        // 只去普通空格/制表符，保留 NBSP（承载用户打的缩进/连续空格；raw.trim() 会连 NBSP 一起删）
+        const l = raw.replace(/^[ \t]+/, '').replace(/[ \t]+$/, '');
         if (!l) { if (mathBuf) { mathBuf += '\n'; } continue; }
 
         // 检测 $$ 开/闭（不在行内 $ 内的独立 $$）

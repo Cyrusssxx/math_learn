@@ -274,7 +274,8 @@ function editorToNote(el) {
         let s = '';
         for (const ch of n.childNodes) {
             if (ch.nodeType === 3) {
-                const t = ch.nodeValue.replace(/\u00A0/g, ' ').replace(/\u200B/g, '');  // 丢弃零宽空格分隔符
+                // 保留 NBSP（\u00A0）：浏览器用它保真「行首空格 / 连续空格」，降级成普通空格会被 trim 与 HTML 折叠吃掉
+                const t = ch.nodeValue.replace(/\u200B/g, '');  // 只丢弃零宽空格分隔符
                 if (!t) continue;
                 let inner = t;
                 if (i) inner = '<i>' + inner + '</i>';
@@ -485,8 +486,10 @@ function applyNoteFormat(sec, cmd, val) {
     if (!ed || ed.style.display === 'none' || !ed.isContentEditable) return;
     const sel = getSelection();
     const inEd = !!sel.rangeCount && ed.contains(sel.anchorNode);
-    // 'plain'（转普通正文）允许光标直接停在标题行内，无需先选中文字
-    if (!inEd || (sel.isCollapsed && cmd !== 'plain')) {
+    // 'plain'（转普通正文）与 'h1'/'h2'（整行设标题）允许光标直接停在行内，无需先选中文字；
+    // 其余行内格式（字色/高亮/粗斜）必须先选中文字，否则无作用对象。
+    const needSel = cmd !== 'plain' && cmd !== 'h1' && cmd !== 'h2';
+    if (!inEd || (sel.isCollapsed && needSel)) {
         noteHint(ed, '先选中要设置格式的文字'); return;
     }
     ed.focus();
@@ -968,7 +971,9 @@ function mdBlock(s) {
     let mathBuf = null;   // 累积跨行 $$ 块
 
     for (const raw of lines) {
-        const l = raw.trim();
+        // 只去普通空格/制表符：保留 NBSP（\u00A0）——它承载用户打的「行首缩进空格 / 连续空格」，
+        // 若用 raw.trim() 会连 NBSP 一起删掉（JS trim 视 NBSP 为空白），空格就永远存不下来
+        const l = raw.replace(/^[ \t]+/, '').replace(/[ \t]+$/, '');
         if (!l) { if (mathBuf) { mathBuf += '\n'; } continue; }
 
         // 检测 $$ 开/闭（不在行内 $ 内的独立 $$）
