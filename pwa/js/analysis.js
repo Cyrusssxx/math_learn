@@ -69,12 +69,11 @@ async function analysisBuild() {
 /** 底部一句话建议：取薄弱排序前 3 个知识点，给出优先刷题方向 */
 function _anTipText(rows) {
     if (!rows || !rows.length) return '先在真题页用 ☆ 收藏、或用「不熟 / 不会」标记题目，这里会给出「优先刷哪几块」的建议。';
-    const top = rows.slice(0, 3).map(r => r.name);
+    const top = rows.slice(0, 8).map(r => r.name);   // 前 8 名
     const unk = rows.reduce((s, r) => s + r.unk, 0);
     const unf = rows.reduce((s, r) => s + r.unf, 0);
     let s = `🎯 建议着重刷：**${top.join('、')}**`;
     if (rows.length > top.length) s += ` 等 ${rows.length} 个知识点`;
-    s += ' —— 先把「不会」的题重做一遍并写全步骤，再连做同类题巩固';
     if (unk || unf) s += `（当前 🟡不熟 ${unf} 题、🔴不会 ${unk} 题待清理）`;
     return s + '。';
 }
