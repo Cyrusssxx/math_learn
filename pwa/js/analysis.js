@@ -37,9 +37,12 @@ async function analysisBuild() {
                 for (const cid of (q.categoryIds || [])) {
                     const c = _anCats[String(cid)];
                     if (!c || c.level !== 2) continue;      // 只聚合 L2（知识点）
-                    const o = map[cid] || (map[cid] = { id: cid, name: c.display || c.name, path: c.path || '', total: 0, fav: 0, unf: 0, unk: 0 });
+                    const o = map[cid] || (map[cid] = { id: cid, name: c.display || c.name, path: c.path || '', total: 0, fav: 0, favOnly: 0, unf: 0, unk: 0 });
                     o.total++;
                     if (f) o.fav++;
+                    // 纯收藏：未标「不熟/不会」的收藏题。用户习惯是标记题必收藏（标记 ⊆ 收藏），
+                    // 若收藏原样计入薄弱分，不熟/不会会被重复计一次 → 只以纯收藏参与评分与排序
+                    if (f && !u && !k) o.favOnly++;
                     if (u) o.unf++;
                     if (k) o.unk++;
                 }
@@ -47,11 +50,11 @@ async function analysisBuild() {
         }
     }
     const rows = Object.values(map).map(o => {
-        // 薄弱分：不会 ×3（最高）；不熟与收藏同档 ×2；收藏多者在同分时优先
-        const score = o.unk * 3 + (o.unf + o.fav) * 2;
+        // 薄弱分：不会 ×3（最高）；不熟与「纯收藏」同档 ×2（标记题已收藏，用纯收藏避免重复计分）
+        const score = o.unk * 3 + (o.unf + o.favOnly) * 2;
         const level = score >= 6 ? 'high' : (score >= 3 ? 'mid' : 'low');
         return Object.assign({}, o, { score, level, advice: _anAdvice(o, level) });
-    }).sort((a, b) => b.unk - a.unk || b.score - a.score || b.fav - a.fav || b.unf - a.unf || a.id - b.id);   // ①不会多优先 ②同数按薄弱分 ③收藏多优先
+    }).sort((a, b) => b.unk - a.unk || b.score - a.score || b.favOnly - a.favOnly || b.unf - a.unf || a.id - b.id);   // ①不会多优先 ②薄弱分 ③纯收藏多优先
     const stVals = Object.values(st);
     return {
         rows,
@@ -90,7 +93,7 @@ async function openAnalysisPanel() {
                 <div class="an-body" id="anBody"><div class="an-loading">分析中…</div></div>
                 <div class="an-foot">
                     <button class="an-btn" onclick="openAnalysisPanel()">🔄 重新分析</button>
-                    <div class="an-note">数据来源：本地 ⭐收藏（examFav）、🟡不熟 / 🔴不会（examStatus）标记 + 知识点分类树；分析依据：按知识点聚合「不会×3 +（不熟 + 收藏）×2」薄弱分分级；排序为「不会多者优先 → 薄弱分 → 收藏多者优先」。<br>跳转刷题后回到本面板点「重新分析」，等级会随新标记实时更新。</div>
+                    <div class="an-note">数据来源：本地 ⭐收藏（examFav）、🟡不熟 / 🔴不会（examStatus）标记 + 知识点分类树；分析依据：按知识点聚合「不会×3 +（不熟 + 纯收藏）×2」薄弱分分级（标记题通常已收藏，收藏按「未标记的纯收藏」计入以免重复计分）；排序为「不会多者优先 → 薄弱分 → 纯收藏多者优先」。<br>跳转刷题后回到本面板点「重新分析」，等级会随新标记实时更新。</div>
                 </div>
             </div>`;
         mask.addEventListener('click', () => closeAnalysisPanel());
