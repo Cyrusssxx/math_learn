@@ -66,6 +66,26 @@ async function analysisBuild() {
     };
 }
 
+/** 底部一句话建议：取薄弱排序前 3 个知识点，给出优先刷题方向 */
+function _anTipText(rows) {
+    if (!rows || !rows.length) return '先在真题页用 ☆ 收藏、或用「不熟 / 不会」标记题目，这里会给出「优先刷哪几块」的建议。';
+    const top = rows.slice(0, 3).map(r => r.name);
+    const unk = rows.reduce((s, r) => s + r.unk, 0);
+    const unf = rows.reduce((s, r) => s + r.unf, 0);
+    let s = `🎯 建议着重刷：**${top.join('、')}**`;
+    if (rows.length > top.length) s += ` 等 ${rows.length} 个知识点`;
+    s += ' —— 先把「不会」的题重做一遍并写全步骤，再连做同类题巩固';
+    if (unk || unf) s += `（当前 🟡不熟 ${unf} 题、🔴不会 ${unk} 题待清理）`;
+    return s + '。';
+}
+
+/** 左下角 ? ：展开/收起「数据来源与排序说明」 */
+function toggleAnHelp(btn) {
+    const box = document.getElementById('anHelpBox');
+    if (!box) return;
+    box.hidden = !box.hidden;
+    if (btn) btn.classList.toggle('on', !box.hidden);
+}
 function _anAdvice(o, level) {
     if (level === 'high') return `**优先攻克**：本知识点共 ${o.total} 题，🔴不会 ${o.unk} 题、🟡不熟 ${o.unf} 题 —— 先把不会的 ${o.unk} 题重做并写出完整步骤，再连做 ${Math.max(6, o.unk * 3)} 题同类题巩固，直到能独立写全。`;
     if (level === 'mid') return `**重点巩固**：本知识点共 ${o.total} 题，🟡不熟 ${o.unf} 题${o.unk ? `、🔴不会 ${o.unk} 题` : ''} —— 建议连续做 ${Math.max(4, o.unf * 2)} 题并当场复盘错因，隔天重做错题。`;
@@ -92,8 +112,10 @@ async function openAnalysisPanel() {
                 </div>
                 <div class="an-body" id="anBody"><div class="an-loading">分析中…</div></div>
                 <div class="an-foot">
+                    <button class="an-help" onclick="toggleAnHelp(this)" title="数据来源与排序说明" aria-label="数据来源与排序说明">?</button>
+                    <div class="an-tiptext" id="anTip">标记若干题目后，这里会给出「优先刷哪几块」的建议。</div>
                     <button class="an-btn" onclick="openAnalysisPanel()">🔄 重新分析</button>
-                    <div class="an-note">数据来源：本地 ⭐收藏（examFav）、🟡不熟 / 🔴不会（examStatus）标记 + 知识点分类树；分析依据：按知识点聚合「不会×3 +（不熟 + 纯收藏）×2」薄弱分分级（标记题通常已收藏，收藏按「未标记的纯收藏」计入以免重复计分）；排序为「不会多者优先 → 薄弱分 → 纯收藏多者优先」。<br>跳转刷题后回到本面板点「重新分析」，等级会随新标记实时更新。</div>
+                    <div class="an-helpbox" id="anHelpBox" hidden>数据来源：本地 ⭐收藏（examFav）、🟡不熟 / 🔴不会（examStatus）标记 + 知识点分类树。分析依据：按知识点聚合「不会×3 +（不熟 + 纯收藏）×2」薄弱分分级（标记题通常已收藏，收藏按「未标记的纯收藏」计入以免重复计分）；排序为「不会多者优先 → 薄弱分 → 纯收藏多者优先」。跳转刷题后回到本面板点「重新分析」，等级会随新标记实时更新。</div>
                 </div>
             </div>`;
         mask.addEventListener('click', () => closeAnalysisPanel());
@@ -113,6 +135,8 @@ async function openAnalysisPanel() {
     if (!data.rows.length) {
         body.innerHTML = `<div class="an-ov">⭐收藏 ${t.fav} · 🟡不熟 ${t.unf} · 🔴不会 ${t.unk}</div>
             <div class="an-empty">还没有任何标记。先在真题页用 ☆ 收藏、或用「不熟 / 不会」标记题目，再回来分析。</div>`;
+        const tip0 = document.getElementById('anTip');
+        if (tip0) tip0.innerHTML = anEsc(_anTipText([])).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
         return;
     }
     const high = data.rows.filter(r => r.level === 'high').length;
@@ -132,6 +156,8 @@ async function openAnalysisPanel() {
     body.innerHTML = `
         <div class="an-ov">⭐收藏 <b>${t.fav}</b> · 🟡不熟 <b>${t.unf}</b> · 🔴不会 <b>${t.unk}</b> ｜ 涉及知识点 <b>${data.rows.length}</b> 个（🔴需加强 ${high} · 🟡关注 ${mid} · 🟢已跟踪 ${low}）</div>
         <div class="an-list">${rowsHtml}</div>`;
+    const tipEl = document.getElementById('anTip');
+    if (tipEl) tipEl.innerHTML = anEsc(_anTipText(data.rows)).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 }
 
 function closeAnalysisPanel() {
