@@ -895,8 +895,10 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
 .q-note-preview:empty { display: none; }
 
 /* 富文本笔记里的标题/粗体/斜体渲染样式（与真题页编辑器输出对齐） */
-.q-note-preview h1 { font-size: 1.25em; font-weight: 800; margin: .5em 0 .3em; line-height: 1.4; }
-.q-note-preview h2 { font-size: 1.12em; font-weight: 700; margin: .45em 0 .3em; line-height: 1.4; }
+.q-note-preview h1 { font-size: 1.55em; font-weight: 800; margin: .55em 0 .3em; line-height: 1.35; }
+.q-note-preview h2 { font-size: 1.32em; font-weight: 700; margin: .5em 0 .28em; line-height: 1.4; border-left: 3px solid var(--accent, #4a90d9); padding-left: 8px; }
+.q-note-input h1 { font-size: 1.5em; font-weight: 800; margin: .5em 0 .25em; }
+.q-note-input h2 { font-size: 1.3em; font-weight: 700; margin: .45em 0 .25em; }
 .q-note-preview b, .q-note-preview strong { font-weight: 800; }
 .q-note-preview i, .q-note-preview em { font-style: italic; }
 
