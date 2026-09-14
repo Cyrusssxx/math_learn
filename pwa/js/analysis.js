@@ -54,7 +54,7 @@ async function analysisBuild() {
         const score = o.unk * 3 + o.unf * 2;
         const level = score >= 6 ? 'high' : (score >= 3 ? 'mid' : 'low');
         return Object.assign({}, o, { score, level, advice: _anAdvice(o, level) });
-    }).sort((a, b) => b.unk - a.unk || b.unf - a.unf || b.score - a.score || b.fav - a.fav || a.id - b.id);   // ①不会 ②不熟 ③薄弱分 ④收藏多的优先
+    }).sort((a, b) => b.unf - a.unf || b.unk - a.unk || b.score - a.score || b.fav - a.fav || a.id - b.id);   // ①不熟 ②不会 ③薄弱分 ④收藏多的优先
     const stVals = Object.values(st);
     return {
         rows,
@@ -114,7 +114,7 @@ async function openAnalysisPanel() {
                     <button class="an-help" onclick="toggleAnHelp(this)" title="数据来源与排序说明" aria-label="数据来源与排序说明">?</button>
                     <div class="an-tiptext" id="anTip">标记若干题目后，这里会给出「优先刷哪几块」的建议。</div>
                     <button class="an-btn" onclick="openAnalysisPanel()">🔄 重新分析</button>
-                    <div class="an-helpbox" id="anHelpBox" hidden>数据来源：本地 ⭐收藏（examFav）、🟡不熟 / 🔴不会（examStatus）标记 + 知识点分类树。分析依据：按知识点聚合「不会×3 + 不熟×2」薄弱分分级（收藏不占薄弱分）；排序为「不会多者优先 → 不熟多者优先 → 收藏多的优先」。跳转刷题后回到本面板点「重新分析」，等级会随新标记实时更新。</div>
+                    <div class="an-helpbox" id="anHelpBox" hidden>数据来源：本地 ⭐收藏（examFav）、🟡不熟 / 🔴不会（examStatus）标记 + 知识点分类树。分析依据：按知识点聚合「不会×3 + 不熟×2」薄弱分分级（收藏不占薄弱分）；排序为「不熟多者优先 → 不会多者优先 → 收藏多的优先」。跳转刷题后回到本面板点「重新分析」，等级会随新标记实时更新。</div>
                 </div>
             </div>`;
         mask.addEventListener('click', () => closeAnalysisPanel());
