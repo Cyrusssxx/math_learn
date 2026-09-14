@@ -1195,6 +1195,9 @@ function examToggleAllAnswers(btn) {
 
 function renderCurrent() {
     examAllAnsOpen = false;   // 切卷/重绘时重置
+    // 顶栏「展开全部答案」按钮状态同步（固定按钮不随 renderCurrent 重建）
+    const allBtn = document.getElementById('examAllAnsBtn');
+    if (allBtn) { allBtn.textContent = '🔼 展开全部答案'; allBtn.classList.remove('on'); }
     const el = document.getElementById('examMain');
     if (!curPaper) { el.innerHTML = '<div class="loading">请选择一套卷</div>'; return; }
     const review = reviewGet(curPaper.id);
@@ -1206,7 +1209,6 @@ function renderCurrent() {
         </div>
         <div class="paper-meta">共 ${curPaper.sections.reduce((a, s) => a + s.questions.length, 0)} 题 · 满分 150 分</div>
         ${reviewText ? `<div class="paper-review-line">💬 ${esc(reviewText)}</div>` : ''}
-        <button class="all-ans-btn" id="examAllAnsBtn" onclick="examToggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
     let shown = 0, total = 0;
     curPaper.sections.forEach((sec, si) => {
