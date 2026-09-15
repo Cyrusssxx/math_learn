@@ -170,7 +170,8 @@ function mdBlock(s) {
 
     for (const raw of lines) {
         // 只去普通空格/制表符，保留 NBSP（承载用户打的缩进/连续空格；raw.trim() 会连 NBSP 一起删）
-        const l = raw.replace(/^[ \t]+/, '').replace(/[ \t]+$/, '');
+        // 行首普通空格转 NBSP：单个行首空格浏览器不自动转 NBSP，渲染端兜底保留缩进
+        const l = raw.replace(/^[ \t]+/, m => m.replace(/[ \t]/g, '\u00A0')).replace(/[ \t]+$/, '');
         if (!l) { if (mathBuf) { mathBuf += '\n'; } continue; }
 
         // 检测 $$ 开/闭（不在行内 $ 内的独立 $$）
