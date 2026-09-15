@@ -382,7 +382,8 @@ function renderNotePreview(ta) {
     if (_noteLastRendered[ta.dataset.qid] === v) return;   // 内容没变：跳过
     _noteLastRendered[ta.dataset.qid] = v;
     pv.hidden = false;
-    pv.innerHTML = mdBlockWithImg(v, true);   // 编辑态实时预览：图片带删除 ×
+    pv.classList.add('pv-edit');               // 编辑态预览：限高缩短（图片本体现在显示在编辑器内）
+    pv.innerHTML = mdBlockWithImg(v, true);
     if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
     fillExamNoteImgs(pv);   // 异步回填 IndexedDB 中的 blob
 }
@@ -617,6 +618,7 @@ async function toggleNoteEdit(btn) {
             ta.style.display = 'none';
             syncNoteToolbar(sec);
             if (pv) {
+                pv.classList.remove('pv-edit');   // 只读态恢复完整高度
                 pv.innerHTML = mdBlockWithImg(raw);
                 pv.hidden = false;
                 if (raw.includes('$') || raw.includes('\\(') || raw.includes('\\[')) renderMath(pv);
@@ -695,7 +697,9 @@ function mdBlockWithImg(s, editable) {
     return mdBlock(s)
         .replace(/\[图:([a-z0-9]+)\]/g,
             (_, id) => editable
-                ? `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"><button type="button" class="exam-note-img-del" title="删除图片" onclick="delExamNoteImg('${id}', this)">×</button></span>`
+                // 编辑态预览：不再渲染图片本体（图片改在编辑器内以缩略图显示，可直接查看/删除/拖拽），
+                // 预览区只留一个小标记——避免被大图撑长，预览专注看公式/文字渲染效果
+                ? `<span class="exam-note-img-ph" title="图片在编辑器内显示">🖼</span>`
                 : `<span class="exam-note-img-wrap"><img class="exam-note-img" data-img="${id}" alt="笔记图片" onclick="zoomAnsImg(this)"></span>`);
 }
 

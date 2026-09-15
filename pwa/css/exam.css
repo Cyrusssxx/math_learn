@@ -1004,15 +1004,44 @@ html.dark .q-note-savebtn { color: #1e1e2e; }
 }
 .exam-note-img-wrap:hover .exam-note-img-del { display: block; }
 
-/* 编辑态内联图片：不在编辑器里显示，仅在渲染预览（.q-note-preview）里可见。
-   wrap 用 inline（而非 block）：block 在 contenteditable 段落内会被浏览器拆段，
-   导致插入图片后光标落在下一行、后续文字自动换行——inline 不拆段落，文字可紧跟图片写入 */
+/* 编辑态内联图片：直接在编辑器内显示小缩略图（可见＝数据在，避免「看不见的图」导致误删/丢失）。
+   wrap 用 inline-block（而非 block）：block 在 contenteditable 段落内会被浏览器拆段，
+   导致插入图片后光标落在下一行、后续文字自动换行——inline-block 不拆段落，文字紧跟图片 */
 .q-note-input .exam-note-img-wrap {
-    display: inline;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 3px;
 }
-.q-note-input .exam-note-img-wrap img,
+.q-note-input .exam-note-img-wrap img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 92px;
+    max-height: 64px;
+    border-radius: 4px;
+    cursor: zoom-in;
+}
 .q-note-input .exam-note-img-wrap .exam-note-img-del {
-    display: none;      /* 编辑器内不显示图片，用户通过预览区查看/删除 */
+    display: none;      /* 悬停缩略图时出现删除按钮 */
+}
+.q-note-input .exam-note-img-wrap:hover .exam-note-img-del {
+    display: block;
+}
+
+/* 编辑态实时预览：限高缩短（图片本体已移到编辑器内，预览专注公式/文字；只读态不限高） */
+.q-note-preview.pv-edit {
+    max-height: 26vh;
+    overflow-y: auto;
+}
+/* 编辑态预览里的图片占位小标记 */
+.q-note-preview .exam-note-img-ph {
+    display: inline-block;
+    padding: 0 5px;
+    border-radius: 4px;
+    background: var(--bg-hover, #f2f5f9);
+    border: 1px solid var(--border, #d5dbe3);
+    font-size: 12px;
+    line-height: 1.6;
 }
 .q-note-input .exam-note-img {
     margin: 0;
