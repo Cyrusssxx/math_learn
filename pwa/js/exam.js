@@ -535,6 +535,7 @@ async function saveNoteBtn(btn) {
         syncNoteToolbar(sec);
         sec.classList.toggle('has-img', /\[图:[a-z0-9]+\]/.test(v));
         if (pv) {
+            pv.classList.remove('pv-edit');   // 只读态恢复完整高度（防编辑态限高残留）
             pv.innerHTML = mdBlockWithImg(v);
             pv.hidden = false;
             if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
@@ -631,6 +632,7 @@ async function toggleNoteEdit(btn) {
             const opBtn = sec.closest('.q-card')?.querySelector('[data-act="note"]');
             sec.hidden = true;
             if (opBtn) opBtn.classList.remove('has');
+            if (pv) { pv.classList.remove('pv-edit'); pv.innerHTML = ''; }   // 清空预览并恢复正常高度
             ta.style.display = '';
             setNoteContent(ta, '');
             const sb = sec.querySelector('.q-note-savebtn');
@@ -764,7 +766,7 @@ function delExamNoteImg(id, btn) {
     if (ta) { setNoteContent(ta, v); fillExamNoteImgs(ta); }
     const pv = wrap.querySelector('.q-note-preview');
     if (pv && !pv.hidden) {
-        pv.innerHTML = mdBlockWithImg(v, true);   // 删除后仍处于编辑态，预览继续带 ×
+        pv.innerHTML = mdBlockWithImg(v, true);   // 删除后仍处于编辑态；图片本体显示在编辑器内，预览只留 🖼 标记
         if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
         fillExamNoteImgs(pv);
     }
