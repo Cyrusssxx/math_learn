@@ -1004,9 +1004,15 @@ html.dark .q-note-savebtn { color: #1e1e2e; }
 }
 .exam-note-img-wrap:hover .exam-note-img-del { display: block; }
 
-/* 编辑态内联图片：不在编辑器里显示，仅在渲染预览（.q-note-preview）里可见 */
+/* 编辑态内联图片：不在编辑器里显示，仅在渲染预览（.q-note-preview）里可见。
+   wrap 用 inline（而非 block）：block 在 contenteditable 段落内会被浏览器拆段，
+   导致插入图片后光标落在下一行、后续文字自动换行——inline 不拆段落，文字可紧跟图片写入 */
 .q-note-input .exam-note-img-wrap {
-    display: none;      /* 编辑器不显示图片，用户通过预览区查看/删除 */
+    display: inline;
+}
+.q-note-input .exam-note-img-wrap img,
+.q-note-input .exam-note-img-wrap .exam-note-img-del {
+    display: none;      /* 编辑器内不显示图片，用户通过预览区查看/删除 */
 }
 .q-note-input .exam-note-img {
     margin: 0;

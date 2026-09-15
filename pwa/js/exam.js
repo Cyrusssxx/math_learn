@@ -973,7 +973,9 @@ function mdBlock(s) {
     for (const raw of lines) {
         // 只去普通空格/制表符：保留 NBSP（\u00A0）——它承载用户打的「行首缩进空格 / 连续空格」，
         // 若用 raw.trim() 会连 NBSP 一起删掉（JS trim 视 NBSP 为空白），空格就永远存不下来
-        const l = raw.replace(/^[ \t]+/, '').replace(/[ \t]+$/, '');
+        // 行首普通空格也转 NBSP 保留：浏览器只把「连续空格」存为 NBSP，单个行首空格是普通空格，
+        // 直接删掉的话用户的行首缩进保存后就没了（渲染端兜底，序列化端同样处理）
+        const l = raw.replace(/^[ \t]+/, m => m.replace(/[ \t]/g, '\u00A0')).replace(/[ \t]+$/, '');
         if (!l) { if (mathBuf) { mathBuf += '\n'; } continue; }
 
         // 检测 $$ 开/闭（不在行内 $ 内的独立 $$）
