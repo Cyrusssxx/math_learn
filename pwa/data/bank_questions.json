@@ -3537,7 +3537,7 @@
       "stem": "$$\n\\displaystyle\\lim_{x\\to0}\\frac{x-\\sin x}{x^{2}(e^{x}-1)}\n$$",
       "options": [],
       "answer": "$\\frac{1}{6}$",
-      "explanation": "$$\n I=\\lim_{x\\to0}\\frac{\\frac{x^{3}}{6}}{x^{3}}=\\frac{1}{6} \n$$"
+      "explanation": "$x\\to0$ 时分子分母都是无穷小，利用等价无穷小：\n- 分子：$$x-\\sin x=\\frac{x^3}{6}+o(x^3)\\sim\\frac{x^3}{6};$$\n- 分母：$x^2(e^x-1)$，其中 $e^x-1\\sim x$，故 $x^2(e^x-1)\\sim x^3$。\n\n于是\n$$I=\\lim_{x\\to0}\\frac{x-\\sin x}{x^2(e^x-1)}=\\lim_{x\\to0}\\frac{\\frac{x^3}{6}}{x^3}=\\frac16.$$"
     },
     {
       "id": 3484,
@@ -3668,7 +3668,7 @@
       "stem": "$$\n \\displaystyle\\lim_{x\\to0^{+}}\\frac{1-e^{\\frac{1}{x}}}{x+e^{\\frac{1}{x}}}=\\underline{\\quad} \n$$",
       "options": [],
       "answer": "$-1$",
-      "explanation": "当 $x\\to0^+$ 时，$e^{1/x}\\to+\\infty$。原式分子分母同除以 $e^{1/x}$，得 \n$$\n\\lim_{x\\to0^+}\\frac{e^{-1/x}-1}{xe^{-1/x}+1}=-1.\n$$"
+      "explanation": "当 $x\\to0^+$ 时，$\\frac1x\\to+\\infty$，故 $e^{1/x}\\to+\\infty$。分子分母同除以 $e^{1/x}$：\n$$\\lim_{x\\to0^+}\\frac{1-e^{1/x}}{x+e^{1/x}}\n=\\lim_{x\\to0^+}\\frac{e^{-1/x}-1}{x\\,e^{-1/x}+1}.$$\n此时 $e^{-1/x}\\to0$、$x e^{-1/x}\\to0$，故\n$$=\\frac{0-1}{0+1}=-1.$$"
     },
     {
       "id": 3544,
@@ -7131,7 +7131,7 @@
       "stem": "求不定积分：\n$$\n\\int x\\sin^2 x\\,\\mathrm{d}x.\n$$",
       "options": [],
       "answer": "$\\frac{x^2}{4}-\\frac{x\\sin 2x}{4}-\\frac{\\cos 2x}{8}+C$",
-      "explanation": "由 $\\sin^2x=\\frac{1-\\cos2x}{2}$，原式为 $\\frac12\\int x\\,\\mathrm{d}x-\\frac12\\int x\\cos2x\\,\\mathrm{d}x$。对后一项分部积分即可得到结果。"
+      "explanation": "先用降幂公式 $\\sin^2 x=\\frac{1-\\cos2x}{2}$：\n$$\\int x\\sin^2x\\,dx=\\frac12\\int x\\,dx-\\frac12\\int x\\cos2x\\,dx=\\frac{x^2}{4}-\\frac12\\int x\\cos2x\\,dx.$$\n后一项分部积分：令 $u=x,\\,dv=\\cos2x\\,dx$，则 $du=dx,\\,v=\\frac{\\sin2x}{2}$：\n$$\\int x\\cos2x\\,dx=\\frac{x\\sin2x}{2}-\\int\\frac{\\sin2x}{2}\\,dx=\\frac{x\\sin2x}{2}+\\frac{\\cos2x}{4}.$$\n代回：\n$$\\int x\\sin^2x\\,dx=\\frac{x^2}{4}-\\frac12\\left(\\frac{x\\sin2x}{2}+\\frac{\\cos2x}{4}\\right)+C\n=\\frac{x^2}{4}-\\frac{x\\sin2x}{4}-\\frac{\\cos2x}{8}+C.$$"
     },
     {
       "id": 7118,
@@ -7290,7 +7290,7 @@
         "$\\pi^2$"
       ],
       "answer": "C",
-      "explanation": "绕 $x$ 轴旋转，$V=\\pi\\int_{-\\pi/2}^{\\pi/2}\\cos^2x\\,dx=\\pi\\cdot\\frac\\pi2=\\frac{\\pi^2}{2}$，故选 C。"
+      "explanation": "曲线 $y=\\cos x$ 在 $x\\in\\left[-\\frac\\pi2,\\frac\\pi2\\right]$ 上非负（$\\cos x\\ge0$），其与 $x$ 轴围成的图形绕 $x$ 轴旋转一周，用**圆盘法**：截面为半径 $y=\\cos x$ 的圆，微元体积\n$$dV=\\pi y^2\\,dx=\\pi\\cos^2x\\,dx.$$\n故\n$$V=\\pi\\int_{-\\pi/2}^{\\pi/2}\\cos^2x\\,dx=\\pi\\int_{-\\pi/2}^{\\pi/2}\\frac{1+\\cos2x}{2}\\,dx\n=\\frac{\\pi}{2}\\left[x+\\frac{\\sin2x}{2}\\right]_{-\\pi/2}^{\\pi/2}.$$\n代入上下限：\n$$V=\\frac{\\pi}{2}\\left[\\left(\\frac\\pi2+0\\right)-\\left(-\\frac\\pi2+0\\right)\\right]=\\frac{\\pi}{2}\\cdot\\pi=\\frac{\\pi^2}{2}.$$\n故选 **C**。"
     },
     {
       "id": 7290,
@@ -7323,7 +7323,7 @@
       "stem": "过点 $P(1,0)$ 作抛物线 $y=\\sqrt{x-2}$ 的切线，该切线与上述抛物线及 $x$ 轴围成一平面图形，求此图形绕 $x$ 轴旋转一周所成旋转体的体积。",
       "options": [],
       "answer": "$\\frac\\pi6$",
-      "explanation": "设切点为 $(t,\\sqrt{t-2})$，由切线过 $(1,0)$ 得 $t=3$，切线为 $y=\\frac{x-1}{2}$。体积为 $\\pi\\left[\\int_1^2\\frac{(x-1)^2}{4}dx+\\int_2^3\\left(\\frac{(x-1)^2}{4}-(x-2)\\right)dx\\right]=\\frac\\pi6$。"
+      "explanation": "**第一步：求切点**。抛物线 $y=\\sqrt{x-2}$ 上点 $(t,\\sqrt{t-2})$ 处的导数\n$$y'=\\frac{1}{2\\sqrt{x-2}},$$\n在 $x=t$ 处切线斜率为 $\\frac{1}{2\\sqrt{t-2}}$。切线过点 $P(1,0)$，斜率又等于\n$$\\frac{\\sqrt{t-2}-0}{t-1},$$\n故\n$$\\frac{\\sqrt{t-2}}{t-1}=\\frac{1}{2\\sqrt{t-2}}\n\\Longrightarrow 2(t-2)=t-1\\Longrightarrow t=3.$$\n切点为 $(3,1)$，切线斜率为 $\\frac12$，切线方程\n$$y=\\frac12(x-1).$$\n\n**第二步：确定积分区域**。抛物线 $y=\\sqrt{x-2}$ 开口向右，韦到 $x\\ge2$；切线 $y=\\frac{x-1}{2}$ 与 $x$ 轴交于 $(1,0)$，与抛物线切于 $(3,1)$。图形由 $x$ 轴、切线段（$1\\le x\\le3$）、抛物线段（$2\\le x\\le3$）围成（细查：切线与抛物线在 $[2,3]$ 上，切线在抛物线上方）。\n\n**第三步：旋转体体积**。绕 $x$ 轴旋转，用“大旋转体减内部”：\n- $1\\le x\\le2$：只有切线在上方，截面半径 $\\frac{x-1}{2}$；\n- $2\\le x\\le3$：切线在上、抛物线在下，截面为环形，面积 $\\pi\\left[\\left(\\frac{x-1}{2}\\right)^2-(x-2)\\right]$。\n\n故\n$$V=\\pi\\left[\\int_1^2\\frac{(x-1)^2}{4}\\,dx+\\int_2^3\\left(\\frac{(x-1)^2}{4}-(x-2)\\right)dx\\right].$$\n先算\n$$\\int_1^3\\frac{(x-1)^2}{4}\\,dx=\\frac14\\cdot\\frac{(x-1)^3}{3}\\bigg|_1^3=\\frac14\\cdot\\frac{8}{3}=\\frac23,$$\n再算\n$$\\int_2^3(x-2)\\,dx=\\frac{(x-2)^2}{2}\\bigg|_2^3=\\frac12,$$\n代入（第一个积分 $1\\to2$ 部分 $=\\frac23-\\frac14\\cdot\\frac{1}{3}=\\frac23-\\frac1{12}$…为简化直接用拆分公式）：\n$$V=\\pi\\left[\\int_1^3\\frac{(x-1)^2}{4}dx-\\int_2^3(x-2)dx\\right]=\\pi\\left[\\frac23-\\frac12\\right]=\\pi\\cdot\\frac16=\\frac\\pi6.$$"
     },
     {
       "id": 7301,
@@ -7389,7 +7389,7 @@
       "stem": "设抛物线 $y=ax^2+bx+c$ 过原点，当 $0\\le x\\le1$ 时 $y\\ge0$，又已知该抛物线与 $x$ 轴及直线 $x=1$ 所围图形的面积为 $\\frac13$。试确定 $a,b,c$ 的值，使此图形绕 $x$ 轴旋转一周而成的旋转体的体积 $V$ 最小。",
       "options": [],
       "answer": "$a=-\\frac54,\\quad b=\\frac32,\\quad c=0$；$V_{\\min}=\\frac\\pi8$",
-      "explanation": "由过原点得 $c=0$，面积条件为 $\\frac a3+\\frac b2=\\frac13$，即 $b=\\frac23(1-a)$。令 $I=\\int_0^1(ax^2+bx)^2dx$，代入得 $I=\\frac{2a^2}{135}+\\frac a{27}+\\frac4{27}$，故 $a=-\\frac54,b=\\frac32$ 时体积最小，$V_{\\min}=\\pi I=\\frac\\pi8$。"
+      "explanation": "**第一步：定参数关系**。抛物线过原点 $\\Rightarrow c=0$。围成图形面积\n$$\\int_0^1(ax^2+bx)\\,dx=\\left[\\frac{ax^3}{3}+\\frac{bx^2}{2}\\right]_0^1=\\frac a3+\\frac b2=\\frac13,$$\n即 $2a+3b=2$，解得\n$$b=\\frac23(1-a).$$\n\n**第二步：体积表达式**。绕 $x$ 轴旋转，圆盘法：\n$$V=\\pi\\int_0^1(ax^2+bx)^2\\,dx=\\pi\\int_0^1(a^2x^4+2abx^3+b^2x^2)\\,dx\n=\\pi\\left(\\frac{a^2}{5}+\\frac{ab}{2}+\\frac{b^2}{3}\\right).$$\n代入 $b=\\frac23(1-a)$：\n$$\\frac{a^2}{5}+\\frac{a}{2}\\cdot\\frac23(1-a)+\\frac13\\cdot\\frac49(1-a)^2\n=\\frac{a^2}{5}+\\frac{a(1-a)}{3}+\\frac{4(1-a)^2}{27}.$$\n通分 $135$：\n$$=\\frac{27a^2+45a(1-a)+20(1-2a+a^2)}{135}\n=\\frac{(27-45+20)a^2+(45-40)a+20}{135}\n=\\frac{2a^2+5a+20}{135}.$$\n（注意此处与原解析略有出入：正确合并为 $\\frac{2a^2+5a+20}{135}$，最小值点仍为 $a=-\\frac54$，见下。）\n\n**第三步：求最小体积**。$V(a)=\\pi\\cdot\\frac{2a^2+5a+20}{135}$ 是开口向上的二次函数，顶点\n$$a=-\\frac{5}{2\\cdot2}=-\\frac54.$$\n此时\n$$b=\\frac23\\left(1+\\frac54\\right)=\\frac23\\cdot\\frac94=\\frac32.$$\n$$V_{\\min}=\\pi\\cdot\\frac{2\\cdot\\frac{25}{16}+5\\cdot(-\\frac54)+20}{135}\n=\\pi\\cdot\\frac{\\frac{25}{8}-\\frac{25}{4}+20}{135}\n=\\pi\\cdot\\frac{\\frac{25-50+160}{8}}{135}\n=\\pi\\cdot\\frac{135}{8\\cdot135}=\\frac{\\pi}{8}.$$\n故 $a=-\\frac54,\\ b=\\frac32,\\ c=0$ 时体积最小，$V_{\\min}=\\frac\\pi8$。"
     },
     {
       "id": 7319,
@@ -7563,7 +7563,7 @@
       "stem": "求微分方程 $y''+4y'+4y=e^{ax}$ 的通解，其中 $a$ 为实数。",
       "options": [],
       "answer": "当 $a\\ne-2$ 时，$y=(C_1+C_2x)e^{-2x}+\\frac{e^{ax}}{(a+2)^2}$；当 $a=-2$ 时，$y=e^{-2x}\\left(C_1+C_2x+\\frac12x^2\\right)$。",
-      "explanation": "齐次方程有二重根 $-2$。若 $a\\ne-2$，设特解为 $Ae^{ax}$，得 $A=\\frac1{(a+2)^2}$；若 $a=-2$，发生二重共振，令 $y=e^{-2x}u$ 得 $u''=1$。"
+      "explanation": "方程 $y''+4y'+4y=e^{ax}$，特征方程\n$$r^2+4r+4=0\\Longleftrightarrow(r+2)^2=0,$$\n得二重特征根 $r=-2$，齐次通解为\n$$y_h=(C_1+C_2x)e^{-2x}.$$\n\n**情形一：$a\\ne-2$。** 右端 $e^{ax}$ 的指数 $a$ 不是特征根，设特解 $y^*=Ae^{ax}$。代入：\n$$y^{*\\prime}=aAe^{ax},\\qquad y^{*\\prime\\prime}=a^2Ae^{ax},$$\n$$y^{*\\prime\\prime}+4y^{*\\prime}+4y^*=A(a^2+4a+4)e^{ax}=A(a+2)^2e^{ax}=e^{ax},$$\n故 $A=\\frac{1}{(a+2)^2}$，特解 $y^*=\\frac{e^{ax}}{(a+2)^2}$，通解\n$$y=(C_1+C_2x)e^{-2x}+\\frac{e^{ax}}{(a+2)^2}.$$\n\n**情形二：$a=-2$。** 右端 $e^{-2x}$ 与二重特征根共振，特解应设 $y^*=Bx^2e^{-2x}$。代入（或令 $y=e^{-2x}u$）：\n$$y^*=Bx^2e^{-2x},\\qquad y^{*\\prime}=B(2x-2x^2)e^{-2x},\\qquad y^{*\\prime\\prime}=B(2-8x+4x^2)e^{-2x},$$\n$$y^{*\\prime\\prime}+4y^{*\\prime}+4y^*=B(2-8x+4x^2+8x-8x^2+4x^2)e^{-2x}=2Be^{-2x}=e^{-2x},$$\n得 $B=\\frac12$，特解 $y^*=\\frac12x^2e^{-2x}$，通解\n$$y=e^{-2x}\\left(C_1+C_2x+\\frac12x^2\\right).$$\n\n综合：\n$$y=\\begin{cases}(C_1+C_2x)e^{-2x}+\\dfrac{e^{ax}}{(a+2)^2}, & a\\ne-2,\\\\[6pt] e^{-2x}\\left(C_1+C_2x+\\dfrac12x^2\\right), & a=-2.\\end{cases}$$"
     },
     {
       "id": 7643,
@@ -9606,7 +9606,7 @@
       "stem": "$$  求 \\int\\frac{\\mathrm{d}x}{x\\ln^{2}x}. $$",
       "options": [],
       "answer": "$\\displaystyle -\\frac1{\\ln x}+C$",
-      "explanation": "令 $u=\\ln x$，则原积分为 $\\int u^{-2}du=-u^{-1}+C$。"
+      "explanation": "被积函数 $\\frac{1}{x\\ln^2 x}$ 中，注意到 $(\\ln x)'=\\frac1x$，即 $\\frac{dx}{x}=d(\\ln x)$，令 $u=\\ln x$，则\n$$\\int\\frac{dx}{x\\ln^2x}=\\int\\frac{1}{\\ln^2x}\\cdot\\frac{dx}{x}=\\int u^{-2}\\,du.$$\n由幂函数积分公式 $\\int u^{-2}du=-u^{-1}+C$：\n$$=-u^{-1}+C=-\\frac{1}{\\ln x}+C.$$"
     },
     {
       "id": 10551,
