@@ -206,3 +206,48 @@ window.copyMdAttr = function (md) {
         } catch (err) { /* 个别浏览器只读剪贴板时静默 */ }
     });
 })();
+
+// ============ 右栏「本页目录」向左收起（笔记站 index.html） ============
+// 过渡全部交给 CSS（.toc transform/opacity + .doc margin-right，均 .15s），
+// 这里只切换 body 类与按钮状态，避免 JS 分阶段改样式造成动画抖动。
+const TOC_COLLAPSED_KEY = 'notesTocCollapsed';
+function applyTocCollapsed(collapsed) {
+    const btn = document.getElementById('tocCollapse');
+    if (!btn) return;   // 非笔记站页面：不做任何处理
+    document.body.classList.toggle('toc-collapsed', collapsed);
+    btn.textContent = collapsed ? '‹' : '›';
+    btn.title = collapsed ? '展开目录' : '收起目录';
+    btn.setAttribute('aria-label', collapsed ? '展开目录' : '收起目录');
+}
+function toggleTocCollapse() {
+    const collapsed = !document.body.classList.contains('toc-collapsed');
+    try { localStorage.setItem(TOC_COLLAPSED_KEY, collapsed ? '1' : '0'); } catch (e) { }
+    applyTocCollapsed(collapsed);
+}
+(function restoreTocCollapsed() {
+    try {
+        if (localStorage.getItem(TOC_COLLAPSED_KEY) === '1') applyTocCollapsed(true);
+    } catch (e) { }
+})();
+
+// ============ 左栏「文件目录树」向左收起（笔记站 index.html） ============
+// 同样只切 body 类，动画交给 CSS（.sidebar transform + .doc margin-left，均 .15s）
+const SIDE_COLLAPSED_KEY = 'notesSideCollapsed';
+function applySideCollapsed(collapsed) {
+    const btn = document.getElementById('sideCollapse');
+    if (!btn) return;
+    document.body.classList.toggle('side-collapsed', collapsed);
+    btn.textContent = collapsed ? '›' : '‹';
+    btn.title = collapsed ? '展开目录' : '收起目录';
+    btn.setAttribute('aria-label', collapsed ? '展开目录' : '收起目录');
+}
+function toggleSideCollapse() {
+    const collapsed = !document.body.classList.contains('side-collapsed');
+    try { localStorage.setItem(SIDE_COLLAPSED_KEY, collapsed ? '1' : '0'); } catch (e) { }
+    applySideCollapsed(collapsed);
+}
+(function restoreSideCollapsed() {
+    try {
+        if (localStorage.getItem(SIDE_COLLAPSED_KEY) === '1') applySideCollapsed(true);
+    } catch (e) { }
+})();

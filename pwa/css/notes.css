@@ -863,6 +863,9 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
     .search-results { right: 16px; }
     .menu-btn { display: block; }
     .doc { margin-left: 0; padding: 64px 18px 70px; }
+    /* 窄屏由 ☰ 控制文件目录显隐：桌面端的「收起态」类不得压过 .show，否则点 ☰ 展不开 */
+    body.side-collapsed .sidebar { transform: translateX(-100%); }
+    body.side-collapsed .sidebar.show { transform: none; }
 }
 
 /* 滚动条（暗色下更协调） */
@@ -1094,3 +1097,100 @@ html.dark .tip-fold > summary { color: #e5c860; }
 html.dark .bg-fab, html.dark .bg-panel { background: #232a33; border-color: #3a4350; color: #e8e8e8; box-shadow: 0 8px 32px rgba(0,0,0,.5); }
 html.dark .bg-btn { background: #232a33; border-color: #3a4350; color: #e8e8e8; }
 html.dark .bg-btn:hover { background: #2d3640; }
+
+/* ============ 右栏「本页目录」向左收起 ============ */
+/* 过渡：0.15s 宽度/位移 + 透明度，一次到位（不分阶段） */
+.toc {
+    transition: transform .15s ease, opacity .15s ease;
+}
+body.toc-collapsed .toc {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+/* 正文同步让位/回收（收起后正文占满） */
+.doc {
+    transition: margin-right .15s ease;
+}
+body.toc-collapsed .doc {
+    margin-right: 0;
+}
+
+/* 贴目录左缘的收起按钮（26px 小按钮）；收起后移到屏幕右缘 */
+.toc-collapse {
+    position: fixed;
+    top: 50%;
+    right: 240px;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+    background: rgba(var(--card-rgb), var(--ui-alpha));
+    color: var(--text-faint);
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 21;
+    transition: right .15s ease, color .15s ease, background .15s ease;
+}
+.toc-collapse:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+body.toc-collapsed .toc-collapse {
+    right: 0;
+}
+
+/* 目录被响应式隐藏的宽度下，收起按钮也无意义 */
+@media (max-width: 1150px) {
+    .toc-collapse { display: none; }
+}
+
+/* ============ 左栏「文件目录树」向左收起 ============ */
+.sidebar {
+    transition: transform .15s ease;
+}
+body.side-collapsed .sidebar {
+    transform: translateX(-100%);
+}
+.doc {
+    transition: margin-left .15s ease, margin-right .15s ease;
+}
+body.side-collapsed .doc {
+    margin-left: 0;
+}
+/* 贴文件目录右缘的收起按钮（26px 小按钮）；收起后移到屏幕左缘 */
+.side-collapse {
+    position: fixed;
+    top: 50%;
+    left: 280px;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-left: none;
+    border-radius: 0 6px 6px 0;
+    background: rgba(var(--card-rgb), var(--ui-alpha));
+    color: var(--text-faint);
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 21;
+    transition: left .15s ease, color .15s ease, background .15s ease;
+}
+.side-collapse:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+body.side-collapsed .side-collapse {
+    left: 0;
+}
+/* 窄屏下文件目录由 ☰ 按钮控制显隐，收起按钮隐藏 */
+@media (max-width: 900px) {
+    .side-collapse { display: none; }
+    body.side-collapsed .doc { margin-left: 0; }
+}

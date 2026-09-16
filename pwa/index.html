@@ -55,6 +55,9 @@
         </div>
     </aside>
 
+    <!-- 左栏收起按钮（贴文件目录右缘，点击向左收起） -->
+    <button class="side-collapse" id="sideCollapse" onclick="toggleSideCollapse()" title="收起目录" aria-label="收起目录">‹</button>
+
     <!-- 移动端：左上角展开目录按钮 -->
     <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('show')">☰</button>
 
@@ -63,7 +66,8 @@
         <div class="loading">加载中…</div>
     </main>
 
-    <!-- 右栏：本页目录 -->
+    <!-- 右栏：本页目录（左侧贴边按钮可向左收起） -->
+    <button class="toc-collapse" id="tocCollapse" onclick="toggleTocCollapse()" title="收起目录" aria-label="收起目录">›</button>
     <aside class="toc" id="tocPane"></aside>
 
     <script src="js/common.js"></script>
