@@ -601,7 +601,7 @@
       "stem": "求 $\\int\\frac{x+5}{x^2-6x+13}dx$",
       "options": [],
       "answer": "$\\frac{1}{2} \\ln\\left(x^{2}-6 x+13\\right)+4 \\arctan \\frac{x-3}{2}+C$",
-      "explanation": "拆分分子，凑微分：$\\int\\frac{x+5}{x^2-6x+13}dx = \\frac{1}{2}\\int\\frac{(2x-6)+16}{x^2-6x+13}dx$，分别积分。"
+      "explanation": "分母 $x^2-6x+13$ 的导数为 $2x-6$，把分子配成「导数的倍数 + 常数」：\n$$x+5=\\frac12(2x-6)+8.$$\n于是拆为两项：\n$$\\int\\frac{x+5}{x^2-6x+13}dx\n=\\frac12\\int\\frac{2x-6}{x^2-6x+13}dx+8\\int\\frac{dx}{x^2-6x+13}.$$\n\n第一项凑微分（$\\mathrm{d}(x^2-6x+13)=(2x-6)\\mathrm{d}x$）：\n$$\\frac12\\int\\frac{2x-6}{x^2-6x+13}dx=\\frac12\\ln(x^2-6x+13).$$\n\n第二项配方 $x^2-6x+13=(x-3)^2+4$，用公式 $\\int\\frac{dx}{x^2+a^2}=\\frac1a\\arctan\\frac xa$：\n$$8\\int\\frac{dx}{(x-3)^2+4}=8\\cdot\\frac12\\arctan\\frac{x-3}{2}=4\\arctan\\frac{x-3}{2}.$$\n\n合并得\n$$\\int\\frac{x+5}{x^2-6x+13}dx=\\frac12\\ln(x^2-6x+13)+4\\arctan\\frac{x-3}{2}+C.$$"
     },
     {
       "id": 1020,
@@ -3510,7 +3510,7 @@
         "$\\begin{cases}2+x^2, & x\\lt0, \\\\2+x, & x\\ge0.\\end{cases}$"
       ],
       "answer": "D",
-      "explanation": "当 $x\\lt0$ 时，$f(x)=x^2\\gt0$，故 $g[f(x)]=f(x)+2=x^2+2$；当 $x\\ge0$ 时，$f(x)=-x\\le0$，故 $g[f(x)]=2-f(x)=2+x$。因此选 D。"
+      "explanation": "分段复合，关键是看 $f(x)$ 的取值落在 $g$ 的哪一段。\n\n$g$ 的两段定义为\n$$g(u)=\\begin{cases}2-u, & u\\le0,\\\\u+2, & u>0.\\end{cases}$$\n\n分区间讨论 $g[f(x)]$：\n\n① 当 $x<0$ 时，$f(x)=x^2>0$（正数），于是取 $g$ 的 $u>0$ 分支 $g(u)=u+2$：\n$$g[f(x)]=f(x)+2=x^2+2.$$\n\n② 当 $x\\ge0$ 时，$f(x)=-x\\le0$（非正数），于是取 $g$ 的 $u\\le0$ 分支 $g(u)=2-u$：\n$$g[f(x)]=2-f(x)=2-(-x)=2+x.$$\n\n对照四个选项：$x<0$ 时 $x^2+2$、$x\\ge0$ 时 $2+x$——正是 D 项\n$\\begin{cases}2+x^2, & x<0,\\\\2+x, & x\\ge0.\\end{cases}$\n\n**选 D。**"
     },
     {
       "id": 3369,
@@ -5250,7 +5250,7 @@
       "stem": "设\n$$\nf(x)=\\begin{vmatrix}x-2&x-1&x-2&x-3\\\\2x-2&2x-1&2x-2&2x-3\\\\3x-3&3x-2&4x-5&3x-5\\\\4x&4x-3&5x-7&4x-3\\end{vmatrix},\n$$\n求方程 $f(x)=0$ 的根的个数。",
       "options": [],
       "answer": "$2$",
-      "explanation": "展开并化简：\n$$\nf(x)=5x(x-1).\n$$\n故有两个不同实根 $0,1$。"
+      "explanation": "行列式化简求根。先做三组列变换（不改变行列式值）：$c_2-c_1$、$c_4-c_3$、$c_3-c_1$：\n- $c_2-c_1$：$(x-1)-(x-2)=1$，$(2x-1)-(2x-2)=1$，$(3x-2)-(3x-3)=1$，$(4x-3)-4x=-3$；\n- $c_4-c_3$：$(x-3)-(x-2)=-1$，$(2x-3)-(2x-2)=-1$，$(3x-5)-(4x-5)=-x$，$(4x-3)-(5x-7)=4-x$；\n- $c_3-c_1$：第 1、2 行为 $0$，第 3 行为 $(4x-5)-(3x-3)=x-2$，第 4 行为 $(5x-7)-4x=x-7$。\n\n得\n$$f(x)=\\begin{vmatrix}x-2&1&0&-1\\\\2x-2&1&0&-1\\\\3x-3&1&x-2&-x\\\\4x&-3&x-7&4-x\\end{vmatrix}.$$\n\n按第 3 列展开（只有第 3、4 行的两个非零元 $x-2$ 与 $x-7$）：\n$$f(x)=(x-2)(-1)^{3+3}D_1+(x-7)(-1)^{4+3}D_2,$$\n其中\n$$D_1=\\begin{vmatrix}x-2&1&-1\\\\2x-2&1&-1\\\\4x&-3&4-x\\end{vmatrix},\\qquad\nD_2=\\begin{vmatrix}x-2&1&-1\\\\2x-2&1&-1\\\\3x-3&1&-x\\end{vmatrix}.$$\n\n对 $D_1$ 做 $r_2-r_1$（第 2 行变为 $(x,0,0)$），按第 2 行展开：\n$$D_1=x\\cdot(-1)^{2+1}\\begin{vmatrix}1&-1\\\\-3&4-x\\end{vmatrix}\n=-x\\bigl((4-x)-3\\bigr)=-x(1-x)=x(x-1).$$\n\n对 $D_2$ 同样做 $r_2-r_1$（第 2 行 $(x,0,0)$），按第 2 行展开：\n$$D_2=x\\cdot(-1)^{2+1}\\begin{vmatrix}1&-1\\\\1&-x\\end{vmatrix}\n=-x\\bigl(-x-(-1)\\bigr)=-x(1-x)=x(x-1).$$\n\n故\n$$f(x)=(x-2)\\cdot x(x-1)-(x-7)\\cdot x(x-1)\n=x(x-1)\\bigl[(x-2)-(x-7)\\bigr]=5x(x-1).$$\n方程 $f(x)=0$ 即 $5x(x-1)=0$，有两个不同实根 $x=0,\\ x=1$。\n\n**根的个数：2 个。**"
     },
     {
       "id": 5565,
@@ -7098,7 +7098,7 @@
       "stem": "求不定积分：\n$$\n\\int\\frac{\\mathrm{d}x}{(2x^2+1)\\sqrt{x^2+1}}.\n$$",
       "options": [],
       "answer": "$\\arctan\\frac{x}{\\sqrt{x^2+1}}+C$",
-      "explanation": "令 $x=\\tan\\theta$，再令 $u=\\sin\\theta=\\frac{x}{\\sqrt{x^2+1}}$，原式化为 $\\int\\frac{\\mathrm{d}u}{1+u^2}$。"
+      "explanation": "三角换元。令 $x=\\tan\\theta$（取 $\\theta\\in(-\\frac\\pi2,\\frac\\pi2)$），则\n$$\\mathrm{d}x=\\sec^2\\theta\\,\\mathrm{d}\\theta,\\qquad\n\\sqrt{x^2+1}=\\sqrt{\\tan^2\\theta+1}=\\sec\\theta,\\qquad\n2x^2+1=2\\tan^2\\theta+1=\\frac{2\\sin^2\\theta+\\cos^2\\theta}{\\cos^2\\theta}=\\frac{1+\\sin^2\\theta}{\\cos^2\\theta}.$$\n代入\n$$\\int\\frac{\\mathrm{d}x}{(2x^2+1)\\sqrt{x^2+1}}\n=\\int\\frac{\\sec^2\\theta\\,\\mathrm{d}\\theta}{\\frac{1+\\sin^2\\theta}{\\cos^2\\theta}\\cdot\\sec\\theta}\n=\\int\\frac{\\cos\\theta}{1+\\sin^2\\theta}\\,\\mathrm{d}\\theta.$$\n再令 $u=\\sin\\theta$，则 $\\mathrm{d}u=\\cos\\theta\\,\\mathrm{d}\\theta$（这是最自然的第二换元，$\\cos\\theta$ 被一举消掉）：\n$$=\\int\\frac{\\mathrm{d}u}{1+u^2}=\\arctan u+C=\\arctan(\\sin\\theta)+C.$$\n回代（由 $x=\\tan\\theta$ 画直角三角形：对边 $x$、邻边 $1$、斜边 $\\sqrt{x^2+1}$）：\n$$\\sin\\theta=\\frac{x}{\\sqrt{x^2+1}},$$\n故\n$$\\int\\frac{\\mathrm{d}x}{(2x^2+1)\\sqrt{x^2+1}}=\\arctan\\frac{x}{\\sqrt{x^2+1}}+C.$$"
     },
     {
       "id": 7096,
@@ -7153,7 +7153,7 @@
       "stem": "求不定积分：\n$$\n\\int\\frac{\\ln(\\sin x)}{\\sin^2x}\\,\\mathrm{d}x=\\underline{\\qquad}.\n$$",
       "options": [],
       "answer": "$-\\cot x\\ln(\\sin x)-\\cot x-x+C$",
-      "explanation": "分部积分，取 $u=\\ln(\\sin x)$，$\\mathrm{d}v=\\csc^2x\\,\\mathrm{d}x$，则 $v=-\\cot x$。余项为 $\\int\\cot^2x\\,\\mathrm{d}x=\\int(\\csc^2x-1)\\,\\mathrm{d}x$，整理得答案。"
+      "explanation": "分部积分。令\n$$u=\\ln(\\sin x),\\qquad \\mathrm{d}v=\\frac{1}{\\sin^2x}\\mathrm{d}x=\\csc^2x\\,\\mathrm{d}x.$$\n求微分与积分：\n$$\\mathrm{d}u=\\frac{\\cos x}{\\sin x}\\mathrm{d}x=\\cot x\\,\\mathrm{d}x,\\qquad v=-\\cot x.$$\n由分部积分公式 $\\int u\\,dv=uv-\\int v\\,du$：\n$$\\int\\frac{\\ln(\\sin x)}{\\sin^2x}\\,dx\n=-\\cot x\\cdot\\ln(\\sin x)-\\int(-\\cot x)\\cdot\\cot x\\,dx\n=-\\cot x\\ln(\\sin x)+\\int\\cot^2x\\,dx.$$\n计算余项（利用恒等式 $\\cot^2x=\\csc^2x-1$）：\n$$\\int\\cot^2x\\,dx=\\int(\\csc^2x-1)\\,dx=-\\cot x-x.$$\n合并得\n$$\\int\\frac{\\ln(\\sin x)}{\\sin^2x}\\,dx=-\\cot x\\ln(\\sin x)-\\cot x-x+C.$$"
     },
     {
       "id": 7147,
@@ -7400,7 +7400,7 @@
       "stem": "设函数 $f(x)$ 在闭区间 $[0,1]$ 上连续，在开区间 $(0,1)$ 内大于零，并满足 $xf\\prime(x)=f(x)+\\frac{3a}{2}x^2$（$a$ 为常数），又曲线 $y=f(x)$ 与 $x=1,y=0$ 所围的图形 $S$ 的面积值为 $2$，求函数 $y=f(x)$，并问 $a$ 为何值时，图形 $S$ 绕 $x$ 轴旋转一周所得的旋转体的体积最小。",
       "options": [],
       "answer": "$a=-5,\\quad f(x)=9x-\\frac{15}{2}x^2$",
-      "explanation": "解方程得 $f(x)=Cx+\\frac{3a}{2}x^2$。面积 $\\int_0^1f(x)dx=2$ 给出 $C+a=4$，故 $f=(4-a)x+\\frac{3a}{2}x^2$。体积正比于 $\\int_0^1f^2dx=\\frac{a^2}{30}+\\frac a3+\\frac{16}{3}$，极小于 $a=-5$ 处取得。"
+      "explanation": "**第一步：解微分方程求 $f(x)$ 的一般形式。**\n方程 $xf'(x)=f(x)+\\frac{3a}{2}x^2$ 整理为一阶线性方程：\n$$f'(x)-\\frac1x f(x)=\\frac{3a}{2}x.$$\n积分因子为 $e^{\\int(-\\frac1x)dx}=e^{-\\ln x}=\\frac1x$，两边同乘：\n$$\\left(\\frac{f(x)}{x}\\right)'=\\frac{f'(x)x-f(x)}{x^2}=\\frac{3a}{2}\\cdot\\frac{x^2}{x}=\\frac{3a}{2}.$$\n对 $x$ 积分（$x>0$）：\n$$f(x)=\\frac{3a}{2}x^2+Cx.$$\n\n**第二步：用面积条件 $S=2$ 定常数 $C$。**\n$$S=\\int_0^1 f(x)\\,dx=\\int_0^1\\left(\\frac{3a}{2}x^2+Cx\\right)dx\n=\\frac{3a}{2}\\cdot\\frac13+\\frac{C}{2}=\\frac a2+\\frac C2=2,$$\n得 $C+a=4$，即 $C=4-a$。于是\n$$f(x)=(4-a)x+\\frac{3a}{2}x^2.$$\n\n**第三步：旋转体体积（绕 $x$ 轴），并求 $a$ 使 $V$ 最小。**\n$$V=\\pi\\int_0^1 f^2(x)\\,dx=\\pi\\int_0^1\\left((4-a)^2x^2+3a(4-a)x^3+\\frac{9a^2}{4}x^4\\right)dx.$$\n逐项积分：\n$$\\int_0^1 x^2dx=\\frac13,\\quad \\int_0^1x^3dx=\\frac14,\\quad \\int_0^1x^4dx=\\frac15,$$\n故 $V$ 的系数部分为\n$$\\frac{(4-a)^2}{3}+\\frac{3a(4-a)}{4}+\\frac{9a^2}{20}.$$\n展开合并同类项：\n$$a^2\\text{ 项：} \\frac13-\\frac34+\\frac9{20}=\\frac{20-45+27}{60}=\\frac1{30},\\qquad\na\\text{ 项：} -\\frac83+3=\\frac13,\\qquad\\text{常数：}\\frac{16}{3},$$\n即\n$$\\frac{V}{\\pi}=\\frac{a^2}{30}+\\frac a3+\\frac{16}{3}.$$\n对 $a$ 求导取驻点：\n$$\\frac{d}{da}\\left(\\frac{a^2}{30}+\\frac a3\\right)=\\frac a{15}+\\frac13=0\\Longrightarrow a=-5.$$\n二次项系数 $\\frac1{30}>0$，故 $a=-5$ 时 $V$ 取最小值，对应\n$$f(x)=(4+5)x+\\frac{3(-5)}{2}x^2=9x-\\frac{15}{2}x^2.$$\n此时 $S=2$ 条件已被 $C=4-a=9$ 吸收，直接代入即得。"
     },
     {
       "id": 7343,
@@ -7618,7 +7618,7 @@
       "stem": "利用代换 $y=\\frac{u}{\\cos x}$ 将方程 $y''\\cos x-2y'\\sin x+3y\\cos x=e^x$ 化简，并求出原方程的通解。",
       "options": [],
       "answer": "化为 $u''+4u=e^x$；原方程通解为 $y=\\frac{C_1\\cos2x+C_2\\sin2x+\\frac15e^x}{\\cos x}$。",
-      "explanation": "将 $y=u/\\cos x$ 代入左端并化简，可得 $u''+4u=e^x$。解得 $u=C_1\\cos2x+C_2\\sin2x+\\frac15e^x$，再除以 $\\cos x$ 即得 $y$。"
+      "explanation": "**第一步：化简（代换 $y=\\frac{u}{\\cos x}=u\\sec x$）。**\n逐层求导：\n$$y'=u'\\sec x+u\\sec x\\tan x,$$\n$$y''=u''\\sec x+2u'\\sec x\\tan x+u(\\sec x\\tan^2x+\\sec^3x).$$\n分别乘系数后相加：\n- $y''\\cos x=u''+2u'\\tan x+u(\\tan^2x+\\sec^2x)=u''+2u'\\tan x+u(2\\tan^2x+1)$;\n- $-2y'\\sin x=-2u'\\tan x-2u\\sec x\\tan x\\sin x=-2u'\\tan x-2u\\tan^2x$;\n- $3y\\cos x=3u$.\n\n三项相加，$u'$ 项与 $2u\\tan^2x$ 项全部抵消：\n$$u''+4u=e^x.$$\n\n**第二步：解 $u''+4u=e^x$。**\n齐次方程 $u''+4u=0$ 特征根 $r=\\pm2i$，通解 $u_h=C_1\\cos2x+C_2\\sin2x$。\n设特解 $u^*=Ae^x$（与 $e^x$ 及其导数同形），代入：\n$$(Ae^x)''+4Ae^x=5Ae^x=e^x\\Longrightarrow A=\\frac15.$$\n故 $u=C_1\\cos2x+C_2\\sin2x+\\frac15 e^x$。\n\n**第三步：回代 $y=\\frac{u}{\\cos x}$。**\n$$y=\\frac{C_1\\cos2x+C_2\\sin2x+\\frac15e^x}{\\cos x}.$$"
     },
     {
       "id": 7674,
@@ -9694,7 +9694,7 @@
       "stem": "设函数  $ f(x) $ 在  $ [0,+\\infty) $ 上可导， $ f(0)=0 $，且其反函数为  $ g(x) $。若  $ \\int_{0}^{f(x)} g(t) dt = x^{2} e^{x} $，求  $ f(x) $。",
       "options": [],
       "answer": "$f(x)=(x+1)e^x-1$",
-      "explanation": "对等式求导并用 $g(f(x))=x$，得 $xf'(x)=x(x+2)e^x$，由 $f(0)=0$ 积分得结果。"
+      "explanation": "**第一步：对等式两边求导。**\n设原等式 $\\int_0^{f(x)}g(t)\\,dt=x^2e^x$。两边对 $x$ 求导，左端用变限积分求导公式（上限 $f(x)$）：\n$$g(f(x))\\cdot f'(x)=(x^2e^x)'=2xe^x+x^2e^x=x(x+2)e^x.$$\n\n**第二步：利用反函数性质 $g(f(x))=x$。**\n因为 $g$ 是 $f$ 的反函数，故 $g(f(x))=x$，代入得\n$$x\\cdot f'(x)=x(x+2)e^x.$$\n因 $f$ 定义在 $[0,+\\infty)$ 上，$x>0$ 时可约去 $x$：\n$$f'(x)=(x+2)e^x.$$\n\n**第三步：积分并用初值 $f(0)=0$ 定常数。**\n$$f(x)=\\int(x+2)e^x\\,dx=(x+2)e^x-\\int e^x\\,dx=(x+2)e^x-e^x+C=(x+1)e^x+C.$$\n（分部积分：$\\int(x+2)e^xdx=(x+2)e^x-\\int 1\\cdot e^x dx$，即 $\\int u\\,dv$ 取 $u=x+2$、$dv=e^xdx$。）\n\n代入 $f(0)=0$：$(0+1)e^0+C=0$，即 $1+C=0$，$C=-1$。故\n$$f(x)=(x+1)e^x-1.$$"
     },
     {
       "id": 10770,
