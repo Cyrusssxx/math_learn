@@ -188,3 +188,39 @@ html.dark .bg-btn:hover { background: #2d3640; }
 @media (max-width: 900px) {
     .float-q { display: none; }
 }
+
+/* 笔记编辑器（移植自真题页）：pad 分类页缺少的组件样式 */
+.q-note-toolbar {
+    display: flex; flex-wrap: wrap; gap: 4px; align-items: center;
+    padding: 6px 8px; margin: 4px 0;
+    background: var(--bg, #fff); border: 1px solid var(--border, #d5dbe3); border-radius: 8px;
+    font-size: 12px;
+}
+.q-note-toolbar[hidden] { display: none !important; }
+.q-nt-lab { color: var(--text-dim); font-size: 12px; margin-right: 2px; }
+.q-nt-c, .q-nt-h, .q-nt-b, .q-nt-i, .q-nt-h1, .q-nt-h2, .q-nt-x {
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
+    border-radius: 5px; min-width: 24px; height: 22px; padding: 0 5px; cursor: pointer; font-size: 12px;
+}
+.q-nt-sep { width: 1px; height: 16px; background: var(--border); margin: 0 3px; align-self: center; }
+.q-note-input {
+    border: 1px dashed var(--border); border-radius: 8px; padding: 8px 10px;
+    min-height: 42px; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.7;
+    outline: none; overflow-wrap: break-word; word-break: break-word;
+}
+.q-note-input:focus { border-color: var(--accent, #4a90d9); }
+.q-note-input[contenteditable]:empty::before { content: attr(data-placeholder); color: var(--text-faint); pointer-events: none; }
+.q-note-editbtn { margin-top: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text-dim); border-radius: 6px; padding: 2px 10px; font-size: 12px; cursor: pointer; }
+.q-note-editbtn.saved { color: var(--accent); border-color: var(--accent); opacity: .65; }
+.q-note-editbtn:not(.saved) { border-color: var(--accent, #4a90d9); color: var(--accent, #4a90d9); font-weight: 600; }
+.q-note-hint { font-size: 12px; color: var(--accent); min-height: 14px; margin-top: 3px; opacity: 0; transition: opacity .15s; }
+.q-note-hint.show { opacity: 1; }
+.q-note-preview { overflow-wrap: break-word; }
+.exam-note-img-wrap { display: inline-block; margin: 4px 6px 4px 0; vertical-align: middle; position: relative; }
+.exam-note-img { max-width: 100%; height: auto; border-radius: 6px; cursor: zoom-in; vertical-align: middle; }
+.exam-note-img-del {
+    position: absolute; top: -7px; right: -7px; width: 18px; height: 18px; border-radius: 50%;
+    border: 1px solid #e03131; background: #e03131; color: #fff; font-size: 12px; line-height: 1;
+    cursor: pointer; display: none; padding: 0;
+}
+.exam-note-img-wrap:hover .exam-note-img-del { display: block; }
