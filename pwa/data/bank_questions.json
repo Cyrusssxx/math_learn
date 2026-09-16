@@ -3548,7 +3548,7 @@
       "stem": "$$\n\\displaystyle\\lim_{x\\to0}\\frac{1-\\sqrt{1-x^{2}}}{\\mathrm{e}^{x}-\\cos x}\n$$",
       "options": [],
       "answer": "0",
-      "explanation": "当 $x\\to0$ 时，$1-\\sqrt{1-x^2}\\sim\\frac{x^2}{2}$，而 $\\mathrm{e}^x-\\cos x=(1+x+\\frac{x^2}{2}+o(x^2))-(1-\\frac{x^2}{2}+o(x^2))=x+x^2+o(x^2)$。因此原式 $\\sim\\frac{x^2/2}{x+x^2}\\to0$。"
+      "explanation": "$x\\to0$ 时分别作展开：\n- 分子：$$1-\\sqrt{1-x^2}=1-\\left(1-\\frac{x^2}{2}+o(x^2)\\right)=\\frac{x^2}{2}+o(x^2)\\sim\\frac{x^2}{2};$$\n- 分母：$$e^x-\\cos x=\\left(1+x+\\frac{x^2}{2}+o(x^2)\\right)-\\left(1-\\frac{x^2}{2}+o(x^2)\\right)=x+x^2+o(x^2)\\sim x.$$\n\n于是\n$$\\lim_{x\\to0}\\frac{1-\\sqrt{1-x^2}}{e^x-\\cos x}=\\lim_{x\\to0}\\frac{\\frac{x^2}{2}}{x}=\\lim_{x\\to0}\\frac{x}{2}=0.$$"
     },
     {
       "id": 3485,
@@ -7684,7 +7684,7 @@
       "stem": "计算曲线 $y=\\ln(1-x^2)$ 上相应于 $0\\le x\\le\\frac12$ 的一段弧的长度。",
       "options": [],
       "answer": "$\\ln3-\\frac12$",
-      "explanation": "有 $y'=-\\frac{2x}{1-x^2}$，故\n$$\n\\sqrt{1+(y')^2}=\\frac{1+x^2}{1-x^2}=-1+\\frac{2}{1-x^2}.\n$$\n于是\n$$\ns=\\int_0^{1/2}\\frac{1+x^2}{1-x^2}\\,\\mathrm{d}x=\\ln3-\\frac12.\n$$"
+      "explanation": "弧长公式 $s=\\int_a^b\\sqrt{1+(y')^2}\\,dx$。先求导数：\n$$y=\\ln(1-x^2),\\qquad y'=\\frac{-2x}{1-x^2}.$$\n则\n$$1+(y')^2=1+\\frac{4x^2}{(1-x^2)^2}=\\frac{(1-x^2)^2+4x^2}{(1-x^2)^2}\n=\\frac{1-2x^2+x^4+4x^2}{(1-x^2)^2}=\\frac{1+2x^2+x^4}{(1-x^2)^2}=\\frac{(1+x^2)^2}{(1-x^2)^2}.$$\n因 $0\\le x\\le\\frac12$ 时 $1-x^2>0$，开方得\n$$\\sqrt{1+(y')^2}=\\frac{1+x^2}{1-x^2}=-1+\\frac{2}{1-x^2}.$$\n故\n$$s=\\int_0^{1/2}\\left(-1+\\frac{2}{1-x^2}\\right)dx\n=\\left[-x+2\\cdot\\frac12\\ln\\frac{1+x}{1-x}\\right]_0^{1/2}$$\n$$=-1/2+\\ln\\frac{1+1/2}{1-1/2}=-1/2+\\ln3=\\ln3-\\frac12.$$"
     },
     {
       "id": 7713,
@@ -7772,7 +7772,7 @@
       "stem": "质点以速度 $t\\sin t^2$ 米/秒作直线运动，则从时刻 $t_1=\\sqrt{\\frac{\\pi}{2}}$ 秒到 $t_2=\\sqrt{\\pi}$ 秒内质点所经过的路程等于 $\\underline{\\qquad}$ 米。",
       "options": [],
       "answer": "$\\frac12$",
-      "explanation": "在该区间内 $\\sin t^2\\ge0$，路程为\n$$\n\\int_{\\sqrt{\\pi/2}}^{\\sqrt\\pi}t\\sin t^2\\,\\mathrm{d}t=\\left[-\\frac12\\cos t^2\\right]_{\\sqrt{\\pi/2}}^{\\sqrt\\pi}=\\frac12.\n$$"
+      "explanation": "在区间 $\\left[\\sqrt{\\frac\\pi2},\\sqrt\\pi\\right]$ 上，$t^2\\in\\left[\\frac\\pi2,\\pi\\right]$，$\\sin t^2\\ge0$，故速度 $v(t)=t\\sin t^2\\ge0$，质点只沿正方向运动，路程恰为速度的定积分\n$$S=\\int_{\\sqrt{\\pi/2}}^{\\sqrt\\pi}t\\sin t^2\\,dt.$$\n凑微分：$(t^2)'=2t$，故 $t\\,dt=\\frac12 d(t^2)$，令 $u=t^2$（$u:\\frac\\pi2\\to\\pi$）：\n$$S=\\frac12\\int_{\\pi/2}^{\\pi}\\sin u\\,du=\\frac12[-\\cos u]_{\\pi/2}^{\\pi}=-\\frac12(\\cos\\pi-\\cos\\frac\\pi2)=-\\frac12(-1-0)=\\frac12.$$\n故路程为 $\\dfrac12$ 米。"
     },
     {
       "id": 7740,
@@ -9568,7 +9568,7 @@
         "同阶但非等价无穷小."
       ],
       "answer": "B",
-      "explanation": "由 $\\sin x=x-\\frac{x^3}{6}+o(x^3)$，得 $x-\\sin x\\sim\\frac{x^3}{6}=o(x^2)$，故为比 $x^2$ 高阶的无穷小，选 B。"
+      "explanation": "由 $\\sin x$ 的泰勒展开：\n$$\\sin x=x-\\frac{x^3}{6}+o(x^3),$$\n得\n$$x-\\sin x=\\frac{x^3}{6}+o(x^3)\\sim\\frac{x^3}{6}.$$\n比较阶：$\\frac{x^3}{6}=o(x^2)$（$\\lim_{x\\to0}\\frac{x^3/6}{x^2}=\\frac{x}{6}\\to0$），故 $x-\\sin x$ 是比 $x^2$ **高阶**的无穷小，选 **B**。"
     },
     {
       "id": 10520,
@@ -9595,7 +9595,7 @@
       "stem": "$$ \\int_{1}^{+\\infty}\\frac{\\ln x}{x^{2}}\\mathrm{d}x=\\underline{\\hspace{5cm}} $$",
       "options": [],
       "answer": "$1$",
-      "explanation": "分部积分：取 $u=\\ln x$、$dv=x^{-2}dx$，边界项为零，余项为 $\\int_1^{\\infty}x^{-2}dx=1$。"
+      "explanation": "这是反常积分。令 $u=\\ln x$，$dv=x^{-2}dx$，则 $du=\\frac{dx}{x}$，$v=-x^{-1}$：\n$$\\int\\frac{\\ln x}{x^2}\\,dx=\\ln x\\cdot(-x^{-1})-\\int(-x^{-1})\\cdot\\frac{dx}{x}\n=-\\frac{\\ln x}{x}+\\int x^{-2}\\,dx=-\\frac{\\ln x}{x}-\\frac1x.$$\n代上下限（$x\\to+\\infty$ 时为极限过程）：\n$$\\int_1^{+\\infty}\\frac{\\ln x}{x^2}\\,dx\n=\\left[-\\frac{\\ln x}{x}-\\frac1x\\right]_1^{+\\infty}\n=\\lim_{b\\to+\\infty}\\left(-\\frac{\\ln b}{b}-\\frac1b\\right)-\\left(-0-1\\right).$$\n由 $\\lim_{b\\to+\\infty}\\frac{\\ln b}{b}=0$（对数增长慢于幂），得第一项为 $0$，故\n$$=0-(-1)=1.$$"
     },
     {
       "id": 10550,
@@ -9628,7 +9628,7 @@
       "stem": "计算 $ \\int_{1}^{4}\\frac{dx}{x(1+\\sqrt{x})} $.",
       "options": [],
       "answer": "$\\displaystyle 2\\ln\\frac43$",
-      "explanation": "令 $t=\\sqrt x$，则原积分为 $2\\int_1^2dt/[t(1+t)]=2[\\ln t-\\ln(1+t)]_1^2$。"
+      "explanation": "令 $t=\\sqrt x$，则 $x=t^2$，$dx=2t\\,dt$；$x=1\\to t=1$，$x=4\\to t=2$：\n$$\\int_1^4\\frac{dx}{x(1+\\sqrt x)}=\\int_1^2\\frac{2t\\,dt}{t^2(1+t)}=2\\int_1^2\\frac{dt}{t(1+t)}.$$\n被积函数裂项：\n$$\\frac{1}{t(1+t)}=\\frac1t-\\frac1{1+t}.$$\n故\n$$=2\\int_1^2\\left(\\frac1t-\\frac1{1+t}\\right)dt=2\\left[\\ln t-\\ln(1+t)\\right]_1^2\n=2\\left[(\\ln2-\\ln3)-(0-\\ln2)\\right]=2\\ln\\frac43.$$"
     },
     {
       "id": 10582,
@@ -9650,7 +9650,7 @@
       "stem": "曲线 $y=(x-1)(x-2)$ 和 $x$ 轴围成一平面图形，求此平面图形绕 $y$ 轴旋转一周所得旋转体体积。",
       "options": [],
       "answer": "$\\dfrac{\\pi}{2}$",
-      "explanation": "在 $[1,2]$ 上函数非正。绕 $y$ 轴用圆柱壳法 $V=2\\pi\\int_1^2x[-(x-1)(x-2)]dx=\\pi/2$。"
+      "explanation": "在 $[1,2]$ 上，$f(x)=(x-1)(x-2)\\le0$，图形位于 $x$ 轴下方。绕 $y$ 轴旋转，用**圆柱壳法**：距 $y$ 轴 $x$ 处的竖条（高 $|f(x)|$、宽 $dx$）绕 $y$ 轴扫出半径 $x$、高 $|f(x)|$ 的薄壳，微元体积\n$$dV=2\\pi x\\cdot|f(x)|\\,dx.$$\n故\n$$V=2\\pi\\int_1^2 x\\bigl[-(x-1)(x-2)\\bigr]dx\n=-2\\pi\\int_1^2 x(x-1)(x-2)\\,dx.$$\n展开被积函数：\n$$x(x-1)(x-2)=x(x^2-3x+2)=x^3-3x^2+2x.$$\n逐项积分：\n$$V=-2\\pi\\left[\\frac{x^4}{4}-x^3+x^2\\right]_1^2\n=-2\\pi\\left[\\left(4-8+4\\right)-\\left(\\frac14-1+1\\right)\\right]$$\n$$=-2\\pi\\left[0-\\frac14\\right]=\\frac\\pi2.$$"
     },
     {
       "id": 10664,
@@ -9661,7 +9661,7 @@
       "stem": "如图， $ A,D $ 分别是曲线  $ y = e^x $ 和  $ y = e^{-2x} $ 上的点， $ AB $ 和  $ DC $ 均垂直  $ x $ 轴，且  $ |AB|:|DC| = 2:1 $， $ |AB| < 1 $。求点  $ B $ 和  $ C $ 的横坐标，使梯形  $ ABCD $ 的面积最大。\n\n![](asset://sha256/d76a225c72936ae16408ca8c321b30f0e31d8e0516a7a2469764eae1445c0088)",
       "options": [],
       "answer": "$x_{B}=\\frac{\\ln 2}{3}-1$，$x_{C}=\\frac{\\ln 2}{3}+\\frac{1}{2}$。",
-      "explanation": "按图中平行边比例将梯形面积写成两横坐标的函数；用约束 $|AB|:|DC|=2:1$ 消元后求导，驻点给出 $x_B=\\ln2/3-1,x_C=\\ln2/3+1/2$，并满足 $|AB|<1$。"
+      "explanation": "**第一步：变量设定**。设 $B$ 横坐标为 $x$，$C$ 横坐标为 $x+c$（$c>0$ 待定）。则\n$$|AB|=e^{x},\\qquad |DC|=e^{-2(x+c)}.$$\n比例条件 $|AB|:|DC|=2:1$：\n$$e^x=2e^{-2(x+c)}\\Longrightarrow e^{3x+2c}=2\\Longrightarrow 3x+2c=\\ln2\n\\Longrightarrow c=\\frac{\\ln2-3x}{2}.$$\n\n**第二步：梯形面积**。梯形 $ABCD$ 高为 $|BC|=c$，两底 $|AB|=e^x$、$|DC|=e^{-2(x+c)}$：\n$$S=\\frac12\\bigl(e^x+e^{-2(x+c)}\\bigr)\\cdot c.$$\n用比例关系 $e^{-2(x+c)}=\\frac12e^x$ 消元：\n$$S=\\frac12\\left(e^x+\\frac12e^x\\right)c=\\frac34e^x\\cdot\\frac{\\ln2-3x}{2}\n=\\frac{3}{8}e^x(\\ln2-3x).$$\n\n**第三步：求导求驻点**。令 $F(x)=e^x(\\ln2-3x)$：\n$$F'(x)=e^x(\\ln2-3x)+e^x(-3)=e^x(\\ln2-3x-3).$$\n令 $F'(x)=0$：\n$$\\ln2-3x-3=0\\Longrightarrow x=\\frac{\\ln2-3}{3}=\\frac{\\ln2}{3}-1.$$\n这是唯一驻点；由 $e^x>0$ 且 $F''(x)=e^x(\\ln2-3x-6)$ 在驻点处 $=\\frac13(\\ln2-3)>0\\cdot…$ 只需判断：$x\\to0$ 时 $c=\\frac{\\ln2}{2}>0$ 但梯形存在性要求 $|AB|<1$（$x<0$），使 $S$ 在可行域内该驻点使面积最大（二阶导为 $e^x\\cdot(-3)<0$，为极大值点）。\n\n**第四步：求 $C$ 横坐标**。\n$$x_C=x+c=\\frac{\\ln2-3}{3}+\\frac{\\ln2-3x}{2}\\Big|_{x=\\frac{\\ln2-3}{3}}.$$\n直接代入：$c=\\frac{\\ln2-3(\\frac{\\ln2}{3}-1)}{2}=\\frac{\\ln2-\\ln2+3}{2}=\\frac32$？重算：\n$$c=\\frac{\\ln2-3x}{2}=\\frac{\\ln2-3\\left(\\frac{\\ln2}{3}-1\\right)}{2}=\\frac{\\ln2-\\ln2+3}{2}\n=\\frac{3}{2}.$$\n故\n$$x_C=\\frac{\\ln2}{3}-1+\\frac32=\\frac{\\ln2}{3}+\\frac12.$$\n且 $|DC|=\\frac12e^x=\\frac12e^{\\frac{\\ln2}{3}-1}<\\frac12<1$ 满足条件。最终\n$$x_B=\\frac{\\ln2}{3}-1,\\qquad x_C=\\frac{\\ln2}{3}+\\frac12.$$"
     },
     {
       "id": 10670,
