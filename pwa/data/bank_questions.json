@@ -2323,7 +2323,7 @@
       "stem": "设 $ x \\gt 0 $ , 常数 $ a \\gt e $ . 证明: $ (a + x)^{a} \\lt a^{a + x} $",
       "options": [],
       "answer": "证明见解析",
-      "explanation": "令 $F(x)=(a+x)\\ln a-a\\ln(a+x)$。因 $a\\gt e$、$x\\gt0$，有 $F'(x)=\\ln a-\\dfrac{a}{a+x}\\gt1-1=0$。又 $F(0)=0$，故 $F(x)\\gt0$，即 $(a+x)\\ln a\\gt a\\ln(a+x)$。两边取指数即得 $(a+x)^a\\lt a^{a+x}$。"
+      "explanation": "两边取以 $a$ 为底的对数（$a>e>1$，底大于 $1$ 单调递增，故等价）：\n$$(a+x)^a\\lt a^{a+x}\\Longleftrightarrow a\\ln(a+x)\\lt(a+x)\\ln a.$$\n令\n$$F(x)=(a+x)\\ln a-a\\ln(a+x),\\qquad x\\ge0.$$\n求导：\n$$F'(x)=\\ln a-a\\cdot\\frac{1}{a+x}=\\ln a-\\frac{a}{a+x}.$$\n因 $x>0$ 时 $\\frac{a}{a+x}<1$，且由 $a>e$ 知 $\\ln a>\\ln e=1$，故\n$$F'(x)>1-1=0,$$\n$F$ 在 $[0,+\\infty)$ 上严格递增。又\n$$F(0)=a\\ln a-a\\ln a=0,$$\n故对一切 $x>0$ 有 $F(x)>F(0)=0$，即\n$$(a+x)\\ln a-a\\ln(a+x)>0\\Longrightarrow (a+x)\\ln a>a\\ln(a+x).$$\n两边取以 $e$ 为底的指数（指数函数单调递增）：\n$$e^{(a+x)\\ln a}>e^{a\\ln(a+x)}\\Longrightarrow a^{a+x}>(a+x)^{a}.$$\n即 $(a+x)^a<a^{a+x}$，证毕。"
     },
     {
       "id": 1944,
@@ -3559,7 +3559,7 @@
       "stem": "$$\n\\displaystyle\\lim_{x\\to0^{+}}\\frac{1-\\sqrt{\\cos x}}{x(1-\\cos\\sqrt{x})}\n$$",
       "options": [],
       "answer": "$\\frac{1}{2}$",
-      "explanation": "当 $x\\to0^+$ 时，\n$$\n1-\\sqrt{\\cos x}\\sim\\frac{1-\\cos x}{2}\\sim\\frac{x^2}{4},\n$$\n 且 \n$$\nx\\left(1-\\cos\\sqrt{x}\\right)\\sim x\\cdot\\frac{x}{2}=\\frac{x^2}{2}.\n$$\n 因此原极限为 \n$$\n\\frac{x^2/4}{x^2/2}=\\frac{1}{2}.\n$$"
+      "explanation": "$x\\to0^+$ 时分子分母都趋于 $0$，逐项找等价无穷小。\n\n- 分子：$$1-\\sqrt{\\cos x}=\\frac{1-\\cos x}{1+\\sqrt{\\cos x}}\\sim\\frac{1-\\cos x}{2}\\sim\\frac{x^2}{4};$$\n  （其中 $1-\\cos x\\sim\\frac{x^2}{2}$，且 $1+\\sqrt{\\cos x}\\to2$。）\n- 分母：$\\sqrt{x}\\to0$，$1-\\cos\\sqrt{x}\\sim\\frac{(\\sqrt{x})^2}{2}=\\frac{x}{2}$，故\n  $$x\\bigl(1-\\cos\\sqrt{x}\\bigr)\\sim x\\cdot\\frac{x}{2}=\\frac{x^2}{2}.$$\n\n于是\n$$\\lim_{x\\to0^+}\\frac{1-\\sqrt{\\cos x}}{x(1-\\cos\\sqrt{x})}\n=\\lim_{x\\to0^+}\\frac{x^2/4}{x^2/2}=\\frac12.$$"
     },
     {
       "id": 3488,
@@ -5074,7 +5074,7 @@
       "stem": "已知曲线 $ y = f(x) $ 过点 $ \\left(0, -\\frac{1}{2}\\right) $，且其上任一点 $ (x, y) $ 处的切线斜率为 $ x \\ln(1 + x^{2}) $，则 $ f(x) = $",
       "options": [],
       "answer": "$f(x)=\\frac12(1+x^2)\\left[\\ln(1+x^2)-1\\right]$",
-      "explanation": "由题意，$f'(x)=x\\ln(1+x^2)$，且 $f(0)=-\\frac12$。\n\n积分得\n$$\nf(x)=\\frac12\\left[(1+x^2)\\ln(1+x^2)-(1+x^2)\\right]+C.\n$$\n代入 $f(0)=-\\frac12$，得 $C=0$。因此\n$$\nf(x)=\\frac12(1+x^2)\\left[\\ln(1+x^2)-1\\right].\n$$"
+      "explanation": "已知曲线上任一点切线斜率为 $f'(x)=x\\ln(1+x^2)$，初值 $f(0)=-\\frac12$。\n\n求原函数：令 $u=1+x^2$，则 $du=2x\\,dx$，$x\\,dx=\\frac{du}{2}$：\n$$\\int x\\ln(1+x^2)\\,dx=\\frac12\\int\\ln u\\,du.$$\n对 $\\int\\ln u\\,du$ 分部积分（$u=\\ln u$ 记错，此处用分部：$\\int\\ln u\\,du=u\\ln u-u$）：\n$$\\frac12\\int\\ln u\\,du=\\frac12\\bigl(u\\ln u-u\\bigr)+C\n=\\frac12\\left[(1+x^2)\\ln(1+x^2)-(1+x^2)\\right]+C.$$\n代入初值 $f(0)=-\\frac12$：\n$$f(0)=\\frac12\\left[1\\cdot\\ln1-1\\right]+C=\\frac12(0-1)+C=-\\frac12+C=-\\frac12,$$\n得 $C=0$。故\n$$f(x)=\\frac12(1+x^2)\\left[\\ln(1+x^2)-1\\right].$$"
     },
     {
       "id": 4652,
@@ -5195,7 +5195,7 @@
       "stem": "设单位质点在水平面内作直线运动，初速度 $ v_{t=0}=v_{0} $ 。已知阻力与速度成正比（比例常数为1），问 t 为多少时此质点的速度为 $ \\frac{v_{0}}{3} $ ?并求到此时刻该质点所经过的路程。",
       "options": [],
       "answer": "$t=\\ln3$；路程 $2v_0/3$",
-      "explanation": "$v'=-v$，故 $v=v_0e^{-t}$。取 $v=v_0/3$ 得时间；路程 $\\int_0^{\\ln3}v_0e^{-t}dt=2v_0/3$。"
+      "explanation": "质点质量为单位 1，阻力与速度成正比且比例常数为 1，作用力 $F=-v$，由牛顿第二定律 $F=ma$（$m=1$）：\n$$\\frac{dv}{dt}=-v.$$\n分离变量：$\\frac{dv}{v}=-dt$，两边积分\n$$\\ln v=-t+C_1\\Longrightarrow v=Ce^{-t}.$$\n由初速 $v(0)=v_0$ 得 $C=v_0$，即\n$$v=v_0e^{-t}.$$\n\n**求时刻**：令 $v=v_0/3$：\n$$v_0e^{-t}=\\frac{v_0}{3}\\Longrightarrow e^{-t}=\\frac13\\Longrightarrow t=\\ln3.$$\n\n**求路程**（速度始终为正方向）：\n$$S=\\int_0^{\\ln3}v(t)\\,dt=\\int_0^{\\ln3}v_0e^{-t}\\,dt\n=v_0\\left[-e^{-t}\\right]_0^{\\ln3}=v_0(1-e^{-\\ln3})=v_0\\left(1-\\frac13\\right)=\\frac{2v_0}{3}.$$\n\n故 $t=\\ln3$，路程 $\\frac{2v_0}{3}$。"
     },
     {
       "id": 4725,
@@ -7164,7 +7164,7 @@
       "stem": "求不定积分：\n$$\n\\int\\frac{\\tan x}{\\sqrt{\\cos x}}\\,\\mathrm{d}x=\\underline{\\qquad}.\n$$",
       "options": [],
       "answer": "$\\frac{2}{\\sqrt{\\cos x}}+C$",
-      "explanation": "被积函数为 $\\sin x\\cos^{-3/2}x$。令 $u=\\cos x$，则积分为 $-\\int u^{-3/2}\\,\\mathrm{d}u=2u^{-1/2}+C$。"
+      "explanation": "被积函数\n$$\\frac{\\tan x}{\\sqrt{\\cos x}}=\\frac{\\sin x}{\\cos x}\\cdot\\cos^{-1/2}x=\\sin x\\cos^{-3/2}x.$$\n令 $u=\\cos x$，则 $du=-\\sin x\\,dx$，$\\sin x\\,dx=-du$，原积分化为\n$$I=-\\int u^{-3/2}\\,du.$$\n由幂函数积分公式 $\\int u^{-3/2}du=\\frac{u^{-1/2}}{-1/2}=-2u^{-1/2}$：\n$$I=-\\left(-2u^{-1/2}\\right)+C=2u^{-1/2}+C=\\frac{2}{\\sqrt{\\cos x}}+C.$$"
     },
     {
       "id": 7180,
@@ -7530,7 +7530,7 @@
       "stem": "微分方程 $y''+y=-2x$ 的通解为 _____。",
       "options": [],
       "answer": "$y=C_1\\cos x+C_2\\sin x-2x$",
-      "explanation": "齐次解为 $C_1\\cos x+C_2\\sin x$。设特解为 $ax+b$，代入 $y''+y=-2x$ 得 $a=-2,b=0$，故通解为 $C_1\\cos x+C_2\\sin x-2x$。"
+      "explanation": "方程 $y''+y=-2x$，特征方程 $r^2+1=0$，特征根 $r=\\pm i$，齐次通解\n$$y_h=C_1\\cos x+C_2\\sin x.$$\n\n右端 $-2x$ 是一次多项式，且 $0$ 不是特征根，设特解 $y^*=ax+b$。代入：\n$$y^{*\\prime}=a,\\qquad y^{*\\prime\\prime}=0,$$\n$$y^{*\\prime\\prime}+y^*=0+ax+b=-2x.$$\n比较系数：$a=-2$，$b=0$。故\n$$y^*=-2x,$$\n通解\n$$y=C_1\\cos x+C_2\\sin x-2x.$$"
     },
     {
       "id": 7617,
@@ -7574,7 +7574,7 @@
       "stem": "求微分方程 $y''+a^2y=\\sin x$ 的通解，其中常数 $a>0$。",
       "options": [],
       "answer": "当 $a\\ne1$ 时，$y=C_1\\cos ax+C_2\\sin ax+\\frac{\\sin x}{a^2-1}$；当 $a=1$ 时，$y=C_1\\cos x+C_2\\sin x-\\frac{x}{2}\\cos x$。",
-      "explanation": "若 $a\\ne1$，设特解为 $A\\sin x$，得 $A=\\frac1{a^2-1}$。若 $a=1$，右端与齐次解共振，特解取 $-\\frac{x}{2}\\cos x$。"
+      "explanation": "方程 $y''+a^2y=\\sin x$，特征方程 $r^2+a^2=0$，特征根 $r=\\pm ai$，齐次通解\n$$y_h=C_1\\cos ax+C_2\\sin ax.$$\n\n**情形一：$a\\ne1$。** $\\sin x$ 的虚指数 $\\pm i$ 不是特征根，设特解 $y^*=A\\sin x$（右端为奇函数，取 $\\sin$ 项）。代入：\n$$y^{*\\prime}=A\\cos x,\\qquad y^{*\\prime\\prime}=-A\\sin x,$$\n$$y^{*\\prime\\prime}+a^2y^*=-A\\sin x+a^2A\\sin x=A(a^2-1)\\sin x=\\sin x,$$\n故 $A=\\frac{1}{a^2-1}$，通解\n$$y=C_1\\cos ax+C_2\\sin ax+\\frac{\\sin x}{a^2-1}.$$\n\n**情形二：$a=1$。** 特征根 $\\pm i$，右端 $\\sin x$ 共振，特解应设\n$$y^*=x(A\\cos x+B\\sin x).$$\n代入 $y''+y$（计算：$y'=A\\cos x+B\\sin x+x(-A\\sin x+B\\cos x)$；$y''=-A\\sin x+B\\cos x+(-A\\sin x+B\\cos x)+x(-A\\cos x-B\\sin x)$，合并得 $y''+y=2(-A\\sin x+B\\cos x)$）：\n$$y''+y=2B\\cos x-2A\\sin x=\\sin x,$$\n比较系数得 $A=-\\frac12,\\,B=0$，特解 $y^*=-\\frac{x}{2}\\cos x$，通解\n$$y=C_1\\cos x+C_2\\sin x-\\frac{x}{2}\\cos x.$$\n\n综合：\n$$y=\\begin{cases}C_1\\cos ax+C_2\\sin ax+\\dfrac{\\sin x}{a^2-1}, & a\\ne1,\\\\[6pt] C_1\\cos x+C_2\\sin x-\\dfrac{x}{2}\\cos x, & a=1.\\end{cases}$$"
     },
     {
       "id": 7648,
@@ -9617,7 +9617,7 @@
       "stem": "$$\\int x^3e^{x^2}\\,dx=\\underline{\\hspace{5cm}}.$$",
       "options": [],
       "answer": "$\\displaystyle \\frac12(x^2-1)e^{x^2}+C$",
-      "explanation": "令 $u=x^2$，则 $x^3dx=u\\,du/2$，故原积分为 $\\frac12\\int ue^u du$。"
+      "explanation": "令 $u=x^2$，则 $du=2x\\,dx$，故 $x\\,dx=\\frac{du}{2}$，且 $x^3=x\\cdot x^2=xu$：\n$$\\int x^3e^{x^2}\\,dx=\\int xu\\cdot e^u\\cdot\\frac{du}{2x}=\\frac12\\int u e^u\\,du.$$\n对 $\\int u e^u\\,du$ 分部积分（$U=u,\\,dV=e^u du\\Rightarrow dU=du,\\,V=e^u$）：\n$$\\int u e^u\\,du=u e^u-\\int e^u\\,du=(u-1)e^u.$$\n故\n$$\\int x^3e^{x^2}\\,dx=\\frac12(x^2-1)e^{x^2}+C.$$\n\n（另一种做法：直接 $d(e^{x^2})=2xe^{x^2}dx$，$\\int x^3e^{x^2}dx=\\frac12\\int x^2 d(e^{x^2})$ 再分部，结果相同。）"
     },
     {
       "id": 10576,
