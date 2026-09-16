@@ -522,45 +522,6 @@ function syncNoteToolbar(sec) {
     const bar = sec.querySelector('.q-note-toolbar');
     if (bar) bar.hidden = sec.hidden || !ed || ed.style.display === 'none';
 }
-// 空笔记「💾 保存」：立即落盘并收起输入框——非空转为「有笔记」形态（预览 + ✏️ 编辑），空则收起整节
-async function saveNoteBtn(btn) {
-    const sec = btn.closest('.q-note');
-    const ta = sec.querySelector('.q-note-input');
-    const pv = sec.querySelector('.q-note-preview');
-    const qid = ta.dataset.qid;
-    clearTimeout(_noteTimer[qid]);
-    delete _noteTimer[qid];
-    if (Object.keys(_pendingImgTasks).length) noteHint(ta, '图片保存中…', true);   // 有贴图在写库：提示并等待
-    await waitPendingImgs();   // 关键：等所有贴图写库完成再落盘，只读预览回填必然成功——根治「手动保存存不上图」
-    const v = noteVal(ta);
-    try { localStorage.setItem('examNote-' + qid, v); } catch (e) { }
-    const opBtn = sec.closest('.q-card')?.querySelector('[data-act="note"]');
-    if (v.trim()) {
-        ta.style.display = 'none';
-        btn.style.display = 'none';
-        syncNoteToolbar(sec);
-        sec.classList.toggle('has-img', /\[图:[a-z0-9]+\]/.test(v));
-        if (pv) {
-            pv.classList.remove('pv-edit');   // 只读态恢复完整高度（防编辑态限高残留）
-            pv.innerHTML = mdBlockWithImg(v);
-            pv.hidden = false;
-            if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
-            fillExamNoteImgs(pv);
-        }
-        const edit = sec.querySelector('.q-note-editbtn');
-        if (edit) {
-            edit.style.display = '';
-            edit.textContent = '✏️ 编辑';
-            edit.classList.add('saved');
-            noteHint(edit, '已保存 ✓');
-        }
-        if (opBtn) opBtn.classList.add('has');
-    } else {
-        sec.hidden = true;
-        if (opBtn) opBtn.classList.remove('has');
-        noteHint(btn, '笔记是空的，未保存');
-    }
-}
 // 顶部「💾 保存」按钮（.q-ops 行，位于 笔记 右侧）：定位本题卡的笔记区并保存。
 // 仅在编辑态（编辑器可见）生效；只读展示态直接提示先编辑，避免误把空编辑器内容覆盖已存笔记。
 async function saveNoteFromOps(btn) {
@@ -572,8 +533,8 @@ async function saveNoteFromOps(btn) {
     if (!ta) return;
     if (sec.hidden) { const nb = card.querySelector('button[data-act="note"]'); if (nb) nb.click(); }
     if (ta.style.display === 'none') { noteHint(ta, '请先点 ✏️编辑 再保存', false); return; }
-    const sb = sec.querySelector('.q-note-savebtn');
-    if (sb) await saveNoteBtn(sb);
+    const eb = sec.querySelector('.q-note-editbtn');
+    if (eb) await toggleNoteEdit(eb);   // 编辑态：同一按钮的「💾 保存」动作，保存并收起
     else {
         if (Object.keys(_pendingImgTasks).length) noteHint(ta, '图片保存中…', true);
         await waitPendingImgs();
@@ -587,14 +548,12 @@ async function toggleNoteEdit(btn) {
     const pv = sec.querySelector('.q-note-preview');
     const editing = ta.style.display !== 'none';
     if (!editing) {
-        // 进入编辑：编辑器在上（预览在下实时刷新），独立 💾 保存按钮显示，✏️ 编辑按钮隐藏
+        // 进入编辑：同一按钮文字切为「💾 保存」（编辑态保持可见，点击即保存收起）
         btn.textContent = '💾 保存';
         btn.classList.remove('saved');   // 再次编辑恢复按钮常态
         noteHint(btn, '');
         ta.style.display = '';
-        const sb = sec.querySelector('.q-note-savebtn');
-        if (sb) sb.style.display = 'none';
-        btn.style.display = 'none';
+        // 单按钮方案：编辑态按钮保持可见，文字已切为「💾 保存」，点击即保存收起
         if (!ta.dataset.bind) {
             ta.addEventListener('input', () => noteInput(ta));
             ta.addEventListener('paste', notePasteImg);
@@ -641,9 +600,9 @@ async function toggleNoteEdit(btn) {
             if (pv) { pv.classList.remove('pv-edit'); pv.innerHTML = ''; }   // 清空预览并恢复正常高度
             ta.style.display = '';
             setNoteContent(ta, '');
-            const sb = sec.querySelector('.q-note-savebtn');
-            if (sb) sb.style.display = 'none';
-            btn.style.display = 'none';
+            // 重置为「空笔记」形态：下次展开直接是输入框 + 💾 保存按钮
+            btn.textContent = '💾 保存';
+            btn.classList.remove('saved');
         }
     }
 }
@@ -1081,16 +1040,14 @@ function qCard(p, sec, q, secIdx) {
             ${NOTE_TOOLBAR}
             ${editorHtml.replace('<div class=', '<div style="display:none" class=')}
             <div class="q-note-preview">${mdBlockWithImg(note)}</div>
-            <button class="q-note-savebtn" style="display:none" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
-            <button class="q-note-editbtn saved" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
+            <button class="q-note-editbtn saved" onclick="toggleNoteEdit(this)" title="编辑笔记（编辑中点击保存）">✏️ 编辑</button>
             <div class="q-note-hint"></div>
         </div>`
         : `<div class="q-sec q-note" hidden data-qid="${qid}">
             ${NOTE_TOOLBAR}
             ${editorHtml}
             <div class="q-note-preview" hidden></div>
-            <button class="q-note-savebtn" style="display:none" onclick="saveNoteBtn(this)" title="保存笔记并收起输入框">💾 保存</button>
-            <button class="q-note-editbtn" style="display:none" onclick="toggleNoteEdit(this)" title="编辑笔记">✏️ 编辑</button>
+            <button class="q-note-editbtn" onclick="toggleNoteEdit(this)" title="保存笔记并收起输入框">💾 保存</button>
             <div class="q-note-hint"></div>
         </div>`;
     const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';

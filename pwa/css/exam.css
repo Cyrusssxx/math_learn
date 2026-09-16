@@ -902,21 +902,6 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
 .q-note-preview b, .q-note-preview strong { font-weight: 800; }
 .q-note-preview i, .q-note-preview em { font-style: italic; }
 
-/* 笔记「💾 保存」按钮（空笔记展开态）：醒目主色，保存即收起输入框 */
-.q-note-savebtn {
-    margin-top: 6px;
-    border: 1px solid var(--accent, #4a90d9);
-    background: var(--accent, #4a90d9);
-    color: #fff;
-    border-radius: 6px;
-    padding: 3px 16px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-}
-.q-note-savebtn:hover { filter: brightness(1.1); }
-html.dark .q-note-savebtn { color: #1e1e2e; }
-
 /* 纯文字笔记（无 [图:id]）：去掉内层预览框的盒子感，文字直接融入外层 */
 .q-note:not(.has-img) .q-note-preview {
     margin-top: 0;
@@ -926,7 +911,14 @@ html.dark .q-note-savebtn { color: #1e1e2e; }
     background: transparent;
 }
 
-/* 笔记「✏️编辑/💾完成」小按钮 */
+/* 单按钮笔记：编辑态（文字「💾 保存」）用主色醒目，只读态「✏️ 编辑」淡化 */
+.q-note-editbtn:not(.saved) {
+    border-color: var(--accent, #4a90d9);
+    color: var(--accent, #4a90d9);
+    font-weight: 600;
+}
+
+/* 笔记「✏️编辑/💾保存」小按钮 */
 .q-note-editbtn {
     margin-top: 6px;
     border: 1px solid var(--border);
