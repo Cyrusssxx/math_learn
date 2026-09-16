@@ -449,9 +449,10 @@ function notePasteImg(e) {
     imgTask.then(() => { delete _pendingImgTasks[id]; }, () => { delete _pendingImgTasks[id]; });
 }
 function toggleQSec(btn, act) {
-    // 做题模式：答案/思路入口禁止点击（按钮保留显示，点击给出提示）
-    if (examMode && (act === 'answer' || act === 'idea')) {
-        noteHintLocal(act === 'answer' ? '做题模式中不可查看答案，先做完再退出模式查看' : '做题模式中不可查看思路，先做完再退出模式查看');
+    // 做题模式：答案/思路/点睛入口禁止点击（按钮保留显示，点击给出提示）
+    if (examMode && (act === 'answer' || act === 'idea' || act === 'tips')) {
+        const label = act === 'answer' ? '答案' : (act === 'idea' ? '思路' : '点睛');
+        noteHintLocal('做题模式中不可查看' + label + '，先做完再退出模式查看');
         return;
     }
     const card = btn.closest('.q-card');
@@ -1193,9 +1194,9 @@ function applyExamMode() {
         allBtn.disabled = examMode;   // 做题模式下不允许一键展开答案
         if (examMode) { allBtn.textContent = '🔼 展开全部答案'; allBtn.classList.remove('on'); }
     }
-    // 进入做题模式：把已展开的答案/思路全部收起（防考试中误翻到已看内容）
+    // 进入做题模式：把已展开的答案/思路/点睛全部收起（防考试中误翻到已看内容）
     if (el) {
-        el.querySelectorAll('.q-answer, .q-idea').forEach(s => { s.hidden = true; });
+        el.querySelectorAll('.q-answer, .q-idea, .q-tips').forEach(s => { s.hidden = true; });
         el.querySelectorAll('.q-op[data-act="answer"], .q-op[data-act="idea"]').forEach(b => {
             b.classList.remove('on');
             b.textContent = b.dataset.act === 'answer' ? '查看答案' : '查看思路';
