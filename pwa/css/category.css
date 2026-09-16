@@ -153,3 +153,33 @@ html.dark .cat-filter-tip { color: #e5c860; }
 html.dark .bg-fab, html.dark .bg-panel { background: #232a33; border-color: #3a4350; color: #e8e8e8; box-shadow: 0 8px 32px rgba(0,0,0,.5); }
 html.dark .bg-btn { background: #232a33; border-color: #3a4350; color: #e8e8e8; }
 html.dark .bg-btn:hover { background: #2d3640; }
+
+/* ============ 顶栏搜索框 ============ */
+.cat-search-wrap {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+.cat-search {
+    width: 210px;
+    padding: 4px 26px 4px 10px;
+    border: 1px solid var(--border, #d5dbe3);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    transition: width .15s ease, border-color .15s ease;
+}
+.cat-search:focus { outline: none; border-color: var(--accent, #4a90d9); width: 260px; }
+.cat-search-clear {
+    position: absolute;
+    right: 6px;
+    border: none;
+    background: transparent;
+    color: var(--text-faint);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0 2px;
+    line-height: 1;
+}
+.cat-search-clear:hover { color: var(--accent); }

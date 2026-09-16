@@ -517,6 +517,9 @@ function catCard(paper, secTitle, q) {
         <div class="q-body">${stem}${figHtml}${options}</div>
         <div class="q-ops">
             <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
+            <button class="q-st-btn q-st-unfam${st === 'unfamiliar' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unfamiliar')" title="标记为「不熟」（黄色；再点取消）">不熟</button>
+            <button class="q-st-btn q-st-unk${st === 'unknown' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unknown')" title="标记为「不会」（红色；再点取消）">不会</button>
+            <button class="q-copy-latex" onclick="copyCatQLatex(this)" title="复制本题 LaTeX 源码（题干+选项+答案，含 $...$ 原始命令）">📋 复制</button>
             ${ideaBtn}${noteBtn}
         </div>
         ${ideaHtml}${noteHtml}
@@ -524,9 +527,67 @@ function catCard(paper, secTitle, q) {
     </div>`;
 }
 
+
+// 状态按钮点击：互斥切换不熟/不会，刷新按钮态 + 若正在搜索结果中刷新列表
+function toggleQStatus(btn, qid, v) {
+    const nv = toggleStatus(qid, v);
+    const card = btn.closest('.q-card');
+    if (card) {
+        card.querySelectorAll('.q-st-btn').forEach(b => {
+            const on = b.getAttribute('onclick').includes("'" + qid + "','" + (b.textContent.trim() === '不会' ? 'unknown' : 'unfamiliar') + "'");
+            b.classList.remove('on');
+        });
+        if (nv) {
+            const sel = nv === 'unknown' ? '.q-st-unk' : '.q-st-unfam';
+            const b = card.querySelector(sel);
+            if (b) b.classList.add('on');
+        }
+        // 若当前在"不熟/不会"筛选下被取消标记，题目应从列表消失
+        if (markSel.unfamiliar && nv !== 'unfamiliar' && !markSel.unknown) { const cc = card; setTimeout(() => { if (cc && cc.isConnected) renderMain(); }, 50); }
+        if (markSel.unknown && nv !== 'unknown' && !markSel.unfamiliar) { const cc = card; setTimeout(() => { if (cc && cc.isConnected) renderMain(); }, 50); }
+    }
+}
+// 复制题文本到剪贴板（clipboard API，非安全上下文降级 execCommand）
+function copyTextToClipboard(text, btn, okMsg) {
+    const flash = () => {
+        const old = btn.textContent;
+        btn.textContent = okMsg || '已复制 ✓';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = old; btn.classList.remove('copied'); }, 1500);
+    };
+    const fallback = () => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); flash(); } catch (e) { btn.textContent = '复制失败'; }
+        ta.remove();
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(flash).catch(fallback);
+    } else fallback();
+}
+// 复制本题 LaTeX 源文（题干 + 选项 + 答案，保留 $...$ 原始命令）
+function copyCatQLatex(btn) {
+    const card = btn.closest('.q-card');
+    if (!card) return;
+    const qid = card.id.replace(/^q-/, '');
+    let hit = null, paper = null;
+    for (const e of allEntries) {
+        if (qidOf(e.paper.id, e.q.no) === qid) { hit = e.q; paper = e.paper; break; }
+    }
+    if (!hit) return;
+    let text = (paper && paper.year ? paper.year + '年 题' + hit.no + '\n' : '') + (hit.stem || '');
+    if (hit.options && hit.options.length) text += '\n' + hit.options.join('\n');
+    if (hit.answer) text += '\n【答案】' + hit.answer;
+    copyTextToClipboard(text, btn, '已复制 ✓');
+}
+
 // ============ 渲染：主区 ============
 function renderMain() {
     const el = document.getElementById('catMain');
+    if (catSearchKw) { renderSearchResults(); return; }   // 搜索模式：跨分类列表
     if (curCat == null) {
         el.innerHTML = `<div class="cat-empty">← 选择左侧章节，查看该考点的历年真题</div>`;
         return;
@@ -560,6 +621,79 @@ function renderMain() {
     renderMath(el);
     el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
 }
+// ============ 顶栏搜索：题干文字 / 年份 / 题号 / 知识点路径 ============
+let catSearchKw = '';                 // 当前搜索词（空 = 分类浏览模式）
+let catSearchTimer = null;
+
+function onCatSearch(v) {
+    clearTimeout(catSearchTimer);
+    catSearchTimer = setTimeout(() => {
+        const kw = (v || '').trim();
+        catSearchKw = kw;
+        const clr = document.getElementById('catSearchClear');
+        if (clr) clr.style.display = kw ? '' : 'none';
+        renderMain();
+    }, 200);
+}
+
+function clearCatSearch() {
+    const inp = document.getElementById('catSearch');
+    if (inp) inp.value = '';
+    catSearchKw = '';
+    const clr = document.getElementById('catSearchClear');
+    if (clr) clr.style.display = 'none';
+    renderTree();   // 退出搜索模式，恢复分类树题数
+    renderMain();
+}
+
+// 搜索匹配：题干（去 LaTeX 后）、年份、题号、知识点路径 任一命中即算
+function catSearchMatch(e) {
+    const kw = catSearchKw.toLowerCase();
+    if (!kw) return true;
+    const q = e.q; const p = e.paper;
+    if (String(p.year).toLowerCase().includes(kw)) return true;          // 年份
+    if (String(q.no).toLowerCase().includes(kw)) return true;            // 题号
+    const stem = (q.stem || '').replace(/\$[^$]*\$/g, ' ').replace(/\s+/g, ' ');
+    if (stem.toLowerCase().includes(kw)) return true;                    // 题干文字
+    const c = cats[String(e.catId)];
+    const path = (c ? (c.path || c.name || c.display || '') : '') ;
+    if (path.toLowerCase().includes(kw)) return true;                    // 知识点路径
+    if ((q.answer || '').replace(/\$[^$]*\$/g, ' ').toLowerCase().includes(kw)) return true; // 答案文字
+    return false;
+}
+
+// 搜索模式：主区横跨全分类列出命中题；空关键词回到分类浏览
+function renderSearchResults() {
+    const el = document.getElementById('catMain');
+    const entries = activeEntries().filter(catSearchMatch);
+    const sy = window.scrollY;
+    // 收藏时间倒序优先，否则年份倒序
+    entries.sort((a, b) => {
+        const ta = favTime(qidOf(a.paper.id, a.q.no));
+        const tb = favTime(qidOf(b.paper.id, b.q.no));
+        if (ta && tb) return tb - ta;
+        return parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10);
+    });
+    const h = `<div class="paper-head">
+        <h1>🔍 “${catSearchKw}”</h1>
+        <div class="paper-sub">全库搜索命中 ${entries.length} 题（含大观园）</div>
+        ${entries.length ? `<div class="paper-meta">共 ${entries.length} 题 · 跨 ${new Set(entries.map(e => e.paper.year)).size} 年</div>` : ''}
+    </div>`;
+    const markNames = { fav: '📥收藏', unfamiliar: '🟡不熟', unknown: '🔴不会' };
+    const activeMark = Object.keys(markSel).filter(k => markSel[k]);
+    if (activeMark.length) h += `<div class="cat-filter-tip">筛选：${activeMark.map(k => markNames[k]).join(' / ')}</div>`;
+    if (!entries.length) {
+        el.innerHTML = h + `<div class="empty-tip">没有匹配题目。试试别的关键词，或切换「收藏/不熟/不会」筛选。</div>`;
+        return;
+    }
+    let html = h;
+    entries.forEach(e => { html += catCard(e.paper, e.secTitle, e.q); });
+    el.innerHTML = html;
+    renderMath(el);
+    el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+    requestAnimationFrame(() => window.scrollTo(0, sy));
+}
+
 
 // ============ 初始化 ============
 async function init() {

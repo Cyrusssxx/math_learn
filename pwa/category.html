@@ -30,6 +30,10 @@
                 <button class="cat-mark" data-m="unfamiliar" onmousedown="event.preventDefault()" onclick="toggleMark('unfamiliar')" title="只看标记为「不熟」的题">🟡 不熟</button>
                 <button class="cat-mark" data-m="unknown" onmousedown="event.preventDefault()" onclick="toggleMark('unknown')" title="只看标记为「不会」的题">🔴 不会</button>
             </div>
+            <div class="cat-search-wrap">
+                <input id="catSearch" class="cat-search" type="search" placeholder="🔍 搜题干文字 / 年份 / 题号…" oninput="onCatSearch(this.value)" title="全库搜索：按题干文字、年份（如 2019）、题号（如 22）过滤题目">
+                <button class="cat-search-clear" id="catSearchClear" style="display:none" onclick="clearCatSearch()" title="清除搜索">✕</button>
+            </div>
             <button class="exam-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
             <a class="exam-btn" href="exam.html" title="返回真题页">📝 真题</a>
             <a class="exam-btn" href="index.html" title="打开笔记站">📚 笔记</a>
