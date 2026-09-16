@@ -1312,7 +1312,7 @@
       "stem": "设 $ f(x)=\\frac{1}{2x+3} $，则 $ f^{(n)}(0)= $ ___",
       "options": [],
       "answer": "$\\dfrac{(-1)^n2^n n!}{3^{n+1}}$",
-      "explanation": "由 $ f(x)=\\frac{1}{2x+3} $，求 $ n $ 阶导数公式：$ f^{(n)}(x)=\\frac{(-1)^{n}\\cdot n!\\cdot2^{n}}{(2x+3)^{n+1}} $。代入 $ x=0 $ 得：$ f^{(n)}(0)=\\frac{(-1)^{n}\\cdot n!\\cdot2^{n}}{3^{n+1}} $。"
+      "explanation": "$f(x)=\\frac1{2x+3}=(2x+3)^{-1}$，用归纳法求 $n$ 阶导数。\n\n一阶：\n$$f'(x)=-(2x+3)^{-2}\\cdot(2x+3)'=-\\frac{2}{(2x+3)^2}.$$\n二阶（$-\\frac{2}{(2x+3)^2}=-2(2x+3)^{-2}$ 再求导）：\n$$f''(x)=(-2)\\cdot(-2)(2x+3)^{-3}\\cdot2=\\frac{4\\cdot2}{(2x+3)^3}=\\frac{(-1)^2\\cdot2!\\cdot2^2}{(2x+3)^3}.$$\n归纳每求一次导：系数乘 $-n$、指数加 $1$、再由内层 $2x+3$ 的导数贡献因子 $2$，故\n$$f^{(n)}(x)=\\frac{(-1)^n n!\\,2^n}{(2x+3)^{n+1}}.$$\n代入 $x=0$（$2x+3=3$）：\n$$f^{(n)}(0)=\\frac{(-1)^n n!\\,2^n}{3^{n+1}}.$$\n**答案：$\\dfrac{(-1)^n2^n n!}{3^{n+1}}$。**"
     },
     {
       "id": 1571,
@@ -5272,7 +5272,7 @@
       "stem": "设 $A,B$ 为 $3$ 阶矩阵，且 $|A|=3, |B|=2, |A^{-1}+B|=2$，求 $|A+B^{-1}|$。",
       "options": [],
       "answer": "$3$",
-      "explanation": "$$\n|A^{-1}+B|=\\frac{|E+AB|}{|A|},\\qquad |A+B^{-1}|=\\frac{|E+AB|}{|B|}.\n$$\n因此 $|E+AB|=6$，所求为 $6/2=3$。"
+      "explanation": "核心恒等式：把两项中的 $A^{-1}$（或 $B^{-1}$）提为公因子。\n\n**先求 $|E+AB|$。**\n$$A^{-1}+B=A^{-1}E+A^{-1}AB=A^{-1}(E+AB),$$\n两边取行列式（$|XY|=|X||Y|$）：\n$$|A^{-1}+B|=|A^{-1}|\\cdot|E+AB|=\\frac{|E+AB|}{|A|}.$$\n代入 $|A^{-1}+B|=2$、$|A|=3$：\n$$\\frac{|E+AB|}{3}=2\\Longrightarrow|E+AB|=6.$$\n\n**再算 $|A+B^{-1}|$。**\n$$A+B^{-1}=E B^{-1}+A B B^{-1}=(E+AB)B^{-1},$$\n取行列式：\n$$|A+B^{-1}|=|E+AB|\\cdot|B^{-1}|=\\frac{|E+AB|}{|B|}=\\frac62=3.$$\n\n**答案：$3$。**"
     },
     {
       "id": 5597,
@@ -7109,7 +7109,7 @@
       "stem": "计算反常积分：\n$$\n\\int_0^{+\\infty}\\frac{x\\,\\mathrm{d}x}{(1+x^2)^2}=\\underline{\\qquad}.\n$$",
       "options": [],
       "answer": "$\\frac12$",
-      "explanation": "令 $u=1+x^2$，则原积分为 $\\frac12\\int_1^{+\\infty}u^{-2}\\,\\mathrm{d}u=\\frac12$。"
+      "explanation": "凑微分：被积函数中 $x\\,\\mathrm{d}x$ 恰是 $1+x^2$ 的微分的一半。令\n$$u=1+x^2,\\qquad \\mathrm{d}u=2x\\,\\mathrm{d}x,\\qquad x\\,\\mathrm{d}x=\\frac12\\,\\mathrm{d}u.$$\n换限：$x=0\\Rightarrow u=1$，$x=+\\infty\\Rightarrow u=+\\infty$。代入\n$$\\int_0^{+\\infty}\\frac{x\\,\\mathrm{d}x}{(1+x^2)^2}\n=\\frac12\\int_1^{+\\infty}\\frac{\\mathrm{d}u}{u^2}\n=\\frac12\\int_1^{+\\infty}u^{-2}\\,\\mathrm{d}u.$$\n积幂函数 $u^{-2}$（原函数 $-u^{-1}=-\\frac1u$）：\n$$=\\frac12\\left[-\\frac1u\\right]_1^{+\\infty}\n=\\frac12\\left(0-(-1)\\right)=\\frac12.$$\n**答案：$\\frac12$。**"
     },
     {
       "id": 7100,
@@ -7175,7 +7175,7 @@
       "stem": "已知 \n$$\n\\int_{-\\infty}^{+\\infty}e^{k|x|}\\,\\mathrm{d}x=1,\n$$\n 则 $k=\\underline{\\qquad}$。",
       "options": [],
       "answer": "$-2$",
-      "explanation": "积分收敛需 $k\\lt0$。由偶性，$\\int_{-\\infty}^{+\\infty}e^{k|x|}\\,\\mathrm{d}x=2\\int_0^{+\\infty}e^{kx}\\,\\mathrm{d}x=-\\frac2k$，令其等于 $1$ 得 $k=-2$。"
+      "explanation": "被积函数 $e^{k|x|}$ 为偶函数（$|x|$ 是偶函数），故\n$$\\int_{-\\infty}^{+\\infty}e^{k|x|}\\,\\mathrm{d}x=2\\int_0^{+\\infty}e^{k|x|}\\,\\mathrm{d}x=2\\int_0^{+\\infty}e^{kx}\\,\\mathrm{d}x.$$\n\n先定 $k$ 的符号：$\\int_0^{+\\infty}e^{kx}dx$ 收敛当且仅当 $k<0$（若 $k\\ge0$，$e^{kx}\\not\\to0$，发散）。\n\n$k<0$ 时积分（$\\int e^{kx}dx=\\frac1k e^{kx}$）：\n$$\\int_0^{+\\infty}e^{kx}\\,\\mathrm{d}x=\\left[\\frac1k e^{kx}\\right]_0^{+\\infty}\n=0-\\frac1k=-\\frac1k.$$\n代入：\n$$2\\cdot\\left(-\\frac1k\\right)=1\\Longrightarrow-\\frac2k=1\\Longrightarrow k=-2.$$\n\n**答案：$k=-2$。**"
     },
     {
       "id": 7181,
@@ -7312,7 +7312,7 @@
       "stem": "设非负函数 $y=y(x)\\ (x\\ge0)$ 满足微分方程 $xy\\prime\\prime-y\\prime+2=0$，当曲线 $y=y(x)$ 过原点时，其与直线 $x=1$ 及 $y=0$ 围成平面区域 $D$ 的面积为 $2$，求 $D$ 绕 $y$ 轴旋转所得旋转体体积。",
       "options": [],
       "answer": "$\\frac{17\\pi}{6}$",
-      "explanation": "令 $p=y\\prime$，由 $xp\\prime-p+2=0$ 得 $p=2+Cx$，故 $y=2x+Ax^2$。面积条件给出 $1+\\frac A3=2$，即 $A=3$。柱壳法得 $V=2\\pi\\int_0^1x(2x+3x^2)\\,dx=\\frac{17\\pi}{6}$。"
+      "explanation": "**第一步：降阶解微分方程。**\n令 $p=y'$，则 $y''=p'$，方程 $xy''-y'+2=0$ 化为\n$$xp'-p+2=0\\Longrightarrow p'-\\frac1x p=-\\frac2x.$$\n一阶线性方程，积分因子 $e^{\\int-\\frac1x dx}=e^{-\\ln x}=\\frac1x$，两边同乘：\n$$\\left(\\frac px\\right)'=\\frac{p'x-p}{x^2}=\\frac{-2}{x^2},$$\n积分得\n$$\\frac px=\\int-\\frac2{x^2}\\,dx=\\frac2x+C\\Longrightarrow p=2+Cx.$$\n再积分一次（$y'=p=2+Cx$）：\n$$y=2x+\\frac C2 x^2+D.$$\n曲线过原点 $y(0)=0\\Rightarrow D=0$。记 $A=\\frac C2$，则\n$$y=2x+Ax^2.$$\n\n**第二步：面积条件定 $A$。**\n$D$ 由 $y=y(x)$、$x=1$、$y=0$ 围成（$x\\in[0,1]$，$y\\ge0$）：\n$$S=\\int_0^1(2x+Ax^2)\\,dx=\\left[x^2+\\frac A3 x^3\\right]_0^1=1+\\frac A3=2\\Longrightarrow A=3.$$\n故 $y=2x+3x^2$。\n\n**第三步：绕 $y$ 轴旋转体积（柱壳法）。**\n柱壳法：高为 $y(x)$、半径为 $x$，体积微元 $\\mathrm{d}V=2\\pi x\\,y(x)\\,\\mathrm{d}x$：\n$$V=2\\pi\\int_0^1 x(2x+3x^2)\\,\\mathrm{d}x=2\\pi\\int_0^1(2x^2+3x^3)\\,\\mathrm{d}x.$$\n逐项积分：\n$$=2\\pi\\left[\\frac23 x^3+\\frac34 x^4\\right]_0^1=2\\pi\\left(\\frac23+\\frac34\\right)\n=2\\pi\\cdot\\frac{8+9}{12}=\\frac{17\\pi}{6}.$$\n**答案：$\\dfrac{17\\pi}{6}$。**"
     },
     {
       "id": 7299,
@@ -7378,7 +7378,7 @@
       "stem": "设 $D$ 是位于曲线 $y=\\sqrt{x}\\,a^{-x/(2a)}\\ (a\\gt1,0\\le x\\lt+\\infty)$ 下方、$x$ 轴上方的无界区域。 (1) 求区域 $D$ 绕 $x$ 轴旋转一周所成旋转体的体积 $V(a)$；(2) 当 $a$ 为何值时，$V(a)$ 最小？并求此最小值。",
       "options": [],
       "answer": "$V(a)=\\frac{\\pi a^2}{\\ln^2a}$；$a=e$ 时最小，最小值 $\\pi e^2$",
-      "explanation": "有 $V(a)=\\pi\\int_0^{+\\infty}x a^{-x/a}dx$。令 $\\lambda=\\frac{\\ln a}{a}$，则积分为 $1/\\lambda^2$，故 $V(a)=\\frac{\\pi a^2}{\\ln^2a}$。令 $u=\\ln a\\gt0$，最小化 $e^{2u}/u^2$，得 $u=1$，即 $a=e$。"
+      "explanation": "**(1) 求旋转体体积 $V(a)$。**\n绕 $x$ 轴旋转，圆盘截面半径为 $y=\\sqrt{x}\\,a^{-x/(2a)}$，半径平方\n$$y^2=x\\,a^{-x/a}.$$\n（因为 $\\left(a^{-x/(2a)}\\right)^2=a^{-x/a}$。）故\n$$V(a)=\\pi\\int_0^{+\\infty}x\\,a^{-x/a}\\,\\mathrm{d}x.$$\n把底数化为 $e$：$a^{-x/a}=e^{-\\frac xa\\ln a}$。记 $\\lambda=\\dfrac{\\ln a}{a}>0$，则\n$$V(a)=\\pi\\int_0^{+\\infty}x\\,e^{-\\lambda x}\\,\\mathrm{d}x.$$\n分部积分计算该反常积分（$\\int xe^{-\\lambda x}dx$ 取 $u=x,\\ dv=e^{-\\lambda x}dx$，$v=-\\frac1\\lambda e^{-\\lambda x}$）：\n$$\\int_0^{+\\infty}xe^{-\\lambda x}\\,\\mathrm{d}x\n=\\left[-\\frac{x}{\\lambda}e^{-\\lambda x}\\right]_0^{+\\infty}\n+\\frac1\\lambda\\int_0^{+\\infty}e^{-\\lambda x}\\,\\mathrm{d}x\n=0+\\frac1\\lambda\\cdot\\frac1\\lambda=\\frac1{\\lambda^2},$$\n（用了 $\\lim_{x\\to+\\infty}\\frac{x}{e^{\\lambda x}}=0$ 与 $\\int_0^{+\\infty}e^{-\\lambda x}dx=\\frac1\\lambda$。）于是\n$$V(a)=\\frac{\\pi}{\\lambda^2}=\\pi\\cdot\\left(\\frac a{\\ln a}\\right)^2=\\frac{\\pi a^2}{\\ln^2a}.$$\n\n**(2) 求最小值。**\n令 $u=\\ln a>0$（$a>1$），则 $a=e^u$：\n$$\\frac{V(a)}{\\pi}=\\frac{e^{2u}}{u^2}.$$\n对 $u$ 取对数求导（或直接求导）：\n$$\\frac{d}{du}\\ln\\frac{e^{2u}}{u^2}=2-\\frac2u,$$\n驻点 $u=1$；当 $0<u<1$ 时导数为负、$u>1$ 时为正，故 $u=1$ 取最小值。即 $\\ln a=1$，$a=e$，此时\n$$V_{\\min}=\\frac{\\pi e^2}{\\ln^2 e}=\\pi e^2.$$\n**答案：$V(a)=\\dfrac{\\pi a^2}{\\ln^2a}$；$a=e$ 时最小，最小值 $\\pi e^2$。**"
     },
     {
       "id": 7318,
@@ -7728,7 +7728,7 @@
       "stem": "当 $0\\le\\theta\\le\\pi$ 时，对数螺线 $r=e^\\theta$ 的弧长为 $\\underline{\\qquad}$。",
       "options": [],
       "answer": "$\\sqrt2(e^\\pi-1)$",
-      "explanation": "由 $r'=e^\\theta$，弧长\n$$\ns=\\int_0^\\pi\\sqrt{r^2+(r')^2}\\,\\mathrm{d}\\theta=\\sqrt2\\int_0^\\pi e^\\theta\\,\\mathrm{d}\\theta=\\sqrt2(e^\\pi-1).\n$$"
+      "explanation": "极坐标弧长公式（$r=r(\\theta)$，$\\theta\\in[\\theta_1,\\theta_2]$）：\n$$s=\\int_{\\theta_1}^{\\theta_2}\\sqrt{r^2+\\left(r'\\right)^2}\\,\\mathrm{d}\\theta.$$\n本题对数螺线 $r=e^\\theta$，求导（$(e^\\theta)'=e^\\theta$，指函数导数不变）：\n$$r'=e^\\theta=r.$$\n于是根号内：\n$$r^2+(r')^2=e^{2\\theta}+e^{2\\theta}=2e^{2\\theta}.$$\n因为 $\\theta\\in[0,\\pi]$ 时 $e^\\theta>0$，开方\n$$\\sqrt{r^2+(r')^2}=\\sqrt{2e^{2\\theta}}=\\sqrt2\\,e^\\theta.$$\n积分：\n$$s=\\sqrt2\\int_0^\\pi e^\\theta\\,\\mathrm{d}\\theta=\\sqrt2\\left[e^\\theta\\right]_0^\\pi=\\sqrt2(e^\\pi-1).$$\n**答案：$\\sqrt2(e^\\pi-1)$。**"
     },
     {
       "id": 7725,
@@ -9710,7 +9710,7 @@
         "$\\alpha_2,\\alpha_3,\\alpha_4$"
       ],
       "answer": "D",
-      "explanation": "已知 $Ax=0$ 的基础解系只有 $(1,0,1,0)^T$，故 $r(A)=3$。于是 $r(A^*)=1$，$A^*x=0$ 的解空间维数为 $3$。又 $A(1,0,1,0)^T=\\alpha_1+\\alpha_3=0$，所以 $\\alpha_3=-\\alpha_1$；$\\alpha_2,\\alpha_3,\\alpha_4$ 可作为三个线性无关的解向量，选 D。"
+      "explanation": "**第一步：定 $r(A)$ 与 $r(A^*)$。**\n$A$ 是 $4$ 阶方阵，$Ax=0$ 的基础解系只含 $1$ 个向量 $(1,0,1,0)^T$，故\n$$n-r(A)=1\\Longrightarrow r(A)=3.$$\n由伴随矩阵秩公式（$n$ 阶）：$r(A)=n-1$ 时 $r(A^*)=1$。于是 $A^*x=0$ 的解空间维数\n$$4-r(A^*)=4-1=3.$$\n\n**第二步：找出 3 个线性无关的解向量。**\n两件事实：\n\n1. $A(1,0,1,0)^T=0$：把 $A=(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4)$ 按列乘开，\n$$A\\begin{pmatrix}1\\\\0\\\\1\\\\0\\end{pmatrix}=\\alpha_1+\\alpha_3=0\\Longrightarrow\\alpha_3=-\\alpha_1.$$\n\n2. 因为 $r(A)=3<4$，$|A|=0$，而伴随矩阵恒有 $A^*A=|A|E=0$。于是 $A$ 的**每一列** $\\alpha_j$ 都满足 $A^*\\alpha_j=0$，即 $\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4$ 全是 $A^*x=0$ 的解。\n\n**第三步：从解向量中选 3 个线性无关者。**\n$\\alpha_3=-\\alpha_1$，故 $\\alpha_1,\\alpha_3$ 中只能取一个。验证 $\\alpha_2,\\alpha_3,\\alpha_4$ 线性无关：若它们相关则秩 $\\le2$，又 $\\alpha_1=-\\alpha_3$ 落在它们的张成中，整个矩阵的秩 $r(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4)\\le2$，与 $r(A)=3$ 矛盾。故 $\\alpha_2,\\alpha_3,\\alpha_4$ 线性无关，恰为 $A^*x=0$ 的基础解系。\n\n四个选项中只有 D（$\\alpha_2,\\alpha_3,\\alpha_4$）维数为 $3$ 且线性无关。\n\n**选 D。**"
     },
     {
       "id": 10795,
