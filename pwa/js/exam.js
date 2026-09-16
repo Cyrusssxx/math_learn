@@ -387,12 +387,29 @@ function renderNotePreview(ta) {
     if (v.includes('$') || v.includes('\\(') || v.includes('\\[')) renderMath(pv);
     fillExamNoteImgs(pv);   // 异步回填 IndexedDB 中的 blob
 }
-// 笔记区 Ctrl+V 贴图：压缩后存 IndexedDB，编辑框内不显示图片，缩略图卡片出现在编辑框下方
+// 笔记区 Ctrl+V 贴图：支持一次粘贴多张图（遍历全部 image item；纯文本 html 内的 data 图也提取），
+// 压缩后存 IndexedDB；每张图独立 id/节点/写库任务，杜绝「多图只存一张」。
 function notePasteImg(e) {
-    const it = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith('image/'));
-    if (!it) {
-        // 富文本粘贴降级为纯文本，防外来 HTML 污染编辑器
-        if (e.target.tagName !== 'TEXTAREA' && e.clipboardData?.getData) {
+    const ta = e.target;
+    const items = [...(e.clipboardData?.items || [])];
+    let files = items.filter(i => i.type.startsWith('image/')).map(it => it.getAsFile()).filter(Boolean);
+    // 无独立 image item（Word/网页复制图文混排常只有 text/html）：提取其中的 data: 图兜底
+    if (!files.length && e.clipboardData?.getData) {
+        let html = '';
+        try { html = e.clipboardData.getData('text/html') || ''; } catch (err) { }
+        if (html) {
+            const srcs = [...html.matchAll(/<img[^>]+src=["'](data:image\/[^"']+)["']/gi)].map(m => m[1]);
+            files = srcs.map(src => {
+                try {
+                    const i = src.indexOf(','), meta = src.slice(5, i);
+                    return new File([Uint8Array.from(atob(src.slice(i + 1)), c => c.charCodeAt(0))], 'img.png', { type: meta.split(';')[0] });
+                } catch (err) { return null; }
+            }).filter(Boolean);
+        }
+    }
+    if (!files.length) {
+        // 纯文本粘贴：降级为纯文本，防外来 HTML 污染编辑器
+        if (ta.tagName !== 'TEXTAREA' && e.clipboardData?.getData) {
             e.preventDefault();
             const txt = e.clipboardData.getData('text/plain');
             if (txt) document.execCommand('insertText', false, txt);
@@ -400,9 +417,12 @@ function notePasteImg(e) {
         return;
     }
     e.preventDefault();
+    files.forEach(file => pasteOneNoteImg(ta, file));
+}
+// 粘贴单张图：登记节点（同步，防保存时序丢令牌）→ 原图落库兜底 → 压缩覆盖 → 回填
+function pasteOneNoteImg(ta, raw) {
     // 碰撞免疫：优先 crypto.randomUUID（去连字符后全 [a-z0-9]，匹配现有正则），杜绝毫秒内连贴同 id
     const id = (crypto.randomUUID ? crypto.randomUUID().replace(/-/g, '') : (Date.now().toString(36) + Math.random().toString(36).slice(2, 6)));
-    const ta = e.target;
     _pendingImgs.add(id);   // 标记写入中：orphan 清理跳过，杜绝「压缩未完成被当孤儿删掉」
     // 关键：同步把图片节点登记进编辑器，让 editorToNote 立刻抓到 [图:id]。
     // 原实现把插入放在 compressImage→examImgPut 两级异步之后，压缩大图要几百 ms，
@@ -433,7 +453,6 @@ function notePasteImg(e) {
     // 异步：压缩 → 写库 → 只回填这一张（写完后必定能取到 blob）
     // 兜底策略：先立即写入【原始图】再后台压缩覆盖——IDB 写原图比压缩快一个量级，
     // 即使贴图后立刻关页/切走导致压缩中断，原图 blob 也已落库，不会变成永久「图片已丢失」。
-    const raw = it.getAsFile();
     const rawPut = examImgPut(id, raw).catch(() => { });   // 原图兜底写入失败不影响后续压缩写入
     const imgTask = compressImage(raw).then(blob => examImgPut(id, blob)).then(() => rawPut).then(() => true)
         // 压缩（或压缩写库）偶发失败：原图兜底已先行落库——保留引用、回填原图继续显示，
@@ -646,11 +665,28 @@ function examImgGet(id) {
 }
 function examImgDel(ids) {
     if (!ids || !ids.length) return Promise.resolve();
-    return examImgDB().then(d => new Promise(res => {
-        const tx = d.transaction('imgs', 'readwrite');
-        ids.forEach(id => tx.objectStore('imgs').delete(id));
-        tx.oncomplete = res; tx.onerror = res;
-    }));
+    // 防跨笔记丢图：先扫描全部 examNote-* 存储，仍被任何笔记引用的图 id 绝不删——
+    // 复制含 [图:id] 的笔记文本到其他题目时两侧共享同一 blob，只在一侧删图/清空会误删另一侧的图。
+    return Promise.resolve().then(() => {
+        const live = new Set();
+        try {
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (k && k.indexOf('examNote-') === 0) {
+                    const v = localStorage.getItem(k) || '';
+                    (v.match(/\[图:([a-z0-9]+)\]/g) || []).forEach(t => { const m = /\[图:([a-z0-9]+)\]/.exec(t); if (m) live.add(m[1]); });
+                }
+            }
+        } catch (e) { }
+        return ids.filter(id => !live.has(id));
+    }).then(toDel => {
+        if (!toDel.length) return Promise.resolve();
+        return examImgDB().then(d => new Promise(res => {
+            const tx = d.transaction('imgs', 'readwrite');
+            toDel.forEach(id => tx.objectStore('imgs').delete(id));
+            tx.oncomplete = res; tx.onerror = res;
+        }));
+    });
 }
 function examImgRefs(t) {
     return [...(t || '').matchAll(/\[图:([a-z0-9]+)\]/g)].map(m => m[1]);

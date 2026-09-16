@@ -48,11 +48,28 @@ function examImgGet(id) {
 
 function examImgDel(ids) {
     if (!ids || !ids.length) return Promise.resolve();
-    return examImgDB().then(d => new Promise(res => {
-        const tx = d.transaction('imgs', 'readwrite');
-        ids.forEach(id => tx.objectStore('imgs').delete(id));
-        tx.oncomplete = res; tx.onerror = res;
-    }));
+    // 防跨笔记丢图：先扫描全部 examNote-* 存储，仍被任何笔记引用的图 id 绝不删——
+    // 复制含 [图:id] 的笔记文本到其他题目时两侧共享同一 blob，只在一侧删图/清空会误删另一侧的图。
+    return Promise.resolve().then(() => {
+        const live = new Set();
+        try {
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (k && k.indexOf('examNote-') === 0) {
+                    const v = localStorage.getItem(k) || '';
+                    (v.match(/\[图:([a-z0-9]+)\]/g) || []).forEach(t => { const m = /\[图:([a-z0-9]+)\]/.exec(t); if (m) live.add(m[1]); });
+                }
+            }
+        } catch (e) { }
+        return ids.filter(id => !live.has(id));
+    }).then(toDel => {
+        if (!toDel.length) return Promise.resolve();
+        return examImgDB().then(d => new Promise(res => {
+            const tx = d.transaction('imgs', 'readwrite');
+            toDel.forEach(id => tx.objectStore('imgs').delete(id));
+            tx.oncomplete = res; tx.onerror = res;
+        }));
+    });
 }
 
 function favGet() {
