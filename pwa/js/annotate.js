@@ -814,13 +814,15 @@ const Annot = (() => {
         });
     }
     async function collectExamData() {
-        const exam = { notes: {}, favs: null, reviews: {}, imgs: {} };
+        const exam = { notes: {}, favs: null, status: null, reviews: {}, imgs: {} };
         for (let i = 0; i < localStorage.length; i++) {
             const k = localStorage.key(i);
             if (k.indexOf('examNote-') === 0) exam.notes[k] = localStorage.getItem(k);
             else if (k.indexOf('examReview-') === 0) exam.reviews[k] = localStorage.getItem(k);
         }
         exam.favs = localStorage.getItem('examFav');
+        exam.status = localStorage.getItem('examStatus');   // 不熟/不会 标记（examStatus：{qid:'unfamiliar'|'unknown'}）
+        exam.favOnly = localStorage.getItem('examFavOnly'); // 收藏夹只看收藏旧开关（残留键，一并备份防回退）
         // 贴图：从所有真题笔记文本抽 [图:id]，回源 IndexedDB 转 base64
         const ids = new Set();
         Object.keys(exam.notes).forEach(k =>
@@ -843,6 +845,19 @@ const Annot = (() => {
             if (typeof v === 'string') { localStorage.setItem(k, v); touched = true; }
         for (const [k, v] of Object.entries(exam.reviews || {}))
             if (typeof v === 'string') { localStorage.setItem(k, v); touched = true; }
+        if (exam.status && typeof exam.status === 'string') {
+            try {
+                const cur = JSON.parse(localStorage.getItem('examStatus') || '{}');
+                const inc = JSON.parse(exam.status);
+                if (inc && typeof inc === 'object') {
+                    localStorage.setItem('examStatus', JSON.stringify(Object.assign(cur, inc)));
+                    touched = true;
+                }
+            } catch (e) { /* 标记格式异常跳过 */ }
+        }
+        if (exam.favOnly) {
+            try { localStorage.setItem('examFavOnly', exam.favOnly); } catch (e) { }
+        }
         if (exam.favs) {
             try {
                 const cur = JSON.parse(localStorage.getItem('examFav') || '{}');
