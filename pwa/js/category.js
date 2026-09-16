@@ -330,12 +330,38 @@ try {
 } catch (e) { }
 function saveCatState() {
     try {
+        const catsEl = document.getElementById('catSearch');
         localStorage.setItem(CAT_STATE_KEY, JSON.stringify({
             curCat,
             collapsedSubjects: [...collapsedSubjects],
             collapsedChapters: [...collapsedChapters],
+            search: catSearchKw || '',
+            scrollY: window.scrollY || 0,
         }));
     } catch (e) { }
+}
+
+// ============ 顶部栏整体折叠（与真题页同款） ============
+const TOP_COLLAPSED_KEY = 'examTopCollapsed';
+function toggleTopBar(force) {
+    const top = document.getElementById('examTop');
+    const toggle = document.getElementById('examTopToggle');
+    if (!top) return;
+    const collapsed = (typeof force === 'boolean') ? force : !top.classList.contains('collapsed');
+    top.classList.toggle('collapsed', collapsed);
+    if (toggle) toggle.classList.toggle('collapsed', collapsed);
+    try { localStorage.setItem(TOP_COLLAPSED_KEY, collapsed ? '1' : '0'); } catch (e) { }
+    syncTopH();
+}
+function restoreTopBar() {
+    const collapsed = localStorage.getItem(TOP_COLLAPSED_KEY) === '1';
+    toggleTopBar(collapsed);
+}
+// 同步顶部栏实际高度到 CSS 变量 --exam-top-h（收起=0），驱动侧栏 sticky 偏移
+function syncTopH() {
+    const top = document.getElementById('examTop');
+    const h = (top && !top.classList.contains('collapsed')) ? top.offsetHeight : 0;
+    document.documentElement.style.setProperty('--exam-top-h', h + 'px');
 }
 
 // 由 section 标题判定题型（比 exam.js 的 no 区间启发式更稳：老卷填空/选择编号不固定）
@@ -503,7 +529,7 @@ function catCard(paper, secTitle, q) {
     const yearHtml = paper.id === 'bank'
         ? `<span class="q-year"><span class="q-year-tag">${paper.year}年</span></span>`
         : `<span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>`;
-    return `<div class="q-card" id="q-${qid}">
+    return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindLabel}</span>
@@ -620,6 +646,7 @@ function renderMain() {
     el.innerHTML = html;
     renderMath(el);
     el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+    renderNav();   // 刷新悬浮题号导航
 }
 // ============ 顶栏搜索：题干文字 / 年份 / 题号 / 知识点路径 ============
 let catSearchKw = '';                 // 当前搜索词（空 = 分类浏览模式）
@@ -692,6 +719,7 @@ function renderSearchResults() {
     renderMath(el);
     el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
     requestAnimationFrame(() => window.scrollTo(0, sy));
+    renderNav();
 }
 
 
@@ -735,10 +763,87 @@ async function init() {
         collapsedChapters.clear();
         saveCatState();
     }
+    // 顶栏折叠状态恢复（与真题页共用 examTopCollapsed，保持跨页一致）
+    restoreTopBar();
+    syncTopH();
+    // 恢复上次搜索词 + 滚动位置（记忆做题位置）
+    try {
+        const st = JSON.parse(localStorage.getItem(CAT_STATE_KEY) || '{}');
+        if (st.search && !location.search) {   // 有 ?cid 跳转时优先跳转，不回填搜索
+            catSearchKw = st.search;
+            const inp = document.getElementById('catSearch');
+            if (inp) { inp.value = st.search; const clr = document.getElementById('catSearchClear'); if (clr) clr.style.display = ''; }
+        }
+        const _roll = st.scrollY || 0;
+        if (_roll && !location.search) requestAnimationFrame(() => window.scrollTo(0, _roll));
+    } catch (e) { }
     buildEntries();
     renderTree();
     renderMain();
 }
+
+// 滚动/切题时记忆位置：节流保存（复用 saveCatState 的 search/scrollY 字段）
+let _catPosTimer = null;
+function saveCatPosLazy() {
+    if (_catPosTimer) return;
+    _catPosTimer = setTimeout(() => { _catPosTimer = null; saveCatState(); }, 600);
+}
+window.addEventListener('scroll', saveCatPosLazy, { passive: true });
+window.addEventListener('beforeunload', saveCatState);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveCatState(); });
+
+// ============ 悬浮题号导航（与真题页同款；显示当前选中分类 / 搜索结果的题号） ============
+let navCollapsed = false;   // 题号球收起态（默认展开，同真题页）
+function toggleFloatQ() {
+    navCollapsed = !navCollapsed;
+    try { localStorage.setItem('examNavCollapsed', navCollapsed ? '1' : '0'); } catch (e) { }
+    const fq = document.getElementById('floatQ');
+    if (fq) fq.classList.toggle('collapsed', navCollapsed);
+    if (fq) fq.classList.toggle('expanded', !navCollapsed);
+}
+// 当前列表的题号集合：搜索模式 = 搜索结果；分类模式 = 当前分类全部题
+function catNavQNos() {
+    const ents = catSearchKw ? activeEntries().filter(catSearchMatch) : (curCat != null ? activeEntries().filter(e => String(e.catId) === String(curCat)) : []);
+    return ents.map(e => e.q.no);
+}
+function renderNav() {
+    const el = document.getElementById('floatQNo');
+    if (!el) return;
+    const list = document.getElementById('floatQList');
+    const nos = catNavQNos();
+    const uniq = [...new Set(nos)].sort((a, b) => a - b);
+    if (!uniq.length) { el.textContent = '—'; if (list) list.innerHTML = ''; return; }
+    el.textContent = uniq.length + '题';
+    list.innerHTML = uniq.map(no =>
+        `<button class="nav-q" data-navq="${no}" title="${no} 题" onclick="jumpToQ(${no})">${no}</button>`
+    ).join('');
+    highlightNav();
+}
+function jumpToQ(no) {
+    // 分类页：跳到首个 data-qno=no 的题卡（该题可能多分类重复，取当前列表内首个）
+    const card = Array.from(document.querySelectorAll('.q-card[data-qno="' + no + '"]')).find(c => !c.closest('[hidden]'));
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function highlightNav() {
+    const cards = Array.from(document.querySelectorAll('.q-card'));
+    const btns = document.querySelectorAll('.nav-q');
+    if (!cards.length || !btns.length) return;
+    const half = window.innerHeight * 0.45;
+    let cur = null;
+    for (const c of cards) {
+        const r = c.getBoundingClientRect();
+        if (r.top <= half) cur = c; else break;
+    }
+    const curNo = cur ? cur.getAttribute('data-qno') : null;
+    btns.forEach(b => b.classList.toggle('on', b.getAttribute('data-navq') === curNo));
+}
+// 还原题号球收起态 + 每次重渲染后刷新题号
+(function restoreNav() {
+    try { if (localStorage.getItem('examNavCollapsed') === '1') { navCollapsed = true; } } catch (e) { }
+    const fq = document.getElementById('floatQ');
+    if (fq) { fq.classList.toggle('collapsed', navCollapsed); fq.classList.toggle('expanded', !navCollapsed); }
+})();
+window.addEventListener('scroll', highlightNav, { passive: true });
 
 init().catch(e => {
     const el = document.getElementById('catMain');

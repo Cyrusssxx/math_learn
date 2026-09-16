@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
-    <header class="exam-top">
+    <header class="exam-top" id="examTop">
         <div class="exam-brand">
             <span class="exam-logo">🗂</span>
             <div>
@@ -39,6 +39,9 @@
             <a class="exam-btn" href="index.html" title="打开笔记站">📚 笔记</a>
         </div>
     </header>
+    <button class="exam-top-toggle" id="examTopToggle" onclick="toggleTopBar()" title="展开/收起顶部栏">
+        <span class="exam-top-arrow" id="examTopArrow">▲</span>
+    </button>
 
     <div class="exam-wrap">
         <!-- 左：分类树（学科 / 章节，可折叠） -->
@@ -59,6 +62,15 @@
     <script defer src="vendor/katex/katex.min.js"></script>
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/category.js"></script>
+
+    <!-- 悬浮题号导航（与真题页同款）：显示当前分类/搜索结果的全部题号，点击跳转 -->
+    <div class="float-q" id="floatQ">
+        <div class="float-q-head" onclick="toggleFloatQ()">
+            <span class="float-q-no" id="floatQNo">—</span>
+            <span class="float-q-arrow" id="floatQArrow">▲</span>
+        </div>
+        <div class="float-q-list" id="floatQList"></div>
+    </div>
 
     <!-- 背景自定义面板 -->
     <button class="bg-fab" id="bgFab" onclick="toggleBgPanel()" title="背景设置" aria-label="背景设置">🎨</button>

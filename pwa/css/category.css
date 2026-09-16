@@ -183,3 +183,8 @@ html.dark .bg-btn:hover { background: #2d3640; }
     line-height: 1;
 }
 .cat-search-clear:hover { color: var(--accent); }
+
+/* 分类页题号球：与真题页同款（结构类名复用 exam.css），收起后不遮挡 🎨 */
+@media (max-width: 900px) {
+    .float-q { display: none; }
+}
