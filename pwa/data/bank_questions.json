@@ -5294,7 +5294,7 @@
       "stem": "设 $3$ 阶矩阵 $A$ 的特征值为 $2,-2,1$，$B=A^2-A+E$，求 $|B|$。",
       "options": [],
       "answer": "$21$",
-      "explanation": "$B$ 的特征值为 $\\lambda^2-\\lambda+1$，即 $3,7,1$，故 $|B|=21$。"
+      "explanation": "**关键定理**：若 $A$ 的特征值为 $\\lambda$，则多项式 $g(A)=A^2-A+E$ 的特征值为 $g(\\lambda)=\\lambda^2-\\lambda+1$（特征向量相同：由 $A\\alpha=\\lambda\\alpha$ 得 $A^k\\alpha=\\lambda^k\\alpha$，故 $g(A)\\alpha=g(\\lambda)\\alpha$）。\n\n**逐一对三个特征值计算：**\n- $\\lambda=2\\Longrightarrow g(2)=4-2+1=3$;\n- $\\lambda=-2\\Longrightarrow g(-2)=4+2+1=7$;\n- $\\lambda=1\\Longrightarrow g(1)=1-1+1=1$.\n\n**行列式 = 特征值之积**（$B$ 可对角化，$|B|=\\lambda_1\\lambda_2\\lambda_3$）：\n$$|B|=3\\times7\\times1=21.$$\n\n**答案：$21$。**"
     },
     {
       "id": 5605,
@@ -7230,7 +7230,7 @@
       "stem": "已知函数 \n$$\nf(x)=x\\int_1^x\\frac{\\sin t^2}{t}\\,\\mathrm{d}t,\n$$\n 则 \n$$\n\\int_0^1f(x)\\,\\mathrm{d}x=\\underline{\\qquad}.\n$$",
       "options": [],
       "answer": "$\\frac{\\cos1-1}{4}$",
-      "explanation": "交换积分次序：原式 $=-\\int_0^1x\\int_x^1\\frac{\\sin t^2}{t}\\,\\mathrm{d}t\\,\\mathrm{d}x=-\\frac12\\int_0^1t\\sin t^2\\,\\mathrm{d}t=\\frac{\\cos1-1}{4}$。"
+      "explanation": "被积函数含变限积分 $f(x)=x\\int_1^x\\frac{\\sin t^2}{t}\\,\\mathrm{d}t$。当 $0\\le x\\le1$ 时上限 $x\\le1$、下限 $1$，$\\int_1^x$ 是**反向积分**，先化为\n$$f(x)=-x\\int_x^1\\frac{\\sin t^2}{t}\\,\\mathrm{d}t.$$\n\n**交换积分次序。** 区域为\n$$0\\le x\\le1,\\qquad x\\le t\\le 1,$$\n换序为 $0\\le t\\le1,\\ 0\\le x\\le t$：\n$$\\int_0^1f(x)\\,\\mathrm{d}x\n=-\\int_0^1x\\int_x^1\\frac{\\sin t^2}{t}\\,\\mathrm{d}t\\,\\mathrm{d}x\n=-\\int_0^1\\frac{\\sin t^2}{t}\\left(\\int_0^t x\\,\\mathrm{d}x\\right)\\mathrm{d}t.$$\n内层积分\n$$\\int_0^t x\\,\\mathrm{d}x=\\frac{t^2}{2},$$\n故\n$$\\int_0^1f(x)\\,\\mathrm{d}x=-\\frac12\\int_0^1\\frac{\\sin t^2}{t}\\cdot t^2\\,\\mathrm{d}t=-\\frac12\\int_0^1 t\\sin t^2\\,\\mathrm{d}t.$$\n\n**凑微分求值。** $\\mathrm{d}(t^2)=2t\\,\\mathrm{d}t$：\n$$-\\frac12\\cdot\\frac12\\int_0^1\\sin t^2\\,\\mathrm{d}(t^2)\n=-\\frac14\\Bigl[-\\cos t^2\\Bigr]_0^1\n=\\frac14(\\cos1-\\cos0)=\\frac{\\cos1-1}{4}.$$\n\n**答案：$\\dfrac{\\cos1-1}{4}$。**"
     },
     {
       "id": 7228,
@@ -7367,7 +7367,7 @@
       "stem": "设 $A\\gt0$，$D$ 是由曲线段 $y=A\\sin x\\ (0\\le x\\le\\frac\\pi2)$ 及直线 $y=0,x=\\frac\\pi2$ 所围成的平面区域，$V_1,V_2$ 分别表示 $D$ 绕 $x$ 轴与绕 $y$ 轴旋转所成旋转体的体积。若 $V_1=V_2$，求 $A$ 的值。",
       "options": [],
       "answer": "$\\frac8\\pi$",
-      "explanation": "有 $V_1=\\pi A^2\\int_0^{\\pi/2}\\sin^2x\\,dx=\\frac{\\pi^2A^2}{4}$，$V_2=2\\pi A\\int_0^{\\pi/2}x\\sin x\\,dx=2\\pi A$。由 $V_1=V_2$ 且 $A\\gt0$，得 $A=\\frac8\\pi$。"
+      "explanation": "**求 $V_1$（绕 $x$ 轴，圆盘法）。**\n截面半径为 $y=A\\sin x$：\n$$V_1=\\pi\\int_0^{\\pi/2}(A\\sin x)^2\\,\\mathrm{d}x=\\pi A^2\\int_0^{\\pi/2}\\sin^2x\\,\\mathrm{d}x.$$\n用降幂公式 $\\sin^2x=\\frac{1-\\cos2x}{2}$：\n$$\\int_0^{\\pi/2}\\sin^2x\\,\\mathrm{d}x\n=\\int_0^{\\pi/2}\\frac{1-\\cos2x}{2}\\,\\mathrm{d}x\n=\\left[\\frac x2-\\frac{\\sin2x}{4}\\right]_0^{\\pi/2}\n=\\frac\\pi4-0=\\frac\\pi4.$$\n故\n$$V_1=\\frac{\\pi^2A^2}{4}.$$\n\n**求 $V_2$（绕 $y$ 轴，柱壳法）。**\n$$V_2=2\\pi\\int_0^{\\pi/2}x\\cdot A\\sin x\\,\\mathrm{d}x=2\\pi A\\int_0^{\\pi/2}x\\sin x\\,\\mathrm{d}x.$$\n分部积分（$u=x,\\ dv=\\sin x\\,\\mathrm{d}x$，$v=-\\cos x$）：\n$$\\int_0^{\\pi/2}x\\sin x\\,\\mathrm{d}x\n=\\Bigl[-x\\cos x\\Bigr]_0^{\\pi/2}+\\int_0^{\\pi/2}\\cos x\\,\\mathrm{d}x\n=0+\\Bigl[\\sin x\\Bigr]_0^{\\pi/2}=1.$$\n故\n$$V_2=2\\pi A.$$\n\n**令 $V_1=V_2$。**\n$$\\frac{\\pi^2A^2}{4}=2\\pi A\\Longrightarrow \\pi A^2=8A\\Longrightarrow A(\\pi A-8)=0.$$\n$A>0$，故\n$$A=\\frac8\\pi.$$\n**答案：$\\dfrac8\\pi$。**"
     },
     {
       "id": 7317,
@@ -7455,7 +7455,7 @@
       "stem": "设函数 $y=y(x)$ 是微分方程 $y''+y'-2y=0$ 的解，且在 $x=0$ 处 $y(x)$ 取得极值 $3$，则 $y(x)=$_____。",
       "options": [],
       "answer": "$y=2e^x+e^{-2x}$",
-      "explanation": "通解为 $y=C_1e^x+C_2e^{-2x}$。由 $y(0)=3$ 且极值点满足 $y'(0)=0$，解得 $C_1=2,C_2=1$。"
+      "explanation": "**第一步：解齐次方程。**\n特征方程 $r^2+r-2=0$，因式分解\n$$(r+2)(r-1)=0\\Longrightarrow r=1,\\ r=-2.$$\n两个不等实根，通解\n$$y=C_1e^x+C_2e^{-2x}.$$\n\n**第二步：用条件定常数。**\n$x=0$ 处 $y$ 取得极值 $3$，蕴含两个条件：\n$$y(0)=3,\\qquad y'(0)=0.$$\n先求导：\n$$y'=C_1e^x-2C_2e^{-2x},$$\n代入 $x=0$：\n$$C_1+C_2=3,\\qquad C_1-2C_2=0.$$\n由第二式 $C_1=2C_2$，代入第一式 $3C_2=3$，得 $C_2=1,\\ C_1=2$。\n\n故\n$$y(x)=2e^x+e^{-2x}.$$\n（检验：$y(0)=2+1=3$，$y'(0)=2-2=0$，确实在 $x=0$ 取极值 $3$。）\n\n**答案：$y=2e^x+e^{-2x}$。**"
     },
     {
       "id": 7603,
@@ -7695,7 +7695,7 @@
       "stem": "曲线 $y=\\ln\\cos x\\ \\left(0\\le x\\le\\frac{\\pi}{6}\\right)$ 的弧长为 $\\underline{\\qquad}$。",
       "options": [],
       "answer": "$\\frac12\\ln3$",
-      "explanation": "有 $y'=-\\tan x$，故弧长为\n$$\ns=\\int_0^{\\pi/6}\\sec x\\,\\mathrm{d}x=\\ln(\\sec x+\\tan x)\\bigg|_0^{\\pi/6}=\\ln\\sqrt3=\\frac12\\ln3.\n$$"
+      "explanation": "**求导。**\n$$y'=\\frac{(\\ln\\cos x)'}{\\cos x}\\text{ 的复合求导：}\\quad\ny'=\\frac{-\\sin x}{\\cos x}=-\\tan x.$$\n\n**配方弧长被积式。**\n$$1+(y')^2=1+\\tan^2x=\\sec^2x,$$\n因 $0\\le x\\le\\frac\\pi6$ 时 $\\sec x>0$，故\n$$\\sqrt{1+(y')^2}=\\sec x.$$\n\n**弧长积分**（$\\int\\sec x\\,\\mathrm{d}x=\\ln(\\sec x+\\tan x)+C$）：\n$$s=\\int_0^{\\pi/6}\\sec x\\,\\mathrm{d}x\n=\\Bigl[\\ln(\\sec x+\\tan x)\\Bigr]_0^{\\pi/6}.$$\n代入端点：$x=0$ 时 $\\sec0=1,\\tan0=0$，$\\ln1=0$；$x=\\frac\\pi6$ 时\n$$\\sec\\frac\\pi6=\\frac2{\\sqrt3},\\qquad\\tan\\frac\\pi6=\\frac1{\\sqrt3},\\qquad\n\\sec\\frac\\pi6+\\tan\\frac\\pi6=\\frac3{\\sqrt3}=\\sqrt3.$$\n故\n$$s=\\ln\\sqrt3=\\frac12\\ln3.$$\n**答案：$\\dfrac12\\ln3$。**"
     },
     {
       "id": 7714,
@@ -7788,7 +7788,7 @@
         "$t_0\\gt25$"
       ],
       "answer": "C",
-      "explanation": "由图，$0$ 到 $10$ 秒甲比乙多跑 $10$ 米，间距变为 $20$ 米；$10$ 到 $25$ 秒乙比甲多跑 $20$ 米，恰好追上甲。因此 $t_0=25$，选 C。"
+      "explanation": "**物理意义：面积 = 位移差。**\n速度曲线与 $t$ 轴围成的面积 $=\\int_a^b v(t)\\,\\mathrm{d}t$ = 该时间段走过的路程。两块速度曲线之间的阴影面积 = 两人的位移差 $\\int(v_1-v_2)\\,\\mathrm{d}t$。\n\n计时开始（$t=0$）时，甲在乙前方 $10$ 米，即初始间距 $10$ 米。\n\n**分段分析：**\n- **$0\\sim10$ 秒**：实线 $v_1$ 在虚线 $v_2$ 上方，第一块阴影面积 $10$，表示甲**比乙多跑 $10$ 米**。间距变为 $10+10=20$ 米。\n- **$10\\sim25$ 秒**：虚线 $v_2$ 在实线 $v_1$ 上方，第二块阴影面积 $20$，表示乙**比甲多跑 $20$ 米**。恰好把 $20$ 米的间距追平：\n$$20\\text{ 米间距} - 20\\text{ 米追赶距离}=0,\\qquad t_0=25.$$\n- 第三块阴影面积 $3$ 在 $t=25$ 之后，与追上时刻无关（表示 $25$ 秒后甲重新领先 $3$ 米的趋势，不改变 $t_0$）。\n\n**故选 C：$t_0=25$。**"
     },
     {
       "id": 7742,
@@ -7886,7 +7886,7 @@
       "stem": "一根长度为 $1$ 的细棒位于 $x$ 轴的区间 $[0,1]$ 上，若其线密度 $\\rho(x)=-x^2+2x+1$，则该细棒的质心坐标 $\\bar{x}=\\underline{\\qquad}$。",
       "options": [],
       "answer": "$\\frac{11}{20}$",
-      "explanation": "线质量为 $\\int_0^1(-x^2+2x+1)\\,\\mathrm{d}x=\\frac53$，一阶矩为 $\\int_0^1x(-x^2+2x+1)\\,\\mathrm{d}x=\\frac{11}{12}$，故 $\\bar x=\\frac{11}{20}$。"
+      "explanation": "**第一步：求细棒总质量（线密度积分）。**\n$$M=\\int_0^1\\rho(x)\\,\\mathrm{d}x=\\int_0^1(-x^2+2x+1)\\,\\mathrm{d}x\n=\\left[-\\frac{x^3}{3}+x^2+x\\right]_0^1=-\\frac13+1+1=\\frac53.$$\n\n**第二步：求对原点的（一阶）静力矩。**\n$$M_x=\\int_0^1 x\\rho(x)\\,\\mathrm{d}x=\\int_0^1(-x^3+2x^2+x)\\,\\mathrm{d}x\n=\\left[-\\frac{x^4}{4}+\\frac{2x^3}{3}+\\frac{x^2}{2}\\right]_0^1\n=-\\frac14+\\frac23+\\frac12=\\frac{-3+8+6}{12}=\\frac{11}{12}.$$\n\n**第三步：质心公式 $\\bar x=\\dfrac{M_x}{M}$。**\n$$\\bar x=\\frac{11/12}{5/3}=\\frac{11}{12}\\cdot\\frac35=\\frac{11}{20}.$$\n\n**答案：$\\bar x=\\dfrac{11}{20}$。**"
     },
     {
       "id": 7981,
@@ -9683,7 +9683,7 @@
       "stem": "已知高温物体置于低温介质中，任一时刻该物体温度对时间的变化率与该时刻物体和介质的温差成正比。现将一初始温度为 $ 120^{\\circ}C $的物体在 $ 20^{\\circ}C $恒温介质中冷却，30min后该物体温度降至 $ 30^{\\circ}C $，若要将该物体的温度继续降至 $ 21^{\\circ}C $，还需冷却多长时间。",
       "options": [],
       "answer": "$30$ min",
-      "explanation": "温差满足 $\\theta(t)=100e^{-kt}$。30 min 后温差为 10，故 $e^{-30k}=1/10$；温差降至 1 需总计 60 min，因此还需 30 min。"
+      "explanation": "**建模：牛顿冷却定律。**\n设 $T(t)$ 为 $t$ 时刻物体温度，介质恒温 $20^\\circ$，温差 $u(t)=T(t)-20$。题设「变化率与温差成正比」即 $u'(t)=-ku(t)$（$k>0$，冷却所以取负）。解得\n$$u(t)=u(0)e^{-kt}.$$\n初始温度 $120^\\circ\\Rightarrow u(0)=120-20=100$，故\n$$u(t)=100e^{-kt}.$$\n\n**用 30 分钟后的数据定 $k$。**\n$30$ 分钟时温度 $30^\\circ\\Rightarrow$ 温差 $u(30)=30-20=10$：\n$$100e^{-30k}=10\\Longrightarrow e^{-30k}=\\frac1{10}\\Longrightarrow 30k=\\ln10.$$\n\n**求降至 $21^\\circ$（温差 $1$）的总时长。**\n$$100e^{-kt}=1\\Longrightarrow e^{-kt}=\\frac1{100}\\Longrightarrow kt=\\ln100=2\\ln10.$$\n代入 $k=\\frac{\\ln10}{30}$：\n$$t=\\frac{2\\ln10}{\\ln10/30}=60\\ (\\text{min}).$$\n即从开始算共需 $60$ 分钟，已冷却 $30$ 分钟，**还需 $60-30=30$ 分钟**。\n\n**答案：还需 $30$ min。**"
     },
     {
       "id": 10764,
