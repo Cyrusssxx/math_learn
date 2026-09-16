@@ -5008,7 +5008,7 @@
       "stem": "设函数 $\\arctan x$ 是二阶常系数线性微分方程 $y'' + cy = g(x)$ 的一个特解。若存在一个不同于 $\\arctan x$ 的有界奇函数 $f(x)$，它也是该方程的一个解，求常数 $c$ 的取值范围。",
       "options": [],
       "answer": "$c\\gt0$",
-      "explanation": "因为 $f(x)$ 与 $\\arctan x$ 都是同一非齐次方程的解，所以 $h(x)=f(x)-\\arctan x$ 是齐次方程 $h''+ch=0$ 的非零有界奇解。若 $c\\gt0$，可取 $h(x)=\\sin(\\sqrt c\\,x)$；若 $c=0$，非零奇解为 $Cx$，无界；若 $c\\lt0$，非零奇解为双曲正弦型，也无界。因此 $c\\gt0$。"
+      "explanation": "**第一步：把「两个解」转化为齐次方程。**\n$y''+cy=g(x)$ 是线性非齐次方程。$\\arctan x$ 与 $f(x)$ 都是它的解，两解之差\n$$h(x)=f(x)-\\arctan x$$\n满足**齐次**方程\n$$h''+c\\,h=0.$$\n由条件：$f$ 是有界奇函数（$f(-x)=-f(x)$），$\\arctan x$ 也是有界奇函数，故 $h$ 是**有界奇函数**；且 $f\\ne\\arctan x$，故 $h$ 非零。问题化为：存在非零有界奇解 $h$，求 $c$ 的范围。\n\n**第二步：按 $c$ 的符号分三种情形。**\n特征方程 $r^2+c=0$。\n\n**① $c>0$**：$r=\\pm i\\sqrt c$，通解\n$$h=C_1\\cos(\\sqrt c\\,x)+C_2\\sin(\\sqrt c\\,x).$$\n取 $C_1=0,\\ C_2=1$：$h=\\sin(\\sqrt c\\,x)$ 是非零有界奇函数 ✓，满足条件。\n\n**② $c=0$**：方程 $h''=0$，通解 $h=C_1x+C_2$。奇函数要求 $h(-x)=-h(x)$，得 $C_2=0$，即 $h=C_1x$。$C_1\\ne0$ 时 $h$ 无界，不满足「有界」✗。\n\n**③ $c<0$**：$r=\\pm\\sqrt{-c}$ 为两实根，通解\n$$h=C_1e^{\\sqrt{-c}\\,x}+C_2e^{-\\sqrt{-c}\\,x}.$$\n奇函数解的形式为 $h=C\\sinh(\\sqrt{-c}\\,x)$（双曲正弦，$C\\ne0$），它在 $x\\to\\pm\\infty$ 时无界 ✗。\n\n**结论：$c>0$。**\n\n**答案：$c>0$。**"
     },
     {
       "id": 4601,
@@ -5305,7 +5305,7 @@
       "stem": "设线性方程组\n$$\n\\begin{cases}ax_1+x_3=1,\\\\x_1+ax_2+x_3=0,\\\\x_1+2x_2+ax_3=0,\\\\ax_1+bx_2=2\\end{cases}\n$$\n有解，若\n$$\n\\begin{vmatrix}a&0&1\\\\1&a&1\\\\1&2&a\\end{vmatrix}=4,\n$$\n求\n$$\n\\begin{vmatrix}1&a&1\\\\1&2&a\\\\a&b&0\\end{vmatrix}.\n$$",
       "options": [],
       "answer": "$8$",
-      "explanation": "第四个方程的系数行可由前三行线性表示。由于右端常数为 $2$，该表示中第一行的系数为 $2$，故\n$$\n\\begin{vmatrix}1&a&1\\\\1&2&a\\\\a&b&0\\end{vmatrix}=2\\begin{vmatrix}1&a&1\\\\1&2&a\\\\a&0&1\\end{vmatrix}=2\\cdot4=8.\n$$"
+      "explanation": "**第一步：用「方程组有解」提取信息。**\n方程组有解 $\\iff$ 增广矩阵秩 $=$ 系数矩阵秩 $\\iff$ 第四个方程的**系数行**可被前三个方程的系数行线性表示。设\n$$(a,b,0)=\\alpha(a,0,1)+\\beta(1,a,1)+\\gamma(1,2,a).$$\n同时右端常数也必须一致：第四行右端为 $2$，前三个方程右端分别为 $1,0,0$，故\n$$\\alpha\\cdot1+\\beta\\cdot0+\\gamma\\cdot0=2\\Longrightarrow\\alpha=2.$$\n\n**第二步：目标行列式的行变换。**\n记 $r_1=(a,0,1)$、$r_2=(1,a,1)$、$r_3=(1,2,a)$（前三行），已知\n$$\\det(r_1,r_2,r_3)=\\begin{vmatrix}a&0&1\\\\1&a&1\\\\1&2&a\\end{vmatrix}=4.$$\n目标行列式的三行恰好是 $r_2,r_3,(a,b,0)$，而\n$$(a,b,0)=2r_1+\\beta r_2+\\gamma r_3.$$\n由行列式的多重线性性：\n$$\\begin{vmatrix}1&a&1\\\\1&2&a\\\\a&b&0\\end{vmatrix}\n=\\det\\bigl(r_2,\\ r_3,\\ 2r_1+\\beta r_2+\\gamma r_3\\bigr).$$\n$\\beta r_2$、$\\gamma r_3$ 两项所在行与 $r_2$、$r_3$ 重合（或成比例），对应行列式为 $0$，只剩\n$$=2\\det(r_2,r_3,r_1).$$\n三行轮换（$(r_2,r_3,r_1)$ 是 $(r_1,r_2,r_3)$ 的两次相邻对换，符号 $(-1)^2=+1$）：\n$$=2\\det(r_1,r_2,r_3)=2\\times4=8.$$\n\n**答案：$8$。**"
     },
     {
       "id": 6338,
@@ -7241,7 +7241,7 @@
       "stem": "函数 $f(x)=\\ln(2+x)$ 在区间 $[0,2]$ 上的平均值为 $\\underline{\\qquad}$。",
       "options": [],
       "answer": "$3\\ln2-1$",
-      "explanation": "平均值为 \n$$\n\\frac12\\int_0^2\\ln(2+x)\\,\\mathrm{d}x.\n$$\n 令 $u=x+2$，得 \n$$\n\\frac12\\int_2^4\\ln u\\,\\mathrm{d}u=\\frac12\\bigl[u\\ln u-u\\bigr]_2^4=3\\ln2-1.\n$$"
+      "explanation": "**函数在区间上的平均值公式：**\n$$\\bar f=\\frac{1}{2-0}\\int_0^2 f(x)\\,\\mathrm{d}x=\\frac12\\int_0^2\\ln(2+x)\\,\\mathrm{d}x.$$\n\n**换元。** 令 $u=x+2$，$\\mathrm{d}u=\\mathrm{d}x$，换限 $x:0\\to2\\Rightarrow u:2\\to4$：\n$$\\frac12\\int_2^4\\ln u\\,\\mathrm{d}u.$$\n\n**分部积分**（$\\int\\ln u\\,\\mathrm{d}u=u\\ln u-u+C$）：\n$$\\frac12\\Bigl[u\\ln u-u\\Bigr]_2^4\n=\\frac12\\bigl((4\\ln4-4)-(2\\ln2-2)\\bigr).$$\n用 $\\ln4=2\\ln2$：\n$$=\\frac12\\bigl(8\\ln2-4-2\\ln2+2\\bigr)=\\frac12(6\\ln2-2)=3\\ln2-1.$$\n\n**答案：$3\\ln2-1$。**"
     },
     {
       "id": 7250,
@@ -7799,7 +7799,7 @@
       "stem": "某物体以速度 $v(t)=t+k\\sin\\pi t$ 做直线运动，若它从 $t=0$ 到 $t=3$ 的时间段内平均速度是 $\\frac52$，则 $k=\\underline{\\qquad}$。",
       "options": [],
       "answer": "$\\frac{3\\pi}{2}$",
-      "explanation": "平均速度为\n$$\n\\frac13\\int_0^3(t+k\\sin\\pi t)\\,\\mathrm{d}t=\\frac13\\left(\\frac92+\\frac{2k}{\\pi}\\right)=\\frac52,\n$$\n解得 $k=\\frac{3\\pi}{2}$。"
+      "explanation": "**平均速度公式**（位移 ÷ 时间）：\n$$\\bar v=\\frac{1}{3-0}\\int_0^3 v(t)\\,\\mathrm{d}t=\\frac13\\int_0^3(t+k\\sin\\pi t)\\,\\mathrm{d}t.$$\n\n**分项积分。**\n第一项：\n$$\\int_0^3 t\\,\\mathrm{d}t=\\left[\\frac{t^2}{2}\\right]_0^3=\\frac92.$$\n第二项（$\\int\\sin\\pi t\\,\\mathrm{d}t=-\\frac{\\cos\\pi t}{\\pi}$）：\n$$\\int_0^3\\sin\\pi t\\,\\mathrm{d}t=\\left[-\\frac{\\cos\\pi t}{\\pi}\\right]_0^3\n=\\frac{-\\cos3\\pi+1}{\\pi}=\\frac{-(-1)+1}{\\pi}=\\frac2\\pi.$$\n代入：\n$$\\frac13\\left(\\frac92+\\frac{2k}{\\pi}\\right)=\\frac52\n\\Longrightarrow\\frac92+\\frac{2k}{\\pi}=\\frac{15}{2}\n\\Longrightarrow\\frac{2k}{\\pi}=3\\Longrightarrow k=\\frac{3\\pi}{2}.$$\n\n**答案：$k=\\dfrac{3\\pi}{2}$。**"
     },
     {
       "id": 7743,
@@ -7826,7 +7826,7 @@
         "$\\int_0^l\\frac{G(x+1)}{(x^2+1)^{3/2}}\\,\\mathrm{d}x$"
       ],
       "answer": "B",
-      "explanation": "当 $P$ 位于 $(x,0)$ 时，引力的 $x$ 方向分量大小为 $\\frac{Gx}{(x^2+1)^{3/2}}$，克服引力做功为其沿 $x$ 从 $0$ 到 $l$ 的积分，选 B。"
+      "explanation": "**物理设定。** $P$ 在 $(x,0)$，$Q$ 在 $(0,1)$，间距\n$$r=\\sqrt{x^2+1}.$$\n万有引力大小为 $F=\\dfrac{Gm}{r^2}=\\dfrac{Gm}{x^2+1}$（本题 $P,Q$ 均为单位质点，$m=1$，$F=\\dfrac{G}{x^2+1}$），方向由 $P$ 指向 $Q$。\n\n**沿 $x$ 轴的力分量。** 引力方向与 $x$ 轴夹角 $\\theta$ 满足（直角三角形：水平分量 $x$、竖直分量 $1$、斜边 $r$）\n$$\\cos\\theta=\\frac{x}{\\sqrt{x^2+1}}=\\frac{x}{r}.$$\n引力在 $x$ 方向的**大小**（指向 $P$ 运动反方向，即需克服的力）：\n$$F_x=F\\cos\\theta=\\frac{Gm}{x^2+1}\\cdot\\frac{x}{\\sqrt{x^2+1}}\n=\\frac{Gmx}{(x^2+1)^{3/2}}.$$\n\n**克服引力做功 = 力沿路径积分**（$P$ 从 $x=0$ 移到 $x=l$）：\n$$W=\\int_0^l\\frac{Gmx}{(x^2+1)^{3/2}}\\,\\mathrm{d}x.$$\n单位质点 $m=1$ 时即 $\\displaystyle\\int_0^l\\frac{Gx}{(x^2+1)^{3/2}}\\,\\mathrm{d}x$。\n\n**选 B。**"
     },
     {
       "id": 7747,
@@ -7842,7 +7842,7 @@
         "$2\\int_0^1\\frac{Gm}{(x^2+1)^{3/2}}\\,\\mathrm{d}x$"
       ],
       "answer": "D",
-      "explanation": "对称性使水平分力抵消。距原点 $x$ 处微元的竖直分量大小为 $\\frac{Gm}{(x^2+1)^{3/2}}\\,\\mathrm{d}x$，两侧相加得 $2\\int_0^1\\frac{Gm}{(x^2+1)^{3/2}}\\,\\mathrm{d}x$，选 D。"
+      "explanation": "**对称性分析。** 细棒关于 $y$ 轴对称、质点位于对称轴 $(0,1)$ 上。对棒上关于 $y$ 轴对称的左右两个微元，引力水平分量等大反向、互相抵消；竖直分量方向相同、大小相等。因此**合力竖直向下**，只需计算右半棒 $\\left(\\frac12\\right)$ 再乘 $2$。\n\n**右半棒微元的竖直分量。** 取右半棒上距原点 $x$ 处（$0\\le x\\le1$）微元 $\\mathrm{d}s=\\mathrm{d}x$（线密度 $1$，微元质量 $\\mathrm{d}m=\\mathrm{d}x$）。它与质点的距离\n$$r=\\sqrt{x^2+1},$$\n引力大小\n$$\\mathrm{d}F=G\\frac{m\\,\\mathrm{d}x}{r^2}=\\frac{Gm}{x^2+1}\\,\\mathrm{d}x.$$\n引力方向与竖直方向的夹角记为 $\\theta$，其正弦（竖直分量 = 引力 $\\times\\sin\\theta$）由直角三角形得\n$$\\sin\\theta=\\frac{1}{\\sqrt{x^2+1}}=\\frac1r.$$\n竖直分量\n$$\\mathrm{d}F_y=\\mathrm{d}F\\cdot\\sin\\theta\n=\\frac{Gm}{x^2+1}\\cdot\\frac1{\\sqrt{x^2+1}}\\,\\mathrm{d}x\n=\\frac{Gm}{(x^2+1)^{3/2}}\\,\\mathrm{d}x.$$\n\n**两侧相加。**\n$$F=2\\int_0^1\\frac{Gm}{(x^2+1)^{3/2}}\\,\\mathrm{d}x.$$\n\n**选 D。**"
     },
     {
       "id": 7751,
