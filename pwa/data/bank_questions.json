@@ -3134,7 +3134,7 @@
       "stem": "设平面区域D由直线x=3y,y=3x及x+y=8围成,计算 $ \\iint_{D}x^{2}dxdy $.",
       "options": [],
       "answer": "$\\frac{416}{3}$",
-      "explanation": "区域是顶点为 $(0,0)$、$(6,2)$、$(2,6)$ 的三角形。按 $x$ 分段可得\n$$\nI=\\int_0^2x^2\\left(3x-\\frac x3\\right)dx+\\int_2^6x^2\\left(8-x-\\frac x3\\right)dx=\\frac{416}{3}.\n$$"
+      "explanation": "**第一步：画区域、求顶点。**\n三条线 $y=3x$、$y=\\frac x3$（即 $x=3y$）、$x+y=8$：\n- $y=3x$ 与 $y=\\frac x3$ 交于 $(0,0)$；\n- $y=\\frac x3$ 与 $x+y=8$：$x+\\frac x3=8\\Rightarrow x=6,\\ y=2$，即 $(6,2)$；\n- $y=3x$ 与 $x+y=8$：$x+3x=8\\Rightarrow x=2,\\ y=6$，即 $(2,6)$。\n\n区域为顶点 $(0,0),(6,2),(2,6)$ 的三角形。\n\n**第二步：按 $x$ 分段定上下界。**\n对固定 $x$：$y$ 的下界是 $y=\\frac x3$（两条斜线中较低者），上界在 $0\\le x\\le2$ 时为 $y=3x$，在 $2\\le x\\le6$ 时为 $y=8-x$（直线段）。\n\n分两段积分：\n$$I=\\int_0^2x^2(3x-\\frac x3)\\,\\mathrm{d}x+\\int_2^6x^2\\left((8-x)-\\frac x3\\right)\\mathrm{d}x.$$\n\n**第一段**（$3x-\\frac x3=\\frac{8x}3$）：\n$$\\int_0^2\\frac83x^3\\,\\mathrm{d}x=\\frac83\\cdot\\left[\\frac{x^4}4\\right]_0^2=\\frac83\\cdot4=\\frac{32}{3}.$$\n\n**第二段**（$8-x-\\frac x3=8-\\frac{4x}3$）：\n$$\\int_2^6x^2\\left(8-\\frac{4x}3\\right)\\mathrm{d}x\n=8\\int_2^6x^2\\,\\mathrm{d}x-\\frac43\\int_2^6x^3\\,\\mathrm{d}x\n=8\\cdot\\frac{6^3-2^3}{3}-\\frac43\\cdot\\frac{6^4-2^4}{4}.$$\n$$=8\\cdot\\frac{208}{3}-\\frac{1280}{3}=\\frac{1664-1280}{3}=\\frac{384}{3}=128.$$\n\n**合计**：\n$$I=\\frac{32}{3}+128=\\frac{32+384}{3}=\\frac{416}{3}.$$\n**答案：$\\dfrac{416}{3}$。**"
     },
     {
       "id": 2795,
@@ -3887,7 +3887,7 @@
         "0"
       ],
       "answer": "B",
-      "explanation": "原式 $ =\\lim_{x\\to0}\\frac{x^{2}f(x)-x^{2}f(0)}{x^{3}}-2\\lim_{x\\to0}\\frac{f(x^{3})-f(0)}{x^{3}} = \\lim_{x\\to0}\\frac{f(x)-f(0)}{x} - 2\\lim_{x\\to0}\\frac{f(x^{3})-f(0)}{x^{3}} = f'(0) - 2f'(0) = -f'(0) $。"
+      "explanation": "把分子按分母 $x^3$ 打开成两项，每项都用「导数定义式」配 $0$（利用 $f(0)=0$）：\n\n$$\\frac{x^2f(x)-2f(x^3)}{x^3}\n=\\frac{x^2f(x)}{x^3}-2\\frac{f(x^3)}{x^3}\n=\\frac{f(x)-f(0)}{x^2}-2\\frac{f(x^3)-f(0)}{x^3}.$$\n\n**第一步：拆项约分。**\n$$\\frac{x^2f(x)-2f(x^3)}{x^3}=\\frac{x^2f(x)}{x^3}-2\\frac{f(x^3)}{x^3}=\\frac{f(x)}x-2\\frac{f(x^3)}{x^3}.$$\n\n**第二步：配 $0$ 用导数定义做极限。**\n第一项（$f(0)=0$）：\n$$\\frac{f(x)}x=\\frac{f(x)-f(0)}{x}\\longrightarrow f'(0).$$\n第二项（$f(0)=0$，令 $t=x^3\\to0$）：\n$$\\frac{f(x^3)}{x^3}=\\frac{f(x^3)-f(0)}{x^3}\\longrightarrow f'(0).$$\n故原极限\n$$\\lim_{x\\to0}\\frac{x^2f(x)-2f(x^3)}{x^3}=f'(0)-2f'(0)=-f'(0).$$\n**选 B。**"
     },
     {
       "id": 3681,
@@ -5283,7 +5283,7 @@
       "stem": "设 $A$ 为 $3$ 阶矩阵，$|A|=3$，交换 $A$ 的第 $1$ 行与第 $2$ 行得矩阵 $B$，求 $|BA^*|$。",
       "options": [],
       "answer": "$-27$",
-      "explanation": "交换两行使 $|B|=-|A|=-3$，且 $|A^*|=|A|^2=9$，所以\n$$\n|BA^*|=-3\\cdot9=-27.\n$$"
+      "explanation": "**性质一：|B|。** 交换 $A$ 的第 1、2 行得 $B$——交换两行改变行列式符号：\n$$|B|=-|A|=-3.$$\n\n**性质二：|A*|。** 对 $n$ 阶方阵，伴随矩阵的行列式\n$$|A^*|=|A|^{n-1}.$$\n本题 $n=3$、$|A|=3$，故\n$$|A^*|=3^{2}=9.$$\n\n**相乘**（$|XY|=|X||Y|$）：\n$$|BA^*|=|B|\\cdot|A^*|=(-3)\\cdot9=-27.$$\n\n**答案：$-27$。**"
     },
     {
       "id": 5599,
@@ -7186,7 +7186,7 @@
       "stem": "设函数 \n$$\nf(x)=\\begin{cases}\\lambda e^{-\\lambda x},&x\\gt0,\\\\0,&x\\le0,\\end{cases}\\quad(\\lambda\\gt0),\n$$\n 则 \n$$\n\\int_{-\\infty}^{+\\infty}xf(x)\\,\\mathrm{d}x=\\underline{\\qquad}.\n$$",
       "options": [],
       "answer": "$\\frac1\\lambda$",
-      "explanation": "原积分为 $\\int_0^{+\\infty}\\lambda xe^{-\\lambda x}\\,\\mathrm{d}x$。令 $u=\\lambda x$，得 $\\frac1\\lambda\\int_0^{+\\infty}ue^{-u}\\,\\mathrm{d}u=\\frac1\\lambda$。"
+      "explanation": "$f$ 在 $x\\le0$ 时取 $0$，故积分区间实际只剩 $x>0$：\n$$\\int_{-\\infty}^{+\\infty}xf(x)\\,\\mathrm{d}x=\\int_0^{+\\infty}x\\cdot\\lambda e^{-\\lambda x}\\,\\mathrm{d}x=\\int_0^{+\\infty}\\lambda x e^{-\\lambda x}\\,\\mathrm{d}x.$$\n\n换元 $u=\\lambda x$，则 $x=\\frac u\\lambda$、$\\mathrm{d}x=\\frac{\\mathrm{d}u}{\\lambda}$，换限 $x:0\\to+\\infty\\Rightarrow u:0\\to+\\infty$：\n$$\\int_0^{+\\infty}\\lambda\\cdot\\frac u\\lambda\\,e^{-u}\\cdot\\frac{\\mathrm{d}u}{\\lambda}\n=\\frac1\\lambda\\int_0^{+\\infty}u e^{-u}\\,\\mathrm{d}u.$$\n\n计算 $\\int_0^{+\\infty}ue^{-u}\\,\\mathrm{d}u$（分部积分，$u$ 求导、$e^{-u}$ 积分）：\n$$\\int_0^{+\\infty}ue^{-u}\\,\\mathrm{d}u\n=\\left[-ue^{-u}\\right]_0^{+\\infty}+\\int_0^{+\\infty}e^{-u}\\,\\mathrm{d}u\n=0+1=1,$$\n（含 $\\lim_{u\\to+\\infty}ue^{-u}=0$。）故\n$$\\int_{-\\infty}^{+\\infty}xf(x)\\,\\mathrm{d}x=\\frac1\\lambda.$$\n\n**注**：$f$ 即参数为 $\\lambda$ 的指数分布密度，$E(X)=\\frac1\\lambda$ 正是其数学期望。**答案：$\\frac1\\lambda$。**"
     },
     {
       "id": 7182,
@@ -7274,7 +7274,7 @@
       "stem": "设函数 $f(x)=\\frac{x}{1+x}$，$x\\in[0,1]$，定义函数列：$f_1(x)=f(x)$，$f_2(x)=f(f_1(x))$，$\\cdots$，$f_n(x)=f(f_{n-1}(x))$，$\\cdots$。记 $S_n$ 是由曲线 $y=f_n(x)$、直线 $x=1$ 及 $x$ 轴所围平面图形的面积，求极限 $\\lim_{n\\to\\infty}nS_n$。",
       "options": [],
       "answer": "$1$",
-      "explanation": "易归纳得 $f_n(x)=\\frac{x}{1+nx}$。于是 \n$$\nS_n=\\int_0^1\\frac{x}{1+nx}\\,\\mathrm{d}x=\\frac{n-\\ln(n+1)}{n^2},\n$$\n 故 $\\lim_{n\\to\\infty}nS_n=1$。"
+      "explanation": "**第一步：归纳求 $f_n(x)$ 的显式。**\n$f_1(x)=f(x)=\\frac{x}{1+x}$。归纳假设 $f_n(x)=\\frac{x}{1+nx}$，则\n$$f_{n+1}(x)=f(f_n(x))=\\frac{\\frac{x}{1+nx}}{1+\\frac{x}{1+nx}}\n=\\frac{x}{1+nx+x}=\\frac{x}{1+(n+1)x}.$$\n故\n$$f_n(x)=\\frac{x}{1+nx}.$$\n\n**第二步：求 $S_n$。**\n$$S_n=\\int_0^1\\frac{x}{1+nx}\\,\\mathrm{d}x.$$\n换元 $u=1+nx$，$\\mathrm{d}u=n\\,\\mathrm{d}x$，$x=\\frac{u-1}n$，换限 $x:0\\to1\\Rightarrow u:1\\to1+n$：\n$$S_n=\\int_1^{1+n}\\frac{u-1}{n\\cdot u}\\cdot\\frac{\\mathrm{d}u}{n}\n=\\frac1{n^2}\\int_1^{1+n}\\left(1-\\frac1u\\right)\\mathrm{d}u\n=\\frac1{n^2}\\bigl[u-\\ln u\\bigr]_1^{1+n}\n=\\frac{n-\\ln(n+1)}{n^2}.$$\n\n**第三步：求极限。**\n$$nS_n=n\\cdot\\frac{n-\\ln(n+1)}{n^2}=1-\\frac{\\ln(n+1)}n.$$\n因 $\\ln(n+1)$ 增长远慢于 $n$（$\\lim_{n\\to\\infty}\\frac{\\ln(n+1)}n=0$），故\n$$\\lim_{n\\to\\infty}nS_n=1.$$\n**答案：$1$。**"
     },
     {
       "id": 7286,
@@ -7356,7 +7356,7 @@
       "stem": "设 $D$ 是由曲线 $y=x^{1/3}$，直线 $x=a\\ (a\\gt0)$ 及 $x$ 轴围成的平面图形，$V_x,V_y$ 分别是 $D$ 绕 $x$ 轴、$y$ 轴旋转一周所得旋转体的体积。若 $V_y=10V_x$，求 $a$ 的值。",
       "options": [],
       "answer": "$7\\sqrt7$",
-      "explanation": "有 $V_x=\\pi\\int_0^a x^{2/3}dx=\\frac{3\\pi}{5}a^{5/3}$，$V_y=2\\pi\\int_0^a x\\cdot x^{1/3}dx=\\frac{6\\pi}{7}a^{7/3}$。由 $V_y=10V_x$ 得 $a^{2/3}=7$，故 $a=7\\sqrt7$。"
+      "explanation": "**求 $V_x$（绕 $x$ 轴，圆盘法）。**\n截面半径 $y=x^{1/3}$：\n$$V_x=\\pi\\int_0^a (x^{1/3})^2\\,\\mathrm{d}x=\\pi\\int_0^a x^{2/3}\\,\\mathrm{d}x\n=\\pi\\cdot\\frac35 x^{5/3}\\Big|_0^a=\\frac{3\\pi}{5}a^{5/3}.$$\n\n**求 $V_y$（绕 $y$ 轴，柱壳法）。**\n高为 $y=x^{1/3}$、半径为 $x$：\n$$V_y=2\\pi\\int_0^a x\\cdot x^{1/3}\\,\\mathrm{d}x=2\\pi\\int_0^a x^{4/3}\\,\\mathrm{d}x\n=2\\pi\\cdot\\frac37 x^{7/3}\\Big|_0^a=\\frac{6\\pi}{7}a^{7/3}.$$\n\n**代入 $V_y=10V_x$。**\n$$\\frac{6\\pi}{7}a^{7/3}=10\\cdot\\frac{3\\pi}{5}a^{5/3}=6\\pi a^{5/3},$$\n两边同消 $6\\pi$：\n$$\\frac{a^{7/3}}{7}=a^{5/3}\\Longrightarrow a^{2/3}=7\\Longrightarrow a=7^{3/2}=\\sqrt{7^3}=7\\sqrt7.$$\n**答案：$a=7\\sqrt7$。**"
     },
     {
       "id": 7313,
@@ -7875,7 +7875,7 @@
       "stem": "设曲线 $L$ 的方程为 $y=\\frac14x^2-\\frac12\\ln x\\ (1\\le x\\le e)$。$(I)$ 求 $L$ 的弧长；$(II)$ 设 $D$ 是由曲线 $L$，直线 $x=1,x=e$ 及 $x$ 轴所围平面图形，求 $D$ 的形心的横坐标。",
       "options": [],
       "answer": "$(I)\\ \\frac{e^2+1}{4}$；$(II)\\ \\bar{x}=\\frac{3(e^4-2e^2-3)}{4(e^3-7)}$。",
-      "explanation": "有 $y'=\\frac12(x-\\frac1x)$，故 $\\sqrt{1+(y')^2}=\\frac12(x+\\frac1x)$，弧长为 $\\frac{e^2+1}{4}$。面积 $A=\\int_1^e y\\,\\mathrm{d}x=\\frac{e^3-7}{12}$，对 $y$ 轴矩为 $\\int_1^e xy\\,\\mathrm{d}x=\\frac{e^4-2e^2-3}{16}$，故得横坐标。"
+      "explanation": "**(I) 求弧长。**\n$$y'=\\frac12x-\\frac1{2x}=\\frac12\\left(x-\\frac1x\\right).$$\n$$1+(y')^2=1+\\frac14\\left(x-\\frac1x\\right)^2\n=\\frac{4+x^2-2+x^{-2}}{4}=\\frac{(x+\\frac1x)^2}{4}.$$\n因 $1\\le x\\le e$ 时 $x+\\frac1x>0$，故\n$$\\sqrt{1+(y')^2}=\\frac12\\left(x+\\frac1x\\right).$$\n弧长\n$$s=\\int_1^e\\frac12\\left(x+\\frac1x\\right)\\mathrm{d}x\n=\\frac12\\left[\\frac{x^2}{2}+\\ln x\\right]_1^e\n=\\frac12\\left(\\frac{e^2}{2}+1-\\frac12\\right)=\\frac{e^2+1}{4}.$$\n\n**(II) 求形心横坐标。**\n形心公式 $\\bar x=\\dfrac{\\iint_D x\\,\\mathrm{d}\\sigma}{\\iint_D \\mathrm{d}\\sigma}=\\dfrac{\\int_1^e xy\\,\\mathrm{d}x}{\\int_1^e y\\,\\mathrm{d}x}$。\n\n面积：\n$$A=\\int_1^e\\left(\\frac{x^2}{4}-\\frac12\\ln x\\right)\\mathrm{d}x\n=\\left[\\frac{x^3}{12}\\right]_1^e-\\frac12\\int_1^e\\ln x\\,\\mathrm{d}x\n=\\frac{e^3-1}{12}-\\frac12\\cdot1=\\frac{e^3-7}{12},$$\n（$\\int_1^e\\ln x\\,\\mathrm{d}x=\\bigl[x\\ln x-x\\bigr]_1^e=(e-e)-(0-1)=1$。）\n\n对 $y$ 轴的矩：\n$$M_y=\\int_1^e x\\left(\\frac{x^2}{4}-\\frac12\\ln x\\right)\\mathrm{d}x\n=\\int_1^e\\frac{x^3}{4}\\mathrm{d}x-\\frac12\\int_1^e x\\ln x\\,\\mathrm{d}x.$$\n其中 $\\int_1^e x\\ln x\\,\\mathrm{d}x$（分部积分，$u=\\ln x,\\ dv=x\\,\\mathrm{d}x$）：\n$$=\\left[\\frac{x^2}{2}\\ln x\\right]_1^e-\\int_1^e\\frac{x^2}{2}\\cdot\\frac1x\\,\\mathrm{d}x\n=\\frac{e^2}{2}-\\frac12\\cdot\\frac{e^2-1}{2}=\\frac{e^2+1}{4},$$\n故\n$$M_y=\\frac{e^4-1}{16}-\\frac{e^2+1}{8}=\\frac{e^4-1-2e^2-2}{16}=\\frac{e^4-2e^2-3}{16}.$$\n于是\n$$\\bar x=\\frac{M_y}{A}=\\frac{\\frac{e^4-2e^2-3}{16}}{\\frac{e^3-7}{12}}\n=\\frac{3}{4}\\cdot\\frac{e^4-2e^2-3}{e^3-7}=\\frac{3(e^4-2e^2-3)}{4(e^3-7)}.$$\n**答案：(I) $\\dfrac{e^2+1}{4}$；(II) $\\bar x=\\dfrac{3(e^4-2e^2-3)}{4(e^3-7)}$。**"
     },
     {
       "id": 7780,
@@ -9584,7 +9584,7 @@
         "与 x 等价的无穷小量."
       ],
       "answer": "C",
-      "explanation": "由 $\\cos x-1\\sim-\\frac{x^2}{2}$ 及 $\\sin\\alpha\\sim\\alpha$，有 $x\\alpha(x)\\sim-\\frac{x^2}{2}$，即 $\\alpha(x)\\sim-\\frac{x}{2}$。故与 $x$ 同阶但不等价，选 C。"
+      "explanation": "**第一步：估 $\\alpha(x)$ 的量级。**\n由题设 $\\cos x-1=x\\sin\\alpha(x)$，左端用等价无穷小，且 $x\\to0$ 时 $\\cos x-1\\sim-\\frac{x^2}{2}$，故右端\n$$x\\sin\\alpha(x)\\sim-\\frac{x^2}{2}.$$\n\n**第二步：$\\alpha(x)\\to0$，从而 $\\sin\\alpha(x)\\sim\\alpha(x)$。**\n由 $x\\sin\\alpha(x)=\\cos x-1\\to0$ 且 $x\\to0$，得 $\\sin\\alpha(x)\\to0$。又 $|\\alpha(x)|<\\frac\\pi2$，在 $\\left(-\\frac\\pi2,\\frac\\pi2\\right)$ 内 $\\sin\\alpha=0$ 仅当 $\\alpha=0$，故 $\\alpha(x)\\to0$。因此 $\\sin\\alpha(x)\\sim\\alpha(x)$。\n\n**第三步：代回比较。**\n$$x\\cdot\\alpha(x)=\\cos x-1\\sim-\\frac{x^2}{2}\\Longrightarrow \\alpha(x)\\sim-\\frac{x}{2}.$$\n\n$\\alpha(x)$ 与 $x$ 同阶（都是 $1$ 阶无穷小），但比值 $\\dfrac{\\alpha(x)}x\\to-\\frac12\\ne1$，不等价。\n\n**选 C（与 $x$ 同阶但不等价的无穷小量）。**"
     },
     {
       "id": 10549,
