@@ -1091,3 +1091,29 @@ img.exam-note-img.img-fail {
 html.dark .bg-fab, html.dark .bg-panel { background: #232a33; border-color: #3a4350; color: #e8e8e8; box-shadow: 0 8px 32px rgba(0,0,0,.5); }
 html.dark .bg-btn { background: #232a33; border-color: #3a4350; color: #e8e8e8; }
 html.dark .bg-btn:hover { background: #2d3640; }
+
+/* ============ 做题模式 ============ */
+/* 顶部「展开全部答案」在做题模式下禁用 */
+#examAllAnsBtn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+/* 全局轻提示（做题模式开关反馈） */
+.exam-mode-hint {
+    position: fixed;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(var(--card-rgb), .96);
+    border: 1px solid var(--accent, #4a90d9);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .18);
+    font-size: 13.5px;
+    color: var(--text);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+}
+.exam-mode-hint.show { opacity: 1; }

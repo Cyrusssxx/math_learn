@@ -449,6 +449,11 @@ function notePasteImg(e) {
     imgTask.then(() => { delete _pendingImgTasks[id]; }, () => { delete _pendingImgTasks[id]; });
 }
 function toggleQSec(btn, act) {
+    // 做题模式：答案/思路入口禁止点击（按钮保留显示，点击给出提示）
+    if (examMode && (act === 'answer' || act === 'idea')) {
+        noteHintLocal(act === 'answer' ? '做题模式中不可查看答案，先做完再退出模式查看' : '做题模式中不可查看思路，先做完再退出模式查看');
+        return;
+    }
     const card = btn.closest('.q-card');
     if (!card)  return;
     const sec = card.querySelector('.q-sec.q-' + act);
@@ -905,6 +910,8 @@ function reviewPop() {
     return ov;
 }
 function openReviewPop(pid, anchor) {
+    // 做题模式：试卷点评入口禁止打开
+    if (examMode) { noteHintLocal('做题模式中不可查看试卷点评'); return; }
     const ov = reviewPop();
     const ta = ov.querySelector('.review-pop-ta');
     _reviewPid = pid;
@@ -1174,6 +1181,51 @@ function toggleQStatus(btn, qid, v) {
     }
 }
 
+// ============ 做题模式：隐藏答案/思路/点评入口，仅保留笔记可写 ============
+let examMode = false;
+function applyExamMode() {
+    const el = document.getElementById('examMain');
+    if (el) el.classList.toggle('exam-mode', examMode);
+    const btn = document.getElementById('examModeBtn');
+    if (btn) btn.classList.toggle('on', examMode);
+    const allBtn = document.getElementById('examAllAnsBtn');
+    if (allBtn) {
+        allBtn.disabled = examMode;   // 做题模式下不允许一键展开答案
+        if (examMode) { allBtn.textContent = '🔼 展开全部答案'; allBtn.classList.remove('on'); }
+    }
+    // 进入做题模式：把已展开的答案/思路全部收起（防考试中误翻到已看内容）
+    if (el) {
+        el.querySelectorAll('.q-answer, .q-idea').forEach(s => { s.hidden = true; });
+        el.querySelectorAll('.q-op[data-act="answer"], .q-op[data-act="idea"]').forEach(b => {
+            b.classList.remove('on');
+            b.textContent = b.dataset.act === 'answer' ? '查看答案' : '查看思路';
+        });
+    }
+    if (examMode) examAllAnsOpen = false;
+}
+function toggleExamMode(btn) {
+    examMode = !examMode;
+    try { localStorage.setItem('examMode', examMode ? '1' : '0'); } catch (e) { }
+    applyExamMode();
+    if (examMode) noteHintLocal('做题模式已开启：答案/思路/点评不可查看，可安心刷题（笔记照常可写）');
+    else noteHintLocal('已退出做题模式');
+}
+// 轻量全局提示（做题模式状态反馈）
+let _examModeHintT = null;
+function noteHintLocal(msg) {
+    let el = document.getElementById('examModeHint');
+    if (!el) {
+        el = document.createElement('div');
+        el.id = 'examModeHint';
+        el.className = 'exam-mode-hint';
+        document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(_examModeHintT);
+    _examModeHintT = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
 function secTag(secIdx) {
     return ['一', '二', '三', '四', '五'][secIdx] || (secIdx + 1);
 }
@@ -1364,6 +1416,9 @@ async function init() {
     // 否则顶栏由折叠变展开会撑高文档、把刚定位好的题号顶偏。
     restoreTopBar();
     syncTopH();
+    // 恢复做题模式状态（隐藏/禁用答案、思路、点评入口，仅保留笔记）
+    examMode = localStorage.getItem('examMode') === '1';
+    applyExamMode();
     // 滚动到上次题号（收藏过滤下该题可能被隐藏，找不到则留在顶部）
     if (startNo) {
         const qid = qidOf(curPaper.id, startNo);
