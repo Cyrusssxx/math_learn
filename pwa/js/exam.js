@@ -275,7 +275,7 @@ function editorToNote(el) {
         for (const ch of n.childNodes) {
             if (ch.nodeType === 3) {
                 // 保留 NBSP（\u00A0）：浏览器用它保真「行首空格 / 连续空格」，降级成普通空格会被 trim 与 HTML 折叠吃掉
-                const t = ch.nodeValue.replace(/\u200B/g, '');  // 只丢弃零宽空格分隔符
+                const t = ch.nodeValue.replace(/\u200B/g, '').replace(/ {2,}/g, m => m.replace(/ /g, '\u00A0'));  // 只丢弃零宽空格分隔符；连续普通空格转 NBSP（HTML 会折叠连续普通空格，单个空格不受影响）
                 if (!t) continue;
                 let inner = t;
                 if (i) inner = '<i>' + inner + '</i>';
@@ -989,7 +989,10 @@ function mdBlock(s) {
         // 若用 raw.trim() 会连 NBSP 一起删掉（JS trim 视 NBSP 为空白），空格就永远存不下来
         // 行首普通空格也转 NBSP 保留：浏览器只把「连续空格」存为 NBSP，单个行首空格是普通空格，
         // 直接删掉的话用户的行首缩进保存后就没了（渲染端兜底，序列化端同样处理）
-        const l = raw.replace(/^[ \t]+/, m => m.replace(/[ \t]/g, '\u00A0')).replace(/[ \t]+$/, '');
+        const l = raw
+            .replace(/^[ \t]+/, m => m.replace(/[ \t]/g, '\u00A0'))
+            .replace(/[ \t]+$/, '')                        // 行尾普通空格照旧删除（NBSP 不在此类）
+            .replace(/ {2,}/g, m => m.replace(/ /g, '\u00A0'));   // 行内连续普通空格(2+)转 NBSP：防 HTML 折叠丢空格（单个空格不受影响）
         if (!l) { if (mathBuf) { mathBuf += '\n'; } continue; }
 
         // 检测 $$ 开/闭（不在行内 $ 内的独立 $$）
