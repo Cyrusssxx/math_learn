@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="exam-topbtns">
-            <span class="exam-btn" style="cursor: default" title="当前数据源：数二真题（按知识点分类浏览）">📘 数二真题分类</span>
+            <button class="exam-btn" id="srcToggle" onmousedown="event.preventDefault()" onclick="toggleSrcMode()" title="切换数据源：数二真题 ⇄ 核心题库（大观严选题，606 题，按知识点分类）">📝 数二真题分类</button>
             <div class="cat-marks">
                 <button class="cat-mark" data-m="fav" onmousedown="event.preventDefault()" onclick="toggleMark('fav')" title="只看已收藏的题">📥 收藏</button>
                 <button class="cat-mark" data-m="unfamiliar" onmousedown="event.preventDefault()" onclick="toggleMark('unfamiliar')" title="只看标记为「不熟」的题">🟡 不熟</button>

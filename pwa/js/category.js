@@ -895,6 +895,15 @@ let papers = [];
 let cats = {};          // { id: {id,name,path,parent} }
 let allEntries = [];    // { paper, secTitle, q, catId }
 let curCat = null;      // 选中的知识点(L3) id
+// 数据源切换：exam = 数二真题（exam.json，2000-2026）；core = 核心题库（core_bank.json，大观严选题 606 题）
+const SRC_MODE_KEY = 'catSrcMode';
+let srcMode = (function () { try { return localStorage.getItem(SRC_MODE_KEY) === 'core' ? 'core' : 'exam'; } catch (e) { return 'exam'; } })();
+let examPapers = [];    // 真题套卷
+let corePapers = [];    // 核心题库（单「卷」，内部按章节分节）
+const SRC_META = {
+    exam: { label: '📝 数二真题分类', title: '真题分类', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
+    core: { label: '📘 核心题库筛选', title: '核心题库', sub: '数二核心题库（大观严选题 606 题）· 按同一棵知识点树筛选，题源标注为原真题年份' },
+};
 const collapsedSubjects = new Set();   // 折叠的学科
 const collapsedChapters = new Set();   // 折叠的章节
 // 刷新保持：选中分类 + 树折叠态（localStorage 持久化）
@@ -960,12 +969,42 @@ function buildEntries() {
             }
         }
     }
-    // 合并大观园数二真题进同一棵分类树
-    for (const e of bankItems) {
-        for (const cid of e.catIds) {
-            allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
+    // 合并大观园数二真题进同一棵分类树（仅真题模式；核心题库模式不混入）
+    if (srcMode === 'exam') {
+        for (const e of bankItems) {
+            for (const cid of e.catIds) {
+                allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
+            }
         }
     }
+}
+
+// 切换数据源：真题 ⇄ 核心题库（同一棵分类树，选中知识点保持不变）
+function applySrcMode(persist) {
+    papers = (srcMode === 'core') ? corePapers : examPapers;
+    const meta = SRC_META[srcMode] || SRC_META.exam;
+    const btn = document.getElementById('srcToggle');
+    if (btn) {
+        btn.textContent = meta.label;
+        btn.title = (srcMode === 'core')
+            ? '当前：核心题库（大观严选题 606 题）。点击切回数二真题'
+            : '当前：数二真题（2000-2026）。点击切换到核心题库';
+    }
+    const t = document.querySelector('.exam-title');
+    if (t) t.textContent = meta.title;
+    const sub = document.getElementById('examSub');
+    if (sub) sub.textContent = meta.sub;
+    if (persist) { try { localStorage.setItem(SRC_MODE_KEY, srcMode); } catch (e) { } }
+}
+
+function toggleSrcMode() {
+    srcMode = (srcMode === 'core') ? 'exam' : 'core';
+    applySrcMode(true);
+    buildEntries();
+    renderTree();
+    renderMain();
+    renderNav();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function activeEntries() {
@@ -1086,7 +1125,8 @@ function catCard(paper, secTitle, q) {
     const fav = isFav(qid);
     const st = statusOf(qid);
     const kindLabel = (q.options && q.options.length) || q.type === 'choice' ? '选择'
-        : q.type === 'blank' ? '填空' : secKindLabel(secTitle);
+        : q.type === 'blank' ? '填空' : q.type === 'calc' ? '解答'
+        : q.type === 'proof' ? '证明' : secKindLabel(secTitle);
     const stem = mdBlock(q.stem || '');
     const figHtml = q.img
         ? `<img class="q-fig-img" src="${q.img}" alt="题${q.no}配图" loading="lazy" onclick="zoomAnsImg(this)">` +
@@ -1136,7 +1176,10 @@ function catCard(paper, secTitle, q) {
     const noteBtn = hasNote ? `<button class="q-op has" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>`
         : `<button class="q-op" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>`;
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
-    const yearHtml = paper.id === 'bank'
+    // 核心题库：不显示「年份链接」（非套卷），改显示原真题题源标签
+    const yearHtml = paper.id === 'core'
+        ? (q.source ? `<span class="q-year"><span class="q-year-tag" title="原真题题源">${mdInline(q.source)}</span></span>` : '')
+        : paper.id === 'bank'
         ? `<span class="q-year"><span class="q-year-tag">${paper.year}年</span></span>`
         : `<span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>`;
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
@@ -1335,19 +1378,26 @@ function renderSearchResults() {
 
 // ============ 初始化 ============
 async function init() {
-    const [er, cr, br] = await Promise.all([
+    const [er, cr, br, corer] = await Promise.all([
         fetch('data/exam.json'),
         fetch('data/exam_categories.json'),
         fetch('data/bank_questions.json').catch(() => null),
+        fetch('data/core_bank.json').catch(() => null),
     ]);
     if (!er.ok) throw new Error('加载真题失败: ' + er.status);
     if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
-    papers = await er.json();
+    examPapers = await er.json();
     cats = await cr.json();
+    // 核心题库（大观严选题 606 题，categoryIds 已映射到同一分类体系）
+    if (corer && corer.ok) {
+        try { corePapers = await corer.json(); } catch (e) { console.error('核心题库解析失败', e); }
+    } else {
+        console.warn('核心题库 core_bank.json 未加载，仅提供真题源');
+    }
     // 大观园真题库（categoryIds 已映射到统一分类体系，与 exam.json 合并一棵树）
     if (br && br.ok) {
         const bq = await br.json();
-        const examYears = new Set(papers.map(p => String(p.year)));
+        const examYears = new Set(examPapers.map(p => String(p.year)));
         bankItems = (bq.items || []).map((it, idx) => {
             const ym = /^(19\d\d|20\d\d)/.exec(it.source || '');
             const q = Object.assign({}, it, {
@@ -1387,9 +1437,11 @@ async function init() {
         const _roll = st.scrollY || 0;
         if (_roll && !location.search) requestAnimationFrame(() => window.scrollTo(0, _roll));
     } catch (e) { }
+    applySrcMode(false);   // 先应用上次数据源（exam / core）→ 决定 papers，再建索引
     buildEntries();
     renderTree();
     renderMain();
+    renderNav();
 }
 
 // 滚动/切题时记忆位置：节流保存（复用 saveCatState 的 search/scrollY 字段）
