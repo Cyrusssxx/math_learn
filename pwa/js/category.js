@@ -115,7 +115,12 @@ function mdBlock(s) {
     const out = [];
     let buf = null;
     for (const raw of lines) {
-        const l = raw.trim();
+        // 只去普通空格/制表符，保留 NBSP（承载用户打的缩进/连续空格；raw.trim() 会连 NBSP 一起删）
+        // 行首普通空格转 NBSP：单个行首空格浏览器不自动转 NBSP，渲染端兜底保留缩进（与 exam.js/exam-shared.js 同步）
+        const l = raw
+            .replace(/^[ \t]+/, m => m.replace(/[ \t]/g, '\u00A0'))
+            .replace(/[ \t]+$/, '')                        // 行尾普通空格照旧删除（NBSP 不在此类）
+            .replace(/ {2,}/g, m => m.replace(/ /g, '\u00A0'));   // 行内连续普通空格(2+)转 NBSP：防 HTML 折叠丢空格（单个空格不受影响）
         if (!l) { if (buf) buf += '\n'; continue; }
         // 裸 "$$" 独占一行也要开块：'$$'.endsWith('$$') 恒为真，旧条件会让多行显示块整体失效（与 exam.js 同步修）
         if (buf === null && l.startsWith('$$') && (!l.endsWith('$$') || l === '$$')) { buf = l; continue; }
