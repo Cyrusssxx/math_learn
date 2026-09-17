@@ -898,6 +898,9 @@ let curCat = null;      // 选中的知识点(L3) id
 // 数据源切换：exam = 数二真题（exam.json，2000-2026）；core = 核心题库（core_bank.json，大观严选题 606 题）
 const SRC_MODE_KEY = 'catSrcMode';
 let srcMode = (function () { try { return localStorage.getItem(SRC_MODE_KEY) === 'core' ? 'core' : 'exam'; } catch (e) { return 'exam'; } })();
+// 无标记优先：把未收藏、未标「不熟/不会」的题排到最前（刷题时先清「没碰过的」）
+const UNMARKED_FIRST_KEY = 'catUnmarkedFirst';
+let unmarkedFirst = (function () { try { return localStorage.getItem(UNMARKED_FIRST_KEY) === '1'; } catch (e) { return false; } })();
 let examPapers = [];    // 真题套卷
 let corePapers = [];    // 核心题库（单「卷」，内部按章节分节）
 const SRC_META = {
@@ -1002,6 +1005,45 @@ function toggleSrcMode() {
     applySrcMode(true);
     buildEntries();
     renderTree();
+    renderMain();
+    renderNav();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============ 「无标记优先」排序开关 ============
+/** 该题是否「无任何标记」：未收藏 且 未标不熟/不会 */
+function isUnmarked(e) {
+    const qid = qidOf(e.paper.id, e.q.no);
+    return !isFav(qid) && !statusOf(qid);
+}
+
+/** 排序比较器：开启「无标记优先」时无标记的排前，其余沿用「收藏时间倒序 → 年份倒序」 */
+function compareEntries(a, b) {
+    if (unmarkedFirst) {
+        const ua = isUnmarked(a) ? 0 : 1;
+        const ub = isUnmarked(b) ? 0 : 1;
+        if (ua !== ub) return ua - ub;
+    }
+    const ta = favTime(qidOf(a.paper.id, a.q.no));
+    const tb = favTime(qidOf(b.paper.id, b.q.no));
+    if (ta && tb) return tb - ta;
+    return parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10);
+}
+
+function syncUnmarkedFirstBtn() {
+    const b = document.getElementById('unmarkedFirst');
+    if (!b) return;
+    b.classList.toggle('on', unmarkedFirst);
+    b.setAttribute('aria-pressed', unmarkedFirst ? 'true' : 'false');
+    b.title = unmarkedFirst
+        ? '当前：无标记题目已提前（再点恢复「收藏时间/年份」原排序）'
+        : '把未做任何标记（未收藏、未标不熟/不会）的题目排到最前';
+}
+
+function toggleUnmarkedFirst() {
+    unmarkedFirst = !unmarkedFirst;
+    try { localStorage.setItem(UNMARKED_FIRST_KEY, unmarkedFirst ? '1' : '0'); } catch (e) { }
+    syncUnmarkedFirstBtn();
     renderMain();
     renderNav();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1273,23 +1315,19 @@ function renderMain() {
     }
     const entries = activeEntries().filter(e => String(e.catId) === String(curCat));
     const c = cats[curCat];
-    // 排序：有收藏时间的按收藏时间倒序靠前，其余按年份倒序
-    entries.sort((a, b) => {
-        const ta = favTime(qidOf(a.paper.id, a.q.no));
-        const tb = favTime(qidOf(b.paper.id, b.q.no));
-        if (ta && tb) return tb - ta;
-        return parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10);
-    });
+    // 排序：无标记优先（可选）→ 收藏时间倒序 → 年份倒序
+    entries.sort(compareEntries);
     if (!entries.length) {
         el.innerHTML = `<div class="paper-head"><h1>${c ? (c.display || c.name) : curCat}</h1><div class="paper-sub">${c ? c.path : ''}</div></div>` +
             `<div class="empty-tip">该章节下当前筛选没有匹配题目。试试切换「收藏/不熟/不会」筛选。</div>`;
         return;
     }
     const years = new Set(entries.map(e => e.paper.year)).size;
+    const unmarkedN = unmarkedFirst ? entries.filter(isUnmarked).length : 0;
     let html = `<div class="paper-head">
         <h1>${c ? c.display : curCat}</h1>
         <div class="paper-sub">${c ? c.path : ''}</div>
-        <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年</div>
+        <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年${unmarkedFirst ? ` · <b>无标记优先</b>（未标记 ${unmarkedN} 题已提前）` : ''}</div>
         <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
     const markNames = { fav: '📥收藏', unfamiliar: '🟡不熟', unknown: '🔴不会' };
@@ -1347,13 +1385,8 @@ function renderSearchResults() {
     const el = document.getElementById('catMain');
     const entries = activeEntries().filter(catSearchMatch);
     const sy = window.scrollY;
-    // 收藏时间倒序优先，否则年份倒序
-    entries.sort((a, b) => {
-        const ta = favTime(qidOf(a.paper.id, a.q.no));
-        const tb = favTime(qidOf(b.paper.id, b.q.no));
-        if (ta && tb) return tb - ta;
-        return parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10);
-    });
+    // 无标记优先（可选）→ 收藏时间倒序 → 年份倒序
+    entries.sort(compareEntries);
     const h = `<div class="paper-head">
         <h1>🔍 “${catSearchKw}”</h1>
         <div class="paper-sub">全库搜索命中 ${entries.length} 题（含大观园）</div>
@@ -1413,6 +1446,7 @@ async function init() {
         });
     }
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
+    syncUnmarkedFirstBtn();
     // 恢复的选中分类若已不在分类表里（数据变更），清掉防悬空
     if (curCat !== null && !cats[String(curCat)]) { curCat = null; saveCatState(); }
     // 支持 ?cid=<知识点id> 直达（来自「分析与建议」面板的「跳转刷题」）

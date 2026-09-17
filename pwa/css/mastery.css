@@ -1,0 +1,103 @@
+/* ============ 掌握地图面板（分类页专用；外壳复用 analysis.css 的 .an-mask/.an-panel/.an-head/.an-body/.an-foot） ============ */
+.mm-panel { max-width: 960px; }
+
+/* 总体掌握率进度条 */
+.mm-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--bg-hover, #ececf1);
+    border: 1px solid var(--border, #e2e2e8);
+    overflow: hidden;
+    margin: 0 0 10px;
+}
+.mm-bar-fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #f59f00, #37b24d);
+    transition: width .25s ease;
+}
+
+/* 章节分组 */
+.mm-group { margin-bottom: 16px; }
+.mm-group-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 2px 2px 7px;
+    border-bottom: 1px dashed var(--border, #e2e2e8);
+    margin-bottom: 9px;
+}
+.mm-group-name { font-size: 14px; font-weight: 800; }
+.mm-group-meta { font-size: 12px; color: var(--text-faint, #9a9aa5); }
+
+/* 色块网格：自适应列数 */
+.mm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+    gap: 8px;
+}
+
+.mm-cell {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    text-align: left;
+    border: 1px solid var(--border, #e2e2e8);
+    background: var(--bg, #fff);
+    color: var(--text, #2b2b33);
+    border-radius: 9px;
+    padding: 8px 9px 7px;
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.35;
+}
+.mm-cell:hover { border-color: var(--accent, #4a90d9); }
+
+/* 掌握率底色（从左向右填充） */
+.mm-cell-fill {
+    position: absolute;
+    left: 0; bottom: 0; top: 0;
+    z-index: 0;
+    opacity: .17;
+    pointer-events: none;
+}
+.mm-cell.mm-bad .mm-cell-fill { background: #e03131; }
+.mm-cell.mm-warn .mm-cell-fill { background: #f59f00; }
+.mm-cell.mm-ok .mm-cell-fill { background: #37b24d; }
+
+.mm-cell-name,
+.mm-cell-rate,
+.mm-cell-stat { position: relative; z-index: 1; display: block; }
+.mm-cell-name {
+    font-size: 12.8px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.mm-cell-rate { font-size: 15px; font-weight: 800; margin-top: 2px; }
+.mm-cell.mm-bad .mm-cell-rate { color: #e03131; }
+.mm-cell.mm-warn .mm-cell-rate { color: #b8860b; }
+.mm-cell.mm-ok .mm-cell-rate { color: #2f9e44; }
+.mm-cell-stat { font-size: 11.5px; color: var(--text-dim, #6b6b76); margin-top: 1px; }
+.mm-cell-stat em { font-style: normal; color: var(--text-faint, #9a9aa5); }
+
+/* 图例 */
+.mm-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--text-dim, #6b6b76);
+    white-space: nowrap;
+}
+.mm-dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.mm-dot.mm-bad { background: #e03131; }
+.mm-dot.mm-warn { background: #f59f00; }
+.mm-dot.mm-ok { background: #37b24d; }
+.mm-note { flex: 1; min-width: 200px; font-size: 11.5px; line-height: 1.6; color: var(--text-faint, #9a9aa5); }
+
+@media (max-width: 640px) {
+    .mm-grid { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
+}

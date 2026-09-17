@@ -15,7 +15,7 @@
 .an-panel {
     width: 100%;
     max-width: 860px;
-    background: var(--bg-card, #fff);
+    background: var(--bg, #fff);
     color: var(--text, #1f2430);
     border: 1px solid var(--border, #d5dbe3);
     border-radius: 14px;
@@ -69,7 +69,7 @@
     border-left-width: 4px;
     border-radius: 10px;
     margin-bottom: 10px;
-    background: var(--bg-card, #fff);
+    background: var(--bg, #fff);
 }
 .an-row.an-high { border-left-color: #e03131; }
 .an-row.an-mid { border-left-color: #f59f00; }
