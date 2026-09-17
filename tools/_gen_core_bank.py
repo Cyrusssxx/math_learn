@@ -17,13 +17,17 @@ bank = json.load(io.open(BANK, encoding='utf-8'))
 
 # 用高置信交叉核对结果回填「视觉转写题」的参考答案（score >= 0.92 才回填，宁缺勿错）
 rep_ans = {}
+rep_idea = {}
 try:
     rep = json.load(io.open(ROOT + '_match_report.json', encoding='utf-8'))
     for r in rep:
         b = r.get('best')
-        if b and b.get('score', 0) >= 0.92 and (b.get('answer') or '').strip():
-            rep_ans[r['id']] = b['answer'].strip()
-    print('高置信回填候选 %d 题' % len(rep_ans))
+        if b and b.get('score', 0) >= 0.92:
+            if (b.get('answer') or '').strip():
+                rep_ans[r['id']] = b['answer'].strip()
+            if (b.get('explanation') or '').strip():
+                rep_idea[r['id']] = b['explanation'].strip()
+    print('高置信回填候选：答案 %d 题 / 解析 %d 题' % (len(rep_ans), len(rep_idea)))
 except Exception as e:
     print('!! 读取匹配报告失败:', e)
 
@@ -62,7 +66,7 @@ for q in qs:
         'stem': clean_stem(q, q.get('stem')),
         'options': options,
         'answer': ((q.get('ref_answer') or '').strip() or rep_ans.get(q['id'], '')),
-        'idea': '',
+        'idea': (q.get('ref_idea') or '').strip() or rep_idea.get(q['id'], ''),
         'categoryIds': [int(cid)],
         'catId': int(cid),
         'source': q.get('source') or '',
@@ -92,7 +96,8 @@ paper = [{
 }]
 
 with io.open(OUT, 'w', encoding='utf-8', newline='') as f:
-    json.dump(paper, f, ensure_ascii=False, indent=1)
+    # 与 exam.json / practice.json 保持一致的紧凑单行格式（PWA 预缓存，体积优先）
+    json.dump(paper, f, ensure_ascii=False, separators=(',', ':'))
 
 print('已写 %s（%.0f KB）' % (OUT, len(json.dumps(paper, ensure_ascii=False)) / 1024))
 print()
@@ -103,6 +108,7 @@ for s in sections:
 print()
 print('选项缺失的选择题:', sum(1 for q in qs if q.get('type') == 'choice'
                               and not (q.get('options') or {})))
-print('无参考答案的题:', sum(1 for q in qs if not (q.get('ref_answer') or '').strip()))
-print('含“见原书”图形提示的题:', sum(1 for s in sections for q in s['questions']
-                                      if '见原书' in q['stem']))
+allq = [q for s in sections for q in s['questions']]
+print('带答案的题:', sum(1 for q in allq if q['answer'].strip()))
+print('带解析的题:', sum(1 for q in allq if q['idea'].strip()))
+print('含“见原书”图形提示的题:', sum(1 for q in allq if '见原书' in q['stem']))
