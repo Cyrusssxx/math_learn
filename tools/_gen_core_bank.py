@@ -4,7 +4,7 @@
 每个 question:
   no, kind, type, stem, options[], answer, categoryIds[catId], source(题源), srcPage, srcOrder
 """
-import json, io, re
+import json, io, re, sys
 from collections import defaultdict
 
 ROOT = 'D:/ai code/math-note/tools/'
@@ -30,6 +30,44 @@ try:
     print('高置信回填候选：答案 %d 题 / 解析 %d 题' % (len(rep_ans), len(rep_idea)))
 except Exception as e:
     print('!! 读取匹配报告失败:', e)
+
+# ---- linkedQid：核心题 ↔ 真题（exam.json）统一主键，用于收藏/标记跨模块同步 ----
+# 对每个核心题只在 exam.json（数二 2000-2026）里找最佳匹配，score>=0.9 → linkedQid='<paperId>-<no>'
+import difflib
+sys.path.insert(0, ROOT)
+from _match_ref import norm, grams                            # noqa: E402
+
+_exam_papers = json.load(io.open(BASE + 'exam.json', encoding='utf-8'))
+_exam_items = []
+for vol in _exam_papers:
+    pid = vol.get('id', '')
+    for sec in vol.get('sections', []):
+        for q in sec.get('questions', []):
+            n = norm(q.get('stem') or '')
+            if n:
+                _exam_items.append({'pid': pid, 'no': q.get('no'), 'norm': n, 'grams': grams(n)})
+print('exam.json 索引 %d 条（数二 2000-2026）' % len(_exam_items))
+
+
+def linked_qid(bid):
+    """匹配到 exam 真题（score>=0.9）→ '<paperId>-<no>'；否则 None"""
+    bank_q = next((x for x in bank['questions'] if x['id'] == bid), None)
+    if not bank_q:
+        return None
+    nq = norm(bank_q.get('stem') or '')
+    if not nq:
+        return None
+    gq = grams(nq)
+    best, hit = 0.0, None
+    for it in _exam_items:
+        if len(gq & it['grams']) < max(3, len(gq) * 0.3):
+            continue
+        s = difflib.SequenceMatcher(None, nq, it['norm'], autojunk=False).ratio()
+        if s > best:
+            best, hit = s, it
+    if hit and best >= 0.9:
+        return '%s-%s' % (hit['pid'], hit['no'])
+    return None
 
 qs = [q for q in bank['questions'] if q.get('catId')]
 print('待导出 %d 题（题库 %d）' % (len(qs), len(bank['questions'])))
@@ -69,6 +107,7 @@ for q in qs:
         'idea': (q.get('ref_idea') or '').strip() or rep_idea.get(q['id'], ''),
         'categoryIds': [int(cid)],
         'catId': int(cid),
+        'linkedQid': linked_qid(q['id']),   # 收藏/标记统一主键（匹配到数二真题时）
         'source': q.get('source') or '',
         'srcPage': q['page'],
         'srcOrder': q['order'],

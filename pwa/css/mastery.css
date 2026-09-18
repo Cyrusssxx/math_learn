@@ -101,3 +101,10 @@
 @media (max-width: 640px) {
     .mm-grid { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
 }
+
+/* 掌握地图 v2：薄弱优先视图 */
+.mm-headbtns { display: inline-flex; gap: 8px; align-items: center; flex: none; }
+.mm-dot.mm-todo { background: #9aa0a8; }
+.mm-cell.mm-todo .mm-cell-fill { background: #9aa0a8; }
+.mm-cell.mm-todo .mm-cell-rate { color: #767c85; }
+.mm-legend .mm-dot { margin-right: 0; }

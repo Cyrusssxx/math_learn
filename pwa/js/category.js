@@ -7,7 +7,13 @@ const FAV_ONLY_KEY = 'examFavOnly';   // 是否只看收藏（常量保留，界
 const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'unfamiliar' | 'unknown' }：不熟/不会掌握度标记（互斥）
 
 // ============ 收藏存储 ============
-function qidOf(paperId, no) { return paperId + '-' + no; }
+// 收藏/标记统一主键：核心题库的题若映射到数二真题（linkedQid），直接沿用真题的 qid，
+// 从而与「真题页 / 真题分类」的收藏、不熟、不会标记双向同步。
+let coreLink = {};   // core 题 no -> linkedQid（init 时从 corePapers 构建）
+function qidOf(paperId, no) {
+    if (paperId === 'core') return coreLink[no] || ('core-' + no);
+    return paperId + '-' + no;
+}
 function favGet() {
     try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; } catch (e) { return {}; }
 }
@@ -990,7 +996,7 @@ function applySrcMode(persist) {
     if (btn) {
         btn.textContent = meta.label;
         btn.title = (srcMode === 'core')
-            ? '当前：核心题库（大观严选题 606 题）。点击切回数二真题'
+            ? '当前：核心题库。点击切回数二真题'
             : '当前：数二真题（2000-2026）。点击切换到核心题库';
     }
     const t = document.querySelector('.exam-title');
@@ -1423,7 +1429,15 @@ async function init() {
     cats = await cr.json();
     // 核心题库（大观严选题 606 题，categoryIds 已映射到同一分类体系）
     if (corer && corer.ok) {
-        try { corePapers = await corer.json(); } catch (e) { console.error('核心题库解析失败', e); }
+        try {
+            corePapers = await corer.json();
+            coreLink = {};
+            for (const s of (corePapers[0] && corePapers[0].sections) || []) {
+                for (const q of s.questions || []) {
+                    if (q.linkedQid) coreLink[q.no] = q.linkedQid;   // 统一主键：真题 qid
+                }
+            }
+        } catch (e) { console.error('核心题库解析失败', e); }
     } else {
         console.warn('核心题库 core_bank.json 未加载，仅提供真题源');
     }
