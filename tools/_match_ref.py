@@ -307,8 +307,8 @@ def main():
             diffs = diff_ops(nq, r0['norm'])
             ost, odet = opt_compare(q.get('options'), r0['options'])
             best = {'score': round(s0, 4), 'ref': r0['ref'], 'rid': r0['rid'], 'src': r0['src'],
-                    'stem': r0['stem'], 'answer': r0['answer'][:400],
-                    'explanation': r0['explanation'][:400],
+                    'stem': r0['stem'], 'answer': r0['answer'],
+                    'explanation': r0['explanation'],
                     'diffs': diffs[:14], 'opt_status': ost, 'opt_diffs': odet,
                     'other': [{'score': round(s, 4), 'src': refs[i]['src'], 'rid': refs[i]['rid'],
                                'stem': refs[i]['stem'][:100]} for s, i in top[1:]]}
