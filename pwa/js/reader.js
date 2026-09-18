@@ -20,7 +20,8 @@ let firstRoute = true;             // 首次路由标记（刷新恢复只做一
 async function init() {
     const resp = await fetch('data/notes.json');
     if (!resp.ok) throw new Error('加载笔记数据失败: ' + resp.status);
-    notes = await resp.json();
+    // 隐藏「考前21记」系列（id 以 21记 开头）：数据保留，仅主站不展示、不参与搜索
+    notes = (await resp.json()).filter(n => !/^21记/.test(String(n.id || '')));
     buildSearchIndex();
     initSearchSubj();
     renderTree();

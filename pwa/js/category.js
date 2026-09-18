@@ -1199,6 +1199,15 @@ function toggleChapter(id) {
 
 function selectCat(id) {
     curCat = id;
+    // 点知识点（分类树 / 掌握地图跳转）时清掉搜索词：否则 renderMain 被搜索视图挡住，
+    // 出现「搜索态下点分类树/掌握地图色块无响应」。
+    if (catSearchKw) {
+        catSearchKw = '';
+        const inp = document.getElementById('catSearch');
+        if (inp) inp.value = '';
+        const clr = document.getElementById('catSearchClear');
+        if (clr) clr.style.display = 'none';
+    }
     saveCatState();
     renderTree();
     renderMain();
