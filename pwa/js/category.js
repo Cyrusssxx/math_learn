@@ -14,6 +14,30 @@ function qidOf(paperId, no) {
     if (paperId === 'core') return coreLink[no] || ('core-' + no);
     return paperId + '-' + no;
 }
+
+// 旧版核心题库曾用 'core-<no>' 作为收藏/标记/笔记主键；主键统一为真题 qid 后需一次性迁移：
+// 目标键为空才搬（不覆盖真题侧已有数据），搬完删旧键，保证用户旧标记/旧笔记不"消失"。
+function migrateCoreLegacyKeys() {
+    try {
+        const entries = Object.entries(coreLink);
+        if (!entries.length) return;
+        const fav = favGet(), st = statusGet();
+        let fC = false, sC = false;
+        for (const [no, lq] of entries) {
+            const oldKey = 'core-' + no;
+            if (fav[oldKey]) { if (!fav[lq]) fav[lq] = fav[oldKey]; delete fav[oldKey]; fC = true; }
+            if (st[oldKey]) { if (!st[lq]) st[lq] = st[oldKey]; delete st[oldKey]; sC = true; }
+            const nk = 'examNote-' + lq, ok = 'examNote-' + oldKey;
+            const v = localStorage.getItem(ok);
+            if (v !== null && v !== '') {
+                if (!localStorage.getItem(nk)) localStorage.setItem(nk, v);
+                localStorage.removeItem(ok);
+            }
+        }
+        if (fC) favSave(fav);
+        if (sC) statusSave(st);
+    } catch (e) { console.error('核心题库旧主键迁移失败', e); }
+}
 function favGet() {
     try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; } catch (e) { return {}; }
 }
@@ -1437,6 +1461,7 @@ async function init() {
                     if (q.linkedQid) coreLink[q.no] = q.linkedQid;   // 统一主键：真题 qid
                 }
             }
+            migrateCoreLegacyKeys();   // 旧 'core-N' 收藏/标记/笔记 → 真题 qid（一次性）
         } catch (e) { console.error('核心题库解析失败', e); }
     } else {
         console.warn('核心题库 core_bank.json 未加载，仅提供真题源');

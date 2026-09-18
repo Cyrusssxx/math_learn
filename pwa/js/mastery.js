@@ -30,6 +30,7 @@ function mmCollect() {
     const fav = (typeof favGet === 'function') ? (favGet() || {}) : {};
     const map = {};
     for (const e of allEntries) {
+        if (e.paper.id === 'bank') continue;   // 口径 = 当前数据源（真题 exam.json / 核心题库），不含大观园补充题
         const cid = String(e.catId);
         const c = cats[cid];
         if (!c || c.level !== 2) continue;                       // 只统计 L2 知识点
