@@ -45,12 +45,13 @@ for vol in _exam_papers:
         for q in sec.get('questions', []):
             n = norm(q.get('stem') or '')
             if n:
-                _exam_items.append({'pid': pid, 'no': q.get('no'), 'norm': n, 'grams': grams(n)})
+                _exam_items.append({'pid': pid, 'no': q.get('no'), 'norm': n, 'grams': grams(n),
+                                    'answer': q.get('answer') or '', 'idea': q.get('idea') or ''})
 print('exam.json 索引 %d 条（数二 2000-2026）' % len(_exam_items))
 
 
 def linked_qid(bid):
-    """匹配到 exam 真题（score>=0.9）→ '<paperId>-<no>'；否则 None"""
+    """匹配到 exam 真题（score>=0.9）→ (linkedQid, 真题answer, 真题idea)；否则 None"""
     bank_q = next((x for x in bank['questions'] if x['id'] == bid), None)
     if not bank_q:
         return None
@@ -66,7 +67,7 @@ def linked_qid(bid):
         if s > best:
             best, hit = s, it
     if hit and best >= 0.9:
-        return '%s-%s' % (hit['pid'], hit['no'])
+        return ('%s-%s' % (hit['pid'], hit['no']), hit['answer'], hit['idea'])
     return None
 
 qs = [q for q in bank['questions'] if q.get('catId')]
@@ -97,17 +98,32 @@ for q in qs:
     options = []
     if isinstance(q.get('options'), dict):
         options = [q['options'][k] for k in 'ABCD' if q['options'].get(k)]
+    lk = linked_qid(q['id'])                 # (linkedQid, 真题answer, 真题idea) 或 None
+    if lk:
+        linked, e_ans, e_idea = lk
+    else:
+        linked, e_ans, e_idea = None, '', ''
+    ra = (q.get('ref_answer') or '').strip() or rep_ans.get(q['id'], '')
+    ri = (q.get('ref_idea') or '').strip() or rep_idea.get(q['id'], '')
+    if linked and e_ans:
+        # 数二真题源：答案/思路直接对齐 exam.json（与真题页完全一致）
+        answer = e_ans
+        idea = e_idea or ri
+    else:
+        # 非真题源：组装「【答案】X + 解析」
+        answer = ('【答案】%s\n\n%s' % (ra, ri)).strip() if ra else ri
+        idea = ri
     out = {
         'no': seq,
         'kind': KIND.get(q.get('type') or 'fill', 'blank'),
         'type': KIND.get(q.get('type') or 'fill', 'blank'),
         'stem': clean_stem(q, q.get('stem')),
         'options': options,
-        'answer': ((q.get('ref_answer') or '').strip() or rep_ans.get(q['id'], '')),
-        'idea': (q.get('ref_idea') or '').strip() or rep_idea.get(q['id'], ''),
+        'answer': answer,
+        'idea': idea,
         'categoryIds': [int(cid)],
         'catId': int(cid),
-        'linkedQid': linked_qid(q['id']),   # 收藏/标记统一主键（匹配到数二真题时）
+        'linkedQid': linked,   # 收藏/标记统一主键（匹配到数二真题时）
         'source': q.get('source') or '',
         'srcPage': q['page'],
         'srcOrder': q['order'],
