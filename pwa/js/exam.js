@@ -1300,10 +1300,13 @@ function renderNav() {
     });
     const favOnlyOn = favOnly;
     el.textContent = curPaper.year + '年';
-    if (list) list.innerHTML = all.map(({ no, tag }) =>
-        `<button class="nav-q${favOnlyOn && !isFav(qidOf(curPaper.id, no)) ? ' hidden' : ''}"
-            data-navq="${no}" title="${tag}${no} 题" onclick="jumpToQ(${no})">${no}</button>`
-    ).join('');
+    if (list) list.innerHTML = all.map(({ no, tag }) => {
+        // 题号球上标出 🟡不熟 / 🔴不会（与题卡标记一致）
+        const st = statusOf(qidOf(curPaper.id, no));
+        const markCls = st ? (st === 'unknown' ? ' mark-unk' : ' mark-unf') : '';
+        return `<button class="nav-q${markCls}${favOnlyOn && !isFav(qidOf(curPaper.id, no)) ? ' hidden' : ''}"
+            data-navq="${no}" title="${tag}${no} 题${st ? (st === 'unknown' ? '·🔴不会' : '·🟡不熟') : ''}" onclick="jumpToQ(${no})">${no}</button>`;
+    }).join('');
     highlightNav();
 }
 

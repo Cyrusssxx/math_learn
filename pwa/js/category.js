@@ -1567,13 +1567,23 @@ function renderNav() {
     const el = document.getElementById('floatQNo');
     if (!el) return;
     const list = document.getElementById('floatQList');
-    const nos = catNavQNos();
+    const ents = catSearchKw ? activeEntries().filter(catSearchMatch) : (curCat != null ? activeEntries().filter(e => String(e.catId) === String(curCat)) : []);
+    const nos = ents.map(e => e.q.no);
     const uniq = [...new Set(nos)].sort((a, b) => a - b);
     if (!uniq.length) { el.textContent = '—'; if (list) list.innerHTML = ''; return; }
+    // 题号 → 掌握状态（不熟/不会），同一 no 多分类重复取任一 entry 状态即可（同题同状态）
+    const stMap = {};
+    for (const e of ents) {
+        if (stMap[e.q.no]) continue;
+        const st = statusOf(qidOf(e.paper.id, e.q.no));
+        if (st) stMap[e.q.no] = st;
+    }
     el.textContent = uniq.length + '题';
-    list.innerHTML = uniq.map(no =>
-        `<button class="nav-q" data-navq="${no}" title="${no} 题" onclick="jumpToQ(${no})">${no}</button>`
-    ).join('');
+    list.innerHTML = uniq.map(no => {
+        const st = stMap[no];
+        const markCls = st ? (st === 'unknown' ? ' mark-unk' : ' mark-unf') : '';
+        return `<button class="nav-q${markCls}" data-navq="${no}" title="${no} 题${st ? (st === 'unknown' ? '·🔴不会' : '·🟡不熟') : ''}" onclick="jumpToQ(${no})">${no}</button>`;
+    }).join('');
     highlightNav();
 }
 function jumpToQ(no) {

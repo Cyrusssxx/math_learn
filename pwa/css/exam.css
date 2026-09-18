@@ -616,6 +616,15 @@ html.dark .exam-btn.on { color: #e5c860; }
     box-shadow: 0 2px 6px rgba(74,144,217,.35);
 }
 .nav-q.hidden { display: none; }
+/* 题号悬浮球：不熟/不会标记（🟡不熟 / 🔴不会，与题卡标记同色系） */
+.nav-q.mark-unf { background: rgba(245, 159, 0, .22); color: #b8860b; font-weight: 700; }
+.nav-q.mark-unk { background: rgba(224, 49, 49, .22); color: #e03131; font-weight: 700; }
+.nav-q.mark-unf.on, .nav-q.mark-unk.on {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 0 2px var(--border), 0 2px 6px rgba(74, 144, 217, .35);
+}
 /* 收起态（JS 控制的 collapsed 类保留兼容） */
 .float-q.collapsed .float-q-list { display: none !important; }
 .float-q.collapsed .float-q-arrow { transform: rotate(180deg); }
