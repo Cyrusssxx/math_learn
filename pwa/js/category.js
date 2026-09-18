@@ -1002,6 +1002,14 @@ function buildEntries() {
             }
         }
     }
+    // 核心题库题共享一个空 year 的 paper：补每题年份（从题源提取），
+    // 否则年份排序出现 NaN、跨年显示为「跨 1 年」、按年份搜索不命中、复制无年份前缀。
+    if (srcMode === 'core') {
+        for (const e of allEntries) {
+            const m = /((?:19|20)\d\d)/.exec(e.q.source || '');
+            if (m) e.paper = Object.assign({}, e.paper, { year: m[1] });
+        }
+    }
     // 合并大观园数二真题进同一棵分类树（仅真题模式；核心题库模式不混入）
     if (srcMode === 'exam') {
         for (const e of bankItems) {
@@ -1014,6 +1022,11 @@ function buildEntries() {
 
 // 切换数据源：真题 ⇄ 核心题库（同一棵分类树，选中知识点保持不变）
 function applySrcMode(persist) {
+    // 降级：核心题库数据未加载成功（fetch 失败等）时不进入 core 模式，避免空白页
+    if (srcMode === 'core' && (!corePapers || !corePapers.length)) {
+        srcMode = 'exam';
+        try { localStorage.setItem(SRC_MODE_KEY, 'exam'); } catch (e) { }
+    }
     papers = (srcMode === 'core') ? corePapers : examPapers;
     const meta = SRC_META[srcMode] || SRC_META.exam;
     const btn = document.getElementById('srcToggle');
