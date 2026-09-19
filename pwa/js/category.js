@@ -1509,7 +1509,8 @@ function renderSearchResults() {
 // 数据：cat_deep.json = { nodes: {id:{n,p}}, l2root: {本库L2id: 大观园节点id} }
 // 题的细分类标签：q.deepCats = [大观园节点 id, ...]
 let catDeep = null;          // { nodes, l2root }
-let deepChildren = {};       // 大观园 parentId -> [childId]
+let deepChildren = {};       // 大观园 parentId -> [childId]（原始树：题目过滤/计数用）
+let deepChildrenView = {};   // 压缩树（悬停浮层展示用）：跳过与父节点同名的冗余中间层
 let curDeepCat = null;       // 当前选中的细分类节点（非空时题目按该子树过滤）
 let _flySub = {};            // 当前浮层使用的「按知识点」细分类计数表（sub）
 
@@ -1526,7 +1527,32 @@ async function loadCatDeep() {
         for (const p in deepChildren) {
             deepChildren[p].sort((a, b) => (catDeep.nodes[a].n || '').localeCompare(catDeep.nodes[b].n || '', 'zh'));
         }
+        buildDeepChildrenView();
     } catch (e) { console.warn('细分类树加载失败，悬停浮层不可用', e); }
+}
+
+/** 构建「展示用」压缩树：某层子节点若与父节点**同名**（纯冗余的中间层，如 极限→极限），
+ *  则跳过它直接用它的子节点（递归）。注意：题目过滤/计数仍走原始 deepChildren，范围不受影响。 */
+function buildDeepChildrenView() {
+    deepChildrenView = {};
+    const same = (a, b) => {
+        const na = catDeep.nodes[a], nb = catDeep.nodes[b];
+        return !!(na && nb && na.n && na.n === nb.n);
+    };
+    const expand = (pid, cid, seen) => {
+        if (!seen.has(cid) && same(pid, cid) && (deepChildren[cid] || []).length) {
+            seen.add(cid);
+            const out = [];
+            for (const k of deepChildren[cid]) out.push(...expand(cid, k, seen));
+            return out;
+        }
+        return [cid];
+    };
+    for (const pid in deepChildren) {
+        const seen = new Set(), out = [];
+        for (const c of deepChildren[pid]) out.push(...expand(pid, c, seen));
+        deepChildrenView[pid] = out;
+    }
 }
 
 /** 按知识点统计细分类题数：direct（直接挂该节点）+ sub（含整棵子树）。
@@ -1629,14 +1655,14 @@ function showDeepBrowse(nodeId, level, anchorRect) {
     // 收起比本层更深的浮层
     for (let i = level; i < _flyLevels.length; i++) if (_flyLevels[i]) _flyLevels[i].hidden = true;
     _flyLevels.length = Math.min(_flyLevels.length, level);
-    const kids = (deepChildren[nodeId] || []).filter(c => (_flySub[c] || 0) > 0);
+    const kids = (deepChildrenView[nodeId] || []).filter(c => (_flySub[c] || 0) > 0);   // 展示用压缩树
     const el = _flyEnsure(level);
     const hd = catDeep && catDeep.nodes[nodeId] ? catDeep.nodes[nodeId].n : '';
     el.innerHTML = `<div class="deep-fly-hd" title="${esc(hd)}">${esc(hd)} · 下分支</div>` +
         (kids.length ? kids.map(c => {
             const nm = catDeep.nodes[c] ? catDeep.nodes[c].n : c;
             const cnt = _flySub[c] || 0;
-            const hasKids = (deepChildren[c] || []).some(k => (_flySub[k] || 0) > 0);
+            const hasKids = (deepChildrenView[c] || []).some(k => (_flySub[k] || 0) > 0);
             return `<div class="deep-item${hasKids ? ' has-kids' : ''}${String(curDeepCat) === String(c) ? ' on' : ''}"
                         data-deep="${c}" title="${esc(deepPath(c))}｜共 ${cnt} 题">
                         <span class="deep-item-name">${esc(nm)}</span>
@@ -1659,7 +1685,7 @@ function showDeepBrowse(nodeId, level, anchorRect) {
         item.addEventListener('mouseenter', () => {
             clearTimeout(_flyHideTimer);
             const cid = item.dataset.deep;
-            const hasKids = (deepChildren[cid] || []).some(k => (_flySub[k] || 0) > 0);
+            const hasKids = (deepChildrenView[cid] || []).some(k => (_flySub[k] || 0) > 0);
             if (hasKids) showDeepBrowse(cid, level + 1, item.getBoundingClientRect());
             else { for (let i = level + 1; i < _flyLevels.length; i++) if (_flyLevels[i]) _flyLevels[i].hidden = true; }
         });
