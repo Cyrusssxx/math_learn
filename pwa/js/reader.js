@@ -353,8 +353,6 @@ function toggleGroup(key) {
     renderTree();
 }
 
-// 常用置顶：常见公式速查 + 各科真题点睛（按此顺序显示在目录最前，跨学科）
-const PINNED_NOTES = ['高数0-中学公式速查', '高数20-真题点睛', '线代7-真题点睛'];
 
 function renderTree() {
     const el = document.getElementById('navTree');
@@ -374,16 +372,8 @@ function renderTree() {
             ).join('') +
             `</div></div>`;
     };
-    // ⭐ 常用：置顶到目录最前
-    const pinned = PINNED_NOTES.map(id => notes.find(n => n.id === id)).filter(Boolean);
-    if (pinned.length) {
-        const gOpen = openGroups['pinned'] !== false;
-        html += `<div class="tree-group ${gOpen ? 'open' : ''}" onclick="toggleGroup('pinned')">
-            <span class="tree-arrow">›</span>⭐ 常用</div>`;
-        if (gOpen) for (const n of pinned) html += fileHtml(n);
-    }
     for (const key of Object.keys(SUBJECT_NAMES)) {
-        const list = notes.filter(n => n.subject === key && !PINNED_NOTES.includes(n.id));
+        const list = notes.filter(n => n.subject === key);
         if (list.length === 0) continue;
         const gOpen = openGroups[key] !== false;
         html += `<div class="tree-group ${gOpen ? 'open' : ''}" onclick="toggleGroup('${key}')">
