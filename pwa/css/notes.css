@@ -725,7 +725,7 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
 .ann-preview:empty { display: none; }
 .ann-preview .ann-img { display: block; max-width: min(100%, 320px); margin: 6px 0; border: 1px solid var(--border); border-radius: 8px; }
 /* 批注内公式：display 模式独占一行居中；inline 自然嵌入 */
-.ann-fml-d { display: block; margin: 8px 0; text-align: center; overflow-x: auto; overflow-y: hidden; }
+.ann-fml-d { display: block; margin: 8px 0; text-align: center; overflow-x: auto; overflow-y: hidden; padding: 10px 0 8px; }
 
 /* 浮动工具条 */
 #annBar {
@@ -768,7 +768,7 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
 /* 分式分子分母放大 + 增加分数线两侧留白 */
 .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.28em; }
 .katex .mfrac .frac-line { border-top-width: 0.07em; margin: 0.12em 0; }
-.katex-display { margin: 28px 0; overflow-x: auto; overflow-y: hidden; }
+.katex-display { margin: 28px 0; overflow-x: auto; overflow-y: hidden; padding: 12px 0 10px; }
 /* 列表项内的内联公式：含 \dfrac 等高字形时防止与上下行重叠 */
 .note-article li .katex { display: inline-block; margin: 2px 0; }
 

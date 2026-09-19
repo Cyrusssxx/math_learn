@@ -530,9 +530,9 @@ html.dark .exam-btn.on { color: #e5c860; }
 .q-answer-body .katex-display {
     margin: 14px 0;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: hidden;      /* 横向滚动；垂直溢出靠 padding 兜住，勿设为 0（KaTeX vlist 会上溢） */
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
+    padding: 12px 6px 10px;
 }
 .q-body .katex-display > .katex,
 .q-answer-body .katex-display > .katex { font-size: 1.6em; min-width: max-content; }
