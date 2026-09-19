@@ -32,10 +32,12 @@ assert ok == tot, '有题缺 deepCats'
 print('格式检查：单行 =', io.open(BASE + 'exam.json', encoding='utf-8').read().count('\n') == 0)
 
 
-# ---- 生成后自动约束 deepCats 到「知识点对应子树」内（避免浮层看不到题；见 _constrain_deepcats.py）----
+# ---- 生成后自动后处理（顺序重要！）----
+# 1) 用大观园细分类标签反推并修正错配的知识点（catId）
+# 2) 再把 deepCats 约束到「知识点对应子树」内（保证浮层可见、计数自洽）
 try:
     import subprocess, sys as _sys
-    subprocess.run([_sys.executable, 'D:/ai code/math-note/tools/_constrain_deepcats.py'],
-                   check=False, capture_output=True)
+    for _sc in ('_apply_catid_fix.py', '_constrain_deepcats.py'):
+        subprocess.run([_sys.executable, 'D:/ai code/math-note/tools/' + _sc], check=False, capture_output=True)
 except Exception as _e:
-    print('!! deepCats 约束脚本调用失败：%s' % _e)
+    print('!! 后处理脚本调用失败：%s' % _e)
