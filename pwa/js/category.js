@@ -587,6 +587,23 @@ function syncNoteToolbar(sec) {
 }
 // 顶部「💾 保存」按钮（.q-ops 行，位于 笔记 右侧）：定位本题卡的笔记区并保存。
 // 仅在编辑态（编辑器可见）生效；只读展示态直接提示先编辑，避免误把空编辑器内容覆盖已存笔记。
+async function saveNoteFromOps(btn) {
+    const card = btn.closest('.q-card');
+    if (!card) return;
+    const sec = card.querySelector('.q-note');
+    if (!sec) return;
+    const ta = sec.querySelector('.q-note-input');
+    if (!ta) return;
+    if (sec.hidden) { const nb = card.querySelector('button[data-act="note"]'); if (nb) nb.click(); }
+    if (ta.style.display === 'none') { noteHint(ta, '请先点 ✏️编辑 再保存', false); return; }
+    const eb = sec.querySelector('.q-note-editbtn');
+    if (eb) await toggleNoteEdit(eb);   // 编辑态：同一按钮的「💾 保存」动作，保存并收起
+    else {
+        if (Object.keys(_pendingImgTasks).length) noteHint(ta, '图片保存中…', true);
+        await waitPendingImgs();
+        try { localStorage.setItem('examNote-' + ta.dataset.qid, noteVal(ta)); } catch (e) { }
+    }
+}
 
 async function toggleNoteEdit(btn) {
     const sec = btn.closest('.q-note');
@@ -1231,6 +1248,21 @@ function catCard(paper, secTitle, q) {
         : '';
     const ideaHtml = q.idea ? `<div class="q-sec q-idea" data-copy-md="${copyMdAttr(q.idea)}" hidden>${mdBlock(q.idea)}</div>` : '';
     const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';
+    // 📌 点睛：本题专属 公式/易错/技巧/注意（数据来自 exam.json 的 q.tips，与真题页同款）
+    const TIP_META = [
+        ['gs', '📌 公式', 'tip-gs'],
+        ['yc', '⚠️ 易错', 'tip-yc'],
+        ['jq', '💡 技巧', 'tip-jq'],
+        ['zy', '🔍 注意', 'tip-zy'],
+    ];
+    let tipsHtml = '', tipsBtn = '';
+    if (q.tips && TIP_META.some(([k]) => q.tips[k])) {
+        const secs = TIP_META.filter(([k]) => q.tips[k])
+            .map(([k, label, cls]) => `<div class="q-tip-sec ${cls}" data-copy-md="${copyMdAttr(q.tips[k])}" data-copy-key="${k}"><div class="q-tip-label">${label}</div><div class="q-tip-body">${mdBlock(q.tips[k])}</div></div>`)
+            .join('');
+        tipsHtml = `<div class="q-sec q-tips" hidden>${secs}</div>`;
+        tipsBtn = `<button class="q-op q-tips-btn" data-act="tips" onclick="toggleQSec(this,'tips')" title="本题专属公式/易错点/技巧/注意">📌 点睛</button>`;
+    }
     const note = noteGet(qid);
     const hasNote = !!note.trim();
     const hasImg = /\[图:[a-z0-9]+\]/.test(note);
@@ -1290,12 +1322,15 @@ function catCard(paper, secTitle, q) {
         <div class="q-body">${stem}${figHtml}${options}</div>
         <div class="q-ops">
             <button class="q-op" data-act="answer" onclick="toggleQSec(this,'answer')">查看答案</button>
+            ${ideaBtn}
+            ${tipsBtn}
+            <button class="q-op${hasNote ? ' has' : ''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
+            <button class="q-op q-save-op" onclick="saveNoteFromOps(this)" title="保存当前笔记（编辑态可用）">💾 保存</button>
             <button class="q-st-btn q-st-unfam${st === 'unfamiliar' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unfamiliar')" title="标记为「不熟」（黄色；再点取消）">不熟</button>
             <button class="q-st-btn q-st-unk${st === 'unknown' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unknown')" title="标记为「不会」（红色；再点取消）">不会</button>
             <button class="q-copy-latex" onclick="copyCatQLatex(this)" title="复制本题 LaTeX 源码（题干+选项+答案，含 $...$ 原始命令）">📋 复制</button>
-            ${ideaBtn}${noteBtn}
         </div>
-        ${ideaHtml}${noteHtml}
+        ${ideaHtml}${tipsHtml}${noteHtml}
         <div class="q-sec q-answer" hidden><div class="q-answer-body">${mdBlock(q.answer || '')}</div></div>
     </div>`;
 }

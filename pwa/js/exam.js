@@ -1047,7 +1047,7 @@ function qCard(p, sec, q, secIdx) {
     const stem = mdBlock(q.stem);
     const figHtml = q.img ? `<img class="q-fig-img" src="${q.img}" alt="题${q.no}配图" loading="lazy" onclick="zoomAnsImg(this)">${(q.img2?`<img class="q-fig-img" src="${q.img2}" alt="题${q.no}配图2" loading="lazy" onclick="zoomAnsImg(this)">`:'')}` : '';
     const options = q.options && q.options.length
-        ? `<div class="q-options">${q.options.map(o => `<div class="q-opt">${mdInline(o)}</div>`).join('')}</div>`
+        ? `<div class="q-options">${q.options.map((o, i) => `<div class="q-opt">${!q.options.some(x => /^\([A-D]\)/.test(x)) ? `<span class="opt-label">${'ABCD'[i]}</span>` : ''}${mdInline(o)}</div>`).join('')}</div>`
         : '';
     const note = noteGet(qid);
     const hasNote = !!note.trim();
@@ -1109,6 +1109,9 @@ function qCard(p, sec, q, secIdx) {
         <div class="q-head">
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindTag}</span>
+            ${fav ? `<span class="q-mark-chip m-fav" title="已收藏">📥</span>` : ''}
+            ${statusOf(qid) === 'unfamiliar' ? '<span class="q-mark-chip m-unfam" title="不熟">🟡 不熟</span>' : ''}
+            ${statusOf(qid) === 'unknown' ? '<span class="q-mark-chip m-unk" title="不会">🔴 不会</span>' : ''}
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
             <button class="q-copy-latex" onclick="copyQLatex(this)" title="复制本题 LaTeX 源码（题干+选项，含 $...$ 原始命令）">📋 LaTeX</button>
@@ -1164,8 +1167,10 @@ function copyQLatex(btn) {
         if (hit) { q = hit; break; }
     }
     if (!q) return;
-    let text = q.stem || '';
+    // 与分类页 copyCatQLatex 保持同一格式：年份+题号 / 题干 / 选项 / 【答案】
+    let text = (curPaper.year ? curPaper.year + '年 题' + q.no + '\n' : '') + (q.stem || '');
     if (q.options && q.options.length) text += '\n' + q.options.join('\n');
+    if (q.answer) text += '\n【答案】' + q.answer;
     copyTextToClipboard(text, btn, '已复制 ✓');
 }
 // 掌握度标记「不熟/不会」互斥切换（与收藏独立；同值再点取消）
