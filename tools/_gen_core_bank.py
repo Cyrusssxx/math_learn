@@ -73,6 +73,14 @@ def linked_qid(bid):
 qs = [q for q in bank['questions'] if q.get('catId')]
 print('待导出 %d 题（题库 %d）' % (len(qs), len(bank['questions'])))
 
+# 细分类标签（大观园 826 节点体系）：题 → [大观园节点 id]，供分类页悬停浮层按细分支筛选
+try:
+    DEEP = json.load(io.open(ROOT + '_deepcats_core.json', encoding='utf-8'))
+    print('细分类标签载入 %d 题' % len(DEEP))
+except Exception as e:
+    DEEP = {}
+    print('!! 细分类标签缺失（%s），deepCats 留空' % e)
+
 KIND = {'choice': 'choice', 'fill': 'blank', 'calc': 'calc', 'proof': 'proof'}
 
 
@@ -124,6 +132,7 @@ for q in qs:
         'categoryIds': [int(cid)],
         'catId': int(cid),
         'linkedQid': linked,   # 收藏/标记统一主键（匹配到数二真题时）
+        'deepCats': DEEP.get(q['id'], []),   # 细分类标签（大观园节点 id，悬停浮层用）
         'source': q.get('source') or '',
         'srcPage': q['page'],
         'srcOrder': q['order'],
@@ -167,3 +176,12 @@ allq = [q for s in sections for q in s['questions']]
 print('带答案的题:', sum(1 for q in allq if q['answer'].strip()))
 print('带解析的题:', sum(1 for q in allq if q['idea'].strip()))
 print('含“见原书”图形提示的题:', sum(1 for q in allq if '见原书' in q['stem']))
+
+
+# ---- 生成后自动约束 deepCats 到「知识点对应子树」内（避免浮层看不到题；见 _constrain_deepcats.py）----
+try:
+    import subprocess, sys as _sys
+    subprocess.run([_sys.executable, 'D:/ai code/math-note/tools/_constrain_deepcats.py'],
+                   check=False, capture_output=True)
+except Exception as _e:
+    print('!! deepCats 约束脚本调用失败：%s' % _e)

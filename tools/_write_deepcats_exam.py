@@ -30,3 +30,12 @@ ok = sum(1 for v in ex2 for s in v.get('sections', []) for q in s.get('questions
 print('exam.json 写入 deepCats: %d 题（共 %d 题）' % (ok, tot))
 assert ok == tot, '有题缺 deepCats'
 print('格式检查：单行 =', io.open(BASE + 'exam.json', encoding='utf-8').read().count('\n') == 0)
+
+
+# ---- 生成后自动约束 deepCats 到「知识点对应子树」内（避免浮层看不到题；见 _constrain_deepcats.py）----
+try:
+    import subprocess, sys as _sys
+    subprocess.run([_sys.executable, 'D:/ai code/math-note/tools/_constrain_deepcats.py'],
+                   check=False, capture_output=True)
+except Exception as _e:
+    print('!! deepCats 约束脚本调用失败：%s' % _e)

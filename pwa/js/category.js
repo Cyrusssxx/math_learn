@@ -1218,6 +1218,7 @@ function toggleChapter(id) {
 function selectCat(id) {
     curCat = id;
     curDeepCat = null;   // 切知识点时退出细分类筛选
+    curDeepSelf = false;
     hideDeepFlyNow();
     // 点知识点（分类树 / 掌握地图跳转）时清掉搜索词：否则 renderMain 被搜索视图挡住，
     // 出现「搜索态下点分类树/掌握地图色块无响应」。
@@ -1404,7 +1405,7 @@ function renderMain() {
         return;
     }
     // 细分类筛选：curDeepCat 非空时只取「落在该细分支子树内」的题（按 deepCats 交集判定）
-    const deepSet = curDeepCat ? deepSubtreeSet(curDeepCat) : null;
+    const deepSet = curDeepCat ? (curDeepSelf ? new Set([String(curDeepCat)]) : deepSubtreeSet(curDeepCat)) : null;
     const entries = activeEntries().filter(e =>
         String(e.catId) === String(curCat) &&
         (!deepSet || (e.q.deepCats || []).some(id => deepSet.has(String(id)))));
@@ -1513,6 +1514,8 @@ let deepChildren = {};       // 大观园 parentId -> [childId]（原始树：�
 let deepChildrenView = {};   // 压缩树（悬停浮层展示用）：跳过与父节点同名的冗余中间层
 let curDeepCat = null;       // 当前选中的细分类节点（非空时题目按该子树过滤）
 let _flySub = {};            // 当前浮层使用的「按知识点」细分类计数表（sub）
+let _flyDirect = {};         // 同上（direct：直接挂在该节点上的题数）
+let curDeepSelf = false;     // true = 只筛「本级」题（不含子树）
 
 async function loadCatDeep() {
     try {
@@ -1619,7 +1622,7 @@ function deepRootOfCat(catId) {
 /** 细分类筛选态提示条（页头）：题数用列表实际条数，避免与浮层计数口径不一致 */
 function deepFilterTip(n) {
     if (!curDeepCat) return '';
-    return `<div class="deep-filter-tip">🔎 细分类：<b>${esc(deepPath(curDeepCat))}</b>（${n != null ? n : 0} 题）
+    return `<div class="deep-filter-tip">🔎 细分类：<b>${esc(deepPath(curDeepCat))}</b>${curDeepSelf ? '（本级·未细分）' : ''}（${n != null ? n : 0} 题）
         <button class="deep-clear" onclick="clearDeepCat()" title="退出细分类，回到该知识点全部题">✕ 清除细分类</button></div>`;
 }
 
@@ -1658,7 +1661,13 @@ function showDeepBrowse(nodeId, level, anchorRect) {
     const kids = (deepChildrenView[nodeId] || []).filter(c => (_flySub[c] || 0) > 0);   // 展示用压缩树
     const el = _flyEnsure(level);
     const hd = catDeep && catDeep.nodes[nodeId] ? catDeep.nodes[nodeId].n : '';
-    el.innerHTML = `<div class="deep-fly-hd" title="${esc(hd)}">${esc(hd)} · 下分支</div>` +
+    const selfCnt = _flyDirect[nodeId] || 0;
+    const selfItem = selfCnt ? `<div class="deep-item deep-self${curDeepSelf && String(curDeepCat) === String(nodeId) ? ' on' : ''}"
+                        data-deep-self="${nodeId}" title="只显示直接挂在本级的题目（未细分到下列分支）">
+                        <span class="deep-item-name">▸ 本级（未细分）</span>
+                        <span class="deep-item-cnt">${selfCnt}</span>
+                    </div>` : '';
+    el.innerHTML = `<div class="deep-fly-hd" title="${esc(hd)}">${esc(hd)} · 下分支</div>` + selfItem +
         (kids.length ? kids.map(c => {
             const nm = catDeep.nodes[c] ? catDeep.nodes[c].n : c;
             const cnt = _flySub[c] || 0;
@@ -1681,7 +1690,10 @@ function showDeepBrowse(nodeId, level, anchorRect) {
     el.style.left = left + 'px';
     el.style.top = top + 'px';
     // 交互：悬停项目 → 级联下一层；点击项目 → 按该细分支筛选题目
-    el.querySelectorAll('.deep-item').forEach(item => {
+    el.querySelectorAll('.deep-item[data-deep-self]').forEach(item => {
+        item.addEventListener('click', ev => { ev.stopPropagation(); selectDeepSelf(item.dataset.deepSelf); });
+    });
+    el.querySelectorAll('.deep-item[data-deep]').forEach(item => {
         item.addEventListener('mouseenter', () => {
             clearTimeout(_flyHideTimer);
             const cid = item.dataset.deep;
@@ -1701,22 +1713,32 @@ function onCatNodeEnter(nodeEl, catId) {
     const root = deepRootOfCat(catId);
     if (!root) { scheduleHideDeepFly(60); return; }
     // 计数按「被悬停的这个知识点」统计，与点击后列表口径一致
-    const { sub } = deepCountsForCat(catId);
+    const { sub, direct } = deepCountsForCat(catId);
     if (!sub[root]) { scheduleHideDeepFly(60); return; }
     _flySub = sub;
+    _flyDirect = direct;
     clearTimeout(_flyHideTimer);
     showDeepBrowse(root, 0, nodeEl.getBoundingClientRect());
 }
 
 /** 选中细分类分支：只显示该分支（含子树）的题 */
+function selectDeepSelf(id) {
+    curDeepCat = String(id);
+    curDeepSelf = true;      // 只筛本级
+    hideDeepFlyNow();
+    renderMain();
+    renderNav();
+}
 function selectDeepCat(id) {
     curDeepCat = String(id);
+    curDeepSelf = false;
     hideDeepFlyNow();
     renderMain();
     renderNav();
 }
 function clearDeepCat() {
     curDeepCat = null;
+    curDeepSelf = false;
     hideDeepFlyNow();
     renderMain();
     renderNav();
