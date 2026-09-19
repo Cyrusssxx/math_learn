@@ -1004,6 +1004,14 @@ function mdBlock(s) {
             }
             continue;
         }
+        // 裸公式行兜底：无 $ 包裹但整行是 LaTeX（且不含中文）→ 自动补 $ 渲染。
+        // 数据里偶有漏包 $ 的公式行（如解答中的 g_y=... / g_{xy}=... 连续两行），
+        // 不兜底就会以 LaTeX 原文显示（用户看到「公式没渲染」）。
+        if (!l.includes('$') && !/[\u4e00-\u9fff]/.test(l) && l.trim().length > 3
+            && /\\[a-zA-Z]{2,}/.test(l) && /[=+\-\^_{}]/.test(l)) {
+            out.push('<p>' + mdInline('$' + l + '$') + '</p>');
+            continue;
+        }
         // 笔记标题令牌（<h1>/<h2>）独占整行时作为块级标题输出，不放进 <p>
         if (l.startsWith('<h1>') || l.startsWith('<h2>')) {
             out.push(mdInline(l));

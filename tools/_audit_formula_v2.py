@@ -89,16 +89,21 @@ def walk(path, tag):
     return out
 
 
-for name, path in FILES.items():
-    issues = walk(path, 'core')
-    c = Counter(k for k, *_ in issues)
-    print('=' * 72)
-    print('%s：真问题 %d 处' % (name, len(issues)))
-    print('  分布:', dict(c))
-    # 按字段聚合
-    by = Counter(w for _, w, _, _ in issues)
-    print('  受影响字段 %d 个，Top8:' % len(by))
-    for w, n in by.most_common(8):
-        print('    %-28s %d 处' % (w, n))
-    for it in issues[:10]:
-        print('   [%s] %s L%s | %s' % it)
+def main():
+    for name, path in FILES.items():
+        issues = walk(path, 'core')
+        c = Counter(k for k, *_ in issues)
+        print('=' * 72)
+        print('%s：真问题 %d 处' % (name, len(issues)))
+        print('  分布:', dict(c))
+        # 按字段聚合
+        by = Counter(w for _, w, _, _ in issues)
+        print('  受影响字段 %d 个，Top8:' % len(by))
+        for w, n in by.most_common(8):
+            print('    %-28s %d 处' % (w, n))
+        for it in issues[:10]:
+            print('   [%s] %s L%s | %s' % it)
+
+
+if __name__ == '__main__':
+    main()

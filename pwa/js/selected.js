@@ -104,6 +104,8 @@ function mdBlock(s){
         const l=raw.trim();if(!l){if(mathBuf){mathBuf+='\n';}continue;}
         if(mathBuf===null&&l.startsWith('$$')&&!l.endsWith('$$')){mathBuf=l;continue;}
         if(mathBuf!==null){mathBuf+='\n'+l;if(l.endsWith('$$')){out.push('<p>'+mdInline(mathBuf)+'</p>');mathBuf=null;}continue;}
+        // 裸公式行兜底：无 $ 但整行是 LaTeX（不含中文）→ 自动补 $ 渲染
+        if(!l.includes('$')&&!/[\u4e00-\u9fff]/.test(l)&&l.trim().length>3&&/\\[a-zA-Z]{2,}/.test(l)&&/[=+\-^_{}]/.test(l)){out.push('<p>'+mdInline('$'+l+'$')+'</p>');continue;}
         out.push('<p>'+mdInline(l)+'</p>');
     }if(mathBuf)out.push('<p>'+mdInline(mathBuf)+'</p>');
     return out.join('');
