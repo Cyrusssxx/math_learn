@@ -952,7 +952,7 @@ let examPapers = [];    // 真题套卷
 let corePapers = [];    // 核心题库（单「卷」，内部按章节分节）
 const SRC_META = {
     exam: { label: '📝 数二真题分类', title: '真题分类', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
-    core: { label: '📘 核心题库筛选', title: '核心题库', sub: '数二核心题库（大观严选题 606 题）· 按同一棵知识点树筛选，题源标注为原真题年份' },
+    core: { label: '📘 核心题库筛选', title: '核心题库', sub: '' },
 };
 const collapsedSubjects = new Set();   // 折叠的学科
 const collapsedChapters = new Set();   // 折叠的章节
@@ -1056,7 +1056,7 @@ function applySrcMode(persist) {
     const t = document.querySelector('.exam-title');
     if (t) t.textContent = meta.title;
     const sub = document.getElementById('examSub');
-    if (sub) sub.textContent = meta.sub;
+    if (sub) { sub.textContent = meta.sub || ''; sub.hidden = !meta.sub; }   // 无副标题时整块隐藏
     if (persist) { try { localStorage.setItem(SRC_MODE_KEY, srcMode); } catch (e) { } }
 }
 
@@ -1413,7 +1413,7 @@ function renderMain() {
     entries.sort(compareEntries);
     if (!entries.length) {
         el.innerHTML = `<div class="paper-head"><h1>${c ? (c.display || c.name) : curCat}</h1><div class="paper-sub">${c ? c.path : ''}</div></div>` +
-            (deepSet ? deepFilterTip() : '') +
+            (deepSet ? deepFilterTip(0) : '') +
             `<div class="empty-tip">${deepSet ? '该细分支下当前没有题目。' : '该章节下当前筛选没有匹配题目。'}试试切换「收藏/不熟/不会」筛选${deepSet ? '，或点上方「✕ 清除细分类」' : ''}。</div>`;
         return;
     }
@@ -1425,7 +1425,7 @@ function renderMain() {
         <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年${unmarkedFirst ? ` · <b>无标记优先</b>（未标记 ${unmarkedN} 题已提前）` : ''}</div>
         <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
-    if (deepSet) html += deepFilterTip();
+    if (deepSet) html += deepFilterTip(entries.length);
     const markNames = { fav: '📥收藏', unfamiliar: '🟡不熟', unknown: '🔴不会' };
     const activeMark = Object.keys(markSel).filter(k => markSel[k]);
     if (activeMark.length) html += `<div class="cat-filter-tip">筛选：${activeMark.map(k => markNames[k]).join(' / ')}</div>`;
@@ -1511,7 +1511,7 @@ function renderSearchResults() {
 let catDeep = null;          // { nodes, l2root }
 let deepChildren = {};       // 大观园 parentId -> [childId]
 let curDeepCat = null;       // 当前选中的细分类节点（非空时题目按该子树过滤）
-let deepDirect = {}, deepSub = {};   // 细分类节点题数（direct / 含子树累计）
+let _flySub = {};            // 当前浮层使用的「按知识点」细分类计数表（sub）
 
 async function loadCatDeep() {
     try {
@@ -1529,24 +1529,37 @@ async function loadCatDeep() {
     } catch (e) { console.warn('细分类树加载失败，悬停浮层不可用', e); }
 }
 
-/** 按当前数据源统计细分类题数：direct（直接挂在该节点）+ sub（含整棵子树） */
-function buildDeepIndex() {
-    deepDirect = {}; deepSub = {};
+/** 按知识点统计细分类题数：direct（直接挂该节点）+ sub（含整棵子树）。
+ *  必须按知识点统计——否则浮层显示的是全库题数，与点击后「当前知识点内」的列表对不上（10 vs 8）。
+ *  结果按 catId 缓存；题集变化（切源/标记变化）时由 buildDeepIndex() 清空。 */
+const _deepCountCache = {};
+function deepCountsForCat(catId) {
+    const key = String(catId);
+    if (_deepCountCache[key]) return _deepCountCache[key];
+    if (!catDeep) return { direct: {}, sub: {} };
+    const direct = {};
     for (const e of allEntries) {
+        if (String(e.catId) !== key) continue;
         for (const id of (e.q.deepCats || [])) {
-            if (!catDeep || !catDeep.nodes[id]) continue;
-            deepDirect[id] = (deepDirect[id] || 0) + 1;
+            if (!catDeep.nodes[id]) continue;
+            direct[id] = (direct[id] || 0) + 1;
         }
     }
-    for (const id in deepDirect) {
-        const n = deepDirect[id];
+    const sub = {};
+    for (const id in direct) {
+        const n = direct[id];
         let cur = id, guard = 0;
-        while (cur && guard++ < 20) {
-            deepSub[cur] = (deepSub[cur] || 0) + n;
-            const node = catDeep.nodes[cur];
-            cur = node && node.p;
+        while (cur && catDeep.nodes[cur] && guard++ < 20) {
+            sub[cur] = (sub[cur] || 0) + n;
+            cur = catDeep.nodes[cur].p;
         }
     }
+    return (_deepCountCache[key] = { direct, sub });
+}
+
+/** 题集/标记变化后清空按知识点的计数缓存 */
+function buildDeepIndex() {
+    for (const k in _deepCountCache) delete _deepCountCache[k];
 }
 
 /** 细分类节点的完整路径（用于页头提示） */
@@ -1577,11 +1590,10 @@ function deepRootOfCat(catId) {
     return catDeep.l2root[String(catId)] || null;
 }
 
-/** 细分类筛选态提示条（页头） */
-function deepFilterTip() {
+/** 细分类筛选态提示条（页头）：题数用列表实际条数，避免与浮层计数口径不一致 */
+function deepFilterTip(n) {
     if (!curDeepCat) return '';
-    const cnt = deepSub[curDeepCat] || 0;
-    return `<div class="deep-filter-tip">🔎 细分类：<b>${esc(deepPath(curDeepCat))}</b>（${cnt} 题）
+    return `<div class="deep-filter-tip">🔎 细分类：<b>${esc(deepPath(curDeepCat))}</b>（${n != null ? n : 0} 题）
         <button class="deep-clear" onclick="clearDeepCat()" title="退出细分类，回到该知识点全部题">✕ 清除细分类</button></div>`;
 }
 
@@ -1617,14 +1629,14 @@ function showDeepBrowse(nodeId, level, anchorRect) {
     // 收起比本层更深的浮层
     for (let i = level; i < _flyLevels.length; i++) if (_flyLevels[i]) _flyLevels[i].hidden = true;
     _flyLevels.length = Math.min(_flyLevels.length, level);
-    const kids = (deepChildren[nodeId] || []).filter(c => (deepSub[c] || 0) > 0);
+    const kids = (deepChildren[nodeId] || []).filter(c => (_flySub[c] || 0) > 0);
     const el = _flyEnsure(level);
     const hd = catDeep && catDeep.nodes[nodeId] ? catDeep.nodes[nodeId].n : '';
     el.innerHTML = `<div class="deep-fly-hd" title="${esc(hd)}">${esc(hd)} · 下分支</div>` +
         (kids.length ? kids.map(c => {
             const nm = catDeep.nodes[c] ? catDeep.nodes[c].n : c;
-            const cnt = deepSub[c] || 0;
-            const hasKids = (deepChildren[c] || []).some(k => (deepSub[k] || 0) > 0);
+            const cnt = _flySub[c] || 0;
+            const hasKids = (deepChildren[c] || []).some(k => (_flySub[k] || 0) > 0);
             return `<div class="deep-item${hasKids ? ' has-kids' : ''}${String(curDeepCat) === String(c) ? ' on' : ''}"
                         data-deep="${c}" title="${esc(deepPath(c))}｜共 ${cnt} 题">
                         <span class="deep-item-name">${esc(nm)}</span>
@@ -1647,7 +1659,7 @@ function showDeepBrowse(nodeId, level, anchorRect) {
         item.addEventListener('mouseenter', () => {
             clearTimeout(_flyHideTimer);
             const cid = item.dataset.deep;
-            const hasKids = (deepChildren[cid] || []).some(k => (deepSub[k] || 0) > 0);
+            const hasKids = (deepChildren[cid] || []).some(k => (_flySub[k] || 0) > 0);
             if (hasKids) showDeepBrowse(cid, level + 1, item.getBoundingClientRect());
             else { for (let i = level + 1; i < _flyLevels.length; i++) if (_flyLevels[i]) _flyLevels[i].hidden = true; }
         });
@@ -1661,7 +1673,11 @@ function showDeepBrowse(nodeId, level, anchorRect) {
 /** 树节点悬停入口：仅对有细分类映射的知识点（L2）生效 */
 function onCatNodeEnter(nodeEl, catId) {
     const root = deepRootOfCat(catId);
-    if (!root || !deepSub[root]) { scheduleHideDeepFly(60); return; }
+    if (!root) { scheduleHideDeepFly(60); return; }
+    // 计数按「被悬停的这个知识点」统计，与点击后列表口径一致
+    const { sub } = deepCountsForCat(catId);
+    if (!sub[root]) { scheduleHideDeepFly(60); return; }
+    _flySub = sub;
     clearTimeout(_flyHideTimer);
     showDeepBrowse(root, 0, nodeEl.getBoundingClientRect());
 }
