@@ -12,6 +12,12 @@ const openGroups = JSON.parse(localStorage.getItem('openGroups') || '{}');  // �
 
 const SUBJ_FILTER_KEY = 'searchSubjFilter';   // 搜索学科过滤（localStorage 记忆）
 let subjFilter = localStorage.getItem(SUBJ_FILTER_KEY) || '';
+// 「考前21记」已从主站隐藏（数据过滤 + 入口删除）：历史残留的 zy 筛选回落为「全部」，
+// 否则搜索会被一个不存在的学科过滤成空结果。
+if (subjFilter === 'zy') {
+    subjFilter = '';
+    try { localStorage.setItem(SUBJ_FILTER_KEY, ''); } catch (e) { }
+}
 
 const POS_KEY = 'readerLastPos';   // 刷新恢复上次浏览位置：{id, ch, y}
 let firstRoute = true;             // 首次路由标记（刷新恢复只做一次）
