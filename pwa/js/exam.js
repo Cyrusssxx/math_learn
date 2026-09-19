@@ -688,9 +688,7 @@ function examImgDel(ids) {
         }));
     });
 }
-function examImgRefs(t) {
-    return [...(t || '').matchAll(/\[图:([a-z0-9]+)\]/g)].map(m => m[1]);
-}
+// examImgRefs 已上移到 js/common.js（两页共用；原仅此处定义导致分类页调用时 ReferenceError）
 // 渲染笔记文本时，把 [图:id] 换成占位 img（后续 fillExamNoteImgs 回填 blob）
 // editable=false：保存后只读展示，不带删除按钮——防误点丢图（6e9d167）
 // editable=true ：编辑态实时预览（renderNotePreview），图带右上 ×，点击走 delExamNoteImg

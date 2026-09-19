@@ -123,6 +123,12 @@ renderDarkSwitch();
 window.copyMdAttr = function (md) {
     return String(md).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 };
+// 笔记图片令牌提取（[图:id] → id 数组）。放在 common.js 供真题页/分类页/收藏页共用——
+// 原先只在 exam.js 定义，分类页 noteInput 落盘回调调用它会抛 ReferenceError，
+// 导致自动保存整段中断（localStorage 不写入、预览不刷新）＝「连续粘贴图片看不到效果」。
+window.examImgRefs = function (t) {
+    return [...(t || '').matchAll(/\[图:([a-z0-9]+)\]/g)].map(m => m[1]);
+};
 (function () {
     var TIP_LABEL = { gs: '公式', yc: '易错', jq: '技巧', zy: '注意' };
     function escC(s) {
