@@ -353,31 +353,43 @@ function toggleGroup(key) {
     renderTree();
 }
 
+// 常用置顶：常见公式速查 + 各科真题点睛（按此顺序显示在目录最前，跨学科）
+const PINNED_NOTES = ['高数0-中学公式速查', '高数20-真题点睛', '线代7-真题点睛'];
+
 function renderTree() {
     const el = document.getElementById('navTree');
     const keep = el.scrollTop;
     let html = '';
-    for (const key of Object.keys(SUBJECT_NAMES)) {
-        const list = notes.filter(n => n.subject === key);
-        if (list.length === 0) continue;
-        const gOpen = openGroups[key] !== false;
-        html += `<div class="tree-group ${gOpen ? 'open' : ''}" onclick="toggleGroup('${key}')">
-            <span class="tree-arrow">›</span>${SUBJECT_NAMES[key]}</div>`;
-        if (!gOpen) continue;
-        for (const n of list) {
-            const active = cur && n.id === cur.id;
-            const open = !!openFiles[n.id];
-            html += `<div class="tree-file ${open ? 'open' : ''} ${active ? 'active' : ''}">
+    const fileHtml = (n) => {
+        const active = cur && n.id === cur.id;
+        const open = !!openFiles[n.id];
+        return `<div class="tree-file ${open ? 'open' : ''} ${active ? 'active' : ''}">
                 <div class="tree-file-row">
                     <span class="tree-arrow" onclick="toggleFile('${n.id}')">›</span>
                     <a href="#/${n.id}" data-note="${n.id}">${n.name}</a>
                 </div>
                 <div class="tree-chs">` +
-                n.chapters.map((ch, i) =>
-                    `<a class="tree-ch" data-note="${n.id}" data-ch="${i}" href="#/${n.id}/${i}">${esc(ch)}</a>`
-                ).join('') +
-                `</div></div>`;
-        }
+            n.chapters.map((ch, i) =>
+                `<a class="tree-ch" data-note="${n.id}" data-ch="${i}" href="#/${n.id}/${i}">${esc(ch)}</a>`
+            ).join('') +
+            `</div></div>`;
+    };
+    // ⭐ 常用：置顶到目录最前
+    const pinned = PINNED_NOTES.map(id => notes.find(n => n.id === id)).filter(Boolean);
+    if (pinned.length) {
+        const gOpen = openGroups['pinned'] !== false;
+        html += `<div class="tree-group ${gOpen ? 'open' : ''}" onclick="toggleGroup('pinned')">
+            <span class="tree-arrow">›</span>⭐ 常用</div>`;
+        if (gOpen) for (const n of pinned) html += fileHtml(n);
+    }
+    for (const key of Object.keys(SUBJECT_NAMES)) {
+        const list = notes.filter(n => n.subject === key && !PINNED_NOTES.includes(n.id));
+        if (list.length === 0) continue;
+        const gOpen = openGroups[key] !== false;
+        html += `<div class="tree-group ${gOpen ? 'open' : ''}" onclick="toggleGroup('${key}')">
+            <span class="tree-arrow">›</span>${SUBJECT_NAMES[key]}</div>`;
+        if (!gOpen) continue;
+        for (const n of list) html += fileHtml(n);
     }
     el.innerHTML = html;
     el.scrollTop = keep;
