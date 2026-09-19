@@ -164,7 +164,18 @@ function mdBlock(s) {
         // 不兜底就会以 LaTeX 原文显示（用户看到「公式没渲染」）。
         if (!l.includes('$') && !/[\u4e00-\u9fff]/.test(l) && l.trim().length > 3
             && /\\[a-zA-Z]{2,}/.test(l) && /[=+\-\^_{}]/.test(l)) {
-            out.push('<p>' + mdInline('$' + l + '$') + '</p>');
+            const disp = /\\begin\{/.test(l) || /\\end\{/.test(l);
+            let t = l;
+            if (disp) {
+                // 自动补齐缺失的 \\end{X}（数据里常见「多行显示块被压成单行」）
+                const envs = [...t.matchAll(/\\begin\{([^}]+)\}/g)].map(m => m[1]);
+                for (const env of envs) {
+                    const nB = (t.match(new RegExp('\\\\begin\\{' + env + '\\}', 'g')) || []).length;
+                    const nE = (t.match(new RegExp('\\\\end\\{' + env + '\\}', 'g')) || []).length;
+                    for (let k = nB - nE; k > 0; k--) t += '\\end{' + env + '}';
+                }
+            }
+            out.push('<p>' + mdInline((disp ? '$$' : '$') + t + (disp ? '$$' : '$')) + '</p>');
             continue;
         }
         // 笔记标题令牌（<h1>/<h2>）独占整行时作为块级标题输出，不放进 <p>
