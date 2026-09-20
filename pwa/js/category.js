@@ -153,6 +153,7 @@ function mdBlock(s) {
             .replace(/ {2,}/g, m => m.replace(/ /g, '\u00A0'));   // 行内连续普通空格(2+)转 NBSP：防 HTML 折叠丢空格（单个空格不受影响）
         if (!l) { if (buf) buf += '\n'; continue; }
         // 裸 "$$" 独占一行也要开块：'$$'.endsWith('$$') 恒为真，旧条件会让多行显示块整体失效（与 exam.js 同步修）
+        if (buf === null && l.startsWith('$$') && l.endsWith('$$') && l !== '$$') { out.push('<p>' + mdInline(l) + '</p>'); continue; }   // 同行首尾 $$：整行显示块
         if (buf === null && l.startsWith('$$') && (!l.endsWith('$$') || l === '$$')) { buf = l; continue; }
         if (buf !== null) {
             buf += '\n' + l;

@@ -102,6 +102,7 @@ function mdBlock(s){
     s=balanceDollars(s);const lines=s.split('\n');const out=[];let mathBuf=null;
     for(const raw of lines){
         const l=raw.trim();if(!l){if(mathBuf){mathBuf+='\n';}continue;}
+        if(mathBuf===null&&l.startsWith('$$')&&l.endsWith('$$')&&l!=='$$'){out.push('<p>'+mdInline(l)+'</p>');continue;}
         if(mathBuf===null&&l.startsWith('$$')&&!l.endsWith('$$')){mathBuf=l;continue;}
         if(mathBuf!==null){mathBuf+='\n'+l;if(l.endsWith('$$')){out.push('<p>'+mdInline(mathBuf)+'</p>');mathBuf=null;}continue;}
         // 裸公式行兜底：无 $ 但整行是 LaTeX（不含中文）→ 自动补 $ 渲染

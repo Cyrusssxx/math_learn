@@ -990,6 +990,12 @@ function mdBlock(s) {
 
         // 检测 $$ 开/闭（不在行内 $ 内的独立 $$）
         // 裸 "$$" 独占一行也要开块：'$$'.endsWith('$$') 恒为真，旧条件会让多行显示块整体失效
+        // 同行首尾 $$（如 $$\begin{cases}...\end{cases}$$）：整行作为显示块直接渲染，
+        // 旧条件 (!l.endsWith('$$') || l === '$$') 会把这类合法块排除 → 显示原文
+        if (mathBuf === null && l.startsWith('$$') && l.endsWith('$$') && l !== '$$') {
+            out.push('<p>' + mdInline(l) + '</p>');
+            continue;
+        }
         if (mathBuf === null && l.startsWith('$$') && (!l.endsWith('$$') || l === '$$')) {
             // $$ 块开始
             mathBuf = l;
