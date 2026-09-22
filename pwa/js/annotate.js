@@ -318,12 +318,11 @@ const Annot = (() => {
         const box = document.createElement('div');
         box.className = 'ann-box';
         if (editing) {
-            box.innerHTML = annToolbarHtml() +
+            box.innerHTML = `<span class="ann-ops"><button onclick="Annot.saveNote(this)">保存</button>
+                <button onclick="Annot.cancelNote(this)">取消</button></span>` + annToolbarHtml() +
                 `<div class="ann-edit" contenteditable="true" spellcheck="false" data-placeholder="写点批注…（Ctrl+V 可贴图；选中文字可上色/高亮；用 $...$ 写公式会自动渲染）"></div>
                 <div class="ann-imgs" hidden></div>
-                <div class="ann-preview"></div>
-                <div class="ann-ops"><button onclick="Annot.saveNote(this)">保存</button>
-                <button onclick="Annot.cancelNote(this)">取消</button></div>`;
+                <div class="ann-preview"></div>`;
             const ed = box.querySelector('.ann-edit');
             if (text) annNoteToEditor(ed, text);
             ed.addEventListener('paste', onPasteImg);
@@ -332,7 +331,7 @@ const Annot = (() => {
             box.querySelector('.ann-toolbar').hidden = false;
         } else {
             box.innerHTML = `<span class="ann-icon">📝</span><span class="ann-text" data-raw="${escAttr(text)}">${noteHtml(text)}</span>
-                <span class="ann-ops"><button onclick="Annot.editNote(this)">改</button>
+                <span class="ann-ops"><button onclick="Annot.editNote(this)">编辑</button>
                 <button onclick="Annot.delNote(this)">删</button></span>`;
             fillImgs(box);
         }

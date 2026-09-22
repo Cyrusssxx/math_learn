@@ -197,6 +197,11 @@ window.examImgRefs = function (t) {
         if (!sel || sel.isCollapsed || !sel.rangeCount) return;
         var box = srcBox(sel);
         if (!box) return;               // 思路/点睛外：保持系统默认复制
+        // 仅当选区覆盖容器绝大部分（≈全选）才改写为「批注友好」格式；
+        // 部分选择时放行系统默认复制（用户可只复制选中的一部分，公式/文字原样）
+        var full = (box.textContent || '').replace(/\s+/g, ' ').trim();
+        var part = (String(sel) || '').replace(/\s+/g, ' ').trim();
+        if (full && part.length < full.length * 0.85) return;
         e.preventDefault();
         var html = boxToAnnotHtml(box);
         var tmp = document.createElement('div');

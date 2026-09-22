@@ -552,7 +552,7 @@ async function saveNoteFromOps(btn) {
     if (!ta) return;
     if (sec.hidden) { const nb = card.querySelector('button[data-act="note"]'); if (nb) nb.click(); }
     if (ta.style.display === 'none') { noteHint(ta, '请先点 ✏️编辑 再保存', false); return; }
-    const eb = sec.querySelector('.q-note-editbtn');
+    const eb = card.querySelector('.q-note-editbtn');   // 编辑按钮已移至题卡 q-head 排
     if (eb) await toggleNoteEdit(eb);   // 编辑态：同一按钮的「💾 保存」动作，保存并收起
     else {
         if (Object.keys(_pendingImgTasks).length) noteHint(ta, '图片保存中…', true);
@@ -562,7 +562,8 @@ async function saveNoteFromOps(btn) {
 }
 // 笔记「✏️ 编辑 / 💾 完成」：编辑态只显示输入框，完成时落盘并渲染预览
 async function toggleNoteEdit(btn) {
-    const sec = btn.closest('.q-note');
+    const sec = btn.closest('.q-card') ? btn.closest('.q-card').querySelector('.q-note') : btn.closest('.q-note');
+    if (!sec) return;
     const ta = sec.querySelector('.q-note-input');
     const pv = sec.querySelector('.q-note-preview');
     const editing = ta.style.display !== 'none';
@@ -619,8 +620,8 @@ async function toggleNoteEdit(btn) {
             if (pv) { pv.classList.remove('pv-edit'); pv.innerHTML = ''; }   // 清空预览并恢复正常高度
             ta.style.display = '';
             setNoteContent(ta, '');
-            // 重置为「空笔记」形态：下次展开直接是输入框 + 💾 保存按钮
-            btn.textContent = '💾 保存';
+            // 重置为「空笔记」形态：下次展开直接是输入框 + 编辑按钮
+            btn.textContent = '✏️ 编辑';
             btn.classList.remove('saved');
         }
     }
@@ -1099,14 +1100,12 @@ function qCard(p, sec, q, secIdx) {
             ${NOTE_TOOLBAR}
             ${editorHtml.replace('<div class=', '<div style="display:none" class=')}
             <div class="q-note-preview">${mdBlockWithImg(note)}</div>
-            <button class="q-note-editbtn saved" onclick="toggleNoteEdit(this)" title="编辑笔记（编辑中点击保存）">✏️ 编辑</button>
             <div class="q-note-hint"></div>
         </div>`
         : `<div class="q-sec q-note" hidden data-qid="${qid}">
             ${NOTE_TOOLBAR}
-            ${editorHtml}
+            ${editorHtml.replace('<div class=', '<div style="display:none" class=')}
             <div class="q-note-preview" hidden></div>
-            <button class="q-note-editbtn" onclick="toggleNoteEdit(this)" title="保存笔记并收起输入框">💾 保存</button>
             <div class="q-note-hint"></div>
         </div>`;
     const ideaBtn = q.idea ? `<button class="q-op" data-act="idea" onclick="toggleQSec(this,'idea')">思路</button>` : '';
@@ -1138,6 +1137,7 @@ function qCard(p, sec, q, secIdx) {
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
             <button class="q-copy-latex" onclick="copyQLatex(this)" title="复制本题 LaTeX 源码（题干+选项，含 $...$ 原始命令）">📋 LaTeX</button>
+            <button class="q-note-editbtn${hasNote ? ' saved' : ''}" onclick="toggleNoteEdit(this)" title="编辑笔记（编辑中点击保存）">✏️ 编辑</button>
         </div>
         <div class="q-status-rail" data-qid="${qid}">
             <button class="q-st-btn q-st-unfam${statusOf(qid) === 'unfamiliar' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unfamiliar')" title="标记为「不熟」（黄色；再点取消）">不熟</button>
@@ -1179,23 +1179,22 @@ function copyTextToClipboard(text, btn, okMsg) {
         navigator.clipboard.writeText(text).then(flash).catch(fallback);
     } else fallback();
 }
-// 复制本题 LaTeX 源文（题干 + 选项，保留 $...$ 原始命令）——供外部 LaTeX 编辑器/笔记粘贴
-function copyQLatex(btn) {
-    const card = btn.closest('.q-card');
-    if (!card || !curPaper) return;
-    const qid = card.id.replace(/^q-/, '');
-    let q = null;
-    for (const sec of curPaper.sections || []) {
-        const hit = (sec.questions || []).find(x => qidOf(curPaper.id, x.no) === qid);
-        if (hit) { q = hit; break; }
+    // 复制本题 LaTeX 源文（题干 + 选项，保留 $...$ 原始命令）——供外部 LaTeX 编辑器/笔记粘贴（只复制题目，不含答案）
+    function copyQLatex(btn) {
+        const card = btn.closest('.q-card');
+        if (!card || !curPaper) return;
+        const qid = card.id.replace(/^q-/, '');
+        let q = null;
+        for (const sec of curPaper.sections || []) {
+            const hit = (sec.questions || []).find(x => qidOf(curPaper.id, x.no) === qid);
+            if (hit) { q = hit; break; }
+        }
+        if (!q) return;
+        // 与分类页 copyCatQLatex 保持同一格式：年份+题号 / 题干 / 选项（不含答案）
+        let text = (curPaper.year ? curPaper.year + '年 题' + q.no + '\n' : '') + (q.stem || '');
+        if (q.options && q.options.length) text += '\n' + q.options.join('\n');
+        copyTextToClipboard(text, btn, '已复制 ✓');
     }
-    if (!q) return;
-    // 与分类页 copyCatQLatex 保持同一格式：年份+题号 / 题干 / 选项 / 【答案】
-    let text = (curPaper.year ? curPaper.year + '年 题' + q.no + '\n' : '') + (q.stem || '');
-    if (q.options && q.options.length) text += '\n' + q.options.join('\n');
-    if (q.answer) text += '\n【答案】' + q.answer;
-    copyTextToClipboard(text, btn, '已复制 ✓');
-}
 // 掌握度标记「不熟/不会」互斥切换（与收藏独立；同值再点取消）
 function toggleQStatus(btn, qid, v) {
     const nv = toggleStatus(qid, v);
