@@ -442,21 +442,8 @@ html.dark .exam-btn.on { color: #e5c860; }
 .q-copy-latex:hover { color: var(--accent); background: var(--bg-hover); }
 .q-copy-latex.copied { color: var(--accent); font-weight: 600; }
 
-/* 题头笔记编辑按钮（跟随 LaTeX 按钮；编辑态切为「保存」，保存后淡化） */
-.q-head .q-note-editbtn {
-    margin-left: 4px;
-    border: none;
-    background: transparent;
-    font-size: 13px;
-    line-height: 1;
-    cursor: pointer;
-    color: var(--text-faint);
-    padding: 2px 6px;
-    border-radius: 6px;
-    white-space: nowrap;
-}
-.q-head .q-note-editbtn:hover { color: var(--accent); background: var(--bg-hover); }
-.q-head .q-note-editbtn.saved { color: var(--accent); opacity: .65; }
+/* 操作排笔记编辑按钮（跟随「笔记」按钮；与保存共用：点击编辑↔保存，保存后淡化） */
+.q-ops .q-note-editbtn.saved { opacity: .65; color: var(--accent); }
 
 /* 掌握度标记：题卡右侧竖条（不熟黄/不会红），悬在卡片右缘外侧、第一个与星标同排 */
 #examMain .q-card { position: relative; }

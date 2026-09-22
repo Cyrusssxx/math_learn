@@ -1137,7 +1137,6 @@ function qCard(p, sec, q, secIdx) {
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
             <button class="q-copy-latex" onclick="copyQLatex(this)" title="复制本题 LaTeX 源码（题干+选项，含 $...$ 原始命令）">📋 LaTeX</button>
-            <button class="q-note-editbtn${hasNote ? ' saved' : ''}" onclick="toggleNoteEdit(this)" title="编辑笔记（编辑中点击保存）">✏️ 编辑</button>
         </div>
         <div class="q-status-rail" data-qid="${qid}">
             <button class="q-st-btn q-st-unfam${statusOf(qid) === 'unfamiliar' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unfamiliar')" title="标记为「不熟」（黄色；再点取消）">不熟</button>
@@ -1149,7 +1148,7 @@ function qCard(p, sec, q, secIdx) {
             ${ideaBtn}
             ${tipsBtn}
             <button class="q-op${hasNote ? ' has' : ''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
-            <button class="q-op q-save-op" onclick="saveNoteFromOps(this)" title="保存当前笔记（编辑态可用）">💾 保存</button>
+            <button class="q-op q-note-editbtn${hasNote ? ' saved' : ''}" onclick="toggleNoteEdit(this)" title="编辑笔记（编辑中点击保存）">✏️ 编辑</button>
         </div>
         ${ideaHtml}
         ${tipsHtml}
