@@ -502,6 +502,23 @@ function toggleQSec(btn, act) {
                     noteInput(ta);
                 }
                 syncNoteToolbar(sec);
+            } else {
+                // 收起笔记区：若在编辑中，自动保存草稿（内容不丢）并复位编辑按钮
+                const card0 = btn.closest('.q-card');
+                const eb = card0 && card0.querySelector('.q-ops .q-note-editbtn');
+                if (eb && eb.textContent.indexOf('保存') >= 0) {
+                    try { localStorage.setItem('examNote-' + (ta.dataset.qid || ''), noteVal(ta)); } catch (e) { }
+                    delete _noteTimer[ta.dataset.qid];
+                    eb.textContent = '✏️ 编辑';
+                    eb.classList.remove('saved');
+                    ta.style.display = 'none';          // 编辑器隐藏（回只读态，再点「编辑」重新进入）
+                    const pv0 = sec.querySelector('.q-note-preview');
+                    if (pv0) {
+                        pv0.classList.remove('pv-edit');
+                        pv0.innerHTML = mdBlockWithImg(noteVal(ta));
+                        pv0.hidden = false;
+                    }
+                }
             }
         }
     }
@@ -568,6 +585,15 @@ async function toggleNoteEdit(btn) {
     const pv = sec.querySelector('.q-note-preview');
     const editing = ta.style.display !== 'none';
     if (!editing) {
+        // 进入编辑：若笔记区未展开，直接展开并同步「笔记」按钮高亮
+        if (sec.hidden) {
+            sec.hidden = false;
+            const nb = (btn.closest('.q-card') || {}).querySelector ? btn.closest('.q-card').querySelector('[data-act="note"]') : null;
+            if (nb) nb.classList.add('on');
+            fillExamNoteImgs(sec.querySelector('.q-note-input'));
+            const pv0 = sec.querySelector('.q-note-preview');
+            if (pv0) fillExamNoteImgs(pv0);
+        }
         // 进入编辑：同一按钮文字切为「💾 保存」（编辑态保持可见，点击即保存收起）
         btn.textContent = '💾 保存';
         btn.classList.remove('saved');   // 再次编辑恢复按钮常态
