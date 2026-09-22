@@ -127,6 +127,7 @@ function toggleMark(m) {
 
 // ============ 合并数据：现有数二真题 + 大观园数二真题（统一一棵分类树） ============
 let bankItems = [];      // 大观园数二真题（categoryIds 已映射到统一分类体系：知识点 L2 或 年份节点）
+let xdItems = [];        // 大观园线代补充题库（xd_bank.json，挂线代知识点，仅真题模式并入）
 
 // ============ Markdown / KaTeX 渲染（与 exam.js 同源） ============
 function esc(s) {
@@ -1054,6 +1055,12 @@ function buildEntries() {
                 allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
             }
         }
+        // 合并大观园线代补充题库（挂线代知识点，仅真题模式）
+        for (const e of xdItems) {
+            for (const cid of e.catIds) {
+                allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
+            }
+        }
     }
 }
 
@@ -1812,6 +1819,23 @@ async function init() {
             return !(m && examYears.has(m[1]));
         });
     }
+    // 大观园线代补充题库（xd_bank.json）：线代知识点题并入真题分类区（仅 exam 模式），与真题去重
+    try {
+        const xr = await fetch('data/xd_bank.json').catch(() => null);
+        if (xr && xr.ok) {
+            const xd = await xr.json();
+            const examYears = new Set(examPapers.map(p => String(p.year)));
+            xdItems = ((xd[0] && xd[0].sections) || []).flatMap(sec =>
+                (sec.questions || []).map(it => {
+                    const ym = /^(19\d\d|20\d\d)/.exec(it.source || '');
+                    return { paper: { id: 'xd', year: ym ? ym[1] : '', title: it.source || '大观园线代' }, q: it, catIds: it.categoryIds || [] };
+                })
+            ).filter(e => {
+                const m = /^\(?(19\d\d|20\d\d) 数二(真题)?\)?$/.exec(e.q.source || '');
+                return !(m && examYears.has(m[1]));
+            });
+        }
+    } catch (e) { console.warn('线代补充题库加载失败', e); }
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
     syncUnmarkedFirstBtn();
     // 恢复的选中分类若已不在分类表里（数据变更），清掉防悬空
