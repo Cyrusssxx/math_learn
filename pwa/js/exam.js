@@ -583,7 +583,8 @@ async function toggleNoteEdit(btn) {
     if (!sec) return;
     const ta = sec.querySelector('.q-note-input');
     const pv = sec.querySelector('.q-note-preview');
-    const editing = ta.style.display !== 'none';
+    // 状态由按钮文本驱动（编辑态=「💾 保存」）：避免"空笔记保存后编辑器未隐藏"导致二次点击误判为编辑态
+    const editing = btn.textContent.indexOf('保存') >= 0;
     if (!editing) {
         // 进入编辑：若笔记区未展开，直接展开并同步「笔记」按钮高亮
         if (sec.hidden) {
