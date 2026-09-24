@@ -1115,7 +1115,11 @@ function compareEntries(a, b) {
     const ta = favTime(qidOf(a.paper.id, a.q.no));
     const tb = favTime(qidOf(b.paper.id, b.q.no));
     if (ta && tb) return tb - ta;
-    return parseInt(b.paper.year, 10) - parseInt(a.paper.year, 10);
+    // 年份倒序（兜底 0：无年份的补充题排到有年份真题之后，避免 NaN 失序淹没真题）
+    const ya = parseInt(a.paper.year, 10) || 0;
+    const yb = parseInt(b.paper.year, 10) || 0;
+    if (yb !== ya) return yb - ya;
+    return 0;
 }
 
 function syncUnmarkedFirstBtn() {
@@ -1333,11 +1337,11 @@ function catCard(paper, secTitle, q) {
     const noteBtn = hasNote ? `<button class="q-op has" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>`
         : `<button class="q-op" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>`;
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
-    // 核心题库：不显示「年份链接」（非套卷），改显示原真题题源标签
-    const yearHtml = paper.id === 'core'
+    // 核心题库/线代补充题：不显示「年份链接」（非套卷），改显示原真题题源标签
+    const yearHtml = paper.id === 'core' || paper.id === 'xd'
         ? (q.source ? `<span class="q-year"><span class="q-year-tag" title="原真题题源">${mdInline(q.source)}</span></span>` : '')
         : paper.id === 'bank'
-        ? `<span class="q-year"><span class="q-year-tag">${paper.year}年</span></span>`
+        ? (paper.year ? `<span class="q-year"><span class="q-year-tag">${paper.year}年</span></span>` : '')
         : `<span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>`;
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
@@ -1806,7 +1810,7 @@ async function init() {
         const bq = await br.json();
         const examYears = new Set(examPapers.map(p => String(p.year)));
         bankItems = (bq.items || []).map((it, idx) => {
-            const ym = /^(19\d\d|20\d\d)/.exec(it.source || '');
+            const ym = /(\d{4})/.exec(it.source || '');   // 括号格式也能提取年份
             const q = Object.assign({}, it, {
                 no: idx + 1,
                 idea: it.explanation || '',   // 大观园解析 → 分类页「解析」按钮
@@ -1827,7 +1831,7 @@ async function init() {
             const examYears = new Set(examPapers.map(p => String(p.year)));
             xdItems = ((xd[0] && xd[0].sections) || []).flatMap(sec =>
                 (sec.questions || []).map(it => {
-                    const ym = /^(19\d\d|20\d\d)/.exec(it.source || '');
+                    const ym = /(\d{4})/.exec(it.source || '');   // 括号格式 "(1991 数一)" 也能提取年份
                     return { paper: { id: 'xd', year: ym ? ym[1] : '', title: it.source || '大观园线代' }, q: it, catIds: it.categoryIds || [] };
                 })
             ).filter(e => {
