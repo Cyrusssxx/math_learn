@@ -408,11 +408,45 @@ function notePasteImg(e) {
         }
     }
     if (!files.length) {
-        // 纯文本粘贴：降级为纯文本，防外来 HTML 污染编辑器
+        // 纯文本粘贴：优先 text/plain；部分复制源（PDF/网页/截图工具）只提供 text/html
+        // → 兜底剥标签取文字（此前 txt 为空直接 return =「有时候粘不上去」的根因）
         if (ta.tagName !== 'TEXTAREA' && e.clipboardData?.getData) {
             e.preventDefault();
-            const txt = e.clipboardData.getData('text/plain');
-            if (txt) document.execCommand('insertText', false, txt);
+            let txt = '';
+            try { txt = e.clipboardData.getData('text/plain') || ''; } catch (err) { }
+            if (!txt) {
+                let html = '';
+                try { html = e.clipboardData.getData('text/html') || ''; } catch (err) { }
+                if (html) {
+                    const div = document.createElement('div');
+                    div.innerHTML = html;
+                    div.querySelectorAll('script,style').forEach(n => n.remove());
+                    div.querySelectorAll('br').forEach(n => n.replaceWith('\n'));
+                    div.querySelectorAll('p,div,li,tr').forEach(n => n.insertBefore(document.createTextNode('\n'), n.firstChild));
+                    txt = (div.textContent || '').replace(/\n{3,}/g, '\n\n').trim();
+                }
+            }
+            if (txt) {
+                // execCommand 偶发失焦失效：优先 Range 手动插入（不触发原生 input，补调 noteInput 刷新预览/防抖）
+                let done = false;
+                try {
+                    ta.focus();
+                    const sel = getSelection();
+                    if (sel && sel.rangeCount && ta.contains(sel.anchorNode)) {
+                        const r = sel.getRangeAt(0);
+                        r.deleteContents();
+                        r.insertNode(document.createTextNode(txt));
+                        r.collapse(false);
+                        done = true;
+                        noteInput(ta);
+                    }
+                } catch (err) { }
+                if (!done) {
+                    try { document.execCommand('insertText', false, txt); } catch (err) { }
+                }
+            } else {
+                noteHint(ta, '剪贴板里没有可粘贴的文字或图片', false);
+            }
         }
         return;
     }

@@ -197,11 +197,42 @@ window.examImgRefs = function (t) {
         if (!sel || sel.isCollapsed || !sel.rangeCount) return;
         var box = srcBox(sel);
         if (!box) return;               // 思路/点睛外：保持系统默认复制
-        // 仅当选区覆盖容器绝大部分（≈全选）才改写为「批注友好」格式；
-        // 部分选择时放行系统默认复制（用户可只复制选中的一部分，公式/文字原样）
+        // 全选（≥85%）→ 改写为「批注友好」格式；部分选择 → 提取选区内 LaTeX 源码
+        // （KaTeX 渲染后的字形不含源码，直接复制粘贴到编辑面板无法再渲染；
+        //   把选中的 .katex 还原为 $...$ / $$...$$，文字保持原样，让用户自由复制片段）
         var full = (box.textContent || '').replace(/\s+/g, ' ').trim();
         var part = (String(sel) || '').replace(/\s+/g, ' ').trim();
-        if (full && part.length < full.length * 0.85) return;
+        if (full && part.length < full.length * 0.85) {
+            e.preventDefault();
+            var rng = sel.getRangeAt(0);
+            // 选区边界落在公式内部时，扩展到完整 .katex（半个公式无法还原）
+            function edgeKatex(node) {
+                var el = node && node.nodeType === 3 ? node.parentElement : node;
+                var k = el && el.closest ? el.closest('.katex') : null;
+                return (k && box.contains(k)) ? k : null;
+            }
+            var sk = edgeKatex(rng.startContainer);
+            if (sk) { try { rng.setStartBefore(sk); } catch (e2) { } }
+            var ek = edgeKatex(rng.endContainer);
+            if (ek) { try { rng.setEndAfter(ek); } catch (e2) { } }
+            var tmp2 = document.createElement('div');
+            tmp2.appendChild(rng.cloneContents());
+            Array.prototype.forEach.call(tmp2.querySelectorAll('.katex'), function (k) {
+                var ann = k.querySelector('annotation[encoding="application/x-tex"]');
+                var tex = ann ? ann.textContent : '';
+                if (!tex) return;
+                var disp = !!k.closest('.katex-display');
+                k.parentNode.replaceChild(document.createTextNode(disp ? '$$' + tex + '$$' : '$' + tex + '$'), k);
+            });
+            var text2 = (tmp2.textContent || '').replace(/[ \t]+/g, ' ').replace(/ ?\n ?/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+            try {
+                if (e.clipboardData && e.clipboardData.setData) {
+                    e.clipboardData.setData('text/plain', text2);
+                    e.clipboardData.setData('text/html', tmp2.innerHTML);
+                }
+            } catch (err) { }
+            return;
+        }
         e.preventDefault();
         var html = boxToAnnotHtml(box);
         var tmp = document.createElement('div');
