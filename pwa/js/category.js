@@ -1835,8 +1835,28 @@ async function init() {
                     return { paper: { id: 'xd', year: ym ? ym[1] : '', title: it.source || '大观园线代' }, q: it, catIds: it.categoryIds || [] };
                 })
             ).filter(e => {
-                const m = /^\(?(19\d\d|20\d\d) 数二(真题)?\)?$/.exec(e.q.source || '');
-                return !(m && examYears.has(m[1]));
+                const src = String(e.q.source || '').trim();
+                // ① 「(YYYY 数二)」数二真题卷明确有 → 用真题卷版本
+                // ② 「(YYYY 数学一二三)」三科共用原题 → 数二卷必有 → 用真题卷版本
+                const m = /^\(?(19\d\d|20\d\d)(?: 数二(?:真题)?| 数学一二三)\)?$/.exec(src);
+                if (m && examYears.has(m[1])) return false;
+                // ③ 「(YYYY 数一)/(YYYY 数三)」：同年且与数二卷同题（stem 标准化匹配）→ 用真题卷版本
+                const m2 = /^\((19\d\d|20\d\d) 数[一三]\)$/.exec(src);
+                if (m2 && examYears.has(m2[1])) {
+                    const paper = examPapers.find(p => String(p.year) === m2[1]);
+                    if (paper) {
+                        const norm = t => String(t || '').replace(/\s+/g, '').replace(/\$/g, '');
+                        const st = norm(e.q.stem);
+                        for (const sec of paper.sections || []) {
+                            for (const q of sec.questions || []) {
+                                const ns = norm(q.stem);
+                                if (ns === st) return false;
+                                if (st.length >= 30 && ns.length >= 30 && (ns.slice(0, 30) === st.slice(0, 30))) return false;
+                            }
+                        }
+                    }
+                }
+                return true;
             });
         }
     } catch (e) { console.warn('线代补充题库加载失败', e); }
