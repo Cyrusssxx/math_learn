@@ -1055,11 +1055,11 @@ function buildEntries() {
                 allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
             }
         }
-        // 合并大观园线代补充题库（挂线代知识点，仅真题模式）
-        for (const e of xdItems) {
-            for (const cid of e.catIds) {
-                allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
-            }
+    }
+    // 合并大观园线代补充题库（挂线代知识点；真题模式与核心题库模式都并入）
+    for (const e of xdItems) {
+        for (const cid of e.catIds) {
+            allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
         }
     }
 }
