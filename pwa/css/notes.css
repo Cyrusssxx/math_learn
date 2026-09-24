@@ -371,6 +371,9 @@ html.dark .exam-link:hover { color: #1e1e2e; }
     padding-left: 22px;
 }
 .note-article li { margin: 14px 0; line-height: 2.6; }
+/* 含公式的列表行：加大行距——KaTeX 行内分式（万能公式等多分式连排）在 2.6 下笔画贴叠，
+   实测 3.6 行距（57.6px）分式行完全分开且单公式行仍协调；dfrac→frac 同高无效故走加大距离 */
+.note-article li:has(.katex) { line-height: 3.6; }
 .note-article li > ul { margin: 8px 0 6px; }
 /* 顶层知识点之间拉开间隙 */
 .note-article > ul > li,
