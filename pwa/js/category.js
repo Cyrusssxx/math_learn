@@ -1062,6 +1062,28 @@ function buildEntries() {
             allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
         }
     }
+    // 核心题库模式：并入「线代真题」条目。core_bank.json(大观严选 606) 本身全是高数，
+    // 线代在 core 模式只有 xd 精选题（独立 qid）→ 真题的收藏/标记/笔记看不到，
+    // 且 xd 中与真题同题的已去重移除、真题版又不显示 → 该题在 core 模式消失。
+    // 仅并入挂线代知识点（父=行列式~二次型 2~7）的真题，其余真题仍不混入 core 模式。
+    if (srcMode === 'core') {
+        const xdL2 = new Set();
+        for (const nid in cats) {
+            const n = cats[nid];
+            if ([2, 3, 4, 5, 6, 7].includes(Number(n.parentId))) xdL2.add(Number(nid));
+        }
+        for (const p of examPapers) {
+            for (const sec of (p.sections || [])) {
+                for (const q of (sec.questions || [])) {
+                    for (const cid of (q.categoryIds || [])) {
+                        if (xdL2.has(Number(cid))) {
+                            allEntries.push({ paper: p, secTitle: sec.title, q, catId: cid });
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 // 切换数据源：真题 ⇄ 核心题库（同一棵分类树，选中知识点保持不变）
