@@ -1152,6 +1152,16 @@ body.toc-collapsed .toc-collapse {
     .toc-collapse { display: none; }
 }
 
+/* ============ 移动端（≤900px）：侧栏叠在正文上（doc margin-left:0），
+   底色若随 --ui-alpha 半透明会让正文文字透出（观感=目录透明），
+   强制近不透明（0.97 保留极淡背景图透出）。须写在 html.dark .sidebar 之后才不被压过 ============ */
+@media (max-width: 900px) {
+    .sidebar,
+    html.dark .sidebar {
+        background: rgba(var(--sidebar-rgb), 0.97);
+    }
+}
+
 /* ============ 左栏「文件目录树」向左收起 ============ */
 .sidebar {
     transition: transform .15s ease;

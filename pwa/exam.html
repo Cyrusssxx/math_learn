@@ -135,7 +135,7 @@
         const value = localStorage.getItem(K.value);
         const overlay = +localStorage.getItem(K.overlay) || 0;
         const inScope = getBgScope().includes(PAGE_ID);
-        const uiAlpha = inScope ? (+localStorage.getItem(K.uiAlpha) || 30) / 100 : 1;
+        const uiAlpha = (type && inScope) ? (+localStorage.getItem(K.uiAlpha) || 30) / 100 : 1;   // 仅在真有背景且本页在范围内时半透明；无背景保持不透明
 
         document.documentElement.style.setProperty('--ui-alpha', uiAlpha);
 
