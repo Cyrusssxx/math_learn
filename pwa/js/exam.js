@@ -1229,6 +1229,7 @@ function toggleQStatus(btn, qid, v) {
         rail.querySelector('.q-st-unfam').classList.toggle('on', nv === 'unfamiliar');
         rail.querySelector('.q-st-unk').classList.toggle('on', nv === 'unknown');
     }
+    renderNav();   // 实时刷新悬浮题号标记（🟡不熟/🔴不会 立即同步到题号球）
 }
 
 // ============ 做题模式：隐藏答案/思路/点评入口，仅保留笔记可写 ============
