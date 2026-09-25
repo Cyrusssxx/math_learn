@@ -1,0 +1,242 @@
+[
+ {
+  "no": "246",
+  "source": "(1987 数三)",
+  "stem": "设 $n$ 阶方阵 $A$ 的秩 $r(A) = r \\lt n$，那么在 $A$ 的 $n$ 个行向量中 ( )",
+  "options": [
+   "必有 $r$ 个行向量线性无关。",
+   "任意 $r$ 个行向量都线性无关。",
+   "任意 $r$ 个行向量都构成极大线性无关向量组。",
+   "任意一个行向量都可以由其他 $r$ 个行向量线性表出。"
+  ],
+  "answer": "（A. 必有 $r$ 个行向量线性无关。）",
+  "old_idea": "矩阵的行秩为 $r$，说明其行向量组的秩为 $r$，故必存在 $r$ 个行向量线性无关。并非任意 $r$ 个行向量都线性无关，也不能保证任意行向量都可由指定的其他 $r$ 个行向量表示。选 A。"
+ },
+ {
+  "no": "114",
+  "source": "(1995 数一)",
+  "stem": "设 $A=\\begin{pmatrix}a_{11}&a_{12}&a_{13}\\\\a_{21}&a_{22}&a_{23}\\\\a_{31}&a_{32}&a_{33}\\end{pmatrix}$，$B=\\begin{pmatrix}a_{21}&a_{22}&a_{23}\\\\a_{11}&a_{12}&a_{13}\\\\a_{31}+a_{11}&a_{32}+a_{12}&a_{33}+a_{13}\\end{pmatrix}$，$P_1=\\begin{pmatrix}0&1&0\\\\1&0&0\\\\0&0&1\\end{pmatrix}$，$P_2=\\begin{pmatrix}1&0&0\\\\0&1&0\\\\1&0&1\\end{pmatrix}$，则（ ）",
+  "options": [
+   "$AP_1P_2=B$",
+   "$AP_2P_1=B$",
+   "$P_1P_2A=B$",
+   "$P_2P_1A=B$"
+  ],
+  "answer": "（C. $P_1P_2A=B$）",
+  "old_idea": "左乘初等矩阵对应初等行变换。$P_2A$ 表示把 $A$ 的第 $1$ 行加到第 $3$ 行，再左乘 $P_1$ 交换第 $1,2$ 行，所得矩阵正为 $B$，故 $B=P_1P_2A$，选 C。"
+ },
+ {
+  "no": 3936,
+  "source": "900 题数二第一章 A 类 3",
+  "stem": "计算\n$$\n\\begin{vmatrix}1&4&3&2\\\\2&1&4&3\\\\3&2&1&4\\\\4&3&2&1\\end{vmatrix}.\n$$",
+  "options": [],
+  "answer": "$-160$",
+  "old_idea": "这是循环矩阵，特征值为\n$$\n10,\\quad -2+2i,\\quad -2,\\quad -2-2i,\n$$\n故\n$$\nD=10(-2)\\bigl((-2)^2+2^2\\bigr)=-160.\n$$"
+ },
+ {
+  "no": 232,
+  "source": "900题 数二第三章 A类 1",
+  "stem": "设向量组 I: $\\alpha_1, \\alpha_2, \\dots, \\alpha_t$ 可由向量组 II: $\\beta_1, \\beta_2, \\dots, \\beta_s$ 线性表示，向量组 I 和 II 的秩分别为 $r_1, r_2$，则 ( )",
+  "options": [
+   "若 $t = s$，则 $r_1 = r_2$。",
+   "若 $r_1 = t$，则 $s \\ge t$。",
+   "若 $t \\lt s$，则 $r_1 \\lt r_2$。",
+   "若 $r_1 = s$，则 $s \\ge t$。"
+  ],
+  "answer": "（B. 若 $r_1 = t$，则 $s \\ge t$。）",
+  "old_idea": "由向量组 I 可由 II 线性表示，得 $r_1\\le r_2\\le s$。若 $r_1=t$，则 I 线性无关，所以 $t=r_1\\le s$，即 $s\\ge t$。其余选项均不一定成立。选 B。"
+ },
+ {
+  "no": 565,
+  "source": "900 题数二第五章 A类 14",
+  "stem": "设矩阵 $A = \\begin{pmatrix} 3/2 & -1/2 & 1 \\\\ -1/2 & 3/2 & a-2 \\\\ 1/2 & -1/2 & 1 \\end{pmatrix}$，已知方程组 $Ax = \\mathbf{0}$ 有非零解。(I) 求 $a$ 的值；(II) 求一个可逆矩阵 $P$，使得 $P^{-1}AP$ 为对角矩阵。",
+  "options": [],
+  "answer": "$a=-1$；可取 $P=\\begin{pmatrix}0&1&3\\\\2&1&-5\\\\1&0&2\\end{pmatrix}$，$\\Lambda=\\operatorname{diag}(0,1,3)$。",
+  "old_idea": "由方程组有非零解知 $|A|=0$。计算得 $|A|=(a+1)/2$，故 $a=-1$。此时特征值为 $0,1,3$。所给 $P$ 的行列式为 $-12\\ne0$，且 $AP=P\\Lambda$。"
+ },
+ {
+  "no": "363",
+  "source": "(1989 数一)",
+  "stem": "问 $\\lambda$ 为何值时，线性方程组 $\\begin{cases} x_1+x_3=\\lambda, \\\\ 4x_1+x_2+2x_3=\\lambda+2, \\\\ 6x_1+x_2+4x_3=2\\lambda+3 \\end{cases}$ 有解，并求出解的一般形式。",
+  "options": [],
+  "answer": "$\\lambda=1$ 时有解，通解为 $(t,1-2t,1-t)^T$，其中 $t$ 为任意常数。",
+  "old_idea": "第三式减第二式得 $2x_1+2x_3=\\lambda+1$，而第一式给出 $x_1+x_3=\\lambda$，故 $\\lambda=1$。代回得 $x_1+x_3=1$，$x_2=1-2x_1$。"
+ },
+ {
+  "no": 3872,
+  "source": "2010 数二三",
+  "stem": "设 $A,B$ 为 $3$ 阶矩阵，且 $|A|=3, |B|=2, |A^{-1}+B|=2$，求 $|A+B^{-1}|$。",
+  "options": [],
+  "answer": "$3$",
+  "old_idea": "$$\n|A^{-1}+B|=\\frac{|E+AB|}{|A|},\\qquad |A+B^{-1}|=\\frac{|E+AB|}{|B|}.\n$$\n因此 $|E+AB|=6$，所求为 $6/2=3$。"
+ },
+ {
+  "no": 3880,
+  "source": "900 题数二第一章 A 类 18",
+  "stem": "设 $A$ 为 $2n+1$ 阶矩阵，且 $9AA^T=E$。若 $|A|\\gt0$，求\n$$\n\\left|A-\\frac13E\\right|.\n$$",
+  "options": [],
+  "answer": "$0$",
+  "old_idea": "令 $Q=3A$，则 $Q$ 为奇数阶正交矩阵，且 $|Q|\\gt0$，故 $1$ 为 $Q$ 的特征值。所以 $Q-E$ 奇异，从而\n$$\n\\left|A-\\frac13E\\right|=0.\n$$"
+ },
+ {
+  "no": "456",
+  "source": "(1990 数一)",
+  "stem": "设 4 阶矩阵  $ B = \\begin{pmatrix} 1 & -1 & 0 & 0 \\\\ 2 & 1 & -3 & 4 \\\\ 0 & 2 & 1 & -3 \\\\ 0 & 0 & 2 & 1 \\end{pmatrix} $ ,  $ C = \\begin{pmatrix} 1 & 0 & 0 & 0 \\\\ 2 & 1 & 0 & 0 \\\\ 3 & 2 & 1 & 0 \\\\ 4 & 3 & 2 & 1 \\end{pmatrix} $  且矩阵  $ A $  满足关系式  $ (E - C^{-1}B)C^T A = E $ ，其中  $ E $  为 4 阶单位矩阵， $ C^{-1} $  表示  $ C $  的逆矩阵， $ C^T $  表示  $ C $  的转置矩阵，将上述关系式化简并求矩阵  $ A $ 。",
+  "options": [],
+  "answer": "$$\nA=\\begin{pmatrix}-\\frac1{12}&\\frac{35}{36}&\\frac5{18}&-\\frac1{12}\\\\-\\frac{19}{12}&-\\frac{19}{36}&\\frac5{18}&\\frac5{12}\\\\\\frac16&\\frac7{18}&\\frac19&\\frac16\\\\\\frac34&-\\frac1{12}&-\\frac16&-\\frac14\\end{pmatrix}.\n$$",
+  "old_idea": "注意 $E-C^{-1}B=C^{-1}(C-B)$，故原式化为 $C^{-1}(C-B)C^TA=E$。于是\n$$\nA=(C^T)^{-1}(C-B)^{-1}C,\n$$\n代入所给矩阵计算即得答案。"
+ },
+ {
+  "no": 3923,
+  "source": "900 题数二第一章 A 类 1",
+  "stem": "计算\n$$\n\\begin{vmatrix}1&0&0&5\\\\0&1&3&0\\\\0&2&2&0\\\\1&0&0&3\\end{vmatrix}.\n$$",
+  "options": [],
+  "answer": "$8$",
+  "old_idea": "按 X 型分块，\n$$\nD=\\begin{vmatrix}1&5\\\\1&3\\end{vmatrix}\\begin{vmatrix}1&3\\\\2&2\\end{vmatrix}=(-2)(-4)=8.\n$$"
+ },
+ {
+  "no": 3917,
+  "source": "900 题数二第五章 A 类 2",
+  "stem": "设 $3$ 阶矩阵 $A$ 的特征值为 $1,\\lambda,-\\lambda$。若 $|\\lambda A|=-32$，求 $\\lambda$。",
+  "options": [],
+  "answer": "$2$",
+  "old_idea": "$$\n|\\lambda A|=\\lambda^3|A|=\\lambda^3(1\\cdot\\lambda\\cdot(-\\lambda))=-\\lambda^5=-32,\n$$\n故 $\\lambda=2$。"
+ },
+ {
+  "no": 280,
+  "source": "900题数二第三章 A类 8",
+  "stem": "设向量组 $\\mathbf{a}_1 = \\begin{pmatrix} a \\\\ 1 \\\\ 1 \\end{pmatrix}, \\mathbf{a}_2 = \\begin{pmatrix} 1 \\\\ a \\\\ -1 \\end{pmatrix}, \\mathbf{a}_3 = \\begin{pmatrix} 1 \\\\ -1 \\\\ a \\end{pmatrix}$ 线性相关，但其中任意两个向量均线性无关，则 $a = \\underline{\\quad\\quad}$。",
+  "options": [],
+  "answer": "2",
+  "old_idea": "三向量线性相关时行列式为零，计算得 $(a+1)(a-2)^2=0$。当 $a=-1$ 时，$a_2=a_3$，不满足任意两个向量均线性无关；当 $a=2$ 时任意两个向量均不成比例。因此 $a=2$。"
+ },
+ {
+  "no": 3911,
+  "source": "900 题数二第一章 B 类 5",
+  "stem": "设 $3$ 阶矩阵 $A$ 为上三角矩阵，$\\alpha=(1,1,1)^T$ 满足\n$$\nA\\alpha=3\\alpha,\\qquad A^T\\alpha=3\\alpha,\n$$\n且 $A$ 的特征值之和为 $3$，求 $|A|$。",
+  "options": [],
+  "answer": "$-27$",
+  "old_idea": "上三角矩阵的行和、列和均为 $3$。设对角元为 $a,d,f$，由列和得 $a=3$，由行和得 $f=3$，又迹为 $3$，所以 $d=-3$。因此 $|A|=3\\cdot(-3)\\cdot3=-27$。"
+ },
+ {
+  "no": 185,
+  "source": "900 题数二第二章 C 类 7（选做）",
+  "stem": "设矩阵 $A$ 为 $4\\times2$ 矩阵，$B$ 为 $2\\times4$ 矩阵，且满足 $AB=\\begin{pmatrix}1&0&-1&0\\\\0&1&0&-1\\\\-1&0&1&0\\\\0&-1&0&1\\end{pmatrix}$，则 $BA=$（ ）",
+  "options": [
+   "$\\begin{pmatrix}1&0\\\\0&3\\end{pmatrix}$",
+   "$\\begin{pmatrix}2&0\\\\0&2\\end{pmatrix}$",
+   "$\\begin{pmatrix}4&0\\\\0&0\\end{pmatrix}$",
+   "由已知条件不能确定"
+  ],
+  "answer": "（B. $\\begin{pmatrix}2&0\\\\0&2\\end{pmatrix}$）",
+  "old_idea": "记 $M=AB$。直接计算得 $M^2=2M$，且 $r(M)=2$，故 $A$ 满列秩、$B$ 满行秩。由 $A(BA-2E_2)B=O$ 可消去两侧的 $A,B$，得到 $BA=2E_2$，故选 B。"
+ },
+ {
+  "no": 5897,
+  "source": "900题数二第四章A类12",
+  "stem": "设 $n$ 阶矩阵 $A$ 的各行元素之和均为 $0$，且其伴随矩阵 $A^*$ 为非零矩阵，则齐次线性方程组 $Ax=0$ 的通解为。",
+  "options": [],
+  "answer": "$x=k(1,1,\\ldots,1)^T\\;(k\\in\\mathbb R)$。",
+  "old_idea": "$A$ 的各行元素之和为 $0$，故 $A(1,1,\\ldots,1)^T=0$。又 $A^*\\ne0$ 说明 $r(A)=n-1$，从而 $Ax=0$ 的解空间维数为 $1$；上述非零解即可生成全部解。"
+ },
+ {
+  "no": 724,
+  "source": "900题数二第六章 A类 11",
+  "stem": "设 $A=\\begin{pmatrix}0&-1&1\\\\-1&0&1\\\\1&1&0\\end{pmatrix}$，$B=\\begin{pmatrix}1&0&0\\\\0&2&0\\\\0&0&3\\end{pmatrix}$，则 $A$ 与 $B$（ ）。",
+  "options": [
+   "合同且相似",
+   "合同但不相似",
+   "相似但不合同",
+   "不相似且不合同"
+  ],
+  "answer": "（D. 不相似且不合同）",
+  "old_idea": "$A$ 的特征多项式为 $(\\lambda-1)^2(\\lambda+2)$，惯性指数为 $(2,1)$；$B$ 正定，惯性指数为 $(3,0)$。惯性指数不同，故不合同；特征值也不同，故不相似。选 D。"
+ },
+ {
+  "no": 358,
+  "source": "900 题数二第四章 A类 6",
+  "stem": "设 $\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4$ 是齐次线性方程组 $Ax=0$ 的一个基础解系，则下列各组向量中，仍为 $Ax=0$ 的基础解系的是（ ）。",
+  "options": [
+   "$\\alpha_1+\\alpha_2,\\alpha_2+\\alpha_3,\\alpha_3+\\alpha_4,\\alpha_4+\\alpha_1$",
+   "$\\alpha_1+\\alpha_2+\\alpha_3,\\alpha_2+\\alpha_3+\\alpha_4,\\alpha_3+\\alpha_4+\\alpha_1,\\alpha_4+\\alpha_1+\\alpha_2$",
+   "$\\alpha_1-\\alpha_2,\\alpha_2-\\alpha_3,\\alpha_3-\\alpha_4,\\alpha_4-\\alpha_1$",
+   "$\\alpha_1+\\alpha_2,-\\alpha_2,2\\alpha_1+\\alpha_3,-4\\alpha_2-\\alpha_4,\\alpha_3+\\alpha_4$"
+  ],
+  "answer": "（B. $\\alpha_1+\\alpha_2+\\alpha_3,\\alpha_2+\\alpha_3+\\alpha_4,\\alpha_3+\\alpha_4+\\alpha_1,\\alpha_4+\\alpha_1+\\alpha_2$）",
+  "old_idea": "相对于原基础解系，判断新向量组是否仍为基础解系，只需看变换矩阵是否可逆。A、C 的系数矩阵奇异；D 含 $5$ 个向量，不是基础解系。B 的变换矩阵为 $J-E$，特征值为 $3,-1,-1,-1$，可逆。"
+ },
+ {
+  "no": "3856",
+  "source": "1988 数一",
+  "stem": "设 $4$ 阶矩阵 $A=(\\alpha,\\gamma_2,\\gamma_3,\\gamma_4)$，$B=(\\beta,\\gamma_2,\\gamma_3,\\gamma_4)$，且 $|A|=4, |B|=1$，求 $|A+B|$。",
+  "options": [],
+  "answer": "$40$",
+  "old_idea": "$$\nA+B=(\\alpha+\\beta,2\\gamma_2,2\\gamma_3,2\\gamma_4),\n$$\n故\n$$\n|A+B|=2^3\\bigl(|A|+|B|\\bigr)=8(4+1)=40.\n$$"
+ },
+ {
+  "no": 3867,
+  "source": "900 题数二第一章 A 类 16",
+  "stem": "设\n$$\nA=\\begin{pmatrix}2&1&0\\\\1&3&0\\\\0&0&4\\end{pmatrix},\n$$\n可逆矩阵 $B$ 满足 $ABA^*-BA^*=BAB^*$，求 $|B^*|$。",
+  "options": [],
+  "answer": "$60$",
+  "old_idea": "取行列式并约去 $|B|$：\n$$\n|A-E||A^*|=|A||B^*|.\n$$\n由于 $|A|=20,\\ |A-E|=3,\\ |A^*|=|A|^2$，所以\n$$\n|B^*|=|A-E||A|=60.\n$$"
+ },
+ {
+  "no": 3904,
+  "source": "900 题数二第一章 C 类 1",
+  "stem": "设 $A$ 为 $n$ 阶矩阵，$\\alpha$ 为 $n$ 维列向量。已知 $|A|\\ne0,b\\ne0$ 且 $A^T=-A$，\n$$\n\\begin{vmatrix}A&\\alpha\\\\\\alpha^T&b\\end{vmatrix}=c,\n$$\n求 $|A|$。",
+  "options": [],
+  "answer": "$$\n|A|=\\frac cb\n$$",
+  "old_idea": "由 Schur 补，\n$$\nc=|A|\\bigl(b-\\alpha^TA^{-1}\\alpha\\bigr).\n$$\n而 $A^{-1}$ 仍为反对称矩阵，所以 $\\alpha^TA^{-1}\\alpha=0$。"
+ },
+ {
+  "no": "364",
+  "source": "(1990 数三)",
+  "stem": "已知线性方程组 $\\begin{cases} x_1 + x_2 + x_3 + x_4 + x_5 = a, \\\\ 3x_1 + 2x_2 + x_3 + x_4 - 3x_5 = 0, \\\\ x_2 + 2x_3 + 2x_4 + 6x_5 = b, \\\\ 5x_1 + 4x_2 + 3x_3 + 3x_4 - x_5 = 2, \\end{cases}$ $a$、$b$ 为何值时，方程组有解？ 方程组有解时，求出方程组的导出组的一个基础解系； 方程组有解时，求出方程组的全部解。",
+  "options": [],
+  "answer": "方程组有解当且仅当 $a=1,b=3$。导出组的一个基础解系为 $(1,-2,1,0,0)^T,(1,-2,0,1,0)^T,(5,-6,0,0,1)^T$。全部解为 $(-2,3,0,0,0)^T+s(1,-2,1,0,0)^T+t(1,-2,0,1,0)^T+u(5,-6,0,0,1)^T$。",
+  "old_idea": "系数矩阵的左零关系为 $-3R_1+R_2+R_3=0$ 与 $-2R_1-R_2+R_4=0$。右端需满足 $-3a+b=0$ 与 $-2a+2=0$，故 $a=1,b=3$。代入行化简即可得基础解系和全部解。"
+ },
+ {
+  "no": 180,
+  "source": "900 题数二第二章 A类 1",
+  "stem": "已知矩阵 $A,B,C$ 为 $n$ 阶矩阵，且 $AB=BC$，则下列说法中，正确的是（ ）",
+  "options": [
+   "若 $A=E$，且 $B\\ne O$，则 $C=E$",
+   "若 $A=O$，且 $B\\ne O$，则 $C=O$",
+   "若 $B$ 可逆，则 $A$ 与 $C$ 等价",
+   "若 $C$ 可逆，则 $A$ 与 $B$ 等价"
+  ],
+  "answer": "（C. 若 $B$ 可逆，则 $A$ 与 $C$ 等价）",
+  "old_idea": "若 $B$ 可逆，由 $AB=BC$ 得 $A=BCB^{-1}$，所以 $A$ 与 $C$ 相似，进而等价，故 C 正确。A、B 可由非零零因子构造反例；D 仅由 $C$ 可逆不能推出 $A$ 与 $B$ 等价。"
+ },
+ {
+  "no": 160,
+  "source": "900 题数二第二章 A类 9",
+  "stem": "设 $A,B$ 是 $n$ 阶矩阵，$A^*$ 是 $A$ 的伴随矩阵。若 $r(B)=2$，且 $AB=O$，则 $r(A^*)=$（ ）",
+  "options": [
+   "$0$",
+   "$1$",
+   "$2$",
+   "$3$"
+  ],
+  "answer": "（A. $0$）",
+  "old_idea": "由 $AB=O$ 得 $r(A)+r(B)\\le n$。因 $r(B)=2$，所以 $r(A)\\le n-2$。此时 $A$ 的所有 $n-1$ 阶子式均为零，故 $A^*=O$，从而 $r(A^*)=0$，选 A。"
+ },
+ {
+  "no": 475,
+  "source": "(900题数二第四章 A类 16)",
+  "stem": "设矩阵  $ A = \\begin{pmatrix} 1 & 2 & -1 & 3 \\\\ 0 & 1 & -1 & -4 \\\\ 1 & -2 & 0 & 6 \\end{pmatrix} $ ,  $ E $  为 3 阶单位矩阵。(I) 求方程组  $ Ax=0 $  的一个基础解系；(II) 求满足  $ AB = E $  的所有矩阵  $ B $ 。",
+  "options": [],
+  "answer": "(I) 一个基础解系为\n$$\n\\left\\{\\begin{pmatrix}-20\\\\-1\\\\-13\\\\3\\end{pmatrix}\\right\\}.\n$$\n (II) 全部解为\n$$\nB=\\begin{pmatrix}\\frac23-\\frac{20}3r&-\\frac23-\\frac{20}3s&\\frac13-\\frac{20}3t\\\\\\frac13-\\frac13r&-\\frac13-\\frac13s&-\\frac13-\\frac13t\\\\\\frac13-\\frac{13}3r&-\\frac43-\\frac{13}3s&-\\frac13-\\frac{13}3t\\\\r&s&t\\end{pmatrix},\\quad r,s,t\\in\\mathbb R.\n$$",
+  "old_idea": "行化简得 $r(A)=3$，故 $Ax=0$ 的解空间维数为 $1$，可取基础解向量 $(-20,-1,-13,3)^T$。再将 $AB=E$ 按列求解，每列的自由变量分别记为 $r,s,t$，合并即得全部右逆矩阵。"
+ },
+ {
+  "no": 3905,
+  "source": "900 题数二第二章 B 类 12",
+  "stem": "设 $A,B$ 为 $n$ 阶矩阵，求\n$$\n\\begin{vmatrix}A^2&AB\\\\BA&B^2\\end{vmatrix}.\n$$",
+  "options": [],
+  "answer": "$0$",
+  "old_idea": "可分解为\n$$\n\\begin{pmatrix}A&O\\\\O&B\\end{pmatrix}\\begin{pmatrix}A&B\\\\A&B\\end{pmatrix},\n$$\n第二个分块矩阵的两行块相同，故行列式为 $0$。"
+ }
+]
