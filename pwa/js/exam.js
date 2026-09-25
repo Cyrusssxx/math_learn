@@ -213,8 +213,9 @@ function noteImgNode(id) {
     del.title = '删除图片';
     del.textContent = '×';
     del.onclick = () => {
-        // 编辑态删图前确认：图片 blob 一旦删除无法找回（除非有导出备份）
-        if (confirm('删除这张图片？（文字不受影响，删除后需重新插入）')) delExamNoteImg(id, del);
+        // 编辑模式内直接删除（不弹确认）：编辑态有「保存」这道最终关卡，误删可在保存前撤销
+        // （未保存前关掉编辑即放弃改动）；只读态的删除入口才需要确认兜底。
+        delExamNoteImg(id, del);
     };
     wrap.append(img, del);
     // 编辑器内拖拽排序：拖动图片调整顺序，落点顺序即存储顺序（editorToNote 按 DOM 位置序列化）
@@ -470,15 +471,47 @@ function pasteOneNoteImg(ta, raw) {
         // 编辑器内联：在光标处插入可拖拽图片节点（顺序即存储顺序）
         const node = noteImgNode(id);
         const sel = getSelection();
-        const range = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
+        let range = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
+        // ⚠️ 真实浏览器下的空行/相邻图场景修正：
+        // ① 点击「空行」（div 内只有 <br>）时，Chrome 的选区常落在该 div 的末尾（offset 指向 <br> 之后）
+        //    或直接落在 <br> 节点上——直接 insertNode 会把图片插到下一行/块末尾，表现为
+        //    「空行贴不上图 / 图跑到别处」。统一归位：若 range 锚点在「仅含 <br> 的空块」内，
+        //    则把插入点收到该块开头（即该空行原位）。
+        // ② 两张图紧挨时（wrap 之间无文本节点）光标无处可落，插入会跑到单侧；
+        //    下面给图片后补零宽文本节点作为「落点」解决。
         if (range && ta.contains(range.startContainer)) {
+            const sc = range.startContainer;
+            // 情形 A：锚点就是 <br> 节点本身
+            let brHost = (sc.nodeType === 1 && sc.tagName === 'BR') ? sc : null;
+            // 情形 B：锚点是元素（如空 div），且该元素内容仅由 <br> 组成
+            if (!brHost && sc.nodeType === 1) {
+                const onlyBr = sc.childNodes.length > 0 && [...sc.childNodes].every(n =>
+                    (n.nodeType === 1 && n.tagName === 'BR') || (n.nodeType === 3 && !n.nodeValue.replace(/[\u200B\s]/g, '')));
+                if (onlyBr && sc !== ta) brHost = sc;
+            }
+            if (brHost) {
+                // 把插入点收到该空行块的开头（保留空行本身，图片就落在这一行）
+                try {
+                    range.selectNodeContents(brHost);
+                    range.collapse(true);
+                } catch (e2) { }
+            }
+        }
+        if (range && ta.contains(range.startContainer)) {
+            range.deleteContents();
             range.insertNode(node);
-            range.setStartAfter(node);
-            range.collapse(true);
+            // 图片后插入零宽文本节点并落光标：为下一次贴图/输入提供落点（否则两图相邻无法再插入）
+            const anchor = document.createTextNode('\u200B');
+            node.parentNode.insertBefore(anchor, node.nextSibling);
+            try {
+                range.setStart(anchor, 1);
+                range.collapse(true);
+            } catch (e2) { }
             sel.removeAllRanges();
             sel.addRange(range);
         } else {
             ta.appendChild(node);
+            ta.appendChild(document.createTextNode('\u200B'));
         }
         // 注意：此处绝不能调 fillExamNoteImgs —— blob 尚未写库，
         // 它会在 300ms 重试失败后 replaceWith('[图片已丢失]')，把节点换成文本导致令牌永久丢失。
