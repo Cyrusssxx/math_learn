@@ -1,0 +1,13 @@
+node_modules
+tools/_ans_stitch/
+tools/__pycache__/
+tools/_ocr_in/
+tools/_pages/
+tools/_crop_verify/
+tools/_fields/
+tools/_fixbatch/
+tools/_ans_crop_test/
+tools/_ans_crop_v2/
+tools/_cmp_pngs/
+tools/*.png
+_verify/
