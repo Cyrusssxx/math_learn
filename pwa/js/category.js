@@ -999,6 +999,9 @@ let srcMode = (function () { try { return localStorage.getItem(SRC_MODE_KEY) ===
 // 无标记优先：把未收藏、未标「不熟/不会」的题排到最前（刷题时先清「没碰过的」）
 const UNMARKED_FIRST_KEY = 'catUnmarkedFirst';
 let unmarkedFirst = (function () { try { return localStorage.getItem(UNMARKED_FIRST_KEY) === '1'; } catch (e) { return false; } })();
+// 年份排序：默认倒序（新题在上面）
+const YEAR_SORT_KEY = 'catYearSortDesc';
+let yearSortDesc = (function () { try { return localStorage.getItem(YEAR_SORT_KEY) !== '0'; } catch (e) { return true; } })();
 let examPapers = [];    // 真题套卷
 let corePapers = [];    // 核心题库（单「卷」，内部按章节分节）
 const SRC_META = {
@@ -1136,7 +1139,7 @@ function isUnmarked(e) {
     return !isFav(qid) && !statusOf(qid);
 }
 
-/** 排序比较器：开启「无标记优先」时无标记的排前，其余沿用「收藏时间倒序 → 年份倒序」 */
+/** 排序比较器：开启「无标记优先」时无标记的排前，其余沿用「收藏时间倒序 → 年份排序（默认倒序/可选顺序）」 */
 function compareEntries(a, b) {
     if (unmarkedFirst) {
         const ua = isUnmarked(a) ? 0 : 1;
@@ -1146,11 +1149,32 @@ function compareEntries(a, b) {
     const ta = favTime(qidOf(a.paper.id, a.q.no));
     const tb = favTime(qidOf(b.paper.id, b.q.no));
     if (ta && tb) return tb - ta;
-    // 年份倒序（兜底 0：无年份的补充题排到有年份真题之后，避免 NaN 失序淹没真题）
+    // 年份排序（兜底 0：无年份的补充题排到有年份真题之后，避免 NaN 失序淹没真题）
     const ya = parseInt(a.paper.year, 10) || 0;
     const yb = parseInt(b.paper.year, 10) || 0;
-    if (yb !== ya) return yb - ya;
+    if (yb !== ya) {
+        return yearSortDesc ? (yb - ya) : (ya - yb);
+    }
     return 0;
+}
+
+function syncYearSortBtn() {
+    const b = document.getElementById('yearSortBtn');
+    if (!b) return;
+    b.classList.toggle('on', !yearSortDesc); // 顺序时激活态高亮
+    b.setAttribute('aria-pressed', yearSortDesc ? 'false' : 'true');
+    b.textContent = yearSortDesc ? '⬇️ 年份倒序' : '⬆️ 年份顺序';
+    b.title = yearSortDesc
+        ? '当前：年份倒序（最新年份在上面）。点击切换为顺序（老题在上面）'
+        : '当前：年份顺序（老题在上面）。点击切换为倒序（新题在上面）';
+}
+
+function toggleYearSort() {
+    yearSortDesc = !yearSortDesc;
+    try { localStorage.setItem(YEAR_SORT_KEY, yearSortDesc ? '1' : '0'); } catch (e) { }
+    syncYearSortBtn();
+    renderMain();
+    renderNav();
 }
 
 function syncUnmarkedFirstBtn() {
@@ -1212,11 +1236,22 @@ function buildTree(entries) {
         cm[ch.id].leaves.push({ id: c.id, name: c.name, display: c.display, count: cnt });
     }
     const order = ['高等数学', '线性代数', '概率统计'];
+    const laChapterOrder = ['行列式', '矩阵', '向量', '线性方程组', '特征值与特征向量', '二次型'];
     const subs = Object.keys(subjMap)
         .filter(s => Object.keys(subjMap[s].chapters).length)
         .sort((a, b) => { const ia = order.indexOf(a), ib = order.indexOf(b); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib); });
     return subs.map(s => {
-        const chapters = Object.values(subjMap[s].chapters).sort((a, b) => b.count - a.count);
+        let chapters = Object.values(subjMap[s].chapters);
+        if (s === '线性代数') {
+            // 线代章节按用户指定固定顺序：行列式 -> 矩阵 -> 向量 -> 线性方程组 -> 特征值与特征向量 -> 二次型
+            chapters.sort((a, b) => {
+                const ia = laChapterOrder.indexOf(a.name);
+                const ib = laChapterOrder.indexOf(b.name);
+                return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+            });
+        } else {
+            chapters.sort((a, b) => b.count - a.count);
+        }
         chapters.forEach(ch => ch.leaves.sort((a, b) => b.count - a.count));
         return { subject: s, chapters };
     });
@@ -1244,8 +1279,9 @@ function renderTree() {
                 ${s.chapters.map(ch => {
                     const copen = !collapsedChapters.has(ch.id);
                     const leafOn = String(curCat) === String(ch.id);
+                    const chHover = deepRootOfChapter(ch.id) ? ` onmouseenter="onChapterNodeEnter(this, ${ch.id})" onmouseleave="scheduleHideDeepFly()"` : '';
                     return `<div class="cat-chapter">
-                        <div class="cat-chapter-head${leafOn ? ' on' : ''}" onclick="toggleChapter(${ch.id})">
+                        <div class="cat-chapter-head${leafOn ? ' on' : ''}" onclick="toggleChapter(${ch.id})"${chHover} title="${ch.display || ch.name}${deepRootOfChapter(ch.id) ? '（悬停查看下分支）' : ''}">
                             <span class="cat-chapter-arrow">${copen ? '▾' : '▸'}</span>
                             <span class="cat-chapter-name">${ch.display || ch.name}</span>
                             <span class="cat-count">${ch.count}</span>
@@ -1485,7 +1521,7 @@ function renderMain() {
     let html = `<div class="paper-head">
         <h1>${c ? c.display : curCat}</h1>
         <div class="paper-sub">${c ? c.path : ''}</div>
-        <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年${unmarkedFirst ? ` · <b>无标记优先</b>（未标记 ${unmarkedN} 题已提前）` : ''}</div>
+        <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年${unmarkedFirst ? ` · <b>无标记优先</b>（未标记 ${unmarkedN} 题已提前）` : ''} · ${yearSortDesc ? '<b>年份倒序</b>' : '<b>年份顺序</b>'}</div>
         <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
     if (deepSet) html += deepFilterTip(entries.length);
@@ -1675,10 +1711,57 @@ function deepPath(id) {
     return out;
 }
 
-/** 本库知识点 → 其对应的大观园细分类根节点（无映射返回 null） */
+/** 本库知识点或章节 → 其对应的大观园细分类根节点（无映射返回 null） */
 function deepRootOfCat(catId) {
     if (!catDeep || !catDeep.l2root) return null;
     return catDeep.l2root[String(catId)] || null;
+}
+
+/** 章节级别的细分类根节点（线代章节直接对应大观园的章节节点 2~7） */
+function deepRootOfChapter(chId) {
+    if (!catDeep || !catDeep.nodes) return null;
+    const cid = String(chId);
+    // 线代 6 大章 id 分别为 2, 3, 4, 5, 6, 7
+    if (['2', '3', '4', '5', '6', '7'].includes(cid) && catDeep.nodes[cid]) {
+        return cid;
+    }
+    return null;
+}
+
+/** 章节悬停入口：线代 6 大章悬停直接展示该章全部下分支 */
+function onChapterNodeEnter(nodeEl, chId) {
+    const root = deepRootOfChapter(chId);
+    if (!root) { scheduleHideDeepFly(60); return; }
+    // 统计属于该章的所有题目在该子树下的细分类分布
+    if (!catDeep) { scheduleHideDeepFly(60); return; }
+    const key = String(chId);
+    const direct = {};
+    // 查找该章包含的所有 L3 叶子节点 id
+    const childLeaves = new Set();
+    for (const id in cats) {
+        if (String(cats[id].parentId) === key) childLeaves.add(String(id));
+    }
+    for (const e of allEntries) {
+        if (!childLeaves.has(String(e.catId))) continue;
+        for (const id of (e.q.deepCats || [])) {
+            if (!catDeep.nodes[id]) continue;
+            direct[id] = (direct[id] || 0) + 1;
+        }
+    }
+    const sub = {};
+    for (const id in direct) {
+        const n = direct[id];
+        let cur = id, guard = 0;
+        while (cur && catDeep.nodes[cur] && guard++ < 20) {
+            sub[cur] = (sub[cur] || 0) + n;
+            cur = catDeep.nodes[cur].p;
+        }
+    }
+    if (!sub[root]) { scheduleHideDeepFly(60); return; }
+    _flySub = sub;
+    _flyDirect = direct;
+    clearTimeout(_flyHideTimer);
+    showDeepBrowse(root, 0, nodeEl.getBoundingClientRect());
 }
 
 /** 细分类筛选态提示条（页头）：题数用列表实际条数，避免与浮层计数口径不一致 */
@@ -1877,6 +1960,7 @@ async function init() {
     } catch (e) { console.warn('线代重点题库加载失败', e); }
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
     syncUnmarkedFirstBtn();
+    syncYearSortBtn();
     // 恢复的选中分类若已不在分类表里（数据变更），清掉防悬空
     if (curCat !== null && !cats[String(curCat)]) { curCat = null; saveCatState(); }
     // 支持 ?cid=<知识点id> 直达（来自「分析与建议」面板的「跳转刷题」）
