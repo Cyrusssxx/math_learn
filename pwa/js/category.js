@@ -1086,32 +1086,11 @@ function buildEntries() {
             }
         }
     }
-    // 合并大观园线代补充题库（挂线代知识点；真题模式与核心题库模式都并入）
+    // 合并线代 346 题重点题库（挂线代知识点；真题模式与核心题库模式都并入这套统一的 346 题）
+    // 线代已全量收敛至 346 题做题本，不再混入未精选的线代题目，保证两套题库线代完全统一
     for (const e of xdItems) {
         for (const cid of e.catIds) {
             allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
-        }
-    }
-    // 核心题库模式：并入「线代真题」条目。core_bank.json(大观严选 606) 本身全是高数，
-    // 线代在 core 模式只有 xd 精选题（独立 qid）→ 真题的收藏/标记/笔记看不到，
-    // 且 xd 中与真题同题的已去重移除、真题版又不显示 → 该题在 core 模式消失。
-    // 仅并入挂线代知识点（父=行列式~二次型 2~7）的真题，其余真题仍不混入 core 模式。
-    if (srcMode === 'core') {
-        const xdL2 = new Set();
-        for (const nid in cats) {
-            const n = cats[nid];
-            if ([2, 3, 4, 5, 6, 7].includes(Number(n.parentId))) xdL2.add(Number(nid));
-        }
-        for (const p of examPapers) {
-            for (const sec of (p.sections || [])) {
-                for (const q of (sec.questions || [])) {
-                    for (const cid of (q.categoryIds || [])) {
-                        if (xdL2.has(Number(cid))) {
-                            allEntries.push({ paper: p, secTitle: sec.title, q, catId: cid });
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -1875,7 +1854,7 @@ async function init() {
             return !(m && examYears.has(m[1]));
         });
     }
-    // 大观园线代补充题库（xd_bank.json）：线代知识点题并入分类区，与真题去重并建立 linkedQid 映射
+    // 线代 346 题重点题库（xd_bank.json）：作为全站唯一统一的线代题库
     try {
         const xr = await fetch('data/xd_bank.json').catch(() => null);
         if (xr && xr.ok) {
@@ -1888,40 +1867,14 @@ async function init() {
                     }
                 }
             }
-            const examYears = new Set(examPapers.map(p => String(p.year)));
             xdItems = ((xd[0] && xd[0].sections) || []).flatMap(sec =>
                 (sec.questions || []).map(it => {
-                    const ym = /(\d{4})/.exec(it.source || '');   // 括号格式 "(1991 数一)" 也能提取年份
-                    return { paper: { id: 'xd', year: ym ? ym[1] : '', title: it.source || '大观园线代' }, q: it, catIds: it.categoryIds || [] };
+                    const ym = /(\d{4})/.exec(it.source || '');   // 提取年份用于排序和筛选
+                    return { paper: { id: 'xd', year: ym ? ym[1] : '', title: it.source || '线代重点题' }, q: it, catIds: it.categoryIds || [] };
                 })
-            ).filter(e => {
-                // 如果已经有 linkedQid 映射到数二真题套卷中的题目，使用真题卷版本，避免重复显示
-                if (e.q.linkedQid) return false;
-                const src = String(e.q.source || '').trim();
-                // ① 「(YYYY 数二)」数二真题卷明确有 → 用真题卷版本
-                // ② 「(YYYY 数学一二三)」三科共用原题 → 数二卷必有 → 用真题卷版本
-                const m = /^\(?(19\d\d|20\d\d)(?: 数二(?:真题)?| 数学一二三)\)?$/.exec(src);
-                if (m && examYears.has(m[1])) return false;
-                // ③ 「(YYYY 数一)/(YYYY 数三)」：同年且与数二卷同题（stem 标准化匹配）→ 用真题卷版本
-                const m2 = /^\((19\d\d|20\d\d) 数[一三]\)$/.exec(src);
-                if (m2 && examYears.has(m2[1])) {
-                    const paper = examPapers.find(p => String(p.year) === m2[1]);
-                    if (paper) {
-                        const norm = t => String(t || '').replace(/\s+/g, '').replace(/\$/g, '');
-                        const st = norm(e.q.stem);
-                        for (const sec of paper.sections || []) {
-                            for (const q of sec.questions || []) {
-                                const ns = norm(q.stem);
-                                if (ns === st) return false;
-                                if (st.length >= 30 && ns.length >= 30 && (ns.slice(0, 30) === st.slice(0, 30))) return false;
-                            }
-                        }
-                    }
-                }
-                return true;
-            });
+            );
         }
-    } catch (e) { console.warn('线代补充题库加载失败', e); }
+    } catch (e) { console.warn('线代重点题库加载失败', e); }
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
     syncUnmarkedFirstBtn();
     // 恢复的选中分类若已不在分类表里（数据变更），清掉防悬空
