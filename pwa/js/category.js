@@ -7,12 +7,15 @@ const FAV_ONLY_KEY = 'examFavOnly';   // 是否只看收藏（常量保留，界
 const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'unfamiliar' | 'unknown' }：不熟/不会掌握度标记（互斥）
 
 // ============ 收藏存储 ============
-// 收藏/标记统一主键：核心题库的题若映射到数二真题（linkedQid），直接沿用真题的 qid，
-// 从而与「真题页 / 真题分类」的收藏、不熟、不会标记双向同步。
-let coreLink = {};   // core 题 no -> linkedQid（init 时从 corePapers 构建）
+// 收藏/标记统一主键：核心题库/线代题库的题若映射到数二真题（linkedQid），直接沿用真题的 qid，
+// 从而与「真题页 / 真题分类」的收藏、不熟、不会标记、笔记双向同步。
+let coreLink = {};   // 题目 (paperId + '-' + no 或 q.no) -> linkedQid
 function qidOf(paperId, no) {
-    if (paperId === 'core') return coreLink[no] || ('core-' + no);
-    return paperId + '-' + no;
+    const k = paperId + '-' + no;
+    if (coreLink[k]) return coreLink[k];
+    if (paperId === 'core' && coreLink[no]) return coreLink[no];
+    if (paperId === 'xd' && coreLink[no]) return coreLink[no];
+    return k;
 }
 
 // 旧版核心题库曾用 'core-<no>' 作为收藏/标记/笔记主键；主键统一为真题 qid 后需一次性迁移：
@@ -1872,11 +1875,19 @@ async function init() {
             return !(m && examYears.has(m[1]));
         });
     }
-    // 大观园线代补充题库（xd_bank.json）：线代知识点题并入真题分类区（仅 exam 模式），与真题去重
+    // 大观园线代补充题库（xd_bank.json）：线代知识点题并入分类区，与真题去重并建立 linkedQid 映射
     try {
         const xr = await fetch('data/xd_bank.json').catch(() => null);
         if (xr && xr.ok) {
             const xd = await xr.json();
+            for (const sec of (xd[0] && xd[0].sections) || []) {
+                for (const q of (sec.questions || [])) {
+                    if (q.linkedQid) {
+                        coreLink['xd-' + q.no] = q.linkedQid;
+                        coreLink[q.no] = q.linkedQid;
+                    }
+                }
+            }
             const examYears = new Set(examPapers.map(p => String(p.year)));
             xdItems = ((xd[0] && xd[0].sections) || []).flatMap(sec =>
                 (sec.questions || []).map(it => {
@@ -1884,6 +1895,8 @@ async function init() {
                     return { paper: { id: 'xd', year: ym ? ym[1] : '', title: it.source || '大观园线代' }, q: it, catIds: it.categoryIds || [] };
                 })
             ).filter(e => {
+                // 如果已经有 linkedQid 映射到数二真题套卷中的题目，使用真题卷版本，避免重复显示
+                if (e.q.linkedQid) return false;
                 const src = String(e.q.source || '').trim();
                 // ① 「(YYYY 数二)」数二真题卷明确有 → 用真题卷版本
                 // ② 「(YYYY 数学一二三)」三科共用原题 → 数二卷必有 → 用真题卷版本
