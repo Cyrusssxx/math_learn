@@ -999,6 +999,9 @@ let srcMode = (function () { try { return localStorage.getItem(SRC_MODE_KEY) ===
 // 无标记优先：把未收藏、未标「不熟/不会」的题排到最前（刷题时先清「没碰过的」）
 const UNMARKED_FIRST_KEY = 'catUnmarkedFirst';
 let unmarkedFirst = (function () { try { return localStorage.getItem(UNMARKED_FIRST_KEY) === '1'; } catch (e) { return false; } })();
+// 左侧目录栏收起状态（与 exam.html 同款交互，独立键）
+const CAT_SIDE_KEY = 'catSideClosed';
+let sideClosed = (function () { try { return localStorage.getItem(CAT_SIDE_KEY) === '1'; } catch (e) { return false; } })();
 // 年份排序：默认倒序（新题在上面）
 const YEAR_SORT_KEY = 'catYearSortDesc';
 let yearSortDesc = (function () { try { return localStorage.getItem(YEAR_SORT_KEY) !== '0'; } catch (e) { return true; } })();
@@ -1177,6 +1180,19 @@ function toggleYearSort() {
     renderNav();
 }
 
+// ============ 左侧目录栏收起/展开（与 exam.html 同款交互） ============
+function toggleSide() {
+    sideClosed = !sideClosed;
+    try { localStorage.setItem(CAT_SIDE_KEY, sideClosed ? '1' : '0'); } catch (e) { }
+    applySideState();
+}
+function applySideState() {
+    const wrap = document.querySelector('.exam-wrap');
+    const btn = document.getElementById('sideToggle');
+    if (wrap) wrap.classList.toggle('side-closed', sideClosed);
+    if (btn) btn.textContent = sideClosed ? '▶' : '◀';
+}
+
 function syncUnmarkedFirstBtn() {
     const b = document.getElementById('unmarkedFirst');
     if (!b) return;
@@ -1330,6 +1346,16 @@ function selectCat(id) {
     saveCatState();
     renderTree();
     renderMain();
+}
+
+/** 搜索结果「进入此分支」跳转：同页直达该知识点（清搜索词、展开分类树使其可见） */
+function jumpBranch(cid) {
+    collapsedSubjects.clear();   // 展开全部，保证目标分支在左侧树中可见并高亮
+    collapsedChapters.clear();
+    selectCat(cid);
+    // 目录若处于收起态则自动展开，便于用户看到选中的分支
+    if (sideClosed) { sideClosed = false; try { localStorage.setItem(CAT_SIDE_KEY, '0'); } catch (e) { } applySideState(); }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ============ 渲染：题目卡片 ============
@@ -1538,15 +1564,19 @@ function renderMain() {
 let catSearchKw = '';                 // 当前搜索词（空 = 分类浏览模式）
 let catSearchTimer = null;
 
+// 输入中：只更新「清除按钮」显隐，不触发搜索（搜索须按回车确认）
+function onCatSearchInput(v) {
+    const clr = document.getElementById('catSearchClear');
+    if (clr) clr.style.display = (v || '').trim() ? '' : 'none';
+}
+// 按回车（Enter）确认搜索
 function onCatSearch(v) {
     clearTimeout(catSearchTimer);
-    catSearchTimer = setTimeout(() => {
-        const kw = (v || '').trim();
-        catSearchKw = kw;
-        const clr = document.getElementById('catSearchClear');
-        if (clr) clr.style.display = kw ? '' : 'none';
-        renderMain();
-    }, 200);
+    const kw = (v || '').trim();
+    catSearchKw = kw;
+    const clr = document.getElementById('catSearchClear');
+    if (clr) clr.style.display = kw ? '' : 'none';
+    renderMain();
 }
 
 function clearCatSearch() {
@@ -1584,7 +1614,7 @@ function renderSearchResults() {
     entries.sort(compareEntries);
     const h = `<div class="paper-head">
         <h1>🔍 “${catSearchKw}”</h1>
-        <div class="paper-sub">全库搜索命中 ${entries.length} 题（含大观园）</div>
+        <div class="paper-sub">全库搜索命中 ${entries.length} 题 · 每题上方可点「进入分支」直接去该知识点刷题</div>
         ${entries.length ? `<div class="paper-meta">共 ${entries.length} 题 · 跨 ${new Set(entries.map(e => e.paper.year)).size} 年</div>` : ''}
     </div>`;
     const markNames = { fav: '📥收藏', unfamiliar: '🟡不熟', unknown: '🔴不会' };
@@ -1595,7 +1625,21 @@ function renderSearchResults() {
         return;
     }
     let html = h;
-    entries.forEach(e => { html += catCard(e.paper, e.secTitle, e.q); });
+    let lastBranch = '';   // 连续同分支只显示一条跳转条
+    entries.forEach(e => {
+        const c = cats[String(e.catId)];
+        if (c) {
+            const path = c.path || c.name || String(e.catId);
+            if (path !== lastBranch) {
+                lastBranch = path;
+                html += `<div class="q-branch-chip" onclick="jumpBranch(${e.catId})" title="展开左侧分类树并进入该知识点分支刷题">
+                    <span class="q-branch-path">📂 ${esc(path)}</span>
+                    <span class="q-branch-go">进入此分支 →</span>
+                </div>`;
+            }
+        }
+        html += catCard(e.paper, e.secTitle, e.q);
+    });
     el.innerHTML = html;
     renderMath(el);
     el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
@@ -1974,6 +2018,8 @@ async function init() {
     // 顶栏折叠状态恢复（与真题页共用 examTopCollapsed，保持跨页一致）
     restoreTopBar();
     syncTopH();
+    // 左侧目录栏收起状态恢复（与 exam.html 同款交互）
+    applySideState();
     // 恢复上次搜索词 + 滚动位置（记忆做题位置）
     try {
         const st = JSON.parse(localStorage.getItem(CAT_STATE_KEY) || '{}');

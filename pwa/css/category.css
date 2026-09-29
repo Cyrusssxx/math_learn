@@ -308,3 +308,39 @@ html.dark .bg-btn:hover { background: #2d3640; }
     cursor: pointer;
 }
 .deep-clear:hover { border-color: var(--accent, #4a6fd9); color: var(--accent, #4a6fd9); }
+
+/* ============ 左侧目录栏收起态（exam.css 隐藏的是 #paperList，此处补 catTree） ============ */
+.exam-wrap.side-closed #catTree { display: none; }
+
+/* ============ 搜索结果：知识点分支跳转条（点「进入此分支」同页直达刷题） ============ */
+.q-branch-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 16px 0 6px;
+    padding: 7px 12px;
+    font-size: 12.5px;
+    color: var(--text-dim, #5b6472);
+    background: rgba(74, 144, 217, .09);
+    border: 1px solid rgba(74, 144, 217, .22);
+    border-left: 3px solid var(--accent, #4a7ab8);
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background .15s, border-color .15s;
+}
+.q-branch-chip:hover {
+    background: rgba(74, 144, 217, .16);
+    border-color: rgba(74, 144, 217, .45);
+}
+.q-branch-path {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.q-branch-go {
+    flex: none;
+    font-weight: 600;
+    color: var(--accent, #4a7ab8);
+}
