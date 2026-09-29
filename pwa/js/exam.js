@@ -2,7 +2,7 @@
 
 const FAV_KEY = 'examFav';           // { 套卷id: [题no, ...] } 或 {'qid':1}
 const FAV_ONLY_KEY = 'examFavOnly';  // 是否只看收藏
-const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'unfamiliar' | 'unknown' }：不熟/不会掌握度标记（互斥）
+const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'mastered' | 'unfamiliar' | 'unknown' }：掌握/不熟/不会三态标记（互斥）
 const EXAM_POS_KEY = 'examLastPos';  // 刷新恢复上次位置：{paperId, no}
 const REVIEW_KEY = 'examReview-';    // 试卷点评（按套卷 id 存）：examReview-{paperId}
 
@@ -1226,6 +1226,7 @@ function qCard(p, sec, q, secIdx) {
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindTag}</span>
             ${fav ? `<span class="q-mark-chip m-fav" title="已收藏">📥</span>` : ''}
+            ${statusOf(qid) === 'mastered' ? '<span class="q-mark-chip m-mst" title="已掌握">🟢 掌握</span>' : ''}
             ${statusOf(qid) === 'unfamiliar' ? '<span class="q-mark-chip m-unfam" title="不熟">🟡 不熟</span>' : ''}
             ${statusOf(qid) === 'unknown' ? '<span class="q-mark-chip m-unk" title="不会">🔴 不会</span>' : ''}
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
@@ -1233,6 +1234,7 @@ function qCard(p, sec, q, secIdx) {
             <button class="q-copy-latex" onclick="copyQLatex(this)" title="复制本题 LaTeX 源码（题干+选项，含 $...$ 原始命令）">📋 LaTeX</button>
         </div>
         <div class="q-status-rail" data-qid="${qid}">
+            <button class="q-st-btn q-st-mst${statusOf(qid) === 'mastered' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','mastered')" title="标记为「掌握」（绿色；再点取消）">掌握</button>
             <button class="q-st-btn q-st-unfam${statusOf(qid) === 'unfamiliar' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unfamiliar')" title="标记为「不熟」（黄色；再点取消）">不熟</button>
             <button class="q-st-btn q-st-unk${statusOf(qid) === 'unknown' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unknown')" title="标记为「不会」（红色；再点取消）">不会</button>
         </div>
@@ -1293,10 +1295,28 @@ function toggleQStatus(btn, qid, v) {
     const nv = toggleStatus(qid, v);
     const rail = btn.closest('.q-status-rail');
     if (rail) {
+        rail.querySelector('.q-st-mst').classList.toggle('on', nv === 'mastered');
         rail.querySelector('.q-st-unfam').classList.toggle('on', nv === 'unfamiliar');
         rail.querySelector('.q-st-unk').classList.toggle('on', nv === 'unknown');
     }
-    renderNav();   // 实时刷新悬浮题号标记（🟡不熟/🔴不会 立即同步到题号球）
+    syncStatusChip(btn.closest('.q-card'), qid);   // 头部 chip（🟢掌握/🟡不熟/🔴不会）实时同步
+    renderNav();   // 实时刷新悬浮题号标记（🟢掌握/🟡不熟/🔴不会 立即同步到题号球）
+}
+/** 状态 chip 实时同步（点标记按钮即刷新头部徽标，不必整卡重渲染） */
+function syncStatusChip(card, qid) {
+    if (!card) return;
+    card.querySelectorAll('.q-mark-chip.m-mst,.q-mark-chip.m-unfam,.q-mark-chip.m-unk').forEach(x => x.remove());
+    const st = statusOf(qid);
+    let html = '';
+    if (st === 'mastered') html = '<span class="q-mark-chip m-mst" title="已掌握">🟢 掌握</span>';
+    else if (st === 'unfamiliar') html = '<span class="q-mark-chip m-unfam" title="不熟">🟡 不熟</span>';
+    else if (st === 'unknown') html = '<span class="q-mark-chip m-unk" title="不会">🔴 不会</span>';
+    if (!html) return;
+    const head = card.querySelector('.q-head');
+    if (!head) return;
+    const anchor = head.querySelector('.q-fav-date, .q-year, .q-fav, .q-copy-latex');
+    if (anchor) anchor.insertAdjacentHTML('beforebegin', html);
+    else head.insertAdjacentHTML('beforeend', html);
 }
 
 // ============ 做题模式：隐藏答案/思路/点评入口，仅保留笔记可写 ============
@@ -1424,9 +1444,10 @@ function renderNav() {
     if (list) list.innerHTML = all.map(({ no, tag }) => {
         // 题号球上标出 🟡不熟 / 🔴不会（与题卡标记一致）
         const st = statusOf(qidOf(curPaper.id, no));
-        const markCls = st ? (st === 'unknown' ? ' mark-unk' : ' mark-unf') : '';
+        const markCls = st ? (st === 'unknown' ? ' mark-unk' : st === 'mastered' ? ' mark-mst' : ' mark-unf') : '';
+        const stTxt = st === 'unknown' ? '·🔴不会' : st === 'mastered' ? '·🟢掌握' : st === 'unfamiliar' ? '·🟡不熟' : '';
         return `<button class="nav-q${markCls}${favOnlyOn && !isFav(qidOf(curPaper.id, no)) ? ' hidden' : ''}"
-            data-navq="${no}" title="${tag}${no} 题${st ? (st === 'unknown' ? '·🔴不会' : '·🟡不熟') : ''}" onclick="jumpToQ(${no})">${no}</button>`;
+            data-navq="${no}" title="${tag}${no} 题${stTxt}" onclick="jumpToQ(${no})">${no}</button>`;
     }).join('');
     highlightNav();
 }

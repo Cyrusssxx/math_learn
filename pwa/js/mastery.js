@@ -4,8 +4,9 @@
    数据来源：当前数据源（真题 / 核心题库）的全部题目 + 知识点树
              + localStorage 的 ⭐收藏(examFav) / 🟡不熟·🔴不会(examStatus)
    口径：每个知识点一色块，四态互斥计数
-         🔴不会 / 🟡不熟 / ✅已掌握(mastered) / ⚪未刷(无任何标记)
+         🔴不会 / 🟡不熟 / ✅已掌握(显式 mastered 标记，或已收藏且无薄弱标记) / ⚪未刷
          **掌握率 = 已掌握题数 / 总题数**（未刷、未标记的题一律计 0，不算已掌握）
+         题卡三态标记「掌握🟢 / 不熟🟡 / 不会🔴」互斥（右缘竖条栏），点「掌握」即计入掌握率
    分级：有「不会」→ 红；否则有「不熟」→ 黄；仍有未刷 → 灰(待刷)；全部已掌握 → 绿
    排序：按薄弱分降序（不会×3 + 不熟×2 + 未刷×1），即错误多、待刷多的排最前
    默认只呈现薄弱项：隐藏「已 100% 掌握」的知识点（可用面板内开关显示全部）
@@ -42,11 +43,12 @@ function mmCollect() {
         const s = st[qid] || null;
         const f = !!fav[qid];
         o.total++;
-        // 三态互斥 + 未刷：不会 / 不熟 / 已过关(收藏且无薄弱标记) / 未刷(无任何痕迹 → 计 0 掌握)
+        // 四态互斥：不会 / 不熟 / 已掌握(显式标记，或已收藏且无薄弱标记) / 未刷(计 0 掌握)
         if (s === 'unknown') o.unk++;
         else if (s === 'unfamiliar') o.unf++;
-        else if (f) o.mst++;          // 刷过且未留薄弱标记 → 已过关
-        else o.none++;                // 未刷 → 0 掌握
+        else if (s === 'mastered') o.mst++;   // 显式「掌握」标记（题卡绿按钮）
+        else if (f) o.mst++;                   // 存量口径：刷过(收藏)且未留薄弱标记 → 已掌握
+        else o.none++;                         // 未刷 → 0 掌握
     }
     // 挂到章节（L1）下
     const chapters = {};
@@ -98,7 +100,7 @@ function mmCollect() {
     return { groups, totals: t };
 }
 
-const MM_TIP = '掌握率 = 已过关题数 / 总题数（未刷、未标记一律计 0）；已过关 = 已收藏且未标「不熟/不会」。薄弱率 =（🔴不会 + 🟡不熟）/ 总数，章节与知识点按薄弱率降序，默认只显示未 100% 掌握的知识点。';
+const MM_TIP = '掌握率 = 已掌握题数 / 总题数（未刷、未标记一律计 0）；已掌握 = 题卡点过「掌握🟢」，或已收藏且未标「不熟/不会」（存量口径）。薄弱率 =（🔴不会 + 🟡不熟）/ 总数，章节与知识点按薄弱率降序，默认只显示未 100% 掌握的知识点。';
 
 function mmPct(r) { return Math.round(r * 100) + '%'; }
 
@@ -125,7 +127,7 @@ function openMasteryMap() {
                 <div class="an-foot">
                     <span class="mm-legend"><i class="mm-dot mm-bad"></i>🔴不会</span>
                     <span class="mm-legend"><i class="mm-dot mm-warn"></i>🟡不熟</span>
-                    <span class="mm-legend"><i class="mm-dot mm-ok"></i>✅已过关</span>
+                    <span class="mm-legend"><i class="mm-dot mm-ok"></i>✅已掌握</span>
                     <span class="mm-legend"><i class="mm-dot mm-todo"></i>⚪未刷</span>
                     <span class="mm-note">${MM_TIP}</span>
                     <button class="an-btn" onclick="openMasteryMap()">🔄 刷新</button>
@@ -158,7 +160,7 @@ function openMasteryMap() {
     const bars = `
         <div class="mm-bar"><span class="mm-bar-fill" style="width:${(t.rate * 100).toFixed(1)}%"></span></div>
         <div class="an-ov">
-            总体掌握率 <b>${mmPct(t.rate)}</b>（✅已掌握 <b>${t.mst}</b> / ${t.total} 题）
+            总体掌握率 <b>${mmPct(t.rate)}</b>（✅已掌握 <b>${t.mst}</b> / ${t.total} 题 · 绿色标记或已收藏无薄弱）
             ｜🔴不会 <b>${t.unk}</b> · 🟡不熟 <b>${t.unf}</b> · ⚪未刷 <b>${t.none}</b>
             ｜待攻克知识点 <b>${t.weakCats}</b> / ${t.cats} 个
         </div>`;
