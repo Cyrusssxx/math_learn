@@ -51,11 +51,13 @@
     <div class="exam-wrap">
         <!-- 左：分类树（学科 / 章节，可折叠） -->
         <aside class="exam-side" id="catSide">
-            <div class="exam-side-head">
-                <div class="exam-side-title">知识点分类</div>
-                <button class="side-toggle" id="sideToggle" onclick="toggleSide()" title="收起/展开分类目录">◀</button>
+            <div class="cat-side-scroll">
+                <div class="exam-side-head">
+                    <div class="exam-side-title">知识点分类</div>
+                </div>
+                <div id="catTree"></div>
             </div>
-            <div id="catTree"></div>
+            <button class="side-toggle" id="sideToggle" onclick="toggleSide()" title="收起/展开分类目录">◀</button>
         </aside>
 
         <!-- 中：选中章节的跨年真题 -->

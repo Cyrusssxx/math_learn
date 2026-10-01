@@ -312,6 +312,33 @@ html.dark .bg-btn:hover { background: #2d3640; }
 /* ============ 左侧目录栏收起态（exam.css 隐藏的是 #paperList，此处补 catTree） ============ */
 .exam-wrap.side-closed #catTree { display: none; }
 
+/* ============ 目录栏：内容独立滚动 + 收起箭头垂直居中且固定不随滚动 ============ */
+#catSide {
+    display: flex;
+    flex-direction: column;
+    padding: 0;              /* 内边距移到内层滚动容器，外层不再整体滚动 */
+    overflow: hidden;        /* 关键：外层不滚动，absolute 箭头才能固定住 */
+}
+#catSide .cat-side-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;        /* 只有树在这里滚动 */
+    padding: 14px 24px 14px 10px;   /* 右侧留白，避免箭头压住树节点文字 */
+}
+#catSide .side-toggle {
+    position: absolute;              /* #catSide 为 sticky，本身即定位上下文 */
+    right: 3px;
+    top: 50%;
+    transform: translateY(-50%);     /* 垂直居中 */
+    opacity: .78;
+    z-index: 6;
+    transition: opacity .15s, background .15s;
+}
+#catSide .side-toggle:hover { opacity: 1; background: var(--bg-hover); }
+/* 收起态：隐藏滚动内容（标题+树），箭头保持居中并翻转 */
+.exam-wrap.side-closed #catSide .cat-side-scroll { display: none; }
+.exam-wrap.side-closed #catSide .side-toggle { transform: translateY(-50%) rotate(180deg); }
+
 /* ============ 搜索结果：知识点分支跳转条（点「进入此分支」同页直达刷题） ============ */
 .q-branch-chip {
     display: flex;
