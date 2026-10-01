@@ -1256,7 +1256,7 @@ function buildTree(entries) {
         if (!subj) continue;
         const cnt = byCat[c.id] || 0;
         if (cnt <= 0) continue;
-        if (!subjMap[subj.name]) subjMap[subj.name] = { chapters: {} };
+        if (!subjMap[subj.name]) subjMap[subj.name] = { id: subj.id, name: subj.name, display: subj.display, chapters: {} };
         const cm = subjMap[subj.name].chapters;
         if (!cm[ch.id]) cm[ch.id] = { id: ch.id, name: ch.name, display: ch.display, count: 0, leaves: [] };
         cm[ch.id].count += cnt;
@@ -1280,8 +1280,26 @@ function buildTree(entries) {
             chapters.sort((a, b) => b.count - a.count);
         }
         chapters.forEach(ch => ch.leaves.sort((a, b) => b.count - a.count));
-        return { subject: s, chapters };
+        return { subject: s, id: subjMap[s].id, display: subjMap[s].display || s, chapters };
     });
+}
+
+// ============ 节点聚合：自身 + 全部后代（点任意层级都能直接看到其下所有题） ============
+function catSelfAndDescendants(cid) {
+    const out = new Set([String(cid)]);
+    const stack = [String(cid)];
+    while (stack.length) {
+        const cur = stack.pop();
+        for (const k in cats) {
+            const c = cats[k];
+            if (String(c.parentId) === cur && !out.has(k)) { out.add(k); stack.push(k); }
+        }
+    }
+    return out;
+}
+/** 当前选中的分类集合（缓存，renderMain/renderNav 共用） */
+function curCatSet() {
+    return curCat == null ? null : catSelfAndDescendants(curCat);
 }
 
 // ============ 渲染：三级分类树 ============
@@ -1297,10 +1315,10 @@ function renderTree() {
         const open = !collapsedSubjects.has(s.subject);
         const total = s.chapters.reduce((a, c) => a + c.count, 0);
         return `<div class="paper-group">
-            <div class="paper-group-head" onclick="toggleSubject('${s.subject.replace(/'/g, "\\'")}')">
-                <span class="paper-group-arrow">${open ? '▼' : '▶'}</span>
-                <span class="paper-group-name">${s.subject}</span>
-                <span class="paper-group-count">${total}</span>
+            <div class="paper-group-head${String(curCat) === String(s.id) ? ' on' : ''}">
+                <span class="paper-group-arrow" onclick="toggleSubject('${s.subject.replace(/'/g, "\\'")}')" title="展开/收起本学科">${open ? '▼' : '▶'}</span>
+                <span class="paper-group-name" onclick="selectCat(${s.id})" title="查看本学科全部题目">${s.subject}</span>
+                <span class="paper-group-count" onclick="selectCat(${s.id})">${total}</span>
             </div>
             <div class="paper-group-body" style="display:${open ? 'block' : 'none'}">
                 ${s.chapters.map(ch => {
@@ -1308,10 +1326,10 @@ function renderTree() {
                     const leafOn = String(curCat) === String(ch.id);
                     const chHover = deepRootOfChapter(ch.id) ? ` onmouseenter="onChapterNodeEnter(this, ${ch.id})" onmouseleave="scheduleHideDeepFly()"` : '';
                     return `<div class="cat-chapter">
-                        <div class="cat-chapter-head${leafOn ? ' on' : ''}" onclick="toggleChapter(${ch.id})"${chHover} title="${ch.display || ch.name}${deepRootOfChapter(ch.id) ? '（悬停查看下分支）' : ''}">
-                            <span class="cat-chapter-arrow">${copen ? '▾' : '▸'}</span>
-                            <span class="cat-chapter-name">${ch.display || ch.name}</span>
-                            <span class="cat-count">${ch.count}</span>
+                        <div class="cat-chapter-head${leafOn ? ' on' : ''}"${chHover} title="${ch.display || ch.name}${deepRootOfChapter(ch.id) ? '（悬停查看下分支）' : ''}">
+                            <span class="cat-chapter-arrow" onclick="toggleChapter(${ch.id})" title="展开/收起本章">${copen ? '▾' : '▸'}</span>
+                            <span class="cat-chapter-name" onclick="selectCat(${ch.id})" title="查看本章全部题目（含各知识点）">${ch.display || ch.name}</span>
+                            <span class="cat-count" onclick="selectCat(${ch.id})">${ch.count}</span>
                         </div>
                         <div class="cat-chapter-body" style="display:${copen ? 'block' : 'none'}">
                             ${ch.leaves.map(l => `<button class="cat-leaf${String(curCat) === String(l.id) ? ' on' : ''}" data-cat="${l.id}" onclick="selectCat(${l.id})" onmouseenter="onCatNodeEnter(this, ${l.id})" onmouseleave="scheduleHideDeepFly()" title="${l.name}${deepRootOfCat(l.id) ? '（悬停查看细分支）' : ''}">
@@ -1345,6 +1363,12 @@ function selectCat(id) {
     curDeepCat = null;   // 切知识点时退出细分类筛选
     curDeepSelf = false;
     hideDeepFlyNow();
+    // 点上层节点（学科/章节）时自动展开，便于看到其子节点
+    const node = cats[String(id)];
+    if (node && node.level < 2) {
+        if (node.level === 1) collapsedChapters.delete(Number(id));
+        if (node.level === 0) collapsedSubjects.delete(node.name);
+    }
     // 点知识点（分类树 / 掌握地图跳转）时清掉搜索词：否则 renderMain 被搜索视图挡住，
     // 出现「搜索态下点分类树/掌握地图色块无响应」。
     if (catSearchKw) {
@@ -1560,8 +1584,9 @@ function renderMain() {
     }
     // 细分类筛选：curDeepCat 非空时只取「落在该细分支子树内」的题（按 deepCats 交集判定）
     const deepSet = curDeepCat ? (curDeepSelf ? new Set([String(curDeepCat)]) : deepSubtreeSet(curDeepCat)) : null;
+    const catSet = curCatSet();
     const entries = activeEntries().filter(e =>
-        String(e.catId) === String(curCat) &&
+        catSet.has(String(e.catId)) &&
         (!deepSet || (e.q.deepCats || []).some(id => deepSet.has(String(id)))));
     const c = cats[curCat];
     // 排序：无标记优先（可选）→ 收藏时间倒序 → 年份倒序
@@ -2091,14 +2116,14 @@ function toggleFloatQ() {
 }
 // 当前列表的题号集合：搜索模式 = 搜索结果；分类模式 = 当前分类全部题
 function catNavQNos() {
-    const ents = catSearchKw ? activeEntries().filter(catSearchMatch) : (curCat != null ? activeEntries().filter(e => String(e.catId) === String(curCat)) : []);
+    const ents = catSearchKw ? activeEntries().filter(catSearchMatch) : (curCat != null ? activeEntries().filter(e => curCatSet().has(String(e.catId))) : []);
     return ents.map(e => e.q.no);
 }
 function renderNav() {
     const el = document.getElementById('floatQNo');
     if (!el) return;
     const list = document.getElementById('floatQList');
-    const ents = catSearchKw ? activeEntries().filter(catSearchMatch) : (curCat != null ? activeEntries().filter(e => String(e.catId) === String(curCat)) : []);
+    const ents = catSearchKw ? activeEntries().filter(catSearchMatch) : (curCat != null ? activeEntries().filter(e => curCatSet().has(String(e.catId))) : []);
     const nos = ents.map(e => e.q.no);
     const uniq = [...new Set(nos)].sort((a, b) => a - b);
     if (!uniq.length) { el.textContent = '—'; if (list) list.innerHTML = ''; return; }

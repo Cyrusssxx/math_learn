@@ -371,3 +371,10 @@ html.dark .bg-btn:hover { background: #2d3640; }
     font-weight: 600;
     color: var(--accent, #4a7ab8);
 }
+
+/* ============ 分类树：任意层级节点均可点击选题（箭头单独负责折叠） ============ */
+.paper-group-head.on { color: var(--accent); }
+.paper-group-arrow, .cat-chapter-arrow { cursor: pointer; }
+.paper-group-name, .paper-group-count,
+.cat-chapter-name, .cat-chapter-head .cat-count { cursor: pointer; }
+.paper-group-name:hover, .cat-chapter-name:hover { text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
