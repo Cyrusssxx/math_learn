@@ -22,11 +22,17 @@ function qidOf(paperId, no) {
 // 目标键为空才搬（不覆盖真题侧已有数据），搬完删旧键，保证用户旧标记/旧笔记不"消失"。
 function migrateCoreLegacyKeys() {
     try {
-        const entries = Object.entries(coreLink);
-        if (!entries.length) return;
+        // 直接用核心题库数据（q.no → linkedQid），不依赖 coreLink 的键形式
+        const pairs = [];
+        for (const sec of (corePapers[0] && corePapers[0].sections) || []) {
+            for (const q of sec.questions || []) {
+                if (q.linkedQid) pairs.push([q.no, q.linkedQid]);
+            }
+        }
+        if (!pairs.length) return;
         const fav = favGet(), st = statusGet();
         let fC = false, sC = false;
-        for (const [no, lq] of entries) {
+        for (const [no, lq] of pairs) {
             const oldKey = 'core-' + no;
             if (fav[oldKey]) { if (!fav[lq]) fav[lq] = fav[oldKey]; delete fav[oldKey]; fC = true; }
             if (st[oldKey]) { if (!st[lq]) st[lq] = st[oldKey]; delete st[oldKey]; sC = true; }
@@ -2010,7 +2016,8 @@ async function init() {
             coreLink = {};
             for (const s of (corePapers[0] && corePapers[0].sections) || []) {
                 for (const q of s.questions || []) {
-                    if (q.linkedQid) coreLink[q.no] = q.linkedQid;   // 统一主键：真题 qid
+                    // 带 paperId 前缀，避免与 xd 的同号题互相覆盖（曾导致 qidOf 取到别的题的 qid）
+                    if (q.linkedQid) coreLink['core-' + q.no] = q.linkedQid;
                 }
             }
             migrateCoreLegacyKeys();   // 旧 'core-N' 收藏/标记/笔记 → 真题 qid（一次性）
@@ -2043,10 +2050,7 @@ async function init() {
             const xd = await xr.json();
             for (const sec of (xd[0] && xd[0].sections) || []) {
                 for (const q of (sec.questions || [])) {
-                    if (q.linkedQid) {
-                        coreLink['xd-' + q.no] = q.linkedQid;
-                        coreLink[q.no] = q.linkedQid;
-                    }
+                    if (q.linkedQid) coreLink['xd-' + q.no] = q.linkedQid;
                 }
             }
             xdItems = ((xd[0] && xd[0].sections) || []).flatMap(sec =>
