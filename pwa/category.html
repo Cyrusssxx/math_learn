@@ -26,21 +26,22 @@
             </div>
         </div>
         <div class="exam-topbtns">
-            <button class="exam-btn" id="srcToggle" onmousedown="event.preventDefault()" onclick="toggleSrcMode()" title="切换数据源：数二真题 ⇄ 核心题库（大观严选题，606 题，按知识点分类）">📝 数二真题分类</button>
-            <button class="exam-btn" id="unmarkedFirst" onmousedown="event.preventDefault()" onclick="toggleUnmarkedFirst()" title="把未做任何标记（未收藏、未标不熟/不会）的题目排到最前">⭕ 无标记优先</button>
-            <button class="exam-btn" id="yearSortBtn" onmousedown="event.preventDefault()" onclick="toggleYearSort()" title="切换年份排序：默认倒序（新题在前）⇄ 顺序（旧题在前）">⬇️ 年份倒序</button>
-            <button class="exam-btn" onmousedown="event.preventDefault()" onclick="openMasteryMap()" title="按知识点查看掌握情况：掌握率色块图，点色块直接跳去刷该知识点">📈 掌握地图</button>
+            <button class="exam-btn" id="srcToggle" onmousedown="event.preventDefault()" onclick="toggleSrcMode()" title="切换数据源：数二真题 ⇄ 核心题库（大观严选题 606 题，按知识点分类）">📝 真题</button>
+            <button class="exam-btn" id="unmarkedFirst" onmousedown="event.preventDefault()" onclick="toggleUnmarkedFirst()" title="把未做任何标记（未收藏、未标不熟/不会）的题目排到最前">⭕ 无标记</button>
+            <button class="exam-btn" id="yearSortBtn" onmousedown="event.preventDefault()" onclick="toggleYearSort()" title="切换年份排序：倒序（新题在前）⇄ 顺序（旧题在前）">⬇️ 年份</button>
+            <button class="exam-btn" onmousedown="event.preventDefault()" onclick="openMasteryMap()" title="按知识点查看掌握情况：掌握率色块图，点色块直接跳去刷该知识点">📈 地图</button>
+            <button class="exam-btn" onmousedown="event.preventDefault()" onclick="openReviewPage()" title="复测：新标签页打开「我的标记题」汇总（收藏/掌握/不熟/不会，附带笔记，实时同步）">🔁 复测</button>
             <div class="cat-marks">
                 <button class="cat-mark" data-m="fav" onmousedown="event.preventDefault()" onclick="toggleMark('fav')" title="只看已收藏的题">📥 收藏</button>
                 <button class="cat-mark" data-m="unfamiliar" onmousedown="event.preventDefault()" onclick="toggleMark('unfamiliar')" title="只看标记为「不熟」的题">🟡 不熟</button>
                 <button class="cat-mark" data-m="unknown" onmousedown="event.preventDefault()" onclick="toggleMark('unknown')" title="只看标记为「不会」的题">🔴 不会</button>
             </div>
             <div class="cat-search-wrap">
-                <input id="catSearch" class="cat-search" type="search" placeholder="🔍 搜题干 / 年份 / 题号…（按回车搜索）" oninput="onCatSearchInput(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();onCatSearch(this.value);}" title="输入关键词后按回车（Enter）开始全库搜索：题干文字、年份（如 2019）、题号（如 22）、知识点路径">
+                <input id="catSearch" class="cat-search" type="search" placeholder="🔍 搜题干 / 年份 / 题号（回车）" oninput="onCatSearchInput(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();onCatSearch(this.value);}" title="输入关键词后按回车（Enter）开始全库搜索：题干文字、年份（如 2019）、题号（如 22）、知识点路径">
                 <button class="cat-search-clear" id="catSearchClear" style="display:none" onclick="clearCatSearch()" title="清除搜索">✕</button>
             </div>
             <button class="exam-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
-            <a class="exam-btn" href="exam.html" title="返回真题页">📝 真题</a>
+            <a class="exam-btn" href="exam.html" title="返回真题页">📝 真题页</a>
             <a class="exam-btn" href="index.html" title="打开笔记站">📚 笔记</a>
         </div>
     </header>

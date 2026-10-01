@@ -378,3 +378,19 @@ html.dark .bg-btn:hover { background: #2d3640; }
 .paper-group-name, .paper-group-count,
 .cat-chapter-name, .cat-chapter-head .cat-count { cursor: pointer; }
 .paper-group-name:hover, .cat-chapter-name:hover { text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
+
+/* ============ 顶栏压缩：让所有按钮在同一行（小屏仍允许换行） ============ */
+.exam-topbtns { gap: 6px; row-gap: 6px; flex-wrap: nowrap; }
+.exam-topbtns .exam-btn { padding: 4px 9px; font-size: 12.5px; }
+.exam-topbtns .cat-mark { padding: 3px 8px; font-size: 12.5px; }
+.exam-topbtns .cat-search { width: 158px; font-size: 12.5px; }
+.exam-topbtns .cat-search:focus { width: 200px; }
+@media (max-width: 1400px) { .exam-topbtns { flex-wrap: wrap; } }
+
+/* ============ 复测页（category.html?review=1） ============ */
+body.review-mode .exam-wrap { grid-template-columns: 1fr; }
+body.review-mode #catSide { display: none; }
+body.review-mode #catMain { max-width: 1080px; }
+.rv-filter { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 2px; }
+.rv-filter .cat-mark { padding: 4px 10px; font-size: 12.5px; }
+body.review-mode .q-card { margin-bottom: 14px; }

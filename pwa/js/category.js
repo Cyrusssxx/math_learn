@@ -1025,8 +1025,8 @@ let yearSortDesc = (function () { try { return localStorage.getItem(YEAR_SORT_KE
 let examPapers = [];    // 真题套卷
 let corePapers = [];    // 核心题库（单「卷」，内部按章节分节）
 const SRC_META = {
-    exam: { label: '📝 数二真题分类', title: '真题分类', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
-    core: { label: '📘 核心题库筛选', title: '核心题库', sub: '' },
+    exam: { label: '📝 真题', title: '真题分类', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
+    core: { label: '📘 核心题库', title: '核心题库', sub: '' },
 };
 const collapsedSubjects = new Set();   // 折叠的学科
 const collapsedChapters = new Set();   // 折叠的章节
@@ -1183,7 +1183,7 @@ function syncYearSortBtn() {
     if (!b) return;
     b.classList.toggle('on', !yearSortDesc); // 顺序时激活态高亮
     b.setAttribute('aria-pressed', yearSortDesc ? 'false' : 'true');
-    b.textContent = yearSortDesc ? '⬇️ 年份倒序' : '⬆️ 年份顺序';
+    b.textContent = yearSortDesc ? '⬇️ 年份' : '⬆️ 年份';
     b.title = yearSortDesc
         ? '当前：年份倒序（最新年份在上面）。点击切换为顺序（老题在上面）'
         : '当前：年份顺序（老题在上面）。点击切换为倒序（新题在上面）';
@@ -1580,9 +1580,107 @@ function copyCatQLatex(btn) {
     copyTextToClipboard(text, btn, '已复制 ✓');
 }
 
+// ============ 复测页（category.html?review=1）：我的收藏 / 掌握 / 不熟 / 不会 题汇总 ============
+const REVIEW_MODE = new URLSearchParams(location.search).get('review') === '1';
+let rvFilter = 'all';   // all | fav | mastered | unfamiliar | unknown
+
+/** 顶栏「🔁 复测」→ 新标签页打开复测视图 */
+function openReviewPage() {
+    window.open('category.html?review=1', '_blank');
+}
+
+/** 复测模式初始化：隐藏左树与分类浏览专属控件，改标题 */
+function applyReviewMode() {
+    if (!REVIEW_MODE) return;
+    document.body.classList.add('review-mode');
+    const t = document.querySelector('.exam-title');
+    if (t) t.textContent = '🔁 复测';
+    const sub = document.getElementById('examSub');
+    if (sub) {
+        sub.textContent = '我的收藏 / 掌握 / 不熟 / 不会 题汇总 · 附带原有笔记 · 与真题页和分类页实时同步';
+        sub.hidden = false;
+    }
+    ['srcToggle', 'unmarkedFirst', 'yearSortBtn'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) b.style.display = 'none';
+    });
+    const marks = document.querySelector('.cat-marks');
+    if (marks) marks.style.display = 'none';   // 复测筛选在列表顶部单独渲染
+}
+
+function setRvFilter(f) {
+    rvFilter = f;
+    document.querySelectorAll('.rv-filter .cat-mark').forEach(b => b.classList.toggle('on', b.dataset.rv === f));
+    renderReview();
+}
+
+/** 复测列表：所有带收藏或状态标记的题（同题去重），附笔记 */
+function renderReview() {
+    const el = document.getElementById('catMain');
+    const st = statusGet() || {}, fav = favGet() || {};
+    const seen = new Set();
+    const rows = [];
+    for (const e of allEntries) {
+        const qid = qidOf(e.paper.id, e.q.no);
+        const s = st[qid] || null, f = !!fav[qid];
+        if (!s && !f) continue;
+        if (seen.has(qid)) continue;     // 同题多来源（真题/核心题库同源）只保留一条
+        seen.add(qid);
+        rows.push({ paper: e.paper, secTitle: e.secTitle, q: e.q, qid, st: s, fav: f });
+    }
+    const counts = {
+        all: rows.length,
+        fav: rows.filter(r => r.fav).length,
+        mastered: rows.filter(r => r.st === 'mastered').length,
+        unfamiliar: rows.filter(r => r.st === 'unfamiliar').length,
+        unknown: rows.filter(r => r.st === 'unknown').length,
+    };
+    let list = rvFilter === 'all' ? rows
+        : (rvFilter === 'fav' ? rows.filter(r => r.fav) : rows.filter(r => r.st === rvFilter));
+    // 排序：不会 → 不熟 → 收藏 → 掌握；同类按年份倒序
+    const rank = r => r.st === 'unknown' ? 0 : r.st === 'unfamiliar' ? 1 : (r.fav ? 2 : 3);
+    list = list.slice().sort((a, b) => rank(a) - rank(b) || (Number(b.paper.year || 0) - Number(a.paper.year || 0)));
+
+    const btns = [['all', `全部 ${counts.all}`], ['fav', `📥 收藏 ${counts.fav}`], ['mastered', `🟢 掌握 ${counts.mastered}`],
+                  ['unfamiliar', `🟡 不熟 ${counts.unfamiliar}`], ['unknown', `🔴 不会 ${counts.unknown}`]]
+        .map(([k, label]) => `<button class="cat-mark${rvFilter === k ? ' on' : ''}" data-rv="${k}" onclick="setRvFilter('${k}')">${label}</button>`).join('');
+    let html = `<div class="paper-head">
+        <h1>🔁 复测 · 我的标记题</h1>
+        <div class="paper-sub">共 ${counts.all} 题 · 收藏 ${counts.fav} · 掌握 ${counts.mastered} · 不熟 ${counts.unfamiliar} · 不会 ${counts.unknown}｜笔记随题附带，在真题页/分类页的标记与笔记改动会实时同步到本页</div>
+        <div class="rv-filter">${btns}</div>
+    </div>`;
+    if (!list.length) {
+        html += `<div class="empty-tip">当前筛选下没有题目。到真题页或分类页给题目点「☆ 收藏」或标「掌握 / 不熟 / 不会」，这里就会自动出现。</div>`;
+        el.innerHTML = html;
+        return;
+    }
+    list.forEach(r => { html += catCard(r.paper, r.secTitle, r.q); });
+    el.innerHTML = html;
+    renderMath(el);
+    // 附带原有笔记：有笔记的题自动展开笔记区
+    el.querySelectorAll('.q-card').forEach(card => {
+        const qid = card.id.replace(/^q-/, '');
+        if ((noteGet(qid) || '').trim()) {
+            const nb = card.querySelector('[data-act="note"]');
+            if (nb && !nb.classList.contains('on')) nb.click();
+        }
+    });
+    el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+}
+
+// 跨标签页实时同步：别处（真题页 / 分类页）改动收藏、标记或笔记 → 复测页自动刷新
+window.addEventListener('storage', (e) => {
+    const k = e.key || '';
+    if (k === FAV_KEY || k === EXAM_STATUS_KEY || k.indexOf('examNote-') === 0) {
+        if (REVIEW_MODE) renderReview();
+        else { renderTree(); renderMain(); }
+    }
+});
+
 // ============ 渲染：主区 ============
 function renderMain() {
     const el = document.getElementById('catMain');
+    if (REVIEW_MODE) { renderReview(); return; }           // 复测模式：标记题汇总
     if (catSearchKw) { renderSearchResults(); return; }   // 搜索模式：跨分类列表
     if (curCat == null) {
         el.innerHTML = `<div class="cat-empty">← 选择左侧章节，查看该考点的历年真题</div>`;
@@ -2091,6 +2189,7 @@ async function init() {
         if (_roll && !location.search) requestAnimationFrame(() => window.scrollTo(0, _roll));
     } catch (e) { }
     applySrcMode(false);   // 先应用上次数据源（exam / core）→ 决定 papers，再建索引
+    applyReviewMode();     // 复测模式（?review=1）：隐藏分类树、改标题
     await loadCatDeep();   // 细分类树（悬停浮层用）
     buildEntries();
     buildDeepIndex();      // 细分类题数索引
