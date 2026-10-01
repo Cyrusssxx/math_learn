@@ -394,3 +394,16 @@ body.review-mode #catMain { max-width: 1080px; }
 .rv-filter { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 2px; }
 .rv-filter .cat-mark { padding: 4px 10px; font-size: 12.5px; }
 body.review-mode .q-card { margin-bottom: 14px; }
+
+/* 复测页分批加载：底部提示与按钮 */
+.rv-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;                      /* 与上一批题目拉开距离 */
+    padding: 18px 0 44px;
+    border-top: 1px solid var(--border);   /* 底线：标记为列表分隔 */
+}
+.rv-bottom .exam-btn { padding: 6px 16px; font-size: 13px; }
+.rv-more-tip { font-size: 12.5px; color: var(--text-faint); }
