@@ -1586,7 +1586,8 @@ let rvFilter = 'all';   // all | fav | mastered | unfamiliar | unknown
 
 /** 顶栏「🔁 复测」→ 新标签页打开复测视图 */
 function openReviewPage() {
-    window.open('category.html?review=1', '_blank');
+    // 顶栏入口已改为原生 <a target="_blank">（避免弹窗拦截）；此处保留兼容调用
+    window.open('category.html?review=1', '_blank', 'noopener');
 }
 
 /** 复测模式初始化：隐藏左树与分类浏览专属控件，改标题 */
@@ -1595,6 +1596,7 @@ function applyReviewMode() {
     document.body.classList.add('review-mode');
     const t = document.querySelector('.exam-title');
     if (t) t.textContent = '🔁 复测';
+    document.title = '🔁 复测 · 我的标记题';   // 标签页标题（否则仍是「真题分类」，易误以为跳回了分类）
     const sub = document.getElementById('examSub');
     if (sub) {
         sub.textContent = '我的收藏 / 掌握 / 不熟 / 不会 题汇总 · 附带原有笔记 · 与真题页和分类页实时同步';
