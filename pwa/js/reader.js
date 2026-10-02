@@ -178,7 +178,12 @@ function emitList(items, start, level) {
     let html = '<ul>';
     let i = start;
     while (i < items.length && items[i].level >= level) {
-        if (items[i].level > level) { i++; continue; }  // 容错：跳级缩进
+        if (items[i].level > level) {
+            // 跳级缩进（笔记里很常见：首项或某段整体多缩进）：必须以实际层级递归接管，
+            // **不能 continue 丢弃** —— 丢弃会让整段列表内容在页面上凭空消失。
+            const [subHtml, subNext] = emitList(items, i, items[i].level);
+            html += subHtml; i = subNext; continue;
+        }
         const isEmb = items[i].text.startsWith('📝 批注：');
         const liCls = liClass(items[i].text) + (isEmb ? ' li-embed-ann' : '');
         const liRaw = isEmb ? ` data-raw="${esc(items[i].text.slice('📝 批注：'.length)).replace(/"/g, '&quot;')}"` : '';
@@ -246,7 +251,9 @@ function renderTipsBlock(md) {
         inner += `<div class="q-tip-sec tip-${cls}" data-copy-md="${copyMdAttr(segMd)}" data-copy-key="${cls}"><div class="q-tip-label">${label}</div>` +
             `<div class="q-tip-body">${mdToHtml(segMd)}</div></div>`;
     }
-    if (!inner) inner = `<div class="q-tip-body">${mdToHtml(rest.join('\n'))}</div>`;
+    // ⚠️ rest（四段标签之外的行）必须**追加**，而不是只在 inner 为空时才渲染：
+    // 旧写法只要识别到任意一段（公式/易错/技巧/注意），rest 整段就被丢掉，内容在页面上凭空消失。
+    if (rest.length) inner += `<div class="q-tip-body">${mdToHtml(rest.join('\n'))}</div>`;
     return `<details class="fold tip-fold"><summary>📌 点睛</summary><div class="fold-body q-tips" data-copy-tips="${copyMdAttr(JSON.stringify(tipsJson))}">${inner}</div></details>`;
 }
 
@@ -306,7 +313,10 @@ function mdToHtml(md) {
                 items.push({ level: Math.floor(m[1].length / 2), text: t, anc });
                 i++;
             }
-            out.push(emitList(items, 0, 0)[0]);
+            // ⚠️ 起点用「实际最小缩进层级」：写死 0 时，若这段列表整体缩进了 2 空格，
+            // emitList 会命中「跳级缩进」容错分支把整段列表 continue 掉（内容凭空消失）。
+            const minLv = items.reduce((m, it) => Math.min(m, it.level), 9);
+            out.push(emitList(items, 0, minLv)[0]);
         } else if (line.trim().startsWith('|')) {
             const rows = [];
             while (i < lines.length && lines[i].trim().startsWith('|')) {

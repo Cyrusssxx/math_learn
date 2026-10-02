@@ -149,6 +149,17 @@ body {
 /* ============ 评分按钮 ============ */
 .cd-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
 .cd-actions.not-ready { opacity: .55; }   /* 未全部揭示：可点但给了提示 */
+
+/* 「显示全部答案」主控按钮：占满一行，一眼能看到 */
+.cd-reveal {
+    grid-column: 1 / -1; width: 100%; cursor: pointer; transition: .15s;
+    border: 1px solid var(--accent); background: var(--bg-active);
+    color: var(--accent); border-radius: 10px; padding: 11px 8px; text-align: center;
+}
+.cd-reveal:hover { background: var(--bg-hover); }
+.cd-reveal b { display: block; font-size: 15px; }
+.cd-reveal span { font-size: 11.5px; color: var(--text-faint); }
+.cd-reveal.revealed { border-color: var(--border); background: var(--bg); color: var(--text-dim); }
 .cd-grade { border: 1px solid transparent; border-radius: 10px; padding: 10px 4px; cursor: pointer; text-align: center; transition: .15s; background: var(--bg); }
 .cd-grade b { display: block; font-size: 15px; }
 .cd-grade span { font-size: 11px; color: var(--text-faint); }

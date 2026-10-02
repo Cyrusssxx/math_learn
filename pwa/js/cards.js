@@ -8,14 +8,14 @@
 
     const LS_KEY = 'cd_state_v1';
     const DAY = 86400000;
-    const MAX_CLOZE = 12;        // 单卡挖空数硬上限（实际值由设置 clozePerCard 决定）
-    const DEF_CLOZE = 8;         // 默认单卡挖空数
-    const SOFT_LIMIT = 1100;      // 单卡目标字数上限
-    const CLOZE_MIN = 2;          // 少于该挖空点视为「阅读卡」
+    const MAX_CLOZE = 6;         // 单卡挖空数硬上限（实际值由设置 clozePerCard 决定）
+    const DEF_CLOZE = 3;         // 默认单卡挖空数：一卡 3 个空，点一次「显示全部答案」就能过
+    const SOFT_LIMIT = 600;      // 单卡目标字数上限：一个语义块（2~4 个知识点），别把整节塞进一张卡
+    const CLOZE_MIN = 2;         // 少于该挖空点视为「阅读卡」
 
     function clozeLimit() {
         const v = ST && ST.settings ? ST.settings.clozePerCard : DEF_CLOZE;
-        return clamp(parseInt(v, 10) || DEF_CLOZE, 2, MAX_CLOZE);
+        return clamp(parseInt(v, 10) || DEF_CLOZE, 1, MAX_CLOZE);
     }
 
     let CARDS = [];
@@ -25,6 +25,9 @@
     let queue = [];               // 背诵卡队列
     let readQueue = [];           // 阅读卡队列（今日未读）
     let CARD_HTML = '';           // 卡片骨架快照（完成态会整体替换 cardWrap，需要能还原）
+    let LAST_CANDS = [];            // 上一张卡在 DOM 层收集到的挖空候选（测试探针）
+    let LAST_NODES = [];            // 上一张卡 walker 看到的前几个含 $ 的文本节点（测试探针）
+    let UNBALANCED = [];             // 诊断用：修完仍 $ 未配平而被丢弃的分片（正常应为 0）
     let qi = 0;
     let revealed = 0, totalCloze = 0;
     let mode = 'cloze';           // 当前学习模式：cloze | read
@@ -116,60 +119,161 @@
         return secs;
     }
 
-    /** 超长段落拆分：先按空行；单块仍超长则按行硬切（避免无空行时无限递归） */
+    /** 把 md 解析成有序「语义块」：列表项 / 表格 / 图片 / 段落 / 独立显示公式。
+     *  列表项是数学笔记里最小的知识点单元（实测 100% 章节都是列表结构），
+     *  按块边界切卡才不会把一条知识点劈成两半。 */
+    function toBlocks(md) {
+        const blocks = [];
+        const lines = String(md || '').split('\n');
+        let i = 0;
+        while (i < lines.length) {
+            const l = lines[i];
+            if (!l.trim()) { i++; continue; }
+            if (/^\s*-\s/.test(l)) {
+                let t = l; i++;
+                // 吃掉该列表项的缩进续行（子项 / 补充说明）
+                while (i < lines.length && lines[i].trim() && !/^\s*-\s/.test(lines[i])) { t += '\n' + lines[i]; i++; }
+                blocks.push({ text: t, type: 'item' });
+            } else if (l.trim().startsWith('|')) {
+                let t = l; i++;
+                while (i < lines.length && lines[i].trim().startsWith('|')) { t += '\n' + lines[i]; i++; }
+                blocks.push({ text: t, type: 'table' });
+            } else if (/^\s*\$\$\s*$/.test(l) || /^\s*\$\$[^$]*\$\$\s*$/.test(l)) {
+                blocks.push({ text: l, type: 'display' }); i++;     // $$…$$ 独占行 = 原子块，绝不切开
+            } else {
+                blocks.push({ text: l, type: typeOfLine(l) }); i++;
+            }
+        }
+        return blocks;
+    }
+    function typeOfLine(l) {
+        if (/^!\[/.test(l.trim())) return 'img';
+        if (/^#{1,6}\s/.test(l.trim())) return 'head';
+        return 'para';
+    }
+    /** 卡片是否「$ 配平」：KaTeX auto-render 是按整个容器的文本流配对 $ 的，
+     *  一旦某个 $ 对被拆散（拆卡切在公式中间），它会一路配到卡末，
+     *  **把中间的整段文字吞进 display 公式**（实测「渐近线」卡丢失 4 段结论）。
+     *  这里在拆卡阶段就卡死：行内 $ 不跨行，所以只要每行完整保留就必然配平。 */
+    function isBalanced(text) {
+        const s = String(text);
+        if (/\$\$[^\n]*\$/.test(s)) return false;            // 一行内出现两次 $$（数据异常）
+        return (s.match(/\$/g) || []).length % 2 === 0;
+    }
+    /** 按句子边界切超长文本。分隔符只取 。；！？——逗号在数学式里太常见，
+     *  按逗号切会把 $a,b$ 切成两半；最后再兜底做一次按行硬切。 */
+    function splitSentences(text, limit) {
+        const out = []; let s = '';
+        for (const sen of String(text).split(/(?<=[。；！？])/)) {
+            if (s && s.length + sen.length > limit) { out.push(s); s = sen; }
+            else s += sen;
+        }
+        if (s.trim()) out.push(s);
+        // 兜底：仍超长的（无标点的长串）→ 按行切；再不行按长度硬切
+        const fin = [];
+        for (const x of out) {
+            if (x.length <= limit) { fin.push(x); continue; }
+            const lines = x.split('\n'); let cur = '';
+            for (const ln of lines) {
+                if (cur && cur.length + ln.length + 1 > limit) { fin.push(cur); cur = ln; }
+                else cur += (cur ? '\n' : '') + ln;
+            }
+            if (cur) fin.push(cur);
+            for (const y of fin.splice(fin.length - 1)) {
+                for (let k = 0; k < y.length; k += limit) fin.push(y.slice(k, k + limit));
+            }
+        }
+        return fin.filter(x => x && x.trim());
+    }
+    /** 落单的 $（源数据瑕疵，实测 17 处）→ 修成配平，绝不让坏内容进渲染。
+     *  ① 同行 $$…$$ → 直接改成行内 $…$（记忆卡是窄卡片，display 公式本就难显示）
+     *  ② 仍奇数 → 删掉每行最后一个多余的 $ */
+    function stripLoneDollar(t) {
+        return t.split('\n').map(line => {
+            const s = line.replace(/\$\$([^$\n]+)\$\$/g, '$$$1$$');
+            if ((s.match(/\$/g) || []).length % 2 === 0) return s;
+            const last = s.lastIndexOf('$');
+            return s.slice(0, last) + s.slice(last + 1);
+        }).join('\n');
+    }
+    /** 拆卡收尾：保证每张输出的卡片 $ 必然配平 */
+    function emitCard(raw, out) {
+        let t = String(raw || '').trim();
+        if (!t) return;
+        if (!isBalanced(t)) t = stripLoneDollar(t);
+        if (isBalanced(t)) out.push(t);
+        else UNBALANCED.push(t.slice(0, 60));      // 仍不配平（极端情况）→ 丢弃，绝不送进渲染
+    }
+    /** 语义块累积成卡：块优先、不切断块；单块超长时先降级拆句再插回序列 */
     function splitLong(md, limit) {
         limit = limit || SOFT_LIMIT;
         md = String(md || '');
-        if (md.length <= limit) return [md];
         const out = [];
-        let buf = '', len = 0;
-        const push = () => { if (buf.trim()) out.push(buf.trim()); buf = ''; len = 0; };
-        for (const block of md.split(/\n{2,}/)) {
-            if (block.length > limit) {
-                push();
-                if (block.indexOf('\n') < 0) {
-                    // 整段一行（无换行）：按句子边界切
-                    const sentences = block.split(/(?<=[。；！？])/);
-                    let s = '';
-                    for (const sen of sentences) {
-                        if (s && s.length + sen.length > limit) { out.push(s); s = sen; }
-                        else s += sen;
-                    }
-                    if (s) out.push(s);
-                } else {
-                    out.push.apply(out, splitByLines(block, limit));
-                }
+        if (md.length <= limit) { emitCard(md, out); return out; }
+        const queue = toBlocks(md);
+        let buf = '', len = 0, lastType = '';
+        const push = () => { emitCard(buf, out); buf = ''; len = 0; lastType = ''; };
+        while (queue.length) {
+            const b = queue.shift();
+            if (b.text.length > limit && b.type !== 'display') {
+                const parts = splitSentences(b.text, limit);
+                for (let k = parts.length - 1; k >= 0; k--) queue.unshift({ text: parts[k], type: b.type });
                 continue;
             }
-            if (len + block.length > limit) push();
-            buf += (buf ? '\n\n' : '') + block; len += block.length + 2;
+            if (len + b.text.length > limit && buf) push();
+            // 列表项/显示公式之间用单换行（保持同一个 <ul>），其余块之间空行分段
+            const sameList = (lastType === 'item' && b.type === 'item') || (lastType === 'display' && b.type === 'display');
+            const sep = (lastType && sameList) ? '\n' : (buf ? '\n\n' : '');
+            buf += sep + b.text; len += b.text.length + sep.length; lastType = b.type;
         }
         push();
-        return out.length ? out : [md];
-    }
-
-    /** 按行硬切，保证每块不超过 limit（单行本身超长时也断开） */
-    function splitByLines(text, limit) {
-        const out = []; let cur = '', len = 0;
-        for (const ln of String(text).split('\n')) {
-            if (len + ln.length > limit && cur) { out.push(cur); cur = ''; len = 0; }
-            cur += (cur ? '\n' : '') + ln; len += ln.length + 1;
-            if (cur.length > limit) { out.push(cur); cur = ''; len = 0; }
-        }
-        if (cur) out.push(cur);
         return out;
     }
 
-    /** 加粗候选的长度区间 —— countClozeCandidates（判定分型）与 collectCands（实际挖空）必须共用，
-     *  否则会出现「判为背诵卡却挖不出空」的退化卡。两处上限不一致时实测有 10 张卡计数偏差。 */
-    const BOLD_MIN = 2, BOLD_MAX = 60;
+    /* ============ 挖空候选的质量判定 ============
+     * 旧规则「见 $ 就挖」实测 32% 的洞是没有记忆价值的（单字符 $n$、纯变量 $x_0$、
+     * 加粗标签「核心不等式」、短符号 $x<0$）。新规则只挖「值得回忆的公式」。 */
+    const CLOZE_MIN_LEN = 4;      // 短于 4 字符的公式不挖（$n$/$x$/$0$）
+    const VARISH_RE = /^[a-zA-Z](_\{?[a-zA-Z0-9]+\}?|\^\{?[a-zA-Z0-9*]+\}?)?$/;   // 纯变量式：x / a_n / x^2
+    /* 结构宏：出现这些说明公式「有内容」（分式/积分/求和/极限/根号/希腊字母/函数名）
+       注意不含 \to、\Rightarrow、\cdot 这类连接符——它们单独出现（$x\to0$）不是知识点 */
+    const STRUCT_RE = /\\d?frac|\\int|\\iint|\\sum|\\prod|\\lim|\\sqrt|\\begin|\\pi|\\theta|\\alpha|\\beta|\\gamma|\\lambda|\\mu|\\sigma|\\varphi|\\sin|\\cos|\\tan|\\cot|\\arc|\\ln|\\log|\\exp|\\mathrm|\\text|\\infty/;
+    const REL_RE = /[=<>]|\\le|\\ge|\\ne|\\neq|\\leq|\\geq|\\approx/;
 
-    function countClozeCandidates(md) {
-        const s = String(md || '');
-        return (s.match(/\$[^$\n]{1,120}\$/g) || []).length
-            + (s.match(new RegExp('\\*\\*[^*\\n]{' + BOLD_MIN + ',' + BOLD_MAX + '}\\*\\*', 'g')) || []).length
-            + (s.match(/`[^`\n]{1,60}`/g) || []).length;
+    /** 公式是否值得挖：① 有关系符（等式/不等式）→ 一定是知识点
+     *  ② 否则要够长（≥12 字符）且有结构宏（如 \lim_{x\to0}f(x)）
+     *  ③ 纯变量、纯符号、太短的都不挖 */
+    function isWorthy(inner) {
+        const s = String(inner).trim();
+        if (s.length < CLOZE_MIN_LEN) return false;
+        if (VARISH_RE.test(s)) return false;
+        if (REL_RE.test(s)) return true;
+        return s.length >= 12 && STRUCT_RE.test(s);
     }
+    /** 打分：分数高的先挖。结论式 > 结构式 > 一般；太短降权；笔记里标了 ⚠️/⭐/例 的行再加权 */
+    function clozeScore(inner, ctx) {
+        const s = String(inner).trim();
+        let v = 0;
+        if (REL_RE.test(s)) v += 4;                                // 等式/不等式结论：最该记住
+        if (/\\d?frac|\\int|\\sum|\\lim|\\sqrt|\\begin/.test(s)) v += 2;
+        if (s.length >= 60) v += 1; else if (s.length >= 12) v += 2;
+        if (s.length < 8) v -= 2;
+        if (ctx && /⚠️|⭐|例[：:（(]/.test(ctx)) v += 2;            // 易错/常考/例题段落里的公式
+        return v;
+    }
+    /** 抽取卡内行内公式（带所在整行上下文，供打分用）。与 DOM 层用同一条正则，
+     *  否则「候选数」会和「实际挖空数」对不上（曾因 $$…$$ 未被排除导致 9 张卡不一致） */
+    function formulaCands(md) {
+        const out = [];
+        for (const line of String(md || '').split('\n')) {
+            const re = new RegExp(MATH_RE.source, 'g');
+            let m;
+            while ((m = re.exec(line))) out.push({ inner: m[0].slice(1, -1).trim(), ctx: line });
+        }
+        return out.filter(c => isWorthy(c.inner));
+    }
+
+    function countClozeCandidates(md) { return formulaCands(md).length; }
 
     function buildCards(notes) {
         const cards = [];
@@ -207,60 +311,53 @@
 
     // ---------------- 挖空 ----------------
     const CL_PLACE = '　　';                                  // 未揭示时的占位宽度
-    /* 文本节点级候选：kind m=行内公式（揭示时用 KaTeX 渲染）/ c=行内代码（纯文本揭示）
-       加粗 **…** 在 mdToHtml 里已变成 <strong> 元素，走元素级候选（kind b）
-       注意公式下限是 {1,}：$x$/$n$ 这类单字符公式必须参与配对，否则 $ 配对错位、
-       会把两个公式之间的中文段错配成「伪公式」 */
-    const CLOZE_RULES = [
-        { kind: 'm', re: /\$[^$\n]{1,120}\$/g, strip: s => s.replace(/^\$+|\$+$/g, '') },
-        { kind: 'c', re: /`[^`\n]{1,60}`/g, strip: s => s.replace(/^`+|`+$/g, '') }
-    ];
+    /* 只挖行内公式（$…$）——加粗在本笔记里多是分类标签（「核心不等式」「三元均值」），
+       挖掉没有记忆价值；实测加粗类洞占旧版 12.7%。
+       ⚠️ 两侧负向断言 (?<!\$)/(?!\$) 用来排除显示公式 $$…$$：
+       $$X$$ 中间的两个 $ 会配成一对，被当成行内公式挖走，既破坏 KaTeX 的 block 渲染，
+       又让「候选数」与「实际挖空数」对不上（实测 9 张卡受影响）。 */
+    const MATH_RE = /(?<!\$)\$[^$\n]{1,120}\$(?!\$)/g;
 
-    function makeCloze(inner, kind) {
+    function makeCloze(inner) {
         const sp = document.createElement('span');
         sp.className = 'cd-cloze';
         sp.setAttribute('data-c', inner);
-        sp.setAttribute('data-k', kind);
+        sp.setAttribute('data-k', 'm');
         sp.title = '点击显示答案';
         sp.textContent = CL_PLACE;
         return sp;
     }
 
-    /** 判定节点是否位于 strong / 已有挖空内（不再作为候选） */
-    function insideSkip(n, container) {
+    /** 只跳过已有挖空内部的节点（strong 内的公式仍要挖：**结论：$x=1$** 是重点） */
+    function insideCloze(n, container) {
         let p = n.parentNode;
         while (p && p !== container) {
-            if (p.nodeType === 1 && (p.classList.contains('cd-cloze') || p.tagName === 'STRONG')) return true;
+            if (p.nodeType === 1 && p.classList.contains('cd-cloze')) return true;
             p = p.parentNode;
         }
         return false;
     }
 
-    /** 收集容器内所有候选：{kind, inner, el?|node+index+len, order} */
+    /** 收集容器内值得挖的公式候选：{node, index, len, inner, score, order} */
     function collectCands(container) {
         const list = [];
-        // 元素级：加粗
-        Array.from(container.querySelectorAll('strong')).forEach((el, i) => {
-            const t = (el.textContent || '').trim();
-            if (t.length >= BOLD_MIN && t.length <= BOLD_MAX) list.push({ kind: 'b', el, inner: t, order: -1e6 + i });
-        });
-        // 文本节点级：行内公式 / 代码
+        LAST_NODES = [];
         const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
         let n, idx = 0;
         while ((n = walker.nextNode())) {
             const s = n.nodeValue;
-            if (!s || !s.trim() || insideSkip(n, container)) continue;
+            if (!s || !s.trim() || insideCloze(n, container)) continue;
+            if (LAST_NODES.length < 8 && s.indexOf('$') >= 0) LAST_NODES.push(s.slice(0, 160));
+            const ctx = (n.parentNode && n.parentNode.textContent) || s;
+            MATH_RE.lastIndex = 0;
             const hits = [];
-            for (const rule of CLOZE_RULES) {
-                rule.re.lastIndex = 0;
-                let m;
-                while ((m = rule.re.exec(s))) {
-                    const inner = rule.strip(m[0]);
-                    if (!inner || inner.length < 2) continue;
-                    hits.push({ kind: rule.kind, index: m.index, len: m[0].length, inner });
-                }
+            let m;
+            while ((m = MATH_RE.exec(s))) {
+                const inner = m[0].slice(1, -1).trim();
+                if (!isWorthy(inner)) continue;
+                hits.push({ index: m.index, len: m[0].length, inner, score: clozeScore(inner, ctx) });
             }
-            if (!hits.length) continue;
+            if (!hits.length) { idx++; continue; }
             hits.sort((a, b) => a.index - b.index);
             const clean = []; let lastEnd = -1;
             for (const h of hits) if (h.index >= lastEnd) { clean.push(h); lastEnd = h.index + h.len; }
@@ -271,41 +368,22 @@
         return list;
     }
 
-    /** 组内均匀采样 k 个（保留首尾、等距取点），避免「只挖到卡前半段」 */
-    function stridePick(arr, k) {
-        if (k <= 0) return [];
-        if (arr.length <= k) return arr.slice();
-        if (k === 1) return [arr[0]];
-        const idxs = new Set();
-        for (let i = 0; i < k; i++) idxs.add(Math.round(i * (arr.length - 1) / (k - 1)));
-        let j = 0;
-        while (idxs.size < k && j < arr.length) { idxs.add(j); j++; }
-        return Array.from(idxs).sort((a, b) => a - b).map(i => arr[i]);
-    }
-
-    /** 在已渲染的 HTML 上挖空，返回实际挖出的空数 */
+    /** 在已渲染的 HTML 上挖空，返回实际挖出的空数。
+     *  选题策略：按 clozeScore 取前 N（结论式/结构式优先），不再按位置均匀采样——
+     *  「别乱挖」的意思是挖最有价值的，而不是挖得均匀。 */
     function applyCloze(container, max) {
         max = clamp(max || clozeLimit(), 1, MAX_CLOZE);
         const cands = collectCands(container);
+        LAST_CANDS = cands.map(c => ({ inner: c.inner, score: c.score }));
         if (!cands.length) return 0;
-        const g = { m: [], b: [], c: [] };
-        cands.forEach(c => g[c.kind].push(c));
-        Object.keys(g).forEach(k => g[k].sort((a, b) => a.order - b.order));
-        // 公式按信息量分两档：长公式（≥3 字符）优先，单字符（$x$/$n$）只作补位
-        const mL = g.m.filter(c => c.inner.length >= 3);
-        const mS = g.m.filter(c => c.inner.length < 3);
-        const bCap = Math.min(g.b.length, 2);                       // 加粗最多补 2 个名额
-        const mQ = Math.min(mL.length, Math.max(0, max - bCap));
-        const bQ = Math.min(g.b.length, max - mQ);
-        const sQ = Math.min(mS.length, Math.max(0, max - mQ - bQ));
-        const cQ = Math.min(g.c.length, Math.max(0, max - mQ - bQ - sQ));
-        const picked = stridePick(mL, mQ)
-            .concat(stridePick(g.b, bQ), stridePick(mS, sQ), stridePick(g.c, cQ));
-        // 元素级替换优先（其后其内部文本节点已离开文档，不再被处理）
-        picked.filter(p => p.el).forEach(p => p.el.parentNode.replaceChild(makeCloze(p.inner, 'b'), p.el));
-        // 文本节点级：同一节点内的多个候选一次性替换
+        const picked = cands
+            .map((c, i) => ({ c, i }))
+            .sort((a, b) => (b.c.score - a.c.score) || (a.i - b.i))     // 同分保持文档顺序
+            .slice(0, max)
+            .map(x => x.c);
+        // 替换：同一文本节点内的多个候选一次性处理（避免节点被替换两次）
         const byNode = new Map();
-        picked.filter(p => p.node).forEach(p => {
+        picked.forEach(p => {
             if (!p.node.parentNode || !container.contains(p.node)) return;
             if (!byNode.has(p.node)) byNode.set(p.node, []);
             byNode.get(p.node).push(p);
@@ -315,8 +393,7 @@
             let html = '', last = 0;
             hs.sort((a, b) => a.index - b.index).forEach(h => {
                 if (h.index < last) return;
-                html += esc(s.slice(last, h.index)) +
-                    `<span class="cd-cloze" data-c="${esc(h.inner)}" data-k="${h.kind}" title="点击显示答案">${CL_PLACE}</span>`;
+                html += esc(s.slice(last, h.index)) + makeCloze(h.inner).outerHTML;
                 last = h.index + h.len;
             });
             html += esc(s.slice(last));
@@ -362,9 +439,19 @@
         revealed = 0; refreshReady();
     }
     function allRevealed() { return revealed >= totalCloze; }
-    /** 全部揭示才点亮评分区（仍可点击，未就绪时由 grade() 给出提示） */
+    /** 全部揭示才点亮评分区（仍可点击，未就绪时由 grade() 给出提示）
+     *  「显示全部答案」按钮是主控：一次点开全部空位，不用一个一个点 */
     function refreshReady() {
         const a = $('cardActions');
+        const rb = $('btnRevealAll');
+        if (rb) {
+            const left = totalCloze - revealed;
+            const b = rb.querySelector('b'), sp = rb.querySelector('span');
+            if (b) b.textContent = left > 0 ? '👁 显示全部答案' : '↺ 重新隐藏再记一遍';
+            if (sp) sp.textContent = left > 0 ? `还剩 ${left} 个空` : '点一遍巩固';
+            rb.classList.toggle('revealed', left <= 0 && totalCloze > 0);
+            rb.hidden = totalCloze === 0;
+        }
         if (a) a.classList.toggle('not-ready', totalCloze > 0 && !allRevealed());
         updateFoot();
     }
@@ -375,8 +462,8 @@
         if (totalCloze === 0) { foot.innerHTML = '本卡没有可挖空内容 · 可点右上「✓ 已熟」或直接评级'; return; }
         const left = totalCloze - revealed;
         foot.innerHTML = left > 0
-            ? `还剩 <b>${left}</b> 个空 · 点击填空或按 <b>空格</b> 全部显示`
-            : `全部答案已显示 · <a href="javascript:;" id="rehide" onclick="hideAll()">↺ 重新隐藏再记一次</a>，然后评价`;
+            ? `本卡挖了 <b>${totalCloze}</b> 个空 · 点下方「显示全部答案」一次看完，也可单独点某个空`
+            : `全部答案已显示 · 评价后进入下一张`;
     }
 
     // ---------------- 队列 ----------------
@@ -412,25 +499,16 @@
         const st = ST.settings;
         const revLeft = Math.max(0, st.revPerDay - ST.daily.revDone);
         const newLeft = Math.max(0, st.newPerDay - ST.daily.newDone);
-        // 筛选态下（不会/不熟/收藏）不受每日额度限制：用户主动想练就该给
+        // 新卡优先（先把没见过的学掉），复习卡随后；筛选态下不受每日额度限制
         queue = queueFilter
-            ? due.concat(fresh)
-            : due.slice(0, revLeft).concat(fresh.slice(0, newLeft));
+            ? fresh.concat(due)
+            : fresh.slice(0, newLeft).concat(due.slice(0, revLeft));
         readQueue = pendingRead().slice(0, 30);
         qi = 0; mode = 'cloze';
     }
 
-    /** 把「已到期的不会卡」插回当前队列（10 分钟后到期的卡能自动重新出现） */
-    function injectDueCards() {
-        const now = Date.now();
-        const inQueue = new Set(queue.map(c => c.id));
-        const dueNow = poolCards().filter(c => {
-            if (c.kind !== 'cloze' || inQueue.has(c.id)) return false;
-            const s = peekOf(c.id);
-            return s.state === 'learning' && s.due <= now;
-        });
-        dueNow.forEach(c => queue.splice(clamp(qi + 1, 0, queue.length), 0, c));
-    }
+    /* 说明：旧版有 injectDueCards() 把「10 分钟到期的不会卡」插回当前队列，
+       现已按用户要求改为「不会的隔天再看」，同一天不重复滚卡，故移除该机制。 */
 
     // ---------------- 学习视图 ----------------
     function renderStudy() {
@@ -501,10 +579,15 @@
         const st = peekOf(c.id);
         $('cardActions').style.display = '';
         $('cardActions').innerHTML = `
-            <button class="cd-grade g0" id="g0"><b>🔴 不会</b><span>10 分钟后再来</span></button>
-            <button class="cd-grade g1" id="g1"><b>🟡 不熟</b><span>缩短间隔</span></button>
-            <button class="cd-grade g2" id="g2"><b>✅ 记得</b><span>正常间隔</span></button>`;
+            <button class="cd-reveal" id="btnRevealAll"><b>👁 显示全部答案</b><span></span></button>
+            <button class="cd-grade g0" id="g0"><b>🔴 不会</b><span>明天再看</span></button>
+            <button class="cd-grade g1" id="g1"><b>🟡 不熟</b><span>隔更久再看</span></button>
+            <button class="cd-grade g2" id="g2"><b>✅ 记得</b><span>拉长间隔</span></button>`;
         $('g0').onclick = () => grade(0); $('g1').onclick = () => grade(1); $('g2').onclick = () => grade(2);
+        $('btnRevealAll').onclick = () => {
+            if (allRevealed()) hideAll($('cardBody'));
+            else revealAll($('cardBody'));
+        };
         paintHead(c, st);
         $('cardBody').innerHTML = mdToHtml(c.md || '');
         totalCloze = applyCloze($('cardBody'), clozeLimit());
@@ -572,25 +655,26 @@
         const s = stOf(c.id);
         const wasNew = s.state === 'new';
         s.last = Date.now();
+        /* 间隔节奏：不会的隔天再看（不再当天 10 分钟插回，避免一天反复滚同几张），
+           不熟 ×1.6 且至少 2 天，记得 ×ease 且首记 2 天，间隔满 30 天才算「已熟」 */
         if (g === 0) {
-            s.lapses++; s.ease = clamp(s.ease - 0.2, 1.3, 3.0);
-            s.interval = 0; s.due = Date.now() + 10 * 60 * 1000; s.state = 'learning';
+            s.lapses++; s.ease = clamp(s.ease - 0.25, 1.3, 3.0);
+            s.interval = 1; s.due = Date.now() + DAY; s.state = 'learning';
         } else if (g === 1) {
             s.ease = clamp(s.ease - 0.15, 1.3, 3.0);
-            s.interval = Math.max(1, Math.round((s.interval || 1) * 1.2));
+            s.interval = Math.max(2, Math.round((s.interval || 2) * 1.6));
             s.due = Date.now() + s.interval * DAY; s.state = 'learning';
         } else {
             s.reps++;
-            s.interval = s.reps <= 1 ? 1 : Math.max(1, Math.round((s.interval || 1) * s.ease));
+            s.interval = s.reps <= 1 ? 2 : Math.max(2, Math.round((s.interval || 2) * s.ease));
             s.due = Date.now() + s.interval * DAY;
-            s.state = s.interval >= 21 ? 'mastered' : 'review';
+            s.state = s.interval >= 30 ? 'mastered' : 'review';
         }
         // 新卡与复习卡分开计数，每日新卡上限才真正生效
         if (wasNew) ST.daily.newDone++; else ST.daily.revDone++;
         ST.daily.done++;
         bumpStreak(); saveState();
         qi++;
-        injectDueCards();          // 不会卡到期后自动插回
         renderStudy();
     }
     function bumpStreak() {
@@ -780,14 +864,14 @@
         openModal('设置',
             `<div class="cd-field"><label>每日新卡上限</label><input type="number" id="setNew" min="0" max="200" value="${ST.settings.newPerDay}"></div>
              <div class="cd-field"><label>每日复习上限</label><input type="number" id="setRev" min="0" max="999" value="${ST.settings.revPerDay}"></div>
-             <div class="cd-field"><label>单卡挖空数（2~${MAX_CLOZE}）</label><input type="number" id="setCloze" min="2" max="${MAX_CLOZE}" value="${clozeLimit()}"></div>
-             <div class="cd-hintline">阅读卡不占用上述额度；单卡目标长度 ${SOFT_LIMIT} 字以内。挖空数越大越难，建议 6~8。</div>`,
+             <div class="cd-field"><label>单卡挖空数（1~${MAX_CLOZE}）</label><input type="number" id="setCloze" min="1" max="${MAX_CLOZE}" value="${clozeLimit()}"></div>
+             <div class="cd-hintline">只挖「值得记」的公式（等式/结构式优先，跳过单字符与纯变量）；<br>阅读卡不占用额度；单卡目标长度 ${SOFT_LIMIT} 字以内。挖空数 2~4 比较舒服。</div>`,
             `<button class="cd-btn" onclick="closeModal()">取消</button><button class="cd-btn primary" onclick="saveSettings()">保存</button>`);
     }
     function saveSettings() {
         ST.settings.newPerDay = clamp(parseInt($('setNew').value, 10) || 0, 0, 200);
         ST.settings.revPerDay = clamp(parseInt($('setRev').value, 10) || 0, 0, 999);
-        ST.settings.clozePerCard = clamp(parseInt($('setCloze').value, 10) || DEF_CLOZE, 2, MAX_CLOZE);
+        ST.settings.clozePerCard = clamp(parseInt($('setCloze').value, 10) || DEF_CLOZE, 1, MAX_CLOZE);
         saveState(); closeModal(); rebuild(); toast('设置已保存');
     }
     function exportData() {
@@ -972,6 +1056,10 @@
             minLen: CARDS.reduce((m, c) => Math.min(m, (c.md || '').length), 1e9),
             queueKinds: Array.from(new Set(queue.map(c => c.kind))),
             queueLen: queue.length, readQueueLen: readQueue.length,
+            queueHead: queue.slice(0, 5).map(c => ({ id: c.id, chapter: c.chapter, state: peekOf(c.id).state })),
+            lastCands: LAST_CANDS,
+            lastNodes: LAST_NODES,
+            unbalancedDropped: UNBALANCED.length,   // 修完仍 $ 未配平被丢弃的分片数（应为 0）
             revealed, totalCloze, mode, filter: queueFilter,
             clozeLimit: clozeLimit(),
             settings: ST.settings,
