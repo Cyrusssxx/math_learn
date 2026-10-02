@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>记忆卡 · 我的笔记</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/cards.css">
+<script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
+</head>
+<body>
+<header class="cd-top">
+    <div class="cd-brand">
+        <span class="cd-logo">🧠</span>
+        <div>
+            <div class="cd-title">记忆卡</div>
+            <div class="cd-sub" id="cdSub">我的笔记 · 挖空记忆</div>
+        </div>
+    </div>
+    <nav class="cd-tabs" id="cdTabs">
+        <button class="cd-tab on" data-view="study" onclick="switchView('study')">学习</button>
+        <button class="cd-tab" data-view="list" onclick="switchView('list')">卡片</button>
+        <button class="cd-tab" data-view="stats" onclick="switchView('stats')">统计</button>
+    </nav>
+    <div class="cd-topbtns">
+        <div class="cd-subj" id="cdSubj">
+            <button class="cd-chip on" data-s="" onclick="setSubject('', this)">全部</button>
+            <button class="cd-chip" data-s="gs" onclick="setSubject('gs', this)">高数</button>
+            <button class="cd-chip" data-s="xd" onclick="setSubject('xd', this)">线代</button>
+        </div>
+        <button class="cd-btn" onclick="openSettings()" title="每日新卡 / 复习上限">⚙️</button>
+        <button class="cd-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
+        <a class="cd-btn" href="index.html" title="返回笔记站">📚 笔记</a>
+    </div>
+</header>
+
+<!-- ============ 学习视图 ============ -->
+<main class="cd-main" id="viewStudy">
+    <div class="cd-stats" id="cdStats"></div>
+    <div class="cd-progress"><div class="cd-progress-bar" id="cdProgressBar"></div></div>
+
+    <div class="cd-cardwrap" id="cardWrap">
+        <div class="cd-card" id="cdCard">
+            <!-- 右上角操作：收藏 / 已熟 -->
+            <div class="cd-card-tools">
+                <button class="cd-tool star" id="btnStar" onclick="toggleStar(event)" title="收藏这张卡">☆</button>
+                <button class="cd-tool done" id="btnDone" onclick="markDone(event)" title="标记为已熟（移出今日队列）">✓</button>
+            </div>
+            <div class="cd-card-head">
+                <div class="cd-card-title" id="cardTitle"></div>
+                <div class="cd-card-sub" id="cardSub"></div>
+            </div>
+            <div class="cd-card-body" id="cardBody"></div>
+            <div class="cd-card-foot" id="cardFoot">点击文中 <b>虚线空格</b> 显示答案</div>
+        </div>
+    </div>
+
+    <div class="cd-actions" id="cardActions">
+        <button class="cd-grade g0" onclick="grade(0)"><b>🔴 不会</b><span>很快再来</span></button>
+        <button class="cd-grade g1" onclick="grade(1)"><b>🟡 不熟</b><span>缩短间隔</span></button>
+        <button class="cd-grade g2" onclick="grade(2)"><b>✅ 记得</b><span>正常间隔</span></button>
+    </div>
+    <div class="cd-keys">快捷键：<kbd>空格</kbd> 显示全部答案 · <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> 评分 · <kbd>S</kbd> 收藏 · <kbd>D</kbd> 已熟</div>
+</main>
+
+<!-- ============ 卡片列表 ============ -->
+<main class="cd-main" id="viewList" hidden>
+    <div class="cd-listbar">
+        <input type="search" id="cdSearch" class="cd-input" placeholder="搜索标题 / 章节 / 内容…" autocomplete="off" oninput="renderList()">
+        <select id="cdStateFilter" class="cd-input" onchange="renderList()">
+            <option value="">全部状态</option>
+            <option value="new">未学</option>
+            <option value="learning">不熟中</option>
+            <option value="review">复习中</option>
+            <option value="mastered">已熟</option>
+        </select>
+        <select id="cdStarFilter" class="cd-input" onchange="renderList()">
+            <option value="">全部卡片</option>
+            <option value="1">仅收藏</option>
+        </select>
+        <button class="cd-btn primary" onclick="openEditor(null)">＋ 新建卡片</button>
+        <button class="cd-btn" onclick="exportData()" title="导出卡片与复习进度">⬇️ 导出</button>
+        <button class="cd-btn" onclick="document.getElementById('impFile').click()" title="导入备份">⬆️ 导入</button>
+        <input type="file" id="impFile" accept="application/json" style="display:none" onchange="importData(this)">
+    </div>
+    <div class="cd-tablewrap"><table class="cd-table">
+        <thead><tr><th>卡片</th><th>科目</th><th>状态</th><th>间隔</th><th>复习</th><th>操作</th></tr></thead>
+        <tbody id="cdTbody"></tbody>
+    </table></div>
+    <div class="cd-pager" id="cdPager"></div>
+</main>
+
+<!-- ============ 统计视图 ============ -->
+<main class="cd-main" id="viewStats" hidden>
+    <div class="cd-statgrid" id="cdStatGrid"></div>
+    <div class="cd-panel">
+        <h3>未来 7 天到期分布</h3>
+        <div class="cd-bars" id="cdFuture"></div>
+    </div>
+    <div class="cd-panel">
+        <h3>按科目</h3>
+        <div class="cd-bars" id="cdBySubj"></div>
+    </div>
+    <div class="cd-panel">
+        <h3>按笔记</h3>
+        <div class="cd-bars" id="cdByNote"></div>
+    </div>
+</main>
+
+<!-- ============ 模态 ============ -->
+<div class="cd-modal" id="cdModal" hidden>
+    <div class="cd-modal-box">
+        <div class="cd-modal-head"><span id="cdModalTitle">设置</span><button class="cd-x" onclick="closeModal()">✕</button></div>
+        <div class="cd-modal-body" id="cdModalBody"></div>
+        <div class="cd-modal-foot" id="cdModalFoot"></div>
+    </div>
+</div>
+
+<div class="cd-toast" id="cdToast" hidden></div>
+
+<script src="js/common.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/auto-render.min.js"></script>
+<script defer src="js/mdrender.js"></script>
+<script defer src="js/cards.js"></script>
+</body>
+</html>
