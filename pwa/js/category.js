@@ -1159,15 +1159,37 @@ function isUnmarked(e) {
     return !isFav(qid) && !statusOf(qid);
 }
 
-/** 排序比较器：开启「无标记优先」时无标记的排前，其余沿用「收藏时间倒序 → 年份排序（默认倒序/可选顺序）」 */
+/** 掌握度分组：不会 0 → 不熟 1 → 收藏 2 → 无标记 3 → 掌握 4（掌握排最下） */
+function masteryRankOf(qid) {
+    const st = statusOf(qid);
+    if (st === 'unknown') return 0;
+    if (st === 'unfamiliar') return 1;
+    if (st === 'mastered') return 4;   // 掌握优先于收藏判断：同时收藏+掌握也排在最后
+    if (isFav(qid)) return 2;
+    return 3;                          // 无任何标记
+}
+
+/** 排序比较器
+ *  默认：按掌握度分组（不会 → 不熟 → 收藏 → 无标记 → 掌握），组内「收藏时间倒序 → 年份（倒序/顺序由开关控制）」
+ *  开启「⭕ 无标记」：无标记的排最前，其余仍按掌握度分组
+ */
 function compareEntries(a, b) {
+    const qa = qidOf(a.paper.id, a.q.no);
+    const qb = qidOf(b.paper.id, b.q.no);
     if (unmarkedFirst) {
         const ua = isUnmarked(a) ? 0 : 1;
         const ub = isUnmarked(b) ? 0 : 1;
         if (ua !== ub) return ua - ub;
+        if (ua === 1) {                    // 两者都有标记 → 再按掌握度
+            const ra = masteryRankOf(qa), rb = masteryRankOf(qb);
+            if (ra !== rb) return ra - rb;
+        }
+    } else {
+        const ra = masteryRankOf(qa), rb = masteryRankOf(qb);
+        if (ra !== rb) return ra - rb;
     }
-    const ta = favTime(qidOf(a.paper.id, a.q.no));
-    const tb = favTime(qidOf(b.paper.id, b.q.no));
+    const ta = favTime(qa);
+    const tb = favTime(qb);
     if (ta && tb) return tb - ta;
     // 年份排序（兜底 0：无年份的补充题排到有年份真题之后，避免 NaN 失序淹没真题）
     const ya = parseInt(a.paper.year, 10) || 0;
@@ -1785,7 +1807,7 @@ function renderMain() {
     let html = `<div class="paper-head">
         <h1>${c ? c.display : curCat}</h1>
         <div class="paper-sub">${c ? c.path : ''}</div>
-        <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年${unmarkedFirst ? ` · <b>无标记优先</b>（未标记 ${unmarkedN} 题已提前）` : ''} · ${yearSortDesc ? '<b>年份倒序</b>' : '<b>年份顺序</b>'}</div>
+        <div class="paper-meta">共 ${entries.length} 题 · 跨 ${years} 年${unmarkedFirst ? ` · <b>无标记优先</b>（未标记 ${unmarkedN} 题已提前）` : ' · <b>掌握度排序</b>（不会→不熟→收藏→无标记→掌握）'} · ${yearSortDesc ? '<b>年份倒序</b>' : '<b>年份顺序</b>'}</div>
         <button class="all-ans-btn" id="allAnsBtn" onclick="toggleAllAnswers(this)">🔼 展开全部答案</button>
     </div>`;
     if (deepSet) html += deepFilterTip(entries.length);
