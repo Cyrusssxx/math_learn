@@ -10,7 +10,7 @@
     const DAY = 86400000;
     const MAX_CLOZE = 6;         // 单卡挖空数硬上限（实际值由设置 clozePerCard 决定）
     const DEF_CLOZE = 3;         // 默认单卡挖空数：一卡 3 个空，点一次「显示全部答案」就能过
-    const SOFT_LIMIT = 600;      // 单卡目标字数上限：一个语义块（2~4 个知识点），别把整节塞进一张卡
+    const SOFT_LIMIT = 440;      // 单卡目标字数上限：约 2~4 个知识点，一眼能看完
     const CLOZE_MIN = 2;         // 少于该挖空点视为「阅读卡」
 
     function clozeLimit() {
@@ -51,6 +51,7 @@
             settings: { newPerDay: 20, revPerDay: 120, clozePerCard: DEF_CLOZE },
             daily: { date: dayKey(), done: 0, newDone: 0, revDone: 0, readDone: 0 },
             streak: { last: '', count: 0 },
+            progressReset: 0, // 累计被清理的失效进度条数（拆卡规则变更时 > 0）
             custom: [],      // 自建卡片（持久化，刷新不丢）
             over: {},        // 内置卡被编辑后的覆盖：id → {chapter, md, subject, kind, cands}
             hidden: {},      // 被删除的内置卡 id
@@ -233,20 +234,25 @@
     /* ============ 挖空候选的质量判定 ============
      * 旧规则「见 $ 就挖」实测 32% 的洞是没有记忆价值的（单字符 $n$、纯变量 $x_0$、
      * 加粗标签「核心不等式」、短符号 $x<0$）。新规则只挖「值得回忆的公式」。 */
-    const CLOZE_MIN_LEN = 4;      // 短于 4 字符的公式不挖（$n$/$x$/$0$）
+    const CLOZE_MIN_LEN = 6;      // 短于 6 字符的公式不挖（$n$/$x$/$ab$/$2$ 这类片段没有记忆价值）
     const VARISH_RE = /^[a-zA-Z](_\{?[a-zA-Z0-9]+\}?|\^\{?[a-zA-Z0-9*]+\}?)?$/;   // 纯变量式：x / a_n / x^2
+    const CJK_RE = /[\u4e00-\u9fa5]/;                                          // 汉字
     /* 结构宏：出现这些说明公式「有内容」（分式/积分/求和/极限/根号/希腊字母/函数名）
        注意不含 \to、\Rightarrow、\cdot 这类连接符——它们单独出现（$x\to0$）不是知识点 */
     const STRUCT_RE = /\\d?frac|\\int|\\iint|\\sum|\\prod|\\lim|\\sqrt|\\begin|\\pi|\\theta|\\alpha|\\beta|\\gamma|\\lambda|\\mu|\\sigma|\\varphi|\\sin|\\cos|\\tan|\\cot|\\arc|\\ln|\\log|\\exp|\\mathrm|\\text|\\infty/;
     const REL_RE = /[=<>]|\\le|\\ge|\\ne|\\neq|\\leq|\\geq|\\approx/;
 
-    /** 公式是否值得挖：① 有关系符（等式/不等式）→ 一定是知识点
-     *  ② 否则要够长（≥12 字符）且有结构宏（如 \lim_{x\to0}f(x)）
-     *  ③ 纯变量、纯符号、太短的都不挖 */
+    /** 公式是否值得挖（= 是不是「主要公式」）。四条硬门槛：
+     *  ① 含汉字 → 不挖（用户要求「中文基本不挖」；含 \text{偶函数} 的公式也一并跳过）
+     *  ② 纯变量式 / 太短 → 不挖
+     *  ③ 片段不完整（以运算符结尾或以开括号开头，多为 $ 错位产生的伪公式）→ 不挖
+     *  ④ 含等号/不等号 → 必挖；否则要够长（≥12）且有结构宏 */
     function isWorthy(inner) {
         const s = String(inner).trim();
-        if (s.length < CLOZE_MIN_LEN) return false;
+        if (!s || s.length < CLOZE_MIN_LEN) return false;
+        if (CJK_RE.test(s)) return false;
         if (VARISH_RE.test(s)) return false;
+        if (/[=+\-*/^_]\s*$/.test(s) || /^[([{=+\-*/]/.test(s)) return false;   // 公式被切开
         if (REL_RE.test(s)) return true;
         return s.length >= 12 && STRUCT_RE.test(s);
     }
@@ -298,8 +304,19 @@
         return cards;
     }
 
-    /** 应用本地改动：隐藏已删卡 → 覆盖被编辑的卡 → 追加自建卡（都在笔记拆卡之后） */
+    /** 应用本地改动：清理失效进度 → 覆盖编辑 → 追加自建卡（都在笔记拆卡之后） */
     function applyStoredCards() {
+        // 拆卡规则变更会让卡片 id（章节名#序号）变化，旧进度不再对应任何卡。
+        // 这里清掉它们，避免 localStorage 残留；仅在卡片成功加载后才执行，
+        // 否则一次 fetch 失败就会把用户所有复习进度抹掉。
+        if (CARDS.length) {
+            const alive = new Set(CARDS.map(c => c.id));
+            let dropped = 0;
+            for (const id in ST.cards) {
+                if (!alive.has(id)) { delete ST.cards[id]; dropped++; }
+            }
+            if (dropped) ST.progressReset = (ST.progressReset || 0) + dropped;
+        }
         CARDS = CARDS.filter(c => !ST.hidden[c.id]).map(c => {
             const o = ST.over[c.id];
             return o ? Object.assign({}, c, o) : c;
@@ -1036,9 +1053,13 @@
             const notes = await (await fetch('data/notes.json')).json();
             CARDS = buildCards(Array.isArray(notes) ? notes : (notes.items || []));
         } catch (e) { console.error('笔记加载失败', e); CARDS = []; }
-        applyStoredCards();          // 自建卡 / 编辑覆盖 / 删除隐藏
+        const hadReset = ST.progressReset || 0;
+        applyStoredCards();          // 清理失效进度 + 自建卡 + 编辑覆盖 + 删除隐藏
         if (typeof renderDarkSwitch === 'function') renderDarkSwitch();
         buildQueue(); renderStudy();
+        if (hadReset && ST.progressReset !== hadReset) {
+            toast('卡片重新划分，已重置一次旧进度');
+        }
     }
     document.addEventListener('DOMContentLoaded', boot);
 
