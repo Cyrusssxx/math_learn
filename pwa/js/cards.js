@@ -79,20 +79,40 @@
     function saveState() {
         try { bumpHistory(); localStorage.setItem(LS_KEY, JSON.stringify(ST)); } catch (e) { }
     }
+    /** 只读状态：不往 ST.cards 里塞默认条目。
+     *  渲染/统计会把全部 350+ 张卡都过一遍，若用 stOf 则一次性实例化全部默认状态，
+     *  下次 saveState 就把 ~40KB 垃圾写进 localStorage，且每次操作都要重写全量。
+     *  ⚠️ 默认对象必须冻结：本文件是严格模式，一旦有写路径误用 peekOf 会立刻抛错暴露，
+     *  而不是静默污染共享对象（那会让「所有未学卡瞬间变成已熟」） */
+    const DEF_CARD_STATE = Object.freeze({
+        ease: 2.5, interval: 0, reps: 0, lapses: 0, due: 0, state: 'new', last: 0, star: false, read: 0
+    });
+    function peekOf(id) { return ST.cards[id] || DEF_CARD_STATE; }
+    /** 可写状态：仅在真正要改进度时调用（评分/收藏/已熟/重置） */
     function stOf(id) {
-        if (!ST.cards[id]) ST.cards[id] = { ease: 2.5, interval: 0, reps: 0, lapses: 0, due: 0, state: 'new', last: 0, star: false, read: 0 };
+        if (!ST.cards[id]) ST.cards[id] = Object.assign({}, DEF_CARD_STATE);
         return ST.cards[id];
     }
 
     // ---------------- 拆卡 ----------------
+    /** 按 `##` 章节拆分。首个 ## 之前的内容（导读/大纲）单独作为「概述」卡返回，
+     *  否则这部分内容会被整篇丢弃（实测 32 篇共 596 字）。kind 由 cands 决定，多半是阅读卡，不占 SRS 额度 */
     function splitSections(md) {
-        const secs = []; let cur = null;
-        for (const ln of String(md || '').split('\n')) {
+        const secs = [];
+        const lines = String(md || '').split('\n');
+        let cur = null, pre = [];
+        for (const ln of lines) {
             const m = /^##\s+(.*)$/.exec(ln);
-            if (m) { if (cur && cur.md.trim()) secs.push(cur); cur = { name: m[1].trim(), md: '' }; }
-            else if (cur) cur.md += ln + '\n';
+            if (m) {
+                if (cur && cur.md.trim()) secs.push(cur);
+                else if (pre.join('\n').trim()) secs.push({ name: '概述', md: pre.join('\n') + '\n', pre: true });
+                pre = [];
+                cur = { name: m[1].trim(), md: '' };
+            } else if (cur) cur.md += ln + '\n';
+            else pre.push(ln);
         }
         if (cur && cur.md.trim()) secs.push(cur);
+        else if (pre.join('\n').trim()) secs.push({ name: '概述', md: pre.join('\n') + '\n', pre: true });
         return secs;
     }
 
@@ -140,10 +160,14 @@
         return out;
     }
 
+    /** 加粗候选的长度区间 —— countClozeCandidates（判定分型）与 collectCands（实际挖空）必须共用，
+     *  否则会出现「判为背诵卡却挖不出空」的退化卡。两处上限不一致时实测有 10 张卡计数偏差。 */
+    const BOLD_MIN = 2, BOLD_MAX = 60;
+
     function countClozeCandidates(md) {
         const s = String(md || '');
         return (s.match(/\$[^$\n]{1,120}\$/g) || []).length
-            + (s.match(/\*\*[^*\n]{2,40}\*\*/g) || []).length
+            + (s.match(new RegExp('\\*\\*[^*\\n]{' + BOLD_MIN + ',' + BOLD_MAX + '}\\*\\*', 'g')) || []).length
             + (s.match(/`[^`\n]{1,60}`/g) || []).length;
     }
 
@@ -218,7 +242,7 @@
         // 元素级：加粗
         Array.from(container.querySelectorAll('strong')).forEach((el, i) => {
             const t = (el.textContent || '').trim();
-            if (t.length >= 2 && t.length <= 60) list.push({ kind: 'b', el, inner: t, order: -1e6 + i });
+            if (t.length >= BOLD_MIN && t.length <= BOLD_MAX) list.push({ kind: 'b', el, inner: t, order: -1e6 + i });
         });
         // 文本节点级：行内公式 / 代码
         const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
@@ -360,14 +384,14 @@
     function visibleCards() { return CARDS.filter(c => !subject || c.subject === subject); }
     function matchFilter(c) {
         if (!queueFilter) return true;
-        const s = stOf(c.id);
+        const s = peekOf(c.id);
         if (queueFilter === 'hard') return s.lapses > 0;
         if (queueFilter === 'learning') return s.state === 'learning';
         if (queueFilter === 'star') return !!s.star;
         return true;
     }
     function poolCards() { return visibleCards().filter(matchFilter); }
-    function pendingRead() { return poolCards().filter(c => c.kind === 'read' && !stOf(c.id).read); }
+    function pendingRead() { return poolCards().filter(c => c.kind === 'read' && !peekOf(c.id).read); }
     function setQueueFilter(f, btn) {
         queueFilter = f || '';
         document.querySelectorAll('#cdFilters .cd-chip').forEach(b => b.classList.toggle('on', (b.dataset.f || '') === queueFilter));
@@ -380,11 +404,11 @@
         const due = [], fresh = [];
         for (const c of poolCards()) {
             if (c.kind !== 'cloze') continue;
-            const s = stOf(c.id);
+            const s = peekOf(c.id);
             if (s.state === 'mastered' && s.due > now) continue;
             if (s.state === 'new') fresh.push(c); else due.push(c);
         }
-        due.sort((a, b) => stOf(a.id).due - stOf(b.id).due);
+        due.sort((a, b) => peekOf(a.id).due - peekOf(b.id).due);
         const st = ST.settings;
         const revLeft = Math.max(0, st.revPerDay - ST.daily.revDone);
         const newLeft = Math.max(0, st.newPerDay - ST.daily.newDone);
@@ -402,7 +426,7 @@
         const inQueue = new Set(queue.map(c => c.id));
         const dueNow = poolCards().filter(c => {
             if (c.kind !== 'cloze' || inQueue.has(c.id)) return false;
-            const s = stOf(c.id);
+            const s = peekOf(c.id);
             return s.state === 'learning' && s.due <= now;
         });
         dueNow.forEach(c => queue.splice(clamp(qi + 1, 0, queue.length), 0, c));
@@ -413,7 +437,7 @@
         const now = Date.now();
         let mastered = 0, learning = 0, freshN = 0, starN = 0, dueN = 0;
         visibleCards().forEach(c => {
-            const s = stOf(c.id);
+            const s = peekOf(c.id);
             if (s.star) starN++;                       // 阅读卡的收藏也要计入
             if (c.kind === 'read') return;
             if (s.state === 'mastered') mastered++;
@@ -474,7 +498,7 @@
         ensureCard();
         mode = 'cloze';
         revealed = 0;
-        const st = stOf(c.id);
+        const st = peekOf(c.id);
         $('cardActions').style.display = '';
         $('cardActions').innerHTML = `
             <button class="cd-grade g0" id="g0"><b>🔴 不会</b><span>10 分钟后再来</span></button>
@@ -512,7 +536,7 @@
             return;
         }
         const c = readQueue[qi];
-        const st = stOf(c.id);
+        const st = peekOf(c.id);
         ensureCard();
         $('cardActions').style.display = '';
         $('cardActions').innerHTML = `
@@ -575,9 +599,13 @@
         ST.streak.count = (ST.streak.last === dayKey(Date.now() - DAY)) ? ST.streak.count + 1 : 1;
         ST.streak.last = today;
     }
+    /** 当前正在显示的卡：阅读模式与背诵模式各用各的队列，
+     *  写成 queue[qi] || readQueue[qi] 会在阅读模式下误取背诵卡（qi 在两个队列里都存在） */
+    function currentCard() { return mode === 'read' ? readQueue[qi] : queue[qi]; }
+
     function toggleStar(ev) {
         if (ev) ev.stopPropagation();
-        const c = queue[qi] || readQueue[qi]; if (!c) return;
+        const c = currentCard(); if (!c) return;
         const s = stOf(c.id);
         s.star = !s.star; saveState();
         $('btnStar').classList.toggle('on', s.star);
@@ -586,12 +614,12 @@
     }
     function markDone(ev) {
         if (ev) ev.stopPropagation();
-        const c = queue[qi] || readQueue[qi]; if (!c) return;
+        const c = currentCard(); if (!c) return;
         const s = stOf(c.id);
         if (s.state === 'mastered') { s.state = 'review'; s.interval = 7; s.due = Date.now() + 7 * DAY; toast('已取消「已熟」'); }
         else {
             s.state = 'mastered'; s.reps = Math.max(s.reps, 5); s.interval = 30; s.due = Date.now() + 30 * DAY;
-            if (c.kind === 'read') { s.read = Date.now(); ST.daily.readDone = (ST.daily.readDone || 0) + 1; }
+            if (c.kind === 'read' && !s.read) { s.read = Date.now(); ST.daily.readDone = (ST.daily.readDone || 0) + 1; }
             toast(c.kind === 'read' ? '已标记读过' : '已标记「已熟」，30 天后再复习');
         }
         saveState();
@@ -605,7 +633,7 @@
         const sf = $('cdStateFilter').value;
         const stf = $('cdStarFilter').value;
         const rows = visibleCards().filter(c => {
-            const s = stOf(c.id);
+            const s = peekOf(c.id);
             if (sf === 'read' && c.kind !== 'read') return false;
             if (sf && sf !== 'read' && c.kind === 'read') return false;
             if (sf && sf !== 'read' && s.state !== sf) return false;
@@ -619,7 +647,7 @@
         const page = rows.slice((listPage - 1) * PAGE_SIZE, listPage * PAGE_SIZE);
         const stateName = { new: '未学', learning: '不熟中', review: '复习中', mastered: '已熟' };
         $('cdTbody').innerHTML = page.map(c => {
-            const s = stOf(c.id);
+            const s = peekOf(c.id);
             const iv = c.kind === 'read'
                 ? (s.read ? '已读' : '待读')
                 : (s.interval === 0 ? '<10 分钟' : (s.interval >= 30 ? Math.round(s.interval / 30) + ' 月' : s.interval + ' 天'));
@@ -634,21 +662,44 @@
                 <td>${iv}</td>
                 <td>${c.kind === 'read' ? '—' : (s.reps + ' 次' + (s.lapses ? ` / 忘 ${s.lapses}` : ''))}</td>
                 <td>
-                    <button class="cd-mini" onclick="reviewNow('${esc(c.id)}')">学习</button>
-                    ${c.kind === 'read' ? `<button class="cd-mini" onclick="markRead('${esc(c.id)}')">标已读</button>` : ''}
-                    <button class="cd-mini" onclick="resetCard('${esc(c.id)}')">重置</button>
-                    <button class="cd-mini" onclick="editCard('${esc(c.id)}')">编辑</button>
-                    <button class="cd-mini" onclick="removeCard('${esc(c.id)}')">删除</button>
+                    <button class="cd-mini" data-act="review" data-id="${esc(c.id)}">学习</button>
+                    ${c.kind === 'read' ? `<button class="cd-mini" data-act="markread" data-id="${esc(c.id)}">标已读</button>` : ''}
+                    <button class="cd-mini" data-act="reset" data-id="${esc(c.id)}">重置</button>
+                    <button class="cd-mini" data-act="edit" data-id="${esc(c.id)}">编辑</button>
+                    <button class="cd-mini" data-act="remove" data-id="${esc(c.id)}">删除</button>
                 </td></tr>`;
         }).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--text-faint);padding:22px">没有匹配的卡片</td></tr>`;
         $('cdPager').innerHTML = `共 ${total} 张 · 第 ${listPage}/${pages} 页
             <button class="cd-mini" onclick="listPage--;renderList()">上一页</button>
             <button class="cd-mini" onclick="listPage++;renderList()">下一页</button>`;
     }
+    /* 列表按钮走 data-act/data-id + 事件委托，不再把卡片 id 拼进 onclick='…' 字符串：
+       章节名来自笔记正文，一旦出现单引号 / 反斜杠就会让属性提前闭合、按钮彻底失效 */
+    const LIST_ACTS = {
+        review: id => reviewNow(id),
+        markread: id => markRead(id),
+        reset: id => resetCard(id),
+        edit: id => editCard(id),
+        remove: id => removeCard(id)
+    };
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest && e.target.closest('[data-act]');
+        if (!btn) return;
+        const fn = LIST_ACTS[btn.dataset.act];
+        if (fn && btn.dataset.id != null) { e.preventDefault(); fn(btn.dataset.id); }
+    });
     function markRead(id) {
         const s = stOf(id);
         if (!s.read) { ST.daily.readDone = (ST.daily.readDone || 0) + 1; ST.daily.done++; }
-        s.read = Date.now(); saveState(); renderList(); toast('已标记读过');
+        s.read = Date.now(); saveState(); afterListChange(); toast('已标记读过');
+    }
+    /** 列表改动后统一收尾：列表必刷；学习视图也要重建队列，
+     *  否则被删/被重置的卡仍留在 queue 里（幽灵卡：评完会写回一份被删状态） */
+    function afterListChange() {
+        renderList();
+        buildQueue();
+        if (view === 'study') renderStudy();
+        if (view === 'stats') renderStats();
     }
     function reviewNow(id) {
         const c = CARDS.find(x => x.id === id);
@@ -660,7 +711,8 @@
     function resetCard(id) {
         const s = stOf(id);
         s.ease = 2.5; s.interval = 0; s.reps = 0; s.lapses = 0; s.due = 0; s.state = 'new'; s.last = 0; s.read = 0;
-        saveState(); renderList(); toast('已重置进度');
+        s.star = false;
+        saveState(); afterListChange(); toast('已重置进度');
     }
     function removeCard(id) {
         if (!confirm('确定删除这张卡片？（笔记原文不会被删除；内置卡删除后不会再生成）')) return;
@@ -669,7 +721,7 @@
         if (i >= 0) CARDS.splice(i, 1);
         if (c && c.custom) ST.custom = (ST.custom || []).filter(x => x.id !== id);
         else { ST.hidden[id] = 1; delete ST.over[id]; }
-        delete ST.cards[id]; saveState(); renderList(); toast('已删除');
+        delete ST.cards[id]; saveState(); afterListChange(); toast('已删除');
     }
 
     // ---------------- 编辑 / 设置 / 导入导出 ----------------
@@ -688,7 +740,8 @@
                 <textarea id="edBody">${c ? esc(c.md) : ''}</textarea>
                 <div class="cd-hintline">可挖空点 ≥ ${CLOZE_MIN} 个判为背诵卡，否则为阅读卡（只记阅读进度）</div></div>`,
             `<button class="cd-btn" onclick="closeModal()">取消</button>
-             <button class="cd-btn primary" onclick="saveCard('${c ? esc(c.id) : ''}')">保存</button>`);
+             <button class="cd-btn primary" id="edSave">保存</button>`);
+        $('edSave').onclick = () => saveCard(c ? c.id : '');   // 不把 id 拼进 onclick
     }
     function editCard(id) { openEditor(id); }
     function saveCard(id) {
@@ -776,7 +829,7 @@
         const all = visibleCards(), now = Date.now();
         let mastered = 0, learning = 0, review = 0, fresh = 0, star = 0, dueToday = 0, readAll = 0, readTodo = 0, memoN = 0;
         all.forEach(c => {
-            const s = stOf(c.id);
+            const s = peekOf(c.id);
             if (s.star) star++;                             // 阅读卡的收藏也计入
             if (c.kind === 'read') { s.read ? readAll++ : readTodo++; return; }
             memoN++;
@@ -810,7 +863,7 @@
         for (let i = 0; i < 7; i++) {
             const s0 = now + i * DAY, e0 = s0 + DAY;
             days.push([i === 0 ? '今天' : (i + 1) + ' 天后',
-                memo.filter(c => { const s = stOf(c.id); return s.state !== 'new' && s.due >= s0 && s.due < e0; }).length]);
+                memo.filter(c => { const s = peekOf(c.id); return s.state !== 'new' && s.due >= s0 && s.due < e0; }).length]);
         }
         const max = Math.max(1, ...days.map(d => d[1]));
         $('cdFuture').innerHTML = days.map(([l, n]) => bar(l, n, max)).join('');
@@ -821,7 +874,7 @@
             const k = c.noteTitle;
             byNote[k] = byNote[k] || { t: 0, m: 0 };
             byNote[k].t++;
-            if (c.kind === 'read' ? stOf(c.id).read : stOf(c.id).state === 'mastered') byNote[k].m++;
+            if (c.kind === 'read' ? peekOf(c.id).read : peekOf(c.id).state === 'mastered') byNote[k].m++;
         });
         const rows = Object.keys(byNote).map(k => [k, Math.round(byNote[k].m / byNote[k].t * 100), byNote[k].t]).sort((a, b) => b[1] - a[1]);
         $('cdByNote').innerHTML = rows.map(([k, p, t]) => bar(k, p, 100, p + '% · ' + t + ' 张')).join('');
@@ -869,6 +922,26 @@
     document.addEventListener('click', (e) => {
         const cl = e.target.closest && e.target.closest('.cd-cloze');
         if (cl && view === 'study' && !cl.classList.contains('revealed')) revealOne(cl);
+    });
+    /* 跨标签页同步：另一个标签改了进度/收藏/自建卡，本页重载状态并重绘当前视图，
+       避免两个标签互相覆盖（与 category.js 的 storage 监听同思路） */
+    window.addEventListener('storage', (e) => {
+        if (e.key !== LS_KEY) return;
+        const keep = { subject, view, queueFilter, listPage };
+        const cur = currentCard();
+        const curId = cur ? cur.id : '';
+        loadState();
+        applyStoredCards();
+        subject = keep.subject; view = keep.view; queueFilter = keep.queueFilter; listPage = keep.listPage;
+        buildQueue();
+        if (curId && mode === 'cloze') {          // 尽量留在原来那张卡，别把用户弹回队首
+            const i = queue.findIndex(c => c.id === curId);
+            if (i >= 0) qi = i; else qi = Math.min(qi, Math.max(0, queue.length - 1));
+        }
+        if (view === 'study') renderStudy();
+        else if (view === 'list') renderList();
+        else renderStats();
+        toast('已同步另一标签页的进度');
     });
 
     // ---------------- 启动 ----------------
