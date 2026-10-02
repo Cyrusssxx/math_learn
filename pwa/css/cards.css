@@ -204,6 +204,9 @@ body {
 
 /* ============ 模态 / 提示 ============ */
 .cd-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, .35); display: flex; align-items: center; justify-content: center; z-index: 60; }
+/* ⚠️ 必须显式盖掉 display:flex —— 作者样式优先级高于 UA 的 [hidden]{display:none}。
+   否则这个「标题写死为『设置』、body/foot 为空」的模态框 + 全屏遮罩会从页面加载起就一直盖住整页，点什么都没反应 */
+.cd-modal[hidden] { display: none; }
 .cd-modal-box { background: var(--bg); border-radius: 12px; width: min(580px, 92vw); max-height: 86vh; display: flex; flex-direction: column; box-shadow: var(--shadow); }
 .cd-modal-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); font-weight: 600; }
 .cd-x { border: none; background: transparent; color: var(--text-dim); font-size: 16px; cursor: pointer; }
