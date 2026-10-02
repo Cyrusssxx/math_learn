@@ -34,7 +34,7 @@ js = (
     "console.log('KaTeX 渲染失败:',bad,'/',t.length);\n"
 )
 io.open(jsf, 'w', encoding='utf-8').write(js)
-r = subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-3/node.exe', jsf, tmp],
+r = subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-5/node.exe', jsf, tmp],
                    capture_output=True, text=True)
 print(r.stdout or r.stderr[:300])
 os.remove(tmp)

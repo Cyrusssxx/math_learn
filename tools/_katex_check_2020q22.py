@@ -29,7 +29,7 @@ print('公式段数: %d（display %d / inline %d）' % (
 tmp = 'C:/Users/cjx/.workbuddy/binaries/node/workspace/_katex_seg.txt'
 io.open(tmp, 'w', encoding='utf-8').write('\n'.join(t for _, t in segments))
 
-NODE = 'C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-3/node.exe'
+NODE = 'C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-5/node.exe'
 js = (
     "const fs=require('fs');\n"
     "const tests=fs.readFileSync(process.argv[2],'utf8').split('\\n').filter(Boolean);\n"

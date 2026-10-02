@@ -72,7 +72,7 @@ def render_check(text):
         "fs.writeFileSync(process.argv[3],JSON.stringify(b));")
     io.open(inp, 'w', encoding='utf-8').write('\n'.join(segs))
     oup = os.path.join(tempfile.gettempdir(), '_v.json')
-    subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-3/node.exe', jsf, inp, oup],
+    subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-5/node.exe', jsf, inp, oup],
                    capture_output=True, text=True)
     b = int(json.loads(io.open(oup, encoding='utf-8').read()))
     for p in (jsf, inp, oup):

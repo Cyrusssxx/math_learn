@@ -3,7 +3,7 @@
 import json, io, sys, re, subprocess, os
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 SRC = 'pwa/data/core_bank.json'
-NODE = r'C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-3/node.exe'
+NODE = r'C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-5/node.exe'
 LOCATE = r'C:/Users/cjx/.workbuddy/binaries/node/workspace/_t_locate_core.js'
 
 def load():

@@ -11,7 +11,7 @@ tmp = 'C:/Users/cjx/.workbuddy/binaries/node/workspace/_katex_seg.txt'
 io.open(tmp, 'w', encoding='utf-8').write('\n'.join(tests))
 print('公式数:', len(tests))
 
-NODE = 'C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-3/node.exe'
+NODE = 'C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-5/node.exe'
 js = r"""
 const fs=require('fs');
 const tests=fs.readFileSync(process.argv[2],'utf8').split('\n').filter(Boolean);

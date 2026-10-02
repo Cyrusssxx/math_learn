@@ -51,7 +51,7 @@ if (bad.length) console.log(JSON.stringify(bad, null, 2));
 with io.open(inp, 'w', encoding='utf-8') as f:
     json.dump(segs, f, ensure_ascii=False)
 
-res = subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-3/node.exe', jsf, inp], capture_output=True, text=True)
+res = subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-5/node.exe', jsf, inp], capture_output=True, text=True)
 print(res.stdout)
 if res.stderr:
     print("stderr:", res.stderr)

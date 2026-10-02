@@ -32,7 +32,7 @@ js = (
     "console.log('结论: 顶部 padding 12px', px<=12?'足够 ✅':'不足 ❌');\n"
 )
 io.open(jsf, 'w', encoding='utf-8').write(js)
-r = subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-3/node.exe', jsf, tmp],
+r = subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-5/node.exe', jsf, tmp],
                    capture_output=True, text=True)
 print(r.stdout or r.stderr[:400])
 os.remove(tmp)

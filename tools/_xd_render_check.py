@@ -24,7 +24,7 @@ io.open(jsf, 'w', encoding='utf-8').write(
     'for(const x of ls){try{c.katex.renderToString(x,{throwOnError:true})}catch(e){b++;if(bad.length<6)bad.push(x.slice(0,70))}}'
     'console.log("段数="+ls.length+" 失败="+b);if(bad.length)console.log("失败段: "+bad.join(" || "));')
 io.open(inp, 'w', encoding='utf-8').write('\n'.join(segs))
-r = subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-3/node.exe', jsf, inp],
+r = subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-5/node.exe', jsf, inp],
                    capture_output=True, text=True)
 print(r.stdout or r.stderr[:400])
 for p in (jsf, inp):

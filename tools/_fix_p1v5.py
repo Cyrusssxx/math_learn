@@ -56,7 +56,7 @@ def render_check(text):
         "for(const x of ls){try{c.katex.renderToString(x,{throwOnError:true})}catch(e){b++}}"
         "fs.writeFileSync(process.argv[3],JSON.stringify(b));")
     io.open(inp, 'w', encoding='utf-8').write('\n'.join(segs))
-    subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-3/node.exe', jsf, inp, oup],
+    subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-5/node.exe', jsf, inp, oup],
                    capture_output=True, text=True)
     b = int(json.loads(io.open(oup, encoding='utf-8').read()))
     for p in (jsf, inp, oup):

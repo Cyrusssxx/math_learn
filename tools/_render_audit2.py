@@ -42,7 +42,7 @@ def main():
         inp = os.path.join(tempfile.gettempdir(), '_s2.txt')
         outp = os.path.join(tempfile.gettempdir(), '_b2.json')
         io.open(inp, 'w', encoding='utf-8').write('\n'.join(rows))
-        subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-3/node.exe', jsf, inp, outp],
+        subprocess.run(['C:/Users/cjx/.workbuddy/binaries/node/versions/22.22.2-5/node.exe', jsf, inp, outp],
                        capture_output=True, text=True)
         bad = json.loads(io.open(outp, encoding='utf-8').read() or '[]') if os.path.exists(outp) else []
         from collections import Counter, defaultdict
