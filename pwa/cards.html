@@ -36,6 +36,12 @@
 
 <!-- ============ 学习视图 ============ -->
 <main class="cd-main" id="viewStudy">
+    <div class="cd-filters" id="cdFilters">
+        <button class="cd-chip on" data-f="" onclick="setQueueFilter('', this)">全部卡片</button>
+        <button class="cd-chip" data-f="hard" onclick="setQueueFilter('hard', this)">🔴 忘过的</button>
+        <button class="cd-chip" data-f="learning" onclick="setQueueFilter('learning', this)">🟡 不熟中</button>
+        <button class="cd-chip" data-f="star" onclick="setQueueFilter('star', this)">★ 收藏</button>
+    </div>
     <div class="cd-stats" id="cdStats"></div>
     <div class="cd-progress"><div class="cd-progress-bar" id="cdProgressBar"></div></div>
 
@@ -93,6 +99,10 @@
 <!-- ============ 统计视图 ============ -->
 <main class="cd-main" id="viewStats" hidden>
     <div class="cd-statgrid" id="cdStatGrid"></div>
+    <div class="cd-panel">
+        <h3>近 14 天完成量</h3>
+        <div class="cd-bars" id="cdTrend"></div>
+    </div>
     <div class="cd-panel">
         <h3>未来 7 天到期分布</h3>
         <div class="cd-bars" id="cdFuture"></div>

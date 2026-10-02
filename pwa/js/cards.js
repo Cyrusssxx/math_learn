@@ -8,9 +8,15 @@
 
     const LS_KEY = 'cd_state_v1';
     const DAY = 86400000;
-    const MAX_CLOZE = 8;         // 单卡最多挖空数
+    const MAX_CLOZE = 12;        // 单卡挖空数硬上限（实际值由设置 clozePerCard 决定）
+    const DEF_CLOZE = 8;         // 默认单卡挖空数
     const SOFT_LIMIT = 1100;      // 单卡目标字数上限
     const CLOZE_MIN = 2;          // 少于该挖空点视为「阅读卡」
+
+    function clozeLimit() {
+        const v = ST && ST.settings ? ST.settings.clozePerCard : DEF_CLOZE;
+        return clamp(parseInt(v, 10) || DEF_CLOZE, 2, MAX_CLOZE);
+    }
 
     let CARDS = [];
     let ST = null;
@@ -18,6 +24,7 @@
     let subject = '';
     let queue = [];               // 背诵卡队列
     let readQueue = [];           // 阅读卡队列（今日未读）
+    let CARD_HTML = '';           // 卡片骨架快照（完成态会整体替换 cardWrap，需要能还原）
     let qi = 0;
     let revealed = 0, totalCloze = 0;
     let mode = 'cloze';           // 当前学习模式：cloze | read
@@ -38,20 +45,40 @@
     function defaultState() {
         return {
             cards: {},
-            settings: { newPerDay: 20, revPerDay: 120, readWithQueue: false },
+            settings: { newPerDay: 20, revPerDay: 120, clozePerCard: DEF_CLOZE },
             daily: { date: dayKey(), done: 0, newDone: 0, revDone: 0, readDone: 0 },
-            streak: { last: '', count: 0 }
+            streak: { last: '', count: 0 },
+            custom: [],      // 自建卡片（持久化，刷新不丢）
+            over: {},        // 内置卡被编辑后的覆盖：id → {chapter, md, subject, kind, cands}
+            hidden: {},      // 被删除的内置卡 id
+            history: {}      // date → {done,newDone,revDone,readDone}，用于趋势统计
         };
     }
     function loadState() {
         try { ST = JSON.parse(localStorage.getItem(LS_KEY)) || defaultState(); }
         catch (e) { ST = defaultState(); }
         const d = defaultState();
-        for (const k in d) if (ST[k] === undefined) ST[k] = d[k];
+        for (const k in d) if (ST[k] === undefined || ST[k] === null) ST[k] = d[k];
+        if (typeof ST.custom !== 'object' || !Array.isArray(ST.custom)) ST.custom = [];
+        ['over', 'hidden', 'history'].forEach(k => { if (typeof ST[k] !== 'object' || Array.isArray(ST[k])) ST[k] = {}; });
         for (const k in d.settings) if (ST.settings[k] === undefined) ST.settings[k] = d.settings[k];
+        delete ST.settings.readWithQueue;   // 旧版本未启用的死配置
         if (ST.daily.date !== dayKey()) ST.daily = { date: dayKey(), done: 0, newDone: 0, revDone: 0, readDone: 0 };
     }
-    function saveState() { try { localStorage.setItem(LS_KEY, JSON.stringify(ST)); } catch (e) { } }
+    /** 把当天计数落入历史（保留 120 天），供统计页画趋势 */
+    function bumpHistory() {
+        if (!ST.history) ST.history = {};
+        const d = dayKey();
+        ST.history[d] = {
+            done: ST.daily.done || 0, newDone: ST.daily.newDone || 0,
+            revDone: ST.daily.revDone || 0, readDone: ST.daily.readDone || 0
+        };
+        const keys = Object.keys(ST.history).sort();
+        while (keys.length > 120) delete ST.history[keys.shift()];
+    }
+    function saveState() {
+        try { bumpHistory(); localStorage.setItem(LS_KEY, JSON.stringify(ST)); } catch (e) { }
+    }
     function stOf(id) {
         if (!ST.cards[id]) ST.cards[id] = { ease: 2.5, interval: 0, reps: 0, lapses: 0, due: 0, state: 'new', last: 0, star: false, read: 0 };
         return ST.cards[id];
@@ -115,9 +142,9 @@
 
     function countClozeCandidates(md) {
         const s = String(md || '');
-        return (s.match(/\$[^$\n]{2,120}\$/g) || []).length
+        return (s.match(/\$[^$\n]{1,120}\$/g) || []).length
             + (s.match(/\*\*[^*\n]{2,40}\*\*/g) || []).length
-            + (s.match(/`[^`\n]{2,60}`/g) || []).length;
+            + (s.match(/`[^`\n]{1,60}`/g) || []).length;
     }
 
     function buildCards(notes) {
@@ -143,77 +170,215 @@
         return cards;
     }
 
+    /** 应用本地改动：隐藏已删卡 → 覆盖被编辑的卡 → 追加自建卡（都在笔记拆卡之后） */
+    function applyStoredCards() {
+        CARDS = CARDS.filter(c => !ST.hidden[c.id]).map(c => {
+            const o = ST.over[c.id];
+            return o ? Object.assign({}, c, o) : c;
+        });
+        (ST.custom || []).forEach(c => {
+            if (c && c.id && !CARDS.some(x => x.id === c.id)) CARDS.unshift(Object.assign({ custom: true }, c));
+        });
+    }
+
     // ---------------- 挖空 ----------------
+    const CL_PLACE = '　　';                                  // 未揭示时的占位宽度
+    /* 文本节点级候选：kind m=行内公式（揭示时用 KaTeX 渲染）/ c=行内代码（纯文本揭示）
+       加粗 **…** 在 mdToHtml 里已变成 <strong> 元素，走元素级候选（kind b）
+       注意公式下限是 {1,}：$x$/$n$ 这类单字符公式必须参与配对，否则 $ 配对错位、
+       会把两个公式之间的中文段错配成「伪公式」 */
     const CLOZE_RULES = [
-        { re: /\$[^$\n]{2,120}\$/g, strip: s => s.replace(/^\$+|\$+$/g, '') },
-        { re: /\*\*[^*\n]{2,40}\*\*/g, strip: s => s.replace(/^\*\*|\*\*$/g, '') },
-        { re: /`[^`\n]{2,60}`/g, strip: s => s.replace(/^`|`$/g, '') }
+        { kind: 'm', re: /\$[^$\n]{1,120}\$/g, strip: s => s.replace(/^\$+|\$+$/g, '') },
+        { kind: 'c', re: /`[^`\n]{1,60}`/g, strip: s => s.replace(/^`+|`+$/g, '') }
     ];
-    function applyCloze(container, max) {
-        max = max || MAX_CLOZE;
+
+    function makeCloze(inner, kind) {
+        const sp = document.createElement('span');
+        sp.className = 'cd-cloze';
+        sp.setAttribute('data-c', inner);
+        sp.setAttribute('data-k', kind);
+        sp.title = '点击显示答案';
+        sp.textContent = CL_PLACE;
+        return sp;
+    }
+
+    /** 判定节点是否位于 strong / 已有挖空内（不再作为候选） */
+    function insideSkip(n, container) {
+        let p = n.parentNode;
+        while (p && p !== container) {
+            if (p.nodeType === 1 && (p.classList.contains('cd-cloze') || p.tagName === 'STRONG')) return true;
+            p = p.parentNode;
+        }
+        return false;
+    }
+
+    /** 收集容器内所有候选：{kind, inner, el?|node+index+len, order} */
+    function collectCands(container) {
+        const list = [];
+        // 元素级：加粗
+        Array.from(container.querySelectorAll('strong')).forEach((el, i) => {
+            const t = (el.textContent || '').trim();
+            if (t.length >= 2 && t.length <= 60) list.push({ kind: 'b', el, inner: t, order: -1e6 + i });
+        });
+        // 文本节点级：行内公式 / 代码
         const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
-        const nodes = []; let n;
-        while ((n = walker.nextNode())) if (n.nodeValue && n.nodeValue.trim()) nodes.push(n);
-        let made = 0;
-        for (const tn of nodes) {
-            if (made >= max) break;
-            let s = tn.nodeValue, used = false;
+        let n, idx = 0;
+        while ((n = walker.nextNode())) {
+            const s = n.nodeValue;
+            if (!s || !s.trim() || insideSkip(n, container)) continue;
+            const hits = [];
             for (const rule of CLOZE_RULES) {
-                if (used || made >= max) break;
                 rule.re.lastIndex = 0;
-                let m, last = 0, out = '';
-                while ((m = rule.re.exec(s)) && made < max) {
+                let m;
+                while ((m = rule.re.exec(s))) {
                     const inner = rule.strip(m[0]);
                     if (!inner || inner.length < 2) continue;
-                    out += s.slice(last, m.index);
-                    out += `<span class="cd-cloze" data-c="${esc(inner)}" title="点击显示答案">　　　　</span>`;
-                    last = m.index + m[0].length; made++; used = true;
+                    hits.push({ kind: rule.kind, index: m.index, len: m[0].length, inner });
                 }
-                if (used) { out += s.slice(last); s = out; }
             }
-            if (used) {
-                const frag = document.createElement('span');
-                frag.innerHTML = s;
-                tn.parentNode.replaceChild(frag, tn);
-            }
+            if (!hits.length) continue;
+            hits.sort((a, b) => a.index - b.index);
+            const clean = []; let lastEnd = -1;
+            for (const h of hits) if (h.index >= lastEnd) { clean.push(h); lastEnd = h.index + h.len; }
+            clean.forEach((h, j) => { h.node = n; h.order = idx * 1000 + j; });
+            idx++;
+            list.push.apply(list, clean);
         }
-        return made;
+        return list;
     }
+
+    /** 组内均匀采样 k 个（保留首尾、等距取点），避免「只挖到卡前半段」 */
+    function stridePick(arr, k) {
+        if (k <= 0) return [];
+        if (arr.length <= k) return arr.slice();
+        if (k === 1) return [arr[0]];
+        const idxs = new Set();
+        for (let i = 0; i < k; i++) idxs.add(Math.round(i * (arr.length - 1) / (k - 1)));
+        let j = 0;
+        while (idxs.size < k && j < arr.length) { idxs.add(j); j++; }
+        return Array.from(idxs).sort((a, b) => a - b).map(i => arr[i]);
+    }
+
+    /** 在已渲染的 HTML 上挖空，返回实际挖出的空数 */
+    function applyCloze(container, max) {
+        max = clamp(max || clozeLimit(), 1, MAX_CLOZE);
+        const cands = collectCands(container);
+        if (!cands.length) return 0;
+        const g = { m: [], b: [], c: [] };
+        cands.forEach(c => g[c.kind].push(c));
+        Object.keys(g).forEach(k => g[k].sort((a, b) => a.order - b.order));
+        // 公式按信息量分两档：长公式（≥3 字符）优先，单字符（$x$/$n$）只作补位
+        const mL = g.m.filter(c => c.inner.length >= 3);
+        const mS = g.m.filter(c => c.inner.length < 3);
+        const bCap = Math.min(g.b.length, 2);                       // 加粗最多补 2 个名额
+        const mQ = Math.min(mL.length, Math.max(0, max - bCap));
+        const bQ = Math.min(g.b.length, max - mQ);
+        const sQ = Math.min(mS.length, Math.max(0, max - mQ - bQ));
+        const cQ = Math.min(g.c.length, Math.max(0, max - mQ - bQ - sQ));
+        const picked = stridePick(mL, mQ)
+            .concat(stridePick(g.b, bQ), stridePick(mS, sQ), stridePick(g.c, cQ));
+        // 元素级替换优先（其后其内部文本节点已离开文档，不再被处理）
+        picked.filter(p => p.el).forEach(p => p.el.parentNode.replaceChild(makeCloze(p.inner, 'b'), p.el));
+        // 文本节点级：同一节点内的多个候选一次性替换
+        const byNode = new Map();
+        picked.filter(p => p.node).forEach(p => {
+            if (!p.node.parentNode || !container.contains(p.node)) return;
+            if (!byNode.has(p.node)) byNode.set(p.node, []);
+            byNode.get(p.node).push(p);
+        });
+        byNode.forEach((hs, node) => {
+            const s = node.nodeValue;
+            let html = '', last = 0;
+            hs.sort((a, b) => a.index - b.index).forEach(h => {
+                if (h.index < last) return;
+                html += esc(s.slice(last, h.index)) +
+                    `<span class="cd-cloze" data-c="${esc(h.inner)}" data-k="${h.kind}" title="点击显示答案">${CL_PLACE}</span>`;
+                last = h.index + h.len;
+            });
+            html += esc(s.slice(last));
+            const frag = document.createElement('span');
+            frag.innerHTML = html;
+            node.parentNode.replaceChild(frag, node);
+        });
+        return picked.length;
+    }
+
+    /** 答案是否适合交给 KaTeX：含中文且没写 \text{} 的「伪公式」降级为纯文本 */
+    function texSafe(s) {
+        return !/[\u4e00-\u9fa5]/.test(s) || /\\text\{/.test(s);
+    }
+
     function revealOne(el) {
         if (el.classList.contains('revealed')) return;
         const ans = el.getAttribute('data-c') || '';
+        const k = el.getAttribute('data-k') || 'c';
         el.classList.add('revealed');
-        if (ans.indexOf('$') >= 0 && window.katex) {
-            try { window.katex.render(ans, el, { displayMode: false }); revealed++; updateFoot(); return; } catch (e) { }
+        if (k === 'm' && window.katex && texSafe(ans)) {
+            try {
+                window.katex.render(ans, el, { displayMode: false, throwOnError: false });
+                revealed++; refreshReady(); return;
+            } catch (e) { /* 降级为纯文本 */ }
         }
-        el.textContent = ans; revealed++; updateFoot();
+        if (k === 'b') el.innerHTML = '<b>' + esc(ans) + '</b>';
+        else el.textContent = ans;
+        revealed++; refreshReady();
     }
-    function revealAll(root) { (root || document).querySelectorAll('.cd-cloze:not(.revealed)').forEach(revealOne); }
+    function revealAll(root) { (root || document).querySelectorAll('.cd-cloze:not(.revealed)').forEach(revealOne); refreshReady(); }
     function hideAll(root) {
         (root || document).querySelectorAll('.cd-cloze.revealed').forEach(el => {
-            el.classList.remove('revealed'); el.textContent = '　　　　';
             const ans = el.getAttribute('data-c') || '';
-            if (ans.indexOf('$') >= 0 && window.katex) { try { window.katex.render('\\color{transparent}{' + ans + '}', el, { displayMode: false }); return; } catch (e) { } }
+            const k = el.getAttribute('data-k') || 'c';
+            el.classList.remove('revealed');
+            el.textContent = CL_PLACE;
+            if (k === 'm' && window.katex && texSafe(ans)) {
+                // 透明渲染同一公式，保证重新隐藏后占位宽度不塌陷
+                try { window.katex.render('\\color{transparent}{' + ans + '}', el, { displayMode: false, throwOnError: false }); } catch (e) { }
+            }
         });
-        revealed = 0; updateFoot();
+        revealed = 0; refreshReady();
     }
     function allRevealed() { return revealed >= totalCloze; }
+    /** 全部揭示才点亮评分区（仍可点击，未就绪时由 grade() 给出提示） */
+    function refreshReady() {
+        const a = $('cardActions');
+        if (a) a.classList.toggle('not-ready', totalCloze > 0 && !allRevealed());
+        updateFoot();
+    }
     function updateFoot() {
+        const foot = $('cardFoot');
+        if (!foot) return;            // 完成态/阅读完成态下卡片区被整体替换，页脚可能不存在
+        if (mode === 'read') { foot.innerHTML = '📖 阅读卡：读懂即可，读完点下方「读完了」'; return; }
+        if (totalCloze === 0) { foot.innerHTML = '本卡没有可挖空内容 · 可点右上「✓ 已熟」或直接评级'; return; }
         const left = totalCloze - revealed;
-        if (mode === 'read') { $('cardFoot').innerHTML = '📖 阅读卡：读懂即可，读完点下方「读完了」'; return; }
-        $('cardFoot').innerHTML = left > 0
+        foot.innerHTML = left > 0
             ? `还剩 <b>${left}</b> 个空 · 点击填空或按 <b>空格</b> 全部显示`
             : `全部答案已显示 · <a href="javascript:;" id="rehide" onclick="hideAll()">↺ 重新隐藏再记一次</a>，然后评价`;
     }
 
     // ---------------- 队列 ----------------
+    let queueFilter = '';        // '' 全部 | hard 不会 | learning 不熟 | star 收藏
     function visibleCards() { return CARDS.filter(c => !subject || c.subject === subject); }
-    function pendingRead() { return visibleCards().filter(c => c.kind === 'read' && !stOf(c.id).read); }
+    function matchFilter(c) {
+        if (!queueFilter) return true;
+        const s = stOf(c.id);
+        if (queueFilter === 'hard') return s.lapses > 0;
+        if (queueFilter === 'learning') return s.state === 'learning';
+        if (queueFilter === 'star') return !!s.star;
+        return true;
+    }
+    function poolCards() { return visibleCards().filter(matchFilter); }
+    function pendingRead() { return poolCards().filter(c => c.kind === 'read' && !stOf(c.id).read); }
+    function setQueueFilter(f, btn) {
+        queueFilter = f || '';
+        document.querySelectorAll('#cdFilters .cd-chip').forEach(b => b.classList.toggle('on', (b.dataset.f || '') === queueFilter));
+        buildQueue();
+        if (view === 'study') renderStudy();     // 筛选只作用于学习队列，列表/统计页各有自己的筛选器
+    }
 
     function buildQueue() {
         const now = Date.now();
         const due = [], fresh = [];
-        for (const c of visibleCards()) {
+        for (const c of poolCards()) {
             if (c.kind !== 'cloze') continue;
             const s = stOf(c.id);
             if (s.state === 'mastered' && s.due > now) continue;
@@ -223,7 +388,10 @@
         const st = ST.settings;
         const revLeft = Math.max(0, st.revPerDay - ST.daily.revDone);
         const newLeft = Math.max(0, st.newPerDay - ST.daily.newDone);
-        queue = due.slice(0, revLeft).concat(fresh.slice(0, newLeft));
+        // 筛选态下（不会/不熟/收藏）不受每日额度限制：用户主动想练就该给
+        queue = queueFilter
+            ? due.concat(fresh)
+            : due.slice(0, revLeft).concat(fresh.slice(0, newLeft));
         readQueue = pendingRead().slice(0, 30);
         qi = 0; mode = 'cloze';
     }
@@ -232,7 +400,7 @@
     function injectDueCards() {
         const now = Date.now();
         const inQueue = new Set(queue.map(c => c.id));
-        const dueNow = visibleCards().filter(c => {
+        const dueNow = poolCards().filter(c => {
             if (c.kind !== 'cloze' || inQueue.has(c.id)) return false;
             const s = stOf(c.id);
             return s.state === 'learning' && s.due <= now;
@@ -246,12 +414,12 @@
         let mastered = 0, learning = 0, freshN = 0, starN = 0, dueN = 0;
         visibleCards().forEach(c => {
             const s = stOf(c.id);
-            if (c.kind === 'read') { if (!s.read) freshN += 0; return; }
+            if (s.star) starN++;                       // 阅读卡的收藏也要计入
+            if (c.kind === 'read') return;
             if (s.state === 'mastered') mastered++;
             else if (s.state === 'learning') learning++;
             else if (s.state === 'new') freshN++;
-            else if (s.due <= now) dueN++;
-            if (s.star) starN++;
+            if (s.state !== 'new' && s.due <= now) dueN++;   // 复习中 + 不熟中到期都算「待复习」
         });
         const readPending = pendingRead().length;
         $('cdStats').innerHTML = `
@@ -263,10 +431,11 @@
             <div class="cd-stat"><b>${learning}</b><span>不熟中</span></div>
             <div class="cd-stat"><b>${ST.streak.count}</b><span>连续天数</span></div>
             <div class="cd-stat"><b>${starN}</b><span>收藏</span></div>`;
-        const totalToday = Math.max(1, dueN + freshN);
-        $('cdProgressBar').style.width = clamp(ST.daily.done / totalToday * 100, 0, 100) + '%';
-        const totalAll = visibleCards().length;
-        $('cdSub').textContent = `${totalAll} 张卡 · 背诵 ${totalAll - visibleCards().filter(c => c.kind === 'read').length} · 阅读 ${visibleCards().filter(c => c.kind === 'read').length}`;
+        const todayTarget = Math.max(1, ST.daily.done + queue.length);
+        $('cdProgressBar').style.width = clamp(ST.daily.done / todayTarget * 100, 0, 100) + '%';
+        const all = visibleCards(), readN = all.filter(c => c.kind === 'read').length;
+        const fname = { hard: ' · 只看不会', learning: ' · 只看不熟', star: ' · 只看收藏' }[queueFilter] || '';
+        $('cdSub').textContent = `${all.length} 张卡 · 背诵 ${all.length - readN} · 阅读 ${readN}${fname}`;
 
         if (mode === 'read') { renderRead(); return; }
         if (qi >= queue.length) { renderDone(dueN, freshN, readPending); return; }
@@ -274,11 +443,24 @@
     }
 
     function renderDone(dueN, freshN, readPending) {
+        if (queueFilter) {
+            const nm = { hard: '🔴 不会', learning: '🟡 不熟', star: '★ 收藏' }[queueFilter];
+            $('cardWrap').innerHTML = `<div class="cd-done">
+                <div class="big">✅</div>
+                <h2>「${nm}」筛选下的卡片已过完</h2>
+                <p>当前没有符合该筛选的卡片</p>
+                <p style="margin-top:12px">
+                  <button class="cd-btn primary" onclick="setQueueFilter('', this)">回到全部卡片</button>
+                  <button class="cd-btn" onclick="rebuild()">再检查一次</button>
+                </p></div>`;
+            $('cardActions').style.display = 'none';
+            return;
+        }
         const left = dueN + freshN;
         $('cardWrap').innerHTML = `<div class="cd-done">
             <div class="big">${left > 0 ? '🎉' : '💤'}</div>
             <h2>${left > 0 ? '今日背诵队列已清空' : '今天没有到期的卡片'}</h2>
-            <p>${left > 0 ? '剩余卡片可在「卡片」列表里手动复习' : '稍后再来，或读几页笔记'}</p>
+            <p>${left > 0 ? '剩余卡片可在「卡片」列表里手动复习，或明天再来' : '稍后再来，或读几页笔记'}</p>
             <p style="margin-top:12px">
               <button class="cd-btn" onclick="rebuild()">再检查一次</button>
               ${readPending > 0 ? `<button class="cd-btn primary" onclick="startRead()">📖 去读 ${readPending} 张阅读卡</button>` : ''}
@@ -289,6 +471,7 @@
     function renderCard() {
         const c = queue[qi];
         if (!c) return;
+        ensureCard();
         mode = 'cloze';
         revealed = 0;
         const st = stOf(c.id);
@@ -298,13 +481,11 @@
             <button class="cd-grade g1" id="g1"><b>🟡 不熟</b><span>缩短间隔</span></button>
             <button class="cd-grade g2" id="g2"><b>✅ 记得</b><span>正常间隔</span></button>`;
         $('g0').onclick = () => grade(0); $('g1').onclick = () => grade(1); $('g2').onclick = () => grade(2);
-        setGradeEnabled(false);
         paintHead(c, st);
         $('cardBody').innerHTML = mdToHtml(c.md || '');
-        totalCloze = applyCloze($('cardBody'), MAX_CLOZE);
-        if (totalCloze === 0) $('cardFoot').innerHTML = '本卡没有可挖空内容 · 可点右上「✓ 已熟」或下方按钮标记';
-        else updateFoot();
+        totalCloze = applyCloze($('cardBody'), clozeLimit());
         renderMath($('cardBody'));
+        refreshReady();
     }
 
     function paintHead(c, st) {
@@ -317,12 +498,11 @@
         $('btnDone').classList.toggle('on', st.state === 'mastered');
     }
 
-    function setGradeEnabled(on) {
-        ['g0', 'g1', 'g2'].forEach(id => { const b = $(id); if (b) b.disabled = !on; });
-    }
-
+    /* 评分就绪态改由 refreshReady() 用 .not-ready 类控制：按钮不禁用，点击时给「还剩 N 个空」提示 */
     // ---- 阅读模式 ----
     function startRead() { mode = 'read'; qi = 0; renderStudy(); }
+    /** 完成态会把 cardWrap 整体替换掉，回到学习态前先还原卡片骨架 */
+    function ensureCard() { if (!$('cardBody') && CARD_HTML) $('cardWrap').innerHTML = CARD_HTML; }
     function renderRead() {
         if (qi >= readQueue.length) {
             $('cardWrap').innerHTML = `<div class="cd-done"><div class="big">📚</div>
@@ -333,6 +513,7 @@
         }
         const c = readQueue[qi];
         const st = stOf(c.id);
+        ensureCard();
         $('cardActions').style.display = '';
         $('cardActions').innerHTML = `
             <button class="cd-grade g2" id="gR" style="grid-column:1/-1"><b>📖 读完了</b><span>记录阅读进度</span></button>`;
@@ -340,8 +521,9 @@
         paintHead(c, st);
         $('cardBody').innerHTML = mdToHtml(c.md || '');
         totalCloze = 0; revealed = 0;
-        $('cardFoot').innerHTML = '📖 阅读卡：无需死记，读懂即可；读完点下方「读完了」';
         renderMath($('cardBody'));
+        $('cardActions').classList.remove('not-ready');
+        updateFoot();
     }
     function finishRead() {
         const c = readQueue[qi]; if (!c) return;
@@ -359,8 +541,12 @@
     function grade(g) {
         const c = queue[qi];
         if (!c) return;
-        if (!allRevealed()) { toast('先揭示答案再评价'); return; }   // 前置校验：防止盲评
+        if (!allRevealed()) {   // 前置校验：防止盲评
+            toast(`还剩 ${totalCloze - revealed} 个空没揭示 · 先点开答案再评价`);
+            return;
+        }
         const s = stOf(c.id);
+        const wasNew = s.state === 'new';
         s.last = Date.now();
         if (g === 0) {
             s.lapses++; s.ease = clamp(s.ease - 0.2, 1.3, 3.0);
@@ -375,7 +561,9 @@
             s.due = Date.now() + s.interval * DAY;
             s.state = s.interval >= 21 ? 'mastered' : 'review';
         }
-        ST.daily.revDone++; ST.daily.done++;
+        // 新卡与复习卡分开计数，每日新卡上限才真正生效
+        if (wasNew) ST.daily.newDone++; else ST.daily.revDone++;
+        ST.daily.done++;
         bumpStreak(); saveState();
         qi++;
         injectDueCards();          // 不会卡到期后自动插回
@@ -439,8 +627,8 @@
                 ? `<span class="cd-state ${s.read ? 'mastered' : 'new'}">${s.read ? '已读' : '待读'}</span>`
                 : `<span class="cd-state ${s.state}">${stateName[s.state] || s.state}</span>`;
             return `<tr>
-                <td class="cd-title-cell"><b>${s.star ? '★ ' : ''}${c.kind === 'read' ? '📖 ' : ''}${esc(c.chapter || c.noteTitle)}</b>
-                    <span>${esc(c.noteTitle)} · ${(c.md || '').length} 字${c.kind === 'cloze' ? ' · ' + Math.min(c.cands, MAX_CLOZE) + ' 空' : ''}</span></td>
+                <td class="cd-title-cell"><b>${s.star ? '★ ' : ''}${c.kind === 'read' ? '📖 ' : ''}${c.custom ? '✎ ' : ''}${esc(c.chapter || c.noteTitle)}</b>
+                    <span>${esc(c.noteTitle)} · ${(c.md || '').length} 字${c.kind === 'cloze' ? ' · ' + Math.min(c.cands, clozeLimit()) + ' 空' : ''}</span></td>
                 <td>${c.subject === 'gs' ? '高数' : '线代'}</td>
                 <td>${st}</td>
                 <td>${iv}</td>
@@ -457,7 +645,11 @@
             <button class="cd-mini" onclick="listPage--;renderList()">上一页</button>
             <button class="cd-mini" onclick="listPage++;renderList()">下一页</button>`;
     }
-    function markRead(id) { const s = stOf(id); s.read = Date.now(); saveState(); renderList(); toast('已标记读过'); }
+    function markRead(id) {
+        const s = stOf(id);
+        if (!s.read) { ST.daily.readDone = (ST.daily.readDone || 0) + 1; ST.daily.done++; }
+        s.read = Date.now(); saveState(); renderList(); toast('已标记读过');
+    }
     function reviewNow(id) {
         const c = CARDS.find(x => x.id === id);
         if (!c) return;
@@ -471,9 +663,12 @@
         saveState(); renderList(); toast('已重置进度');
     }
     function removeCard(id) {
-        if (!confirm('确定删除这张卡片？（笔记原文不会被删除）')) return;
+        if (!confirm('确定删除这张卡片？（笔记原文不会被删除；内置卡删除后不会再生成）')) return;
         const i = CARDS.findIndex(c => c.id === id);
+        const c = i >= 0 ? CARDS[i] : null;
         if (i >= 0) CARDS.splice(i, 1);
+        if (c && c.custom) ST.custom = (ST.custom || []).filter(x => x.id !== id);
+        else { ST.hidden[id] = 1; delete ST.over[id]; }
         delete ST.cards[id]; saveState(); renderList(); toast('已删除');
     }
 
@@ -486,7 +681,7 @@
                 <option value="xd"${c && c.subject === 'xd' ? ' selected' : ''}>线性代数</option></select></div>
              <div class="cd-field"><label>标题（章节名）</label><input id="edTitle" value="${c ? esc(c.chapter) : ''}" placeholder="如：中值定理"></div>
              <div class="cd-field"><label>类型</label>
-                <select id="edKind"><option value="auto"${!c || c.custom ? ' selected' : ''}>自动（按可挖空点判定）</option>
+                <select id="edKind"><option value="auto"${!c ? ' selected' : ''}>自动（按可挖空点判定）</option>
                 <option value="cloze"${c && c.kind === 'cloze' ? ' selected' : ''}>背诵卡</option>
                 <option value="read"${c && c.kind === 'read' ? ' selected' : ''}>阅读卡</option></select></div>
              <div class="cd-field"><label>内容（支持 Markdown 与 $LaTeX$）</label>
@@ -506,29 +701,44 @@
         const kind = kindSel === 'auto' ? (cands >= CLOZE_MIN ? 'cloze' : 'read') : kindSel;
         if (id) {
             const c = CARDS.find(x => x.id === id);
-            if (c) { c.chapter = title; c.md = body; c.subject = subj; c.kind = kind; c.cands = cands; }
+            if (c) {
+                Object.assign(c, { chapter: title, md: body, subject: subj, kind, cands });
+                const patch = { chapter: title, md: body, subject: subj, kind, cands };
+                if (c.custom) {                       // 自建卡：改持久化副本
+                    const t = (ST.custom || []).find(x => x.id === id);
+                    if (t) Object.assign(t, patch); else ST.custom.push(Object.assign({ id }, c));
+                } else {                              // 内置卡：存覆盖，笔记重新拆卡后仍然生效
+                    ST.over[id] = patch;
+                }
+            }
         } else {
-            CARDS.unshift({
+            const nc = {
                 id: 'custom-' + Date.now(), subject: subj, noteId: 'custom', noteTitle: '我的卡片',
                 chapter: title || '未命名', part: '', md: body, custom: true, kind, cands
-            });
+            };
+            CARDS.unshift(nc);
+            ST.custom.push(nc);
         }
-        saveState(); closeModal(); buildQueue(); renderList(); renderStudy(); toast('已保存');
+        saveState(); closeModal(); buildQueue(); renderList(); renderStudy();
+        if (view === 'stats') renderStats();
+        toast('已保存');
     }
     function openSettings() {
         openModal('设置',
             `<div class="cd-field"><label>每日新卡上限</label><input type="number" id="setNew" min="0" max="200" value="${ST.settings.newPerDay}"></div>
              <div class="cd-field"><label>每日复习上限</label><input type="number" id="setRev" min="0" max="999" value="${ST.settings.revPerDay}"></div>
-             <div class="cd-hintline">阅读卡不占用上述额度；单卡挖空上限 ${MAX_CLOZE} 个，单卡目标长度 ${SOFT_LIMIT} 字以内。</div>`,
+             <div class="cd-field"><label>单卡挖空数（2~${MAX_CLOZE}）</label><input type="number" id="setCloze" min="2" max="${MAX_CLOZE}" value="${clozeLimit()}"></div>
+             <div class="cd-hintline">阅读卡不占用上述额度；单卡目标长度 ${SOFT_LIMIT} 字以内。挖空数越大越难，建议 6~8。</div>`,
             `<button class="cd-btn" onclick="closeModal()">取消</button><button class="cd-btn primary" onclick="saveSettings()">保存</button>`);
     }
     function saveSettings() {
         ST.settings.newPerDay = clamp(parseInt($('setNew').value, 10) || 0, 0, 200);
         ST.settings.revPerDay = clamp(parseInt($('setRev').value, 10) || 0, 0, 999);
+        ST.settings.clozePerCard = clamp(parseInt($('setCloze').value, 10) || DEF_CLOZE, 2, MAX_CLOZE);
         saveState(); closeModal(); rebuild(); toast('设置已保存');
     }
     function exportData() {
-        const blob = new Blob([JSON.stringify({ v: 2, cards: CARDS, state: ST }, null, 1)], { type: 'application/json' });
+        const blob = new Blob([JSON.stringify({ v: 3, cards: CARDS, state: ST }, null, 1)], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob); a.download = `记忆卡备份_${dayKey()}.json`; a.click();
         setTimeout(() => URL.revokeObjectURL(a.href), 3000);
@@ -540,13 +750,22 @@
         rd.onload = () => {
             try {
                 const d = JSON.parse(rd.result);
-                if (d.cards) { const map = new Set(CARDS.map(c => c.id)); d.cards.forEach(c => { if (!map.has(c.id)) CARDS.push(c); }); }
                 if (d.state) {
                     for (const id in (d.state.cards || {})) ST.cards[id] = Object.assign(stOf(id), d.state.cards[id]);
                     if (d.state.settings) Object.assign(ST.settings, d.state.settings);
                     if (d.state.streak) ST.streak = d.state.streak;
+                    if (Array.isArray(d.state.custom)) {
+                        const ids = new Set(ST.custom.map(c => c.id));
+                        d.state.custom.forEach(c => { if (c && c.id && !ids.has(c.id)) ST.custom.push(c); });
+                    }
+                    if (d.state.over) Object.assign(ST.over, d.state.over);
+                    if (d.state.hidden) Object.assign(ST.hidden, d.state.hidden);
+                    if (d.state.history) Object.assign(ST.history, d.state.history);
+                } else if (d.cards) {   // 兼容 v2 备份：把未知卡当自建卡收下
+                    const ids = new Set(CARDS.map(c => c.id));
+                    d.cards.forEach(c => { if (c && c.id && !ids.has(c.id)) ST.custom.push(Object.assign({ custom: true }, c)); });
                 }
-                saveState(); rebuild(); renderList(); toast('导入完成');
+                saveState(); applyStoredCards(); rebuild(); renderList(); toast('导入完成');
             } catch (e) { toast('导入失败：文件格式不正确'); }
         };
         rd.readAsText(f); input.value = '';
@@ -555,22 +774,36 @@
     // ---------------- 统计 ----------------
     function renderStats() {
         const all = visibleCards(), now = Date.now();
-        let mastered = 0, learning = 0, review = 0, fresh = 0, star = 0, dueToday = 0, readAll = 0, readTodo = 0;
+        let mastered = 0, learning = 0, review = 0, fresh = 0, star = 0, dueToday = 0, readAll = 0, readTodo = 0, memoN = 0;
         all.forEach(c => {
             const s = stOf(c.id);
+            if (s.star) star++;                             // 阅读卡的收藏也计入
             if (c.kind === 'read') { s.read ? readAll++ : readTodo++; return; }
+            memoN++;
             if (s.state === 'mastered') mastered++;
             else if (s.state === 'learning') learning++;
             else if (s.state === 'review') review++;
             else fresh++;
-            if (s.star) star++;
             if (s.state !== 'new' && s.due <= now) dueToday++;
         });
+        const rate = memoN ? Math.round(mastered / memoN * 100) + '%' : '—';
         $('cdStatGrid').innerHTML = [
-            ['卡片总数', all.length], ['背诵卡', all.length - readAll - readTodo], ['阅读卡', readAll + readTodo],
+            ['卡片总数', all.length], ['背诵卡', memoN], ['阅读卡', readAll + readTodo],
             ['已熟', mastered], ['复习中', review], ['不熟中', learning], ['未学', fresh],
-            ['今日到期', dueToday], ['今日完成', ST.daily.done], ['连续天数', ST.streak.count], ['收藏', star], ['待阅读', readTodo]
+            ['今日到期', dueToday], ['今日完成', ST.daily.done], ['连续天数', ST.streak.count],
+            ['收藏', star], ['待阅读', readTodo], ['掌握率', rate]
         ].map(([l, v]) => `<div class="cd-statbox"><b>${v}</b><span>${l}</span></div>`).join('');
+
+        // 近 14 天完成量（来自 ST.history，跨天累积）
+        const tr = [];
+        for (let i = 13; i >= 0; i--) {
+            const d = dayKey(now - i * DAY);
+            const h = (ST.history || {})[d] || {};
+            tr.push([i === 0 ? '今天' : d.slice(5), h.done || 0, h.newDone || 0, h.readDone || 0, h.done ? `${h.done} 张` : '0']);
+        }
+        const tmax = Math.max(1, ...tr.map(t => t[1]));
+        $('cdTrend').innerHTML = tr.map(([l, n, nw, r, v]) =>
+            bar(l, n, tmax, v)).join('');
 
         const memo = all.filter(c => c.kind === 'cloze');
         const days = [];
@@ -631,20 +864,22 @@
         else if (k === '3') grade(2);
         else if (k === 's') toggleStar();
         else if (k === 'd') markDone();
+        else if (k === 'r') hideAll($('cardBody'));
     });
     document.addEventListener('click', (e) => {
         const cl = e.target.closest && e.target.closest('.cd-cloze');
         if (cl && view === 'study' && !cl.classList.contains('revealed')) revealOne(cl);
-        if (cl && view === 'study' && cl.classList.contains('revealed')) setGradeEnabled(true);
     });
 
     // ---------------- 启动 ----------------
     async function boot() {
         loadState();
+        CARD_HTML = ($('cardWrap') || {}).innerHTML || '';   // 先存骨架，完成态覆盖后可还原
         try {
             const notes = await (await fetch('data/notes.json')).json();
             CARDS = buildCards(Array.isArray(notes) ? notes : (notes.items || []));
         } catch (e) { console.error('笔记加载失败', e); CARDS = []; }
+        applyStoredCards();          // 自建卡 / 编辑覆盖 / 删除隐藏
         if (typeof renderDarkSwitch === 'function') renderDarkSwitch();
         buildQueue(); renderStudy();
     }
@@ -654,16 +889,39 @@
         switchView, setSubject, grade, toggleStar, markDone, renderList, reviewNow, markRead,
         resetCard, removeCard, openEditor, editCard, saveCard, openSettings, saveSettings,
         exportData, importData, closeModal, renderStudy, rebuild, startRead, exitRead,
-        finishRead, hideAll, revealAll,
+        finishRead, hideAll, revealAll, setQueueFilter,
         __debug: () => ({
             total: CARDS.length,
             memo: CARDS.filter(c => c.kind === 'cloze').length,
             read: CARDS.filter(c => c.kind === 'read').length,
+            custom: CARDS.filter(c => c.custom).length,
             maxLen: CARDS.reduce((m, c) => Math.max(m, (c.md || '').length), 0),
             minLen: CARDS.reduce((m, c) => Math.min(m, (c.md || '').length), 1e9),
             queueKinds: Array.from(new Set(queue.map(c => c.kind))),
             queueLen: queue.length, readQueueLen: readQueue.length,
-            revealed, totalCloze, mode
-        })
+            revealed, totalCloze, mode, filter: queueFilter,
+            clozeLimit: clozeLimit(),
+            settings: ST.settings,
+            daily: ST.daily,
+            stored: { custom: ST.custom.length, over: Object.keys(ST.over).length, hidden: Object.keys(ST.hidden).length, days: Object.keys(ST.history || {}).length }
+        }),
+        /** 供审计/测试遍历全部卡片（只读快照） */
+        __cards: () => CARDS.map(c => ({
+            id: c.id, subject: c.subject, noteId: c.noteId, chapter: c.chapter,
+            kind: c.kind, cands: c.cands, len: (c.md || '').length, custom: !!c.custom, md: c.md
+        })),
+        /** 当前卡渲染后的挖空统计（揭示前后都可用） */
+        __card: () => {
+            const body = $('cardBody');
+            const els = Array.from(body.querySelectorAll('.cd-cloze'));
+            return {
+                total: els.length,
+                kinds: els.reduce((a, e) => { const k = e.getAttribute('data-k') || '?'; a[k] = (a[k] || 0) + 1; return a; }, {}),
+                katex: body.querySelectorAll('.katex').length,
+                strong: body.querySelectorAll('strong').length,
+                revealed,
+                samples: els.slice(0, 5).map(e => ({ k: e.getAttribute('data-k'), c: e.getAttribute('data-c') }))
+            };
+        }
     });
 })();

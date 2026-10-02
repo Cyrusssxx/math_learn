@@ -82,6 +82,9 @@ body {
 /* ============ 主体 ============ */
 .cd-main { max-width: 920px; margin: 0 auto; padding: 18px 16px 70px; }
 
+.cd-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.cd-filters .cd-chip { font-size: 12px; padding: 3px 10px; }
+
 .cd-stats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
 .cd-stat { flex: 1 1 90px; min-width: 88px; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; background: var(--bg); }
 .cd-stat b { display: block; font-size: 19px; line-height: 1.25; color: var(--accent); }
@@ -140,9 +143,12 @@ body {
     color: var(--text); background: var(--mk-y, #ffe884);
     border-bottom: 2px solid var(--c-vague); cursor: default;
 }
+/* 公式挖空：揭示后按 KaTeX 渲染（未揭示时的透明占位不受影响） */
+.cd-cloze.revealed[data-k="m"] .katex { color: var(--text); }
 
 /* ============ 评分按钮 ============ */
 .cd-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+.cd-actions.not-ready { opacity: .55; }   /* 未全部揭示：可点但给了提示 */
 .cd-grade { border: 1px solid transparent; border-radius: 10px; padding: 10px 4px; cursor: pointer; text-align: center; transition: .15s; background: var(--bg); }
 .cd-grade b { display: block; font-size: 15px; }
 .cd-grade span { font-size: 11px; color: var(--text-faint); }
