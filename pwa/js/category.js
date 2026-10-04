@@ -1012,10 +1012,7 @@ let allEntries = [];    // { paper, secTitle, q, catId }
 let curCat = null;      // 选中的知识点(L3) id
 // 数据源切换：exam = 数二真题（exam.json，2000-2026）；core = 核心题库（core_bank.json，大观严选题 606 题）
 const SRC_MODE_KEY = 'catSrcMode';
-const SRC_ORDER = ['exam', 'core', 'dagyuan'];   // 真题 → 核心题库 → 大观园(900题/姜晓千)
-let srcMode = (function () {
-    try { const v = localStorage.getItem(SRC_MODE_KEY); return SRC_ORDER.indexOf(v) >= 0 ? v : 'exam'; } catch (e) { return 'exam'; }
-})();
+let srcMode = (function () { try { return localStorage.getItem(SRC_MODE_KEY) === 'core' ? 'core' : 'exam'; } catch (e) { return 'exam'; } })();
 // 无标记优先：把未收藏、未标「不熟/不会」的题排到最前（刷题时先清「没碰过的」）
 const UNMARKED_FIRST_KEY = 'catUnmarkedFirst';
 let unmarkedFirst = (function () { try { return localStorage.getItem(UNMARKED_FIRST_KEY) === '1'; } catch (e) { return false; } })();
@@ -1027,11 +1024,9 @@ const YEAR_SORT_KEY = 'catYearSortDesc';
 let yearSortDesc = (function () { try { return localStorage.getItem(YEAR_SORT_KEY) !== '0'; } catch (e) { return true; } })();
 let examPapers = [];    // 真题套卷
 let corePapers = [];    // 核心题库（单「卷」，内部按章节分节）
-let dagyuanPapers = []; // 大观园 900题 + 姜晓千（单「卷」，内部按章节分节）
 const SRC_META = {
     exam: { label: '📝 真题', title: '分类题库', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
     core: { label: '📘 核心题库', title: '核心题库', sub: '' },
-    dagyuan: { label: '📗 大观园', title: '大观园 900题 · 姜晓千', sub: '900 题 583 道 + 姜晓千 237 道（已按数二范围剔除级数/概率统计）· 按知识点归类' },
 };
 const collapsedSubjects = new Set();   // 折叠的学科
 const collapsedChapters = new Set();   // 折叠的章节
@@ -1125,19 +1120,19 @@ function buildEntries() {
 
 // 切换数据源：真题 ⇄ 核心题库（同一棵分类树，选中知识点保持不变）
 function applySrcMode(persist) {
-    // 降级：目标源数据未加载成功（fetch 失败等）时回落到真题，避免空白页
-    const pool = { exam: examPapers, core: corePapers, dagyuan: dagyuanPapers };
-    if (srcMode !== 'exam' && !(pool[srcMode] && pool[srcMode].length)) {
-        srcMode = 'exam';   // 目标源没加载成功 → 回落到真题，避免空白页
+    // 降级：核心题库数据未加载成功（fetch 失败等）时不进入 core 模式，避免空白页
+    if (srcMode === 'core' && (!corePapers || !corePapers.length)) {
+        srcMode = 'exam';
         try { localStorage.setItem(SRC_MODE_KEY, 'exam'); } catch (e) { }
     }
-    papers = (pool[srcMode] && pool[srcMode].length) ? pool[srcMode] : examPapers;
+    papers = (srcMode === 'core') ? corePapers : examPapers;
     const meta = SRC_META[srcMode] || SRC_META.exam;
     const btn = document.getElementById('srcToggle');
     if (btn) {
         btn.textContent = meta.label;
-        const nextLabel = SRC_META[SRC_ORDER[(SRC_ORDER.indexOf(srcMode) + 1) % SRC_ORDER.length]].label;
-        btn.title = '当前：' + meta.label.replace(/^\S+\s*/, '') + '。点击切换到 ' + nextLabel;
+        btn.title = (srcMode === 'core')
+            ? '当前：核心题库。点击切回数二真题'
+            : '当前：数二真题（2000-2026）。点击切换到核心题库';
     }
     const t = document.querySelector('.exam-title');
     if (t) t.textContent = meta.title;
@@ -1147,7 +1142,7 @@ function applySrcMode(persist) {
 }
 
 function toggleSrcMode() {
-    srcMode = SRC_ORDER[(SRC_ORDER.indexOf(srcMode) + 1) % SRC_ORDER.length];
+    srcMode = (srcMode === 'core') ? 'exam' : 'core';
     applySrcMode(true);
     buildEntries();
     buildDeepIndex();   // 题集变了，细分类计数跟着重建
@@ -1499,7 +1494,7 @@ function catCard(paper, secTitle, q) {
         : `<button class="q-op" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>`;
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
     // 核心题库/线代补充题：不显示「年份链接」（非套卷），改显示原真题题源标签
-    const yearHtml = paper.id === 'core' || paper.id === 'xd' || paper.id === 'dagyuan'
+    const yearHtml = paper.id === 'core' || paper.id === 'xd'
         ? (q.source ? `<span class="q-year"><span class="q-year-tag" title="原真题题源">${mdInline(q.source)}</span></span>` : '')
         : paper.id === 'bank'
         ? (paper.year ? `<span class="q-year"><span class="q-year-tag">${paper.year}年</span></span>` : '')
@@ -1662,7 +1657,6 @@ function allEntriesAllSources() {
     };
     pushPapers(examPapers);
     pushPapers(corePapers);
-    pushPapers(dagyuanPapers);
     for (const list of [xdItems, bankItems]) {
         for (const e of (list || [])) out.push({ paper: e.paper, secTitle: e.secTitle || '', q: e.q });
     }
@@ -2205,12 +2199,11 @@ window.addEventListener('scroll', () => hideDeepFlyNow(), { passive: true });
 
 // ============ 初始化 ============
 async function init() {
-    const [er, cr, br, corer, dger] = await Promise.all([
+    const [er, cr, br, corer] = await Promise.all([
         fetch('data/exam.json'),
         fetch('data/exam_categories.json'),
         fetch('data/bank_questions.json').catch(() => null),
         fetch('data/core_bank.json').catch(() => null),
-        fetch('data/dagyuan_bank.json').catch(() => null),
     ]);
     if (!er.ok) throw new Error('加载真题失败: ' + er.status);
     if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
@@ -2231,14 +2224,6 @@ async function init() {
         } catch (e) { console.error('核心题库解析失败', e); }
     } else {
         console.warn('核心题库 core_bank.json 未加载，仅提供真题源');
-    }
-    // 大观园 900题 + 姜晓千（独立数据源；题号全卷唯一、不设 linkedQid，不与真题/核心题库抢主键）
-    if (dger && dger.ok) {
-        try {
-            dagyuanPapers = await dger.json();
-        } catch (e) { console.error('大观园题库解析失败', e); }
-    } else {
-        console.warn('大观园题库 dagyuan_bank.json 未加载');
     }
     // 大观园真题库（categoryIds 已映射到统一分类体系，与 exam.json 合并一棵树）
     if (br && br.ok) {
