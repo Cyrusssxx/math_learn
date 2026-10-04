@@ -491,6 +491,8 @@ html.dark .exam-btn.on { color: #e5c860; }
 .q-mark-chip.m-mst { background: rgba(47, 158, 68, .16); color: #2b8a3e; }
 .q-mark-chip.m-unfam { background: rgba(245, 159, 0, .18); color: #b26b00; }
 .q-mark-chip.m-unk { background: rgba(224, 49, 49, .14); color: #c92a2a; }
+/* 「重点」徽章：大观园题库 source 里标注（重点）的题；用必考橙，与掌握度标记区分 */
+.q-mark-chip.m-key { background: rgba(234, 88, 12, .16); color: #b45309; font-weight: 600; }
 /* 真题页：容器右侧留出侧条空间（仅桌宽；窄屏侧条已收进卡片内） */
 #examMain { padding-right: 76px; }
 @media (max-width: 760px) { #examMain { padding-right: 14px; } }

@@ -1,4 +1,4 @@
-/* 真题分类浏览页：左=二级分类树（学科/章节，可折叠、含题数），右=选中章节的跨年真题
+/* 分类题库浏览页：左=二级分类树（学科/章节，可折叠、含题数），右=选中章节的跨年真题
  * 分类口径：大观园「知识点/章节」体系（exam_categories.json 的 12 个二级章节）。
  * 复用 exam.js 的渲染 / 收藏辅助函数（独立副本，避免改动 exam.js 既有行为）。 */
 
@@ -8,7 +8,7 @@ const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'unfamiliar' | 'unknown' }：�
 
 // ============ 收藏存储 ============
 // 收藏/标记统一主键：核心题库/线代题库的题若映射到数二真题（linkedQid），直接沿用真题的 qid，
-// 从而与「真题页 / 真题分类」的收藏、不熟、不会标记、笔记双向同步。
+// 从而与「真题页 / 分类题库」的收藏、不熟、不会标记、笔记双向同步。
 let coreLink = {};   // 题目 (paperId + '-' + no 或 q.no) -> linkedQid
 function qidOf(paperId, no) {
     const k = paperId + '-' + no;
@@ -1025,7 +1025,7 @@ let yearSortDesc = (function () { try { return localStorage.getItem(YEAR_SORT_KE
 let examPapers = [];    // 真题套卷
 let corePapers = [];    // 核心题库（单「卷」，内部按章节分节）
 const SRC_META = {
-    exam: { label: '📝 真题', title: '真题分类', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
+    exam: { label: '📝 真题', title: '分类题库', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
     core: { label: '📘 核心题库', title: '核心题库', sub: '' },
 };
 const collapsedSubjects = new Set();   // 折叠的学科
@@ -1503,6 +1503,7 @@ function catCard(paper, secTitle, q) {
         <div class="q-head">
             <span class="q-no">${q.no}</span>
             <span class="q-kind">${kindLabel}</span>
+            ${q.key ? '<span class="q-mark-chip m-key" title="大观园题库标注的重点题（多本书重复收录，出处见题源）">重点</span>' : ''}
             ${fav ? `<span class="q-mark-chip m-fav" title="已收藏">📥</span>` : ''}
             ${st === 'mastered' ? '<span class="q-mark-chip m-mst" title="已掌握">🟢 掌握</span>' : ''}
             ${st === 'unfamiliar' ? '<span class="q-mark-chip m-unfam" title="不熟">🟡 不熟</span>' : ''}
@@ -1618,7 +1619,7 @@ function applyReviewMode() {
     document.body.classList.add('review-mode');
     const t = document.querySelector('.exam-title');
     if (t) t.textContent = '🔁 复测';
-    document.title = '🔁 复测 · 我的标记题';   // 标签页标题（否则仍是「真题分类」，易误以为跳回了分类）
+    document.title = '🔁 复测 · 我的标记题';   // 标签页标题（否则仍是「分类题库」，易误以为跳回了分类）
     const sub = document.getElementById('examSub');
     if (sub) {
         sub.textContent = '我的收藏 / 掌握 / 不熟 / 不会 题汇总 · 附带原有笔记 · 与真题页和分类页实时同步';
