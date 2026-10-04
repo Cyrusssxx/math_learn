@@ -149,7 +149,7 @@ def main():
             flagged += 1
             continue
         obj = {
-            'no': 0,
+            'no': 0,          # 占位，写盘前统一分配全卷唯一号
             'kind': kind_of(q),
             'type': kind_of(q),
             'stem': q.get('stem') or '',
@@ -181,10 +181,24 @@ def main():
             title2sec[ch] = sec
         sec.setdefault('questions', []).extend(arr)
 
-    # 每个 section 内重新编号 no（保持连续）
+    # ⚠️ 绝对不要按 section 重排 no！
+    # 收藏/笔记/掌握度的主键是 qidOf() = `core-<no>`，**不含章节**（见 category.js:13）。
+    # 原库 606 题的 no 是全卷唯一（1~606）；一旦按章节从 1 重编，
+    # 同一个 `core-6` 会同时指向极限#6、一元微分#6、矩阵#6 …，
+    # 用户的收藏/笔记就会串题（实测 146 个题号碰撞）。
+    # 新题只在追加时于 obj 里预留 no=0，由调用方（或 _fix_corebank_no.py）分配全卷唯一号。
+    used = {q.get('no') for s in paper['sections'] for q in s.get('questions') or []}
+    used.discard(0)
+    nxt = (max(used) if used else 0) + 1
     for s in paper['sections']:
-        for i, q in enumerate(s.get('questions') or [], 1):
-            q['no'] = i
+        for q in s.get('questions') or []:
+            if q.get('no'):
+                continue
+            while nxt in used:
+                nxt += 1
+            q['no'] = nxt
+            used.add(nxt)
+            nxt += 1
 
     total = sum(len(s.get('questions') or []) for s in paper['sections'])
     keyed = sum(1 for s in paper['sections'] for q in s.get('questions') or [] if q.get('key'))
