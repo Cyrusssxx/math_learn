@@ -11,6 +11,7 @@ function esc(s) {
 function inline(s) {
     return esc(s)
         .replace(/!\[(.*?)\]\((.+?)\)/g, '<img class="li-img" src="$2" alt="$1" loading="lazy">')
+        .replace(/&lt;br\s*\/?&gt;/gi, '<br>')   // esc() 会把 <br> 转义成 &lt;br&gt;，这里还原（与 reader.js 保持同步）
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         .replace(/⭐+/g, '<span class="star">$&</span>');
 }

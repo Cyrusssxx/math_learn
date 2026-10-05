@@ -1129,3 +1129,47 @@ html.dark .bg-btn:hover { background: #2d3640; }
     transition: opacity .2s;
 }
 .exam-mode-hint.show { opacity: 1; }
+
+/* ============ 解析中的表格（题库页）============
+ * 与 notes.css 的笔记表格同款：表格内加粗回正文色、第一列淡底不折行、斑马纹。
+ * 之前题库页没有表格样式，后续解析里出现表格会裸奔。 */
+.q-answer table, .q-idea table, .q-note-input table {
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14.5px;
+    line-height: 1.65;          /* 行内公式与中文混排需要行高 */
+    width: 100%;
+}
+.q-answer th, .q-answer td,
+.q-idea th, .q-idea td,
+.q-note-input th, .q-note-input td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    vertical-align: top;
+}
+.q-answer th, .q-idea th, .q-note-input th {
+    background: var(--bg-side);
+    font-weight: 600;
+    text-align: center;
+}
+/* 表格内加粗回正文色：整列橙红会失去重点 */
+.q-answer table strong, .q-idea table strong, .q-note-input table strong { color: inherit; }
+/* 第一列是「考查维度」这类标识：淡底 + 不折行 */
+.q-answer table td:first-child, .q-answer table th:first-child,
+.q-idea table td:first-child, .q-idea table th:first-child,
+.q-note-input table td:first-child, .q-note-input table th:first-child {
+    background: var(--bg-side);
+    white-space: nowrap;
+    font-weight: 600;
+    width: 1%;
+}
+.q-answer table th:first-child, .q-idea table th:first-child,
+.q-note-input table th:first-child { background: var(--border); }
+/* 斑马纹：横向扫读长表格不串行 */
+.q-answer table tbody tr:nth-child(even) td:not(:first-child),
+.q-idea table tbody tr:nth-child(even) td:not(:first-child),
+.q-note-input table tbody tr:nth-child(even) td:not(:first-child) { background: var(--bg-hover); }
+@media (max-width: 720px) {
+    .q-answer table, .q-idea table, .q-note-input table { font-size: 13.5px; }
+    .q-answer th, .q-answer td, .q-idea th, .q-idea td, .q-note-input th, .q-note-input td { padding: 6px 8px; }
+}

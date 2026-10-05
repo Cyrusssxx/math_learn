@@ -366,8 +366,6 @@ html.dark .exam-link:hover { color: #1e1e2e; }
 /* 表格内的加粗：回到正文色。表格第一列是「考查维度」这类维度标识，
    用橙红加粗会整列泛红、反而失去重点。改用淡底 + 深色字来区分。 */
 .note-article table strong { color: inherit; }
-.note-article table td:first-child,
-.note-article table th:first-child { background: var(--bg-side); }
 
 /* ⭐ 常考标记：本身缩小些，所在条目淡金色高亮 */
 .note-article .star { font-size: .8em; vertical-align: 1px; }
@@ -504,14 +502,49 @@ li.c-warn li, li.c-tip li, li.c-example li, li.c-star li {
 /* 表格 */
 .note-article table {
     border-collapse: collapse;
-    margin: 14px 0;
-    font-size: 15px;
+    margin: 16px 0;
+    font-size: 14.5px;
+    line-height: 1.65;          /* 行内公式与中文混排时需要行高，否则上下贴边 */
+    table-layout: auto;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
 }
 .note-article th, .note-article td {
     border: 1px solid var(--border);
-    padding: 6px 12px;
+    padding: 8px 12px;
+    vertical-align: top;         /* 长内容顶对齐，跨行时更易读 */
 }
-.note-article th { background: var(--bg-side); }
+.note-article th {
+    background: var(--bg-side);
+    font-weight: 600;
+    text-align: center;
+}
+/* 第一列是「考查维度」这类维度标识：不折行 + 淡底，与表头靠字重区分 */
+.note-article table td:first-child,
+.note-article table th:first-child {
+    background: var(--bg-side);
+    white-space: nowrap;         /* 「乘积可逆性」「同解方程组」等不再折行 */
+    font-weight: 600;
+    width: 1%;
+}
+/* 第一列表头（「考查维度」）略深一点，与数据行区分 */
+.note-article table th:first-child { background: var(--border); }
+/* 斑马纹：让横向扫读长表格时不串行 */
+.note-article table tbody tr:nth-child(even) td:not(:first-child) {
+    background: var(--bg-hover);
+}
+/* 单元格内的换行（<br>）与公式块间距收敛 */
+.note-article table td p:first-child,
+.note-article table th p:first-child { margin-top: 0; }
+.note-article table td p:last-child,
+.note-article table th p:last-child { margin-bottom: 0; }
+/* 窄屏：表格可横向滚动，不撑破布局 */
+.note-article .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+@media (max-width: 720px) {
+    .note-article table { font-size: 13.5px; }
+    .note-article th, .note-article td { padding: 6px 8px; }
+}
 
 .error { color: #d9534f; padding: 30px; }
 
