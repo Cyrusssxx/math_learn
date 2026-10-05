@@ -1494,8 +1494,8 @@ function catCard(paper, secTitle, q) {
         : `<button class="q-op" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>`;
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
     // 核心题库/线代补充题：不显示「年份链接」（非套卷），改显示原真题题源标签
-    const yearHtml = paper.id === 'core' || paper.id === 'xd'
-        ? (q.source ? `<span class="q-year"><span class="q-year-tag" title="原真题题源">${mdInline(q.source)}</span></span>` : '')
+    const yearHtml = paper.id === 'core' || paper.id === 'xd' || paper.id === 'DG900JXB'
+        ? (q.source ? `<span class="q-year"><span class="q-year-tag" title="原书题源">${mdInline(q.source)}</span></span>` : '')
         : paper.id === 'bank'
         ? (paper.year ? `<span class="q-year"><span class="q-year-tag">${paper.year}年</span></span>` : '')
         : `<span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>`;
