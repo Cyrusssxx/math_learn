@@ -363,6 +363,12 @@ html.dark .exam-link:hover { color: #1e1e2e; }
 /* 加粗批注用暖色突出 */
 .note-article strong { color: var(--strong); }
 
+/* 表格内的加粗：回到正文色。表格第一列是「考查维度」这类维度标识，
+   用橙红加粗会整列泛红、反而失去重点。改用淡底 + 深色字来区分。 */
+.note-article table strong { color: inherit; }
+.note-article table td:first-child,
+.note-article table th:first-child { background: var(--bg-side); }
+
 /* ⭐ 常考标记：本身缩小些，所在条目淡金色高亮 */
 .note-article .star { font-size: .8em; vertical-align: 1px; }
 
