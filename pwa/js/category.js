@@ -1527,7 +1527,7 @@ function catCard(paper, secTitle, q) {
             <button class="q-op q-note-editbtn${hasNote ? ' saved' : ''}" onclick="toggleNoteEdit(this)" title="编辑笔记（编辑中点击保存）">✏️ 编辑</button>
         </div>
         ${ideaHtml}${tipsHtml}${noteHtml}
-        <div class="q-sec q-answer" hidden><div class="q-answer-body">${mdBlock(q.answer || '')}</div></div>
+        <div class="q-sec q-answer" data-copy-md="${copyMdAttr(q.answer || '')}" data-copy-key="answer" hidden><div class="q-answer-body">${mdBlock(q.answer || '')}</div></div>
     </div>`;
 }
 

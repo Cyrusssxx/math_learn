@@ -1249,7 +1249,7 @@ function qCard(p, sec, q, secIdx) {
         ${ideaHtml}
         ${tipsHtml}
         ${noteHtml}
-        <div class="q-sec q-answer" hidden><div class="q-answer-body">${mdBlock(q.answer)}</div></div>
+        <div class="q-sec q-answer" data-copy-md="${copyMdAttr(q.answer || '')}" data-copy-key="answer" hidden><div class="q-answer-body">${mdBlock(q.answer)}</div></div>
     </div>`;
 }
 
