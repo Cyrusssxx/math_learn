@@ -1152,8 +1152,10 @@ html.dark .bg-btn:hover { background: #2d3640; }
     font-weight: 600;
     text-align: center;
 }
-/* 表格内加粗回正文色：整列橙红会失去重点 */
-.q-answer table strong, .q-idea table strong, .q-note-input table strong { color: inherit; }
+/* 表格第一列（行头）不加粗色；内容列的加粗保留强调色 —— 只压第一列 */
+.q-answer table td:first-child strong, .q-answer table th:first-child strong,
+.q-idea table td:first-child strong, .q-idea table th:first-child strong,
+.q-note-input table td:first-child strong, .q-note-input table th:first-child strong { color: inherit; font-weight: 600; }
 /* 第一列是「考查维度」这类标识：淡底 + 不折行 */
 .q-answer table td:first-child, .q-answer table th:first-child,
 .q-idea table td:first-child, .q-idea table th:first-child,
