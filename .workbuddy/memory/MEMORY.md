@@ -3,7 +3,9 @@
 ## 一、构建与部署铁律
 - **新增任何数据文件必须同步加入 `pwa/sw.js` 的 `PRECACHE`**，否则 SW 不缓存、用户刷不到。改完跑 `python tools/build_sw.py` bump `CACHE_VER`；pre-commit 钩子（`.githooks/pre-commit`）自动调用并 `git add pwa/sw.js`（前提 sw.js 在暂存区）。`js/common.js` 已自动重载 + 弹「发现新版本」条，无需用户手刷。
 - **hidden 铁律**：元素带 `hidden` 属性时，对应 CSS 绝不能声明 `display`——作者样式 `display:flex` 压过 UA 的 `[hidden]{display:none}`，hidden 完全失效。靠 hidden 切显隐的弹层必须补 `[hidden]{display:none}` 兜底（`.bg-panel[hidden]` 写法正确）。排查脚本 `_scan_hidden_conflict.js`。
-- **jsdom 盲区**：外链 css 不加载 → 纯 CSS bug 测不出，需内联 style 并断言 `getComputedStyle`；jsdom 不实现 UA 的 `[hidden]{display:none}`，只能断言属性本身。新增断言必须**反向验证**（撤掉修复要转红），否则是假阴性。
+- **jsdom 盲区**：外链 css 不加载 → 纯 CSS bug 测不出，需把 css 内联成 `<style>` 再断言 `getComputedStyle`；jsdom 不实现 UA 的 `[hidden]{display:none}`，只能断言属性本身；**jsdom 不解析 CSS 变量**——`border-left:3px solid var(--x)` 取到的是空串，只有字面值（`font-size:18px`）能断言，变量属性改用「元素 `.matches(selector)` + CSS 源文本正则找规则」双重校验（正则里 `var(--x)` 的括号必须转义）。新增断言必须**反向验证**（撤掉修复要转红），否则是假阴性。
+- ⚠️ **jsdom 脚本必须 `process.exit()`**：window 一直挂着定时器 → Node 不退出 → `console.log` 不 flush，`| grep | head` 看起来就是"卡死"（实测跑 4 分半无输出）。要么显式 `process.exit()`，要么把结果写文件再读。
+- ⚠️ **jsdom 逐篇渲染 30+ 篇会卡死**：正确做法是把目标函数从源码抽出来配假数据直接跑（纯字符串处理，秒级）。抽函数时要按大括号配平，且**正则字面量里的 `{}` 会破坏配平**。
 
 ## 二、数据资产（pwa/data/）
 | 文件 | 内容 | 谁加载 |
@@ -23,9 +25,13 @@
 - localStorage：`examFav` `{qid:{t:ms}}`、`examStatus` `{qid:'unknown'|'unfamiliar'|'mastered'}`、`examNote-<qid>`、`catSrcMode`、`catUnmarkedFirst`。
 - ⚠️ `bank_questions.categoryIds` 全为**字符串**（827/827），其余题库是数字；渲染器用 `String()` 兜过，暂未改。
 
-## 三、笔记页（notes.html / reader.js）
+## 三、笔记页（index.html / reader.js）
 - 结构 `{id,subject,order,name,title,chapters[],md}`；**`chapters` 驱动右侧目录，`md` 里 `##` 按序编号 `ch-0/ch-1`…两者必须手工同步**（新增 `##` 必须同步插 `chapters`）。
-- `inline()` 只支持 `**bold**`、`![img](src)`、`[text](#anchor)`、`⭐`；链路 `emitList→breakLines→inline`。
+- ⚠️ **目录不变量（铁律）**：`reader.js` 用**下标**绑定 `chapters[i]` ↔ 正文第 i 个 `##`，所以两边**数量+顺序+文字**必须逐项镜像，只改一边就会**跳错章**。**差异时一律以正文 `##` 文字为准改 `chapters`**——chapters 只喂 目录/导航树/搜索路径，改它不动正文；反过来改 `##` 会移动正文，可能让**划词批注/荧光高亮锚点失效**。体检脚本 `tools/_audit_notes_layout.py`，批量对齐 `tools/_fix_notes_toc.py --apply`（默认 DRY-RUN，写前自检 json 往返字节一致）。
+- **mdToHtml 支持的语法全集**：`# `（跳过）｜`## ` h2｜`### ` h3｜`#### ` h4｜`::: fold/nav/点睛`+`:::`｜独行 `{#id}`｜独行 `![..](..)` → 自动生成 `id="fig-<图片名>"` 的 figure｜`> ` 引用（连续行合并为一个 blockquote）｜`---`/`***`/`___` 分隔线｜`- ` 列表｜`|` 表格｜其余 → `<p>`。**不在表内的语法会原样显示成字面文本**（曾泄漏 61 处 `###`/`>`/`---`/`` ` ``）。`inline()` 支持 `**bold**`、`![img](src)`、`[text](#anchor)`、`` `code` ``、`⭐`。
+- ⚠️ 新增语法必须**同时补 CSS**（`h3.md-h3`/`blockquote.md-quote`/`hr.md-hr`/`code.md-code`），否则「渲染出来了但没样式」比字面泄漏更难发现。
+- ⚠️ **reader.js 与 mdrender.js 是两份副本，改渲染逻辑必须同步**（mdrender.js 供 cards.js / good.js）。
+- `inline()` 只支持 `**bold**`、`![img](src)`、`[text](#anchor)`、`` `code` ``、`⭐`；链路 `emitList→breakLines→inline`。
 - ⚠️ `emitList` 跳级缩进会**丢整段列表**（`if(items[i].level>level){i++;continue}`）：笔记里「首项比后续缩进深」很常见。正解=按实际层级递归接管，顶层用本段最小 level 作起点。`mdrender.js` 与 `reader.js` **两份副本必须同步改**。
 - ⚠️ `renderTipsBlock` 丢 rest：四段标签（公式/易错/技巧/注意）之外的行必须**追加**渲染；写成「仅当 inner 为空才用 rest」会把其余内容全丢。
 - ⚠️ KaTeX auto-render **跨元素配对**：`$` 落单（奇数）会把中间整段文字吞进 display 公式。每张卡 `$` 必须配平；`$$…$$` 独占行当原子块；切句只用 `。；！？`（逗号会切坏 `$a,b$`）；输出前 `isBalanced()` + `stripLoneDollar()`。
