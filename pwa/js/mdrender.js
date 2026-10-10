@@ -168,6 +168,7 @@ function mdToHtml(md) {
     const lines = md.split('\n').map(l => l.replace(/<!--.*?-->/g, '').replace(/\s+$/, ''));
     const out = [];
     let chIdx = -1;
+    let h3Idx = 0;       // 与 reader.js 同步：h3-N 供右侧目录二级项跳转
     let i = 0;
     while (i < lines.length) {
         const line = lines[i];
@@ -180,7 +181,7 @@ function mdToHtml(md) {
             out.push(`<h4 class="md-h4">${inline(line.slice(5).trim())}</h4>`);
             i++;
         } else if (line.startsWith('### ')) {
-            out.push(`<h3 class="md-h3">${inline(line.slice(4).trim())}</h3>`);
+            out.push(`<h3 class="md-h3" id="h3-${h3Idx++}">${inline(line.slice(4).trim())}</h3>`);
             i++;
         } else if (/^:::\s*fold\b/.test(line.trim())) {
             // 折叠块：::: fold 标题 … :::（答案/解析默认收起）

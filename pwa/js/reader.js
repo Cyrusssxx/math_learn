@@ -47,11 +47,12 @@ async function init() {
     route();
 }
 
-/** hash 路由：#/笔记id 或 #/笔记id/章序号 */
+/** hash 路由：#/笔记id 或 #/笔记id/章序号 或 #/笔记id/章序号/h3序号（定位到 ### 小节） */
 function route() {
     const parts = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
     const note = notes.find(n => n.id === parts[0]) || notes[0];
     const chIdx = parts[1] !== undefined ? parseInt(parts[1], 10) : -1;
+    const h3No = parts[2] !== undefined ? parts[2] : '';
     if (note !== cur) {
         cur = note;
         openFiles[note.id] = true;
@@ -59,7 +60,17 @@ function route() {
         renderToc(note);
         renderTree();
     }
-    if (chIdx >= 0 && !pendingLocate) {
+    if (h3No && !pendingLocate) {
+        // 二级目录：先滚到所属章，再滚到小节（小节更精确，以它为准）
+        const el = document.getElementById('h3-' + h3No);
+        if (el) {
+            for (let d = el.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;   // 小节在折叠块里也要能展开
+            el.scrollIntoView({ block: 'start' });
+        } else if (chIdx >= 0) {
+            const h = document.getElementById('ch-' + chIdx);
+            if (h) h.scrollIntoView({ block: 'start' });
+        }
+    } else if (chIdx >= 0 && !pendingLocate) {
         const el = document.getElementById('ch-' + chIdx);
         if (el) el.scrollIntoView({ block: 'start' });
     } else if (!pendingLocate) {
@@ -84,7 +95,13 @@ function savePos() {
         if (h.getBoundingClientRect().top <= 90) ch = parseInt(h.id.slice(3), 10);
         else break;
     }
-    try { localStorage.setItem(POS_KEY, JSON.stringify({ id: cur.id, ch, y: window.scrollY })); }
+    // 连小节一起记：刷新后能精确回到「章内的哪一小节」，而不只是章首
+    let h3 = '';
+    for (const h of document.querySelectorAll('.note-article h3')) {
+        if (h.getBoundingClientRect().top <= 90) h3 = h.id.slice(3);
+        else break;
+    }
+    try { localStorage.setItem(POS_KEY, JSON.stringify({ id: cur.id, ch, h3, y: window.scrollY })); }
     catch (e) { /* 配额满忽略 */ }
 }
 
@@ -92,14 +109,14 @@ function restorePos() {
     let pos = null;
     try { pos = JSON.parse(localStorage.getItem(POS_KEY)); } catch (e) { }
     if (!pos || !cur || pos.id !== cur.id) return;
-    // 若 hash 无章节（默认笔记），直接用记录的笔记+章节重建 hash
+    // 若 hash 无章节(默认笔记),直接用记录的笔记+章节(+小节)重建 hash
     const parts = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
     if (parts[0] !== cur.id || (pos.ch >= 0 && parts[1] === undefined)) {
-        location.hash = '#/' + cur.id + (pos.ch >= 0 ? '/' + pos.ch : '');
+        location.hash = '#/' + cur.id + (pos.ch >= 0 ? '/' + pos.ch : '') + (pos.h3 ? '/' + pos.h3 : '');
         setTimeout(() => applyScroll(pos.y), 50);   // hashchange 渲染完成后恢复滚动
         return;
     }
-    // KaTeX 已渲染（renderDoc 同步完成），直接恢复滚动
+    // KaTeX 已渲染(renderDoc 同步完成),直接恢复滚动
     applyScroll(pos.y);
 }
 
@@ -272,7 +289,8 @@ function mdToHtml(md) {
     const lines = md.split('\n').map(l => l.replace(/<!--.*?-->/g, '').replace(/\s+$/, ''));
     const out = [];
     let chIdx = -1;
-    const blocks = [];   // 块栈：'fold' | 'nav'，用于正确闭合
+    let h3Idx = 0;       // h3 全局序号 → id="h3-<n>"，供右侧目录二级项精确跳转/高亮
+    const blocks = [];   // 块栈:'fold' | 'nav'，用于正确闭合
     let i = 0;
     while (i < lines.length) {
         const line = lines[i];
@@ -285,8 +303,9 @@ function mdToHtml(md) {
             out.push(`<h4 class="md-h4">${inline(line.slice(5).trim())}</h4>`);
             i++;
         } else if (line.startsWith('### ')) {
-            // 小节标题：不进 chapters（## 才是章），仅作正文层级
-            out.push(`<h3 class="md-h3">${inline(line.slice(4).trim())}</h3>`);
+            // 小节标题：不占 chapters（## 才是章），但右侧「本页目录」会把它列成二级项，
+            // 所以也要给 id（h3-N 全局递增，避免与 ch-N 混在一起）。
+            out.push(`<h3 class="md-h3" id="h3-${h3Idx++}">${inline(line.slice(4).trim())}</h3>`);
             i++;
         } else if (/^:::\s*fold\b/.test(line.trim())) {
             // 折叠块：::: fold 标题 … :::（答案/解析默认收起）
@@ -427,23 +446,140 @@ function renderTree() {
 }
 
 // ============ 右侧「本页目录」+ scrollspy ============
-function renderToc(note) {
-    const el = document.getElementById('tocPane');
-    el.innerHTML = `<div class="toc-title">本页目录</div>` +
-        note.chapters.map((ch, i) =>
-            `<a class="toc-link" data-ch="${i}" href="#/${note.id}/${i}">${esc(ch)}</a>`).join('');
+/** 章标题自带的编号前缀（「一、」「1.」「(3)」…）。目录左侧已用统一序号胶囊，
+ *  若不剥掉会显示成「1一、极限与连续」这种重复编号。
+ *  ⚠️ 只剥**显示文本**，绝不改章节 id / data-ch（它们是导航与搜索的键）。 */
+function stripChNum(s) {
+    return String(s || '')
+        .replace(/^\s*[（(]?\d+[)）]?[、.．]\s*/, '')
+        .replace(/^\s*[一二三四五六七八九十]+[、.．]\s*/, '')
+        .trim() || String(s || '').trim();
 }
 
+/** 目录两级项：章（ch-N）+ 该章下的 ### 小节（h3-N）。
+ *  ⚠️ 归属靠**文档顺序夹取**，不能按 hierarchy 猜：h3 可能出现在 ::: fold / ::: nav 内部，
+ *  用「上一个 h2 的 id 序号」判定所属章在跨块时仍成立。 */
+function tocItems() {
+    const box = document.querySelector('.note-article');
+    if (!box) return [];
+    const out = [];
+    let curCh = null;
+    for (const el of box.querySelectorAll('h2, h3')) {
+        if (el.tagName === 'H2') {
+            const n = parseInt(el.id.slice(3), 10);
+            curCh = { ch: n, name: stripChNum(el.textContent.trim()), raw: el.textContent.trim(), h3s: [] };
+            out.push(curCh);
+        } else if (el.tagName === 'H3' && curCh) {
+            curCh.h3s.push({ id: el.id, name: el.textContent.trim() });
+        }
+    }
+    return out;
+}
+
+function renderToc(note) {
+    const el = document.getElementById('tocPane');
+    const items = tocItems();
+    const total = items.reduce((a, c) => a + c.h3s.length, 0);
+    const head = `<div class="toc-title">本页目录` +
+        `<span class="toc-sub">${items.length} 章${total ? ' · ' + total + ' 小节' : ''}</span></div>`;
+    // 章数多时（如 高数1-极限 19 章）给个搜索框，省得来回滚
+    const filter = items.length > 12
+        ? `<div class="toc-filter"><input id="tocFilter" type="text" placeholder="筛选章节…" autocomplete="off"></div>`
+        : '';
+    const body = items.map((c, i) => {
+        const num = `<span class="toc-num">${i + 1}</span>`;
+        const kids = c.h3s.map(h => {
+            const n = h.id.slice(3);
+            return `<a class="toc-sub-link" data-h3="${n}" href="#/${note.id}/${c.ch}/${n}" title="${esc(h.name)}">${inline(h.name)}</a>`;
+        }).join('');
+        const cls = 'toc-item' + (c.h3s.length ? ' has-kids' : '');
+        return `<div class="${cls}">` +
+            `<a class="toc-link" data-ch="${c.ch}" href="#/${note.id}/${c.ch}" title="${esc(c.raw)}">${num}<span class="toc-name">${inline(c.name)}</span></a>` +
+            (kids ? `<div class="toc-children">${kids}</div>` : '') +
+            `</div>`;
+    }).join('');
+    el.innerHTML = head + filter + (body || '<div class="toc-empty">本篇暂无章节</div>');
+    // 没有 h3 的笔记只有一级项，且不再需要「全部展开」按钮
+    const hasSub = total > 0;
+    el.classList.toggle('has-sub', hasSub);
+    if (hasSub) {
+        el.insertAdjacentHTML('afterbegin', `<button class="toc-sub-toggle" id="tocSubToggle" type="button">展开全部小节</button>`);
+        document.getElementById('tocSubToggle').addEventListener('click', () => {
+            const on = el.classList.toggle('expand-all');
+            document.getElementById('tocSubToggle').textContent = on ? '收起全部小节' : '展开全部小节';
+        });
+    }
+    // 章节筛选（只作用于本页目录，不影响正文/搜索）
+    const fi = document.getElementById('tocFilter');
+    if (fi) fi.addEventListener('input', () => {
+        const q = fi.value.trim().toLowerCase();
+        el.querySelectorAll('.toc-item').forEach(it => {
+            const hit = !q || it.textContent.toLowerCase().includes(q);
+            it.classList.toggle('toc-hide', !hit);
+        });
+    });
+}
+
+/** 大知识点（章）之间的分组：标出「已读到哪」的分界。
+ *  基础间距由 CSS 的 `.toc-item + .toc-item` 统一给（所有相邻章都有，保证无小节笔记也看得清分界）；
+ *  这里只额外标出**最强分界** —— 已滚过的章 与 其后的章之间，拉开更大间距 + 一条淡横线。
+ *  刻意保守：只有一个档位，不做「按内容多少分三档」那种会把目录切碎的方案。
+ *  ⚠️ 只加/去 class，不改 textContent → 不影响既有划词批注/高亮锚点。 */
+function updateTocGroups(activeCh) {
+    const el = document.getElementById('tocPane');
+    if (!el) return;
+    const items = [...el.querySelectorAll('.toc-item')];
+    items.forEach(it => it.classList.remove('toc-gap-lg', 'done'));
+    items.forEach((it, i) => {
+        const link = it.querySelector('.toc-link');
+        const ch = link ? parseInt(link.dataset.ch, 10) : -1;
+        if (ch >= 0 && activeCh >= 0 && ch < activeCh) it.classList.add('done');
+        // 分界画在「下一章」上：上一个已读 + 本章未读 → 这里是阅读进度的分界
+        if (i > 0 && items[i - 1].classList.contains('done') && !it.classList.contains('done'))
+            it.classList.add('toc-gap-lg');
+    });
+}
+
+/** 滚动高亮：章 + 小节两级联动。小节命中时，其上方的章也保持 active。 */
 function highlightToc() {
     if (!cur) return;
     const h2s = document.querySelectorAll('.note-article h2');
-    let active = -1;
+    let activeCh = -1;
     for (const h of h2s) {
-        if (h.getBoundingClientRect().top <= 90) active = parseInt(h.id.slice(3), 10);
+        if (h.getBoundingClientRect().top <= 90) activeCh = parseInt(h.id.slice(3), 10);
         else break;
     }
-    document.querySelectorAll('.toc-link').forEach(a =>
-        a.classList.toggle('active', parseInt(a.dataset.ch, 10) === active));
+    // 小节：取最后一个「已经越过判定线」的 h3
+    let activeH3 = '';
+    for (const h of document.querySelectorAll('.note-article h3')) {
+        if (h.getBoundingClientRect().top <= 90) activeH3 = h.id.slice(3);
+        else break;
+    }
+    document.querySelectorAll('.toc-link').forEach(a => {
+        const on = parseInt(a.dataset.ch, 10) === activeCh;
+        a.classList.toggle('active', on);
+        // 有 active 小节时，章本身弱化显示（避免与小节抢视觉）
+        a.classList.toggle('active-parent', on && !!activeH3);
+    });
+    document.querySelectorAll('.toc-sub-link').forEach(a =>
+        a.classList.toggle('active', a.dataset.h3 === activeH3));
+    updateTocGroups(activeCh);
+    // 只把「有 active 小节的章」自动展开；用户手动点过按钮（expand-all）就尊重其选择
+    const el = document.getElementById('tocPane');
+    if (el && !el.classList.contains('expand-all')) {
+        el.querySelectorAll('.toc-item').forEach(it => {
+            const hitSub = !!it.querySelector('.toc-sub-link.active');
+            const hitCh = !!it.querySelector('.toc-link.active');
+            it.classList.toggle('open', hitSub || (hitCh && activeH3 === ''));
+        });
+    }
+    // 当前项滚进可视区（目录自身溢出时才有必要）
+    const act = el && el.querySelector('.toc-sub-link.active, .toc-link.active');
+    if (el && act && el.scrollHeight > el.clientHeight + 4) {
+        const r = act.getBoundingClientRect(), er = el.getBoundingClientRect();
+        if (r.top < er.top + 4 || r.bottom > er.bottom - 4)
+            el.scrollTo({ top: el.scrollTop + (r.top - er.top) - 60, behavior: 'smooth' });
+    }
 }
 
 let _spyTimer = null, _posTimer = null;

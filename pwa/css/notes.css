@@ -876,26 +876,154 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
     font-size: 13px;
 }
 
+/* ============ 右栏「本页目录」：两级（章 → ### 小节） ============ */
+/* 层级靠「一条 1px 竖导轨 + 字重/灰阶深浅」表达，不用色块；小节默认收起，
+   只有「过线的那一章」自动展开 —— 这样 19 章的笔记也不会变成一条长清单。 */
 .toc-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: .08em;
     color: var(--text-faint);
-    text-transform: uppercase;
     margin-bottom: 8px;
+}
+.toc-title .toc-sub {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--text-faint);
+    opacity: .8;
+}
+
+/* 章节筛选框（章数 > 12 才出现） */
+.toc-filter { margin: 0 0 8px; }
+.toc-filter input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    font-size: 12px;
+    color: var(--text);
+    background: rgba(var(--card-rgb), calc(var(--ui-alpha) * .6));
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    outline: none;
+}
+.toc-filter input:focus { border-color: var(--accent); }
+.toc-filter input::placeholder { color: var(--text-faint); }
+
+/* 「展开全部小节」小按钮：淡底 + 描边 + 主色字（不做实心色块） */
+.toc-sub-toggle {
+    display: block;
+    width: 100%;
+    margin: 0 0 7px;
+    padding: 3px 8px;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(var(--card-rgb), calc(var(--ui-alpha) * .5));
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+}
+.toc-sub-toggle:hover { border-color: var(--accent); }
+
+/* 章条目容器：章 + 其小节是一组。
+   ⚠️ 大知识点(章)之间的分界是本栏可读性的关键。三条规则：
+   1) 任意相邻两章之间给稳定基础间距 —— 不能只在「带小节的章」之间给，
+      否则全站 28/32 篇（无 ### 小节）的目录会贴成一片看不清分界。
+   2) 已滚过的章 → 与后面的章拉开更大间距 + 一条淡横线（「读到哪了」的分界）。
+   3) 间距用 padding-top 而非 margin：toc-item 在外层滚动容器里，padding 更可控。 */
+.toc-item { position: relative; }
+.toc-item.toc-hide { display: none; }
+.toc-item + .toc-item { padding-top: 7px; }
+.toc-item.toc-gap-lg { padding-top: 13px; }
+.toc-item.toc-gap-lg::before {
+    content: '';
+    position: absolute;
+    top: 3px; left: 2px; right: 4px;
+    border-top: 1px solid var(--border);
+}
+
+/* 章序号：淡底 + 描边 + 主色字（不做实心色块） */
+.toc-num {
+    display: inline-block;
+    min-width: 17px;
+    margin-right: 6px;
+    padding: 0 4px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 15px;
+    text-align: center;
+    color: var(--accent);
+    background: rgba(var(--card-rgb), calc(var(--ui-alpha) * .5));
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    vertical-align: 1px;
 }
 
 .toc-link {
     display: block;
-    padding: 3px 10px;
-    color: var(--text-faint);
+    padding: 3px 10px 3px 6px;
+    color: var(--text-dim);
     border-left: 2px solid var(--border);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: color .15s ease, border-color .15s ease, background .15s ease;
 }
-.toc-link:hover { color: var(--text); }
+/* 章标题本体单独包一层：序号胶囊是固定宽，标题靠 flex 自适应 + 省略号，
+   避免长章节名把胶囊挤变形 */
+.toc-link .toc-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.toc-link:hover { color: var(--text); border-left-color: var(--text-faint); }
 .toc-link.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+/* 章内已有 active 小节时，章本身弱化为「父级」，避免两级同时抢眼 */
+.toc-link.active-parent { color: var(--text-dim); border-left-color: var(--accent); font-weight: 600; }
+.toc-link.active-parent .toc-num { color: var(--accent); }
+/* 已滚过的章：导轨实心一点，让「读到哪了」一眼可见（不动色相，只加粗导轨） */
+.toc-item.done > .toc-link { border-left-color: var(--text-faint); }
+
+/* 小节列表：默认收起（max-height 0），只有 .open / 展开全部 才显示 */
+.toc-children {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .18s ease;
+}
+.toc-item.open > .toc-children,
+.toc.expand-all .toc-children { max-height: 800px; }
+
+/* 小节条目：靠 1px 竖导轨 + 更浅的灰表达层级 */
+.toc-sub-link {
+    display: block;
+    margin-left: 12px;
+    padding: 2px 10px 2px 9px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-faint);
+    border-left: 1px solid var(--border);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color .15s ease, border-color .15s ease;
+}
+.toc-sub-link:hover { color: var(--text); border-left-color: var(--accent); }
+.toc-sub-link.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+/* 小节标题里可能带行内公式，别让 katex 撑高行 */
+.toc-sub-link .katex { font-size: 1em; }
+
+.toc-empty { padding: 3px 10px; color: var(--text-faint); font-size: 12px; }
+
+/* 目录自身溢出时（章节多）滚动条收窄一点，别抢正文视觉 */
+.toc { scrollbar-width: thin; }
+.toc::-webkit-scrollbar { width: 6px; }
+.toc::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.toc::-webkit-scrollbar-track { background: transparent; }
 
 /* ============ 正文顶部：本文目录（窄屏右栏隐藏时兜底） ============ */
 .note-article .doc-toc {
