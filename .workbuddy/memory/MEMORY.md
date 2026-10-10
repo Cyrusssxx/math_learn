@@ -26,6 +26,9 @@
 ## 三、笔记页（index.html / reader.js）
 - 结构 `{id,subject,order,name,title,chapters[],md}`；**`chapters` 驱动右侧目录，`md` 里 `##` 按序编号 `ch-0/ch-1`…两者必须手工同步**（新增 `##` 必须同步插 `chapters`）。
 - ⚠️ **目录不变量（铁律）**：`reader.js` 用**下标**绑定 `chapters[i]` ↔ 正文第 i 个 `##`，两边**数量+顺序+文字**必须逐项镜像，只改一边会**跳错章**。差异时**一律以正文 `##` 文字为准改 `chapters`**——chapters 只喂 目录/导航树/搜索路径，改它不动正文；反过来改 `##` 会移动正文，可能让**划词批注/荧光锚点失效**。体检 `tools/_audit_notes_layout.py`，批量对齐 `tools/_fix_notes_toc.py --apply`（默认 DRY-RUN，写前自检 json 往返字节一致）。
+- **右侧目录是两级**（章 `ch-N` → `###` 小节 `h3-N`）：`tocItems()` 用**文档顺序夹取**判归属（h3 可能落在 `::: fold/nav` 内，按 DOM 层级猜会错）。小节默认收起，只自动展开「当前读过的那章」；`#/笔记/章/h3号` 三级 hash 支持精确定位，`savePos/restorePos` 连小节一起记。
+- ⚠️ **章标题自带编号要剥显示文本**（「一、」「(1)」→ 左侧已有序号胶囊，不剥会成「1一、…」）：`stripChNum()` **只剥显示，绝不动 `data-ch`/章节 id**（导航与搜索的键）。
+- **大知识点分界**：CSS `.toc-item + .toc-item{padding-top:7px}` 给所有相邻章基础间距（**不能只给带小节的章**——全站仅 4/32 篇有 `###`）；`.toc-gap-lg` 13px + 淡横线标「已读→未读」分界；`.done` 加深已读章导轨。间距一律 `padding-top`（外层滚动容器里比 margin 可控）。
 - **mdToHtml 语法全集**：`# `（跳过）｜`## ` h2｜`### `/`#### ` h3/h4｜`::: fold/nav/点睛`+`:::`｜独行 `{#id}`｜独行 `![..](..)` → 自动生成 `id="fig-<图片名>"` 的 figure｜`> ` 引用（连续行合并）｜`---`/`***`/`___` 分隔线｜`- ` 列表｜`|` 表格｜**其余 → `<p>`**。`inline()` 支持 `**bold**`、`![img](src)`、`[text](#anchor)`、`` `code` ``、`⭐`。
 - ⚠️ 新增语法必须**同时补 CSS**（`h3.md-h3`/`blockquote.md-quote`/`hr.md-hr`/`code.md-code`），否则「渲染出来了但没样式」比字面泄漏更难发现。
 - ⚠️ **reader.js 与 mdrender.js 是两份副本，改渲染逻辑必须同步**（mdrender.js 供 cards.js / good.js）。链路 `emitList→breakLines→inline`。
