@@ -27,14 +27,20 @@ function breakLines(text) {
     }
     const cutIff = iffN >= 2;
 
+    // ⚠️ 切点落在 **加粗** 跨度内时必须补 ** 闭合/续接：硬切会让两段各留落单 **，
+    //    渲染成字面星号（且后半段会把后续的 **x** 错配成 <strong>）。
+    //    补出来的 ** 会被 inline() 配对成 <strong>，textContent 不变 → 批注/荧光锚点不失效。
     const segs = [];
-    let seg = '', inMath = false;
-    for (const ch of text) {
+    let seg = '', inMath = false, inBold = false;
+    const flush = () => { segs.push(inBold ? seg + '**' : seg); seg = inBold ? '**' : ''; };
+    for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
         if (ch === '$') inMath = !inMath;
-        if (ch === '；' && !inMath) { segs.push(seg); seg = ''; continue; }
+        if (ch === '*' && text[i + 1] === '*' && !inMath) { inBold = !inBold; seg += '**'; i++; continue; }
+        if (ch === '；' && !inMath) { flush(); continue; }
         if (cutIff && ch === '⇔' && !inMath) {
-            if (seg) segs.push(seg);
-            seg = '⇔ ';   // ⇔ 挪到下一行开头，形成箭头对齐的等价链
+            if (seg.replace(/\*\*/g, '')) flush();
+            seg = (inBold ? '**' : '') + '⇔ ';   // ⇔ 挪到下一行开头，形成箭头对齐的等价链
             continue;
         }
         seg += ch;
@@ -47,8 +53,11 @@ function breakLines(text) {
             if (first[i] === '$') iM = !iM;
             else if (first[i] === '：' && !iM) { cut = i; break; }
         }
-        if (cut >= 0 && cut < first.length - 1)
-            segs.splice(0, 1, first.slice(0, cut + 1), first.slice(cut + 1));
+        if (cut >= 0 && cut < first.length - 1) {
+            let a = first.slice(0, cut + 1), b = first.slice(cut + 1);
+            if ((a.match(/\*\*/g) || []).length % 2 === 1) { a += '**'; b = '**' + b; }
+            segs.splice(0, 1, a, b);
+        }
     }
     return segs.map(inline).join('<br>');
 }
