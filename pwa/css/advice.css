@@ -1,0 +1,243 @@
+/* ============================================================================
+   核心题库 · 刷题建议面板（advice.js 配套）
+   复用 analysis.css 的 .an-mask / .an-panel / .an-head / .an-body / .an-foot 外壳，
+   本文件只加 .adv-* 专属部分。配色沿用全站变量（--accent 柔和蓝 + 四态语义色）。
+   ============================================================================ */
+
+.adv-panel { max-width: 980px; }
+
+.adv-headbtns { display: flex; align-items: center; gap: 8px; }
+
+/* ---------- 顶部总览 ---------- */
+.adv-ov {
+    background: var(--accent-soft, rgba(74, 122, 184, .09));
+    border: 1px solid var(--accent-line, rgba(74, 122, 184, .30));
+    border-radius: 10px;
+    padding: 14px 16px 12px;
+    margin-bottom: 16px;
+}
+
+.adv-ov-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px;
+}
+
+.adv-ov-num {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    line-height: 1.5;
+}
+
+.adv-ov-num b {
+    display: block;
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.25;
+}
+
+.adv-ov-num span { color: var(--text-faint); }
+
+.adv-ov-num.adv-ok b { color: var(--ok, #1f7a4d); }
+.adv-ov-num.adv-warn b { color: var(--warn, #b45309); }
+.adv-ov-num.adv-bad b { color: var(--bad, #b3261e); }
+
+.adv-ov-bar {
+    display: flex;
+    height: 9px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: var(--grid, #eef1f4);
+    margin: 12px 0 9px;
+}
+
+.adv-s { display: block; height: 100%; }
+.adv-mst { background: var(--ok, #1f7a4d); }
+.adv-unf { background: var(--warn, #b45309); }
+.adv-unk { background: var(--bad, #b3261e); }
+.adv-none { background: var(--grid, #eef1f4); }
+
+.adv-ov-tip {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    line-height: 1.75;
+}
+
+.adv-ov-tip b { color: var(--accent); }
+
+/* ---------- 推荐表 ---------- */
+.adv-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.adv-tbl thead th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-faint);
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border, #e3e7ec);
+    position: sticky;
+    top: 0;
+    background: var(--card, #fff);
+    z-index: 1;
+}
+
+.adv-row {
+    cursor: pointer;
+    border-bottom: 1px solid var(--grid, #eef1f4);
+    transition: background .13s;
+}
+
+.adv-row:hover { background: var(--accent-soft, rgba(74, 122, 184, .09)); }
+.adv-row td { padding: 9px 8px; vertical-align: middle; }
+
+/* 前两档加左导轨，一眼看出优先级（不削弱语义色，只是给边界感） */
+.adv-row.adv-hot { box-shadow: inset 3px 0 0 var(--bad, #b3261e); }
+.adv-row.adv-warm { box-shadow: inset 3px 0 0 var(--warn, #b45309); }
+
+.adv-i {
+    color: var(--text-faint);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.adv-name b {
+    display: block;
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--text);
+}
+
+.adv-name em {
+    display: block;
+    font-style: normal;
+    font-size: 11.5px;
+    color: var(--text-faint);
+    margin-top: 1px;
+}
+
+.adv-w { text-align: right; }
+
+.adv-badge {
+    display: inline-block;
+    min-width: 26px;
+    padding: 1px 7px;
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--bad, #b3261e);
+    background: rgba(220, 38, 38, .10);
+    border: 1px solid rgba(220, 38, 38, .30);
+    font-variant-numeric: tabular-nums;
+}
+
+.adv-row.adv-warm .adv-badge {
+    color: var(--warn, #b45309);
+    background: rgba(234, 88, 12, .10);
+    border-color: rgba(234, 88, 12, .30);
+}
+
+.adv-dash { color: var(--text-faint); }
+
+.adv-todo { text-align: right; font-variant-numeric: tabular-nums; }
+.adv-todo b { font-weight: 700; color: var(--accent); font-size: 14px; }
+.adv-todo em { font-style: normal; color: var(--text-faint); font-size: 11.5px; margin-left: 2px; }
+
+.adv-bd { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.adv-t {
+    font-size: 11.5px;
+    padding: 1px 7px;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+
+.adv-t-unk { color: var(--bad, #b3261e); background: rgba(220, 38, 38, .09); }
+.adv-t-unf { color: var(--warn, #b45309); background: rgba(234, 88, 12, .10); }
+.adv-t-none { color: var(--text-dim); background: var(--accent-soft, rgba(74, 122, 184, .09)); }
+
+.adv-go {
+    text-align: right;
+    color: var(--accent);
+    font-size: 12.5px;
+    white-space: nowrap;
+}
+
+/* ---------- 已全部掌握 ---------- */
+.adv-done {
+    margin-top: 18px;
+    border-top: 1px solid var(--border, #e3e7ec);
+    padding-top: 10px;
+}
+
+.adv-done summary {
+    cursor: pointer;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    outline: none;
+}
+
+.adv-done-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.adv-done-list span {
+    font-size: 12px;
+    color: var(--text-dim);
+    background: rgba(34, 139, 84, .09);
+    border: 1px solid rgba(34, 139, 84, .26);
+    border-radius: 5px;
+    padding: 2px 8px;
+}
+
+.adv-done-list em {
+    font-style: normal;
+    color: var(--text-faint);
+    margin-left: 5px;
+    font-size: 11px;
+}
+
+/* ---------- 页脚图例 ---------- */
+.adv-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-right: 12px;
+}
+
+.adv-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.adv-dot.adv-bad { background: var(--bad, #b3261e); }
+.adv-dot.adv-warn { background: var(--warn, #b45309); }
+.adv-dot.adv-ok { background: var(--ok, #1f7a4d); }
+.adv-dot.adv-todo { background: var(--grid, #eef1f4); border: 1px solid var(--border, #e3e7ec); }
+
+.adv-note {
+    font-size: 11.5px;
+    color: var(--text-faint);
+    margin-right: 12px;
+}
+
+/* ---------- 窄屏 ---------- */
+@media (max-width: 640px) {
+    .adv-ov-main { gap: 16px; }
+    .adv-ov-num b { font-size: 18px; }
+    .adv-bd { display: none; }          /* 窄屏隐藏「构成」列，靠 title 提示 */
+    .adv-tbl thead th:nth-child(5) { display: none; }
+    .adv-go { display: none; }
+}

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/category.css?v=f3eea060">
     <link rel="stylesheet" href="css/analysis.css?v=f3eea060">
     <link rel="stylesheet" href="css/mastery.css?v=f3eea060">
+    <link rel="stylesheet" href="css/advice.css?v=f3eea060">
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -30,6 +31,7 @@
             <button class="exam-btn" id="unmarkedFirst" onmousedown="event.preventDefault()" onclick="toggleUnmarkedFirst()" title="把未做任何标记（未收藏、未标不熟/不会）的题目排到最前">⭕ 无标记</button>
             <button class="exam-btn" id="yearSortBtn" onmousedown="event.preventDefault()" onclick="toggleYearSort()" title="切换年份排序：倒序（新题在前）⇄ 顺序（旧题在前）">⬇️ 年份</button>
             <button class="exam-btn" onmousedown="event.preventDefault()" onclick="openMasteryMap()" title="按知识点查看掌握情况：掌握率色块图，点色块直接跳去刷该知识点">📈 地图</button>
+            <button class="exam-btn" id="advBtn" onmousedown="event.preventDefault()" onclick="openStudyAdvice()" title="核心题库刷题建议：按「你的薄弱标记 × 核心题库待刷量」排优先顺序，点一行切到核心题库并直达该知识点">💡 建议</button>
             <a class="exam-btn rv-entry" href="category.html?review=1" target="_blank" rel="noopener" title="复测：新标签页打开「我的标记题」汇总（收藏/掌握/不熟/不会，附带笔记，实时同步）">🔁 复测</a>
             <a class="exam-btn rv-back" href="category.html" title="返回分类页">🗂 分类</a>
             <div class="cat-marks">
@@ -73,6 +75,7 @@
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/category.js?v=f3eea060"></script>
     <script defer src="js/mastery.js?v=f3eea060"></script>
+    <script defer src="js/advice.js?v=f3eea060"></script>
 
     <!-- 悬浮题号导航（与真题页同款）：显示当前分类/搜索结果的全部题号，点击跳转 -->
     <div class="float-q" id="floatQ">
