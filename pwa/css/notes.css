@@ -1025,7 +1025,9 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
 .toc::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 .toc::-webkit-scrollbar-track { background: transparent; }
 
-/* ============ 正文顶部：本文目录（窄屏右栏隐藏时兜底） ============ */
+/* ============ 正文顶部:本文目录(窄屏右栏隐藏时兜底) ============ */
+/* ⚠️ ≤1150px 右栏 .toc 被 display:none，这里是窄屏唯一的目录入口，
+   所以同样给两级（章 + 小节），不能只列章。 */
 .note-article .doc-toc {
     margin: 14px 0 22px;
     border: 1px solid var(--border);
@@ -1039,24 +1041,48 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
     user-select: none;
 }
 .note-article .doc-toc-body {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    padding: 0 14px 13px;
+    padding: 0 12px 13px;
 }
+/* 章条目：胶囊 + 标题，行内排布；相邻章之间给同样的基础间距（与右栏一致） */
+.note-article .doc-toc-item + .doc-toc-item { padding-top: 5px; }
 .note-article .doc-toc .toc-link {
-    display: inline-block;
-    padding: 4px 11px;
-    border: 1px solid var(--border);
-    border-left-width: 1px;
-    border-radius: 999px;
-    background: var(--bg);
-    font-size: .92em;
+    display: block;
+    padding: 4px 4px 4px 2px;
+    border: none;
+    border-left: 2px solid var(--border);
+    border-radius: 0;
+    background: none;
+    font-size: .95em;
     white-space: normal;
     overflow: visible;
 }
-.note-article .doc-toc .toc-link:hover { color: var(--accent); border-color: var(--accent); }
+.note-article .doc-toc .toc-link:hover { color: var(--accent); border-left-color: var(--accent); }
 .note-article .doc-toc .toc-link.active { color: #fff; border-color: var(--accent); background: var(--accent); }
+.note-article .doc-toc .toc-link .toc-name { white-space: normal; }
+/* 小节：多列自适应，避免 18 个小节把正文顶部撑成一大块 */
+.note-article .doc-toc .doc-toc-kids {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    margin: 3px 0 2px 14px;
+    padding-left: 8px;
+    border-left: 1px solid var(--border);
+}
+.note-article .doc-toc .toc-sub-link {
+    display: inline-block;
+    margin: 0;
+    padding: 2px 8px;
+    font-size: .88em;
+    border: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-radius: 999px;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.note-article .doc-toc .toc-sub-link:hover { color: var(--accent); background: var(--bg-active); }
+.note-article .doc-toc .toc-sub-link.active { color: var(--accent); border-color: var(--accent); background: rgba(var(--card-rgb), calc(var(--ui-alpha) * .5)); font-weight: 600; }
 
 /* ============ 移动端 ============ */
 .menu-btn {

@@ -384,21 +384,43 @@ function mdToHtml(md) {
 
 function renderDoc(note) {
     const el = document.getElementById('docPane');
-    // 正文顶部自动生成「本文目录」（章节 ≥ 2 时），窄屏右栏隐藏也能用；点击走 hash 路由自动滚动
-    const tocHtml = note.chapters.length >= 2
-        ? `<details class="doc-toc" open><summary>📑 本文目录（${note.chapters.length} 章）</summary><div class="doc-toc-body">` +
-          note.chapters.map((ch, i) => `<a class="toc-link" data-ch="${i}" href="#/${note.id}/${i}">${esc(ch)}</a>`).join('') +
-          `</div></details>`
-        : '';
+    // 正文顶部自动生成「本文目录」（章节 ≥ 2 时）。
+    // ⚠️ 右栏 `.toc` 在 ≤1150px 被 `display:none` 隐藏，所以这里是窄屏/移动端**唯一**的目录入口，
+    //    必须和右侧目录一样给出 ### 小节，否则小屏用户拿不到二级导航（曾经只有一级章）。
+    //    小节的 id 要等 mdToHtml 渲染完才知道，所以先渲染正文、再回填目录。
     el.innerHTML = `<article class="note-article">
         <div class="doc-crumb">${SUBJECT_NAMES[note.subject]}</div>
         <h1>${inline(note.title)}</h1>
-        ${tocHtml}
+        <div id="docTocSlot"></div>
         ${mdToHtml(note.md)}
     </article>`;
+    fillDocToc(note);
     document.title = note.name + ' - 考研数学笔记';
     renderMath(el);
     if (window.Annot) Annot.apply(note.id);  // 公式渲染完再恢复用户标注
+}
+
+/** 回填正文顶部的「本文目录」：章 + 小节（与右侧目录同源，都用 tocItems()）。
+ *  数据源必须是**渲染后的 DOM**，因为 h3 的 id 是 mdToHtml 按出现顺序分配的。 */
+function fillDocToc(note) {
+    const slot = document.getElementById('docTocSlot');
+    if (!slot) return;
+    const items = tocItems();
+    if (items.length < 2) { slot.innerHTML = ''; return; }
+    const total = items.reduce((a, c) => a + c.h3s.length, 0);
+    const body = items.map((c, i) => {
+        const num = `<span class="toc-num">${i + 1}</span>`;
+        const kids = c.h3s.length
+            ? `<div class="doc-toc-kids">` + c.h3s.map(h =>
+                `<a class="toc-sub-link" data-h3="${h.id.slice(3)}" href="#/${note.id}/${c.ch}/${h.id.slice(3)}" title="${esc(h.name)}">${inline(h.name)}</a>`
+              ).join('') + `</div>`
+            : '';
+        return `<div class="doc-toc-item">` +
+            `<a class="toc-link" data-ch="${c.ch}" href="#/${note.id}/${c.ch}" title="${esc(c.raw)}">${num}<span class="toc-name">${inline(c.name)}</span></a>` +
+            kids + `</div>`;
+    }).join('');
+    slot.innerHTML = `<details class="doc-toc" open><summary>📑 本文目录（${items.length} 章` +
+        (total ? ` · ${total} 小节` : '') + `）</summary><div class="doc-toc-body">${body}</div></details>`;
 }
 
 // ============ 左侧目录树 ============
@@ -561,6 +583,8 @@ function highlightToc() {
         // 有 active 小节时，章本身弱化显示（避免与小节抢视觉）
         a.classList.toggle('active-parent', on && !!activeH3);
     });
+    // ⚠️ 两处目录（右侧栏 + 正文顶部内嵌）共用 .toc-link / .toc-sub-link，
+    //    上面用的是 document 级查询 → 两边会一起高亮，无需分别处理。
     document.querySelectorAll('.toc-sub-link').forEach(a =>
         a.classList.toggle('active', a.dataset.h3 === activeH3));
     updateTocGroups(activeCh);
