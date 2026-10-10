@@ -59,6 +59,7 @@ function route() {
         renderDoc(note);
         renderToc(note);
         renderTree();
+        // 换笔记时旧标红已随 DOM 重建消失；但 pendingLocate 带来的新标红由 locateBlock 负责。
     }
     if (h3No && !pendingLocate) {
         // 二级目录：先滚到所属章，再滚到小节（小节更精确，以它为准）
@@ -250,7 +251,10 @@ function emitTable(rows) {
         const tag = r === 0 ? 'th' : 'td';
         html += '<tr>' + cells.map(c => `<${tag}>${inline(c)}</${tag}>`).join('') + '</tr>';
     });
-    return html + '</table>';
+    // ⚠️ 必须包一层 .table-wrap：.note-article table 是 width:100% 且 overflow:hidden
+    //    对 display:table 自身不生效，宽表（如 线代5 的 8 列表）在窄屏会撑破正文。
+    //    .table-wrap 的 overflow-x:auto 早就写在 CSS 里了，只是渲染器一直没接线。
+    return '<div class="table-wrap">' + html + '</table></div>';
 }
 
 /* ============ 📌 点睛块（::: 点睛 … :::）============
@@ -606,14 +610,37 @@ function highlightToc() {
     }
 }
 
-let _spyTimer = null, _posTimer = null;
+let _spyTimer = null, _posTimer = null, _topTimer = null;
 window.addEventListener('scroll', () => {
-    if (_spyTimer) return;
-    _spyTimer = setTimeout(() => { _spyTimer = null; highlightToc(); }, 80);
+    if (!_spyTimer) _spyTimer = setTimeout(() => { _spyTimer = null; highlightToc(); }, 80);
     if (!_posTimer) _posTimer = setTimeout(() => { _posTimer = null; savePos(); }, 600);   // 节流记录位置
+    if (!_topTimer) _topTimer = setTimeout(() => { _topTimer = null; updateToTop(); }, 40); // 回顶按钮 + 进度环
 }, { passive: true });
 window.addEventListener('beforeunload', savePos);
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') savePos(); });
+
+// ============ 回到顶部 + 阅读进度环 ============
+const RING_LEN = 2 * Math.PI * 18;      // 与 CSS 的 stroke-dasharray 一致(r=18)
+const TOP_SHOW_AT = 320;                // 滚动超过这个距离才显示，避免短笔记一闪一闪
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 平滑滚动期间 scroll 事件会继续触发并逐步更新高亮；这里只兜底一次终态
+    setTimeout(highlightToc, 300);
+}
+
+function updateToTop() {
+    const btn = document.getElementById('toTop');
+    if (!btn) return;
+    const y = window.scrollY || window.pageYOffset || 0;
+    const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const pct = Math.min(1, Math.max(0, y / max));
+    btn.classList.toggle('show', y > TOP_SHOW_AT);
+    const ring = document.getElementById('toTopRing');
+    if (ring) ring.style.strokeDashoffset = String(RING_LEN * (1 - pct));
+    const pctEl = document.getElementById('toTopPct');
+    if (pctEl) pctEl.textContent = Math.round(pct * 100) + '%';
+}
 
 // ============ 搜索（标题 + 章节 + 全文行 + 📝批注；知识点优先、好题靠后） ============
 const SUBJECT_RANK = { zy: -1, gs: 0, xd: 1 };   // 考前21记/高数/线代（知识点）在前
@@ -728,8 +755,10 @@ function locateHit(i) {
     const h = lastHits[i];
     if (!h) return false;
     const n = notes[h.ni];
-    pendingLocate = h;
-    saveHist(document.getElementById('searchInput').value);  // 点了结果才记入历史（证明是有效搜索）
+    // ⚠️ 关键词必须在 clearSearch() 之前捕获：clearSearch 会清空输入框，
+    //    而 locateBlock 是稍后由 route() 执行的，那时读输入框只剩空串。
+    pendingLocate = Object.assign({}, h, { kw: document.getElementById('searchInput').value.trim() });
+    saveHist(document.getElementById('searchInput').value);  // 点了结果才记入历史(证明是有效搜索)
     clearSearch();
     const target = '/' + n.id + (h.ci >= 0 ? '/' + h.ci : '');
     if (decodeURIComponent(location.hash.replace(/^#/, '')) === target) route();  // hash 不变时手动触发
@@ -756,7 +785,85 @@ function scrollNavTo(h) {
  *  用 setTimeout 延迟执行：确保盖过 route() 中章节级 scrollIntoView
  *  修正：排除「嵌入批注」行（避免偏移到内嵌重复子条）、优先命中最外层块（避免落进子条目造成偏移）、
  *       支持含公式的批注（用 .ann-text 的 data-raw 原始文本匹配）。 */
+/** 在正文里把命中关键词标红并返回标红个数。
+ *  三条硬约束（否则会破坏既有功能）：
+ *  1. **不碰 KaTeX**：公式已渲染成带大量 span 的 DOM，在其中的文本节点再插 <mark> 会让公式错位，
+ *     所以跳过 `.katex / .katex-display / annotation` 子树内的文本节点。
+ *  2. **不动元素结构**：只在**文本节点内部**替换，用 <mark> 包裹命中词，
+ *     不 replaceWith 整个元素 → 划词批注残留的文本锚点（按内容定位）不受影响。
+ *  3. **必须可撤销**：mark 都带 `.search-hit`，unwrapSearchHits() 能还原成原始文本节点。
+ *  参数 q 必传（见上方说明：不能读输入框）。 */
+function markHitsInDoc(q) {
+    unwrapSearchHits();
+    const kw = String(q || '').trim();
+    if (kw.length < 2) return 0;                      // 单字命中太泛，不标
+    const root = document.querySelector('.note-article');
+    if (!root) return 0;
+    const lower = kw.toLowerCase();
+    let n = 0;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    const targets = [];
+    let node;
+    while ((node = walker.nextNode())) {
+        const p = node.parentNode;
+        if (!p) continue;
+        const tag = p.nodeName;
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'MARK') continue;
+        if (p.closest('.katex, .katex-display, annotation, .search-hit')) continue;
+        if (node.nodeValue && node.nodeValue.toLowerCase().includes(lower)) targets.push(node);
+    }
+    for (const t of targets) {
+        const s = t.nodeValue;
+        const frag = document.createDocumentFragment();
+        let i = 0;
+        while (i < s.length) {
+            const at = s.toLowerCase().indexOf(lower, i);
+            if (at < 0) { frag.appendChild(document.createTextNode(s.slice(i))); break; }
+            if (at > i) frag.appendChild(document.createTextNode(s.slice(i, at)));
+            const mk = document.createElement('mark');
+            mk.className = 'search-hit';
+            mk.textContent = s.slice(at, at + kw.length);
+            frag.appendChild(mk);
+            n++;
+            i = at + kw.length;
+        }
+        t.parentNode.replaceChild(frag, t);
+    }
+    return n;
+}
+
+/** 撤销正文里的搜索标红，还原成原始文本节点 */
+function unwrapSearchHits() {
+    document.querySelectorAll('.note-article mark.search-hit').forEach(mk => {
+        const parent = mk.parentNode;
+        if (!parent) return;
+        parent.replaceChild(document.createTextNode(mk.textContent), mk);
+        parent.normalize();          // 合并相邻文本节点，避免留下碎片节点
+    });
+}
+
+/** 命中数提示：独立轻量浮条，2.6s 自动消失。
+ *  ⚠️ 不能挂在搜索结果框里 —— locateHit() 在定位前就 clearSearch() 把结果框 hidden 了，
+ *     挂那里永远显示不出来（实测踩到）。浮条固定在正文顶部，与搜索状态解耦。 */
+function toastHitCount(n) {
+    let t = document.getElementById('hitToast');
+    if (!t) {
+        t = document.createElement('div');
+        t.id = 'hitToast';
+        document.body.appendChild(t);
+    }
+    t.textContent = `已定位 · 正文中 ${n} 处命中已标红`;
+    t.classList.add('show');
+    clearTimeout(toastHitCount._tm);
+    toastHitCount._tm = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
 function locateBlock(h) {
+    // 命中词在整篇正文里标红。关键词**随 pendingLocate 传进来**（h.kw），
+    // 不能读输入框 —— locateHit() 会先 clearSearch() 把输入框清空。
+    // 放在定位前执行是安全的：下面的 matches 判定用**元素级包含**（b.textContent.includes），
+    // 标红只切分文本节点、不改元素引用，所以不影响定位准确性。
+    const hitN = h.kw ? markHitsInDoc(h.kw) : 0;
     // 提取文本锚：优先取公式外最长的有辨识度片段
     const segments = h.text.replace(/^📝 /, '').split(/\$[^$]*\$/)
         .map(s => s.replace(/\*\*/g, '').trim())
@@ -785,6 +892,7 @@ function locateBlock(h) {
                 best.classList.add('locate-flash');
                 setTimeout(() => best.classList.remove('locate-flash'), 1800);
             }, 30);
+            if (hitN) toastHitCount(hitN);
             return;
         }
     }
@@ -816,6 +924,17 @@ function clearSearch() {
     const box = document.getElementById('searchResults');
     box.hidden = true;
     box.innerHTML = '';
+    // 注意：这里**不**撤销正文标红。locateHit() 会先 clearSearch() 再异步 route()，
+    // 若在此撤销，紧接着 locateBlock 才刚标上的红会被前面这步清掉（实测踩到）。
+    // 标红的撤销交给：下一次 markHitsInDoc（开头自带 unwrap）、以及显式退出搜索时。
+    if (document.activeElement === document.getElementById('searchInput'))
+        document.getElementById('searchInput').blur();
+}
+
+/** 显式退出搜索状态：清搜索框 + 撤掉正文标红（Esc 走这里） */
+function exitSearch() {
+    clearSearch();
+    unwrapSearchHits();
 }
 
 // ============ 搜索历史（localStorage 最多 5 条，可单删/清空） ============
@@ -915,7 +1034,44 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// ============ 阅读站快捷键 ============
+/* 只处理「不在输入态」的按键；任何输入框/可编辑区域聚焦时全部让路。
+   已占用的键：Escape（关 lightbox，见 openLightbox 内）——这里额外负责退出搜索。 */
+document.addEventListener('keydown', e => {
+    const t = e.target;
+    const typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
+
+    if (e.key === 'Escape') {
+        if (typing) { t.blur(); return; }
+        const box = document.getElementById('searchResults');
+        if (box && !box.hidden) { exitSearch(); return; }
+        return;
+    }
+    if (typing) return;
+
+    // `/` 或 Ctrl/Cmd+K → 聚焦搜索框（窄屏侧栏被收起时先展开，否则输入框看不见）
+    if (e.key === '/' || ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K'))) {
+        e.preventDefault();
+        const side = document.getElementById('sidebar');
+        if (side && !side.classList.contains('show') && window.innerWidth <= 900) side.classList.add('show');
+        const si = document.getElementById('searchInput');
+        if (si) { si.focus(); si.select(); }
+        return;
+    }
+    // T → 回到顶部
+    if ((e.key === 't' || e.key === 'T') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        e.preventDefault();
+        scrollToTop();
+    }
+});
+
 init().catch(e => {
-    document.getElementById('docPane').innerHTML =
-        `<div class="error">加载失败: ${esc(e.message)}<br>请用 start.bat 启动后访问 http://localhost:8409</div>`;
+    // ⚠️ 失败时左右两栏都要给出交代：只写 docPane 会让左栏永远停在「加载中...」，
+    //    用户以为还在加载、不会想到去重试。
+    const msg = `<div class="error">加载失败：${esc(e.message)}<br>请用 start.bat 启动后访问 http://localhost:8409` +
+        `<br><button class="retry-btn" onclick="location.reload()">重新加载</button></div>`;
+    document.getElementById('docPane').innerHTML = msg;
+    const nav = document.getElementById('navTree');
+    if (nav) nav.innerHTML = '<div class="error error-side">笔记列表加载失败<br>' +
+        '<button class="retry-btn" onclick="location.reload()">重试</button></div>';
 });

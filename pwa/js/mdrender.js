@@ -118,7 +118,8 @@ function emitTable(rows) {
         const tag = r === 0 ? 'th' : 'td';
         html += '<tr>' + cells.map(c => `<${tag}>${inline(c)}</${tag}>`).join('') + '</tr>';
     });
-    return html + '</table>';
+    // 与 reader.js 同步：包 .table-wrap 让宽表在窄屏可横向滚动（CSS 早已定义）
+    return '<div class="table-wrap">' + html + '</table></div>';
 }
 
 /** 防御：未闭合的 $$ 会拖垮整篇渲染，奇数时在末尾补一个闭合 $$ 兜底。 */
