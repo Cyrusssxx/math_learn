@@ -30,12 +30,10 @@
 - ⚠️ **目录不变量（铁律）**：`reader.js` 用**下标**绑定 `chapters[i]` ↔ 正文第 i 个 `##`，所以两边**数量+顺序+文字**必须逐项镜像，只改一边就会**跳错章**。**差异时一律以正文 `##` 文字为准改 `chapters`**——chapters 只喂 目录/导航树/搜索路径，改它不动正文；反过来改 `##` 会移动正文，可能让**划词批注/荧光高亮锚点失效**。体检脚本 `tools/_audit_notes_layout.py`，批量对齐 `tools/_fix_notes_toc.py --apply`（默认 DRY-RUN，写前自检 json 往返字节一致）。
 - **mdToHtml 支持的语法全集**：`# `（跳过）｜`## ` h2｜`### ` h3｜`#### ` h4｜`::: fold/nav/点睛`+`:::`｜独行 `{#id}`｜独行 `![..](..)` → 自动生成 `id="fig-<图片名>"` 的 figure｜`> ` 引用（连续行合并为一个 blockquote）｜`---`/`***`/`___` 分隔线｜`- ` 列表｜`|` 表格｜其余 → `<p>`。**不在表内的语法会原样显示成字面文本**（曾泄漏 61 处 `###`/`>`/`---`/`` ` ``）。`inline()` 支持 `**bold**`、`![img](src)`、`[text](#anchor)`、`` `code` ``、`⭐`。
 - ⚠️ 新增语法必须**同时补 CSS**（`h3.md-h3`/`blockquote.md-quote`/`hr.md-hr`/`code.md-code`），否则「渲染出来了但没样式」比字面泄漏更难发现。
-- ⚠️ **reader.js 与 mdrender.js 是两份副本，改渲染逻辑必须同步**（mdrender.js 供 cards.js / good.js）。
-- `inline()` 只支持 `**bold**`、`![img](src)`、`[text](#anchor)`、`` `code` ``、`⭐`；链路 `emitList→breakLines→inline`。
-- ⚠️ `emitList` 跳级缩进会**丢整段列表**（`if(items[i].level>level){i++;continue}`）：笔记里「首项比后续缩进深」很常见。正解=按实际层级递归接管，顶层用本段最小 level 作起点。`mdrender.js` 与 `reader.js` **两份副本必须同步改**。
+- ⚠️ **reader.js 与 mdrender.js 是两份副本，改渲染逻辑必须同步**（mdrender.js 供 cards.js / good.js）。链路 `emitList→breakLines→inline`。
+- ⚠️ `emitList` 跳级缩进会**丢整段列表**（`if(items[i].level>level){i++;continue}`）：笔记里「首项比后续缩进深」很常见。正解=按实际层级递归接管，顶层用本段最小 level 作起点。
 - ⚠️ `renderTipsBlock` 丢 rest：四段标签（公式/易错/技巧/注意）之外的行必须**追加**渲染；写成「仅当 inner 为空才用 rest」会把其余内容全丢。
 - ⚠️ KaTeX auto-render **跨元素配对**：`$` 落单（奇数）会把中间整段文字吞进 display 公式。每张卡 `$` 必须配平；`$$…$$` 独占行当原子块；切句只用 `。；！？`（逗号会切坏 `$a,b$`）；输出前 `isBalanced()` + `stripLoneDollar()`。
-- 笔记正文的**结构关键词加粗**（必要条件/充分条件/性质/定义/定理…）由脚本批量生成；规则：不吞相邻词、不拆词（≤8 字）、禁动词字、**合并相邻加粗块**（否则出 `***`）。
 
 ## 四、跨页重复副本（改一处必同步另一处）
 `exam.js` 与 `category.js` 有重复实现：`mdBlockWithImg` / `fillExamNoteImgs` / `zoomAnsImg` / `mdBlock` / `qCard`vs`catCard` / `.q-note` 双框逻辑。
@@ -74,7 +72,7 @@
 - `core_bank.json` 与 exam.json **同结构**，每题靠 `categoryIds:[catId]` 挂到同一棵分类树；题卡用 `q.source` 显示真题题源。catId 映射脚本 `tools/_map_catid.py`（拿带知识点标签的参考题当语料匹配，三层兜底：语料→关键词→数学记号→人工表）。
 - **新格式标准（2026-10-05 定，所有新增/重写题照此）**：`answer` = 【答案】最终答案 + 空行 + 【分析】 + 【解】分步 + ⚠️易错 N 条；`idea` = 对整体解析的**概括**（2~4 句，可用 `**思路概括：**` 前缀）。
 - **线代答案册**（用户资料，63MB/496 页）：`D:/cjx/下载/QQ FileRecv/线性代数_真题+重点题_答案册（含目录与页码）.pdf`。正文答案区是**位图**（无文字层），只能视觉识别；书末有**补充题 补01—补39**。
-- ⚠️ **`pdfNo` ≠ PDF 题号**：`pdfNo` 按章节顺序（行列式1-30/矩阵31-108/向量109-153/方程组154-228/特征值229-287/二次型288-346）；PDF 按 35 天计划排（段内顺序不同）。**别拿 pdfNo 当 PDF 题号**，会产生整片假警报。可靠对应：目录 A-F 分组→章节→「年份+科目」归一化。
+- ⚠️ **`pdfNo` ≠ PDF 题号**：`pdfNo` 按**章节顺序**编号，PDF 按 **35 天计划**排（段内顺序不同）。**别拿 pdfNo 当 PDF 题号**，会产生整片假警报。可靠对应：目录 A-F 分组→章节→「年份+科目」归一化。
 - 用户口径：**只刷核心题库**，统计/建议一律只看 `core_bank.json`。
 - exam.json 已知缺陷：2003 数二第 11 题选项 D 应为 `$1>I_2>I_1$`。
 - 大观园源库 `assets/questions.json`（5952 题，有 `core` 字段；**没有**数一/二/三标记，app 按考纲章节推导）。大观园线代节点与我们**同 id 同名**（我们是其子集），catId 可复用，深层节点沿父链上溯。
@@ -85,7 +83,7 @@
 - **挖空规则改一处必同步三处**：`CLOZE_RULES`（文本节点 `$..$`→katex、`` `..` ``）+ `<strong>` 元素级候选 + `countClozeCandidates`（必须与实际挖空**共用同一组长度常量**，否则出「判为背诵卡却挖不出空」的退化卡）。
 - ⚠️ 公式正则下限必须 `{1,}`（`$x$`/`$n$` 单字符要参与），否则 `$` 错位、两公式间中文被错配成伪公式。
 - **时序铁律**：`applyCloze` 必须在 `renderMath` **之前**。
-- **状态读写分家**：读用 `peekOf(id)`（返回 Object.freeze 的默认值，不写 ST.cards），写才用 `stOf(id)`；否则遍历即实例化 359 条状态、写出 ~40KB 垃圾。⚠️ **禁止按行号批量替换 JS**（曾误换 3 处写路径）。
+- **状态读写分家**：读用 `peekOf(id)`（返回 Object.freeze 的默认值，不写 ST.cards），写才用 `stOf(id)`；否则遍历即实例化全部卡片状态、写出几十 KB 垃圾。⚠️ **禁止按行号批量替换 JS**（曾误换 3 处写路径）。
 - 两个队列共享 qi：取当前卡必须按 mode 分流（统一走 `currentCard()`）。
 - 卡片 id **绝不拼进内联 onclick**（章节名含引号会闭合属性）→ 用 `data-act`/`data-id` + 事件委托。
 - 完成态会整体替换 `cardWrap.innerHTML` → `ensureCard()` 用 boot 存的 `CARD_HTML` 快照还原。
@@ -93,6 +91,7 @@
 - 测试 `_test_cards_v3.js` / `_test_cards_v4.js`（**必须真加载 KaTeX**；每场景独立 `makeDom(seed)`，否则同 origin 共享 localStorage 互相污染出假失败）。
 
 ## 十、历史教训（别再犯）
-- **HTML 引用死链 → 公式全不渲染**：`cards.html` 曾写 `vendor/auto-render.min.js`（实际在 `vendor/katex/`）→ `renderMathInElement` 未定义 → `renderMath()` 静默 return。排查脚本 `_scan_deadrefs.js`。**测试要按 HTML 里真实 `<script src>` 顺序拼成一个函数体执行**（分文件 eval 会作用域隔离）。
+- **HTML 引用死链 → 公式全不渲染**：`cards.html` 曾把 `vendor/katex/auto-render.min.js` 写成 `vendor/auto-render.min.js` → `renderMathInElement` 未定义 → `renderMath()` 静默 return。排查脚本 `_scan_deadrefs.js`。**测试要按 HTML 里真实 `<script src>` 顺序拼成一个函数体执行**（分文件 eval 会作用域隔离）。
 - 题库交叉比对（mathnote-bank-compare skill）**只覆盖题库里有的题**，未收录的需人工或联网核卷。
 - 「条件不足/待核」往往不是真条件不足，而是**题面抄错**，先核对真题原貌再下结论。
+- 批量加粗结构关键词（必要条件/性质/定义/定理…）的脚本规则：不吞相邻词、不拆词（≤8 字）、**合并相邻加粗块**（否则出 `***`）。
