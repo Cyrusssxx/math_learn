@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>数二真题复盘与复习建议 · 2026-10-10</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --text:#2b3138; --text-dim:#5c6672; --text-faint:#8b95a1;
+    --accent:#4a7ab8; --accent-soft:rgba(74,122,184,.09); --accent-line:rgba(74,122,184,.30);
+    --border:#e3e7ec; --shadow:0 1px 2px rgba(20,30,45,.05),0 4px 14px rgba(20,30,45,.045);
+    --warn-bg:rgba(234,88,12,.10); --warn:#b45309;
+    --bad-bg:rgba(220,38,38,.09); --bad:#b3261e;
+    --ok-bg:rgba(34,139,84,.10); --ok:#1f7a4d;
+    --grid:#eef1f4;
+  }
+  html.dark{
+    --bg:#171b21; --card:#1e232b; --text:#e6eaef; --text-dim:#a8b2bd; --text-faint:#7d8794;
+    --accent:#8fb0d9; --accent-soft:rgba(143,176,217,.13); --accent-line:rgba(143,176,217,.34);
+    --border:#2c333c; --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);
+    --warn-bg:rgba(234,88,12,.16); --warn:#e8a05a;
+    --bad-bg:rgba(220,38,38,.16); --bad:#e88b83;
+    --ok-bg:rgba(34,139,84,.16); --ok:#6ec49a;
+    --grid:#262d36;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:15px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:36px 22px 80px}
+  h1{font-size:26px;margin:0 0 6px;letter-spacing:.2px}
+  h2{font-size:19px;margin:44px 0 14px;padding-left:11px;border-left:3px solid var(--accent)}
+  h3{font-size:15.5px;margin:22px 0 9px;color:var(--text);font-weight:600}
+  .sub{color:var(--text-dim);font-size:13.5px;margin:0 0 4px}
+  .lede{background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:10px;
+    padding:14px 18px;margin:20px 0 4px;font-size:14.5px;line-height:1.85}
+  .lede b{color:var(--accent)}
+
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+  @media(max-width:720px){.grid4{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:10px;
+    padding:14px 16px;box-shadow:var(--shadow)}
+  .stat .n{font-size:24px;font-weight:700;color:var(--accent);line-height:1.25}
+  .stat .n.red{color:var(--bad)} .stat .n.orange{color:var(--warn)} .stat .n.green{color:var(--ok)}
+  .stat .l{font-size:12.5px;color:var(--text-faint);margin-top:3px}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;
+    background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;
+    box-shadow:var(--shadow)}
+  th,td{padding:8px 11px;text-align:left;border-bottom:1px solid var(--grid)}
+  th{background:var(--accent-soft);color:var(--text-dim);font-weight:600;font-size:12.5px}
+  tr:last-child td{border-bottom:none}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .bar{height:9px;border-radius:5px;background:var(--accent);display:inline-block;vertical-align:middle}
+  .bar.hi{background:var(--bad)} .bar.mid{background:var(--warn)}
+
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.row2{grid-template-columns:1fr}}
+  .box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:15px 18px;
+    box-shadow:var(--shadow);margin:12px 0}
+  .box.blue{border-left:3px solid var(--accent)}
+  .box.orange{border-left:3px solid var(--warn);background:var(--warn-bg)}
+  .box.red{border-left:3px solid var(--bad);background:var(--bad-bg)}
+  .box.green{border-left:3px solid var(--ok);background:var(--ok-bg)}
+  .box .t{font-weight:600;margin-bottom:6px;font-size:14.5px}
+  .box.orange .t{color:var(--warn)} .box.red .t{color:var(--bad)} .box.green .t{color:var(--ok)}
+  .box ul{margin:6px 0 0;padding-left:20px} .box li{margin:4px 0}
+  .quote{color:var(--text-dim);font-style:normal;background:var(--bg);border-radius:6px;
+    padding:6px 10px;margin:5px 0;font-size:13px;display:block}
+  .quote::before{content:"「"} .quote::after{content:"」"}
+
+  .stage{display:grid;grid-template-columns:112px 1fr;gap:16px;margin:18px 0;
+    background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;
+    box-shadow:var(--shadow)}
+  @media(max-width:640px){.stage{grid-template-columns:1fr;gap:6px}}
+  .stage .when{color:var(--accent);font-weight:600;font-size:13.5px;line-height:1.6}
+  .stage .when small{display:block;color:var(--text-faint);font-weight:400;font-size:12px}
+  .stage ol{margin:0;padding-left:20px} .stage li{margin:5px 0}
+  kbd{background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;
+    padding:1px 6px;font-size:12.5px;font-family:inherit;color:var(--accent)}
+  .tip{font-size:12.5px;color:var(--text-faint);margin-top:8px}
+  svg.i{width:14px;height:14px;vertical-align:-2px;margin-right:5px;stroke:currentColor;
+    fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .legend{font-size:12.5px;color:var(--text-faint);margin-top:8px}
+  .legend span{display:inline-block;margin-right:16px}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>数二真题复盘与复习建议</h1>
+  <p class="sub">数据来源：数学笔记标注-2026-10-10.json ｜ 27 套真题（2000–2026）｜ 统计口径：收藏 300 · 标记 228 · 笔记 268 · 试卷点评 22</p>
+
+  <div class="lede">
+    <b>一句话结论：</b>你的基础盘（老卷）已经稳在 90–110，真正拉分的地方集中在三块——<b>微分方程</b>（标记最多，权重 79）、
+    <b>导数应用与积分应用</b>（权重 61）、<b>计算准确率</b>（4 套卷的点评都点到）。
+    另外有一条容易被忽略的信号：<b>标记率从老卷的 0–13% 一路升到新卷的 50–68%</b>，说明近年命题的表达方式对你而言是新的战场，而不是知识点本身没学过。
+  </div>
+
+  <div class="grid4">
+    <div class="stat"><div class="n">27</div><div class="l">已完成套卷</div></div>
+    <div class="stat"><div class="n red">71</div><div class="l">标「不会」（硬伤）</div></div>
+    <div class="stat"><div class="n orange">99</div><div class="l">标「不熟」</div></div>
+    <div class="stat"><div class="n green">58</div><div class="l">标「已掌握」</div></div>
+  </div>
+  <p class="tip">另有 300 道收藏、268 条真题笔记、22 份试卷点评。收藏与标记的交集有 <b>174 道</b>——这些是你「想再看」又「确实没底」的题，优先级最高。</p>
+
+  <h2>一、分数地图：问题集中在后段年份</h2>
+  <table>
+    <thead><tr><th>年份</th><th style="width:150px">分数（自评）</th><th style="width:210px">标记率</th><th>卷面点评要点</th></tr></thead>
+    <tbody>
+      <tr><td>2006</td><td>110</td><td><span class="bar" style="width:8px"></span> 4%</td><td>偏导求错；泰勒尾项漏高次项</td></tr>
+      <tr><td>2007</td><td>100+ → 二刷更差</td><td><span class="bar" style="width:0"></span> 0%</td><td>第二次没做完</td></tr>
+      <tr><td>2008</td><td>100–110</td><td><span class="bar" style="width:8px"></span> 4%</td><td></td></tr>
+      <tr><td>2009</td><td style="color:var(--bad)">60–70</td><td><span class="bar mid" style="width:26px"></span> 13%</td><td>很多知识点遗忘</td></tr>
+      <tr><td>2010</td><td>90–100</td><td><span class="bar" style="width:18px"></span> 9%</td><td>较易</td></tr>
+      <tr><td>2011</td><td>80</td><td><span class="bar" style="width:8px"></span> 4%</td><td>导数定义混淆；旋转体 y 型；反常积分；初等矩阵的逆</td></tr>
+      <tr><td>2012</td><td>100</td><td><span class="bar" style="width:8px"></span> 4%</td><td>多计算错误</td></tr>
+      <tr><td>2013</td><td>90–100</td><td><span class="bar" style="width:8px"></span> 4%</td><td>二次型定义；秩一矩阵；向量组等价</td></tr>
+      <tr><td>2014</td><td>80–90</td><td><span class="bar" style="width:8px"></span> 4%</td><td>选择错俩、大题错一堆</td></tr>
+      <tr><td>2015</td><td>约 110</td><td><span class="bar mid" style="width:70px"></span> 35%</td><td>多元微分忘换元；莱布利兹公式；积分上下限</td></tr>
+      <tr><td>2016</td><td style="color:var(--bad)">不及格</td><td><span class="bar hi" style="width:114px"></span> 57%</td><td>好多不会</td></tr>
+      <tr><td>2017</td><td>100–110</td><td><span class="bar hi" style="width:104px"></span> 52%</td><td></td></tr>
+      <tr><td>2018</td><td>100</td><td><span class="bar mid" style="width:60px"></span> 30%</td><td>物理应用不熟悉</td></tr>
+      <tr><td>2019</td><td style="color:var(--bad)">70–80</td><td><span class="bar mid" style="width:60px"></span> 30%</td><td>没写完；「全会的仅 110–120，注意错误」</td></tr>
+      <tr><td>2020</td><td style="color:var(--bad)">70</td><td><span class="bar hi" style="width:114px"></span> 57%</td><td>不能局部等价；∞−∞ 转成相比；secx³ 积分</td></tr>
+      <tr><td>2021</td><td style="color:var(--ok)">120</td><td><span class="bar" style="width:46px"></span> 23%</td><td>公共解与解的关系；向量组等价</td></tr>
+      <tr><td>2022</td><td style="color:var(--ok)">116</td><td><span class="bar mid" style="width:72px"></span> 36%</td><td></td></tr>
+      <tr><td>2023</td><td>110–120</td><td><span class="bar hi" style="width:118px"></span> 59%</td><td>猜对了两道题</td></tr>
+      <tr><td>2024</td><td style="color:var(--bad)">难飞了</td><td><span class="bar hi" style="width:136px"></span> 68%</td><td>标记率最高的一卷</td></tr>
+      <tr><td>2025</td><td>110–120</td><td><span class="bar hi" style="width:100px"></span> 50%</td><td>选填大多不会</td></tr>
+      <tr><td>2026</td><td>100–105</td><td><span class="bar hi" style="width:100px"></span> 50%</td><td>小错误太多</td></tr>
+    </tbody>
+  </table>
+  <p class="legend"><span><i class="dot" style="background:var(--accent)"></i>标记率 &lt;20%</span><span><i class="dot" style="background:var(--warn)"></i>20–45%</span><span><i class="dot" style="background:var(--bad)"></i>&gt;45%</span>　标记率 = 该卷标「不会 + 不熟」的题数 ÷ 卷题数</p>
+
+  <h2>二、三条最该正视的信号</h2>
+
+  <div class="box red">
+    <div class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>信号 1：标记率随年份单调抬升，说明卡的是「题型表达」不是「知识点」</div>
+    <p>老卷（2000–2014）标记率 0–13%，新卷（2015–2026）跳到 23–68%。如果纯粹是知识点没学，不会呈现这么干净的年份分界。
+    更可能的解释是：近年真题的<strong>设问方式</strong>（抽象函数、含参讨论、跨章节缝合）你还没形成条件反射，
+    而老卷的套路题你已经很熟。</p>
+    <p class="tip">这决定了二轮的重点：<strong>不要按年份顺序重刷，要按「新卷的题型」横向归类刷</strong>。</p>
+  </div>
+
+  <div class="box orange">
+    <div class="t"><svg class="i" viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>信号 2：填空题标记率是选择题的 2.4 倍</div>
+    <p>选择 7% / 填空 <strong>17%</strong> / 解答 4%。填空题题量少（171 道）却贡献了 29 个标记，
+    而它恰恰是最不能靠选项排除、必须硬算的题型。</p>
+    <p class="tip">配合「2025 选填大多不会」「2019 没写完」这两条点评看，<strong>选填的速度与准确率</strong>是时间分配的短板。</p>
+  </div>
+
+  <div class="box orange">
+    <div class="t"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>信号 3：四套卷的点评都指向「非知识性失分」</div>
+    <p>2012「多计算错误」、2014「大题错一堆」、2019「全会的仅 110–120，注意错误」、2026「小错误太多」。
+    这几套的标记率并不高（4%–50%），说明<strong>会做但没做对</strong>的比例不小。</p>
+    <p class="tip">换个角度：2019 那条最有参考价值——「全会」的上限是 110–120，说明<strong>当前瓶颈一半在准确率，一半在硬伤</strong>。</p>
+  </div>
+
+  <h2>三、硬伤清单：优先补这 5 块</h2>
+  <p class="sub">权重 = 不会×2 + 不熟；可刷题量 = 分类题库里该知识点的题目总数（含真题 + 核心题库 + 大观园 + 线代重点题）</p>
+  <table>
+    <thead><tr><th style="width:34px">#</th><th>知识点</th><th class="num" style="width:64px">权重</th><th class="num" style="width:80px">可刷题量</th><th style="width:230px">从你的点评/笔记里看到的症状</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>微分方程</strong>（解方程 / 以各种形式给出 / 处理解 / 解的性质）</td><td class="num" style="color:var(--bad);font-weight:700">79</td><td class="num">248</td><td>「很多知识点遗忘」；近年改为含参、变系数、与极限/反常积分结合</td></tr>
+      <tr><td>2</td><td><strong>一元微分 · 导数应用</strong></td><td class="num" style="color:var(--bad);font-weight:700">34</td><td class="num">348</td><td>极值/拐点/渐近线/零点问题；2020「斜渐近线」、2023「无极值点但有拐点」、2024「曲率圆」</td></tr>
+      <tr><td>3</td><td><strong>一元积分 · 应用 + 计算 + 反常</strong></td><td class="num" style="color:var(--bad);font-weight:700">35</td><td class="num">360</td><td>「旋转体 y 型 / 柱壳法 / 直角转极坐标」反复出现；「反常积分与幂函数的关系」</td></tr>
+      <tr><td>4</td><td><strong>抽象行列式计算</strong></td><td class="num" style="color:var(--warn);font-weight:700">19</td><td class="num">78</td><td>2023 抽象行列式整题不会；线代里最集中的一块</td></tr>
+      <tr><td>5</td><td><strong>二重积分 · 计算</strong></td><td class="num" style="color:var(--warn);font-weight:700">11</td><td class="num">86</td><td>2024「区域由 xy=1/3、xy=3 与直线围成」——换元处理的典型</td></tr>
+    </tbody>
+  </table>
+
+  <div class="row2">
+    <div class="box blue">
+      <div class="t">还散落着这几处小硬伤</div>
+      <ul>
+        <li><strong>偏导 / 多元微分</strong>（权重 11）：换元、偏积分、更换积分次序 —— 2006/2011/2013/2015 四套点评都点到</li>
+        <li><strong>极限处理</strong>：2020 原话「不能局部等价！！！！∞−∞ 转成相比，倒代换换为 0」</li>
+        <li><strong>泰勒 / 高阶导</strong>：2006「展开到第几项？尾项漏高次项」；2015「莱布利兹公式不熟」</li>
+        <li><strong>线代概念</strong>：向量组等价、公共解、解的关系、秩一矩阵 xᵀα = αᵀx、初等矩阵的逆</li>
+        <li><strong>物理应用</strong>：2018 / 2026（引力做功、细直棒）</li>
+      </ul>
+    </div>
+    <div class="box green">
+      <div class="t">你已经做得不错的地方</div>
+      <ul>
+        <li>2006 / 2015 / 2017 都在 100–110，说明<strong>中档题的基本功是有的</strong></li>
+        <li>2021 拿到 120、2022 拿到 116 —— 状态好的时候上限够</li>
+        <li>58 道主动标了「已掌握」，说明你在做掌握度管理，方法是对的</li>
+        <li>268 条笔记里最多的关键词是「特征值 / 秩 / 换元 / 定义」，这些正是你<strong>已经在总结</strong>的地方</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>四、10 周计划（到 12 月中下旬）</h2>
+
+  <div class="stage">
+    <div class="when">第 1–3 周<small>10/10 – 10/31</small></div>
+    <div>
+      <strong>补硬伤，只做「不会」和「不熟」</strong>
+      <ol>
+        <li><strong>微分方程专项（最优先）</strong>：把 15 道「不会」+ 19 道「不熟」先自己做一遍，再刷题库里该知识点的其余题。目标是把 248 道里挑 60～80 道过一遍。</li>
+        <li><strong>导数应用 + 积分应用</strong>：从 174 道「收藏∩标记」里筛这两个知识点，一天 8～10 道，重点练<b>渐近线、拐点、旋转体、柱壳法</b>。</li>
+        <li>每道错题在题卡里写一句错因（你已经在做了，保持）。<strong>写完隔天回看一遍</strong>——现在的 268 条笔记大多是「当时懂了」，缺的是回看。</li>
+      </ol>
+      <p class="tip">操作：分类题库 → 顶栏切到<b>核心题库</b> → 左侧选知识点 → 打开<b>「无标记优先」</b> → 用<b>「不会 / 不熟」筛选器</b>集中处理。</p>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="when">第 4–7 周<small>11/1 – 11/28</small></div>
+    <div>
+      <strong>二轮真题：不打散，按「新卷题型」横向刷</strong>
+      <ol>
+        <li><strong>重做 2016 / 2020 / 2023 / 2024</strong> 这四套标记率最高的卷（57% / 57% / 59% / 68%）。二刷标准不是「做完」，是<strong>每道标记题都能当场讲出思路</strong>。</li>
+        <li><strong>选填限时训练</strong>：每天一组（8 选择 + 6 填空）限 40 分钟，专治「选填大多不会」和「没写完」。做完只统计<strong>非知识性失分</strong>。</li>
+        <li><strong>线代集中收口</strong>：抽象行列式（78 题）+ 向量组等价 + 公共解 + 解的关系统一刷一遍，线代总共只有 349 题，两周能吃透。</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="when">第 8–10 周<small>11/29 – 12/20</small></div>
+    <div>
+      <strong>模考 + 错题回顾</strong>
+      <ol>
+        <li>每周 2 套整卷（按 8:30–11:30 全真时间），用没做过的年份或重做最低分的几套。</li>
+        <li>模考后当天只做一件事：把失分分成<strong>「不会 / 会而不对 / 时间不够」</strong>三类，分别计数。三类里只要「会而不对」还占三成以上，就继续练计算不打新题。</li>
+        <li>最后两周只看<b>自己的 268 条笔记 + 174 道收藏∩标记</b>，不再开新题。</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>五、今天就能开始的 3 件事</h2>
+  <div class="row2">
+    <div class="box blue">
+      <div class="t">1. 先把「不会」的 71 道清一遍</div>
+      <p>在分类题库里用「不会」筛选器把它们调出来，一道一道过。这 71 道是你自己判定的硬伤，性价比最高。</p>
+    </div>
+    <div class="box blue">
+      <div class="t">2. 微分方程开个专项</div>
+      <p>它是唯一一个「标记最多 + 近年题型变化大 + 题库备货充足（248 题）」的板块，投入产出比最高。</p>
+    </div>
+    <div class="box blue">
+      <div class="t">3. 建一个「计算失误」计数器</div>
+      <p>每次做完卷子，记下「会但算错」丢了多少分。这是唯一能直接反映准确率训练效果的指标，比总分更灵敏。</p>
+    </div>
+  </div>
+
+  <p class="tip" style="margin-top:30px;border-top:1px solid var(--border);padding-top:14px">
+    统计脚本从 300 收藏 / 228 标记 / 22 份试卷点评 / 268 条笔记里交叉得到；「不会」71 道已逐条映射到知识点树。
+    分数为自评区间，取中值用于排序，不代表精确得分。
+  </p>
+
+</div>
+<script>
+  if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');
+</script>
+</body>
+</html>
