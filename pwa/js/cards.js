@@ -99,11 +99,16 @@
     }
 
     // ---------------- 拆卡 ----------------
+    /** 剥掉 HTML 注释。notes.json 的 `## 标题 <!-- 源:p12 -->` 里，注释是给作者看的题源标注，
+     *  mdToHtml 渲染时会整行剥掉；拆卡也必须同样剥掉 —— 否则章节名（进而卡片 id 与 UI 标题）
+     *  会带上 `<!-- 源:p12 -->` 并在卡片标题里**当文字显示出来**（实测 596/686 张卡受影响）。 */
+    function stripCmt(s) { return String(s == null ? '' : s).replace(/<!--[\s\S]*?-->/g, ''); }
+
     /** 按 `##` 章节拆分。首个 ## 之前的内容（导读/大纲）单独作为「概述」卡返回，
      *  否则这部分内容会被整篇丢弃（实测 32 篇共 596 字）。kind 由 cands 决定，多半是阅读卡，不占 SRS 额度 */
     function splitSections(md) {
         const secs = [];
-        const lines = String(md || '').split('\n');
+        const lines = String(md || '').split(/\r?\n/).map(stripCmt);
         let cur = null, pre = [];
         for (const ln of lines) {
             const m = /^##\s+(.*)$/.exec(ln);
@@ -304,6 +309,11 @@
         return cards;
     }
 
+    /** 旧卡片 id → 新卡片 id：剥掉注释并规范化空白（`名 <!-- 源:x -->#2` → `名#2`） */
+    function legacyCardId(id) {
+        return stripCmt(String(id)).replace(/\s+/g, ' ').replace(/\s+#/g, '#').replace(/::\s+/g, '::').trim();
+    }
+
     /** 应用本地改动：清理失效进度 → 覆盖编辑 → 追加自建卡（都在笔记拆卡之后） */
     function applyStoredCards() {
         // 拆卡规则变更会让卡片 id（章节名#序号）变化，旧进度不再对应任何卡。
@@ -311,6 +321,33 @@
         // 否则一次 fetch 失败就会把用户所有复习进度抹掉。
         if (CARDS.length) {
             const alive = new Set(CARDS.map(c => c.id));
+            // ⚠️ 迁移：卡片 id 过去把章节名里的 `<!-- 源:p12 -->` 注释一起拼了进去，
+            // 现在章节名已统一剥掉注释，旧 id 必然对不上新卡 —— 直接当垃圾清掉会让
+            // 用户此前在这些卡上的复习进度全白费。这里把旧 id 也剥一遍注释再匹配一次，
+            // 能对上就把进度搬过去。（只搬家，不改写别的字段）
+            let moved = 0;
+            for (const id in ST.cards) {
+                if (alive.has(id)) continue;
+                const nid = legacyCardId(id);
+                if (nid !== id && alive.has(nid) && !ST.cards[nid]) {
+                    ST.cards[nid] = ST.cards[id]; delete ST.cards[id]; moved++;
+                }
+            }
+            for (const key of ['over', 'hidden']) {
+                const map = ST[key];
+                if (!map) continue;
+                for (const id in map) {
+                    if (alive.has(id)) continue;
+                    const nid = legacyCardId(id);
+                    if (nid !== id && alive.has(nid) && !map[nid]) { map[nid] = map[id]; delete map[id]; }
+                }
+            }
+            // 覆盖记录里的 chapter 是当初直接抄卡片标题存下来的，同样带注释 → 一并剥掉，
+            // 否则「标题」这个显示字段仍然会把 `<!-- 源:x -->` 当文字显示。
+            for (const id in (ST.over || {}))
+                if (ST.over[id] && typeof ST.over[id].chapter === 'string') ST.over[id].chapter = stripCmt(ST.over[id].chapter).trim();
+            if (moved) ST.progressMigrated = (ST.progressMigrated || 0) + moved;
+
             let dropped = 0;
             for (const id in ST.cards) {
                 if (!alive.has(id)) { delete ST.cards[id]; dropped++; }
