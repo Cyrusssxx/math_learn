@@ -123,6 +123,7 @@ function inline(s) {
         .replace(/!\[(.*?)\]\((.+?)\)/g, '<img class="li-img" src="$2" alt="$1" loading="lazy">')
         .replace(/\[([^\]]+)\]\(#([A-Za-z0-9_\-]+)\)/g, '<a class="jumplink" href="#$2">$1</a>')
         .replace(/&lt;br\s*\/?&gt;/gi, '<br>')   // esc() 会把 <br> 转义成 &lt;br&gt;，这里还原（表格内换行依赖它）
+        .replace(/`([^`\n]+)`/g, '<code class="md-code">$1</code>')   // 行内代码（笔记里用来引用其它篇名）
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         .replace(/⭐+/g, '<span class="star">$&</span>');
 }
@@ -280,6 +281,13 @@ function mdToHtml(md) {
             chIdx++;
             out.push(`<h2 id="ch-${chIdx}">${inline(line.slice(3).trim())}</h2>`);
             i++;
+        } else if (line.startsWith('#### ')) {
+            out.push(`<h4 class="md-h4">${inline(line.slice(5).trim())}</h4>`);
+            i++;
+        } else if (line.startsWith('### ')) {
+            // 小节标题：不进 chapters（## 才是章），仅作正文层级
+            out.push(`<h3 class="md-h3">${inline(line.slice(4).trim())}</h3>`);
+            i++;
         } else if (/^:::\s*fold\b/.test(line.trim())) {
             // 折叠块：::: fold 标题 … :::（答案/解析默认收起）
             const title = line.trim().replace(/^:::\s*fold\s*/, '') || '展开';
@@ -312,6 +320,19 @@ function mdToHtml(md) {
             const fid = 'fig-' + m[2].replace(/^.*\//, '').replace(/\.[^.]+$/, '').replace(/[^A-Za-z0-9_\-]/g, '_');
             out.push(`<figure class="md-img" id="${fid}"><img src="${esc(m[2])}" alt="${esc(m[1])}" loading="lazy">` +
                 (m[1] ? `<figcaption>${esc(m[1])}</figcaption>` : '') + '</figure>');
+            i++;
+        } else if (/^\s*>/.test(line)) {
+            // 引用块：连续 > 行合并成一个 <blockquote>；块内空 > 行渲染成 <br> 保留分段
+            const buf = [];
+            while (i < lines.length && /^\s*>/.test(lines[i])) {
+                buf.push(lines[i].replace(/^\s*>\s?/, ''));
+                i++;
+            }
+            out.push('<blockquote class="md-quote">' +
+                buf.map(t => (t.trim() ? breakLines(t.trim()) : '<br>')).join('<br>') + '</blockquote>');
+        } else if (/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/.test(line)) {
+            // 分隔线 --- / *** / ___
+            out.push('<hr class="md-hr">');
             i++;
         } else if (/^\s*- /.test(line)) {
             const items = [];

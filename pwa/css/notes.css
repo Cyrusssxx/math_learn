@@ -358,6 +358,57 @@ html.dark .exam-link:hover { color: #1e1e2e; }
     border-bottom: 1px solid var(--border);
 }
 
+/* h3/h4：mdToHtml 原先只认 ## ，笔记里写成 ### 的内容会被当成普通段落、把 ### 原样显示出来。
+   现按内容区块规范给 h3 一条 3px 左导轨，h4 只靠字重与缩进区分，不再抢 h2 的视觉层级。 */
+.note-article h3.md-h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 30px 0 10px;
+    padding: 2px 0 2px 10px;
+    border-left: 3px solid var(--accent);
+    border-radius: 2px;
+    color: var(--text);
+    scroll-margin-top: 24px;
+}
+.note-article h4.md-h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 22px 0 8px;
+    padding-left: 2px;
+    color: var(--text);
+    scroll-margin-top: 24px;
+}
+
+/* 引用块 > ：淡蓝底 + 左导轨（与「解析/提示」同一套语义色） */
+.note-article blockquote.md-quote {
+    margin: 14px 0;
+    padding: 9px 14px;
+    border-left: 3px solid var(--tip-border);
+    border-radius: 0 6px 6px 0;
+    background: var(--tip-bg);
+    line-height: 1.95;
+    color: var(--text);
+}
+.note-article blockquote.md-quote strong { color: var(--strong); }
+
+/* 分隔线 --- */
+.note-article hr.md-hr {
+    margin: 26px 0;
+    border: none;
+    border-top: 1px dashed var(--border);
+}
+
+/* 行内代码 `xxx` */
+.note-article code.md-code {
+    font-family: ui-monospace, SFMono-Regular, Consolas, 'Courier New', monospace;
+    font-size: .88em;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: var(--code-bg);
+    color: var(--strong);
+    word-break: break-all;
+}
+
 .note-article p { margin: 14px 0; line-height: 2.0; }
 
 /* 加粗批注用暖色突出 */
