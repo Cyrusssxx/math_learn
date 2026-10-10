@@ -1022,8 +1022,23 @@ let sideClosed = (function () { try { return localStorage.getItem(CAT_SIDE_KEY) 
 // 年份排序：默认倒序（新题在上面）
 const YEAR_SORT_KEY = 'catYearSortDesc';
 let yearSortDesc = (function () { try { return localStorage.getItem(YEAR_SORT_KEY) !== '0'; } catch (e) { return true; } })();
-let examPapers = [];    // 真题套卷
+let examPapers = [];    // 真题套卷（含后并入的大观园习题卷）
 let corePapers = [];    // 核心题库（单「卷」，内部按章节分节）
+let examStemSet = new Set();   // 真题题干归一化集合（仅真题，不含大观园习题卷）——供大观园题库精确去重
+
+// 题干归一化：只删 LaTeX 结构符号、保留公式内容里的字母数字汉字（与数据侧判重口径一致）。
+// 切勿把 $...$ 整体替换成占位符——题干会退化成十几个字，短题干互相假匹配。
+function normStem(s) {
+    return String(s || '')
+        .normalize('NFKC')
+        .replace(/\[图:[a-z0-9]+\]/g, '')
+        .replace(/\\(begin|end)\{[a-z]*matrix\}/g, ' ')
+        .replace(/\\(left|right|big|Big|bigg|Bigg|displaystyle|limits|nolimits)\b/g, ' ')
+        .replace(/\\[a-zA-Z]+\s*/g, '')
+        .replace(/\\/g, '')
+        .replace(/[${}&#_^~|]/g, '')
+        .replace(/[^\w\u4e00-\u9fff]/g, '');
+}
 const SRC_META = {
     exam: { label: '📝 真题', title: '分类题库', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
     core: { label: '📘 核心题库', title: '核心题库', sub: '' },
@@ -1111,8 +1126,21 @@ function buildEntries() {
     }
     // 合并线代 346 题重点题库（挂线代知识点；真题模式与核心题库模式都并入这套统一的 346 题）
     // 线代已全量收敛至 346 题做题本，不再混入未精选的线代题目，保证两套题库线代完全统一
+    //
+    // 同题去重（按 qid#catId）：xd 题若带 linkedQid 指向已有真题/大观园题（彼此同题），
+    // qidOf 会让两者得到同一 qid；若不加去重，同一知识点下会渲染两遍且 DOM id 重复
+    // （实测 catId=10 下 5 组：2012数二真题-14 / 2010数二真题-14 / 2003数二真题-6 /
+    // DG900JXB-27 / DG900JXB-28，均由 xd 侧 3862/3863/3865/3872/3875 重定向而来）。
+    // 只按 catId 粒度去重：同一知识点留真题侧那条，同题挂的**其他**知识点仍保留，知识点覆盖不丢。
+    // 注意 qidOf 的重定向本身必须保留（收藏/标记主键仍需统一到真题侧）。
+    const seenQC = new Set();
+    for (const e of allEntries) seenQC.add(qidOf(e.paper.id, e.q.no) + '#' + e.catId);
     for (const e of xdItems) {
+        const qd = qidOf(e.paper.id, e.q.no);
         for (const cid of e.catIds) {
+            const key = qd + '#' + cid;
+            if (seenQC.has(key)) continue;
+            seenQC.add(key);
             allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
         }
     }
@@ -2199,15 +2227,36 @@ window.addEventListener('scroll', () => hideDeepFlyNow(), { passive: true });
 
 // ============ 初始化 ============
 async function init() {
-    const [er, cr, br, corer] = await Promise.all([
+    const [er, cr, br, corer, dgyr] = await Promise.all([
         fetch('data/exam.json'),
         fetch('data/exam_categories.json'),
         fetch('data/bank_questions.json').catch(() => null),
         fetch('data/core_bank.json').catch(() => null),
+        fetch('data/dgy_items.json').catch(() => null),
     ]);
     if (!er.ok) throw new Error('加载真题失败: ' + er.status);
     if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
     examPapers = await er.json();
+    // 真题题干归一化集合：必须在 concat 大观园习题卷**之前**构建（否则习题卷也会进集合，
+    // 导致下面 bankItems 的精确去重把习题卷当真题、误伤大观园的题）
+    examStemSet = new Set();
+    for (const p of examPapers) {
+        for (const s of (p.sections || [])) {
+            for (const q of (s.questions || [])) {
+                const ns = normStem(q.stem);
+                if (ns.length >= 20) examStemSet.add(ns);
+            }
+        }
+    }
+    // 大观园 900题·880题·姜晓千（数二习题，非真题）：
+    // 只在分类题库里与真题合并成一棵树，**不进 exam.html 的试卷列表**
+    // （已从 exam.json 拆出到 dgy_items.json；qid 仍是 DG900JXB-<no>，收藏主键不变）
+    if (dgyr && dgyr.ok) {
+        try {
+            const dgy = await dgyr.json();
+            examPapers = examPapers.concat(dgy);
+        } catch (e) { console.warn('大观园习题库解析失败', e); }
+    }
     cats = await cr.json();
     // 核心题库（大观严选题 606 题，categoryIds 已映射到同一分类体系）
     if (corer && corer.ok) {
@@ -2237,10 +2286,18 @@ async function init() {
             });
             return { paper: { id: 'bank', year: ym ? ym[1] : '', title: it.source || '大观园真题' }, q, catIds: it.categoryIds || [] };
         })
-        // 同题去重：source 为「(YY)YY 数二(真题)」且现有已有同年套卷 → 隐藏大观园版（math-note 版已在），避免同题两版；1987-1999 等老年份与合卷题保留
+        // 同题去重（两条规则）：
+        // ① source 为「(YY)YY 数二(真题)」且已有同年套卷 → 隐藏大观园版（math-note 版已在）；
+        //    1987-1999 等老年份与合卷题保留。
+        // ② 题干归一化后与真题完全相同 → 一律隐藏。仅靠 ① 会漏掉「无括号 / 合卷(数二三) /
+        //    带顿号」等 19 种写法（实测漏网 19 道，同题在分类页显示两遍且 DOM id 重复）。
+        //    用精确题干比对而非放宽 source 正则——放宽会误伤 563 道「改写版」真题（实测）。
+        //    注意：真题题干集合要在 concat 大观园习题卷之前建，否则会把习题卷也算进去。
         .filter(e => {
             const m = /^\(?(19\d\d|20\d\d) 数二(真题)?\)?$/.exec(e.q.source || '');
-            return !(m && examYears.has(m[1]));
+            if (m && examYears.has(m[1])) return false;
+            const ns = normStem(e.q.stem);
+            return !(ns.length >= 20 && examStemSet.has(ns));
         });
     }
     // 线代 346 题重点题库（xd_bank.json）：作为全站唯一统一的线代题库
