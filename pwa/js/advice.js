@@ -1,16 +1,19 @@
 /* ============================================================================
-   核心题库 · 刷题建议（分类页专用悬浮面板）
+   刷题建议（分类页专用悬浮面板）
    ----------------------------------------------------------------------------
    与「掌握地图」的分工：
      掌握地图 = 看**当前数据源**的整体分布（色块图）
-     本面板   = 只针对**核心题库**（core_bank.json，741 题），回答「接下来刷哪个知识点」
+     本面板   = 针对「核心题库 + 线代重点题」（core_bank.json 741 题 + xd_bank.json 333
+                题 = 1074 题），回答「接下来刷哪个知识点」
+   ⚠️ 范围必须与分类页 core 模式的显示口径一致：分类页线代分支是 core 线代 + xd 合并
+      显示的，面板若只算 corePapers，总数会比用户看到的少 333 题（2026-10-11 用户发现）。
 
    两个口径刻意分开，避免混淆：
      · 薄弱 = 你在**全部题目**（数二真题 + 大观园习题 + 核心题库 + 线代重点题）里
               标记的「不会×2 + 不熟×1」，聚合到 L2 知识点。
               用全库而非只用核心题库：核心题库目前标记很少，只用它算权重会
               让几乎所有知识点都是 0，排不出优先级。
-     · 待刷 = **核心题库**里还没掌握的题数 = 未刷 + 不会 + 不熟。
+     · 待刷 = 核心题库 + 线代重点题里还没掌握的题数 = 未刷 + 不会 + 不熟。
    推荐分 = 薄弱 × 4 + log2(待刷 + 1)，让「有短板 + 还有余粮」的排前面。
    ============================================================================ */
 
@@ -47,35 +50,42 @@ function advWeight() {
     return W;
 }
 
-/** 汇总核心题库的四态（按 L2 知识点 + 总计） */
+/** 汇总「核心题库 + 线代重点题」的四态(按 L2 知识点 + 总计)。
+ *  ⚠️ 范围与分类页 core 模式对齐:分类页线代分支 = core 线代 33 + xd 333 合并显示,
+ *  面板若只算 corePapers 会比用户看到的少 333 题(实测踩到:用户看到 708+380,
+ *  面板却显示 741,以为数字错了)。xd 题主键 = qidOf('xd', no) = 'xd-<no>' ——
+ *  xd 的收藏/标记/笔记就存在这个键上(用户标记里 31 个 xd-N 佐证),
+ *  不要用 linkedQid 当主键:那 51 处是用户标的**真题**,不是 xd 题。 */
 function advCore() {
     const st = (typeof statusGet === 'function') ? (statusGet() || {}) : {};
     const fav = (typeof favGet === 'function') ? (favGet() || {}) : {};
     const tot = { total: 0, mst: 0, unk: 0, unf: 0, none: 0 };
     const byCid = {};
+    const eat = (paperId, q, cids) => {
+        const qid = qidOf(paperId, q.no);
+        const s2 = st[qid] || null;
+        const f = !!fav[qid];
+        // 四态互斥:不会 / 不熟 / 已掌握(显式标记,或已收藏且无薄弱标记)/ 未刷
+        const k = (s2 === 'unknown') ? 'unk'
+            : (s2 === 'unfamiliar') ? 'unf'
+                : (s2 === 'mastered' || f) ? 'mst' : 'none';
+        tot.total++; tot[k]++;
+        for (const cid of (cids || [])) {
+            const c = cats[String(cid)];
+            if (!c || c.level !== 2) continue;
+            const o = byCid[cid] || (byCid[cid] = {
+                id: Number(cid), name: c.display || c.name, path: c.path || '',
+                total: 0, mst: 0, unk: 0, unf: 0, none: 0,
+            });
+            o.total++; o[k]++;
+        }
+    };
     for (const p of (typeof corePapers !== 'undefined' && corePapers || [])) {
         for (const s of (p.sections || [])) {
-            for (const q of (s.questions || [])) {
-                const qid = qidOf(p.id, q.no);
-                const s2 = st[qid] || null;
-                const f = !!fav[qid];
-                // 四态互斥：不会 / 不熟 / 已掌握（显式标记，或已收藏且无薄弱标记）/ 未刷
-                const k = (s2 === 'unknown') ? 'unk'
-                    : (s2 === 'unfamiliar') ? 'unf'
-                        : (s2 === 'mastered' || f) ? 'mst' : 'none';
-                tot.total++; tot[k]++;
-                for (const cid of (q.categoryIds || [])) {
-                    const c = cats[String(cid)];
-                    if (!c || c.level !== 2) continue;
-                    const o = byCid[cid] || (byCid[cid] = {
-                        id: Number(cid), name: c.display || c.name, path: c.path || '',
-                        total: 0, mst: 0, unk: 0, unf: 0, none: 0,
-                    });
-                    o.total++; o[k]++;
-                }
-            }
+            for (const q of (s.questions || [])) eat(p.id, q, q.categoryIds);
         }
     }
+    for (const e of (typeof xdItems !== 'undefined' && xdItems || [])) eat(e.paper.id, e.q, e.catIds);
     return { tot, byCid };
 }
 
@@ -94,8 +104,8 @@ function openStudyAdvice() {
             <div class="an-panel adv-panel" onclick="event.stopPropagation()">
                 <div class="an-head">
                     <div>
-                        <div class="an-title">💡 核心题库 · 刷题建议</div>
-                        <div class="an-sub" id="advSub">按「你的薄弱标记 × 核心题库待刷量」排出优先顺序 · 点一行直达该知识点</div>
+                        <div class="an-title">💡 刷题建议（核心题库 + 线代重点题）</div>
+                        <div class="an-sub" id="advSub">按「你的薄弱标记 × 待刷量」排出优先顺序 · 范围与分类页 core 模式一致 · 点一行直达该知识点</div>
                     </div>
                     <div class="adv-headbtns">
                         <button class="an-x" onclick="closeStudyAdvice()" title="关闭">✕</button>
@@ -123,6 +133,9 @@ function openStudyAdvice() {
     const W = advWeight();
     const data = advCore();
     const t = data.tot;
+    // 纯 core_bank 题数(不含 xd)—— 只用于顶部标签里拆分显示
+    const CORE_ONLY_N = (typeof corePapers !== 'undefined' ? corePapers : [])
+        .reduce((a, p) => a + (p.sections || []).reduce((x, s) => x + (s.questions || []).length, 0), 0);
     // 组装行：只保留核心题库里有题的 L2 知识点
     const rows = Object.keys(data.byCid).map(cid => {
         const o = data.byCid[cid];
@@ -141,7 +154,7 @@ function openStudyAdvice() {
     const bars = `
         <div class="adv-ov">
             <div class="adv-ov-main">
-                <div class="adv-ov-num"><b>${t.total}</b> 题<span>核心题库总量</span></div>
+                <div class="adv-ov-num"><b>${t.total}</b> 题<span>题库总量（核心 ${CORE_ONLY_N} + 线代重点 ${t.total - CORE_ONLY_N}）</span></div>
                 <div class="adv-ov-num adv-ok"><b>${t.mst}</b> 题<span>已掌握（${advPct(t.mst, t.total)}）</span></div>
                 <div class="adv-ov-num adv-bad"><b>${t.unk}</b> 题<span>不会</span></div>
                 <div class="adv-ov-num adv-warn"><b>${t.unf}</b> 题<span>不熟</span></div>
@@ -185,7 +198,7 @@ function openStudyAdvice() {
                 <th style="width:34px">#</th>
                 <th>知识点</th>
                 <th style="width:58px" title="你在全部题目里标记的「不会×2 + 不熟」">薄弱</th>
-                <th style="width:74px" title="核心题库里还没掌握的题数">待刷</th>
+                <th style="width:74px" title="核心题库+线代重点题里还没掌握的题数">待刷</th>
                 <th style="width:184px">构成</th>
                 <th style="width:52px"></th>
             </tr></thead>
