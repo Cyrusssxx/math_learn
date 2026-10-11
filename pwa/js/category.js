@@ -86,6 +86,43 @@ function migrateXdLegacyKeys() {
     } catch (e) { console.error('线代重点题旧主键迁移失败', e); }
 }
 
+/** 错误关联修复的一次性标记迁移（2026-10-11）。
+ *  背景：25 组共 133 道题的 linkedQid 是与己无关的真题题（如 41 道极限题都链到
+ *  2002数二真题-4），qidOf 重定向让它们共享收藏/标记键 —— 在一道上标记，整组跟着变。
+ *  数据侧已清除这些错误 linkedQid，并在两类题上留了迁移线索：
+ *    · linkedQidOld —— 清除前的旧键（用户标记可能在这里）
+ *    · linkFix.from —— 组内确有一道与真题题同题（相似度 ≥0.6）时的精确迁移目标
+ *  本函数把旧键上的用户标记**复制**到该题的新主键（core-<no>）。
+ *  ⚠️ 复制而非移动：真题页仍以旧键读标记，两边都可见（同题，语义正确）。
+ *  幂等：目标键已有值则跳过，可重复执行。
+ *  ⚠️ 与 migrateXdLegacyKeys 的区别：那个搬移（旧键删除），这个复制（旧键保留）。 */
+function migrateLinkFixKeys() {
+    try {
+        const fav = favGet(), st = statusGet();
+        let fC = false, sC = false, nC = 0;
+        for (const p of (corePapers || [])) {
+            for (const s of (p.sections || [])) {
+                for (const q of (s.questions || [])) {
+                    const old = (q.linkFix && q.linkFix.from) || q.linkedQidOld;
+                    if (!old) continue;
+                    const newKey = qidOf(p.id, q.no);
+                    if (newKey === old) continue;
+                    if (fav[old] && !fav[newKey]) { fav[newKey] = fav[old]; fC = true; }
+                    if (st[old] && !st[newKey]) { st[newKey] = st[old]; sC = true; }
+                    const nk = 'examNote-' + newKey, ok = 'examNote-' + old;
+                    const v = localStorage.getItem(ok);
+                    if (v !== null && v !== '' && !localStorage.getItem(nk)) {
+                        localStorage.setItem(nk, v); nC++;
+                    }
+                }
+            }
+        }
+        if (fC) favSave(fav);
+        if (sC) statusSave(st);
+        if (fC || sC || nC) console.info('[迁移] linkFix/linkedQidOld 标记已复制到新主键');
+    } catch (err) { console.error('linkFix 标记迁移失败', err); }
+}
+
 function favGet() {
     try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; } catch (e) { return {}; }
 }
@@ -2329,6 +2366,8 @@ async function init() {
                 }
             }
             migrateCoreLegacyKeys();   // 旧 'core-N' 收藏/标记/笔记 → 真题 qid（一次性）
+            migrateXdLegacyKeys();     // 线代重点题并入后 'xd-<原号>' → 'core-<新号>'（一次性）
+            migrateLinkFixKeys();      // 错误 linkedQid 清除后，把冲突主键上的标记复制到真同题（一次性）
         } catch (e) { console.error('核心题库解析失败', e); }
     } else {
         console.warn('核心题库 core_bank.json 未加载，仅提供真题源');
@@ -2360,10 +2399,8 @@ async function init() {
         });
     }
     // 线代重点题已物理并入 core_bank.json（2026-10-11），不再单独 fetch xd_bank.json。
-    // 并入改动了两类主键，必须一次性迁移用户旧标记，否则全丢：
-    //   · 无 linkedQid 的题：'xd-<原号>' → 'core-<新号>'
-    //   · 有 linkedQid 的题：新旧主键都是 linkedQid（qidOf 重定向），无需搬
-    migrateXdLegacyKeys();
+    // 三类一次性主键迁移（migrateCoreLegacyKeys / migrateXdLegacyKeys / migrateLinkFixKeys）
+    // 都在上方 corePapers 加载块内执行（依赖 coreLink 构建完成）。
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
     syncUnmarkedFirstBtn();
     syncYearSortBtn();
