@@ -123,6 +123,44 @@ function migrateLinkFixKeys() {
     } catch (err) { console.error('linkFix 标记迁移失败', err); }
 }
 
+/** 跨年同题「别名」标记迁移（2026-10-11）。
+ *  背景：真题卷之间存在重复题（如 2023-1 与 2016-9 是同一道「斜渐近线」题），
+ *  核心题库只收录了其中一份，并用其 linkedQid 作主键。linkedQid 是**一对一**机制
+ *  （一道 core 题只能占一个真题键，否则回潮到「一道上标记、整组跟着变」的老 bug），
+ *  所以用户在**另一年份**的同题上做的标记/笔记无法靠补 linkedQid 同步。
+ *  数据侧改用别名：core 题上标 linkAlias = [同题的其它年份真题键]。
+ *  本函数把别名键上的收藏/标记/笔记**复制**到该题主键，使核心题库里能看到。
+ *  ⚠️ 复制而非移动：真题页仍以各自年份的键读标记，两边都可见（同题，语义正确）。
+ *  ⚠️ 幂等 —— 目标键已有值则跳过，可重复执行。 */
+function migrateAliasKeys() {
+    try {
+        const fav = favGet(), st = statusGet();
+        let fC = false, sC = false, nC = 0;
+        for (const p of (corePapers || [])) {
+            for (const s of (p.sections || [])) {
+                for (const q of (s.questions || [])) {
+                    const al = q.linkAlias;
+                    if (!al || !al.length) continue;
+                    const newKey = qidOf(p.id, q.no);
+                    for (const old of al) {
+                        if (!old || old === newKey) continue;
+                        if (fav[old] && !fav[newKey]) { fav[newKey] = fav[old]; fC = true; }
+                        if (st[old] && !st[newKey]) { st[newKey] = st[old]; sC = true; }
+                        const nk = 'examNote-' + newKey, ok = 'examNote-' + old;
+                        const v = localStorage.getItem(ok);
+                        if (v !== null && v !== '' && !localStorage.getItem(nk)) {
+                            localStorage.setItem(nk, v); nC++;
+                        }
+                    }
+                }
+            }
+        }
+        if (fC) favSave(fav);
+        if (sC) statusSave(st);
+        if (fC || sC || nC) console.info('[迁移] 跨年同题别名标记已复制到主键');
+    } catch (err) { console.error('跨年同题别名标记迁移失败', err); }
+}
+
 function favGet() {
     try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; } catch (e) { return {}; }
 }
@@ -735,7 +773,8 @@ async function saveNoteFromOps(btn) {
     else {
         if (Object.keys(_pendingImgTasks).length) noteHint(ta, '图片保存中…', true);
         await waitPendingImgs();
-        try { localStorage.setItem('examNote-' + ta.dataset.qid, noteVal(ta)); } catch (e) { }
+        // ⚠️ qid 缺失会写出 'examNote-undefined' 脏键（用户导出数据里实测有），落盘前拦掉
+        if (ta.dataset.qid) { try { localStorage.setItem('examNote-' + ta.dataset.qid, noteVal(ta)); } catch (e) { } }
     }
 }
 
@@ -784,7 +823,7 @@ async function toggleNoteEdit(btn) {
         delete _noteTimer[ta.dataset.qid];
         await waitPendingImgs();
         const raw = noteVal(ta);
-        try { localStorage.setItem('examNote-' + ta.dataset.qid, raw); } catch (e) { }
+        if (ta.dataset.qid) { try { localStorage.setItem('examNote-' + ta.dataset.qid, raw); } catch (e) { } }
         const v = raw.trim();
         if (v) {
             btn.textContent = '✏️ 编辑';
@@ -2368,6 +2407,7 @@ async function init() {
             migrateCoreLegacyKeys();   // 旧 'core-N' 收藏/标记/笔记 → 真题 qid（一次性）
             migrateXdLegacyKeys();     // 线代重点题并入后 'xd-<原号>' → 'core-<新号>'（一次性）
             migrateLinkFixKeys();      // 错误 linkedQid 清除后，把冲突主键上的标记复制到真同题（一次性）
+            migrateAliasKeys();        // 跨年同题：把 linkAlias 上另一年份的标记复制到主键（一次性）
         } catch (e) { console.error('核心题库解析失败', e); }
     } else {
         console.warn('核心题库 core_bank.json 未加载，仅提供真题源');

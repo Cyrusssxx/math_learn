@@ -574,7 +574,9 @@ function toggleQSec(btn, act) {
                 const card0 = btn.closest('.q-card');
                 const eb = card0 && card0.querySelector('.q-ops .q-note-editbtn');
                 if (eb && eb.textContent.indexOf('保存') >= 0) {
-                    try { localStorage.setItem('examNote-' + (ta.dataset.qid || ''), noteVal(ta)); } catch (e) { }
+                    // ⚠️ qid 缺失会写出 'examNote-' / 'examNote-undefined' 脏键
+                    //    （用户导出数据里实测各有一批），落盘前一律拦掉
+                    if (ta.dataset.qid) { try { localStorage.setItem('examNote-' + ta.dataset.qid, noteVal(ta)); } catch (e) { } }
                     delete _noteTimer[ta.dataset.qid];
                     eb.textContent = '✏️ 编辑';
                     eb.classList.remove('saved');
@@ -641,7 +643,7 @@ async function saveNoteFromOps(btn) {
     else {
         if (Object.keys(_pendingImgTasks).length) noteHint(ta, '图片保存中…', true);
         await waitPendingImgs();
-        try { localStorage.setItem('examNote-' + ta.dataset.qid, noteVal(ta)); } catch (e) { }
+        if (ta.dataset.qid) { try { localStorage.setItem('examNote-' + ta.dataset.qid, noteVal(ta)); } catch (e) { } }
     }
 }
 // 笔记「✏️ 编辑 / 💾 完成」：编辑态只显示输入框，完成时落盘并渲染预览
@@ -690,7 +692,7 @@ async function toggleNoteEdit(btn) {
         delete _noteTimer[ta.dataset.qid];
         await waitPendingImgs();
         const raw = noteVal(ta);
-        try { localStorage.setItem('examNote-' + ta.dataset.qid, raw); } catch (e) { }
+        if (ta.dataset.qid) { try { localStorage.setItem('examNote-' + ta.dataset.qid, raw); } catch (e) { } }
         const v = raw.trim();
         if (v) {
             btn.textContent = '✏️ 编辑';
