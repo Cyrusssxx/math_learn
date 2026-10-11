@@ -3,9 +3,10 @@
    ----------------------------------------------------------------------------
    与「掌握地图」的分工：
      掌握地图 = 看**当前数据源**的整体分布（色块图）
-     本面板   = 针对「核心题库 + 线代重点题」（core_bank.json 741 题 + xd_bank.json 333
-                题 = 1074 题），回答「接下来刷哪个知识点」
-   ⚠️ 范围必须与分类页 core 模式的显示口径一致：分类页线代分支是 core 线代 + xd 合并
+     本面板   = 针对**核心题库**（core_bank.json，1074 题 = 严选题 741 + 线代重点题 333，
+                后者已于 2026-10-11 物理并入），回答「接下来刷哪个知识点」
+   ⚠️ 范围必须与分类页 core 模式的显示口径一致：线代重点题并入后，
+      corePapers 天然就是完整题库，两边不会再出现「面板比页面少一截」的问题。
       显示的，面板若只算 corePapers，总数会比用户看到的少 333 题（2026-10-11 用户发现）。
 
    两个口径刻意分开，避免混淆：
@@ -45,17 +46,15 @@ function advWeight() {
     for (const p of (typeof corePapers !== 'undefined' && corePapers || []))
         for (const s of (p.sections || []))
             for (const q of (s.questions || [])) add(p.id, q, q.categoryIds);
-    for (const e of (typeof xdItems !== 'undefined' && xdItems || [])) add(e.paper.id, e.q, e.catIds);
+    // 线代重点题已并入 core_bank（fromX），上面 corePapers 循环已覆盖，不再单独遍历
     for (const e of (typeof bankItems !== 'undefined' && bankItems || [])) add(e.paper.id, e.q, e.catIds);
     return W;
 }
 
-/** 汇总「核心题库 + 线代重点题」的四态(按 L2 知识点 + 总计)。
- *  ⚠️ 范围与分类页 core 模式对齐:分类页线代分支 = core 线代 33 + xd 333 合并显示,
- *  面板若只算 corePapers 会比用户看到的少 333 题(实测踩到:用户看到 708+380,
- *  面板却显示 741,以为数字错了)。xd 题主键 = qidOf('xd', no) = 'xd-<no>' ——
- *  xd 的收藏/标记/笔记就存在这个键上(用户标记里 31 个 xd-N 佐证),
- *  不要用 linkedQid 当主键:那 51 处是用户标的**真题**,不是 xd 题。 */
+/** 汇总题库四态(按 L2 知识点 + 总计)。
+ *  ⚠️ 范围 = corePapers 全部。2026-10-11 线代重点题（原 xd_bank.json 333 题）已**物理并入**
+ *  core_bank.json（题号 743 起、带 fromX/xdNo），所以「核心题库」本身就是完整的 1074 题
+ *  （741 严选 + 333 线代重点），与分类页 core 模式口径天然一致，无需再单独遍历 xd。 */
 function advCore() {
     const st = (typeof statusGet === 'function') ? (statusGet() || {}) : {};
     const fav = (typeof favGet === 'function') ? (favGet() || {}) : {};
@@ -85,7 +84,7 @@ function advCore() {
             for (const q of (s.questions || [])) eat(p.id, q, q.categoryIds);
         }
     }
-    for (const e of (typeof xdItems !== 'undefined' && xdItems || [])) eat(e.paper.id, e.q, e.catIds);
+    // 线代重点题已并入 core_bank（fromX），corePapers 循环已覆盖，不重复计数
     return { tot, byCid };
 }
 
@@ -104,8 +103,8 @@ function openStudyAdvice() {
             <div class="an-panel adv-panel" onclick="event.stopPropagation()">
                 <div class="an-head">
                     <div>
-                        <div class="an-title">💡 刷题建议（核心题库 + 线代重点题）</div>
-                        <div class="an-sub" id="advSub">按「你的薄弱标记 × 待刷量」排出优先顺序 · 范围与分类页 core 模式一致 · 点一行直达该知识点</div>
+                        <div class="an-title">💡 核心题库 · 刷题建议</div>
+                        <div class="an-sub" id="advSub">按「你的薄弱标记 × 待刷量」排出优先顺序 · 核心题库已含线代重点题（1074 题）· 点一行直达该知识点</div>
                     </div>
                     <div class="adv-headbtns">
                         <button class="an-x" onclick="closeStudyAdvice()" title="关闭">✕</button>
@@ -133,9 +132,6 @@ function openStudyAdvice() {
     const W = advWeight();
     const data = advCore();
     const t = data.tot;
-    // 纯 core_bank 题数(不含 xd)—— 只用于顶部标签里拆分显示
-    const CORE_ONLY_N = (typeof corePapers !== 'undefined' ? corePapers : [])
-        .reduce((a, p) => a + (p.sections || []).reduce((x, s) => x + (s.questions || []).length, 0), 0);
     // 组装行：只保留核心题库里有题的 L2 知识点
     const rows = Object.keys(data.byCid).map(cid => {
         const o = data.byCid[cid];
@@ -154,7 +150,7 @@ function openStudyAdvice() {
     const bars = `
         <div class="adv-ov">
             <div class="adv-ov-main">
-                <div class="adv-ov-num"><b>${t.total}</b> 题<span>题库总量（核心 ${CORE_ONLY_N} + 线代重点 ${t.total - CORE_ONLY_N}）</span></div>
+                <div class="adv-ov-num"><b>${t.total}</b> 题<span>核心题库总量（含线代重点题）</span></div>
                 <div class="adv-ov-num adv-ok"><b>${t.mst}</b> 题<span>已掌握（${advPct(t.mst, t.total)}）</span></div>
                 <div class="adv-ov-num adv-bad"><b>${t.unk}</b> 题<span>不会</span></div>
                 <div class="adv-ov-num adv-warn"><b>${t.unf}</b> 题<span>不熟</span></div>

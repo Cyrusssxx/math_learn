@@ -2,7 +2,7 @@
  * 预缓存全部页面/样式/脚本/笔记数据/KaTeX/图标，安装后完全离线可用。
  * 升级笔记数据或代码后：改 CACHE_VER 版本号即可让客户端自动换新缓存。
  */
-const CACHE_VER = 'mathcards-aae1ca14b5-u1';
+const CACHE_VER = 'mathcards-60b3c9a9da-u1';
 
 const PRECACHE = [
     'index.html',
@@ -47,7 +47,6 @@ const PRECACHE = [
     'data/cat_deep.json',
     'data/good.json',
     'data/bank_questions.json',
-    'data/xd_bank.json',
     // 大观园 900题·880题·姜晓千（数二习题）——只在分类题库合并使用，exam.html 不显示
     'data/dgy_items.json',
     // 大观园真题配图（2016 数二第4题导函数图形 / 2017 赛跑速度曲线）

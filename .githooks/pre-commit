@@ -20,6 +20,20 @@ if [ -z "$PY" ]; then
 fi
 
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+
+# ── 第一步：更新 HTML 里的 ?v= 资源版本参数（按被引用 css/js 的内容哈希）──
+# ⚠️ 必须跑在 build_sw.py **之前**：sw.js 的 PRECACHE 含全部 8 个 html，
+#    先改 html 再算 CACHE_VER 才能把这次改动如实反映进缓存版本。
+AV_SCRIPT="$ROOT/tools/build_assets_ver.py"
+if [ -f "$AV_SCRIPT" ]; then
+  "$PY" "$AV_SCRIPT"
+  if [ "$?" -eq 1 ]; then
+    # 脚本仅在确有哈希变化时返回 1；把更新过的 html 一并暂存
+    git add "$ROOT"/pwa/*.html
+    echo "[pre-commit] 已更新并暂存 pwa/*.html 的 ?v= 参数"
+  fi
+fi
+
 SCRIPT="$ROOT/tools/build_sw.py"
 if [ ! -f "$SCRIPT" ]; then
   echo "[pre-commit] 未找到 tools/build_sw.py，跳过"

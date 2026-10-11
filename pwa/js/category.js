@@ -47,6 +47,45 @@ function migrateCoreLegacyKeys() {
         if (sC) statusSave(st);
     } catch (e) { console.error('核心题库旧主键迁移失败', e); }
 }
+/** 线代重点题并入 core_bank 后的一次性主键迁移（2026-10-11）。
+ *  背景：线代重点题原为独立文件 xd_bank.json，主键 = qidOf('xd', no)，即
+ *  「有 linkedQid → linkedQid，无 → 'xd-<no>'」。物理并入 core_bank 后题号重编
+ *  （743 起），主键变为 qidOf('core', 新号)，即「有 linkedQid → linkedQid，无 → 'core-<新号>'」。
+ *  所以只有**无 linkedQid** 那批的键变了（'xd-<原号>' → 'core-<新号>'），必须搬迁，
+ *  否则用户在这批题上的收藏/标记/笔记会整体消失。
+ *  与 migrateCoreLegacyKeys 同策略：目标键为空才搬（不覆盖已有数据），搬完删旧键。
+ *  ⚠️ 必须在 coreLink 构建完成之后调用（qidOf 依赖它），且只需跑一次。 */
+function migrateXdLegacyKeys() {
+    try {
+        const pairs = [];
+        for (const p of (corePapers || [])) {
+            for (const s of (p.sections || [])) {
+                for (const q of (s.questions || [])) {
+                    if (q.fromX && q.xdNo != null) pairs.push([String(q.xdNo), qidOf('core', q.no)]);
+                }
+            }
+        }
+        if (!pairs.length) return;
+        const fav = favGet(), st = statusGet();
+        let fC = false, sC = false, movedN = 0;
+        for (const [oldNo, newKey] of pairs) {
+            const oldKey = 'xd-' + oldNo;
+            if (oldKey === newKey) continue;          // 有 linkedQid：新旧主键相同，无需搬
+            if (fav[oldKey]) { if (!fav[newKey]) fav[newKey] = fav[oldKey]; delete fav[oldKey]; fC = true; movedN++; }
+            if (st[oldKey]) { if (!st[newKey]) st[newKey] = st[oldKey]; delete st[oldKey]; sC = true; movedN++; }
+            const nk = 'examNote-' + newKey, ok = 'examNote-' + oldKey;
+            const v = localStorage.getItem(ok);
+            if (v !== null && v !== '') {
+                if (!localStorage.getItem(nk)) localStorage.setItem(nk, v);
+                localStorage.removeItem(ok);
+            }
+        }
+        if (fC) favSave(fav);
+        if (sC) statusSave(st);
+        if (movedN) console.info('[迁移] 线代重点题旧主键已搬到新号：' + movedN + ' 项');
+    } catch (e) { console.error('线代重点题旧主键迁移失败', e); }
+}
+
 function favGet() {
     try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; } catch (e) { return {}; }
 }
@@ -136,7 +175,8 @@ function toggleMark(m) {
 
 // ============ 合并数据：现有数二真题 + 大观园数二真题（统一一棵分类树） ============
 let bankItems = [];      // 大观园数二真题（categoryIds 已映射到统一分类体系：知识点 L2 或 年份节点）
-let xdItems = [];        // 大观园线代补充题库（xd_bank.json，挂线代知识点，仅真题模式并入）
+// 线代重点题（原 xd_bank.json）已于 2026-10-11 物理并入 core_bank.json，
+// 题上带 fromX=true / xdNo=原号；并入后不再有独立的 xdItems 容器。
 
 // ============ Markdown / KaTeX 渲染（与 exam.js 同源） ============
 function esc(s) {
@@ -1123,27 +1163,46 @@ function buildEntries() {
                 allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
             }
         }
-    }
-    // 合并线代 346 题重点题库（挂线代知识点；真题模式与核心题库模式都并入这套统一的 346 题）
-    // 线代已全量收敛至 346 题做题本，不再混入未精选的线代题目，保证两套题库线代完全统一
-    //
-    // 同题去重（按 qid#catId）：xd 题若带 linkedQid 指向已有真题/大观园题（彼此同题），
-    // qidOf 会让两者得到同一 qid；若不加去重，同一知识点下会渲染两遍且 DOM id 重复
-    // （实测 catId=10 下 5 组：2012数二真题-14 / 2010数二真题-14 / 2003数二真题-6 /
-    // DG900JXB-27 / DG900JXB-28，均由 xd 侧 3862/3863/3865/3872/3875 重定向而来）。
-    // 只按 catId 粒度去重：同一知识点留真题侧那条，同题挂的**其他**知识点仍保留，知识点覆盖不丢。
-    // 注意 qidOf 的重定向本身必须保留（收藏/标记主键仍需统一到真题侧）。
-    const seenQC = new Set();
-    for (const e of allEntries) seenQC.add(qidOf(e.paper.id, e.q.no) + '#' + e.catId);
-    for (const e of xdItems) {
-        const qd = qidOf(e.paper.id, e.q.no);
-        for (const cid of e.catIds) {
-            const key = qd + '#' + cid;
-            if (seenQC.has(key)) continue;
-            seenQC.add(key);
-            allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
+        // 线代重点题原本是独立文件 xd_bank.json，2026-10-11 已**物理并入 core_bank.json**
+        // （题号 743 起，带 fromX=true / xdNo 原号）：
+        //   · core 模式：corePapers 已含全部 1074 题，天然就是完整题库，无需再并入；
+        //   · exam 模式：需把 fromX 那批并进来，保证真题模式仍能看到线代重点题（行为不变）。
+        // 同题去重（按 qid#catId）：同一道题若在真题/大观园/线代重点题里都出现，
+        // qidOf 的重定向会让它们得到同一 qid；只按 catId 粒度去重：同一知识点留先入的那条，
+        // 同题挂的**其他**知识点仍保留，知识点覆盖不丢。qidOf 的重定向本身必须保留
+        // （收藏/标记主键统一到真题侧）。
+        const seenQC = new Set();
+        for (const e of allEntries) seenQC.add(qidOf(e.paper.id, e.q.no) + '#' + e.catId);
+        for (const e of xdMergedEntries()) {
+            const qd = qidOf(e.paper.id, e.q.no);
+            for (const cid of e.catIds) {
+                const key = qd + '#' + cid;
+                if (seenQC.has(key)) continue;
+                seenQC.add(key);
+                allEntries.push({ paper: e.paper, secTitle: '', q: e.q, catId: cid });
+            }
         }
     }
+}
+
+/** 线代重点题（并入 core_bank 后带 fromX 标记的题）。
+ *  exam 模式并入它们时要补 paper.year —— 这批题的 source（如「2015 数一」）能提年份，
+ *  而 corePapers[0] 本身没有 year，不补会导致年份排序 NaN、跨年显示错乱。 */
+function xdMergedEntries() {
+    const out = [];
+    for (const p of (corePapers || [])) {
+        for (const s of (p.sections || [])) {
+            for (const q of (s.questions || [])) {
+                if (!q.fromX) continue;
+                const ym = /(\d{4})/.exec(q.source || '');
+                out.push({
+                    paper: { id: p.id, year: ym ? ym[1] : '', title: '线代重点题' },
+                    secTitle: '', q, catIds: q.categoryIds || [],
+                });
+            }
+        }
+    }
+    return out;
 }
 
 // 切换数据源：真题 ⇄ 核心题库（同一棵分类树，选中知识点保持不变）
@@ -1684,8 +1743,8 @@ function allEntriesAllSources() {
         }
     };
     pushPapers(examPapers);
-    pushPapers(corePapers);
-    for (const list of [xdItems, bankItems]) {
+    pushPapers(corePapers);          // 已含并入的线代重点题（fromX）
+    for (const list of [bankItems]) {
         for (const e of (list || [])) out.push({ paper: e.paper, secTitle: e.secTitle || '', q: e.q });
     }
     return out;
@@ -2300,24 +2359,11 @@ async function init() {
             return !(ns.length >= 20 && examStemSet.has(ns));
         });
     }
-    // 线代 346 题重点题库（xd_bank.json）：作为全站唯一统一的线代题库
-    try {
-        const xr = await fetch('data/xd_bank.json').catch(() => null);
-        if (xr && xr.ok) {
-            const xd = await xr.json();
-            for (const sec of (xd[0] && xd[0].sections) || []) {
-                for (const q of (sec.questions || [])) {
-                    if (q.linkedQid) coreLink['xd-' + q.no] = q.linkedQid;
-                }
-            }
-            xdItems = ((xd[0] && xd[0].sections) || []).flatMap(sec =>
-                (sec.questions || []).map(it => {
-                    const ym = /(\d{4})/.exec(it.source || '');   // 提取年份用于排序和筛选
-                    return { paper: { id: 'xd', year: ym ? ym[1] : '', title: it.source || '线代重点题' }, q: it, catIds: it.categoryIds || [] };
-                })
-            );
-        }
-    } catch (e) { console.warn('线代重点题库加载失败', e); }
+    // 线代重点题已物理并入 core_bank.json（2026-10-11），不再单独 fetch xd_bank.json。
+    // 并入改动了两类主键，必须一次性迁移用户旧标记，否则全丢：
+    //   · 无 linkedQid 的题：'xd-<原号>' → 'core-<新号>'
+    //   · 有 linkedQid 的题：新旧主键都是 linkedQid（qidOf 重定向），无需搬
+    migrateXdLegacyKeys();
     document.querySelectorAll('.cat-mark').forEach(b => b.classList.toggle('on', markSel[b.dataset.m]));
     syncUnmarkedFirstBtn();
     syncYearSortBtn();
