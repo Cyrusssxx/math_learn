@@ -2436,6 +2436,18 @@ window.addEventListener('scroll', () => hideDeepFlyNow(), { passive: true });
 
 // ============ 初始化 ============
 async function init() {
+    // ⚠️ 首屏要读 ~6MB 题库（exam 1.2 + core 1.8 + dgy 2.3 + bank 0.8）再渲染，
+    //    此前主区一直空白，复测页（?review=1）尤其明显——左树被隐藏后整页全白，
+    //    用户会误判成「页面坏了」。所以第一件事就是放占位提示。
+    {
+        const el0 = document.getElementById('catMain');
+        if (el0) {
+            el0.innerHTML = REVIEW_MODE
+                ? '<div class="cat-empty">⏳ 正在汇总你的标记题…<br><span style="font-size:13px;opacity:.75">'
+                + '首次打开需读取 ~6MB 题库，请稍候（之后有缓存会快很多）</span></div>'
+                : '<div class="cat-empty">⏳ 正在加载题库…</div>';
+        }
+    }
     const [er, cr, br, corer, dgyr] = await Promise.all([
         fetch('data/exam.json'),
         fetch('data/exam_categories.json'),
@@ -2445,6 +2457,14 @@ async function init() {
     ]);
     if (!er.ok) throw new Error('加载真题失败: ' + er.status);
     if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
+    // 数据到位 → 换文案。渲染数百张卡片（复测页可达 366 题）同样要时间，
+    // 让占位文案跟着推进，用户才能区分「慢」和「卡死」。
+    {
+        const el0 = document.getElementById('catMain');
+        if (el0 && el0.querySelector('.cat-empty')) {
+            el0.innerHTML = '<div class="cat-empty">⏳ 正在渲染题目…</div>';
+        }
+    }
     examPapers = await er.json();
     // 真题题干归一化集合：必须在 concat 大观园习题卷**之前**构建（否则习题卷也会进集合，
     // 导致下面 bankItems 的精确去重把习题卷当真题、误伤大观园的题）
@@ -2548,7 +2568,10 @@ async function init() {
     } catch (e) { }
     applySrcMode(false);   // 先应用上次数据源（exam / core）→ 决定 papers，再建索引
     applyReviewMode();     // 复测模式（?review=1）：隐藏分类树、改标题
-    await loadCatDeep();   // 细分类树（悬停浮层用）
+    // 复测页隐藏了左树，用不到「细分类树」数据（它只服务树的悬停浮层）→ 省一次往返。
+    // 其余步骤（buildEntries / buildDeepIndex / renderTree / renderNav）保持不变 ——
+    // activeEntries() 等依赖它们，跳过会引入不可预知的副作用。
+    if (!REVIEW_MODE) await loadCatDeep();
     buildEntries();
     buildDeepIndex();      // 细分类题数索引
     renderTree();
