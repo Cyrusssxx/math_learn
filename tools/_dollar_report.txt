@@ -1,0 +1,200 @@
+==========================================================================================
+【1】2023数二真题 Q11  [answer]  $$ 计数=3
+------------------------------------------------------------------------------------------
+【答案】$-2$$\ln(1+x)=x-\dfrac{x^2}{2}+\dfrac{x^3}{3}+o(x^3)$，故$$f(x)=ax^2+bx+\ln(1+x)=(b+1)x+\left(a-\frac12\right)x^2+\frac{x^3}{3}+o(x^3).$$
+$g(x)=e^{x^2}-\cos x=\left(1+x^2+\dfrac{x^4}{2}+\cdots\right)-\left(1-\dfrac{x^2}{2}+\dfrac{x^4}{24}-\cdots\right)=\dfrac32x^2+o(x^2)$。等价无穷小要求两函数同阶且比值趋于 $1$：- $x$ 项系数须为 $0$：$b+1=0\Rightarrow b=-1$；- $x^2$ 项系数匹配：$\dfrac{f(x)}{g(x)}\to1$ 需 $a-\dfrac12=\dfrac32\Rightarrow a=2$。故 $ab=2\times(-1)=-2$。
+
+==========================================================================================
+【2】2019数二真题 Q13  [answer]  $$ 计数=7
+------------------------------------------------------------------------------------------
+【答案】$\frac14(\cos 1-1)$
+
+**方法一（分部积分）**：令 $u=\int_1^x\frac{\sin t^2}{t}\,dt$，$\mathrm{d}v=x\,\mathrm{d}x$，则
+$v=\frac{x^2}{2}$，$\mathrm{d}u=\frac{\sin x^2}{x}\,\mathrm{d}x$。于是
+$$
+\int_0^1 f(x)\,\mathrm{d}x
+=\left[\frac{x^2}{2}\int_1^x\frac{\sin t^2}{t}\,\mathrm{d}t\right]_0^1
+-\int_0^1\frac{x^2}{2}\cdot\frac{\sin x^2}{x}\,\mathrm{d}x.
+$$
+端点代入：$x=1$ 时 $\int_1^1=0$，$x=0$ 时首项整体为 $0$，故边界项为 $0$，只余
+$$
+-\frac12\int_0^1 x\sin x^2\,\mathrm{d}x
+=-\frac14\int_0^1\sin x^2\,\mathrm{d}(x^2)
+=\frac14\bigl[\cos x^2\bigr]_0^1
+=\frac14(\cos 1-1).
+$$
+
+**方法二（交换积分次序）**：积分区域为 $0\le x\le 1$ 且 $x\le t\le 1$——注意 $\int_1^x$ 在 $x<1$ 时为反向积分，故先化为 $-\int_x^1$。交换次序后区域变为 $0\le t\le 1$ 且 $0\le x\le t$：
+$$
+\int_0^1 f(x)\,\mathrm{d}x
+=\int_0^1 x\left(\int_1^x\frac{\sin t^2}{t}\,\mathrm{d}t\right)\mathrm{d}x
+=-\int_0^1\frac{\sin t^2}{t}\left(\int_0^t x\,\mathrm{d}x\right)\mathrm{d}t
+=-\frac12\int_0^1 t\sin t^2\,\mathrm{d}t
+$$
+=-\frac14\int_0^1\sin t^2\,\mathrm{d}(t^2)
+=\frac14(\cos 1-1).
+$$
+
+==========================================================================================
+【3】2019数二真题 Q22  [answer]  $$ 计数=7
+------------------------------------------------------------------------------------------
+【答案】当 $a\neq-1$ 时两向量组等价（$a=-1$ 时不等价）。当 $a=1$ 时，$\beta_3=(-2k+3)\alpha_1+(k-2)\alpha_2+k\alpha_3$（$k$ 为任意常数）；当 $a\neq\pm1$ 时，$\beta_3=\alpha_1-\alpha_2+\alpha_3$。
+
+$$
+(\alpha_1,\alpha_2,\alpha_3)=\begin{pmatrix}1&1&1\\1&0&2\\4&4&a^2+3\end{pmatrix},\qquad
+(\beta_1,\beta_2,\beta_3)=\begin{pmatrix}1&0&1\\1&2&3\\a+3&1-a&a^2+3\end{pmatrix}.
+$$
+
+当 $a=-1$ 时，$\alpha_3=(1,2,4)^T$，$(\alpha_1,\alpha_2,\alpha_3)$ 第 $1$、$3$ 行成比例（$(1,1,1)$ 与 $(4,4,4)$），故 $r(\mathrm I)=2$；$\beta_1=(1,1,2)^T$ 不属于 $\mathrm{span}(\alpha_1,\alpha_2,\alpha_3)$（$\mathrm{span}$ 中向量第三分量恒为第一分量的 $4$ 倍，而 $2\neq4$），故 $r(\mathrm I)\neq r(\mathrm I,\mathrm{II})$，两向量组不等价。
+
+当 $a=1$ 时，$(\alpha_1,\alpha_2,\alpha_3)$ 与 $(\beta_1,\beta_2,\beta_3)$ 的秩均为 $2$，且 $r(\mathrm I)=r(\mathrm{II})=r(\mathrm I,\mathrm{II})=2$（三秩连等），两向量组等价。解 $x_1\alpha_1+x_2\alpha_2+x_3\alpha_3=\beta_3$，即增广矩阵
+$$\begin{pmatrix}1&1&1&1\\1&0&2&3\\4&4&4&4\end{pmatrix}\sim\begin{pmatrix}1&0&2&3\\0&1&-1&-2\\0&0&0&0\end{pmatrix},$$
+得 $x_1=3-2x_3,\ x_2=-2+x_3$，令 $x_3=k$，通解为 $(x_1,x_2,x_3)=(-2k+3,\ k-2,\ k)$（$k$ 为任意常数），故 $\beta_3=(-2k+3)\alpha_1+(k-2)\alpha_2+k\alpha_3$。
+
+当 $a\neq\pm1$ 时，
+$$|(\alpha_1,\alpha_2,\alpha_3)|=\begin{vmatrix}1&1&1\\1&0&2\\4&4&a^2+3\end{vmatrix}
+=1\cdot(0\cdot(a^2+3)-2\cdot4)-1\cdot(1\cdot(a^2+3)-2\cdot4)+1\cdot(1\cdot4-0\cdot4)
+=4a^2-4=4(a^2-1)\neq0,
+|(\beta_1,\beta_2,\beta_3)|=\begin{vmatrix}1&0&1\\1&2&3\\a+3&1-a&a^2+3\end{vmatrix}=4(1-a^2)\neq0
+$$
+故 $r(\mathrm I)=r(\mathrm{II})=r(\mathrm I,\mathrm{II})=3$，两向量组等价。由 $\beta_3=\alpha_1-\alpha_2+\alpha_3=(1,3,a^2+3)^T$，故 $\beta_3=\alpha_1-\alpha_2+\alpha_3$。
+
+综上，两向量组等价当且仅当 $a\neq-1$。
+
+📋 **评分参考（满分 11 分）｜按考研数学阅卷通用规则估算**
+
+① 写出两组向量矩阵，分 $a=-1/1/\pm1$ 讨论秩 — **4 分**（结构分）
+② 等价性判据 $r(\mathrm I)=r(\mathrm I,\mathrm{II})$ — **3 分**（关键推导）
+③ 分类给出 $\beta_3$ 的线性表示 — **3 分**（关键推导）
+④ 结论 等价当且仅当 $a\ne-1$ — **1 分**
+$$
+
+==========================================================================================
+【4】2018数二真题 Q13  [answer]  $$ 计数=3
+------------------------------------------------------------------------------------------
+【答案】$\dfrac14$
+当 $x=2,\ y=\dfrac12$ 时 $xy=1$，代入得 $z=1$。令 $F(x,y,z)=\ln z+e^{z-1}-xy$，则
+$$F_x=-y,\qquad F_z=\frac1z+e^{z-1},
+\frac{\partial z}{\partial x}=-\frac{F_x}{F_z}=\frac{y}{\frac1z+e^{z-1}}
+$$
+在 $(2,\frac12,1)$ 处：$\dfrac{\partial z}{\partial x}=\dfrac{\frac12}{1+1}=\dfrac14$。$$
+
+==========================================================================================
+【5】2017数二真题 Q9  [answer]  $$ 计数=3
+------------------------------------------------------------------------------------------
+【答案】$y=x+2$
+$$k=\lim_{x\to\infty}\frac{y(x)}{x}=\lim_{x\to\infty}\left(1+\arcsin\frac{2}{x}\right)=1,
+b=\lim_{x\to\infty}\left[y(x)-x\right]=\lim_{x\to\infty}x\arcsin\frac{2}{x}=2\quad\left(\arcsin\frac{2}{x}\sim\frac{2}{x},\ x\to\infty\right)
+$$
+故斜渐近线方程为 $y=x+2$。$$
+
+==========================================================================================
+【6】2015数二真题 Q5  [answer]  $$ 计数=3
+------------------------------------------------------------------------------------------
+【答案】(D)
+令 $u=x+y,\ v=\dfrac yx$，则 $x=\dfrac{u}{1+v},\ y=\dfrac{uv}{1+v}$，故
+$$f(u,v)=\left(\frac{u}{1+v}\right)^2-\left(\frac{uv}{1+v}\right)^2=\frac{u^2(1-v^2)}{(1+v)^2}=\frac{u^2(1-v)}{1+v}.
+\frac{\partial f}{\partial u}=\frac{2u(1-v)}{1+v},\qquad \frac{\partial f}{\partial v}=-\frac{2u^2}{(1+v)^2}
+$$
+在 $u=1,\ v=1$ 处：$\dfrac{\partial f}{\partial u}=0,\ \dfrac{\partial f}{\partial v}=-\dfrac12$。选(D)。$$
+
+==========================================================================================
+【7】2015数二真题 Q7  [answer]  $$ 计数=3
+------------------------------------------------------------------------------------------
+【答案】(D)
+对增广矩阵 $(A\,|\,b)$ 作初等行变换：
+$$\begin{pmatrix}1&2&a&d\\1&4&a^2&d^2\\1&1&1&1\end{pmatrix}\sim\begin{pmatrix}1&2&a&d\\0&2&a^2-a&d^2-d\\0&-1&1-a&1-d\end{pmatrix}
+\sim\begin{pmatrix}1&2&a&d\\0&1&\dfrac{a^2-a}{2}&\dfrac{d^2-d}{2}\\0&0&\dfrac{(a-1)(a-2)}{2}&\dfrac{(d-1)(d-2)}{2}\end{pmatrix}
+$$
+方程组有无穷多解 $\iff r(A)=r(A,b)<3$ $\iff (a-1)(a-2)=0$ 且 $(d-1)(d-2)=0$，即 $a\in\Omega$ 且 $d\in\Omega$。选(D)。$$
+
+==========================================================================================
+【8】2015数二真题 Q11  [answer]  $$ 计数=3
+------------------------------------------------------------------------------------------
+【答案】$2$
+$$\varphi(x)=x\int_0^{x^2}f(t)\,dt,\qquad \varphi'(x)=\int_0^{x^2}f(t)\,dt+2x^2f(x^2).
+\varphi(1)=\int_0^1 f(t)\,dt=1,\qquad \varphi'(1)=1+2f(1)=5
+$$
+故 $f(1)=2$。$$
+
+==========================================================================================
+【9】2014数二真题 Q7  [answer]  $$ 计数=3
+------------------------------------------------------------------------------------------
+【答案】(B)
+按第一行展开：
+$$原式=-a\begin{vmatrix}a&0&b\\0&d&0\\c&0&d\end{vmatrix}+b\begin{vmatrix}a&0&b\\0&c&0\\c&0&d\end{vmatrix}$$=-a(ad^2-bcd)+b(acd-bc^2)=-a^2d^2+abcd+abcd-b^2c^2=2abcd-a^2d^2-b^2c^2.$$
+检验：取 $a=1,b=0,c=0,d=1$，行列式为 $0$；$2abcd-a^2d^2-b^2c^2=0-1-0=-1\ne0$。改用按第二列展开更稳妥：交换顺序。实际该行列式 $=-(ad-bc)^2$（标准答案），选(B)。
+
+==========================================================================================
+【10】2014数二真题 Q17  [answer]  $$ 计数=7
+------------------------------------------------------------------------------------------
+【答案】$-\dfrac34$
+积分区域关于 $y=x$ 对称，由轮换对称性：
+$$\iint_D\frac{x\sin(\pi\sqrt{x^2+y^2})}{x+y}\,dxdy=\iint_D\frac{y\sin(\pi\sqrt{x^2+y^2})}{x+y}\,dxdy,$$
+故
+$$原式=\frac12\iint_D\sin(\pi\sqrt{x^2+y^2})\,dxdy.$$
+化为极坐标：$1\le r\le2,\ 0\le\theta\le\dfrac\pi2$，
+$$=\frac12\int_0^{\pi/2}d\theta\int_1^2r\sin(\pi r)\,dr=\frac\pi4\int_1^2r\sin(\pi r)\,dr.
+\int_1^2r\sin(\pi r)\,dr=\left[-\frac{r\cos(\pi r)}{\pi}+\frac{\sin(\pi r)}{\pi^2}\right]_1^2=\left(-\frac{2}{\pi}-\frac{1}{\pi}\right)+0=-\frac{3}{\pi}
+$$
+故原式 $=\dfrac\pi4\cdot\left(-\dfrac{3}{\pi}\right)=-\dfrac34$。$$
+
+==========================================================================================
+【11】2013数二真题 Q17  [answer]  $$ 计数=3
+------------------------------------------------------------------------------------------
+【答案】$\dfrac{416}{3}$
+三直线的交点：$x=3y$ 与 $y=3x$ 交于 $(0,0)$，$x=3y$ 与 $x+y=8$ 交于 $(6,2)$，$y=3x$ 与 $x+y=8$ 交于 $(2,6)$。区域 $D$ 为三角形，按 $x$ 分段：
+$$\iint_Dx^2\,dxdy=\int_0^2x^2\left(3x-\frac x3\right)dx+\int_2^6x^2\left(8-x-\frac x3\right)dx.\int_0^2x^2\cdot\frac{8x}{3}\,dx=\frac83\cdot\frac{2^4}{4}=\frac{32}{3}
+,
+
+\int_2^6x^2\left(8-\frac{4x}{3}\right)dx=\left[\frac83x^3-\frac13x^4\right]_2^6
+=\left(\frac83\cdot216-\frac13\cdot1296\right)-\left(\frac83\cdot8-\frac13\cdot16\right)=128
+$$
+故原式 $=\dfrac{32}{3}+128=\dfrac{416}{3}$。$$
+
+==========================================================================================
+【12】2013数二真题 Q23  [answer]  $$ 计数=5
+------------------------------------------------------------------------------------------
+（Ⅰ）令 $x=(x_1,x_2,x_3)^T$，则
+$$f(x)=2(\alpha^T x)^2+(\beta^T x)^2=2x^T\alpha\alpha^Tx+x^T\beta\beta^Tx=x^T(2\alpha\alpha^T+\beta\beta^T)x,$$
+故二次型 $f$ 对应的矩阵为 $2\alpha\alpha^T+\beta\beta^T$。
+（Ⅱ）因 $\alpha,\beta$ 正交且为单位向量，$\alpha^T\beta=0$。取正交矩阵 $Q=(\alpha,\beta,\gamma)$（其中 $\gamma$ 为与 $\alpha,\beta$ 正交的单位向量），则 $Q$ 为正交变换。令 $x=Qy$，$y=(y_1,y_2,y_3)^T$：
+$$\alpha^Tx=\alpha^TQy=(1,0,0)y=y_1,\qquad \beta^Tx=\beta^TQy=(0,1,0)y=y_2,
+f=x^T(2\alpha\alpha^T+\beta\beta^T)x=y^TQ^T(2\alpha\alpha^T+\beta\beta^T)Qy
+=2y_1^2+y_2^2
+$$
+即 $f$ 在正交变换下的标准形为 $2y_1^2+y_2^2$。$$
+
+==========================================================================================
+【13】2009数二真题 Q11  [answer]  $$ 计数=5
+------------------------------------------------------------------------------------------
+【答案】$0$
+【解析】令 $I_{n}=\displaystyle\int e^{-x}\sin nx\,dx=-e^{-x}\sin nx+n\int e^{-x}\cos nx\,dx$
+$$=-e^{-x}\sin nx-ne^{-x}\cos nx-n^{2}I_{n}$$
+所以 $I_{n}=-\dfrac{n\cos nx+\sin nx}{n^{2}+1}e^{-x}+C$
+即 $\displaystyle\lim_{n\rightarrow\infty}\int_{0}^{1}e^{-x}\sin nxdx=\lim_{n\rightarrow\infty}(-\frac{n\cos nx+\sin nx}{n^{2}+1}e^{-x}|_{0}^{1})$
+$$=\lim_{n\rightarrow\infty}(-\frac{n\cos n+\sin n}{n^{2}+1}e^{-1}+\frac{n}{n^{2}+1})$$=0$$
+
+==========================================================================================
+【14】2005数二真题 Q5  [answer]  $$ 计数=3
+------------------------------------------------------------------------------------------
+**答案：** $\dfrac{3}{4}$
+【详解】由题设，
+$$\lim_{x\to 0}\frac{\beta(x)}{\alpha(x)}=\lim_{x\to 0}\frac{\sqrt{1+x\arcsin x}-\sqrt{\cos x}}{kx^{2}}=\lim_{x\to 0}\frac{x\arcsin x+1-\cos x}{kx^{2}(\sqrt{1+x\arcsin x}+\sqrt{\cos x})}
+=\frac{1}{2k}\lim_{x\to 0}\frac{x\arcsin x+1-\cos x}{x^{2}}=\frac{1}{2k}\Bigl[\lim_{x\to 0}\frac{\arcsin x}{x}+\lim_{x\to 0}\frac{1-\cos x}{x^{2}}\Bigr]
+$$
+又因为 $\lim\limits_{x\to 0}\dfrac{1-\cos x}{x^{2}}=\dfrac{1}{2}$，$\lim\limits_{x\to 0}\dfrac{\arcsin x}{x}\xlongequal{u=\arcsin x}\lim\limits_{u\to 0}\dfrac{u}{\sin u}=1$
+所以 $\lim\limits_{x\to 0}\dfrac{\beta(x)}{\alpha(x)}=\dfrac{1}{2k}(\dfrac{1}{2}+1)=\dfrac{3}{4k}$
+由题设 $x\to 0$ 时 $\alpha(x)\sim\beta(x)$，所以 $\dfrac{3}{4k}=1$，得 $k=\dfrac{3}{4}$。$$
+
+==========================================================================================
+【15】2003数二真题 Q8  [answer]  $$ 计数=3
+------------------------------------------------------------------------------------------
+**答案：** B
+【详解】$a_{n}=\dfrac{3}{2}\int_{0}^{\frac{1}{n}}x^{n-1}\sqrt{1+x^{n}}\,dx=\dfrac{3}{2n}\int_{0}^{\frac{1}{n}}\sqrt{1+x^{n}}\,d(1+x^{n})$ （第一类换元法）
+$$=\frac{1}{n}(1+x^{n})^{\frac{3}{2}}\Big|_{0}^{\frac{1}{n}}=\frac{1}{n}\left[\left(1+\left(\frac{n}{n+1}\right)^{n}\right)^{\frac{3}{2}}-1\right]$$
+可见 $\lim\limits_{n\to\infty}na_{n}=\lim\limits_{n\to\infty}\left[\left(1+\left(\frac{n}{n+1}\right)^{n}\right)^{\frac{3}{2}}-1\right]$
+$$=\lim_{n\to\infty}\left[\left(1+\left\{\left(1+\frac{-1}{n+1}\right)^{(n+1)}\right\}^{\frac{n}{n+1}}\right)^{\frac{3}{2}}-1\right]\quad\text{（凑重要极限形式）}
+=(1+e^{-1})^{\frac{3}{2}}-1\quad\text{（重要极限）}
+
+所以选项(B)正确。
