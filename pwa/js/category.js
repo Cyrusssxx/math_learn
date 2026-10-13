@@ -100,13 +100,20 @@ function migrateLinkFixKeys() {
     try {
         const fav = favGet(), st = statusGet();
         let fC = false, sC = false, nC = 0;
+        // ⚠️ 防御：同一 old 键只允许迁移到**一道**题。
+        //    历史上有 22 个旧键被 132 道题共享（批量清除错误关联留下的），
+        //    逐个复制会把同一份笔记灌到 N 道无关题上（2026-10-13 用户报 413/414 串号）。
+        //    数据侧已保证唯一，这里再兜一层，避免将来数据回潮又踩同一个坑。
+        const seen = new Set();
         for (const p of (corePapers || [])) {
             for (const s of (p.sections || [])) {
                 for (const q of (s.questions || [])) {
                     const old = (q.linkFix && q.linkFix.from) || q.linkedQidOld;
                     if (!old) continue;
+                    if (seen.has(old)) continue;      // 已被别的题用过，跳过
                     const newKey = qidOf(p.id, q.no);
                     if (newKey === old) continue;
+                    seen.add(old);
                     if (fav[old] && !fav[newKey]) { fav[newKey] = fav[old]; fC = true; }
                     if (st[old] && !st[newKey]) { st[newKey] = st[old]; sC = true; }
                     const nk = 'examNote-' + newKey, ok = 'examNote-' + old;
@@ -159,6 +166,73 @@ function migrateAliasKeys() {
         if (sC) statusSave(st);
         if (fC || sC || nC) console.info('[迁移] 跨年同题别名标记已复制到主键');
     } catch (err) { console.error('跨年同题别名标记迁移失败', err); }
+}
+
+/** 孤儿笔记接回（2026-10-13）。
+ *  背景：历史 bug 让 `ta.dataset.qid` 缺失时仍执行写盘，落出 `examNote-undefined` 键。
+ *  用户数据里该键有真实内容「然后谱分解[图:b57da806...]」—— 经比对，其中的图片 id
+ *  与 xd-169（线代重点题，已并入 core_bank 的 no=844）笔记里的图片**完全相同**，
+ *  可判定是那次保存丢了 qid、没挂到题上的**同一段笔记**，不是新内容。
+ *  本函数把它接回 core-844（xd-169 的迁移目标），接完删掉孤儿键。
+ *  ⚠️ 防重复的判据是**去掉 [图:id] 令牌后的正文**，不能拿图片 id 判：
+ *     这段笔记复用了同一张图，图片 id 在目标笔记里本来就有，
+ *     拿 id 判会把该接回的正文也误判成「已存在」（实测踩过）。
+ *  ⚠️ 幂等：可重复执行。必须在 migrateXdLegacyKeys() 之后调用。 */
+/** 清理「共享旧键」造成的历史误复制（2026-10-13）。
+ *  根因：早期 migrateLinkFixKeys 对每道题都执行 old → 主键 的复制，而当年批量清除
+ *  错误 linkedQid 时**同一批题留下了同一个 old 键**（22 个旧键被 132 道题共享），
+ *  结果同一份笔记被复制到 N 道无关的题上（用户实测：`2007数二真题-13` 的
+ *  「n! 别忘了」出现在 no=413/414 等偏导数题上）。
+ *  数据侧已把共享组改为「只有真同题迁移、其余写 linkedQidDead」，本函数清理**已发生**
+ *  的误复制。判据（都要求与 dead 键逐字节/同时间戳一致，避免误删用户自己的标记）：
+ *    · 笔记：主键笔记 === dead 键笔记
+ *    · 收藏：fav[主键].t === fav[dead].t（复制时时间戳原样带回，是可靠指纹）
+ *  状态值只有三种、无法区分复制与自标，故**不动**（保守）。
+ *  ⚠️ 幂等；在 migrateLinkFixKeys 之后调用。 */
+function migrateDropDeadCopies() {
+    try {
+        const fav = favGet();
+        let nN = 0, nF = 0;
+        for (const p of (corePapers || [])) {
+            for (const s of (p.sections || [])) {
+                for (const q of (s.questions || [])) {
+                    const dead = q.linkedQidDead;
+                    if (!dead) continue;
+                    const key = qidOf(p.id, q.no);
+                    if (!key || key === dead) continue;
+                    const nk = 'examNote-' + key, ok = 'examNote-' + dead;
+                    const cur = localStorage.getItem(nk), src = localStorage.getItem(ok);
+                    if (cur && src && cur === src) { localStorage.removeItem(nk); nN++; }
+                    if (fav[key] && fav[dead] && fav[key].t === fav[dead].t) { delete fav[key]; nF++; }
+                }
+            }
+        }
+        if (nF) favSave(fav);
+        if (nN || nF) console.info('[清理] 移除共享旧键造成的误复制：笔记 ' + nN + ' 条、收藏 ' + nF + ' 条');
+    } catch (err) { console.error('误复制清理失败', err); }
+}
+
+function migrateOrphanNote() {
+    try {
+        const ORPHAN = 'examNote-undefined';
+        const raw = localStorage.getItem(ORPHAN);
+        if (raw === null || raw === '') { localStorage.removeItem(ORPHAN); return; }
+        const bare = s => (s || '').replace(/\[图:[a-z0-9]+\]/g, '');
+        // 目标题：xd-169 并入 core_bank 后的 no=844
+        const q = (corePapers || []).flatMap(p => (p.sections || []).flatMap(s => s.questions || []))
+            .find(x => x.fromX && String(x.xdNo) === '169');
+        if (!q) { console.warn('[孤儿笔记] 找不到 xd-169 对应的 core 题，保留孤儿键待查'); return; }
+        const tgt = qidOf(corePapers[0].id, q.no);
+        const tgtKey = 'examNote-' + tgt, cur = localStorage.getItem(tgtKey) || '';
+        const frag = bare(raw).trim();
+        if (frag && bare(cur).indexOf(frag) < 0) {
+            localStorage.setItem(tgtKey, cur ? cur.replace(/\s*$/, '') + '\n' + raw : raw);
+            console.info('[孤儿笔记] 已接回 ' + tgt + '：' + frag.slice(0, 40));
+        } else {
+            console.info('[孤儿笔记] 目标笔记已含该正文，仅清理孤儿键');
+        }
+        localStorage.removeItem(ORPHAN);
+    } catch (err) { console.error('孤儿笔记接回失败', err); }
 }
 
 function favGet() {
@@ -2408,6 +2482,8 @@ async function init() {
             migrateXdLegacyKeys();     // 线代重点题并入后 'xd-<原号>' → 'core-<新号>'（一次性）
             migrateLinkFixKeys();      // 错误 linkedQid 清除后，把冲突主键上的标记复制到真同题（一次性）
             migrateAliasKeys();        // 跨年同题：把 linkAlias 上另一年份的标记复制到主键（一次性）
+            migrateOrphanNote();       // 孤儿笔记 examNote-undefined 接回 xd-169（core no=844）
+            migrateDropDeadCopies();   // 清理「共享旧键」造成的历史误复制（笔记/收藏）
         } catch (e) { console.error('核心题库解析失败', e); }
     } else {
         console.warn('核心题库 core_bank.json 未加载，仅提供真题源');
