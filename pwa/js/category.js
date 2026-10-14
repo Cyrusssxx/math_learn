@@ -2040,8 +2040,7 @@ const PP_SHAPE = [
     { kind: '填空', scores: [5, 5, 5, 5, 5, 5] },
     { kind: '解答', scores: [12, 12, 12, 12, 11, 11] },
 ];
-const PP_MIN_CH = 5;        // 章节覆盖下限
-const PP_RETRY = 20;        // 重抽上限
+const PP_RETRY = 20;        // 重抽次数（取其中章节覆盖最多的一版）
 const PP_KEEP = 10;         // 历史卷保留份数
 const PP_STORE = 'paperList';
 const PP_SECS = 180 * 60;   // 计时总长（秒）
@@ -2098,7 +2097,12 @@ function ppChapterOf(q) {
 }
 
 /** 收集所有源的标记题，按题型分层。⚠️ 收藏横跨 4 个源（真题/核心题库/大观园习题/真题库），
- *  漏掉任何一源都会让部分收藏题永远抽不到。 */
+ *  漏掉任何一源都会让部分收藏题永远抽不到。
+ *  权重体系（2026-10-14 起）：
+ *    sw = 状态权重（不会 5 / 不熟 3 / 仅收藏 1；已掌握排除）
+ *    tf = 收藏时间系数（越早越高，1~3，与 sw **相乘**）
+ *    w  = sw × tf  ← 抽样实际用这个
+ *  这样「早收藏的仅收藏题」(1×3=3) 仍低于「近期不会的题」(5×1=5)，状态优先级不被推翻。 */
 function ppBuildPool() {
     const fav = favGet() || {}, st = statusGet() || {};
     const seen = new Set();
@@ -2109,15 +2113,34 @@ function ppBuildPool() {
         seen.add(qid);
         // ⚠️ 严格只抽**收藏**的题（2026-10-14 定：某题型不够就缩水，不放宽到「有状态未收藏」）
         if (!fav[qid]) return;
-        const w = ppWeight(qid, st, true);
-        if (w <= 0) return;                          // 已掌握 → 排除
+        const sw = ppWeight(qid, st, true);
+        if (sw <= 0) return;                         // 已掌握 → 排除
         pool[ppKindOf(secTitle, q)].push({
-            paper, secTitle, q, qid, w, state: st[qid] || null, fav: true,
+            paper, secTitle, q, qid, sw, tf: 1, w: sw,
+            state: st[qid] || null, fav: true,
+            t: favTime(qid) || 0,
         });
     };
     for (const p of (examPapers || [])) for (const s of (p.sections || [])) for (const q of (s.questions || [])) push(p, s.title, q);
     for (const p of (corePapers || [])) for (const s of (p.sections || [])) for (const q of (s.questions || [])) push(p, s.title, q);
     for (const e of (bankItems || [])) push(e.paper, e.secTitle || '', e.q);
+
+    // 第二遍：按收藏时间在**本池内**的排名给时间系数（最早的 tf=3，最近的 tf=1）。
+    // 用池内相对排名而非绝对天数，池子变大/变小都不会让系数失衡。
+    const all = pool['选择'].concat(pool['填空'], pool['解答']);
+    const ts = all.map(it => it.t).filter(t => t > 0).sort((a, b) => a - b);
+    if (ts.length > 1) {
+        for (const it of all) {
+            let rank = 0;
+            if (it.t > 0) {
+                let lo = 0, hi = ts.length - 1;             // 二分找 it.t 在有序时间里的位置
+                while (lo < hi) { const m = (lo + hi) >> 1; if (ts[m] < it.t) lo = m + 1; else hi = m; }
+                rank = lo / (ts.length - 1);                 // 0 = 最早，1 = 最近
+            }
+            it.tf = 1 + 2 * (1 - rank);
+            it.w = it.sw * it.tf;
+        }
+    }
     return pool;
 }
 
@@ -2138,8 +2161,8 @@ function ppSample(arr, k) {
     return out;
 }
 
-/** 拼一份卷：按配额抽 → 章节覆盖 ≥ PP_MIN_CH → 不满足重抽；试不出就取覆盖最多的一版。
- *  返回 { items:[{qid,kind,score,paper,secTitle,q,state,fav}], chapters:[], pool, short } */
+/** 拼一份卷：按配额抽 → 20 次重抽里**取章节覆盖最多的一版**（用户要「知识点覆盖尽量广」，
+ *  所以不再满足 5 章就早停）。返回 { items, chapters, pool, short } */
 function ppBuild() {
     const pool = ppBuildPool();
     let best = null;
@@ -2155,8 +2178,7 @@ function ppBuild() {
         const chs = [];
         for (const it of picked) { const ch = ppChapterOf(it.q); if (ch && chs.indexOf(ch) < 0) chs.push(ch); }
         const rec = { items: picked, chapters: chs, pool, short: false };
-        if (chs.length >= PP_MIN_CH) return rec;
-        if (!best || chs.length > best.chapters.length) best = rec;
+        if (!best || chs.length > best.chapters.length) best = rec;   // 取覆盖最多
     }
     if (best) { best.short = best.items.length < 22; return best; }
     return { items: [], chapters: [], pool, short: true };
