@@ -1255,6 +1255,8 @@ function saveCatState() {
         const catsEl = document.getElementById('catSearch');
         localStorage.setItem(CAT_STATE_KEY, JSON.stringify({
             curCat,
+            curDeepCat,          // 细分类选中态（刷新后保留，不再被清掉）
+            curDeepSelf,
             collapsedSubjects: [...collapsedSubjects],
             collapsedChapters: [...collapsedChapters],
             search: catSearchKw || '',
@@ -2544,6 +2546,16 @@ let curDeepCat = null;       // 当前选中的细分类节点（非空时题目
 let _flySub = {};            // 当前浮层使用的「按知识点」细分类计数表（sub）
 let _flyDirect = {};         // 同上（direct：直接挂在该节点上的题数）
 let curDeepSelf = false;     // true = 只筛「本级」题（不含子树）
+// 刷新后恢复上次选中的细分类（2026-10-14 用户要求：刷新不该把 🔎 细分类清掉）。
+// ⚠️ 必须在这里恢复而不是文件开头 —— curDeepCat/curDeepSelf 是 let，声明前访问会 TDZ 报错。
+// ⚠️ 有效性校验（数据变更后节点可能已不存在）放在 loadCatDeep() 里，那时 catDeep 才到手。
+try {
+    const _ds = JSON.parse(localStorage.getItem(CAT_STATE_KEY) || '{}');
+    if (_ds.curDeepCat) {
+        curDeepCat = String(_ds.curDeepCat);
+        curDeepSelf = !!_ds.curDeepSelf;
+    }
+} catch (e) { }
 
 async function loadCatDeep() {
     try {
@@ -2559,7 +2571,40 @@ async function loadCatDeep() {
             deepChildren[p].sort((a, b) => (catDeep.nodes[a].n || '').localeCompare(catDeep.nodes[b].n || '', 'zh'));
         }
         buildDeepChildrenView();
+        // 恢复的细分类选中态要校验：数据更新后节点可能已不存在 → 清掉，避免主区空过滤
+        if (curDeepCat && !(catDeep.nodes || {})[String(curDeepCat)]) {
+            curDeepCat = null;
+            curDeepSelf = false;
+            saveCatState();
+        }
     } catch (e) { console.warn('细分类树加载失败，悬停浮层不可用', e); }
+}
+
+/** 细分类节点 → 它归属的「分类树节点」id（curCat 可直接用）。
+ *  依据：细分类链里会**直接出现分类树 id**，例如
+ *      1000(二阶可降解) ← 999 ← 766 ← 762(解微分方程) ← 325(微分方程) ← 223(高等数学)
+ *  取链上**最深**的那个命中项 —— 那才是它真正归属的章节/知识点。
+ *  用途：点击「另一个大分支的细分类」时，自动把主区切到那个分支（2026-10-14 用户要求）。 */
+function deepOwnerCat(id) {
+    if (!catDeep || !catDeep.nodes || typeof cats === 'undefined' || !cats) return null;
+    let cur = String(id);
+    const chain = [];
+    for (let i = 0; i < 60 && cur && catDeep.nodes[cur]; i++) {
+        chain.push(cur);
+        cur = catDeep.nodes[cur].p;
+    }
+    for (const c of chain) if (cats[c]) return c;      // 链是深→浅，第一个命中即最深归属
+    return null;
+}
+
+/** 若细分类归属另一个分支，先把主区切过去（复用 selectCat：展开树 + 存状态 + 重渲染） */
+function deepEnsureOwner(id) {
+    const owner = deepOwnerCat(id);
+    if (owner && String(curCat) !== String(owner)) {
+        selectCat(owner);       // ⚠️ selectCat 会把 curDeepCat 清空，所以调用方要在它之后再设 curDeepCat
+        return true;
+    }
+    return false;
 }
 
 /** 构建「展示用」压缩树：某层子节点若与父节点**同名**（纯冗余的中间层，如 极限→极限），
@@ -2798,15 +2843,19 @@ function onCatNodeEnter(nodeEl, catId) {
 
 /** 选中细分类分支：只显示该分支（含子树）的题 */
 function selectDeepSelf(id) {
+    deepEnsureOwner(id);     // 若属于另一个大分支 → 先把主区切过去（会清空 curDeepCat）
     curDeepCat = String(id);
     curDeepSelf = true;      // 只筛本级
+    saveCatState();          // 刷新后保留（用户要求）
     hideDeepFlyNow();
     renderMain();
     renderNav();
 }
 function selectDeepCat(id) {
+    deepEnsureOwner(id);     // 同上
     curDeepCat = String(id);
     curDeepSelf = false;
+    saveCatState();
     hideDeepFlyNow();
     renderMain();
     renderNav();
@@ -2814,6 +2863,7 @@ function selectDeepCat(id) {
 function clearDeepCat() {
     curDeepCat = null;
     curDeepSelf = false;
+    saveCatState();
     hideDeepFlyNow();
     renderMain();
     renderNav();
