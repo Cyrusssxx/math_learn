@@ -172,6 +172,24 @@ def main():
             if len(nm) >= 3 and nm in stem:
                 sc[n] += 2
                 sigs[n].add('C')
+
+        # —— 语义校验（sem_ok）：题干是否与「目标节点名/其父链」有词面关联 ——
+        # 抽查发现：单靠信号A（同 catId 众数）会把题吸到该章样本最多的分支（如把竞赛题
+        # 挂到「多元隐函数求偏导」、把积分方程题挂到「奇偶」）。故第二批必须通过此校验。
+        GENERIC = {'函数', '极限', '高等数学', '线代', '其他', '具体', '一阶', '二阶', '三阶',
+                   '基本概念题', '概念题', '综合', '计算', '应用', '证明', '常规', '重要',
+                   '判断', '求解', '已知', '求', '第', '章', '基础', '强化'}
+        def sem_ok(n):
+            """题干必须与目标节点**自身名**(非泛词)有词面关联；泛词节点一律拒绝"""
+            nm2 = re.sub(r'^[0-9]+[.、]\s*', '', str(nodes.get(n, {}).get('n') or '')).strip()
+            if len(nm2) < 2 or nm2 in GENERIC:
+                return False
+            # 超长名取中间有辨识度的片段（如「已知重极限求偏导/判断可微/求全微分」）
+            parts = [p for p in re.split(r'[/、,，]', nm2) if len(p) >= 2]
+            for p in (parts or [nm2]):
+                if p in stem:
+                    return True
+            return False
         if not sc:
             return None
         top, sval = sc.most_common(1)[0]
@@ -181,7 +199,8 @@ def main():
         if nsig >= 2 or a_cnt >= 5:
             conf = '高'
         elif nsig == 1 and (sval >= 2 or a_cnt >= 2):
-            conf = '中'
+            # 中置信：单信号，必须过语义校验（否则易挂到样本最多的分支）
+            conf = '中' if sem_ok(top) else '低'
         else:
             conf = '低'
         return {'no': q['no'], 'node': top, 'score': sval, 'conf': conf,
