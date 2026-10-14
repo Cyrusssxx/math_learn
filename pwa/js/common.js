@@ -366,3 +366,152 @@ function dailyStreak() {
     }
     return streak;
 }
+
+// ============ 全量导出做题数据（2026-10-14）============
+// 为什么**不做白名单**：键名散落在 10+ 个 js 文件里，且大量键是动态拼的
+// （examNote-<qid>、selFav-<id>、selNote-<id>…），白名单必漏。
+// 同源下 localStorage 里只有本 app 的数据，**全量导出最稳**。
+// ⚠️ 不含 IndexedDB 里的图片（笔记贴图在 imgs store；标注/记忆卡另有各自的导出入口）。
+async function exportAllData() {
+    const data = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k) data[k] = localStorage.getItem(k);
+    }
+    const cntKeys = (k) => { try { return Object.keys(JSON.parse(data[k] || '{}')).length; } catch (e) { return 0; } };
+    const cntArr = (k) => { try { const a = JSON.parse(data[k] || '[]'); return Array.isArray(a) ? a.length : 0; } catch (e) { return 0; } };
+    const cntPfx = (p) => Object.keys(data).filter(k => k.indexOf(p) === 0).length;
+
+    // IndexedDB 全量（两个库都是「贴图」，Blob → dataURL 才能进 JSON）
+    // notesAnnotImg = 笔记标注贴图 ｜ examNoteImg = 做题笔记贴图（category/exam/exam-shared 共用）
+    const idb = {};
+    try { idb['notesAnnotImg'] = await Promise.race([idbDump('notesAnnotImg', 'imgs'), new Promise(r => setTimeout(() => r({}), 4000))]); } catch (e) { }
+    try { idb['examNoteImg'] = await Promise.race([idbDump('examNoteImg', 'imgs'), new Promise(r => setTimeout(() => r({}), 4000))]); } catch (e) { }
+    const imgN = Object.keys(idb['examNoteImg'] || {}).length + Object.keys(idb['notesAnnotImg'] || {}).length;
+
+    const summary = {
+        '收藏': cntKeys('examFav'),
+        '不熟/不会标记': cntKeys('examStatus'),
+        '做题笔记': cntPfx('examNote-'),
+        '每日做题': cntKeys('dailyMarks') + ' 天',
+        '历史拼卷': cntArr('paperList') + ' 份',
+        '好题收藏': cntKeys('goodFav') + ' 题',
+        '精选收藏': cntPfx('selFav-') + ' 条',
+        '笔记批注': data['notesAnnot'] ? '有' : '无',
+        '贴图': imgN + ' 张',
+        'localStorage 键总数': Object.keys(data).length,
+    };
+    const payload = {
+        app: 'math-note',
+        v: 2,
+        exportedAt: new Date().toISOString(),
+        note: '设备迁移用全量快照：localStorage 全部键 + IndexedDB 贴图（dataURL）。'
+            + '用「导入数据」一键恢复。标注/记忆卡如需单独备份另有各自入口。',
+        summary, data, idb,
+    };
+    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '做题数据-' + dayKeyOf() + '.json';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 30000);
+    const lines = Object.keys(summary).map(k => k + '：' + summary[k]).join('\n');
+    alert('已导出「做题数据-' + dayKeyOf() + '.json」（'
+        + (blob.size / 1048576).toFixed(1) + ' MB）\n\n' + lines
+        + '\n\n换新设备：index 页点「导入数据」选这个文件即可。');
+}
+
+/* ---------- IndexedDB 读取 / 恢复（导出导入用） ---------- */
+/** 读整个 store：{ key: dataURL 或原值 }。库不存在 / 出错一律返回空对象，不阻塞导出。 */
+function idbDump(dbName, storeName) {
+    const race = new Promise((resolve) => {
+        try {
+            const rq = indexedDB.open(dbName);
+            rq.onerror = () => resolve({});
+            rq.onsuccess = () => {
+                const db = rq.result;
+                try {
+                    const os = db.transaction(storeName).objectStore(storeName);
+                    const keysRq = os.getAllKeys();
+                    keysRq.onerror = () => { db.close(); resolve({}); };
+                    keysRq.onsuccess = () => {
+                        const keys = keysRq.result || [];
+                        const out = {};
+                        if (!keys.length) { db.close(); resolve(out); return; }
+                        let done = 0;
+                        const fin = () => { if (++done === keys.length) { db.close(); resolve(out); } };
+                        keys.forEach(k => {
+                            const g = os.get(k);
+                            g.onsuccess = () => {
+                                const v = g.result;
+                                if (v instanceof Blob) {
+                                    const fr = new FileReader();
+                                    fr.onload = () => { out[k] = fr.result; fin(); };
+                                    fr.onerror = () => { out[k] = null; fin(); };
+                                    fr.readAsDataURL(v);
+                                } else { out[k] = v; fin(); }
+                            };
+                            g.onerror = () => { out[k] = null; fin(); };
+                        });
+                    };
+                } catch (e) { try { db.close(); } catch (x) { } resolve({}); }
+            };
+        } catch (e) { resolve({}); }
+    });
+    return Promise.race([race, new Promise(r => setTimeout(() => r({}), 3000))]);
+}
+/** 把 { key: dataURL } 写回 store（清空旧数据，覆盖式，配合迁移场景）。 */
+function idbRestore(dbName, storeName, records) {
+    return new Promise((resolve) => {
+        try {
+            const rq = indexedDB.open(dbName, 1);
+            rq.onupgradeneeded = () => rq.result.createObjectStore(storeName);
+            rq.onerror = () => resolve(false);
+            rq.onsuccess = () => {
+                const db = rq.result;
+                try {
+                    const tx = db.transaction(storeName, 'readwrite');
+                    const os = tx.objectStore(storeName);
+                    os.clear();
+                    const ids = Object.keys(records || {});
+                    if (!ids.length) { db.close(); resolve(true); return; }
+                    let pend = ids.length, fin2 = false;
+                    const doneOne = () => { if (--pend === 0 && fin2) { db.close(); resolve(true); } };
+                    tx.oncomplete = () => { fin2 = true; if (pend === 0) { db.close(); resolve(true); } };
+                    setTimeout(() => { fin2 = true; if (pend === 0) { db.close(); resolve(true); } }, 500);
+                    ids.forEach(k => {
+                        const v = records[k];
+                        if (typeof v === 'string' && v.indexOf('data:') === 0) {
+                            fetch(v).then(r => r.blob()).then(b => { os.put(b, k); doneOne(); })
+                                .catch(() => { os.put(new Blob(), k); doneOne(); });
+                        } else { os.put(v, k); doneOne(); }
+                    });
+                } catch (e) { try { db.close(); } catch (x) { } resolve(false); }
+            };
+        } catch (e) { resolve(false); }
+    });
+}
+/** 导入：覆盖当前设备的做题数据（localStorage + 两个贴图库）。有确认弹窗。 */
+async function importAllData(fileInput) {
+    const f = fileInput && fileInput.files && fileInput.files[0];
+    if (!f) return;
+    let payload = null;
+    try { payload = JSON.parse(await f.text()); } catch (e) { alert('文件不是合法 JSON，导入中止。'); return; }
+    if (!payload || payload.app !== 'math-note' || !payload.data) {
+        alert('这不是本站的导出文件（缺 app/data 字段），导入中止。'); return;
+    }
+    const s = payload.summary || {};
+    const ok = confirm('将【覆盖】当前设备上的全部做题数据：\n\n'
+        + '收藏：' + (s['收藏'] || '?') + '\n不熟/不会标记：' + (s['不熟/不会标记'] || '?')
+        + '\n做题笔记：' + (s['做题笔记'] || '?') + '\n每日做题：' + (s['每日做题'] || '?')
+        + '\n历史拼卷：' + (s['历史拼卷'] || '?') + '\n贴图：' + (s['贴图'] || '?')
+        + '\n\n当前设备上的同名数据会被替换。建议先点「导出数据」留一份当前备份。\n\n确定导入？');
+    if (!ok) return;
+    localStorage.clear();
+    for (const k in payload.data) localStorage.setItem(k, payload.data[k]);
+    const idb = payload.idb || {};
+    await idbRestore('notesAnnotImg', 'imgs', idb['notesAnnotImg'] || {});
+    await idbRestore('examNoteImg', 'imgs', idb['examNoteImg'] || {});
+    alert('导入完成！页面即将刷新。');
+    setTimeout(() => location.reload(), 600);
+}
