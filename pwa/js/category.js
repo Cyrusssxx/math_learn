@@ -2016,10 +2016,391 @@ window.addEventListener('storage', (e) => {
     }
 });
 
+// ============ 拼卷页（category.html?paper=1）：随机抽收藏题，拼一份真题规模的卷 ============
+// 需求（2026-10-14 grill 定稿）：
+//   · 抽样：加权随机无放回 —— 不会 5 / 不熟 3 / 只收藏无状态 1 / 已掌握 0（排除）
+//   · 池子：严格只从「标记过的题」抽（收藏或有状态）；某题型不够就缩水并在卷首标注
+//   · 配比：选择 10 / 填空 6 / 解答 6 = 22 题（2024–2026 数二真题结构），统一 150 分制
+//   · 章节：轻约束「至少覆盖 5 章」，不满足重抽（上限 20 次，试不出取覆盖最多的一版）
+//   · 卷面：exam 式左栏（历史拼卷）+ 主区（按题型三段）+ 计时器（180 分钟可暂停重置）
+const PAPER_MODE = new URLSearchParams(location.search).get('paper') === '1';
+
+/** 卷面结构 + 分值（解答题 4×12 + 2×11 = 70，与选择 50 + 填空 30 合计 150） */
+const PP_SHAPE = [
+    { kind: '选择', scores: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5] },
+    { kind: '填空', scores: [5, 5, 5, 5, 5, 5] },
+    { kind: '解答', scores: [12, 12, 12, 12, 11, 11] },
+];
+const PP_MIN_CH = 5;        // 章节覆盖下限
+const PP_RETRY = 20;        // 重抽上限
+const PP_KEEP = 10;         // 历史卷保留份数
+const PP_STORE = 'paperList';
+const PP_SECS = 180 * 60;   // 计时总长（秒）
+
+let ppCur = null;           // 当前卷 { id, ts, items:[{qid,kind,score}], left }
+let ppTimerId = null;       // 计时器句柄
+
+/** 状态权重：不会 5 / 不熟 3 / 仅收藏无状态 1 / 已掌握 0（排除） */
+function ppWeight(qid, st, isFav) {
+    const s = st[qid];
+    if (s === 'unknown') return 5;
+    if (s === 'unfamiliar') return 3;
+    if (s === 'mastered') return 0;
+    return isFav ? 1 : 0;
+}
+
+/** 真实题型。⚠️ q.kind 不可靠（解答题也标 blank），必须看 section.title */
+function ppKindOf(secTitle, q) {
+    const t = secTitle || '';
+    if (t.indexOf('选择') >= 0) return '选择';
+    if (t.indexOf('填空') >= 0) return '填空';
+    if (t.indexOf('解答') >= 0) return '解答';
+    return q.kind === 'choice' ? '选择' : '解答';   // 兜底：大观园库无 section 时的猜测
+}
+
+/** catId → 章（12 节之一）。运行时从 core_bank 的节归属取众数 ——
+ *  那份归属 2026-10-13 已按大观严选题书签重排过，可信（真题 catId 覆盖率 100%）。 */
+let _ppCatCh = null;
+function ppChapterOf(q) {
+    if (_ppCatCh === null) {
+        _ppCatCh = {};
+        const tally = {};
+        for (const p of (corePapers || [])) {
+            for (const s of (p.sections || [])) {
+                for (const q2 of (s.questions || [])) {
+                    const cids = q2.categoryIds || (q2.catId != null ? [q2.catId] : []);
+                    for (const c of cids) {
+                        const k = String(c);
+                        tally[k] = tally[k] || {};
+                        tally[k][s.title] = (tally[k][s.title] || 0) + 1;
+                    }
+                }
+            }
+        }
+        for (const k in tally) {
+            let best = null, bn = -1;
+            for (const t in tally[k]) if (tally[k][t] > bn) { bn = tally[k][t]; best = t; }
+            _ppCatCh[k] = best;
+        }
+    }
+    const cids = q.categoryIds || (q.catId != null ? [q.catId] : []);
+    for (const c of cids) { const ch = _ppCatCh[String(c)]; if (ch) return ch; }
+    return null;
+}
+
+/** 收集所有源的标记题，按题型分层。⚠️ 收藏横跨 4 个源（真题/核心题库/大观园习题/真题库），
+ *  漏掉任何一源都会让部分收藏题永远抽不到。 */
+function ppBuildPool() {
+    const fav = favGet() || {}, st = statusGet() || {};
+    const seen = new Set();
+    const pool = { '选择': [], '填空': [], '解答': [] };
+    const push = (paper, secTitle, q) => {
+        const qid = qidOf(paper.id, q.no);
+        if (!qid || seen.has(qid)) return;          // 同题多来源只留一条
+        seen.add(qid);
+        // ⚠️ 严格只抽**收藏**的题（2026-10-14 定：某题型不够就缩水，不放宽到「有状态未收藏」）
+        if (!fav[qid]) return;
+        const w = ppWeight(qid, st, true);
+        if (w <= 0) return;                          // 已掌握 → 排除
+        pool[ppKindOf(secTitle, q)].push({
+            paper, secTitle, q, qid, w, state: st[qid] || null, fav: true,
+        });
+    };
+    for (const p of (examPapers || [])) for (const s of (p.sections || [])) for (const q of (s.questions || [])) push(p, s.title, q);
+    for (const p of (corePapers || [])) for (const s of (p.sections || [])) for (const q of (s.questions || [])) push(p, s.title, q);
+    for (const e of (bankItems || [])) push(e.paper, e.secTitle || '', e.q);
+    return pool;
+}
+
+/** 加权无放回抽 k 个（用元素自带的 w 权重） */
+function ppSample(arr, k) {
+    const pool = (arr || []).slice();
+    const out = [];
+    for (let n = 0; n < k && pool.length; n++) {
+        let total = 0;
+        for (const it of pool) total += it.w;
+        if (total <= 0) break;
+        let r = Math.random() * total, idx = 0;
+        for (; idx < pool.length; idx++) { r -= pool[idx].w; if (r <= 0) break; }
+        if (idx >= pool.length) idx = pool.length - 1;
+        out.push(pool[idx]);
+        pool.splice(idx, 1);
+    }
+    return out;
+}
+
+/** 拼一份卷：按配额抽 → 章节覆盖 ≥ PP_MIN_CH → 不满足重抽；试不出就取覆盖最多的一版。
+ *  返回 { items:[{qid,kind,score,paper,secTitle,q,state,fav}], chapters:[], pool, short } */
+function ppBuild() {
+    const pool = ppBuildPool();
+    let best = null;
+    for (let t = 0; t < PP_RETRY; t++) {
+        const picked = [];
+        for (const seg of PP_SHAPE) {
+            const got = ppSample(pool[seg.kind], seg.scores.length);
+            got.forEach((it, i) => picked.push(Object.assign({}, it, {
+                kind: seg.kind, score: seg.scores[i],
+            })));
+        }
+        if (!picked.length) break;
+        const chs = [];
+        for (const it of picked) { const ch = ppChapterOf(it.q); if (ch && chs.indexOf(ch) < 0) chs.push(ch); }
+        const rec = { items: picked, chapters: chs, pool, short: false };
+        if (chs.length >= PP_MIN_CH) return rec;
+        if (!best || chs.length > best.chapters.length) best = rec;
+    }
+    if (best) { best.short = best.items.length < 22; return best; }
+    return { items: [], chapters: [], pool, short: true };
+}
+
+/* ---------- 拼卷：qid 索引（按 qid 还原题，供历史卷用；建一次缓存） ---------- */
+let _ppIdx = null;
+function ppOfQid(qid) {
+    if (_ppIdx === null) {
+        _ppIdx = {};
+        const add = (paper, secTitle, q) => {
+            const k = qidOf(paper.id, q.no);
+            if (k && !_ppIdx[k]) _ppIdx[k] = { paper, secTitle, q };
+        };
+        for (const p of (examPapers || [])) for (const s of (p.sections || [])) for (const q of (s.questions || [])) add(p, s.title, q);
+        for (const p of (corePapers || [])) for (const s of (p.sections || [])) for (const q of (s.questions || [])) add(p, s.title, q);
+        for (const e of (bankItems || [])) add(e.paper, e.secTitle || '', e.q);
+    }
+    return _ppIdx[qid] || null;
+}
+
+/* ---------- 拼卷：历史卷存储（localStorage，保留 PP_KEEP 份） ---------- */
+function ppListGet() {
+    try { return JSON.parse(localStorage.getItem(PP_STORE) || '[]') || []; } catch (e) { return []; }
+}
+function ppListSave(list) {
+    try { localStorage.setItem(PP_STORE, JSON.stringify((list || []).slice(0, PP_KEEP))); } catch (e) { }
+}
+/** 把当前卷写回历史（已在列表里则就地更新） */
+function ppSaveCur() {
+    if (!ppCur) return;
+    const list = ppListGet();
+    const i = list.findIndex(x => x.id === ppCur.id);
+    const rec = {
+        id: ppCur.id, ts: ppCur.ts, left: ppCur.left, done: !!ppCur.done,
+        items: ppCur.items.map(it => ({ qid: it.qid, kind: it.kind, score: it.score, state: it.state || null })),
+    };
+    if (i >= 0) list[i] = rec; else list.unshift(rec);
+    ppListSave(list);
+}
+function ppDel(id) {
+    ppListSave(ppListGet().filter(x => x.id !== id));
+    if (ppCur && ppCur.id === id) {                 // 删的是当前卷 → 切到最新一份，没有就新拼
+        const rest = ppListGet();
+        if (rest.length) { ppOpen(rest[0].id); } else { ppCur = null; ppNew(); return; }
+    }
+    ppSide();
+}
+
+/* ---------- 拼卷：计时器（180 分钟，可暂停/继续/重置；到时只提醒不强制） ---------- */
+function ppClockText(sec) {
+    sec = Math.max(0, Math.floor(sec));
+    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+    const p = n => (n < 10 ? '0' : '') + n;
+    return p(h) + ':' + p(m) + ':' + p(s);
+}
+function ppPaintClock() {
+    const c = document.getElementById('ppClock');
+    if (!c || !ppCur) return;
+    c.textContent = ppClockText(ppCur.left);
+    c.classList.toggle('over', ppCur.left <= 0);
+    const b = document.getElementById('ppTimerBtn');
+    if (b) b.textContent = ppCur.running ? '⏸' : '▶';
+}
+function ppStartTimer() {
+    if (ppTimerId) return;
+    ppTimerId = setInterval(() => {
+        if (!ppCur || !ppCur.running) return;
+        ppCur.left = Math.max(0, ppCur.left - 1);
+        ppPaintClock();
+        if (ppCur.left === 0) {
+            ppCur.running = false;
+            ppSaveCur();
+            const b = document.getElementById('ppBanner');
+            if (b) { b.textContent = '⏰ 时间到！可以继续做完，也可以直接对答案。'; b.hidden = false; }
+        }
+        if (ppCur.left % 15 === 0) ppSaveCur();      // 每 15 秒落盘一次（别每 tick 都写）
+    }, 1000);
+}
+function ppStopTimer() { if (ppTimerId) { clearInterval(ppTimerId); ppTimerId = null; } }
+function ppToggleTimer() {
+    if (!ppCur) return;
+    ppCur.running = !ppCur.running;
+    ppPaintClock(); ppSaveCur();
+    if (ppCur.running) ppStartTimer();
+}
+function ppResetTimer() {
+    if (!ppCur) return;
+    ppCur.left = PP_SECS; ppCur.running = false;
+    const b = document.getElementById('ppBanner');
+    if (b) b.hidden = true;
+    ppPaintClock(); ppSaveCur(); ppStopTimer();
+}
+
+/* ---------- 拼卷：左栏「历史拼卷」列表 ---------- */
+function ppFmtTs(ts) {
+    const d = new Date(ts);
+    const p = n => (n < 10 ? '0' : '') + n;
+    return p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+}
+function ppSide() {
+    const box = document.getElementById('paperList');
+    if (!box) return;
+    const list = ppListGet();
+    let html = `<button class="pp-new" onclick="ppNew()">🎲 重新拼卷</button>`;
+    if (!list.length) {
+        html += `<div class="pp-empty">还没有拼过卷。</div>`;
+    } else {
+        html += list.map(x => `<div class="pp-row${ppCur && ppCur.id === x.id ? ' on' : ''}" data-pp="${x.id}">
+            <span class="pp-row-main" onclick="ppOpen('${x.id}')">${ppFmtTs(x.ts)} · ${x.items.length}题${x.done ? ' ✓' : ''}</span>
+            <button class="pp-del" title="删除这份卷" onclick="event.stopPropagation();ppDel('${x.id}')">×</button>
+        </div>`).join('');
+    }
+    box.innerHTML = html;
+}
+
+/* ---------- 拼卷：主区渲染（卷首 + 三段题卡） ---------- */
+const PP_SEGS = [
+    { kind: '选择', title: '一、选择题' },
+    { kind: '填空', title: '二、填空题' },
+    { kind: '解答', title: '三、解答题' },
+];
+
+/** 渲染后处理：KaTeX + 有笔记的自动展开 + 贴图回填（与复测页同款） */
+function ppAfterRender(root) {
+    renderMath(root);
+    root.querySelectorAll('.q-card').forEach(card => {
+        const qid = card.id.replace(/^q-/, '');
+        if ((noteGet(qid) || '').trim()) {
+            const nb = card.querySelector('[data-act="note"]');
+            if (nb && !nb.classList.contains('on')) nb.click();
+        }
+    });
+    root.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+}
+
+function ppRender() {
+    const el = document.getElementById('catMain');
+    if (!el) return;
+    if (!ppCur) {
+        el.innerHTML = `<div class="cat-empty">还没有卷。<br>点左栏「🎲 重新拼卷」开始。</div>`;
+        return;
+    }
+    const items = ppCur.items || [];
+    // 卷首构成：优先用**拼卷时的状态快照**（做题过程中状态会变，快照才反映当时的选择）
+    const st = statusGet() || {};
+    const c = { unknown: 0, unfamiliar: 0, plain: 0 };
+    for (const it of items) {
+        const s = it.state || st[it.qid];
+        if (s === 'unknown') c.unknown++;
+        else if (s === 'unfamiliar') c.unfamiliar++;
+        else c.plain++;
+    }
+    const total = items.reduce((a, it) => a + (it.score || 0), 0);
+    const nCh = (ppCur.chapters || []).length;
+    let html = `<div class="paper-head">
+        <h1>🎲 拼卷 · ${ppFmtTs(ppCur.ts)}</h1>
+        <div class="paper-sub">共 ${items.length} 题 · ${total} 分｜${c.unknown} 不会 · ${c.unfamiliar} 不熟 · ${c.plain} 仅收藏${nCh ? '｜覆盖 ' + nCh + ' 章' : ''}</div>
+        <div class="pp-bar">
+            <button class="exam-btn" onclick="ppNew()" title="按同样的规则重新抽一份">🎲 重新拼卷</button>
+            <div class="pp-timer">
+                <span class="pp-clock" id="ppClock">${ppClockText(ppCur.left != null ? ppCur.left : PP_SECS)}</span>
+                <button class="pp-tbtn" id="ppTimerBtn" onclick="ppToggleTimer()" title="暂停 / 继续">${ppCur.running ? '⏸' : '▶'}</button>
+                <button class="pp-tbtn" onclick="ppResetTimer()" title="重置为 180 分钟">↺</button>
+            </div>
+        </div>
+        <div class="pp-banner" id="ppBanner" hidden></div>
+        ${items.length < 22 ? `<div class="pp-short">⚠️ 本卷只有 ${items.length} 题（标记的题不够凑满 22 题；多收藏一些题就能凑齐）</div>` : ''}
+    </div>`;
+    let n = 0;
+    for (const seg of PP_SEGS) {
+        const list = items.filter(it => it.kind === seg.kind);
+        if (!list.length) continue;
+        const sc = list.reduce((a, it) => a + (it.score || 0), 0);
+        html += `<h2 class="pp-seg">${seg.title}（共 ${list.length} 题，${sc} 分）</h2>`;
+        for (const it of list) {
+            n++;
+            const found = ppOfQid(it.qid);
+            const head = `<div class="pp-item-head">第 ${n} 题 · ${it.score} 分</div>`;
+            html += found
+                ? `<div class="pp-item">${head}${catCard(found.paper, found.secTitle, found.q)}</div>`
+                : `<div class="pp-item">${head}<div class="empty-tip">这道题已不在题库里（${it.qid}）</div></div>`;
+        }
+    }
+    el.innerHTML = html;
+    ppAfterRender(el);
+    ppPaintClock();
+}
+
+/** 拼一份新卷（加入历史列表并切过去） */
+function ppNew() {
+    const rec = ppBuild();
+    const el = document.getElementById('catMain');
+    if (!rec.items.length) {
+        if (el) el.innerHTML = `<div class="cat-empty">没有可抽的题。<br>请先到分类页 / 真题页给题目点「☆ 收藏」或标「不熟 / 不会」，再回来拼卷。</div>`;
+        return;
+    }
+    ppCur = {
+        id: String(Date.now()), ts: Date.now(), left: PP_SECS, running: false, done: false,
+        chapters: rec.chapters || [],
+        items: rec.items.map(it => ({ qid: it.qid, kind: it.kind, score: it.score, state: it.state || null })),
+    };
+    ppStopTimer(); ppSaveCur(); ppSide(); ppRender();
+}
+
+/** 打开历史卷（⚠️ 一律先暂停：关页期间不该空走时间） */
+function ppOpen(id) {
+    const rec = ppListGet().find(x => x.id === id);
+    if (!rec) return;
+    ppCur = {
+        id: rec.id, ts: rec.ts, left: rec.left != null ? rec.left : PP_SECS,
+        running: false, done: !!rec.done, chapters: rec.chapters || [],
+        items: rec.items || [],
+    };
+    ppStopTimer(); ppSide(); ppRender();
+}
+
+/** 拼卷模式初始化：顶栏改文案、隐藏分类专属控件、左栏换成历史拼卷列表 */
+function ppApplyMode() {
+    if (!PAPER_MODE) return;
+    document.body.classList.add('paper-mode');
+    const t = document.querySelector('.exam-title');
+    if (t) t.textContent = '🎲 拼卷';
+    document.title = '🎲 拼卷 · 随机收藏题';
+    const sub = document.getElementById('examSub');
+    if (sub) {
+        sub.textContent = '从标记过的题里随机拼一份 22 题 / 150 分的卷 · 优先「不会 / 不熟」';
+        sub.hidden = false;
+    }
+    ['srcToggle', 'unmarkedFirst', 'yearSortBtn'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) b.style.display = 'none';
+    });
+    const marks = document.querySelector('.cat-marks');
+    if (marks) marks.style.display = 'none';
+    const st = document.querySelector('.exam-side-title');
+    if (st) st.textContent = '历史拼卷';
+    const tree = document.getElementById('catTree');
+    if (tree) tree.innerHTML = '<div id="paperList"></div>';
+}
+
 // ============ 渲染：主区 ============
 function renderMain() {
     const el = document.getElementById('catMain');
     if (REVIEW_MODE) { renderReview(); return; }           // 复测模式：标记题汇总
+    if (PAPER_MODE) {                                      // 拼卷模式：拼出的卷
+        if (!ppCur) {
+            const list = ppListGet();
+            if (list.length) { ppOpen(list[0].id); return; }   // 有历史卷 → 载入最新一份
+            ppNew(); return;                                    // 没有 → 现拼一份
+        }
+        ppRender(); return;
+    }
     if (catSearchKw) { renderSearchResults(); return; }   // 搜索模式：跨分类列表
     if (curCat == null) {
         el.innerHTML = `<div class="cat-empty">← 选择左侧章节，查看该考点的历年真题</div>`;
@@ -2568,13 +2949,14 @@ async function init() {
     } catch (e) { }
     applySrcMode(false);   // 先应用上次数据源（exam / core）→ 决定 papers，再建索引
     applyReviewMode();     // 复测模式（?review=1）：隐藏分类树、改标题
-    // 复测页隐藏了左树，用不到「细分类树」数据（它只服务树的悬停浮层）→ 省一次往返。
+    ppApplyMode();         // 拼卷模式（?paper=1）：左栏换历史拼卷、改标题
+    // 复测页 / 拼卷页都用不到「细分类树」数据（它只服务分类树的悬停浮层）→ 省一次往返。
     // 其余步骤（buildEntries / buildDeepIndex / renderTree / renderNav）保持不变 ——
     // activeEntries() 等依赖它们，跳过会引入不可预知的副作用。
-    if (!REVIEW_MODE) await loadCatDeep();
+    if (!REVIEW_MODE && !PAPER_MODE) await loadCatDeep();
     buildEntries();
-    buildDeepIndex();      // 细分类题数索引
-    renderTree();
+    if (!PAPER_MODE) buildDeepIndex();   // 拼卷左栏是历史卷列表，不需要细分类索引
+    if (!PAPER_MODE) renderTree();       // ⚠️ 必须跳过：否则分类树会覆盖左栏的卷列表
     renderMain();
     renderNav();
 }

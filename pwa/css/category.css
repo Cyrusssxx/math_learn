@@ -458,3 +458,82 @@ body.review-mode .rv-entry { display: none; }   /* 已在复测页，隐藏入�
     .q-answer table, .q-idea table, .q-note-input table { font-size: 13.5px; }
     .q-answer th, .q-answer td, .q-idea th, .q-idea td, .q-note-input th, .q-note-input td { padding: 6px 8px; }
 }
+
+/* ============ 拼卷页（category.html?paper=1）============
+ * 复用 exam 式布局（exam-wrap 左栏 + 主区），只加拼卷专属件：
+ * 卷首操作条 + 计时器、三段标题、题号分值、左栏历史卷列表。
+ * 配色遵循项目规范：淡雅有色（淡底 .10~.20 + 细描边 + 主色字），深色另给亮色同色相。 */
+:root { --pp-rgb: 74, 111, 217; }        /* = 浅色 --accent #4a6fd9 */
+.dark { --pp-rgb: 137, 180, 250; }       /* = 深色 --accent #89b4fa */
+
+body.paper-mode .rv-entry { display: none; }    /* 已在拼卷页，隐藏入口避免重复打开 */
+body.paper-mode .float-q { display: none; }     /* 题号球按「当前分类」生成，拼卷页无意义 */
+body.paper-mode #catMain { max-width: 900px; }
+
+/* 卷首：操作条 + 计时器 */
+.pp-bar { display: flex; align-items: center; gap: 12px; margin: 10px 0 2px; flex-wrap: wrap; }
+.pp-timer {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 3px 8px; border-radius: 8px;
+    background: rgba(var(--pp-rgb), .10);
+    border: 1px solid rgba(var(--pp-rgb), .24);
+}
+.pp-clock {
+    font-variant-numeric: tabular-nums; font-size: 16px; font-weight: 600;
+    color: var(--accent); letter-spacing: .5px; min-width: 86px; text-align: center;
+}
+.pp-clock.over { color: #b3261e; }               /* 时间到 → 红（语义色不削弱） */
+.dark .pp-clock.over { color: #f38ba8; }
+.pp-tbtn {
+    border: 0; background: transparent; cursor: pointer; font-size: 14px;
+    padding: 2px 6px; border-radius: 6px; color: var(--text-dim); line-height: 1.4;
+}
+.pp-tbtn:hover { background: rgba(var(--pp-rgb), .16); color: var(--accent); }
+
+/* 三段标题：3px 左导轨（项目规范） */
+.pp-seg {
+    font-size: 15px; font-weight: 600; color: var(--text);
+    margin: 24px 0 12px; padding-left: 9px;
+    border-left: 3px solid var(--accent);
+}
+/* 每题：题号 · 分值 */
+.pp-item { margin-bottom: 16px; }
+.pp-item-head {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12.5px; color: var(--text-dim); margin-bottom: 5px;
+}
+.pp-item-head::before {
+    content: ""; width: 3px; height: 12px; border-radius: 2px;
+    background: rgba(var(--pp-rgb), .55);
+}
+
+/* 提示条 */
+.pp-short, .pp-banner { margin: 10px 0; padding: 8px 12px; border-radius: 8px; font-size: 13.5px; }
+.pp-short { background: rgba(234, 88, 12, .10); border: 1px solid rgba(234, 88, 12, .28); color: #b45309; }
+.pp-banner { background: rgba(220, 38, 38, .10); border: 1px solid rgba(220, 38, 38, .28); color: #b3261e; font-weight: 600; }
+.dark .pp-short { color: #fab387; }
+.dark .pp-banner { color: #f38ba8; }
+
+/* 左栏：历史拼卷 */
+.pp-new {
+    width: 100%; margin: 6px 0 10px; padding: 7px 10px; cursor: pointer;
+    border-radius: 8px; font-size: 13.5px; font-weight: 600;
+    background: rgba(var(--pp-rgb), .12); border: 1px solid rgba(var(--pp-rgb), .30); color: var(--accent);
+}
+.pp-new:hover { background: rgba(var(--pp-rgb), .20); }
+.pp-empty { font-size: 12.5px; color: var(--text-faint); padding: 10px 4px; }
+.pp-row {
+    display: flex; align-items: center; gap: 4px; margin-bottom: 2px;
+    border-radius: 7px; padding: 5px 6px 5px 9px; cursor: pointer;
+    border-left: 3px solid transparent;
+}
+.pp-row:hover { background: var(--bg-hover); }
+.pp-row.on { background: rgba(var(--pp-rgb), .13); border-left-color: var(--accent); }
+.pp-row-main { flex: 1; font-size: 12.5px; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pp-row.on .pp-row-main { color: var(--accent); font-weight: 600; }
+.pp-del {
+    border: 0; background: transparent; cursor: pointer; color: var(--text-faint);
+    font-size: 15px; line-height: 1; padding: 1px 5px; border-radius: 5px; opacity: 0;
+}
+.pp-row:hover .pp-del { opacity: 1; }
+.pp-del:hover { background: rgba(220, 38, 38, .14); color: #b3261e; }
