@@ -105,6 +105,44 @@ const MM_TIP = '掌握率 = 已掌握题数 / 总题数（未刷、未标记一�
 function mmPct(r) { return Math.round(r * 100) + '%'; }
 
 /** 打开/刷新掌握地图面板 */
+/** 每日做题卡片（置顶）：近 14 天柱状图 + 今日数字 + 连续打卡。
+ *  数据来自 common.js 的 markDaily（各页 toggleStatus / toggleFav 写入）。
+ *  ⚠️ 只统计「用户主动标记」的动作，不含数据迁移；同一天同一题只算 1 题。 */
+function mmDailyCard() {
+    if (typeof dailyRecent !== 'function') return '';
+    const days = dailyRecent(14);
+    const last = days[days.length - 1] || { n: 0, by: {} };
+    const streak = (typeof dailyStreak === 'function') ? dailyStreak() : 0;
+    const total = days.reduce((a, d) => a + d.n, 0);
+    const max = Math.max(1, ...days.map(d => d.n));
+    const cols = days.map((d, i) => {
+        const isToday = i === days.length - 1;
+        const h = d.n ? Math.max(8, Math.round(d.n / max * 100)) : 3;
+        const tip = d.key + '｜' + d.n + ' 题'
+            + (d.by.unknown ? ' · 🔴不会 ' + d.by.unknown : '')
+            + (d.by.unfamiliar ? ' · 🟡不熟 ' + d.by.unfamiliar : '');
+        return `<div class="dm-col${isToday ? ' today' : ''}" title="${tip}">
+            <span class="dm-bar${d.n ? '' : ' zero'}" style="height:${h}%"></span>
+            <span class="dm-lab">${d.day.slice(3)}</span>
+        </div>`;
+    }).join('');
+    const by = last.by || {};
+    const chips = [
+        by.unknown ? `<em class="dm-chip dm-u">🔴不会 ${by.unknown}</em>` : '',
+        by.unfamiliar ? `<em class="dm-chip dm-f">🟡不熟 ${by.unfamiliar}</em>` : '',
+        by.fav ? `<em class="dm-chip dm-v">⭐收藏 ${by.fav}</em>` : '',
+    ].join('');
+    return `<div class="dm-card">
+        <div class="dm-top">
+            <div class="dm-today"><b>${last.n}</b><span>今天做题</span></div>
+            <div class="dm-chips">${chips || '<em class="dm-chip dm-none">今天还没打标记</em>'}</div>
+            <div class="dm-streak${streak > 0 ? ' on' : ''}">🔥 连续 <b>${streak}</b> 天</div>
+        </div>
+        <div class="dm-chart">${cols}</div>
+        <div class="dm-foot">近 14 天共 <b>${total}</b> 题${last.n ? '' : '｜到分类页点「☆ 收藏」或标「不熟 / 不会」就会记上'}</div>
+    </div>`;
+}
+
 function openMasteryMap() {
     let mask = document.getElementById('mmMask');
     if (!mask) {
@@ -181,7 +219,7 @@ function openMasteryMap() {
                     </button>`).join('')}
             </div>
         </div>`).join('') : `<div class="an-empty">${mmShowAll ? '暂无数据。' : '🎉 按当前标记，所有知识点都已 100% 掌握（可点「显示全部」核对）。'}</div>`;
-    body.innerHTML = bars + groupsHtml;
+    body.innerHTML = mmDailyCard() + bars + groupsHtml;
     const sw = document.getElementById('mmShowAllBtn');
     if (sw) {
         sw.classList.toggle('on', mmShowAll);

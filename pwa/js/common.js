@@ -293,3 +293,76 @@ function toggleSideCollapse() {
         if (localStorage.getItem(SIDE_COLLAPSED_KEY) === '1') applySideCollapsed(true);
     } catch (e) { }
 })();
+
+// ============ 每日做题数据（2026-10-14）============
+// localStorage 'dailyMarks' = { 'YYYY-MM-DD': { qid: 'unknown'|'unfamiliar'|'cleared'|'fav'|'unfav' } }
+// 用途：掌握地图置顶显示「每天做了多少题」的打卡数据。
+// ⚠️ **只在用户主动操作路径调用**（各页的 toggleStatus / toggleFav）。
+//    绝不能改成在 statusSave/favSave 里拦截 —— 那两个函数有 9 处调用，
+//    其中 4 处是数据迁移（migrateXxx），会把「搬家」误记成「今天做了题」。
+// ⚠️ 同一天同一题只占一条（后写覆盖先写）：计数口径 = 当天做过的**题数**（按 qid 去重）。
+// ⚠️ 三处副本都要调用：category.js / exam.js / exam-shared.js 各有一份 toggleStatus·toggleFav。
+const DAILY_KEY = 'dailyMarks';
+const DAILY_KEEP = 120;               // 只保留最近 120 天，防 localStorage 膨胀
+
+function dailyGet() {
+    try { return JSON.parse(localStorage.getItem(DAILY_KEY)) || {}; } catch (e) { return {}; }
+}
+function dailySave(d) {
+    try { localStorage.setItem(DAILY_KEY, JSON.stringify(d)); } catch (e) { }
+}
+/** 本地日期键 YYYY-MM-DD（用本地时区；别用 toISOString —— 那是 UTC，晚上会差一天） */
+function dayKeyOf(ts) {
+    const d = ts ? new Date(ts) : new Date();
+    const p = n => (n < 10 ? '0' : '') + n;
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+}
+/** 记一笔「今天动过这道题」。kind 仅用于细分展示，计数按 qid 去重。 */
+function markDaily(qid, kind) {
+    if (!qid) return;
+    const d = dailyGet();
+    const k = dayKeyOf();
+    if (!d[k]) d[k] = {};
+    d[k][qid] = kind;
+    const keys = Object.keys(d).sort();
+    if (keys.length > DAILY_KEEP) {
+        for (const old of keys.slice(0, keys.length - DAILY_KEEP)) delete d[old];
+    }
+    dailySave(d);
+}
+/** 最近 n 天的每日题数（从旧到新，含今天）。返回 [{ day:'MM-DD', key:'YYYY-MM-DD', n, by:{unknown,unfamiliar,fav}}] */
+function dailyRecent(n) {
+    const d = dailyGet();
+    const out = [];
+    const today = new Date();
+    for (let i = n - 1; i >= 0; i--) {
+        const dt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i);
+        const key = dayKeyOf(dt);
+        const rec = d[key] || {};
+        const by = { unknown: 0, unfamiliar: 0, fav: 0 };
+        let cnt = 0;
+        for (const qid in rec) {
+            cnt++;
+            const v = rec[qid];
+            if (v === 'unknown') by.unknown++;
+            else if (v === 'unfamiliar') by.unfamiliar++;
+            else if (v === 'fav') by.fav++;
+        }
+        const p = x => (x < 10 ? '0' : '') + x;
+        out.push({ day: p(dt.getMonth() + 1) + '-' + p(dt.getDate()), key, n: cnt, by });
+    }
+    return out;
+}
+/** 连续打卡天数（从今天往前数，今天为 0 也能算「断签」前的连续段） */
+function dailyStreak() {
+    const d = dailyGet();
+    const today = new Date();
+    let streak = 0;
+    for (let i = 0; i < 400; i++) {
+        const dt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i);
+        const n = Object.keys(d[dayKeyOf(dt)] || {}).length;
+        if (n > 0) streak++;
+        else if (i > 0) break;      // 今天还没做不算断（从昨天继续数）
+    }
+    return streak;
+}

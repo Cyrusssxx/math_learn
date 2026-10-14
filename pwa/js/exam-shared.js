@@ -95,6 +95,7 @@ function toggleStatus(qid, v) {
     const s = statusGet();
     if (s[qid] === v) delete s[qid]; else s[qid] = v;
     statusSave(s);
+    if (typeof markDaily === 'function') markDaily(qid, s[qid] || 'cleared');   // 每日做题
     return s[qid] || null;
 }
 
@@ -141,6 +142,7 @@ function toggleFav(qid, btn) {
     const f = favGet();
     if (f[qid]) delete f[qid]; else f[qid] = { t: Date.now() };
     favSave(f);
+    if (typeof markDaily === 'function') markDaily(qid, f[qid] ? 'fav' : 'unfav');   // 每日做题
     if (btn) {
         const on = !!f[qid];
         btn.classList.toggle('on', on);

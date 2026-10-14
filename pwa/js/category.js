@@ -6,6 +6,11 @@ const FAV_KEY = 'examFav';            // { qid: 1 }，qid = 套卷id-题no
 const FAV_ONLY_KEY = 'examFavOnly';   // 是否只看收藏（常量保留，界面已由三选筛选替代）
 const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'unfamiliar' | 'unknown' }：不熟/不会掌握度标记（互斥）
 
+// ============ 每日做题数据 ============
+// markDaily / dailyRecent / dailyStreak 定义在 js/common.js（所有页面都加载，
+// 这样真题页 exam.js 的那份 toggleStatus/toggleFav 副本也能一并记录）。
+// 本页只在 toggleStatus / toggleFav 里调用。
+
 // ============ 收藏存储 ============
 // 收藏/标记统一主键：核心题库/线代题库的题若映射到数二真题（linkedQid），直接沿用真题的 qid，
 // 从而与「真题页 / 分类题库」的收藏、不熟、不会标记、笔记双向同步。
@@ -255,6 +260,7 @@ function toggleStatus(qid, v) {
     const s = statusGet();
     if (s[qid] === v) delete s[qid]; else s[qid] = v;
     statusSave(s);
+    markDaily(qid, s[qid] || 'cleared');   // 记入「每日做题」（取消标记也算动过这道题）
     return s[qid] || null;
 }
 function isFav(qid) { return !!favGet()[qid]; }
@@ -286,6 +292,7 @@ function toggleFav(qid, btn) {
     const f = favGet();
     if (f[qid]) delete f[qid]; else f[qid] = { t: Date.now() };
     favSave(f);
+    markDaily(qid, f[qid] ? 'fav' : 'unfav');   // 记入「每日做题」
     if (btn) {
         const on = !!f[qid];
         btn.classList.toggle('on', on);

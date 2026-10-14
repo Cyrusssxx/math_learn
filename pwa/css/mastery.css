@@ -108,3 +108,44 @@
 .mm-cell.mm-todo .mm-cell-fill { background: #9aa0a8; }
 .mm-cell.mm-todo .mm-cell-rate { color: #767c85; }
 .mm-legend .mm-dot { margin-right: 0; }
+
+/* ============ 每日做题卡片（掌握地图置顶，2026-10-14）============
+ * 数据来自 common.js 的 markDaily（category/exam/exam-shared 三处 toggle 都会写）。
+ * 配色遵循项目规范：淡雅有色、淡底 + 细描边 + 主色字，不使用低明度灰字做内容。 */
+:root { --mm-rgb: 74, 111, 217; }        /* = 浅色 --accent #4a6fd9 */
+.dark { --mm-rgb: 137, 180, 250; }       /* = 深色 --accent #89b4fa */
+
+.dm-card {
+    background: rgba(var(--mm-rgb), .07);
+    border: 1px solid rgba(var(--mm-rgb), .20);
+    border-radius: 10px;
+    padding: 12px 14px 9px;
+    margin-bottom: 14px;
+}
+.dm-top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.dm-today { display: flex; align-items: baseline; gap: 5px; }
+.dm-today b { font-size: 26px; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1; }
+.dm-today span { font-size: 12.5px; color: var(--text-dim); }
+.dm-chips { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; min-width: 120px; }
+.dm-chip { font-style: normal; font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid transparent; }
+.dm-u { background: rgba(220, 38, 38, .12); border-color: rgba(220, 38, 38, .28); color: #b3261e; }
+.dm-f { background: rgba(234, 179, 8, .14); border-color: rgba(234, 179, 8, .32); color: #a16207; }
+.dm-v { background: rgba(var(--mm-rgb), .12); border-color: rgba(var(--mm-rgb), .28); color: var(--accent); }
+.dm-none { background: transparent; border-color: var(--border); color: var(--text-faint); }
+.dm-streak { font-size: 12.5px; color: var(--text-dim); white-space: nowrap; }
+.dm-streak.on b { color: var(--strong); font-size: 15px; }
+
+/* 近 14 天柱状图 */
+.dm-chart { display: flex; align-items: flex-end; gap: 3px; height: 58px; margin-top: 10px; }
+.dm-col { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+.dm-bar { width: 100%; max-width: 26px; border-radius: 3px 3px 0 0; background: rgba(var(--mm-rgb), .45); }
+.dm-col.today .dm-bar { background: var(--accent); }
+.dm-bar.zero { background: var(--border); }
+.dm-lab { font-size: 9.5px; color: var(--text-faint); margin-top: 3px; line-height: 1; }
+.dm-col.today .dm-lab { color: var(--accent); font-weight: 600; }
+.dm-foot { font-size: 11.5px; color: var(--text-faint); margin-top: 7px; }
+.dm-foot b { color: var(--accent); }
+
+/* 深色模式：语义色换更亮的同色相 */
+.dark .dm-u { color: #f38ba8; }
+.dark .dm-f { color: #f9e2af; }
