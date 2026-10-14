@@ -447,13 +447,25 @@ const Annot = (() => {
         const b = data[noteId];
         if (!b) return;
         if (!b.__sid) {
-            const orphans = migrateKeys(b, [...article.querySelectorAll('li, p')]);
-            b.__sid = true;
-            b.orphans = orphans;
-            save();
-            const oc = Object.keys(orphans.hl).length + Object.keys(orphans.notes).length + orphans.marks.length;
-            if (oc > 0)
-                annNotify(`已迁移旧版标注；其中 ${oc} 条因内容变动无法定位，可点「恢复标注」找回。`, { recover: true });
+            // ⚠️ 检测「是否已是新格式 sid」（键 = 当前笔记id#序号）。
+            //    2026-10-14 修复：导入时 __sid 未转储 → 打开笔记误判为旧版 → migrateKeys
+            //    把新格式键当旧格式 hash#N 解析 → 全部孤儿 + 数据清空。此检测兜底，避免误迁。
+            const curPfx = noteId + '#';
+            const keys = [...Object.keys(b.hl || {}), ...Object.keys(b.notes || {}),
+            ...(b.marks || []).map(m => m && m.k)].filter(Boolean);
+            const newStyle = keys.length && keys.every(k => k.indexOf(curPfx) === 0);
+            if (newStyle) {
+                b.__sid = true;          // 已是新格式，仅补标记不再迁移
+                save();
+            } else {
+                const orphans = migrateKeys(b, [...article.querySelectorAll('li, p')]);
+                b.__sid = true;
+                b.orphans = orphans;
+                save();
+                const oc = Object.keys(orphans.hl).length + Object.keys(orphans.notes).length + orphans.marks.length;
+                if (oc > 0)
+                    annNotify(`已迁移旧版标注；其中 ${oc} 条因内容变动无法定位，可点「恢复标注」找回。`, { recover: true });
+            }
         }
         const byKey = {};
         article.querySelectorAll('[data-sid]').forEach(el => { byKey[el.dataset.sid] = el; });
@@ -935,6 +947,7 @@ const Annot = (() => {
                     await imgPut(id, await (await fetch(durl)).blob());
                 for (const [id, src] of Object.entries(annot)) {
                     const dst = data[id] || (data[id] = { hl: {}, notes: {}, marks: [] });
+                    if (src.__sid) dst.__sid = true;   // 2026-10-14: 防止导入后误判旧版触发迁移清空数据
                     Object.assign(dst.hl, src.hl || {});
                     mergeNotes(dst, src);
                     const gids = new Set((dst.marks || []).map(gidOf));
