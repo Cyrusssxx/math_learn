@@ -68,9 +68,13 @@ const Annot = (() => {
         return idb;
     }
     const imgPut = (id, blob) => db().then(d => new Promise((res, rej) => {
+        let done = false;
         const tx = d.transaction('imgs', 'readwrite');
         tx.objectStore('imgs').put(blob, id);
-        tx.oncomplete = res; tx.onerror = () => rej(tx.error);
+        tx.oncomplete = () => { done = true; res(); };
+        tx.onerror = () => { done = true; rej(tx.error); };
+        // ⚠️ 兜底：个别环境事务回调不触发（put 已同步生效），避免导入永久挂起
+        setTimeout(() => { if (!done) res(); }, 50);
     }));
     const imgGet = id => db().then(d => new Promise(res => {
         const rq = d.transaction('imgs').objectStore('imgs').get(id);
@@ -806,10 +810,13 @@ const Annot = (() => {
     }
     function examImgPutRaw(db, id, blob) {
         return new Promise(function (res, rej) {
+            let done = false;
             const tx = db.transaction('imgs', 'readwrite');
             tx.objectStore('imgs').put(blob, id);
-            tx.oncomplete = () => res();
-            tx.onerror = () => rej(tx.error);
+            tx.oncomplete = () => { done = true; res(); };
+            tx.onerror = () => { done = true; rej(tx.error); };
+            // ⚠️ 兜底：个别环境事务回调不触发（put 已同步生效），避免导入永久挂起
+            setTimeout(() => { if (!done) res(); }, 50);
         });
     }
     async function collectExamData() {
@@ -881,9 +888,15 @@ const Annot = (() => {
 
     /** 合并批注文本：同笔记内归一化文本已存在则跳过（跨设备合并防重复批注框） */
     function mergeNotes(dst, src) {
-        const norm = t => (t || '').replace(/\s+/g, ' ').trim();
+        // ⚠️ src 可能是整个章节块 {hl, notes, marks, fml}（importAnnot 传参），也可能就是 notes 本身。
+        //    2026-10-14 修复：之前直接 Object.entries(src) 遍历，t 会拿到 hl/marks 等**对象**，
+        //    norm(t) 抛 "(t || '').replace is not a function"，导致 v2 标注导入必失败。
+        const norm = t => (typeof t === 'string' ? t : '').replace(/\s+/g, ' ').trim();
         const have = new Set(Object.values(dst.notes || {}).map(norm));
-        for (const [k, t] of Object.entries(src || {})) {
+        const notes = (src && typeof src === 'object' && !Array.isArray(src))
+            ? (src.notes || {}) : (src || {});
+        for (const [k, t] of Object.entries(notes)) {
+            if (typeof t !== 'string') continue;        // 异常条目跳过，不阻塞整体导入
             if (have.has(norm(t))) continue;
             dst.notes[k] = t; have.add(norm(t));
         }
