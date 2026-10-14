@@ -65,9 +65,17 @@ def main():
     core = json.loads(io.open(P('core_bank.json'), encoding='utf-8').read())
     qs = [q for s in core[0]['sections'] for q in s['questions']]
 
-    # 未细分题（只挂章根）
-    only_root = [q for q in qs if (q.get('deepCats') or []) and
-                 min([x for x in (dtr(x) for x in q['deepCats']) if x is not None] or [99]) == 0]
+    # 真正未细分 = deepCats 里**没有任何** depth>0 的节点（即全都是章根）
+    # ⚠️ 不能用 min(...)==0 判定：归类时是「追加子节点并保留章根」，
+    #    保留章根会让 min 恒为 0 → 已归类的题会被误判成未细分、重复出现在清单里
+    def has_sub(q):
+        for x in (q.get('deepCats') or []):
+            d = dtr(x)
+            if d is not None and d > 0:
+                return True
+        return False
+
+    only_root = [q for q in qs if (q.get('deepCats') or []) and not has_sub(q)]
 
     # 每章：已细分题挂得最多的子节点 Top3（推荐候选）
     by_root_hot = collections.defaultdict(collections.Counter)
