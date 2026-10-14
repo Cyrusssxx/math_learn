@@ -1848,7 +1848,7 @@ function copyCatQLatex(btn) {
     if (!hit) return;
     let text = (paper && paper.year ? paper.year + '年 题' + hit.no + '\n' : '') + (hit.stem || '');
     if (hit.options && hit.options.length) text += '\n' + hit.options.join('\n');
-    if (hit.answer) text += '\n【答案】' + hit.answer;
+    if (hit.answer) text += '\n' + hit.answer.replace(/^(【答案】)+/, '【答案】');   // 数据自带【答案】前缀，归一防重复
     copyTextToClipboard(text, btn, '已复制 ✓');
 }
 
