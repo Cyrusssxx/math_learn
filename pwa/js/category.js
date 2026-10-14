@@ -1405,18 +1405,21 @@ function isUnmarked(e) {
     return !isFav(qid) && !statusOf(qid);
 }
 
-/** 掌握度分组：不会 0 → 不熟 1 → 收藏 2 → 无标记 3 → 掌握 4（掌握排最下） */
+/** 掌握度分组（2026-10-14 用户定稿）：
+ *  不会 0 → 不熟 1 → 掌握+收藏 2 → 掌握无收藏 3 → 仅收藏 4 → 无标记 5
+ *  「掌握」类内部：收藏的排更前（掌握+收藏最上），只收藏没标掌握的垫在掌握类之下。 */
 function masteryRankOf(qid) {
     const st = statusOf(qid);
     if (st === 'unknown') return 0;
     if (st === 'unfamiliar') return 1;
-    if (st === 'mastered') return 4;   // 掌握优先于收藏判断：同时收藏+掌握也排在最后
-    if (isFav(qid)) return 2;
-    return 3;                          // 无任何标记
+    if (st === 'mastered') return isFav(qid) ? 2 : 3;   // 掌握+收藏 在 掌握无收藏 之上
+    if (isFav(qid)) return 4;                           // 仅收藏没掌握
+    return 5;                                           // 无任何标记
 }
 
 /** 排序比较器
- *  默认：按掌握度分组（不会 → 不熟 → 收藏 → 无标记 → 掌握），组内「收藏时间倒序 → 年份（倒序/顺序由开关控制）」
+ *  默认：按掌握度分组（不会 → 不熟 → 掌握+收藏 → 掌握无收藏 → 仅收藏 → 无标记），
+ *        组内「收藏时间倒序 → 年份（倒序/顺序由开关控制）」
  *  开启「⭕ 无标记」：无标记的排最前，其余仍按掌握度分组
  */
 function compareEntries(a, b) {
