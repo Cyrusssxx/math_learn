@@ -1176,7 +1176,7 @@ function qCard(p, sec, q, secIdx) {
     const hasImg = /\[图:[a-z0-9]+\]/.test(note);
     // 编辑器：contenteditable 富文本，[图:id] 直接以内嵌图片呈现（不再显示占位文本）
     // 笔记格式工具条：字色 + 高亮 + 清除（作用于选区）
-    const NOTE_COLORS = ['#e03131', '#e8590c', '#2f9e44', '#1971c2', '#9c36b5'];
+    const NOTE_COLORS = ['#e03131', '#e8590c', '#2f9e44', '#1971c2', '#9c36b5', '#495057'];
     const NOTE_HLS = ['#fff3bf', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4'];
     const NOTE_TOOLBAR = `<div class="q-note-toolbar" hidden>
         <span class="q-nt-lab">字色</span>

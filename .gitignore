@@ -11,3 +11,7 @@ tools/_ans_crop_v2/
 tools/_cmp_pngs/
 tools/*.png
 _verify/
+
+# 本地备份，不上线
+pwa/data/*.bak_*
+pwa/data/*.bak

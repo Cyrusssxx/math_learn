@@ -2,7 +2,7 @@
  * 预缓存全部页面/样式/脚本/笔记数据/KaTeX/图标，安装后完全离线可用。
  * 升级笔记数据或代码后：改 CACHE_VER 版本号即可让客户端自动换新缓存。
  */
-const CACHE_VER = 'mathcards-f5a849b2a2';
+const CACHE_VER = 'mathcards-096b0dc0bb';
 
 const PRECACHE = [
     'index.html',
@@ -148,11 +148,36 @@ self.addEventListener('activate', (e) => {
     );
 });
 
-// cache-first：离线优先；缓存未命中再走网络并回填（KaTeX 字体靠这里回填缓存）
+// 取策略：
+//  ① sw.js 本体：永远走网络（否则旧 SW 会一直缓存住自己，更新永不生效）
+//  ② 同源 HTML / JS / CSS：网络优先，失败(离线)才回落缓存 —— 保证改代码后刷新即生效
+//  ③ 其它（字体/图片/数据等）：缓存优先，未命中再走网络并回填（离线可用）
+// 注：不再使用 ignoreSearch，这样 HTML 里的 ?v=<hash> 能真正击穿缓存。
+const NET_FIRST_RE = /\.(?:html|js|css)(?:\?.*)?$/i;
 self.addEventListener('fetch', (e) => {
     if (e.request.method !== 'GET') return;
+    const url = new URL(e.request.url);
+    // ① sw.js 本体：绕过缓存
+    if (url.origin === location.origin && url.pathname.endsWith('/sw.js')) {
+        e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+        return;
+    }
+    // ② 同源 HTML/JS/CSS：网络优先
+    if (url.origin === location.origin && NET_FIRST_RE.test(url.pathname)) {
+        e.respondWith(
+            fetch(e.request).then(resp => {
+                if (resp.ok) {
+                    const clone = resp.clone();
+                    caches.open(CACHE_VER).then(cache => cache.put(e.request, clone));
+                }
+                return resp;
+            }).catch(() => caches.match(e.request))
+        );
+        return;
+    }
+    // ③ 其它资源：缓存优先
     e.respondWith(
-        caches.match(e.request, { ignoreSearch: true }).then(hit => {
+        caches.match(e.request).then(hit => {
             if (hit) return hit;
             return fetch(e.request).then(resp => {
                 if (resp.ok && new URL(e.request.url).origin === location.origin) {
