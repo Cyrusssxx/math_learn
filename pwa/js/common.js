@@ -93,7 +93,7 @@ renderDarkSwitch();
         document.body.appendChild(b);
     }
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=345f7e2f').then(reg => {
+        navigator.serviceWorker.register('sw.js').then(reg => {
             reg.addEventListener('updatefound', () => {
                 const nw = reg.installing;
                 if (!nw) return;

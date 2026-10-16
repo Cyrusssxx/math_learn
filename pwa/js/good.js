@@ -241,7 +241,7 @@ document.addEventListener('click', e => {
 // ============ Service Worker ============
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=345f7e2f').catch(err => {
+        navigator.serviceWorker.register('sw.js').catch(err => {
             console.warn('SW 注册失败（file:// 下属正常，请用 start.bat 启动）:', err);
         });
     });
