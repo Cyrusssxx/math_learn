@@ -3,7 +3,7 @@
    ----------------------------------------------------------------------------
    与「掌握地图」的分工：
      掌握地图 = 看**当前数据源**的整体分布（色块图）
-     本面板   = 针对**核心题库**（core_bank.json，1074 题 = 严选题 741 + 线代重点题 333，
+     本面板   = 针对**核心题库**（core_bank.json，902 题 = 高数 714 + 线代臻选题 188，
                 后者已于 2026-10-11 物理并入），回答「接下来刷哪个知识点」
    ⚠️ 范围必须与分类页 core 模式的显示口径一致：线代重点题并入后，
       corePapers 天然就是完整题库，两边不会再出现「面板比页面少一截」的问题。
@@ -53,8 +53,9 @@ function advWeight() {
 
 /** 汇总题库四态(按 L2 知识点 + 总计)。
  *  ⚠️ 范围 = corePapers 全部。2026-10-11 线代重点题（原 xd_bank.json 333 题）已**物理并入**
- *  core_bank.json（题号 743 起、带 fromX/xdNo），所以「核心题库」本身就是完整的 1074 题
- *  （741 严选 + 333 线代重点），与分类页 core 模式口径天然一致，无需再单独遍历 xd。 */
+ *  core_bank.json（题号 743 起、带 fromX/xdNo），所以「核心题库」本身就是完整的 902 题
+ *  （741 严选 + 333 线代重点），与分类页 core 模式口径天然一致；
+ *  2026-10-19 线代臻选题 188 题已并入 core_bank（替代原 346 题线代），corePapers 一份即全部。 */
 function advCore() {
     const st = (typeof statusGet === 'function') ? (statusGet() || {}) : {};
     const fav = (typeof favGet === 'function') ? (favGet() || {}) : {};
@@ -104,7 +105,7 @@ function openStudyAdvice() {
                 <div class="an-head">
                     <div>
                         <div class="an-title">💡 核心题库 · 刷题建议</div>
-                        <div class="an-sub" id="advSub">按「你的薄弱标记 × 待刷量」排出优先顺序 · 核心题库已含线代重点题（1074 题）· 点一行直达该知识点</div>
+                        <div class="an-sub" id="advSub">按「你的薄弱标记 × 待刷量」排出优先顺序 · 线代部分已由臻选题替代 · 点一行直达该知识点</div>
                     </div>
                     <div class="adv-headbtns">
                         <button class="an-x" onclick="closeStudyAdvice()" title="关闭">✕</button>

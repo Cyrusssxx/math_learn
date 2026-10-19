@@ -1207,9 +1207,19 @@ let papers = [];
 let cats = {};          // { id: {id,name,path,parent} }
 let allEntries = [];    // { paper, secTitle, q, catId }
 let curCat = null;      // 选中的知识点(L3) id
-// 数据源切换：exam = 数二真题（exam.json，2000-2026）；core = 核心题库（core_bank.json，大观严选题 606 题）
-const SRC_MODE_KEY = 'catSrcMode';
-let srcMode = (function () { try { return localStorage.getItem(SRC_MODE_KEY) === 'core' ? 'core' : 'exam'; } catch (e) { return 'exam'; } })();
+// 数据源切换：exam = 数二真题（exam.json，2000-2026）；core = 核心题库（core_bank.json，902 题）
+// 默认 = 核心题库（用户主要使用核心题库）。
+// 2026-10-19：线代臻选题 188 题**全面替代**核心题库的线代部分（原 346 题线代已从 core_bank 移除），
+//   不再单独做数据源。⚠️ SRC_MODE_KEY 升版为 catSrcMode2：老键里可能存着 'exam'，
+//   直接改默认值对老用户不生效；换键等于把默认值变更推给所有人（只是个 UI 开关偏好，无数据损失）。
+const SRC_MODE_KEY = 'catSrcMode2';
+const SRC_MODES = ['exam', 'core'];
+let srcMode = (function () {
+    try {
+        const v = localStorage.getItem(SRC_MODE_KEY);
+        return SRC_MODES.includes(v) ? v : 'core';
+    } catch (e) { return 'core'; }
+})();
 // 无标记优先：把未收藏、未标「不熟/不会」的题排到最前（刷题时先清「没碰过的」）
 const UNMARKED_FIRST_KEY = 'catUnmarkedFirst';
 let unmarkedFirst = (function () { try { return localStorage.getItem(UNMARKED_FIRST_KEY) === '1'; } catch (e) { return false; } })();
@@ -1220,7 +1230,7 @@ let sideClosed = (function () { try { return localStorage.getItem(CAT_SIDE_KEY) 
 const YEAR_SORT_KEY = 'catYearSortDesc';
 let yearSortDesc = (function () { try { return localStorage.getItem(YEAR_SORT_KEY) !== '0'; } catch (e) { return true; } })();
 let examPapers = [];    // 真题套卷（含后并入的大观园习题卷）
-let corePapers = [];    // 核心题库（单「卷」，内部按章节分节）
+let corePapers = [];    // 核心题库（单「卷」，12 节：高数 6 节 + 线代 6 节=臻选题）
 let examStemSet = new Set();   // 真题题干归一化集合（仅真题，不含大观园习题卷）——供大观园题库精确去重
 
 // 题干归一化：只删 LaTeX 结构符号、保留公式内容里的字母数字汉字（与数据侧判重口径一致）。
@@ -1238,7 +1248,7 @@ function normStem(s) {
 }
 const SRC_META = {
     exam: { label: '📝 真题', title: '分类题库', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
-    core: { label: '📘 核心题库', title: '核心题库', sub: '' },
+    core: { label: '📘 核心题库', title: '核心题库', sub: '高数 714 题 + 线代臻选题 188 题（线代部分已由臻选题替代）' },
 };
 const collapsedSubjects = new Set();   // 折叠的学科
 const collapsedChapters = new Set();   // 折叠的章节
@@ -1380,8 +1390,8 @@ function applySrcMode(persist) {
     const btn = document.getElementById('srcToggle');
     if (btn) {
         btn.textContent = meta.label;
-        btn.title = (srcMode === 'core')
-            ? '当前：核心题库。点击切回数二真题'
+        btn.title = srcMode === 'core'
+            ? '当前：核心题库（高数 + 线代臻选题）。点击切回数二真题'
             : '当前：数二真题（2000-2026）。点击切换到核心题库';
     }
     const t = document.querySelector('.exam-title');
@@ -1392,7 +1402,9 @@ function applySrcMode(persist) {
 }
 
 function toggleSrcMode() {
-    srcMode = (srcMode === 'core') ? 'exam' : 'core';
+    // 两态循环：exam ⇄ core
+    const i = SRC_MODES.indexOf(srcMode);
+    srcMode = SRC_MODES[(i + 1) % SRC_MODES.length];
     applySrcMode(true);
     buildEntries();
     buildDeepIndex();   // 题集变了，细分类计数跟着重建
@@ -2014,7 +2026,7 @@ function allEntriesAllSources() {
         }
     };
     pushPapers(examPapers);
-    pushPapers(corePapers);          // 已含并入的线代重点题（fromX）
+    pushPapers(corePapers);          // 已含并入的线代重点题（fromX）与线代臻选题（替代原 346 题线代）
     for (const list of [bankItems]) {
         for (const e of (list || [])) out.push({ paper: e.paper, secTitle: e.secTitle || '', q: e.q });
     }
@@ -2188,7 +2200,8 @@ function ppKindOf(secTitle, q) {
 }
 
 /** catId → 章（12 节之一）。运行时从 core_bank 的节归属取众数 ——
- *  那份归属 2026-10-13 已按大观严选题书签重排过，可信（真题 catId 覆盖率 100%）。 */
+ *  那份归属 2026-10-13 已按大观严选题书签重排过，可信（真题 catId 覆盖率 100%）。
+ *  2026-10-19 线代臻选题已并入 core_bank（替代原 346 题线代），这里只需 corePapers 一份。 */
 let _ppCatCh = null;
 function ppChapterOf(q) {
     if (_ppCatCh === null) {
