@@ -1587,6 +1587,13 @@ function curCatSet() {
 function renderTree() {
     const entries = activeEntries();
     const el = document.getElementById('catTree');
+    // 触摸设备（无 hover）不挂悬停浮层：手机上 tap 会先触发 mouseenter，
+    // 浮层弹出后盖住节点，导致「分支点不动」。触屏一律直接走 onclick。
+    // 窄屏也视为触屏（部分安卓浏览器会误报 hover:hover），避免浮层盖住节点导致点不动
+    const canHover = (function () {
+        try { return !window.matchMedia('(hover: none)').matches && window.innerWidth > 900; }
+        catch (e) { return window.innerWidth > 900; }
+    })();
     if (!entries.length) {
         el.innerHTML = '<div class="empty-tip">当前筛选条件下没有题目。到真题页点 ☆ 收藏，或点题右侧「不熟/不会」打标记后，这里会按章节汇总。</div>';
         return;
@@ -1605,7 +1612,7 @@ function renderTree() {
                 ${s.chapters.map(ch => {
                     const copen = !collapsedChapters.has(ch.id);
                     const leafOn = String(curCat) === String(ch.id);
-                    const chHover = deepRootOfChapter(ch.id) ? ` onmouseenter="onChapterNodeEnter(this, ${ch.id})" onmouseleave="scheduleHideDeepFly()"` : '';
+                    const chHover = (canHover && deepRootOfChapter(ch.id)) ? ` onmouseenter="onChapterNodeEnter(this, ${ch.id})" onmouseleave="scheduleHideDeepFly()"` : '';
                     return `<div class="cat-chapter">
                         <div class="cat-chapter-head${leafOn ? ' on' : ''}"${chHover} title="${ch.display || ch.name}${deepRootOfChapter(ch.id) ? '（悬停查看下分支）' : ''}">
                             <span class="cat-chapter-arrow" onclick="toggleChapter(${ch.id})" title="展开/收起本章">${copen ? '▾' : '▸'}</span>
@@ -1613,7 +1620,7 @@ function renderTree() {
                             <span class="cat-count" onclick="selectCat(${ch.id})">${ch.count}</span>
                         </div>
                         <div class="cat-chapter-body" style="display:${copen ? 'block' : 'none'}">
-                            ${ch.leaves.map(l => `<button class="cat-leaf${String(curCat) === String(l.id) ? ' on' : ''}" data-cat="${l.id}" onclick="selectCat(${l.id})" onmouseenter="onCatNodeEnter(this, ${l.id})" onmouseleave="scheduleHideDeepFly()" title="${l.name}${deepRootOfCat(l.id) ? '（悬停查看细分支）' : ''}">
+                            ${ch.leaves.map(l => `<button class="cat-leaf${String(curCat) === String(l.id) ? ' on' : ''}" data-cat="${l.id}" onclick="selectCat(${l.id})"${canHover ? ` onmouseenter="onCatNodeEnter(this, ${l.id})" onmouseleave="scheduleHideDeepFly()"` : ''} title="${l.name}${(canHover && deepRootOfCat(l.id)) ? '（悬停查看细分支）' : ''}">
                                 <span class="cat-leaf-name">${l.display || l.name}</span>
                                 <span class="cat-count">${l.count}</span>
                             </button>`).join('')}
@@ -1826,6 +1833,61 @@ function coreAddFromCard(btn) {
     } else {
         catToast(r.msg || '添加失败');
     }
+}
+
+// ============ 主列表分批渲染（移动端防卡死） ============
+// 整章可达 300+ 题，一次性 innerHTML + KaTeX 会让手机卡死数秒。
+// 首屏只渲染 CAT_PAGE 题，滚到底自动追加；KaTeX / 笔记贴图只处理新增批次。
+const CAT_PAGE = 24;
+let _catEntries = [], _catShown = 0, _catCardFn = null, _catIO = null;
+
+function catBatchAfterRender(batch) {
+    renderMath(batch);
+    batch.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+}
+function catUpdateMore() {
+    const btn = document.getElementById('catMoreBtn');
+    const tip = document.getElementById('catMoreTip');
+    const rest = _catEntries.length - _catShown;
+    if (btn) {
+        btn.style.display = rest > 0 ? '' : 'none';
+        btn.textContent = '⬇️ 加载更多题（还剩 ' + rest + ' 题）';
+    }
+    if (tip) tip.textContent = rest > 0 ? ('已显示 ' + _catShown + ' / ' + _catEntries.length + ' 题')
+        : ('已全部加载 ' + _catEntries.length + ' 题');
+}
+function catAppendMore() {
+    const wrap = document.getElementById('catList');
+    if (!wrap) return;
+    const slice = _catEntries.slice(_catShown, _catShown + CAT_PAGE);
+    if (!slice.length) { catUpdateMore(); return; }
+    const batch = document.createElement('div');
+    batch.className = 'cat-batch';
+    batch.innerHTML = slice.map((e, i) => _catCardFn(e, _catShown + i)).join('');
+    wrap.appendChild(batch);
+    _catShown += slice.length;
+    catBatchAfterRender(batch);
+    catUpdateMore();
+}
+function catSetupAutoMore() {
+    if (_catIO) { _catIO.disconnect(); _catIO = null; }
+    const t = document.getElementById('catBottom');
+    if (!t || typeof IntersectionObserver === 'undefined') return;
+    _catIO = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting)) catAppendMore(); }, { rootMargin: '900px' });
+    _catIO.observe(t);
+}
+/** 开始渲染一批列表：headHtml 为卷首，cardFn(entry, index) 返回单题 HTML */
+function catStartList(entries, headHtml, cardFn) {
+    const el = document.getElementById('catMain');
+    _catEntries = entries || [];
+    _catShown = 0;
+    _catCardFn = cardFn || (e => catCard(e.paper, e.secTitle, e.q));
+    const more = _catEntries.length > CAT_PAGE
+        ? `<div class="rv-bottom" id="catBottom"><button class="exam-btn" id="catMoreBtn" onclick="catAppendMore()">⬇️ 加载更多题</button><span class="rv-more-tip" id="catMoreTip"></span></div>`
+        : '';
+    el.innerHTML = headHtml + '<div id="catList"></div>' + more;
+    catAppendMore();
+    catSetupAutoMore();
 }
 
 // 状态按钮点击：互斥切换不熟/不会，刷新按钮态 + 若正在搜索结果中刷新列表
@@ -2536,10 +2598,7 @@ function renderMain() {
     const markNames = { fav: '📥收藏', unfamiliar: '🟡不熟', unknown: '🔴不会' };
     const activeMark = Object.keys(markSel).filter(k => markSel[k]);
     if (activeMark.length) html += `<div class="cat-filter-tip">筛选：${activeMark.map(k => markNames[k]).join(' / ')}</div>`;
-    entries.forEach(e => { html += catCard(e.paper, e.secTitle, e.q); });
-    el.innerHTML = html;
-    renderMath(el);
-    el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+    catStartList(entries, html);
     renderNav();   // 刷新悬浮题号导航
 }
 // ============ 顶栏搜索：题干文字 / 年份 / 题号 / 知识点路径 ============
@@ -2606,25 +2665,24 @@ function renderSearchResults() {
         el.innerHTML = h + `<div class="empty-tip">没有匹配题目。试试别的关键词，或切换「收藏/不熟/不会」筛选。</div>`;
         return;
     }
-    let html = h;
-    let lastBranch = '';   // 连续同分支只显示一条跳转条
-    entries.forEach(e => {
+    // 逐题惰性生成（分批渲染，避免一次性 1000+ 题卡卡死）；连续同分支只显示一条跳转条
+    let lastBranch = '';
+    const cardFn = (e) => {
+        let one = '';
         const c = cats[String(e.catId)];
         if (c) {
             const path = c.path || c.name || String(e.catId);
             if (path !== lastBranch) {
                 lastBranch = path;
-                html += `<div class="q-branch-chip" onclick="jumpBranch(${e.catId})" title="展开左侧分类树并进入该知识点分支刷题">
+                one += `<div class="q-branch-chip" onclick="jumpBranch(${e.catId})" title="展开左侧分类树并进入该知识点分支刷题">
                     <span class="q-branch-path">📂 ${esc(path)}</span>
                     <span class="q-branch-go">进入此分支 →</span>
                 </div>`;
             }
         }
-        html += catCard(e.paper, e.secTitle, e.q);
-    });
-    el.innerHTML = html;
-    renderMath(el);
-    el.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+        return one + catCard(e.paper, e.secTitle, e.q);
+    };
+    catStartList(entries, h, cardFn);
     requestAnimationFrame(() => window.scrollTo(0, sy));
     renderNav();
 }
@@ -3146,6 +3204,13 @@ function catNavQNos() {
 function renderNav() {
     const el = document.getElementById('floatQNo');
     if (!el) return;
+    // 窄屏（手机）题号球已被 CSS 隐藏：跳过整棵构建，省掉上千个按钮的渲染
+    if (window.innerWidth <= 900) {
+        el.textContent = '—';
+        const l0 = document.getElementById('floatQList');
+        if (l0) l0.innerHTML = '';
+        return;
+    }
     const list = document.getElementById('floatQList');
     const ents = catSearchKw ? activeEntries().filter(catSearchMatch) : (curCat != null ? activeEntries().filter(e => curCatSet().has(String(e.catId))) : []);
     const nos = ents.map(e => e.q.no);
@@ -3169,13 +3234,18 @@ function renderNav() {
 }
 function jumpToQ(no) {
     // 分类页：跳到首个 data-qno=no 的题卡（该题可能多分类重复，取当前列表内首个）
-    const card = Array.from(document.querySelectorAll('.q-card[data-qno="' + no + '"]')).find(c => !c.closest('[hidden]'));
+    // 分批渲染下目标可能还没生成 → 边加载边找
+    const find = () => Array.from(document.querySelectorAll('.q-card[data-qno="' + no + '"]')).find(c => !c.closest('[hidden]'));
+    let card = find(), guard = 0;
+    while (!card && _catEntries.length > _catShown && guard++ < 80) { catAppendMore(); card = find(); }
     if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 function highlightNav() {
-    const cards = Array.from(document.querySelectorAll('.q-card'));
+    // 先看题号球在不在（手机端已被隐藏）：不在就立刻返回，避免白遍历上千张卡片
     const btns = document.querySelectorAll('.nav-q');
-    if (!cards.length || !btns.length) return;
+    if (!btns.length) return;
+    const cards = Array.from(document.querySelectorAll('.q-card'));
+    if (!cards.length) return;
     const half = window.innerHeight * 0.45;
     let cur = null;
     for (const c of cards) {
@@ -3191,7 +3261,14 @@ function highlightNav() {
     const fq = document.getElementById('floatQ');
     if (fq) { fq.classList.toggle('collapsed', navCollapsed); fq.classList.toggle('expanded', !navCollapsed); }
 })();
-window.addEventListener('scroll', highlightNav, { passive: true });
+// 滚动时高亮题号球：必须 rAF 节流——每次滚动都遍历全部卡片取
+// getBoundingClientRect 会强制回流，题多时手机上直接卡成幻灯片
+let _navRaf = 0;
+function onScrollNav() {
+    if (_navRaf) return;
+    _navRaf = requestAnimationFrame(() => { _navRaf = 0; highlightNav(); });
+}
+window.addEventListener('scroll', onScrollNav, { passive: true });
 
 init().catch(e => {
     const el = document.getElementById('catMain');

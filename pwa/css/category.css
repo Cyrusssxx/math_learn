@@ -537,3 +537,40 @@ body.paper-mode #catMain { max-width: 900px; }
 }
 .pp-row:hover .pp-del { opacity: 1; }
 .pp-del:hover { background: rgba(220, 38, 38, .14); color: #b3261e; }
+
+/* ============ 触屏（手机/平板）优化 ============
+ * 1) 分类树行高放大到 ≥44px —— 手指点击精度远低于鼠标，原 30px 行高极易点错
+ * 2) 主区允许收缩（grid 子项默认 min-width:auto 会被长公式撑出横向溢出，
+ *    导致整页坐标偏移、感觉"点哪儿都不对"）
+ * 3) 触屏没有 hover：取消悬停底色，避免点完残留高亮
+ * 4) 窄屏左栏收窄，给正文留出宽度 */
+.exam-main, .exam-side { min-width: 0; }
+
+@media (hover: none), (max-width: 900px) {
+    .exam-wrap { grid-template-columns: 168px 1fr; }
+    .cat-leaf {
+        min-height: 44px; padding: 10px 12px; font-size: 15px;
+        gap: 10px; margin-bottom: 4px;
+    }
+    .cat-chapter-head {
+        min-height: 44px; padding: 10px 10px; font-size: 15px; gap: 8px;
+    }
+    .paper-group-head {
+        min-height: 46px; padding: 10px 10px; font-size: 15px; gap: 8px;
+    }
+    /* 展开/收起箭头单独给足触控宽度，减少误点到名字 */
+    .cat-chapter-arrow, .paper-group-arrow { width: 28px; font-size: 13px; }
+    .cat-count, .paper-group-count { font-size: 12px; padding: 2px 9px; }
+    .cat-chapter-body { padding-left: 12px; }
+    /* 触屏无 hover：不保留悬停底色 */
+    .cat-leaf:hover, .cat-chapter-head:hover, .paper-group-head:hover { background: transparent; }
+    .cat-leaf.on, .cat-leaf.on:hover { background: var(--bg-active); }
+}
+
+@media (max-width: 420px) {
+    .exam-wrap { grid-template-columns: 148px 1fr; }
+    .cat-leaf { font-size: 14px; padding: 10px 8px; gap: 6px; }
+    .cat-chapter-head { font-size: 14px; padding: 10px 6px; gap: 6px; }
+    .paper-group-head { font-size: 14.5px; padding: 10px 6px; }
+    .cat-count, .paper-group-count { padding: 2px 6px; font-size: 11px; }
+}
