@@ -1,0 +1,2424 @@
+[
+ {
+  "coreNo": 743,
+  "sec": "行列式",
+  "zxNo": 2,
+  "score": 0.1053,
+  "stem": "计算 $n$ 阶行列式\n$$\nD_n=\\begin{vmatrix}2&0&\\cdots&0&2\\\\-1&2&\\cdots&0&2\\\\\\vdots&\\vdots&\\ddots&\\vdots&\\vdots\\\\0&0&\\cdots&2&2\\\\0&0&\\cdots&-1&2\\end{vmatrix}.\n$$"
+ },
+ {
+  "coreNo": 744,
+  "sec": "行列式",
+  "zxNo": 3,
+  "score": 0.0851,
+  "stem": "计算\n$$\n\\begin{vmatrix}\\lambda&-1&0&0\\\\0&\\lambda&-1&0\\\\0&0&\\lambda&-1\\\\4&3&2&\\lambda+1\\end{vmatrix}.\n$$"
+ },
+ {
+  "coreNo": 745,
+  "sec": "行列式",
+  "zxNo": 33,
+  "score": 0.0274,
+  "stem": "计算\n$$\n\\begin{vmatrix}a_1&0&0&b_1\\\\0&a_2&b_2&0\\\\0&b_3&a_3&0\\\\b_4&0&0&a_4\\end{vmatrix}.\n$$"
+ },
+ {
+  "coreNo": 746,
+  "sec": "行列式",
+  "zxNo": 1,
+  "score": 0.3133,
+  "stem": "计算\n$$\n\\begin{vmatrix}0&a&b&0\\\\a&0&0&b\\\\0&c&d&0\\\\c&0&0&d\\end{vmatrix}.\n$$"
+ },
+ {
+  "coreNo": 747,
+  "sec": "行列式",
+  "zxNo": 33,
+  "score": 0.1404,
+  "stem": "计算\n$$\n\\begin{vmatrix}1&1&1&0\\\\1&1&0&1\\\\1&0&1&1\\\\0&1&1&1\\end{vmatrix}.\n$$"
+ },
+ {
+  "coreNo": 748,
+  "sec": "行列式",
+  "zxNo": 4,
+  "score": 0.4651,
+  "stem": "计算\n$$\n\\begin{vmatrix}a&0&-1&1\\\\0&a&1&-1\\\\-1&1&a&0\\\\1&-1&0&a\\end{vmatrix}.\n$$"
+ },
+ {
+  "coreNo": 749,
+  "sec": "行列式",
+  "zxNo": 16,
+  "score": 0.1132,
+  "stem": "设 $A$ 为 $n$ 阶方阵，$|A|=a\\ne0$，$A^*$ 是 $A$ 的伴随矩阵，求 $|A^*|$。"
+ },
+ {
+  "coreNo": 750,
+  "sec": "行列式",
+  "zxNo": 23,
+  "score": 0.0392,
+  "stem": "设 $4$ 阶矩阵 $A=(\\alpha,\\gamma_2,\\gamma_3,\\gamma_4)$，$B=(\\beta,\\gamma_2,\\gamma_3,\\gamma_4)$，且 $|A|=4, |B|=1$，求 $|A+B|$。"
+ },
+ {
+  "coreNo": 751,
+  "sec": "行列式",
+  "zxNo": 17,
+  "score": 0.1667,
+  "stem": "设 $A$ 是 $3$ 阶方阵，$|A|=\\dfrac12$，求\n$$\n\\left|(3A)^{-1}-2A^*\\right|.\n$$"
+ },
+ {
+  "coreNo": 752,
+  "sec": "行列式",
+  "zxNo": 25,
+  "score": 0.119,
+  "stem": "设 $A$ 为 $m$ 阶方阵，$B$ 为 $n$ 阶方阵，$|A|=a, |B|=b$，求\n$$\n\\left|\\begin{pmatrix}O&A\\\\B&O\\end{pmatrix}\\right|.\n$$"
+ },
+ {
+  "coreNo": 753,
+  "sec": "行列式",
+  "zxNo": 10,
+  "score": 0.4667,
+  "stem": "设 $A$ 为 $n$ 阶方阵，且 $AA^T=E,\\ |A|\\lt0$，求 $|A+E|$。"
+ },
+ {
+  "coreNo": 754,
+  "sec": "行列式",
+  "zxNo": 5,
+  "score": 0.127,
+  "stem": "设 $A$ 是 $m\\times n$ 矩阵，$B$ 是 $n\\times m$ 矩阵，判断下列命题："
+ },
+ {
+  "coreNo": 755,
+  "sec": "行列式",
+  "zxNo": 20,
+  "score": 0.1818,
+  "stem": "若 $4$ 阶矩阵 $A$ 与 $B$ 相似，$A$ 的特征值为 $\\dfrac12,\\dfrac13,\\dfrac14,\\dfrac15$，求 $|B^{-1}-E|$。"
+ },
+ {
+  "coreNo": 756,
+  "sec": "行列式",
+  "zxNo": 6,
+  "score": 0.4545,
+  "stem": "设3阶方阵 $A,B$ 满足 $A^{2}B-A-B=E$，其中 $E$ 为3阶单位阵，若 $A=\\begin{pmatrix}1&0&1\\\\0&2&0\\\\-2&0&1\\end{pmatrix}$，则 $|B|=$ ________."
+ },
+ {
+  "coreNo": 757,
+  "sec": "行列式",
+  "zxNo": 6,
+  "score": 0.0526,
+  "stem": "设\n$$\nA=\\begin{pmatrix}2&1&0\\\\1&2&0\\\\0&0&1\\end{pmatrix},\n$$\n矩阵 $B$ 满足 $ABA^*=2BA^*+E$，求 $|B|$。"
+ },
+ {
+  "coreNo": 758,
+  "sec": "行列式",
+  "zxNo": 26,
+  "score": 0.0345,
+  "stem": "设 $A=(\\alpha_1,\\alpha_2,\\alpha_3)$，\n$$\nB=(\\alpha_1+\\alpha_2+\\alpha_3,\\alpha_1+2\\alpha_2+4\\alpha_3,\\alpha_1+3\\alpha_2+9\\alpha_3),\n$$\n若 $|A|=1$，求 $|B|$。"
+ },
+ {
+  "coreNo": 759,
+  "sec": "行列式",
+  "zxNo": 38,
+  "score": 0.0357,
+  "stem": "设\n$$\nA=\\begin{pmatrix}2&1\\\\-1&2\\end{pmatrix},\n$$\n$B$ 满足 $BA=B+2E$，求 $|B|$。"
+ },
+ {
+  "coreNo": 760,
+  "sec": "行列式",
+  "zxNo": 15,
+  "score": 0.3265,
+  "stem": "设 $3$ 阶矩阵 $A$ 的特征值为 $1,2,2$，求 $|4A^{-1}-E|$。"
+ },
+ {
+  "coreNo": 761,
+  "sec": "行列式",
+  "zxNo": 11,
+  "score": 1,
+  "stem": "设 $A,B$ 为 3 阶矩阵，且 $|A|=3,|B|=2,|A^{-1}+B|=2$，则 $|A+B^{-1}|=$__________．"
+ },
+ {
+  "coreNo": 762,
+  "sec": "行列式",
+  "zxNo": 12,
+  "score": 0.9706,
+  "stem": "设 $A$ 为 $3$ 阶矩阵，$|A|=3$，$A^*$ 为 $A$ 的伴随矩阵。若交换 $A$ 的第 $1$ 行与第 $2$ 行得矩阵 $B$，则 $|BA^*|=$ ______"
+ },
+ {
+  "coreNo": 763,
+  "sec": "行列式",
+  "zxNo": 13,
+  "score": 0.0606,
+  "stem": "设矩阵 $A=\\begin{pmatrix}1&2&a\\\\1&4&a^2\\\\1&1&1\\end{pmatrix}$，$b=\\begin{pmatrix}d\\\\d^2\\\\1\\end{pmatrix}$。若集合 $\\Omega=\\{1,2\\}$，则线性方程组 $Ax=b$ 有无穷多解的充分必要条件为（　）"
+ },
+ {
+  "coreNo": 764,
+  "sec": "行列式",
+  "zxNo": 14,
+  "score": 0.4615,
+  "stem": "设 $2$ 阶矩阵 $A$ 有两个不同特征值，$\\alpha_1,\\alpha_2$ 是线性无关的特征向量，且\n$$\nA^2(\\alpha_1+\\alpha_2)=\\alpha_1+\\alpha_2,\n$$\n求 $|A|$。"
+ },
+ {
+  "coreNo": 765,
+  "sec": "行列式",
+  "zxNo": 14,
+  "score": 0.15,
+  "stem": "设 $A$ 为 3 阶矩阵，$\\alpha_1,\\alpha_2$ 为 $A$ 的属于特征值 1 的线性无关的特征向量，$\\alpha_3$ 为 $A$ 的属于特征值 $-1$ 的特征向量，则满足\n$$\nP^{-1}AP=\\begin{pmatrix}1&0&0\\\\0&-1&0\\\\0&0&1\\end{pmatrix}\n$$\n的可逆矩阵 $P$ 可为（　）"
+ },
+ {
+  "coreNo": 767,
+  "sec": "行列式",
+  "zxNo": 16,
+  "score": 0.4262,
+  "stem": "设 $A$ 为 $3$ 阶矩阵，$A^*$ 为伴随矩阵，若\n$$\nr(2E-A)=1,\\qquad r(E+A)=2,\n$$\n求 $|A^*|$。"
+ },
+ {
+  "coreNo": 768,
+  "sec": "行列式",
+  "zxNo": 28,
+  "score": 0.4034,
+  "stem": "已知矩阵 $A=\\begin{pmatrix}1&-1&0&0\\\\-2&1&-1&1\\\\3&-2&2&-1\\\\0&0&3&4\\end{pmatrix}$，$A_{ij}$ 表示 $|A|$ 中元素 $a_{ij}$ 的代数余子式，则 $A_{11}-A_{12}=\\underline{\\qquad\\qquad}$。"
+ },
+ {
+  "coreNo": 769,
+  "sec": "行列式",
+  "zxNo": 30,
+  "score": 0.878,
+  "stem": "设 $A=(a_{ij})$ 为 $3$ 阶矩阵，$A_{ij}$ 为代数余子式。若 $A$ 的每行元素之和均为 $2$，且 $|A|=3$，求\n$$\nA_{11}+A_{21}+A_{31}.\n$$"
+ },
+ {
+  "coreNo": 770,
+  "sec": "行列式",
+  "zxNo": 34,
+  "score": 0.2595,
+  "stem": "设\n$$\nA=\\begin{pmatrix}a+1&b&3\\\\a&\\dfrac b2&1\\\\1&1&2\\end{pmatrix},\n$$\n$M_{ij}$ 表示余子式。已知 $|A|=-\\dfrac12$，且\n$$\n-M_{21}+M_{22}-M_{23}=0,\n$$\n判断下列选项："
+ },
+ {
+  "coreNo": 771,
+  "sec": "行列式",
+  "zxNo": null,
+  "score": 0,
+  "stem": "函数 $f(x)=\\begin{cases}\\dfrac{e^x-1}{x},&x\\ne0\\\\[6pt]1,&x=0\\end{cases}$，在 $x=0$ 处（　）"
+ },
+ {
+  "coreNo": 772,
+  "sec": "行列式",
+  "zxNo": 39,
+  "score": 0.6567,
+  "stem": "设\n$$\nf(x)=\\begin{vmatrix}x-2&x-1&x-2&x-3\\\\2x-2&2x-1&2x-2&2x-3\\\\3x-3&3x-2&4x-5&3x-5\\\\4x&4x-3&5x-7&4x-3\\end{vmatrix},\n$$\n求方程 $f(x)=0$ 的根的个数。"
+ },
+ {
+  "coreNo": 773,
+  "sec": "行列式",
+  "zxNo": 2,
+  "score": 0.0323,
+  "stem": "设 $x ≠ 0$，则 $D_4 = \\begin{vmatrix} x & x & 0 & 0 \\\\ 1 & 1+2x & 2x & 0 \\\\ 0 & 2 & 2+3x & 3x \\\\ 0 & 0 & 3 & 3+4x \\end{vmatrix} = $ ________．"
+ },
+ {
+  "coreNo": 774,
+  "sec": "行列式",
+  "zxNo": 38,
+  "score": 0.5672,
+  "stem": "多项式 $f(x) = \\begin{vmatrix} 1 & x & -1 & x^2+1 \\\\ x & 1 & x^2+1 & -1 \\\\ -1 & x^2+1 & 1 & x \\\\ x^2+1 & -1 & x & 1 \\end{vmatrix}$ 的常数项是 ________．"
+ },
+ {
+  "coreNo": 710,
+  "sec": "矩阵",
+  "zxNo": 115,
+  "score": 0.1654,
+  "stem": "设 $A$ 为 $3$ 阶实对称矩阵，$A$ 的各行元素之和均为 $0$。若 $A$ 的全部非零特征值为 $1,6$，则下列命题中，正确命题的个数为（ ）。① $A^*$ 的全部元素均不为 $0$；② $|(A^*)^*|\\ne0$；③ $6$ 是 $A^*$ 的唯一非零特征值；④ $A^*x=0$ 与 $Ax=0$ 有非零公共解。"
+ },
+ {
+  "coreNo": 711,
+  "sec": "矩阵",
+  "zxNo": 50,
+  "score": 0.7568,
+  "stem": "设 $A=(a_{ij})$ 为 $3$ 阶非零矩阵，$A_{ij}$ 为 $a_{ij}$ 的代数余子式。若 $A_{ij}=2a_{ij}$（$i,j=1,2,3$），则 $|A|=$ ______。"
+ },
+ {
+  "coreNo": 712,
+  "sec": "矩阵",
+  "zxNo": 61,
+  "score": 0.6173,
+  "stem": "设三阶矩阵 $A$ 有特征值 $\\lambda_1=\\lambda_2=-1$，$\\lambda_3=2$，且 $A$ 不能相似于对角阵，则 $r(A+E)+r(A-E)+r(A-2E)=$（ ）。"
+ },
+ {
+  "coreNo": 713,
+  "sec": "矩阵",
+  "zxNo": 109,
+  "score": 0.6126,
+  "stem": "设 $A=\\begin{pmatrix}1&2&1\\\\0&1&a\\\\1&a&0\\end{pmatrix}$，$3$ 阶非零矩阵 $B$ 满足 $BA=O$。（I）求矩阵 $B$；（II）若 $B$ 的第一列是 $(1,2,-3)^{\\mathrm{T}}$，求 $(B-E)^6$。"
+ },
+ {
+  "coreNo": 714,
+  "sec": "矩阵",
+  "zxNo": 75,
+  "score": 0.6567,
+  "stem": "设 $A$ 为 $3$ 阶矩阵，$b=(9,18,-18)^{\\mathrm{T}}$，非齐次线性方程组 $Ax=b$ 的通解为 $k_1(2,0,1)^{\\mathrm{T}}+k_2(-2,1,0)^{\\mathrm{T}}+(1,2,-2)^{\\mathrm{T}}$，其中 $k_1,k_2$ 为任意常数，求 $A$ 与 $A^{100}$。"
+ },
+ {
+  "coreNo": 715,
+  "sec": "矩阵",
+  "zxNo": 74,
+  "score": 0.4762,
+  "stem": "设 $A$ 为 $2$ 阶矩阵，则 $(E-A)^{-1}=E+A$ 是 $A^5=O$ 的（ ）。"
+ },
+ {
+  "coreNo": 716,
+  "sec": "矩阵",
+  "zxNo": 60,
+  "score": 0.0556,
+  "stem": "已知矩阵 $A=\\begin{pmatrix}a&1\\\\1&a\\end{pmatrix}$，正定矩阵 $C$ 满足 $C^2=(a+2)E-A$，则 $C$ 的所有元素之和为 ________。"
+ },
+ {
+  "coreNo": 717,
+  "sec": "矩阵",
+  "zxNo": 115,
+  "score": 0.7965,
+  "stem": "设 $A$ 为 $3$ 阶实对称矩阵，特征值为 $1, 2, 3$，$\\alpha = (1, -1, 0)^T, \\beta = (1, 1, -2)^T$ 分别为 $A$ 的属于特征值 $1$ 和 $2$ 的特征向量，则 $A$ 的第一行元素之和为 ________。"
+ },
+ {
+  "coreNo": 775,
+  "sec": "矩阵",
+  "zxNo": 90,
+  "score": 0.1449,
+  "stem": "设矩阵 $A=\\begin{pmatrix}0&0&0&1\\\\0&0&1&0\\\\0&1&0&0\\\\1&0&0&0\\end{pmatrix}$，则 $A^{-1}=$ ______。"
+ },
+ {
+  "coreNo": 776,
+  "sec": "矩阵",
+  "zxNo": 90,
+  "score": 0.0899,
+  "stem": "设矩阵 $A=\\begin{pmatrix}3&0&0\\\\1&4&0\\\\0&0&3\\end{pmatrix}$，$E=\\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&1\\end{pmatrix}$，则逆矩阵 $(A-2E)^{-1}=$ ______。"
+ },
+ {
+  "coreNo": 777,
+  "sec": "矩阵",
+  "zxNo": 96,
+  "score": 0.2373,
+  "stem": "设 $4$ 阶方阵 $A=\\begin{pmatrix}5&2&0&0\\\\2&1&0&0\\\\0&0&1&-2\\\\0&0&1&1\\end{pmatrix}$，则 $A^{-1}=$ ______。"
+ },
+ {
+  "coreNo": 778,
+  "sec": "矩阵",
+  "zxNo": 87,
+  "score": 0.0462,
+  "stem": "设 $A=\\begin{pmatrix}0&a_1&0&\\cdots&0\\\\0&0&a_2&\\cdots&0\\\\\\vdots&\\vdots&\\vdots&&\\vdots\\\\0&0&0&\\cdots&a_{n-1}\\\\a_n&0&0&\\cdots&0\\end{pmatrix}$，其中 $a_i\\ne0$（$i=1,2,\\cdots,n$），则 $A^{-1}=$ ______。"
+ },
+ {
+  "coreNo": 779,
+  "sec": "矩阵",
+  "zxNo": 89,
+  "score": 0.1075,
+  "stem": "设 $A=\\begin{pmatrix}1&0&0\\\\2&2&0\\\\3&4&5\\end{pmatrix}$，$A^*$ 是 $A$ 的伴随矩阵，则 $(A^*)^{-1}=$ ______。"
+ },
+ {
+  "coreNo": 780,
+  "sec": "矩阵",
+  "zxNo": 57,
+  "score": 0.0435,
+  "stem": "设 $A=\\begin{pmatrix}1&0&0&0\\\\-2&3&0&0\\\\0&-4&5&0\\\\0&0&-6&7\\end{pmatrix}$，$E$ 为 $4$ 阶单位矩阵，且 $B=(E+A)^{-1}(E-A)$，则 $(E+B)^{-1}=\\underline{\\hspace{8em}}$。"
+ },
+ {
+  "coreNo": 781,
+  "sec": "矩阵",
+  "zxNo": 41,
+  "score": 1,
+  "stem": "设 $n$ 阶矩阵 $A$ 满足 $A^2+A-4E=O$，则 $(A-E)^{-1}=$ ______。"
+ },
+ {
+  "coreNo": 782,
+  "sec": "矩阵",
+  "zxNo": 42,
+  "score": 0.3551,
+  "stem": "设 $n$ 维向量 $\\alpha=(a,0,\\cdots,0,a)^{\\mathrm{T}}$，$E$ 为 $n$ 阶单位矩阵，矩阵 $A=E-\\alpha\\alpha^{\\mathrm{T}}$，其中 $a\\lt0$；$B=E+\\frac1a\\alpha\\alpha^{\\mathrm{T}}$。若 $A$ 的逆矩阵为 $B$，则 $a=$ ______。"
+ },
+ {
+  "coreNo": 783,
+  "sec": "矩阵",
+  "zxNo": 43,
+  "score": 0.4494,
+  "stem": "已知矩阵 $A$ 和 $E-A$ 可逆，其中 $E$ 为单位矩阵，若矩阵 $B$ 满足 \n$$\n\\left[E-(E-A)^{-1}\\right]B=A,\n$$\n 则 $B-A=\\underline{\\hspace{2cm}}$。"
+ },
+ {
+  "coreNo": 784,
+  "sec": "矩阵",
+  "zxNo": 44,
+  "score": 0.8764,
+  "stem": "已知对于 $n$ 阶方阵 $A$，存在自然数 $k$，使得 $A^k=O$。试证明矩阵 $E-A$ 可逆，并写出其逆矩阵的表达式（$E$ 为 $n$ 阶单位矩阵）。"
+ },
+ {
+  "coreNo": 785,
+  "sec": "矩阵",
+  "zxNo": 104,
+  "score": 0.0847,
+  "stem": "设 $A=E-\\xi\\xi^{\\mathrm{T}}$，其中 $E$ 是 $n$ 阶单位矩阵，$\\xi$ 是 $n$ 维非零列向量，$\\xi^{\\mathrm{T}}$ 是 $\\xi$ 的转置。证明：（1）$A^2=A$ 的充要条件是 $\\xi^{\\mathrm{T}}\\xi=1$；（2）当 $\\xi^{\\mathrm{T}}\\xi=1$ 时，$A$ 是不可逆矩阵。"
+ },
+ {
+  "coreNo": 786,
+  "sec": "矩阵",
+  "zxNo": 113,
+  "score": 0.129,
+  "stem": "设 $A$ 是 $n$ 阶可逆方阵，将 $A$ 的第 $i$ 行和第 $j$ 行对换后得到的矩阵记为 $B$。（I）证明 $B$ 可逆；（II）求 $AB^{-1}$。"
+ },
+ {
+  "coreNo": 787,
+  "sec": "矩阵",
+  "zxNo": 46,
+  "score": 0.5728,
+  "stem": "设 $A$ 为 $n$ 阶非奇异矩阵，$\\alpha$ 为 $n$ 维列向量，$b$ 为常数。记分块矩阵 $P=\\begin{pmatrix}E&\\mathbf{0}\\\\-\\alpha^{\\mathrm{T}}A^*&|A|\\end{pmatrix}$，$Q=\\begin{pmatrix}A&\\alpha\\\\\\alpha^{\\mathrm{T}}&b\\end{pmatrix}$，其中 $A^*$ 是矩阵 $A$ 的伴随矩阵，$E$ 为 $n$ 阶单位矩阵。（1）计算并化简 $PQ$；（2）证明：矩阵 $Q$ 可逆的充分必要条件是 $b\\ne\\alpha^{\\mathrm{T}}A^{-1}\\alpha$。"
+ },
+ {
+  "coreNo": 788,
+  "sec": "矩阵",
+  "zxNo": 82,
+  "score": 0.0845,
+  "stem": "已知 $A,B$ 为 3 阶矩阵，且满足 $2A^{-1}B=B-4E$，其中 $E$ 是 3 阶单位矩阵。\n（1）证明：矩阵 $A-2E$ 可逆；\n（2）若 $B=\\begin{pmatrix}1&-2&0\\\\1&2&0\\\\0&0&2\\end{pmatrix}$，求矩阵 $A$。"
+ },
+ {
+  "coreNo": 789,
+  "sec": "矩阵",
+  "zxNo": 45,
+  "score": 0.2278,
+  "stem": "设 $A$ 为 $n$ 阶非零矩阵，$E$ 为 $n$ 阶单位矩阵，若 $A^3=O$，则（　　）\n（A）$E-A$ 不可逆，$E+A$ 不可逆\n（B）$E-A$ 不可逆，$E+A$ 可逆\n（C）$E-A$ 可逆，$E+A$ 可逆\n（D）$E-A$ 可逆，$E+A$ 不可逆"
+ },
+ {
+  "coreNo": 790,
+  "sec": "矩阵",
+  "zxNo": 45,
+  "score": 0.5,
+  "stem": "设 $\\alpha$ 为 $n$ 维单位列向量，$E$ 为 $n$ 阶单位矩阵，则（ ）。"
+ },
+ {
+  "coreNo": 791,
+  "sec": "矩阵",
+  "zxNo": 46,
+  "score": 0.2718,
+  "stem": "设 $A$ 为 $n$ 阶非奇异矩阵（$n\\ge2$），$A^*$ 是矩阵 $A$ 的伴随矩阵，则 $(A^*)^*=$（ ）。"
+ },
+ {
+  "coreNo": 792,
+  "sec": "矩阵",
+  "zxNo": 51,
+  "score": 0.0303,
+  "stem": "设 $A$ 是任一 $n$ 阶方阵（$n\\ge3$），$A^*$ 是其伴随矩阵，又 $k$ 为常数，且 $k\\ne0,\\pm1$，则 $(kA)^*=$（ ）。"
+ },
+ {
+  "coreNo": 793,
+  "sec": "矩阵",
+  "zxNo": 47,
+  "score": 0.1698,
+  "stem": "设 $A$ 为 $n$ 阶非零方阵，$A^*$ 是 $A$ 的伴随矩阵，$A^{\\mathrm{T}}$ 是 $A$ 的转置矩阵。当 $A^*=A^{\\mathrm{T}}$ 时，证明 $|A|\\ne0$。"
+ },
+ {
+  "coreNo": 794,
+  "sec": "矩阵",
+  "zxNo": 47,
+  "score": 0.6769,
+  "stem": "设矩阵 $A=(a_{ij})_{3\\times3}$ 满足 $A^*=A^{\\mathrm{T}}$，其中 $A^*$ 是 $A$ 的伴随矩阵，$A^{\\mathrm{T}}$ 为 $A$ 的转置矩阵。若 $a_{11},a_{12},a_{13}$ 为三个相等的正数，则 $a_{11}$ 为（ ）。"
+ },
+ {
+  "coreNo": 795,
+  "sec": "矩阵",
+  "zxNo": 48,
+  "score": 0.9778,
+  "stem": "设 $A=(a_{ij})$ 是 $3$ 阶非零矩阵，$|A|$ 为 $A$ 的行列式，$A_{ij}$ 为 $a_{ij}$ 的代数余子式。若 $a_{ij}+A_{ij}=0$（$i,j=1,2,3$），则 $|A|=$ ______。"
+ },
+ {
+  "coreNo": 796,
+  "sec": "矩阵",
+  "zxNo": 46,
+  "score": 0.0342,
+  "stem": "假设 $D$ 是矩阵 $A$ 的 $r$ 阶非零子式，且含 $D$ 的一切 $r+1$ 阶子式都等于 $0$，那么矩阵 $A$ 的一切 $r+1$ 阶子式都等于 $0$。（判断正误）"
+ },
+ {
+  "coreNo": 797,
+  "sec": "矩阵",
+  "zxNo": 54,
+  "score": 0.0952,
+  "stem": "已知向量组 $\\alpha_1=(1,2,3,4)^{\\mathrm{T}}$，$\\alpha_2=(2,3,4,5)^{\\mathrm{T}}$，$\\alpha_3=(3,4,5,6)^{\\mathrm{T}}$，$\\alpha_4=(4,5,6,7)^{\\mathrm{T}}$，则该向量组的秩是 ______。"
+ },
+ {
+  "coreNo": 798,
+  "sec": "矩阵",
+  "zxNo": 114,
+  "score": 0.0323,
+  "stem": "设 $A=\\begin{pmatrix}a_1b_1&a_1b_2&\\cdots&a_1b_n\\\\a_2b_1&a_2b_2&\\cdots&a_2b_n\\\\\\vdots&\\vdots&\\ddots&\\vdots\\\\a_nb_1&a_nb_2&\\cdots&a_nb_n\\end{pmatrix}$，其中 $a_i\\ne0$、$b_i\\ne0$（$i=1,2,\\cdots,n$），则矩阵 $A$ 的秩 $r(A)=$ ______。"
+ },
+ {
+  "coreNo": 799,
+  "sec": "矩阵",
+  "zxNo": 51,
+  "score": 0.0833,
+  "stem": "设 $4$ 阶方阵 $A$ 的秩为 $2$，则其伴随矩阵 $A^*$ 的秩为 ______。"
+ },
+ {
+  "coreNo": 800,
+  "sec": "矩阵",
+  "zxNo": 113,
+  "score": 0.1754,
+  "stem": "设 $A$ 是 $m\\times n$ 矩阵，$C$ 是 $n$ 阶可逆矩阵，矩阵 $A$ 的秩为 $r$，矩阵 $B=AC$ 的秩为 $r_1$，则（ ）。"
+ },
+ {
+  "coreNo": 801,
+  "sec": "矩阵",
+  "zxNo": 54,
+  "score": 0.371,
+  "stem": "已知向量组（I）$\\alpha_1,\\alpha_2,\\alpha_3$；（II）$\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4$；（III）$\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_5$。如果各向量组的秩分别为 $r(\\mathrm{I})=3$，$r(\\mathrm{II})=3$，$r(\\mathrm{III})=4$，证明：向量组 $\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_5-\\alpha_4$ 的秩为 $4$。"
+ },
+ {
+  "coreNo": 802,
+  "sec": "矩阵",
+  "zxNo": 69,
+  "score": 0.0845,
+  "stem": "设 $A$ 是 $4\\times3$ 矩阵，且 $A$ 的秩 $r(A)=2$，而 $B=\\begin{pmatrix}1&0&2\\\\0&2&0\\\\-1&0&3\\end{pmatrix}$，则 $r(AB)=$ ______。"
+ },
+ {
+  "coreNo": 803,
+  "sec": "矩阵",
+  "zxNo": 65,
+  "score": 0.0462,
+  "stem": "（本题满分12分）\n设矩阵 $A=\\begin{pmatrix}0&1&a\\\\1&0&1\\end{pmatrix}$，$B=\\begin{pmatrix}1&1\\\\1&1\\\\b&2\\end{pmatrix}$，$f(x_1,x_2,x_3)=x^TBAx$，已知方程组 $Ax=0$ 的解是 $B^Tx=0$ 的解，但两个方程组不同解。（1）求 $a,b$ 的值；（2）求正交变换 $x=Qy$ 将 $f(x_1,x_2,x_3)$ 化为标准形。"
+ },
+ {
+  "coreNo": 804,
+  "sec": "矩阵",
+  "zxNo": 55,
+  "score": 0.1982,
+  "stem": "设 $\\alpha,\\beta$ 为 $3$ 维列向量，矩阵 $A=\\alpha\\alpha^T+\\beta\\beta^T$，其中 $\\alpha^T,\\beta^T$ 分别是 $\\alpha,\\beta$ 的转置。证明：\n\n（1）秩 $r(A)\\le2$；\n\n（2）若 $\\alpha,\\beta$ 线性相关，则秩 $r(A)\\lt2$。"
+ },
+ {
+  "coreNo": 805,
+  "sec": "矩阵",
+  "zxNo": 56,
+  "score": 0.1081,
+  "stem": "设 $A$ 为 $m\\times n$ 矩阵，$B$ 为 $n\\times m$ 矩阵，满足 $AB=E_m$，则（ ）。"
+ },
+ {
+  "coreNo": 806,
+  "sec": "矩阵",
+  "zxNo": 57,
+  "score": 0.5902,
+  "stem": "设 $\\alpha$ 为 $3$ 维单位列向量，$E$ 为 $3$ 阶单位矩阵，则矩阵 $E-\\alpha\\alpha^{\\mathrm{T}}$ 的秩为 ______。"
+ },
+ {
+  "coreNo": 807,
+  "sec": "矩阵",
+  "zxNo": 93,
+  "score": 0.1282,
+  "stem": "设矩阵 $A=\\begin{pmatrix}1&0&1\\\\0&0&1\\\\1&1&3\\\\1&1&1\\end{pmatrix}$，$C=\\begin{pmatrix}2&0\\\\1&1\\\\1&1\\\\a&b\\end{pmatrix}$。若存在矩阵 $B$ 使得 $AB=C$，则（　）"
+ },
+ {
+  "coreNo": 808,
+  "sec": "矩阵",
+  "zxNo": 108,
+  "score": 0.125,
+  "stem": "设 $A$ 是 $4$ 阶矩阵，$A^*$ 是 $A$ 的伴随矩阵。若线性方程组 $Ax=0$ 的基础解系中只有 $2$ 个向量，则 $r(A^*)=$（　）"
+ },
+ {
+  "coreNo": 809,
+  "sec": "矩阵",
+  "zxNo": 80,
+  "score": 0.0755,
+  "stem": "已知向量组 $\\alpha_1=(1,2,-1,1)^{\\mathrm{T}}$，$\\alpha_2=(2,0,t,0)^{\\mathrm{T}}$，$\\alpha_3=(0,-4,5,-2)^{\\mathrm{T}}$ 的秩为 $2$，则 $t=$ ______。"
+ },
+ {
+  "coreNo": 810,
+  "sec": "矩阵",
+  "zxNo": 113,
+  "score": 0.0652,
+  "stem": "设 $A$ 是 $n$ 阶矩阵（$n\\ge3$），且 $A=\\begin{pmatrix}1&a&a&\\cdots&a\\\\a&1&a&\\cdots&a\\\\a&a&1&\\cdots&a\\\\\\vdots&\\vdots&\\vdots&&\\vdots\\\\a&a&a&\\cdots&1\\end{pmatrix}$。若矩阵 $A$ 的秩为 $n-1$，则 $a$ 必为（ ）。"
+ },
+ {
+  "coreNo": 811,
+  "sec": "矩阵",
+  "zxNo": 86,
+  "score": 0.0241,
+  "stem": "设 $A=\\begin{pmatrix}k&1&1&1\\\\1&k&1&1\\\\1&1&k&1\\\\1&1&1&k\\end{pmatrix}$，且 $r(A)=3$，则 $k=$ ______。"
+ },
+ {
+  "coreNo": 812,
+  "sec": "矩阵",
+  "zxNo": 63,
+  "score": 0.1039,
+  "stem": "设 $A=\\begin{pmatrix}a&b&b\\\\b&a&b\\\\b&b&a\\end{pmatrix}$，且 $r(A^*)=1$，则（ ）。"
+ },
+ {
+  "coreNo": 813,
+  "sec": "矩阵",
+  "zxNo": 70,
+  "score": 0.0909,
+  "stem": "已知 $AP=PB$，其中 $B=\\begin{pmatrix}1&0&0\\\\0&0&0\\\\0&0&-1\\end{pmatrix}$，$P=\\begin{pmatrix}1&0&0\\\\2&-1&0\\\\2&1&1\\end{pmatrix}$，求 $A$ 及 $A^5$。"
+ },
+ {
+  "coreNo": 814,
+  "sec": "矩阵",
+  "zxNo": 76,
+  "score": 0.2703,
+  "stem": "设 $3$ 阶矩阵 $A$ 的特征值为 $\\lambda_1=1$、$\\lambda_2=2$、$\\lambda_3=3$，对应的特征向量依次为 $\\xi_1=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$，$\\xi_2=\\begin{pmatrix}1\\\\2\\\\4\\end{pmatrix}$，$\\xi_3=\\begin{pmatrix}1\\\\3\\\\9\\end{pmatrix}$。又向量 $\\beta=\\begin{pmatrix}1\\\\1\\\\3\\end{pmatrix}$。（1）将 $\\beta$ 用 $\\xi_1,\\xi_2,\\xi_3$ 线性表出；（2）求 $A^n\\beta$（$n$ 为自然数）。"
+ },
+ {
+  "coreNo": 815,
+  "sec": "矩阵",
+  "zxNo": 47,
+  "score": 0.0147,
+  "stem": "已知 $\\alpha=\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}$，$\\beta=\\begin{pmatrix}1\\\\\\frac12\\\\\\frac13\\end{pmatrix}$，设 $A=\\alpha\\beta^{\\mathrm{T}}$，其中 $\\beta^{\\mathrm{T}}$ 是 $\\beta$ 的转置，则 $A^n=$ ______。"
+ },
+ {
+  "coreNo": 816,
+  "sec": "矩阵",
+  "zxNo": 47,
+  "score": 0.0523,
+  "stem": "（本题满分11分）\n设 $A=\\begin{pmatrix}1&0&1\\\\0&1&1\\\\-1&0&a\\\\0&a&-1\\end{pmatrix}$，$A^T$ 为 $A$ 的转置，已知 $r(A^TA)=2$，且二次型 $f(x_1,x_2,x_3)=x^T(A^TA)x$。\n（Ⅰ）求实数 $a$ 的值；\n（Ⅱ）求正交变换 $x=Qy$ 将 $f$ 化为标准形。"
+ },
+ {
+  "coreNo": 817,
+  "sec": "矩阵",
+  "zxNo": 76,
+  "score": 0.0256,
+  "stem": "某试验性生产线每年一月份进行熟练工与非熟练工的人数统计，然后将 $\\frac16$ 熟练工支援其他生产部门，其缺额由招收新的非熟练工补齐。新、老非熟练工经过培训及实践至年终考核有 $\\frac25$ 成为熟练工。设第 $n$ 年一月份统计的熟练工和非熟练工所占百分比分别为 $x_n$ 和 $y_n$，记成向量 $\\begin{pmatrix}x_n\\\\y_n\\end{pmatrix}$。（I）求 $\\begin{pmatrix}x_{n+1}\\\\y_{n+1}\\end{pmatrix}$ 与 $\\begin{pmatrix}x_n\\\\y_n\\end{pmatrix}$ 的关系式并写成矩阵形式：$\\begin{pmatrix}x_{n+1}\\\\y_{n+1}\\end{pmatrix}=A\\begin{pmatrix}x_n\\\\y_n\\end{pmatrix}$；（II）验证 $\\eta_1=\\begin{pmatrix}4\\\\1\\end{pmatrix}$，$\\eta_2=\\begin{pmatrix}-1\\\\1\\end{pmatrix}$ 是 $A$ 的两个线性无关的特征向量，并求出相应的特征值；（III）当 $\\begin{pmatrix}x_1\\\\y_1\\end{pmatrix}=\\begin{pmatrix}\\frac12\\\\\\frac12\\end{pmatrix}$ 时，求 $\\begin{pmatrix}x_n\\\\y_n\\end{pmatrix}$。"
+ },
+ {
+  "coreNo": 818,
+  "sec": "矩阵",
+  "zxNo": 78,
+  "score": 0.6117,
+  "stem": "已知数列 $\\{x_n\\},\\{y_n\\},\\{z_n\\}$ 满足 $x_0=-1$，$y_0=0$，$z_0=2$，且 $\\begin{cases}x_n=-2x_{n-1}+2z_{n-1},\\\\y_n=-2y_{n-1}-2z_{n-1},\\\\z_n=-6x_{n-1}-3y_{n-1}+3z_{n-1},\\end{cases}$ 记 $\\mathbf{a}_n=\\begin{pmatrix}x_n\\\\y_n\\\\z_n\\end{pmatrix}$，写出满足 $\\mathbf{a}_n=A\\mathbf{a}_{n-1}$ 的矩阵 $A$，并求 $A^n$ 及 $x_n,y_n,z_n$（$n=1,2,\\cdots$）。"
+ },
+ {
+  "coreNo": 819,
+  "sec": "矩阵",
+  "zxNo": 77,
+  "score": 0.4074,
+  "stem": "（本题满分11分）\n已知矩阵 $A=\\begin{pmatrix}0&-1&1\\\\2&-3&0\\\\0&0&0\\end{pmatrix}$。\n（I）求 $A^{99}$；\n（II）设 3 阶矩阵 $B=(\\alpha_1,\\alpha_2,\\alpha_3)$ 满足 $B^2=BA$。记 $B^{100}=(\\beta_1,\\beta_2,\\beta_3)$，将 $\\beta_1,\\beta_2,\\beta_3$ 分别表示为 $\\alpha_1,\\alpha_2,\\alpha_3$ 的线性组合。"
+ },
+ {
+  "coreNo": 820,
+  "sec": "矩阵",
+  "zxNo": 70,
+  "score": 0.1091,
+  "stem": "设 $A=\\begin{pmatrix}a_{11}&a_{12}&a_{13}\\\\a_{21}&a_{22}&a_{23}\\\\a_{31}&a_{32}&a_{33}\\end{pmatrix}$，$B=\\begin{pmatrix}a_{21}&a_{22}&a_{23}\\\\a_{11}&a_{12}&a_{13}\\\\a_{31}+a_{11}&a_{32}+a_{12}&a_{33}+a_{13}\\end{pmatrix}$，$P_1=\\begin{pmatrix}0&1&0\\\\1&0&0\\\\0&0&1\\end{pmatrix}$，$P_2=\\begin{pmatrix}1&0&0\\\\0&1&0\\\\1&0&1\\end{pmatrix}$，则（ ）"
+ },
+ {
+  "coreNo": 821,
+  "sec": "矩阵",
+  "zxNo": 90,
+  "score": 0.0809,
+  "stem": "设 $A=\\begin{pmatrix}a_{11}&a_{12}&a_{13}&a_{14}\\\\a_{21}&a_{22}&a_{23}&a_{24}\\\\a_{31}&a_{32}&a_{33}&a_{34}\\\\a_{41}&a_{42}&a_{43}&a_{44}\\end{pmatrix}$，$B=\\begin{pmatrix}a_{14}&a_{13}&a_{12}&a_{11}\\\\a_{24}&a_{23}&a_{22}&a_{21}\\\\a_{34}&a_{33}&a_{32}&a_{31}\\\\a_{44}&a_{43}&a_{42}&a_{41}\\end{pmatrix}$，$P_1=\\begin{pmatrix}0&0&0&1\\\\0&1&0&0\\\\0&0&1&0\\\\1&0&0&0\\end{pmatrix}$，$P_2=\\begin{pmatrix}1&0&0&0\\\\0&0&1&0\\\\0&1&0&0\\\\0&0&0&1\\end{pmatrix}$，其中 $A$ 可逆，则 $B^{-1}$ 等于（ ）"
+ },
+ {
+  "coreNo": 822,
+  "sec": "矩阵",
+  "zxNo": 83,
+  "score": 0.1839,
+  "stem": "设 $A$ 是 3 阶方阵，将 $A$ 的第 1 列与第 2 列交换得 $B$，再把 $B$ 的第 2 列加到第 3 列得 $C$，则满足 $AQ=C$ 的可逆阵 $Q$ 为（　　）\n（A）$\\begin{pmatrix}0&1&0\\\\1&0&0\\\\1&0&1\\end{pmatrix}$．\n（B）$\\begin{pmatrix}0&1&0\\\\1&0&1\\\\0&0&1\\end{pmatrix}$．\n（C）$\\begin{pmatrix}0&1&0\\\\1&0&0\\\\0&1&1\\end{pmatrix}$．\n（D）$\\begin{pmatrix}0&1&1\\\\1&0&0\\\\0&0&1\\end{pmatrix}$．"
+ },
+ {
+  "coreNo": 823,
+  "sec": "矩阵",
+  "zxNo": 81,
+  "score": 0.382,
+  "stem": "设 $A$ 为 $n(n\\ge 2)$ 阶可逆矩阵，交换 $A$ 的第 $1$ 行与第 $2$ 行得到矩阵 $B$，则（ ）"
+ },
+ {
+  "coreNo": 824,
+  "sec": "矩阵",
+  "zxNo": 83,
+  "score": 0.2222,
+  "stem": "设 $A$ 为 3 阶矩阵，将 $A$ 的第 2 行加到第 1 行得 $B$，再将 $B$ 的第 1 列的 -1 倍加到第 2 列得 $C$，记 $P=\\begin{pmatrix} 1&1&0\\\\0&1&0\\\\0&0&1 \\end{pmatrix}$，则（ ）"
+ },
+ {
+  "coreNo": 826,
+  "sec": "矩阵",
+  "zxNo": 83,
+  "score": 0.6125,
+  "stem": "设 $A$ 为 $3$ 阶矩阵，将 $A$ 的第 $2$ 列加到第 $1$ 列得矩阵 $B$，再交换 $B$ 的第 $2$ 行与第 $3$ 行得单位矩阵。记 $P_1=\\begin{pmatrix}1&0&0\\\\1&1&0\\\\0&0&1\\end{pmatrix},\\ P_2=\\begin{pmatrix}1&0&0\\\\0&0&1\\\\0&1&0\\end{pmatrix}$，则 $A=($　　）"
+ },
+ {
+  "coreNo": 827,
+  "sec": "矩阵",
+  "zxNo": 84,
+  "score": 0.3871,
+  "stem": "若矩阵 $A$ 经过初等列变换化成 $B$，则（ ）"
+ },
+ {
+  "coreNo": 828,
+  "sec": "矩阵",
+  "zxNo": 86,
+  "score": 0.6212,
+  "stem": "设 $A$ 为 $3$ 阶矩阵，交换 $A$ 的第 $2$ 行和第 $3$ 行，再将第 $2$ 列的 $-1$ 倍加到第 $1$ 列，得到矩阵 $\\begin{pmatrix}-2&1&-1\\\\1&-1&0\\\\-1&0&0\\end{pmatrix}$，则 $A^{-1}$ 的迹 $\\operatorname{tr}(A^{-1})=$ ____。"
+ },
+ {
+  "coreNo": 829,
+  "sec": "矩阵",
+  "zxNo": null,
+  "score": 0,
+  "stem": "已知函数 $f(x,y)=\\begin{cases}(x^2+y^2)\\sin\\frac1{xy},&xy\\ne0,\\\\0,&xy=0,\\end{cases}$ 则在点 $(0,0)$ 处（　）"
+ },
+ {
+  "coreNo": 830,
+  "sec": "矩阵",
+  "zxNo": 97,
+  "score": 0.044,
+  "stem": "设 $A$ 和 $B$ 为可逆矩阵，$X = \\begin{pmatrix} O & A \\\\ B & O \\end{pmatrix}$ 为分块矩阵，则 $X^{-1} =$ ________。"
+ },
+ {
+  "coreNo": 831,
+  "sec": "矩阵",
+  "zxNo": 74,
+  "score": 0.0494,
+  "stem": "设 $A,B$ 为 $2$ 阶矩阵，且 $|A|=2$，$|B|=3$，则 $\\begin{pmatrix}O&A\\\\B&O\\end{pmatrix}^*=$（ ）"
+ },
+ {
+  "coreNo": 832,
+  "sec": "矩阵",
+  "zxNo": 94,
+  "score": 0.5047,
+  "stem": "设 $A,B$ 为 $n$ 阶可逆矩阵，$E$ 为 $n$ 阶单位矩阵，$M^*$ 为矩阵 $M$ 的伴随矩阵，则 $\\begin{pmatrix}A&E\\\\O&B\\end{pmatrix}^*=$（　）"
+ },
+ {
+  "coreNo": 833,
+  "sec": "矩阵",
+  "zxNo": 97,
+  "score": 0.2192,
+  "stem": "设 $A,B$ 为 $n$ 阶矩阵，$(X,Y)$ 表示按列拼成的分块矩阵，则（ ）"
+ },
+ {
+  "coreNo": 834,
+  "sec": "矩阵",
+  "zxNo": 99,
+  "score": 0.2154,
+  "stem": "设 $A,B$ 为 $n$ 阶矩阵，则下列不成立的是（ ）"
+ },
+ {
+  "coreNo": 835,
+  "sec": "矩阵",
+  "zxNo": 101,
+  "score": 0.2837,
+  "stem": "设 $A,B,C$ 为 $n$ 阶矩阵，满足 $ABC=O$。记矩阵 $\\begin{pmatrix}O&A\\\\BC&E\\end{pmatrix}$，$\\begin{pmatrix}AB&C\\\\O&E\\end{pmatrix}$，$\\begin{pmatrix}E&AB\\\\AB&O\\end{pmatrix}$ 的秩分别为 $r_1,r_2,r_3$，则（ ）"
+ },
+ {
+  "coreNo": 836,
+  "sec": "矩阵",
+  "zxNo": 104,
+  "score": 0.4789,
+  "stem": "设 $n$ 阶方阵 $A,B,C$ 满足 $ABC=E$，其中 $E$ 是 $n$ 阶单位矩阵，则必有（ ）"
+ },
+ {
+  "coreNo": 837,
+  "sec": "矩阵",
+  "zxNo": 105,
+  "score": 0.4,
+  "stem": "已知 $Q=\\begin{pmatrix}1&2&3\\\\2&4&t\\\\3&6&9\\end{pmatrix}$，$P$ 为 $3$ 阶非零矩阵，且满足 $PQ=O$，则（ ）"
+ },
+ {
+  "coreNo": 838,
+  "sec": "矩阵",
+  "zxNo": 52,
+  "score": 0.0286,
+  "stem": "若 $A$ 和 $B$ 都是 $n$ 阶非零方阵，且 $AB = O$，则 $A$ 的秩必小于 $n$。（判断正误）"
+ },
+ {
+  "coreNo": 839,
+  "sec": "矩阵",
+  "zxNo": 105,
+  "score": 0.1364,
+  "stem": "设 $A = \\begin{pmatrix} 1 & 2 & -2 \\\\ 4 & t & 3 \\\\ 3 & -1 & 1 \\end{pmatrix}$，$B$ 为 $3$ 阶非零矩阵，且 $AB = O$，则 $t = $ ________。"
+ },
+ {
+  "coreNo": 840,
+  "sec": "矩阵",
+  "zxNo": 106,
+  "score": 0.3636,
+  "stem": "齐次线性方程组 $\\begin{cases}\\lambda x_1+x_2+\\lambda^2x_3=0,\\\\x_1+\\lambda x_2+x_3=0,\\\\x_1+x_2+\\lambda x_3=0\\end{cases}$ 的系数矩阵记为 $A$。若存在三阶矩阵 $B\\ne O$ 使得 $AB=O$，则（ ）"
+ },
+ {
+  "coreNo": 841,
+  "sec": "矩阵",
+  "zxNo": 107,
+  "score": 0.98,
+  "stem": "设 $A,B$ 为满足 $AB=O$ 的任意两个非零矩阵，则必有（　　）\n（A）$A$ 的列向量组线性相关，$B$ 的行向量组线性相关．\n（B）$A$ 的列向量组线性相关，$B$ 的列向量组线性相关．\n（C）$A$ 的行向量组线性相关，$B$ 的行向量组线性相关．\n（D）$A$ 的行向量组线性相关，$B$ 的列向量组线性相关．"
+ },
+ {
+  "coreNo": 842,
+  "sec": "矩阵",
+  "zxNo": 87,
+  "score": 0.2857,
+  "stem": "设 $A$ 为 $3$ 阶矩阵，$P=\\begin{pmatrix}1&0&0\\\\0&1&0\\\\1&0&1\\end{pmatrix}$，若 $P^TAP^2=\\begin{pmatrix}a+2c&0&c\\\\0&b&0\\\\2c&0&c\\end{pmatrix}$，则 $A=$（　）"
+ },
+ {
+  "coreNo": 843,
+  "sec": "矩阵",
+  "zxNo": 103,
+  "score": 0.2353,
+  "stem": "设 $n$ 阶矩阵 $A,B,C$ 满足 $AB=C$，且 $B$ 可逆，则（ ）。"
+ },
+ {
+  "coreNo": 844,
+  "sec": "矩阵",
+  "zxNo": 93,
+  "score": 0.1013,
+  "stem": "设 $A = \\begin{pmatrix} a & 1 & -1 \\\\ 1 & a & -1 \\\\ -1 & -1 & a \\end{pmatrix}$。(I) 求正交矩阵 $P$，使得 $P^T A P$ 为对角矩阵；(II) 求正定矩阵 $C$，使得 $C^2 = (a+3)E - A$。"
+ },
+ {
+  "coreNo": 845,
+  "sec": "矩阵",
+  "zxNo": 113,
+  "score": 0.129,
+  "stem": "设 $A,B$ 为同阶可逆矩阵，则（ ）"
+ },
+ {
+  "coreNo": 846,
+  "sec": "矩阵",
+  "zxNo": 92,
+  "score": 0.3721,
+  "stem": "设 $n$ 阶矩阵 $A$ 与 $B$ 等价，则（ ）"
+ },
+ {
+  "coreNo": 847,
+  "sec": "矩阵",
+  "zxNo": null,
+  "score": 0,
+  "stem": "已知函数 $f(x)=\\begin{cases}2(x-1),&x<1\\ln x,&x\\ge1\\end{cases}$，则 $f(x)$ 的一个原函数是（　）"
+ },
+ {
+  "coreNo": 848,
+  "sec": "矩阵",
+  "zxNo": 56,
+  "score": 0.0976,
+  "stem": "设矩阵 $A_{m\\times n}$ 的秩为 $r(A)=m<n$，$E_m$ 为 $m$ 阶单位矩阵，下述结论中正确的是（ ）。"
+ },
+ {
+  "coreNo": 850,
+  "sec": "矩阵",
+  "zxNo": 91,
+  "score": 0.0482,
+  "stem": "设 $A$ 是 $4$ 阶矩阵，且 $|A|=0$，则 $A$ 中（ ）"
+ },
+ {
+  "coreNo": 851,
+  "sec": "矩阵",
+  "zxNo": 107,
+  "score": 0.0606,
+  "stem": "设 $A$ 和 $B$ 均为 $n\\times n$ 矩阵，则必有（ ）。"
+ },
+ {
+  "coreNo": 852,
+  "sec": "矩阵",
+  "zxNo": 96,
+  "score": 0.4333,
+  "stem": "设 $A=\\begin{pmatrix}0&0&0&1&2\\\\0&0&0&3&7\\\\2&1&1&0&0\\\\1&2&1&0&0\\\\1&1&2&0&0\\end{pmatrix}$，则 $A^*=$ ________．"
+ },
+ {
+  "coreNo": 853,
+  "sec": "向量",
+  "zxNo": 116,
+  "score": 0.0784,
+  "stem": "已知 $\\mathbf{a}_1 = \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix}, \\mathbf{a}_2 = \\begin{pmatrix} 1 \\\\ 2 \\\\ 1 \\end{pmatrix}, \\mathbf{a}_3 = \\begin{pmatrix} 3 \\\\ 1 \\\\ 2 \\end{pmatrix}, \\mathbf{\\beta}_1 = \\mathbf{a}_1, \\mathbf{\\beta}_2 = \\mathbf{a}_2 - k\\mathbf{\\beta}_1, \\mathbf{\\beta}_3 = \\mathbf{a}_3 - l_1\\mathbf{\\beta}_1 - l_2\\mathbf{\\beta}_2$, 若 $\\mathbf{\\beta}_1, \\mathbf{\\beta}_2, \\mathbf{\\beta}_3$ 两两正交，则 $l_1,l_2$ 依次为 ( )。"
+ },
+ {
+  "coreNo": 854,
+  "sec": "向量",
+  "zxNo": 117,
+  "score": 0.1366,
+  "stem": "已知向量 $\\mathbf{a}_1 = \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\\\ 1 \\end{pmatrix}, \\mathbf{a}_2 = \\begin{pmatrix} -1 \\\\ -1 \\\\ 0 \\\\ 1 \\end{pmatrix}, \\mathbf{a}_3 = \\begin{pmatrix} 0 \\\\ 1 \\\\ -1 \\\\ 1 \\end{pmatrix}, \\boldsymbol{\\beta} = \\begin{pmatrix} 1 \\\\ 1 \\\\ 1 \\\\ -1 \\end{pmatrix}, \\boldsymbol{\\gamma} = k_1 \\mathbf{a}_1 + k_2 \\mathbf{a}_2 + k_3 \\mathbf{a}_3$。若 $\\boldsymbol{\\gamma}^T \\mathbf{a}_i = \\boldsymbol{\\beta}^T \\mathbf{a}_i (i=1,2,3)$，则 $k_1^2 + k_2^2 + k_3^2 =$ ________。"
+ },
+ {
+  "coreNo": 855,
+  "sec": "向量",
+  "zxNo": 118,
+  "score": 0.2734,
+  "stem": "设实矩阵 $\\mathbf{A} = \\begin{pmatrix} a+1 & a \\\\ a & a \\end{pmatrix}$。若对任意实向量 $\\mathbf{a} = \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix}, \\mathbf{\\beta} = \\begin{pmatrix} y_1 \\\\ y_2 \\end{pmatrix}$， $(\\mathbf{a}^\\mathrm{T}\\mathbf{A}\\mathbf{\\beta})^2 \\le \\mathbf{a}^\\mathrm{T}\\mathbf{A}\\mathbf{a} \\cdot \\mathbf{\\beta}^\\mathrm{T}\\mathbf{A}\\mathbf{\\beta}$ 都成立，则 $a$ 的取值范围是 ________。"
+ },
+ {
+  "coreNo": 856,
+  "sec": "向量",
+  "zxNo": 123,
+  "score": 0.433,
+  "stem": "设向量组 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性相关，向量组 $\\alpha_2, \\alpha_3, \\alpha_4$ 线性无关，问：(1) $\\alpha_1$ 能否由 $\\alpha_2, \\alpha_3$ 线性表出? 证明你的结论。(2) $\\alpha_4$ 能否由 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性表出? 证明你的结论。"
+ },
+ {
+  "coreNo": 857,
+  "sec": "向量",
+  "zxNo": 120,
+  "score": 0.0333,
+  "stem": "已知 $\\mathbf{a}_1 = (1,0,2,3)^T$, $\\mathbf{a}_2 = (1,1,3,5)^T$, $\\mathbf{a}_3 = (1,-1,a+2,1)^T$, $\\mathbf{a}_4 = (1,2,4,a+8)^T$ 及 $\\beta = (1,1,b+3,5)^T$。(1) $a,b$ 为何值时，$\\beta$ 不能表示成 $\\mathbf{a}_1, \\mathbf{a}_2, \\mathbf{a}_3, \\mathbf{a}_4$ 的线性组合？(2) $a,b$ 为何值时， $\\beta$ 有 $\\mathbf{a}_1, \\mathbf{a}_2, \\mathbf{a}_3, \\mathbf{a}_4$ 的唯一的线性表出式? 并写出该表出式。"
+ },
+ {
+  "coreNo": 858,
+  "sec": "向量",
+  "zxNo": 120,
+  "score": 0.03,
+  "stem": "设有三维列向量 $\\alpha_1 = \\begin{bmatrix} 1+\\lambda \\\\ 1 \\\\ 1 \\end{bmatrix}, \\alpha_2 = \\begin{bmatrix} 1 \\\\ 1+\\lambda \\\\ 1 \\end{bmatrix}, \\alpha_3 = \\begin{bmatrix} 1 \\\\ 1 \\\\ 1+\\lambda \\end{bmatrix}, \\beta = \\begin{bmatrix} 0 \\\\ \\lambda \\\\ \\lambda^2 \\end{bmatrix}$，问 $\\lambda$ 取何值时，(1) $\\beta$ 可由 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性表示，且表达式唯一？(2) $\\beta$ 可由 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性表示，且表达式不唯一？(3) $\\beta$ 不能由 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性表示？"
+ },
+ {
+  "coreNo": 859,
+  "sec": "向量",
+  "zxNo": 120,
+  "score": 0.0649,
+  "stem": "已知 $\\alpha_1 = (1,4,0,2)^T$, $\\alpha_2 = (2,7,1,3)^T$, $\\alpha_3 = (0,1,-1,b)^T$, $\\beta = (3,10,a,4)^T$，问：(I) $a,b$ 取何值时，$\\beta$ 不能由 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性表示？(II) $a,b$ 取何值时，$\\beta$ 可由 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性表示？并写出此表示式。"
+ },
+ {
+  "coreNo": 861,
+  "sec": "向量",
+  "zxNo": 120,
+  "score": 0.0468,
+  "stem": "设向量组 $\\mathbf{a}_1 = (a,2,10)^T$, $\\mathbf{a}_2 = (-2,1,5)^T$, $\\mathbf{a}_3 = (-1,1,4)^T$, $\\beta = (1,b,c)^T$，试问：当 $a,b,c$ 满足什么条件时，(1) $\\beta$ 可由 $\\mathbf{a}_1, \\mathbf{a}_2, \\mathbf{a}_3$ 线性表出，且表示唯一？(2) $\\beta$ 可由 $\\mathbf{a}_1, \\mathbf{a}_2, \\mathbf{a}_3$ 线性表出？(3) $\\beta$ 可由 $\\mathbf{a}_1, \\mathbf{a}_2, \\mathbf{a}_3$ 线性表出，但表示不唯一？并求出一般表达式。"
+ },
+ {
+  "coreNo": 862,
+  "sec": "向量",
+  "zxNo": 120,
+  "score": 0.5116,
+  "stem": "设 $\\alpha_1 = (1,2,0)^T$, $\\alpha_2 = (1,a+2,-3a)^T$, $\\alpha_3 = (-1,-b-2,a+2b)^T$, $\\beta = (1,3,-3)^T$。当 $a,b$ 为何值时， (I) $\\beta$ 不能由 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性表示；(II) $\\beta$ 可由 $\\alpha_1, \\alpha_2, \\alpha_3$ 唯一地线性表示，并求出表示式；(III) $\\beta$ 可由 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性表示，但表示式不唯一，并求出表示式。"
+ },
+ {
+  "coreNo": 864,
+  "sec": "向量",
+  "zxNo": 122,
+  "score": 0.4384,
+  "stem": "设向量组 $\\alpha_1 = (1,0,1)^T$, $\\alpha_2 = (0,1,1)^T$, $\\alpha_3 = (1,3,5)^T$ 不能由向量组 $\\beta_1 = (1,1,1)^T$, $\\beta_2 = (1,2,3)^T$, $\\beta_3 = (3,4,a)^T$ 线性表示。(I) 求 $a$ 的值；(II) 将 $\\beta_1, \\beta_2, \\beta_3$ 由 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性表示。"
+ },
+ {
+  "coreNo": 866,
+  "sec": "向量",
+  "zxNo": 124,
+  "score": 0.2774,
+  "stem": "设向量 $\\beta$ 可由向量组 $\\alpha_1, \\alpha_2, \\dots, \\alpha_m$ 线性表示，但不能由向量组 (I) $\\alpha_1, \\alpha_2, \\dots, \\alpha_{m-1}$ 线性表示。记向量组 (II): $\\alpha_1, \\alpha_2, \\dots, \\alpha_{m-1}, \\beta$，则 ( )"
+ },
+ {
+  "coreNo": 867,
+  "sec": "向量",
+  "zxNo": 125,
+  "score": 0.3394,
+  "stem": "设向量组 $\\boldsymbol{\\alpha}_{1},\\boldsymbol{\\alpha}_{2},\\boldsymbol{\\alpha}_{3}$ 线性无关，向量 $\\boldsymbol{\\beta}_{1}$ 可由 $\\boldsymbol{\\alpha}_{1},\\boldsymbol{\\alpha}_{2},\\boldsymbol{\\alpha}_{3}$ 线性表示，而向量 $\\boldsymbol{\\beta}_{2}$ 不能由 $\\boldsymbol{\\alpha}_{1},\\boldsymbol{\\alpha}_{2},\\boldsymbol{\\alpha}_{3}$ 线性表示，则对于任意常数 $k$，必有（　　）\n（A）$\\boldsymbol{\\alpha}_{1},\\boldsymbol{\\alpha}_{2},\\boldsymbol{\\alpha}_{3},k\\boldsymbol{\\beta}_{1}+\\boldsymbol{\\beta}_{2}$ 线性无关．\n（B）$\\boldsymbol{\\alpha}_{1},\\boldsymbol{\\alpha}_{2},\\boldsymbol{\\alpha}_{3},k\\boldsymbol{\\beta}_{1}+\\boldsymbol{\\beta}_{2}$ 线性相关．\n（C）$\\boldsymbol{\\alpha}_{1},\\boldsymbol{\\alpha}_{2},\\boldsymbol{\\alpha}_{3},\\boldsymbol{\\beta}_{1}+k\\boldsymbol{\\beta}_{2}$ 线性无关．\n（D）$\\boldsymbol{\\alpha}_{1},\\boldsymbol{\\alpha}_{2},\\boldsymbol{\\alpha}_{3},\\boldsymbol{\\beta}_{1}+k\\boldsymbol{\\beta}_{2}$ 线性相关．"
+ },
+ {
+  "coreNo": 868,
+  "sec": "向量",
+  "zxNo": 126,
+  "score": 0.1957,
+  "stem": "设向量组 (I) $\\alpha_1, \\alpha_2, \\dots, \\alpha_r$ 可由向量组 (II) $\\beta_1, \\beta_2, \\dots, \\beta_s$ 线性表示，则 ( )"
+ },
+ {
+  "coreNo": 870,
+  "sec": "向量",
+  "zxNo": 128,
+  "score": 0.0909,
+  "stem": "已知向量 $\\mathbf{a}_1 = \\begin{pmatrix} 1 \\\\ 2 \\\\ 3 \\end{pmatrix}, \\mathbf{a}_2 = \\begin{pmatrix} 2 \\\\ 1 \\\\ 1 \\end{pmatrix}, \\mathbf{\\beta}_1 = \\begin{pmatrix} 2 \\\\ 5 \\\\ 9 \\end{pmatrix}, \\mathbf{\\beta}_2 = \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix}$。若 $\\gamma$ 既可由 $\\mathbf{a}_1, \\mathbf{a}_2$ 线性表示，也可由 $\\mathbf{\\beta}_1, \\mathbf{\\beta}_2$ 线性表示，则 $\\gamma = (\\quad)$"
+ },
+ {
+  "coreNo": 871,
+  "sec": "向量",
+  "zxNo": 118,
+  "score": 0.0727,
+  "stem": "设 $\\alpha_1=(\\lambda,1,1)^T$，$\\alpha_2=(1,\\lambda,1)^T$，$\\alpha_3=(1,1,\\lambda)^T$，$\\alpha_4=(1,\\lambda,\\lambda^2)^T$。若向量组 $\\alpha_1,\\alpha_2,\\alpha_3$ 与 $\\alpha_1,\\alpha_2,\\alpha_4$ 等价，则 $\\lambda$ 的取值范围是（ ）"
+ },
+ {
+  "coreNo": 872,
+  "sec": "向量",
+  "zxNo": 132,
+  "score": 0.2182,
+  "stem": "设有任意两个 $n$ 维向量组 $\\alpha_1, \\dots, \\alpha_m$ 和 $\\beta_1, \\dots, \\beta_m$，若存在两组不全为零的数 $\\lambda_1, \\dots, \\lambda_m$ 和 $k_1, \\dots, k_m$，使 $(\\lambda_1 + k_1)\\alpha_1 + \\dots + (\\lambda_m + k_m)\\alpha_m + (\\lambda_1 - k_1)\\beta_1 + \\dots + (\\lambda_m - k_m)\\beta_m = 0$，则 ( )"
+ },
+ {
+  "coreNo": 873,
+  "sec": "向量",
+  "zxNo": null,
+  "score": 0,
+  "stem": "设 $n$ 阶方阵 $A$ 的秩 $r(A) = r \\lt n$，那么在 $A$ 的 $n$ 个行向量中 ( )"
+ },
+ {
+  "coreNo": 874,
+  "sec": "向量",
+  "zxNo": 138,
+  "score": 0.1895,
+  "stem": "$n$ 维向量组 $\\alpha_1, \\alpha_2, \\dots, \\alpha_s$ ($3 \\le s \\le n$) 线性无关的充分必要条件是 ( )"
+ },
+ {
+  "coreNo": 875,
+  "sec": "向量",
+  "zxNo": 138,
+  "score": 0.0952,
+  "stem": "向量组 $\\alpha_1, \\alpha_2, \\dots, \\alpha_s$ 线性无关的充分条件是 ( )"
+ },
+ {
+  "coreNo": 876,
+  "sec": "向量",
+  "zxNo": 144,
+  "score": 0.0674,
+  "stem": "设 $\\alpha_1, \\alpha_2, \\dots, \\alpha_s$ 均为 $n$ 维向量，下列结论不正确的是 ( )"
+ },
+ {
+  "coreNo": 877,
+  "sec": "向量",
+  "zxNo": 138,
+  "score": 0.1495,
+  "stem": "设 $n$ 维列向量组 $\\alpha_1, \\dots, \\alpha_m$ ($m \\lt n$) 线性无关，则 $n$ 维列向量组 $\\beta_1, \\dots, \\beta_m$ 线性无关的充分必要条件为 ( )"
+ },
+ {
+  "coreNo": 878,
+  "sec": "向量",
+  "zxNo": 138,
+  "score": 0.4183,
+  "stem": "设 $\\lambda_{1},\\lambda_{2}$ 是矩阵 $A$ 的两个不同的特征值，对应的特征向量分别为 $\\boldsymbol{\\alpha}_{1},\\boldsymbol{\\alpha}_{2}$，则 $\\boldsymbol{\\alpha}_{1},A(\\boldsymbol{\\alpha}_{1}+\\boldsymbol{\\alpha}_{2})$ 线性无关的充分必要条件是（　　）\n（A）$\\lambda_{1}\\neq 0$．\n（B）$\\lambda_{2}\\neq 0$．\n（C）$\\lambda_{1}=0$．\n（D）$\\lambda_{2}=0$．"
+ },
+ {
+  "coreNo": 879,
+  "sec": "向量",
+  "zxNo": 142,
+  "score": 0.0426,
+  "stem": "已知向量组 $\\alpha_1, \\alpha_2, \\dots, \\alpha_s$ ($s \\ge 2$) 线性无关。设$\\beta_1 = \\alpha_1 + \\alpha_2$,$\\beta_2 = \\alpha_2 + \\alpha_3$,$\\dots$,$\\beta_{s-1} = \\alpha_{s-1} + \\alpha_s$,$\\beta_s = \\alpha_s + \\alpha_1$。试讨论向量组 $\\beta_1, \\beta_2, \\dots, \\beta_s$ 的线性相关性。"
+ },
+ {
+  "coreNo": 880,
+  "sec": "向量",
+  "zxNo": 133,
+  "score": 0.0784,
+  "stem": "设 $\\alpha_1 = (1,1,1)^T$, $\\alpha_2 = (1,2,3)^T$, $\\alpha_3 = (1,3,t)^T$。(1) 问当 $t$ 为何值时，向量组 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性无关？(2) 问当 $t$ 为何值时，向量组 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性相关？(3) 当向量组 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性相关时，将 $\\alpha_3$ 表示为 $\\alpha_1$ 和 $\\alpha_2$ 的线性组合。"
+ },
+ {
+  "coreNo": 881,
+  "sec": "向量",
+  "zxNo": 133,
+  "score": 0.0989,
+  "stem": "设向量组 $\\alpha_1 = (1,1,1,3)^T$, $\\alpha_2 = (-1,-3,5,1)^T$, $\\alpha_3 = (3,2,-1,p+2)^T$, $\\alpha_4 = (-2,-6,10,p)^T$。(1) $p$ 为何值时，该向量组线性无关？并在此时将向量 $\\alpha = (4,1,6,10)^T$ 用 $\\alpha_1, \\alpha_2, \\alpha_3, \\alpha_4$ 线性表出；(2) $p$ 为何值时，该向量组线性相关？并在此时求出它的秩和一个极大线性无关组。"
+ },
+ {
+  "coreNo": 882,
+  "sec": "向量",
+  "zxNo": 133,
+  "score": 0.5212,
+  "stem": "设 $\\alpha_1 = (1+a,1,1,1)^T$, $\\alpha_2 = (2,2+a,2,2)^T$, $\\alpha_3 = (3,3,3+a,3)^T$, $\\alpha_4 = (4,4,4,4+a)^T$，当 $a$ 为何值时，$\\alpha_1, \\alpha_2, \\alpha_3, \\alpha_4$ 线性相关。当 $\\alpha_1, \\alpha_2, \\alpha_3, \\alpha_4$ 线性相关时，求其一个极大线性无关组，并将其余向量由该极大线性无关组线性表示。"
+ },
+ {
+  "coreNo": 883,
+  "sec": "向量",
+  "zxNo": 138,
+  "score": 0.1071,
+  "stem": "试证明 $n$ 维列向量组 $\\alpha_1, \\alpha_2, \\dots, \\alpha_n$ 线性无关的充分必要条件是$D=\\begin{vmatrix} \\alpha_1^T\\alpha_1 & \\alpha_1^T\\alpha_2 & \\cdots & \\alpha_1^T\\alpha_n \\\\ \\alpha_2^T\\alpha_1 & \\alpha_2^T\\alpha_2 & \\cdots & \\alpha_2^T\\alpha_n \\\\ \\vdots & \\vdots &  & \\vdots \\\\ \\alpha_n^T\\alpha_1 & \\alpha_n^T\\alpha_2 & \\cdots & \\alpha_n^T\\alpha_n \\end{vmatrix} \\neq 0$，其中 $\\alpha_i^T$ 表示列向量 $\\alpha_i$ 的转置，$i=1,2,\\ldots,n$。"
+ },
+ {
+  "coreNo": 884,
+  "sec": "向量",
+  "zxNo": 134,
+  "score": 0.055,
+  "stem": "设 $A$ 是 $n \\times m$ 矩阵，$B$ 是 $m \\times n$ 矩阵，其中 $n \\lt m$，$E$ 是 $n$ 阶单位矩阵。若 $AB = E$，证明 $B$ 的列向量组线性无关。"
+ },
+ {
+  "coreNo": 885,
+  "sec": "向量",
+  "zxNo": 136,
+  "score": 0.3788,
+  "stem": "设向量 $\\alpha_1, \\alpha_2, \\dots, \\alpha_t$ 是齐次线性方程组 $A\\mathbf{x} = 0$ 的一个基础解系，向量 $\\beta$ 不是方程组 $A\\mathbf{x} = 0$ 的解，即 $A\\beta \\ne 0$。试证明：向量组 $\\beta + \\alpha_1, \\beta + \\alpha_2, \\dots, \\beta + \\alpha_t, \\beta$ 线性无关。"
+ },
+ {
+  "coreNo": 886,
+  "sec": "向量",
+  "zxNo": 140,
+  "score": 0.16,
+  "stem": "设 $A$ 为 $n$ 阶矩阵，$\\alpha$ 为 $n$ 维列向量。若 $A^{m-1} \\alpha \\ne 0$，$A^m \\alpha = 0$，证明向量组 $\\alpha, A\\alpha, \\dots, A^{m-1} \\alpha$ 线性无关。"
+ },
+ {
+  "coreNo": 887,
+  "sec": "向量",
+  "zxNo": 138,
+  "score": 0.0476,
+  "stem": "设 3 阶矩阵 $A$ 的特征值为 $2,3,\\lambda$。若行列式 $|2A|=-48$，则 $\\lambda=$______。"
+ },
+ {
+  "coreNo": 888,
+  "sec": "向量",
+  "zxNo": 144,
+  "score": 0.0541,
+  "stem": "设 $A = \\begin{pmatrix} 1 & 2 & -2 \\\\ 2 & 1 & 2 \\\\ 3 & 0 & 4 \\end{pmatrix}, \\alpha = \\begin{pmatrix} a \\\\ 1 \\\\ 1 \\end{pmatrix}$。若 $A\\alpha$ 与 $\\alpha$ 线性相关，则 $a = \\_\\_\\_\\_\\_$。"
+ },
+ {
+  "coreNo": 889,
+  "sec": "向量",
+  "zxNo": 146,
+  "score": 0.1176,
+  "stem": "设行向量组 $(2,1,1,1),(2,1,a,a),(3,2,1,a),(4,3,2,1)$ 线性相关，且 $a\\ne1$，则 $a=$ ______。"
+ },
+ {
+  "coreNo": 890,
+  "sec": "向量",
+  "zxNo": 134,
+  "score": 0.3709,
+  "stem": "设\n$$\\alpha_1=\\begin{pmatrix}0\\\\0\\\\c_1\\end{pmatrix},\\qquad\n\\alpha_2=\\begin{pmatrix}0\\\\1\\\\c_2\\end{pmatrix},\\qquad\n\\alpha_3=\\begin{pmatrix}1\\\\-1\\\\c_3\\end{pmatrix},\\qquad\n\\alpha_4=\\begin{pmatrix}-1\\\\1\\\\c_4\\end{pmatrix},$$\n其中 $c_1,c_2,c_3,c_4$ 为任意常数，则下列向量组线性相关的为（）"
+ },
+ {
+  "coreNo": 891,
+  "sec": "向量",
+  "zxNo": 146,
+  "score": 0.3333,
+  "stem": "设向量 $\\mathbf{a}_1 = \\begin{pmatrix} a \\\\ 1 \\\\ -1 \\\\ 1 \\end{pmatrix}, \\mathbf{a}_2 = \\begin{pmatrix} 1 \\\\ 1 \\\\ b \\\\ a \\end{pmatrix}, \\mathbf{a}_3 = \\begin{pmatrix} 1 \\\\ a \\\\ -1 \\\\ 1 \\end{pmatrix}$。若 $\\mathbf{a}_1, \\mathbf{a}_2, \\mathbf{a}_3$ 线性相关，且其中任意两个向量均线性无关，则 ( )。"
+ },
+ {
+  "coreNo": 893,
+  "sec": "向量",
+  "zxNo": 146,
+  "score": 0.0597,
+  "stem": "已知向量组 $\\alpha_1, \\alpha_2, \\alpha_3, \\alpha_4$ 线性无关，则向量组（ ）。"
+ },
+ {
+  "coreNo": 894,
+  "sec": "向量",
+  "zxNo": 143,
+  "score": 0.3333,
+  "stem": "设向量组 $\\alpha_1,\\alpha_2,\\alpha_3$ 线性无关，则下列向量组中，线性无关的是（ ）。"
+ },
+ {
+  "coreNo": 895,
+  "sec": "向量",
+  "zxNo": 143,
+  "score": 0.2,
+  "stem": "设向量组 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性无关，则下列向量组线性相关的是（ ）。"
+ },
+ {
+  "coreNo": 896,
+  "sec": "向量",
+  "zxNo": 144,
+  "score": 0.32,
+  "stem": "设 $\\alpha_1, \\alpha_2, \\dots, \\alpha_s$ 均为 $n$ 维列向量，$A$ 是 $m \\times n$ 矩阵，下列选项正确的是（ ）。"
+ },
+ {
+  "coreNo": 897,
+  "sec": "向量",
+  "zxNo": 145,
+  "score": 0.3636,
+  "stem": "设 $\\alpha_1,\\alpha_2,\\alpha_3$ 均为 $3$ 维向量，则对任意常数 $k,l$，向量组 $\\alpha_1+k\\alpha_3,\\ \\alpha_2+l\\alpha_3$ 线性无关是向量组 $\\alpha_1,\\alpha_2,\\alpha_3$ 线性无关的（　）"
+ },
+ {
+  "coreNo": 718,
+  "sec": "线性方程组",
+  "zxNo": 150,
+  "score": 0.5,
+  "stem": "设 $\\boldsymbol{\\alpha}, \\boldsymbol{\\beta}$ 为 $n$ 维单位列向量，$P$ 为 $n$ 阶可逆矩阵，则下列方程组中只有零解的是（ ）。"
+ },
+ {
+  "coreNo": 719,
+  "sec": "线性方程组",
+  "zxNo": 152,
+  "score": 0.6861,
+  "stem": "设 $A$ 为 $3$ 阶非零矩阵，下列命题中，是齐次线性方程组 $A\\boldsymbol{x}=0$ 有非零解的充分条件的个数为（ ）。①非齐次线性方程组 $A^*\\boldsymbol{x}=\\boldsymbol{b}$ 有唯一解；②非齐次线性方程组 $A^*\\boldsymbol{x}=\\boldsymbol{b}$ 有无穷多解；③非齐次线性方程组 $AA^T\\boldsymbol{x}=\\boldsymbol{b}$ 有唯一解；④非齐次线性方程组 $AA^T\\boldsymbol{x}=\\boldsymbol{b}$ 有无穷多解。"
+ },
+ {
+  "coreNo": 720,
+  "sec": "线性方程组",
+  "zxNo": 198,
+  "score": 0.0385,
+  "stem": "设 $A$ 为 $m \\times n$ 矩阵，$B$ 为 $n \\times m$ 矩阵，且 $m \\ne n$。若 $A^\\top A = E_n$，则（ ）。"
+ },
+ {
+  "coreNo": 721,
+  "sec": "线性方程组",
+  "zxNo": 187,
+  "score": 0.0577,
+  "stem": "设 $A=\\begin{pmatrix}\\cos\\theta&-\\sin\\theta&a\\\\\\sin\\theta&\\cos\\theta&b\\\\c&d&e\\end{pmatrix}$ 为正交矩阵，且 $|A|=-1$，则 $A\\mathbf{x}=\\begin{pmatrix}\\cos\\theta\\\\\\sin\\theta\\\\-1\\end{pmatrix}$ 的解为 $\\mathbf{x}=$__________。"
+ },
+ {
+  "coreNo": 722,
+  "sec": "线性方程组",
+  "zxNo": 213,
+  "score": 0.0488,
+  "stem": "设矩阵 $A=\\begin{pmatrix}\\frac32&-\\frac12\\\\\\frac12&\\frac12\\end{pmatrix}$，向量 $\\boldsymbol{\\alpha}$ 满足 $A\\boldsymbol{\\alpha}=\\begin{pmatrix}1\\\\1\\end{pmatrix}+\\boldsymbol{\\alpha}$，则下列向量中可能为 $A^{11}\\boldsymbol{\\alpha}$ 的是（ ）。"
+ },
+ {
+  "coreNo": 723,
+  "sec": "线性方程组",
+  "zxNo": 189,
+  "score": 0.9778,
+  "stem": "若 $3$ 阶矩阵 $A$ 有三个特征值 $0,3,5$， $u, v, w$ 分别为属于 $0,3,5$ 的一个特征向量，则线性方程组 $Ax = v + w$ 的通解为______。"
+ },
+ {
+  "coreNo": 724,
+  "sec": "线性方程组",
+  "zxNo": 180,
+  "score": 0.0628,
+  "stem": "设 $\\mathbf{A}$ 为 $4$ 阶实矩阵，已知 $\\mathbf{A}^T\\mathbf{A}$ 有 $4$ 个不同的特征值，且 $\\boldsymbol{\\beta}_i\\ (i=1,2,3,4)$ 为 $\\mathbf{A}^T\\mathbf{A}$ 的属于特征值 $\\lambda_i$ 的特征向量。$\\|\\boldsymbol{\\alpha}\\|$ 表示向量 $\\boldsymbol{\\alpha}$ 的长度。令\n$$\n\\mathbf{B}=\\begin{pmatrix}\\boldsymbol{\\beta}_1^T\\\\\\boldsymbol{\\beta}_2^T\\end{pmatrix},\n$$\n则下列选项中，是方程组 $\\mathbf{B}\\mathbf{x}=\\begin{pmatrix}1\\\\1\\end{pmatrix}$ 的通解为（ ）。"
+ },
+ {
+  "coreNo": 725,
+  "sec": "线性方程组",
+  "zxNo": 185,
+  "score": 0.3288,
+  "stem": "设 $\\boldsymbol{\\alpha},\\boldsymbol{\\beta},\\boldsymbol{\\gamma}$ 是 $3$ 阶矩阵 $\\mathbf{A}$ 的 $3$ 个特征向量，其中 $\\boldsymbol{\\beta}$ 与 $\\boldsymbol{\\gamma}$ 为属于不同特征值的特征向量。方程组\n$$\n\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}+\\boldsymbol{\\gamma}\n$$\n的通解为\n$$\n\\mathbf{x}=k\\boldsymbol{\\alpha}+\\boldsymbol{\\beta}+\\frac{1}{3}\\boldsymbol{\\gamma},\\quad k\\in\\mathbb{R}.\n$$\n(I) 求方程组 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}-\\boldsymbol{\\gamma}$ 的通解；\n(II) 若 $\\boldsymbol{\\alpha}=(1,1,1)^T$，且 $\\mathbf{A}$ 的伴随矩阵 $\\mathbf{A}^*$ 为对称矩阵，求 $\\mathbf{A}^*$。"
+ },
+ {
+  "coreNo": 726,
+  "sec": "线性方程组",
+  "zxNo": 152,
+  "score": 0.1455,
+  "stem": "设 $A$ 为 $3$ 阶非零矩阵，则下列条件中，不是 $A\\mathbf{x}=\\mathbf{0}$ 与 $A^*\\mathbf{x}=\\mathbf{0}$ 有非零公共解的充分条件的个数是（ ）：① $r\\left(\\begin{pmatrix}A\\\\A^*\\end{pmatrix}\\right)\\lt3$；② $r(A,A^*)\\lt3$；③ $r(A)=2$，且 $A^*$ 是对称矩阵；④ $r(A)=2$，且 $A^*$ 不是对称矩阵。"
+ },
+ {
+  "coreNo": 727,
+  "sec": "线性方程组",
+  "zxNo": 204,
+  "score": 0.7246,
+  "stem": "设 $A,B$ 为 $n$ 阶方阵，若线性方程组 $Ax=0$ 的解均为 $Bx=0$ 的解，则下列方程组与 $Ax=0$ 同解的个数为（ ）。① $(A+B)x=0$ ② $ABx=0$ ③ $BAx=0$ ④ $\\begin{pmatrix}A-B\\\\A+B\\end{pmatrix}x=0$ ⑤ $\\begin{pmatrix}A\\\\B\\end{pmatrix}x=0$"
+ },
+ {
+  "coreNo": 728,
+  "sec": "线性方程组",
+  "zxNo": 208,
+  "score": 0.4854,
+  "stem": "设 $A$ 为 $n$（$n\\ge2$）阶矩阵，$B$ 为 $n$ 阶可逆矩阵，$b$ 为 $n$ 维列向量。下列命题中，错误的是（ ）。"
+ },
+ {
+  "coreNo": 729,
+  "sec": "线性方程组",
+  "zxNo": 213,
+  "score": 0.0488,
+  "stem": "设矩阵  $ A = \\begin{pmatrix} 1 & 1 \\\\ 1 & 0 \\\\ 0 & -1 \\end{pmatrix} $ 。(I) 求所有满足  $ BA = E $  的矩阵  $ B $ ，并求  $ AB $  的特征值；(II) 在满足  $ BA = E $  的基础上，找到一个矩阵  $ B $ ，使得  $ AB $  有一个特征向量为  $ \\beta = (1,2,3)^T $ 。"
+ },
+ {
+  "coreNo": 898,
+  "sec": "线性方程组",
+  "zxNo": 152,
+  "score": 0.1782,
+  "stem": "设 $A_{m\\times n}$ 为矩阵，齐次线性方程组 $A\\mathbf{x}=0$ 仅有零解的充分条件是（ ）。"
+ },
+ {
+  "coreNo": 899,
+  "sec": "线性方程组",
+  "zxNo": 147,
+  "score": 0.1333,
+  "stem": "设 $A$ 为 $n$ 阶矩阵，$\\boldsymbol{\\alpha}$ 为 $n$ 维列向量，且 $r\\begin{pmatrix} A & \\boldsymbol{\\alpha} \\\\ \\boldsymbol{\\alpha}^T & 0 \\end{pmatrix} = r(A)$，则线性方程组（ ）。"
+ },
+ {
+  "coreNo": 900,
+  "sec": "线性方程组",
+  "zxNo": 148,
+  "score": 0.1882,
+  "stem": "设 $A_{m \\times n}$ 为矩阵，$B$ 为 $n \\times m$ 矩阵，则线性方程组 $AB\\mathbf{x} = 0$（ ）。"
+ },
+ {
+  "coreNo": 901,
+  "sec": "线性方程组",
+  "zxNo": 195,
+  "score": 0.0952,
+  "stem": "设 $A$ 为三阶矩阵，$\\Lambda=\\begin{pmatrix}1&0&0\\\\0&-1&0\\\\0&0&0\\end{pmatrix}$，则 $A$ 的特征值为 $1,-1,0$ 的充分必要条件是（　）"
+ },
+ {
+  "coreNo": 902,
+  "sec": "线性方程组",
+  "zxNo": 154,
+  "score": 0.5714,
+  "stem": "已知三阶矩阵 $B \\neq 0$，且 $B$ 的每一个列向量都是以下方程组的解：$\\begin{cases} x_1 + 2x_2 - 2x_3 = 0, \\\\ 2x_1 - x_2 + \\lambda x_3 = 0, \\\\ 3x_1 + x_2 - x_3 = 0。 \\end{cases}$求 $\\lambda$ 的值；证明 $|B|=0$。"
+ },
+ {
+  "coreNo": 903,
+  "sec": "线性方程组",
+  "zxNo": 191,
+  "score": 0.1538,
+  "stem": "齐次线性方程组 $\\begin{cases} \\lambda x_1 + x_2 + x_3 = 0, \\\\ x_1 + \\lambda x_2 + x_3 = 0, \\\\ x_1 + x_2 + x_3 = 0 \\end{cases}$ 只有零解，则 $\\lambda$ 应满足的条件是 ______。"
+ },
+ {
+  "coreNo": 904,
+  "sec": "线性方程组",
+  "zxNo": 191,
+  "score": 0.1284,
+  "stem": "若线性方程组 $\\begin{cases} x_1 + x_2 = -a_1, \\\\ x_2 + x_3 = a_2, \\\\ x_3 + x_4 = -a_3, \\\\ x_4 + x_1 = a_4 \\end{cases}$ 有解，则常数 $a_1, a_2, a_3, a_4$ 应满足条件 ______。"
+ },
+ {
+  "coreNo": 905,
+  "sec": "线性方程组",
+  "zxNo": 157,
+  "score": 0.1818,
+  "stem": "已知方程组 $\\begin{pmatrix} 1 & 2 & 1 \\\\ 2 & 3 & a+2 \\\\ 1 & a & -2 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ 3 \\\\ 0 \\end{pmatrix}$ 无解，则 $a= $______。"
+ },
+ {
+  "coreNo": 907,
+  "sec": "线性方程组",
+  "zxNo": 155,
+  "score": 0.3404,
+  "stem": "设矩阵 $\\mathbf{A} = \\begin{pmatrix} 1 & 1 & 1 \\\\ 1 & 2 & a \\\\ 1 & 4 & a^2 \\end{pmatrix}, \\mathbf{b} = \\begin{pmatrix} 1 \\\\ d \\\\ d^2 \\end{pmatrix}$。若集合 $\\Omega = \\{1,2\\}$，则线性方程组 $\\mathbf{A}\\mathbf{x} = \\mathbf{b}$ 有无穷多解的充分必要条件为（ ）"
+ },
+ {
+  "coreNo": 908,
+  "sec": "线性方程组",
+  "zxNo": 166,
+  "score": 0.0625,
+  "stem": "已知矩阵 $A=\\begin{pmatrix}1&0&-1\\\\2&-1&1\\\\-1&2&-5\\end{pmatrix}$，若下三角可逆矩阵 $P$ 和上三角可逆矩阵 $Q$，使 $PAQ$ 为对角矩阵，则 $P$，$Q$ 可以分别取（　）"
+ },
+ {
+  "coreNo": 909,
+  "sec": "线性方程组",
+  "zxNo": 192,
+  "score": 0.0806,
+  "stem": "已知线性方程组 (I) $\\begin{cases} a_{11}x_1 + a_{12}x_2 + \\cdots + a_{1,2n}x_{2n} = 0, \\\\ a_{21}x_1 + a_{22}x_2 + \\cdots + a_{2,2n}x_{2n} = 0, \\\\ \\vdots \\\\ a_{n1}x_1 + a_{n2}x_2 + \\cdots + a_{n,2n}x_{2n} = 0 \\end{cases}$ 的一个基础解系为 $(b_{11}, b_{12},\\cdots, b_{1,2 n})^{T},(b_{21}, b_{22},\\cdots, b_{2,2 n})^{T},\\cdots,(b_{n 1}, b_{n 2},\\cdots, b_{n,2 n})^{T}$。试写出线性方程组(II) $\\begin{cases} b_{11} y_1+b_{12} y_2+\\cdots+b_{1,2 n} y_{2 n}=0,\\\\ b_{21} y_1+b_{22} y_2+\\cdots+b_{2,2 n} y_{2 n}=0,\\\\ \\cdots\\\\ b_{n 1} y_1+b_{n 2} y_2+\\cdots+b_{n,2 n} y_{2 n}=0 \\end{cases}$ 的通解。"
+ },
+ {
+  "coreNo": 910,
+  "sec": "线性方程组",
+  "zxNo": 159,
+  "score": 0.2717,
+  "stem": "设线性方程组 $\\begin{cases} a x_1 + b x_2 + b x_3 + \\cdots + b x_n = 0 \\\\ b x_1 + a x_2 + b x_3 + \\cdots + b x_n = 0 \\\\ b x_1 + b x_2 + a x_3 + \\cdots + b x_n = 0 \\\\ \\cdots \\\\ b x_1 + b x_2 + b x_3 + \\cdots + a x_n = 0 \\end{cases}$ 其中 $a \\neq 0, b \\neq 0, n \\geq 2$。当 $a, b$ 为何值时，方程组只有零解、有非零解，当方程组有非零解时，求其通解。"
+ },
+ {
+  "coreNo": 911,
+  "sec": "线性方程组",
+  "zxNo": 159,
+  "score": 0.1226,
+  "stem": "已知齐次线性方程组 $\\begin{cases} (a_1 + b)x_1 + a_2x_2 + a_3x_3 + \\cdots + a_nx_n = 0, \\\\ a_1x_1 + (a_2 + b)x_2 + a_3x_3 + \\cdots + a_nx_n = 0, \\\\ a_1x_1 + a_2x_2 + (a_3 + b)x_3 + \\cdots + a_nx_n = 0, \\\\ \\cdots \\\\ a_1x_1 + a_2x_2 + a_3x_3 + \\cdots + (a_n + b)x_n = 0, \\end{cases}$ 其中 $\\sum_{i=1}^{n} a_i \\neq 0$。试讨论 $a_1, a_2, \\dots, a_n$ 和 $b$ 满足何种关系时，方程组仅有零解；方程组有非零解。在有非零解时，求此方程组的一个基础解系。"
+ },
+ {
+  "coreNo": 912,
+  "sec": "线性方程组",
+  "zxNo": 167,
+  "score": 0.152,
+  "stem": "设有齐次线性方程组\n$$\\begin{cases}(1+a)x_{1}+x_{2}+x_{3}+x_{4}=0,\\\\2x_{1}+(2+a)x_{2}+2x_{3}+2x_{4}=0,\\\\3x_{1}+3x_{2}+(3+a)x_{3}+3x_{4}=0,\\\\4x_{1}+4x_{2}+4x_{3}+(4+a)x_{4}=0,\\end{cases}$$\n试问 $a$ 取何值时，该方程组有非零解，并求出其通解。"
+ },
+ {
+  "coreNo": 914,
+  "sec": "线性方程组",
+  "zxNo": 177,
+  "score": 0.336,
+  "stem": "设 $n$ 阶矩阵 $A$ 的伴随矩阵 $A^*\\ne O$。若 $\\boldsymbol{\\xi}_1,\\boldsymbol{\\xi}_2,\\boldsymbol{\\xi}_3,\\boldsymbol{\\xi}_4$ 是非齐次线性方程组 $A\\boldsymbol{x}=\\boldsymbol{b}$ 的互不相等的解，则对应的齐次线性方程组 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的基础解系（ ）。"
+ },
+ {
+  "coreNo": 915,
+  "sec": "线性方程组",
+  "zxNo": 160,
+  "score": 0.3564,
+  "stem": "设 $n$ 阶矩阵 $A$ 的各行元素之和均为零，且 $A$ 的秩为 $n-1$，则线性方程组 $AX=0$ 的通解为______。"
+ },
+ {
+  "coreNo": 916,
+  "sec": "线性方程组",
+  "zxNo": 161,
+  "score": 0.3566,
+  "stem": "设 $3$ 阶矩阵 $A$ 的第 $1$ 行为 $(a,b,c)$，其中 $a,b,c$ 不全为零，且 $$B=\\begin{pmatrix}1&2&3\\\\2&4&6\\\\3&6&k\\end{pmatrix}.$$ 若 $AB=O$，求线性方程组 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的通解。"
+ },
+ {
+  "coreNo": 918,
+  "sec": "线性方程组",
+  "zxNo": 163,
+  "score": 0.5349,
+  "stem": "设 4 阶矩阵 $A=(a_{ij})$ 不可逆，$a_{12}$ 的代数余子式 $A_{12}\\ne0$，$\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4$ 为矩阵 $A$ 的列向量组，$A^*$ 为 $A$ 的伴随矩阵，则方程组 $A^*x=0$ 的通解为（　）"
+ },
+ {
+  "coreNo": 919,
+  "sec": "线性方程组",
+  "zxNo": 164,
+  "score": 0.3855,
+  "stem": "设 $A = (\\alpha_1, \\alpha_2, \\alpha_3)$ 为 $3$ 阶矩阵，其中 $\\alpha_1, \\alpha_2$ 线性无关， $\\alpha_3 = -\\alpha_1 + 2\\alpha_2$，则线性方程组 $Ax=0$ 的通解为______。"
+ },
+ {
+  "coreNo": 920,
+  "sec": "线性方程组",
+  "zxNo": 158,
+  "score": 0.25,
+  "stem": "设 $\\alpha_1, \\alpha_2, \\dots, \\alpha_s$ 为线性方程组 $Ax=0$ 的基础解系， $\\beta_1 = t_1 \\alpha_1 + t_2 \\alpha_2$， $\\beta_2 = t_1\\alpha_2 + t_2\\alpha_3$， $\\dots$， $\\beta_s = t_1\\alpha_s + t_2\\alpha_1$。当 $t_1, t_2$ 满足什么关系时， $\\beta_1, \\beta_2, \\dots, \\beta_s$ 也为 $Ax=0$ 的基础解系。"
+ },
+ {
+  "coreNo": 922,
+  "sec": "线性方程组",
+  "zxNo": 191,
+  "score": 0.1395,
+  "stem": "问 $a,b$为何值时，线性方程组 $\\begin{cases} x_1+x_2+x_3+x_4=0, \\\\ x_2+2x_3+2x_4=1, \\\\ -x_2+(a-3)x_3-2x_4=b, \\\\ 3x_1+2x_2+x_3+ax_4=-1 \\end{cases}$ 有唯一解？有无穷多解？并求出有无穷多解时的通解。"
+ },
+ {
+  "coreNo": 923,
+  "sec": "线性方程组",
+  "zxNo": 191,
+  "score": 0.1,
+  "stem": "解线性方程组 $\\begin{cases} 2x_1-x_2+4x_3-3x_4=-4, \\\\ x_1+x_3-x_4=-3, \\\\ 3x_1+x_2+x_3=1, \\\\ 7x_1+7x_3-3x_4=3 \\end{cases}$。"
+ },
+ {
+  "coreNo": 924,
+  "sec": "线性方程组",
+  "zxNo": 165,
+  "score": 0.1463,
+  "stem": "已知线性方程组 $\\begin{cases} x_1+x_2+2x_3+3x_4=1, \\\\ x_1+3x_2+6x_3+x_4=3, \\\\ 3x_1-x_2-k_1x_3+15x_4=3, \\\\ x_1-5x_2-10x_3+12x_4=k_2 \\end{cases}$ 问 $k_1$ 和 $k_2$ 各取何值时，方程组无解？有唯一解？有无穷多解？在方程组有无穷多解的情形下，试求出一般解。"
+ },
+ {
+  "coreNo": 925,
+  "sec": "线性方程组",
+  "zxNo": 168,
+  "score": 0.0704,
+  "stem": "问 $\\lambda$ 为何值时，线性方程组 $\\begin{cases} x_1+x_3=\\lambda, \\\\ 4x_1+x_2+2x_3=\\lambda+2, \\\\ 6x_1+x_2+4x_3=2\\lambda+3 \\end{cases}$ 有解，并求出解的一般形式。"
+ },
+ {
+  "coreNo": 926,
+  "sec": "线性方程组",
+  "zxNo": 192,
+  "score": 0.1684,
+  "stem": "已知线性方程组 $\\begin{cases} x_1 + x_2 + x_3 + x_4 + x_5 = a, \\\\ 3x_1 + 2x_2 + x_3 + x_4 - 3x_5 = 0, \\\\ x_2 + 2x_3 + 2x_4 + 6x_5 = b, \\\\ 5x_1 + 4x_2 + 3x_3 + 3x_4 - x_5 = 2, \\end{cases}$ $a$、$b$ 为何值时，方程组有解？ 方程组有解时，求出方程组的导出组的一个基础解系； 方程组有解时，求出方程组的全部解。"
+ },
+ {
+  "coreNo": 927,
+  "sec": "线性方程组",
+  "zxNo": 159,
+  "score": 0.1184,
+  "stem": "$k$ 为何值时，线性方程组 $\\begin{cases} x_1 + x_2 + kx_3 = 4, \\\\ -x_1 + kx_2 + x_3 = k^2, \\\\ x_1 - x_2 + 2x_3 = -4 \\end{cases}$ 有唯一解，无解，有无穷多组解？在有解情况下，求出其全部解。"
+ },
+ {
+  "coreNo": 928,
+  "sec": "线性方程组",
+  "zxNo": 191,
+  "score": 0.0748,
+  "stem": "设线性方程组 $\\begin{cases} x_1+a_1 x_2+a_1^2 x_3=a_1^3, \\\\ x_1+a_2 x_2+a_2^2 x_3=a_2^3, \\\\ x_1+a_3 x_2+a_3^2 x_3=a_3^3, \\\\ x_1+a_4 x_2+a_4^2 x_3=a_4^3。 \\end{cases}$证明：若 $a_1,a_2,a_3,a_4$两两不相等，则此线性方程组无解； 设 $a_1 = a_3 = k, a_2 = a_4 = -k (k \\neq 0)$，且已知 $\\beta_1, \\beta_2$ 是该方程组的两个解，其中 $\\beta_1 = \\begin{bmatrix} -1 \\\\ 1 \\\\ 1 \\end{bmatrix}, \\beta_2 = \\begin{bmatrix} 1 \\\\ 1 \\\\ -1 \\end{bmatrix}$，写出此方程组的通解。"
+ },
+ {
+  "coreNo": 929,
+  "sec": "线性方程组",
+  "zxNo": 168,
+  "score": 0.0651,
+  "stem": "设 $A=\\begin{pmatrix} 1 & 1 & 1 & \\cdots & 1 \\\\ a_1 & a_2 & a_3 & \\cdots & a_n \\\\ a_1^2 & a_2^2 & a_3^2 & \\cdots & a_n^2 \\\\ \\vdots & \\vdots & \\vdots & & \\vdots \\\\ a_1^{n-1} & a_2^{n-1} & a_3^{n-1} & \\cdots & a_n^{n-1} \\end{pmatrix}, \\mathbf{x}=\\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\\\ \\vdots \\\\ x_n \\end{pmatrix}, \\mathbf{b}=\\begin{pmatrix} 1 \\\\ 1 \\\\ 1 \\\\ \\vdots \\\\ 1 \\end{pmatrix}$，其中 $a_i \\neq a_j (i \\neq j; i, j = 1, 2, \\dots, n)$。则线性方程组 $A^T \\mathbf{x} = \\mathbf{b}$ 的解是 ______。"
+ },
+ {
+  "coreNo": 930,
+  "sec": "线性方程组",
+  "zxNo": 165,
+  "score": 0.6364,
+  "stem": "$\\lambda$ 取何值时，方程组 $\\begin{cases} 2x_1+\\lambda x_2-x_3=1, \\\\ \\lambda x_1-x_2+x_3=2, \\\\ 4x_1+5x_2-5x_3=-1 \\end{cases}$ 无解，有唯一解或有无穷多解？并在有无穷多解时写出方程组的通解。"
+ },
+ {
+  "coreNo": 932,
+  "sec": "线性方程组",
+  "zxNo": 191,
+  "score": 0.6833,
+  "stem": "（本题满分 11 分）\n设线性方程组\n$$\\begin{cases} x_1+x_2+x_3=0, \\\\ x_1+2x_2+ax_3=0, \\\\ x_1+4x_2+a^2x_3=0, \\end{cases} $$\n与方程组 $$x_1+2x_2+x_3=a-1 $$\n有公共解，求 $a$ 的值及所有公共解。"
+ },
+ {
+  "coreNo": 933,
+  "sec": "线性方程组",
+  "zxNo": 168,
+  "score": 0.4977,
+  "stem": "设 $n$ 元线性方程组 $A \\mathbf{x} = \\mathbf{b}$，其中 $A = \\begin{pmatrix} 2a & 1 & & & \\\\ a^2 & 2a & 1 & & \\\\ & a^2 & 2a & 1 & \\\\ & & \\ddots & \\ddots & \\ddots \\\\ & & & a^2 & 2a & 1 \\\\ & & & & a^2 & 2a \\end{pmatrix}_{n\\times n}$， $\\mathbf{x}=\\begin{pmatrix} x_1\\\\ x_2\\\\ \\vdots\\\\ x_n \\end{pmatrix}$， $\\mathbf{b}=\\begin{pmatrix} 1\\\\ 0\\\\ \\vdots\\\\ 0 \\end{pmatrix}$。(I) 证明行列式 $|A|=(n+1)a^n$；(II) 当 $a$ 为何值时，该方程组有唯一解，并求 $x_1$；(III) 当 $a$ 为何值时，该方程组有无穷多解，并求通解。"
+ },
+ {
+  "coreNo": 934,
+  "sec": "线性方程组",
+  "zxNo": 169,
+  "score": 0.2754,
+  "stem": "（本题满分 11 分）\n设 $A=\\begin{pmatrix}1&-1&-1\\\\-1&1&1\\\\0&-4&-2\\end{pmatrix},\\ \\xi_{1}=\\begin{pmatrix}-1\\\\1\\\\-2\\end{pmatrix}$\n（I）求满足 $A\\xi_{2}=\\xi_{1},A^{2}\\xi_{3}=\\xi_{1}$ 的所有向量 $\\xi_{2},\\xi_{3}$；\n（II）对（I）中的任意向量 $\\xi_{2},\\xi_{3}$，证明 $\\xi_{1},\\xi_{2},\\xi_{3}$ 线性无关。"
+ },
+ {
+  "coreNo": 935,
+  "sec": "线性方程组",
+  "zxNo": 170,
+  "score": 0.352,
+  "stem": "（本题满分 11 分）\n设 $A=\\begin{pmatrix}\\lambda&1&1\\\\0&\\lambda-1&0\\\\1&1&\\lambda\\end{pmatrix},b=\\begin{pmatrix}a\\\\1\\\\1\\end{pmatrix}$。已知线性方程组 $Ax=b$ 存在两个不同的解。\n（I）求 $\\lambda,a$；\n（II）求方程组 $Ax=b$ 的通解．"
+ },
+ {
+  "coreNo": 936,
+  "sec": "线性方程组",
+  "zxNo": 171,
+  "score": 0.4762,
+  "stem": "（本题满分11分）\n设 $A=\\begin{pmatrix}1&a&0&0\\\\0&1&a&0\\\\0&0&1&a\\\\a&0&0&1\\end{pmatrix}$，$\\beta=\\begin{pmatrix}1\\\\-1\\\\0\\\\0\\end{pmatrix}$。\n（Ⅰ）计算行列式 $|A|$；\n（Ⅱ）当实数 $a$ 为何值时，方程组 $Ax=\\beta$ 有无穷多解，并求其通解。"
+ },
+ {
+  "coreNo": 937,
+  "sec": "线性方程组",
+  "zxNo": 177,
+  "score": 0.7455,
+  "stem": "设 $n$ 阶矩阵 $A$ 的伴随矩阵 $A^* \\neq O$，若 $\\xi_1, \\xi_2, \\xi_3, \\xi_4$ 为非齐次线性方程组 $Ax=b$ 的互不相等的解，则 $Ax=b$ 的线性无关解向量的个数为______。"
+ },
+ {
+  "coreNo": 938,
+  "sec": "线性方程组",
+  "zxNo": 174,
+  "score": 0.2256,
+  "stem": "已知 $\\beta_1,\\beta_2$ 是非齐次线性方程组 $AX=b$ 的两个不同的解，$\\alpha_1,\\alpha_2$ 是对应齐次线性方程组 $AX=0$ 的基础解系，$k_1,k_2$ 为任意常数，则方程组 $AX=b$ 的通解是（ ）。"
+ },
+ {
+  "coreNo": 939,
+  "sec": "线性方程组",
+  "zxNo": 174,
+  "score": 0.4186,
+  "stem": "设 $A$ 为 $4\\times3$ 矩阵，$\\eta_1,\\eta_2,\\eta_3$ 为非齐次线性方程组 $Ax=\\beta$ 的 $3$ 个线性无关的解，$k_1,k_2$ 为任意常数，则 $Ax=\\beta$ 的通解为（ ）。"
+ },
+ {
+  "coreNo": 940,
+  "sec": "线性方程组",
+  "zxNo": 178,
+  "score": 0.1524,
+  "stem": "设 $A = (\\alpha_1, \\alpha_2, \\alpha_3, \\alpha_4)$ 为 $4$ 阶矩阵，其中 $\\alpha_2, \\alpha_3, \\alpha_4$ 线性无关， $\\alpha_1 = 2\\alpha_2 - \\alpha_3$。若 $\\beta = \\alpha_1 + \\alpha_2 + \\alpha_3 + \\alpha_4$，求线性方程组 $Ax = \\beta$ 的通解。"
+ },
+ {
+  "coreNo": 941,
+  "sec": "线性方程组",
+  "zxNo": 201,
+  "score": 0.2087,
+  "stem": "设 3 阶矩阵 $A=(\\alpha_1,\\alpha_2,\\alpha_3)$，$B=(\\beta_1,\\beta_2,\\beta_3)$，若向量组 $\\alpha_1,\\alpha_2,\\alpha_3$ 可以由向量组 $\\beta_1,\\beta_2,\\beta_3$ 线性表出，则（　）"
+ },
+ {
+  "coreNo": 942,
+  "sec": "线性方程组",
+  "zxNo": 175,
+  "score": 0.2278,
+  "stem": "设 $a_1,a_2,a_3$ 是四元非齐次线性方程组 $AX=b$ 的三个解向量，且 $r(A)=3$，$a_1=(1,2,3,4)^{\\mathrm T}$，$a_2+a_3=(0,1,2,3)^{\\mathrm T}$，$c$ 表示任意常数，则线性方程组 $Ax=b$ 的通解为 $x=$（ ）。"
+ },
+ {
+  "coreNo": 943,
+  "sec": "线性方程组",
+  "zxNo": 186,
+  "score": 0.2714,
+  "stem": "设 $A=(a_1,a_2,a_3,a_4)$ 为 $4$ 阶正交矩阵，$B=\\begin{pmatrix}a_1^T\\\\a_2^T\\\\a_3^T\\end{pmatrix}$，$\\beta=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$，$k$ 表示任意常数，则线性方程组 $BX=\\beta$ 的通解 $X=$（ ）。"
+ },
+ {
+  "coreNo": 944,
+  "sec": "线性方程组",
+  "zxNo": 204,
+  "score": 0.0593,
+  "stem": "要使 $\\boldsymbol{\\xi}_1 = \\begin{pmatrix}1\\\\0\\\\2\\end{pmatrix}, \\boldsymbol{\\xi}_2 = \\begin{pmatrix}0\\\\1\\\\-1\\end{pmatrix}$ 都是线性方程组 $A\\mathbf{x}=0$ 的解，只要系数矩阵 $A$ 为（ ）。"
+ },
+ {
+  "coreNo": 945,
+  "sec": "线性方程组",
+  "zxNo": 191,
+  "score": 0.6783,
+  "stem": "设线性方程组 (I) \n$$\n\\begin{cases}x_1+x_2+x_3=0,\\\\x_1+2x_2+ax_3=0,\\\\x_1+4x_2+a^2x_3=0\\end{cases}\n$$\n与方程 (II) $x_1+2x_2+x_3=a-1$ 有公共解，求 $a$ 的值及所有公共解。"
+ },
+ {
+  "coreNo": 946,
+  "sec": "线性方程组",
+  "zxNo": 192,
+  "score": 0.139,
+  "stem": "设四元齐次线性方程组 (I) 为\n$$\n\\begin{cases}x_1+x_2=0,\\\\x_2-x_4=0,\\end{cases}\n$$\n又已知某齐次线性方程组 (II) 的通解为 $k_1(0,1,1,0)^T+k_2(-1,2,2,1)^T$。求线性方程组 (I) 的基础解系；问线性方程组 (I) 和 (II) 是否有非零公共解？若有，则求出所有非零公共解；若没有，则说明理由。"
+ },
+ {
+  "coreNo": 947,
+  "sec": "线性方程组",
+  "zxNo": 194,
+  "score": 0.4835,
+  "stem": "设 $A$ 是 $n$ 阶矩阵，对方程组 (I) $Ax=0$ 和 (II) $A^{T}Ax=0$，必有（ ）。"
+ },
+ {
+  "coreNo": 948,
+  "sec": "线性方程组",
+  "zxNo": 196,
+  "score": 0.3529,
+  "stem": "设 $A,B$ 为 $n$ 阶矩阵，若方程组 $Ax=0$ 与 $Bx=0$ 同解，则（ ）。"
+ },
+ {
+  "coreNo": 949,
+  "sec": "线性方程组",
+  "zxNo": 199,
+  "score": 0.6259,
+  "stem": "设线性方程组\n$$\n(\\mathrm I)\\begin{cases}x_1+2x_2+3x_3=0,\\\\2x_1+3x_2+5x_3=0,\\\\x_1+x_2+ax_3=0\\end{cases}\n$$\n与\n$$\n(\\mathrm{II})\\begin{cases}x_1+bx_2+cx_3=0,\\\\2x_1+b^2x_2+(c+1)x_3=0\\end{cases}\n$$\n同解，求 $a,b,c$ 的值。"
+ },
+ {
+  "coreNo": 950,
+  "sec": "线性方程组",
+  "zxNo": 200,
+  "score": 0.8606,
+  "stem": "设有齐次线性方程组 $Ax=0$ 和 $Bx=0$，其中 $A$、$B$ 均为 $m\\times n$ 矩阵。现有 $4$ 个命题：① 若 $Ax=0$ 的解均是 $Bx=0$ 的解，则 $r(A)\\ge r(B)$；② 若 $r(A)\\ge r(B)$，则 $Ax=0$ 的解均是 $Bx=0$ 的解；③ 若 $Ax=0$ 与 $Bx=0$ 同解，则 $r(A)=r(B)$；④ 若 $r(A)=r(B)$，则 $Ax=0$ 与 $Bx=0$ 同解。以上命题中正确的是（ ）。"
+ },
+ {
+  "coreNo": 951,
+  "sec": "线性方程组",
+  "zxNo": 149,
+  "score": 0.2479,
+  "stem": "设矩阵 $A=\\begin{pmatrix}1&1&1\\\\1&a&a^2\\\\1&b&b^2\\end{pmatrix}$，$\\boldsymbol{b}_0=\\begin{pmatrix}1\\\\2\\\\4\\end{pmatrix}$，则线性方程组 $A\\boldsymbol{x}=\\boldsymbol{b}_0$ 解的情况为（　）"
+ },
+ {
+  "coreNo": 952,
+  "sec": "线性方程组",
+  "zxNo": 210,
+  "score": 0.2593,
+  "stem": "设 $\\mathbf{A} = \\begin{pmatrix} 1 & a \\\\ 1 & 0 \\end{pmatrix}, \\mathbf{B} = \\begin{pmatrix} 0 & 1 \\\\ 1 & b \\end{pmatrix}$。当 $a, b$ 为何值时，存在矩阵 $\\mathbf{C}$ 使得 $\\mathbf{A}\\mathbf{C} - \\mathbf{C}\\mathbf{A} = \\mathbf{B}$，并求所有矩阵 $\\mathbf{C}$。"
+ },
+ {
+  "coreNo": 953,
+  "sec": "线性方程组",
+  "zxNo": 213,
+  "score": 0.1412,
+  "stem": "设矩阵 $A$ 和 $B$ 满足 $AB=A+2B$，其中\n$$A=\\begin{pmatrix}3&0&1\\\\1&1&0\\\\0&1&4\\end{pmatrix},$$\n求矩阵 $B$。"
+ },
+ {
+  "coreNo": 954,
+  "sec": "线性方程组",
+  "zxNo": 213,
+  "score": 0.0952,
+  "stem": "设矩阵  $ A $  和  $ B $  满足  $ AB = A + B $ ，求矩阵  $ B $ ，其中  $ A = \\begin{pmatrix} 4 & 2 & 3 \\\\ 1 & 1 & 0 \\\\ -1 & 2 & 3 \\end{pmatrix} $ 。"
+ },
+ {
+  "coreNo": 955,
+  "sec": "线性方程组",
+  "zxNo": 212,
+  "score": 0.5333,
+  "stem": "设 3 阶方阵  $ A, B $  满足关系式  $ A^{-1}BA = 6A + BA $ ，其中  $ A = \\begin{pmatrix} \\frac{1}{3} & 0 & 0 \\\\ 0 & \\frac{1}{4} & 0 \\\\ 0 & 0 & \\frac{1}{7} \\end{pmatrix} $ ，则  $ B= $  ______。"
+ },
+ {
+  "coreNo": 956,
+  "sec": "线性方程组",
+  "zxNo": 156,
+  "score": 0.125,
+  "stem": "已知  $ X = AX + B $ ，其中  $ A = \\begin{pmatrix} 0 & 1 & 0 \\\\ -1 & 1 & 1 \\\\ -1 & 0 & -1 \\end{pmatrix} $ ,  $ B = \\begin{pmatrix} 1 \\\\ 2 \\\\ 5 \\end{pmatrix} $ ，求矩阵  $ X $ 。"
+ },
+ {
+  "coreNo": 957,
+  "sec": "线性方程组",
+  "zxNo": 211,
+  "score": 0.6364,
+  "stem": "设 4 阶矩阵  $ B = \\begin{pmatrix} 1 & -1 & 0 & 0 \\\\ 2 & 1 & -3 & 4 \\\\ 0 & 2 & 1 & -3 \\\\ 0 & 0 & 2 & 1 \\end{pmatrix} $ ,  $ C = \\begin{pmatrix} 1 & 0 & 0 & 0 \\\\ 2 & 1 & 0 & 0 \\\\ 3 & 2 & 1 & 0 \\\\ 4 & 3 & 2 & 1 \\end{pmatrix} $  且矩阵  $ A $  满足关系式  $ (E - C^{-1}B)C^T A = E $ ，其中  $ E $  为 4 阶单位矩阵， $ C^{-1} $  表示  $ C $  的逆矩阵， $ C^T $  表示  $ C $  的转置矩阵，将上述关系式化简并求矩阵  $ A $ 。"
+ },
+ {
+  "coreNo": 958,
+  "sec": "线性方程组",
+  "zxNo": 211,
+  "score": 0.0988,
+  "stem": "设 $(2E-C^{-1}B)A^T=C^{-1}$，其中 $E$ 是 4 阶单位矩阵，$A^T$ 是 4 阶矩阵 $A$ 的转置矩阵，\n$B=\\begin{pmatrix}1&2&-3&-2\\\\0&1&2&-3\\\\0&0&1&2\\\\0&0&0&1\\end{pmatrix}$，\n$C=\\begin{pmatrix}1&2&0&1\\\\0&1&2&0\\\\0&0&1&2\\\\0&0&0&1\\end{pmatrix}$，求 $A$。"
+ },
+ {
+  "coreNo": 959,
+  "sec": "线性方程组",
+  "zxNo": 213,
+  "score": 0.7071,
+  "stem": "设矩阵  $ A, B $  满足  $ A^* BA = 2BA - 8E $ ，其中  $ A = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & -2 & 0 \\\\ 0 & 0 & 1 \\end{pmatrix} $ ,  $ E $  为单位矩阵， $ A^* $  为  $ A $  的伴随矩阵，则  $ B= $  _____。"
+ },
+ {
+  "coreNo": 960,
+  "sec": "线性方程组",
+  "zxNo": 213,
+  "score": 0.1538,
+  "stem": "设矩阵  $ A $  的伴随矩阵  $ A^* = \\begin{pmatrix} 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 1 & 0 & 1 & 0 \\\\ 0 & 3 & 0 & -8 \\end{pmatrix} $  且  $ ABA^{-1} = BA^{-1} + 3E $ ，其中  $ E $  为 4 阶单位矩阵，求矩阵  $ B $ 。"
+ },
+ {
+  "coreNo": 963,
+  "sec": "线性方程组",
+  "zxNo": 216,
+  "score": 0.6296,
+  "stem": "设  $ A = \\begin{pmatrix} 1 & -2 & 3 & -4 \\\\ 0 & 1 & -1 & 1 \\\\ 1 & 2 & 0 & -3 \\end{pmatrix} $ 。(I) 求线性方程组  $ Ax=0 $  的一个基础解系；(II) 求满足  $ AB = E $  的所有矩阵  $ B $ 。"
+ },
+ {
+  "coreNo": 964,
+  "sec": "线性方程组",
+  "zxNo": 219,
+  "score": 0.6029,
+  "stem": "（本题满分11分）\n已知 $a$ 是常数，且矩阵 $A=\\begin{pmatrix}1&2&a\\\\1&3&0\\\\2&7&-a\\end{pmatrix}$ 可经初等列变换化为矩阵 $B=\\begin{pmatrix}1&a&2\\\\0&1&1\\\\-1&1&1\\end{pmatrix}$。\n（I）求 $a$；\n（II）求满足 $AP=B$ 的可逆矩阵 $P$。"
+ },
+ {
+  "coreNo": 965,
+  "sec": "线性方程组",
+  "zxNo": 171,
+  "score": 0.0727,
+  "stem": "已知 3 阶矩阵  $ A $  与 3 维向量  $ x $ ，使得向量组  $ x, Ax, A^2x $  线性无关，且  $ A^3x = 3Ax - 2A^2x $ 。(I) 记  $ P = (x, Ax, A^2x) $ ，求 3 阶矩阵  $ B $ ，使得  $ A = PBP^{-1} $ ；(II) 计算行列式  $ |A + E| $ 。"
+ },
+ {
+  "coreNo": 730,
+  "sec": "特征值与特征向量",
+  "zxNo": 230,
+  "score": 0.4086,
+  "stem": "设 3阶实对称矩阵 $A$ 仅有两个不同的特征值 $\\lambda, \\mu$，且 $A^* = \\begin{pmatrix} 1 & 1 & 1 \\\\ 1 & a & 1 \\\\ b & c & d \\end{pmatrix}$，则 $\\lambda^2 + \\mu^2 =$ _____。"
+ },
+ {
+  "coreNo": 731,
+  "sec": "特征值与特征向量",
+  "zxNo": 272,
+  "score": 0.3636,
+  "stem": "设三阶实矩阵 $A$ 的特征向量为 $\\boldsymbol{\\alpha}_1=(-1,1,0)^T$，$\\boldsymbol{\\alpha}_2=(1,1,1)^T$，$\\boldsymbol{\\alpha}_3=(-1,-1,2)^T$，则 $A$ 必为（ ）。"
+ },
+ {
+  "coreNo": 732,
+  "sec": "特征值与特征向量",
+  "zxNo": 237,
+  "score": 0.4286,
+  "stem": "已知矩阵 $A$ 与 $B$ 相似，其中 $A=\\begin{pmatrix}2 & 1 & 1 \\\\ -2 & x & 2 \\\\ 1 & 2 & 2\\end{pmatrix}, B=\\begin{pmatrix}8 & 20 & 10 \\\\ y & 2 & 1 \\\\ -5 & -15 & -6\\end{pmatrix}$，将矩阵 $B$ 的特征值记为 $\\lambda_1, \\lambda_2, \\lambda_3$，则 $(\\lambda_1+\\lambda_2+\\lambda_3)^2 - \\lambda_1\\lambda_2\\lambda_3 =$ _____."
+ },
+ {
+  "coreNo": 733,
+  "sec": "特征值与特征向量",
+  "zxNo": 243,
+  "score": 0.2707,
+  "stem": "设矩阵 $A,C,B$ 为同阶矩阵，且 $A,B$ 可逆，矩阵 $M=\\begin{pmatrix}A&C\\\\O&B\\end{pmatrix}$，$M_1=\\begin{pmatrix}A&A^{-1}C\\\\O&B\\end{pmatrix}$，$M_2=\\begin{pmatrix}A&A^{-1}CB\\\\O&B\\end{pmatrix}$，则（ ）"
+ },
+ {
+  "coreNo": 734,
+  "sec": "特征值与特征向量",
+  "zxNo": 278,
+  "score": 0.4386,
+  "stem": "设\n$$\nA=\\begin{pmatrix}1&1&a\\\\1&3&1\\\\a&1&1\\end{pmatrix},\n$$\n且 $r(A)=2$。(I) 求使 $A^*$ 的特征值之和最小的 $a$；(II) 求正交矩阵 $Q$，使 $Q^T(A+A^*)Q$ 为对角矩阵。"
+ },
+ {
+  "coreNo": 735,
+  "sec": "特征值与特征向量",
+  "zxNo": 242,
+  "score": 0.0779,
+  "stem": "设矩阵 $A=\\begin{pmatrix}0&1&-1\\\\1&0&1\\\\-1&1&0\\end{pmatrix}$，则 $A^4$ 的最大特征值为____."
+ },
+ {
+  "coreNo": 736,
+  "sec": "特征值与特征向量",
+  "zxNo": 223,
+  "score": 0.4561,
+  "stem": "矩阵 $A=\\begin{pmatrix}1&4&-7\\\\2&8&-12\\\\3&12&-17\\end{pmatrix}$ 的最小特征值为____."
+ },
+ {
+  "coreNo": 737,
+  "sec": "特征值与特征向量",
+  "zxNo": 228,
+  "score": 0.3364,
+  "stem": "设 $A$ 为 $3$ 阶实对称矩阵，正交矩阵 $Q=(\\gamma_1,\\gamma_2,\\gamma_3)$ 满足 $Q^TAQ=\\begin{pmatrix}2&0&0\\\\0&3&0\\\\0&0&4\\end{pmatrix}$，则 $A-\\gamma_1\\gamma_1^T$ 的特征值为____."
+ },
+ {
+  "coreNo": 738,
+  "sec": "特征值与特征向量",
+  "zxNo": 254,
+  "score": 0.0964,
+  "stem": "设 $A=\\alpha\\beta^T+\\beta\\alpha^T$，其中 $\\alpha,\\beta$ 为 $3$ 维单位正交的列向量，则 $A$ 的特征值为____."
+ },
+ {
+  "coreNo": 966,
+  "sec": "特征值与特征向量",
+  "zxNo": null,
+  "score": 0,
+  "stem": "设函数 $f(x)=\\begin{cases}\\dfrac{1-e^{ax^{2}}}{\\arcsin\\dfrac{x}{2}},&x>0,\\\\ae^{2x},&x\\leqslant 0,\\end{cases}$ 在 $x=0$ 处连续，则 $a=$ ________."
+ },
+ {
+  "coreNo": 967,
+  "sec": "特征值与特征向量",
+  "zxNo": 221,
+  "score": 0.4259,
+  "stem": "设 $A=\\begin{pmatrix}3&2&2\\\\2&3&2\\\\2&2&3\\end{pmatrix}$，$P=\\begin{pmatrix}0&1&0\\\\1&0&1\\\\0&0&1\\end{pmatrix}$，$B=P^{-1}A^{*}P$，求 $B+2E$ 的特征值与特征向量."
+ },
+ {
+  "coreNo": 968,
+  "sec": "特征值与特征向量",
+  "zxNo": 251,
+  "score": 0.0842,
+  "stem": "求矩阵 $A=\\begin{bmatrix}-3&-1&2\\\\0&-1&4\\\\-1&0&1\\end{bmatrix}$ 的实特征值及对应的特征向量."
+ },
+ {
+  "coreNo": 969,
+  "sec": "特征值与特征向量",
+  "zxNo": 279,
+  "score": 0.0855,
+  "stem": "设 $A=\\begin{bmatrix}-1&2&2\\\\2&-1&-2\\\\2&-2&-1\\end{bmatrix}$。$(1)$ 试求矩阵 $A$ 的特征值；$(2)$ 利用 $(1)$ 小题的结果，求矩阵 $E+A^{-1}$ 的特征值，其中 $E$ 是三阶单位矩阵."
+ },
+ {
+  "coreNo": 970,
+  "sec": "特征值与特征向量",
+  "zxNo": 224,
+  "score": 0.1333,
+  "stem": "设 $A$ 为 $n$ 阶可逆矩阵，$\\lambda$ 是 $A$ 的一个特征根，则 $A$ 的伴随矩阵 $A^*$ 的特征根之一是（ ）。"
+ },
+ {
+  "coreNo": 971,
+  "sec": "特征值与特征向量",
+  "zxNo": 221,
+  "score": 0.1875,
+  "stem": "设 $A$ 为 $n$ 阶矩阵，$|A|\\ne0$，$A^*$ 为 $A$ 的伴随矩阵，$E$ 为 $n$ 阶单位矩阵。若 $A$ 有特征值 $\\lambda$，则 $(A^*)^2+E$ 必有特征值____."
+ },
+ {
+  "coreNo": 972,
+  "sec": "特征值与特征向量",
+  "zxNo": 251,
+  "score": 0.0909,
+  "stem": "设向量 $\\alpha=(a_1,a_2,\\cdots,a_n)^T$，$\\beta=(b_1,b_2,\\cdots,b_n)^T$ 都是非零向量，且满足条件 $\\alpha^T\\beta=0$。记 $n$ 阶矩阵 $A=\\alpha\\beta^T$。求：$(1)$ $A^2$；$(2)$ 矩阵 $A$ 的特征值和特征向量."
+ },
+ {
+  "coreNo": 973,
+  "sec": "特征值与特征向量",
+  "zxNo": 264,
+  "score": 0.0741,
+  "stem": "设 $n$ 阶矩阵 $A$ 的元素全为 $1$，则 $A$ 的 $n$ 个特征值是____."
+ },
+ {
+  "coreNo": 974,
+  "sec": "特征值与特征向量",
+  "zxNo": 247,
+  "score": 0.1118,
+  "stem": "（本题满分11分）\n设矩阵 $A=\\begin{pmatrix}a&1&0\\\\1&a&-1\\\\0&1&a\\end{pmatrix}$，且 $A^3=O$。\n（I）求 $a$ 的值；\n（II）若矩阵 $X$ 满足 $X-XA^2-AX+AXA^2=E$，其中 $E$ 为 $3$ 阶单位矩阵，求 $X$。"
+ },
+ {
+  "coreNo": 975,
+  "sec": "特征值与特征向量",
+  "zxNo": 225,
+  "score": 0.7009,
+  "stem": "设 $A$ 是 $n$ 阶实对称矩阵，$P$ 是 $n$ 阶可逆矩阵，已知 $n$ 维列向量 $\\alpha$ 是 $A$ 的属于特征值 $\\lambda$ 的特征向量，则矩阵 $(P^{-1}AP)^T$ 属于特征值 $\\lambda$ 的特征向量是（ ）。"
+ },
+ {
+  "coreNo": 976,
+  "sec": "特征值与特征向量",
+  "zxNo": 281,
+  "score": 0.1955,
+  "stem": "设 $A$ 为 $3$ 阶实对称矩阵，且满足条件 $A^2+2A=O$，已知 $A$ 的秩 $r(A)=2$。$(1)$ 求 $A$ 的全部特征值；$(2)$ 当 $k$ 为何值时，矩阵 $A+kE$ 为正定矩阵，其中 $E$ 为 $3$ 阶单位矩阵."
+ },
+ {
+  "coreNo": 977,
+  "sec": "特征值与特征向量",
+  "zxNo": 226,
+  "score": 0.5,
+  "stem": "设 $A$ 为 $2$ 阶矩阵，$\\alpha_1,\\alpha_2$ 为线性无关的 $2$ 维列向量，满足 $A\\alpha_1=0$，$A\\alpha_2=2\\alpha_1+\\alpha_2$，则 $A$ 的非零特征值为____."
+ },
+ {
+  "coreNo": 978,
+  "sec": "特征值与特征向量",
+  "zxNo": 226,
+  "score": 0.1395,
+  "stem": "若 $3$ 维列向量 $\\alpha,\\beta$ 满足 $\\alpha^T\\beta=2$，其中 $\\alpha^T$ 为 $\\alpha$ 的转置，则矩阵 $\\beta\\alpha^T$ 的非零特征值为____."
+ },
+ {
+  "coreNo": 979,
+  "sec": "特征值与特征向量",
+  "zxNo": 227,
+  "score": 0.3478,
+  "stem": "设 $A$ 为 $3$ 阶矩阵，$\\alpha_1,\\alpha_2,\\alpha_3$ 为线性无关的向量组。若 $A\\alpha_1=2\\alpha_1+\\alpha_2+\\alpha_3$，$A\\alpha_2=\\alpha_2+2\\alpha_3$，$A\\alpha_3=-\\alpha_2+\\alpha_3$，则 $A$ 的实特征值为 ____。"
+ },
+ {
+  "coreNo": 980,
+  "sec": "特征值与特征向量",
+  "zxNo": 233,
+  "score": 0.3684,
+  "stem": "设 $A$ 是秩为 $2$ 的 $3$ 阶矩阵，$\\alpha$ 是满足 $A\\alpha=0$ 的非零向量。若对满足 $\\beta^T\\alpha=0$ 的 $3$ 维列向量 $\\beta$，均有 $A\\beta=\\beta$，则（ ）。"
+ },
+ {
+  "coreNo": 981,
+  "sec": "特征值与特征向量",
+  "zxNo": 230,
+  "score": 0.0962,
+  "stem": "设 $A$ 是 $n$ 阶矩阵，$\\lambda_1$ 和 $\\lambda_2$ 是 $A$ 的两个不同的特征值，$\\boldsymbol{\\alpha}_1, \\boldsymbol{\\alpha}_2$ 是分别属于 $\\lambda_1$ 和 $\\lambda_2$ 的特征向量。试证明 $\\boldsymbol{\\alpha}_1 + \\boldsymbol{\\alpha}_2$ 不是 $A$ 的特征向量。"
+ },
+ {
+  "coreNo": 982,
+  "sec": "特征值与特征向量",
+  "zxNo": 224,
+  "score": 0.1333,
+  "stem": "设 $\\lambda$ 为 $n$ 阶可逆矩阵 $A$ 的一个特征值，证明：$\\dfrac{1}{\\lambda}$ 为 $A^{-1}$ 的特征值；$\\dfrac{|A|}{\\lambda}$ 为 $A$ 的伴随矩阵 $A^*$ 的特征值。"
+ },
+ {
+  "coreNo": 983,
+  "sec": "特征值与特征向量",
+  "zxNo": null,
+  "score": 0,
+  "stem": "若函数 $f(x)=\\begin{cases}\\dfrac{1-\\cos\\sqrt{x}}{ax},&x>0,\\\\b,&x\\le0\\end{cases}$ 在 $x=0$ 处连续，则（　）"
+ },
+ {
+  "coreNo": 984,
+  "sec": "特征值与特征向量",
+  "zxNo": 240,
+  "score": 0.1408,
+  "stem": "设 $A,B$ 为 $n$ 阶矩阵，且 $A$ 与 $B$ 相似，$E$ 为 $n$ 阶单位矩阵，则（ ）。"
+ },
+ {
+  "coreNo": 986,
+  "sec": "特征值与特征向量",
+  "zxNo": 236,
+  "score": 0.0449,
+  "stem": "设 $\\boldsymbol{\\alpha} = (1,1,1)^T$，$\\boldsymbol{\\beta} = (1,0,k)^T$，若矩阵 $\\boldsymbol{\\alpha} \\boldsymbol{\\beta}^T$ 相似于 $\\begin{pmatrix} 3 & 0 & 0 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}$，则 $k =$ ______。"
+ },
+ {
+  "coreNo": 987,
+  "sec": "特征值与特征向量",
+  "zxNo": 283,
+  "score": 0.2593,
+  "stem": "设四阶实对称矩阵 $A$ 满足 $A^2+A=O$，且 $r(A)=3$，则 $A$ 相似于（ ）。"
+ },
+ {
+  "coreNo": 988,
+  "sec": "特征值与特征向量",
+  "zxNo": 239,
+  "score": 0.3585,
+  "stem": "矩阵 $\\begin{pmatrix}1&a&1\\\\a&b&a\\\\1&a&1\\end{pmatrix}$ 与 $\\begin{pmatrix}2&0&0\\\\0&b&0\\\\0&0&0\\end{pmatrix}$ 相似的充分必要条件为（　）"
+ },
+ {
+  "coreNo": 989,
+  "sec": "特征值与特征向量",
+  "zxNo": 240,
+  "score": 0.3478,
+  "stem": "设 $n$ 阶可逆矩阵 $A$ 与 $B$ 相似，则下列结论错误的是（ ）。"
+ },
+ {
+  "coreNo": 990,
+  "sec": "特征值与特征向量",
+  "zxNo": 241,
+  "score": 0.2222,
+  "stem": "设 $A=\\begin{pmatrix}2&0&0\\\\0&2&1\\\\0&0&1\\end{pmatrix}$，$B=\\begin{pmatrix}2&1&0\\\\0&2&0\\\\0&0&1\\end{pmatrix}$，$C=\\begin{pmatrix}1&0&0\\\\0&2&0\\\\0&0&2\\end{pmatrix}$，则（ ）。"
+ },
+ {
+  "coreNo": 991,
+  "sec": "特征值与特征向量",
+  "zxNo": 242,
+  "score": 0.2667,
+  "stem": "下列矩阵中，与矩阵 $\\begin{pmatrix}1&1&0\\\\0&1&1\\\\0&0&1\\end{pmatrix}$ 相似的为（　）"
+ },
+ {
+  "coreNo": 992,
+  "sec": "特征值与特征向量",
+  "zxNo": 245,
+  "score": 0.3333,
+  "stem": "设矩阵 $A=\\begin{pmatrix}-2&0&0\\\\2&x&2\\\\3&1&1\\end{pmatrix}$ 与 $B=\\begin{pmatrix}-1&0&0\\\\0&2&0\\\\0&0&y\\end{pmatrix}$ 相似。(I) 求 $x,y$；(II) 求可逆矩阵 $P$，使 $P^{-1}AP=B$。"
+ },
+ {
+  "coreNo": 993,
+  "sec": "特征值与特征向量",
+  "zxNo": 241,
+  "score": 0.2526,
+  "stem": "已知矩阵 $A=\\begin{pmatrix}2&0&0\\\\0&2&1\\\\0&0&1\\end{pmatrix}$，$B=\\begin{pmatrix}2&1&0\\\\0&2&0\\\\0&0&1\\end{pmatrix}$，$C=\\begin{pmatrix}2&0&0\\\\0&2&0\\\\0&0&1\\end{pmatrix}$，则（　）"
+ },
+ {
+  "coreNo": 994,
+  "sec": "特征值与特征向量",
+  "zxNo": 245,
+  "score": 0.5,
+  "stem": "设 $A = \\begin{pmatrix} -2 & -2 & 1 \\\\ 2 & x & -2 \\\\ 0 & 0 & -2 \\end{pmatrix}$ 与 $B = \\begin{pmatrix} 2 & 1 & 0 \\\\ 0 & -1 & 0 \\\\ 0 & 0 & y \\end{pmatrix}$ 相似。(I) 求 $x, y$ 的值；(II) 求可逆矩阵 $P$，使得 $P^{-1}AP = B$。"
+ },
+ {
+  "coreNo": 995,
+  "sec": "特征值与特征向量",
+  "zxNo": 230,
+  "score": 0.0404,
+  "stem": "设 $A, B$ 为同阶方阵。(I) 如果 $A, B$ 相似，试证 $A, B$ 的特征多项式相等；(II) 举一个 2阶方阵的例子说明 (I) 的逆命题不成立；(III) 当 $A, B$ 均为实对称矩阵时，试证 (I) 的逆命题成立。"
+ },
+ {
+  "coreNo": 996,
+  "sec": "特征值与特征向量",
+  "zxNo": 244,
+  "score": 0.0426,
+  "stem": "证明 $n$ 阶全 $1$ 矩阵\n$$\nJ_n=\\begin{pmatrix}1&1&\\cdots&1\\\\1&1&\\cdots&1\\\\\\vdots&\\vdots&\\ddots&\\vdots\\\\1&1&\\cdots&1\\end{pmatrix}\n$$\n与 $\\operatorname{diag}(0,0,\\ldots,0,n)$ 相似。"
+ },
+ {
+  "coreNo": 997,
+  "sec": "特征值与特征向量",
+  "zxNo": 248,
+  "score": 0.189,
+  "stem": "设 $A$ 为三阶矩阵，$P$ 为三阶可逆矩阵，且 $P^{-1}AP=\\operatorname{diag}(1,1,2)$。若 $P=(\\boldsymbol{a}_1,\\boldsymbol{a}_2,\\boldsymbol{a}_3)$，$Q=(\\boldsymbol{a}_1+\\boldsymbol{a}_2,\\boldsymbol{a}_2,\\boldsymbol{a}_3)$，则 $Q^{-1}AQ=$（ ）。"
+ },
+ {
+  "coreNo": 999,
+  "sec": "特征值与特征向量",
+  "zxNo": 252,
+  "score": 0.641,
+  "stem": "设 $A = \\begin{pmatrix} 0 & 0 & 1 \\\\ x & 1 & y \\\\ 1 & 0 & 0 \\end{pmatrix}$ 有三个线性无关的特征向量，求 $x$ 和 $y$ 应满足的条件。"
+ },
+ {
+  "coreNo": 1000,
+  "sec": "特征值与特征向量",
+  "zxNo": 230,
+  "score": 0.1481,
+  "stem": "$n$ 阶方阵 $A$ 具有 $n$ 个不同的特征值，是 $A$ 与对角矩阵相似的（ ）。"
+ },
+ {
+  "coreNo": 1001,
+  "sec": "特征值与特征向量",
+  "zxNo": 255,
+  "score": 0.3564,
+  "stem": "下列条件中，三阶矩阵 $A$ 可相似对角化的一个充分非必要条件是（ ）。"
+ },
+ {
+  "coreNo": 1003,
+  "sec": "特征值与特征向量",
+  "zxNo": 257,
+  "score": 0.5652,
+  "stem": "设 $A,B$ 均为 $2$ 阶矩阵，且 $AB=BA$，则\"$A$ 有两个不相等的特征值\"是\"$B$ 可对角化\"的（　）"
+ },
+ {
+  "coreNo": 1004,
+  "sec": "特征值与特征向量",
+  "zxNo": 259,
+  "score": 0.527,
+  "stem": "已知 $\\boldsymbol{\\xi} = (1,1,-1)^T$ 是矩阵 $A = \\begin{pmatrix} 2 & -1 & 2 \\\\ 5 & a & 3 \\\\ -1 & b & -2 \\end{pmatrix}$ 的一个特征向量。(I) 确定参数 $a, b$ 及特征向量 $\\boldsymbol{\\xi}$ 所对应的特征值；(II) 问 $A$ 能否相似于对角阵？说明理由。"
+ },
+ {
+  "coreNo": 1005,
+  "sec": "特征值与特征向量",
+  "zxNo": 260,
+  "score": 0.5694,
+  "stem": "设 $A$ 为 2 阶矩阵，$\\boldsymbol{\\alpha}$ 为非零向量且不是 $A$ 的特征向量，$P = (\\boldsymbol{\\alpha}, A\\boldsymbol{\\alpha})$。 (I) 证明 $P$ 为可逆矩阵；(II) 若 $A^2 \\boldsymbol{\\alpha} + A\\boldsymbol{\\alpha} - 6\\boldsymbol{\\alpha} = \\mathbf{0}$，求 $P^{-1}AP$，并判断 $A$ 是否相似于对角矩阵。"
+ },
+ {
+  "coreNo": 1006,
+  "sec": "特征值与特征向量",
+  "zxNo": 261,
+  "score": 0.4333,
+  "stem": "下列矩阵中不能相似于对角矩阵的是（ ）。"
+ },
+ {
+  "coreNo": 1007,
+  "sec": "特征值与特征向量",
+  "zxNo": 265,
+  "score": 0.2362,
+  "stem": "设 $n$ 阶矩阵\n$$\nA=\\begin{pmatrix}1&b&\\cdots&b\\\\b&1&\\cdots&b\\\\\\vdots&\\vdots&\\ddots&\\vdots\\\\b&b&\\cdots&1\\end{pmatrix}.\n$$\n (I) 求 $A$ 的特征值和特征向量；(II) 求可逆矩阵 $P$，使 $P^{-1}AP$ 为对角矩阵。"
+ },
+ {
+  "coreNo": 1008,
+  "sec": "特征值与特征向量",
+  "zxNo": 265,
+  "score": 0.5116,
+  "stem": "（本题满分11分）\n设矩阵 $A=\\begin{pmatrix}0&2&-3\\\\-1&3&-3\\\\1&-2&a\\end{pmatrix}$ 相似于矩阵 $B=\\begin{pmatrix}1&0&0\\\\0&b&0\\\\0&0&1\\end{pmatrix}$。\n（I）求 $a,b$ 的值；\n（II）求可逆矩阵 $P$，使 $P^{-1}AP$ 为对角矩阵。"
+ },
+ {
+  "coreNo": 1009,
+  "sec": "特征值与特征向量",
+  "zxNo": null,
+  "score": 0,
+  "stem": "设函数 $y=f(x)$ 由 $\\begin{cases}x=t^3-2t\\\\y=|t|\\sin t\\end{cases}$ 确定，则（　）"
+ },
+ {
+  "coreNo": 1010,
+  "sec": "特征值与特征向量",
+  "zxNo": 275,
+  "score": 0.1846,
+  "stem": "设\n$$\nA=\\begin{pmatrix}1&1&a\\\\1&a&1\\\\a&1&1\\end{pmatrix},\\qquad \\boldsymbol{\\beta}=\\begin{pmatrix}1\\\\1\\\\-2\\end{pmatrix}.\n$$\n已知线性方程组 $A\\boldsymbol{x}=\\boldsymbol{\\beta}$ 有解但不唯一。(I) 求 $a$；(II) 求正交矩阵 $Q$，使 $Q^TAQ$ 为对角矩阵。"
+ },
+ {
+  "coreNo": 1011,
+  "sec": "特征值与特征向量",
+  "zxNo": 274,
+  "score": 0.5758,
+  "stem": "设 $3$ 阶实对称矩阵 $A$ 的各行元素之和均为 $3$。向量 $\\boldsymbol{\\alpha}_1=(-1,2,-1)^T$、$\\boldsymbol{\\alpha}_2=(0,-1,1)^T$ 是线性方程组 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的两个解。(I) 求 $A$ 的特征值与特征向量；(II) 求正交矩阵 $Q$ 和对角矩阵 $\\Lambda$，使 $Q^TAQ=\\Lambda$。"
+ },
+ {
+  "coreNo": 1012,
+  "sec": "特征值与特征向量",
+  "zxNo": 274,
+  "score": 0.5923,
+  "stem": "设 $3$ 阶实对称矩阵 $A$ 的各行元素之和均为 $3$。向量 $\\boldsymbol{\\alpha}_1=(-1,2,-1)^T$、$\\boldsymbol{\\alpha}_2=(0,-1,1)^T$ 是线性方程组 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的两个解。(I) 求 $A$ 的特征值与特征向量；(II) 求正交矩阵 $Q$ 和对角矩阵 $\\Lambda$，使 $Q^TAQ=\\Lambda$；(III) 求 $A$ 及 $\\left(A-\\dfrac32E\\right)^6$，其中 $E$ 为 $3$ 阶单位矩阵。"
+ },
+ {
+  "coreNo": 1013,
+  "sec": "特征值与特征向量",
+  "zxNo": 277,
+  "score": 0.5138,
+  "stem": "设\n$$\nA=\\begin{pmatrix}0&1&0&0\\\\1&0&0&0\\\\0&0&y&1\\\\0&0&2&0\\end{pmatrix}.\n$$\n (I) 已知 $A$ 的一个特征值为 $3$，求 $y$；(II) 求可逆矩阵 $P$，使 $(AP)^T(AP)$ 为对角矩阵。"
+ },
+ {
+  "coreNo": 1014,
+  "sec": "特征值与特征向量",
+  "zxNo": 279,
+  "score": 0.2941,
+  "stem": "设三阶实对称矩阵 $A$ 的特征值为 $-1,1,1$，且 $\\boldsymbol{\\xi}_1=(0,1,1)^T$ 是属于特征值 $-1$ 的特征向量，求 $A$。"
+ },
+ {
+  "coreNo": 1015,
+  "sec": "特征值与特征向量",
+  "zxNo": 279,
+  "score": 0.4688,
+  "stem": "设三阶实对称矩阵 $A$ 的特征值为 $1,2,3$，属于特征值 $1,2$ 的特征向量分别为 $\\boldsymbol{\\alpha}_1=(-1,-1,1)^T$、$\\boldsymbol{\\alpha}_2=(1,-2,-1)^T$。(I) 求属于特征值 $3$ 的特征向量；(II) 求矩阵 $A$。"
+ },
+ {
+  "coreNo": 1016,
+  "sec": "特征值与特征向量",
+  "zxNo": 280,
+  "score": 0.497,
+  "stem": "设三阶实对称矩阵 $A$ 的特征值为 $1,2,-2$，且 $\\boldsymbol{\\alpha}_1=(1,-1,1)^T$ 是属于特征值 $1$ 的特征向量。记 $B=A^5-4A^3+E$。(I) 验证 $\\boldsymbol{\\alpha}_1$ 是 $B$ 的特征向量，并求 $B$ 的全部特征值与特征向量；(II) 求矩阵 $B$。"
+ },
+ {
+  "coreNo": 1017,
+  "sec": "特征值与特征向量",
+  "zxNo": 281,
+  "score": 0.3553,
+  "stem": "已知二次型 $f(\\boldsymbol{x})=\\boldsymbol{x}^TA\\boldsymbol{x}$ 经正交变换 $\\boldsymbol{x}=Q\\boldsymbol{y}$ 化为标准形 $y_1^2+y_2^2$，且 $Q$ 的第三列为 $(\\sqrt2/2,0,\\sqrt2/2)^T$。(I) 求矩阵 $A$；(II) 证明 $A+E$ 为正定矩阵。"
+ },
+ {
+  "coreNo": 1018,
+  "sec": "特征值与特征向量",
+  "zxNo": 282,
+  "score": 0.5185,
+  "stem": "（本题满分 $11$ 分）\n设 $A$ 为 $3$ 阶实对称矩阵，$A$ 的秩为 $2$，且 $$A\\begin{pmatrix}1&1\\\\0&0\\\\-1&1\\end{pmatrix}=\\begin{pmatrix}-1&1\\\\0&0\\\\1&1\\end{pmatrix}.$$\n（Ⅰ）求 $A$ 的所有特征值与特征向量；\n（Ⅱ）求矩阵 $A$."
+ },
+ {
+  "coreNo": 739,
+  "sec": "二次型",
+  "zxNo": 298,
+  "score": 0.0952,
+  "stem": "设 $\\mathbf{A}$ 是 3 阶实对称矩阵，$\\boldsymbol{\\alpha}=(0,-1,1)^T,\\ \\boldsymbol{\\beta}=(1,0,-1)^T$，$\\mathbf{A}\\boldsymbol{\\alpha}=3\\boldsymbol{\\beta},\\ \\mathbf{A}\\boldsymbol{\\beta}=3\\boldsymbol{\\alpha}$，且存在 3 阶矩阵 $\\mathbf{B}$，有 $r(\\mathbf{A}\\mathbf{B})\\lt r(\\mathbf{B})$。(1) 求正交变换 $x=Qy$，化二次型 $x^T(\\mathbf{A}^*+\\mathbf{A})x$ 为标准形，并写出这个标准形；(2) 若 $\\boldsymbol{\\gamma}=(2,0,-1)^T$，求 $\\mathbf{A}^n\\boldsymbol{\\gamma}$。"
+ },
+ {
+  "coreNo": 740,
+  "sec": "二次型",
+  "zxNo": 297,
+  "score": 0.6489,
+  "stem": "设二次型 $f(\\mathbf{x})=\\mathbf{x}^TA\\mathbf{x}$，其中 $A$ 为实对称矩阵。已知 $A$ 的各行元素之和均为 $4$，且存在 3 维非零列向量 $\\alpha,\\beta$，使得 $A=E+\\alpha\\beta^T$。(I) 求 $A$ 的特征值与特征向量；(II) 求正交变换 $\\mathbf{x}=Q\\mathbf{y}$ 将 $f(x_1,x_2,x_3)$ 化为标准形。"
+ },
+ {
+  "coreNo": 741,
+  "sec": "二次型",
+  "zxNo": 310,
+  "score": 0.2577,
+  "stem": "设 3 阶实对称矩阵 $\\mathbf{A}$ 满足 $\\mathbf{A}^*\\boldsymbol{\\alpha} = \\boldsymbol{\\alpha}$，其中 $\\boldsymbol{\\alpha} = (-1, -1, 1)^T$。若存在正交矩阵 $\\mathbf{Q}$，使得 $\\mathbf{Q}^T \\mathbf{A} \\mathbf{Q} = \\boldsymbol{\\Lambda} = \\begin{pmatrix} -1 & & \\\\ & -1 & \\\\ & & 2 \\end{pmatrix}$。\n(I) 求矩阵 $\\mathbf{A}$；\n(II) 求二次型 $f(\\mathbf{x}) = \\mathbf{x}^T (\\mathbf{A}^*)^{-1} \\mathbf{x}$ 的表达式与规范形。"
+ },
+ {
+  "coreNo": 742,
+  "sec": "二次型",
+  "zxNo": 337,
+  "score": 0.0258,
+  "stem": "设 $\\mathbf{A}$ 为 $n$ 阶实矩阵，$\\mathbf{A}\\ne\\mathbf{A}^T$，$\\mathbf{B}=\\begin{pmatrix}\\mathbf{E}_n&\\mathbf{A}\\\\\\mathbf{A}^T&\\mathbf{O}\\end{pmatrix}$，则下列矩阵中，可能与 $\\mathbf{B}$ 合同的是（ ）。"
+ },
+ {
+  "coreNo": 1019,
+  "sec": "二次型",
+  "zxNo": 322,
+  "score": 0.7368,
+  "stem": "二次型 $f(x_1,x_2,x_3)=(x_1+x_2)^2+(x_2+x_3)^2-(x_3-x_1)^2$ 的正惯性指数与负惯性指数依次为（　）"
+ },
+ {
+  "coreNo": 1020,
+  "sec": "二次型",
+  "zxNo": 296,
+  "score": 0.3673,
+  "stem": "求一个正交变换化二次型 $f=x_1^2+4x_2^2+4x_3^2-4x_1x_2+4x_1x_3-8x_2x_3$ 成标准形。"
+ },
+ {
+  "coreNo": 1021,
+  "sec": "二次型",
+  "zxNo": 301,
+  "score": 0.2655,
+  "stem": "已知二次型 $f(x_1,x_2,x_3)=2x_1^2+3x_2^2+3x_3^2+2ax_2x_3$（$a\\gt0$）通过正交变换化为标准形 $f=y_1^2+2y_2^2+5y_3^2$，求参数 $a$ 及所用的正交变换矩阵。"
+ },
+ {
+  "coreNo": 1022,
+  "sec": "二次型",
+  "zxNo": 288,
+  "score": 0.5081,
+  "stem": "设二次型 $f = x_1^2 + x_2^2 + x_3^2 + 2\\alpha x_1 x_2 + 2\\beta x_2 x_3 + 2x_1 x_3$ 经正交变换 $\\mathbf{X} = \\mathbf{P}\\mathbf{Y}$ 化成 $f = y_2^2 + 2y_3^2$，其中 $\\mathbf{X} = (x_1, x_2, x_3)^T$ 和 $\\mathbf{Y} = (y_1, y_2, y_3)^T$ 是三维列向量，$\\mathbf{P}$ 是 3 阶正交矩阵。试求常数 $\\alpha, \\beta$。"
+ },
+ {
+  "coreNo": 1023,
+  "sec": "二次型",
+  "zxNo": 296,
+  "score": 0.3175,
+  "stem": "已知二次型\n$$\nf(x_1,x_2,x_3)=4x_2^2-3x_3^2+4x_1x_2-4x_1x_3+8x_2x_3.\n$$\n(1) 写出二次型 $f$ 的矩阵表达式；\n(2) 用正交变换把二次型 $f$ 化为标准形，并写出相应的正交矩阵。"
+ },
+ {
+  "coreNo": 1024,
+  "sec": "二次型",
+  "zxNo": 289,
+  "score": 0.5763,
+  "stem": "已知实二次型 $f(x_1, x_2, x_3) = a(x_1^2 + x_2^2 + x_3^2) + 4x_1x_2 + 4x_1x_3 + 4x_2x_3$ 经正交变换 $\\mathbf{x} = \\mathbf{P}\\mathbf{y}$ 可化成标准形 $f = 6y_1^2$，则 $a =$ ______。"
+ },
+ {
+  "coreNo": 1025,
+  "sec": "二次型",
+  "zxNo": 302,
+  "score": 0.1788,
+  "stem": "设二次型\n$$\nf(x_1,x_2,x_3)=\\mathbf{x}^TA\\mathbf{x}=ax_1^2+2x_2^2-2x_3^2+2bx_1x_3\\quad (b>0)\n$$\n的矩阵 $A$ 的特征值之和为 1，特征值之积为 $-12$。\n(1) 求 $a,b$ 的值；\n(2) 利用正交变换将二次型 $f$ 化为标准形，并写出所用的正交变换和对应的正交矩阵。"
+ },
+ {
+  "coreNo": 1026,
+  "sec": "二次型",
+  "zxNo": 290,
+  "score": 0.4356,
+  "stem": "设二次型 $f(\\mathbf{x}) = \\mathbf{x}^T \\mathbf{A} \\mathbf{x}$ 的秩为 1，$\\mathbf{A}$ 的各行元素之和为 3，则 $f$ 在正交变换 $\\mathbf{x} = \\mathbf{Q}\\mathbf{y}$ 下的标准形为 ______。"
+ },
+ {
+  "coreNo": 1027,
+  "sec": "二次型",
+  "zxNo": 292,
+  "score": 0.443,
+  "stem": "已知 $\\mathbf{A}=\\begin{pmatrix}1&0&1\\\\0&1&1\\\\-1&0&a\\\\0&a&-1\\end{pmatrix}$，二次型 $f(\\mathbf{x})=\\mathbf{x}^{\\mathrm T}(\\mathbf{A}^{\\mathrm T}\\mathbf{A})\\mathbf{x}$ 的秩为 $2$。\n\n(I) 求实数 $a$ 的值；\n\n(II) 求正交变换 $\\mathbf{x}=\\mathbf{Q}\\mathbf{y}$ 将二次型 $f$ 化为标准形。"
+ },
+ {
+  "coreNo": 1028,
+  "sec": "二次型",
+  "zxNo": 293,
+  "score": 0.6008,
+  "stem": "（本题满分11分）\n设二次型 $f(x_1,x_2,x_3)=2(a_1x_1+a_2x_2+a_3x_3)^2+(b_1x_1+b_2x_2+b_3x_3)^2$，记\n$$\\alpha=\\begin{pmatrix}a_1\\\\a_2\\\\a_3\\end{pmatrix},\\qquad \\beta=\\begin{pmatrix}b_1\\\\b_2\\\\b_3\\end{pmatrix}.$$\n（Ⅰ）证明二次型 $f$ 对应的矩阵为 $2\\alpha\\alpha^T+\\beta\\beta^T$；\n（Ⅱ）若 $\\alpha,\\beta$ 正交且均为单位向量，证明 $f$ 在正交变换下的标准形为 $2y_1^2+y_2^2$。"
+ },
+ {
+  "coreNo": 1029,
+  "sec": "二次型",
+  "zxNo": 294,
+  "score": 0.7176,
+  "stem": "设二次型 $f(x_1,x_2,x_3)$ 在正交变换 $x=Py$ 下的标准形为 $2y_1^2+y_2^2-y_3^2$，其中 $P=(e_1,e_2,e_3)$。若 $Q=(e_1,-e_3,e_2)$，则 $f(x_1,x_2,x_3)$ 在正交变换 $x=Qy$ 下的标准形为（　）"
+ },
+ {
+  "coreNo": 1030,
+  "sec": "二次型",
+  "zxNo": 295,
+  "score": 0.5658,
+  "stem": "设二次型 $f(x_1, x_2, x_3) = 2x_1^2 - x_2^2 + ax_3^2 + 2x_1x_2 - 8x_1x_3 + 2x_2x_3$ 在正交变换 $\\mathbf{x} = \\mathbf{Q}\\mathbf{y}$ 下的标准形为 $\\lambda_1 y_1^2 + \\lambda_2 y_2^2$，求 $a$ 的值及一个正交矩阵 $\\mathbf{Q}$。"
+ },
+ {
+  "coreNo": 1031,
+  "sec": "二次型",
+  "zxNo": 291,
+  "score": 0.5905,
+  "stem": "设二次型 $f(x)=x^TAx$ 在正交变换下可化成 $y_1^2-2y_2^2+3y_3^2$，则二次型 $f$ 的矩阵 $A$ 的行列式与迹分别为（ ）。"
+ },
+ {
+  "coreNo": 1032,
+  "sec": "二次型",
+  "zxNo": 303,
+  "score": 0.4965,
+  "stem": "设 $\\mathbf{A}$ 为 $n$ 阶实对称矩阵，$r(\\mathbf{A}) = n$，$A_{ij}$ 是 $\\mathbf{A} = (a_{ij})_{n \\times n}$ 中元素 $a_{ij}$ 的代数余子式 $(i, j = 1, 2,\\cdots, n)$，二次型 $f(x_1, x_2,\\cdots, x_n) = \\sum_{i=1}^n\\sum_{j=1}^n\\frac{A_{ij}}{|\\mathbf{A}|} x_i x_j$。\n(1) 记 $\\mathbf{x} = (x_1, x_2, \\dots, x_n)^T$，把 $f(x_1, x_2, \\dots, x_n)$ 写成矩阵形式，并证明二次型 $f(\\mathbf{x})$ 的矩阵为 $\\mathbf{A}^{-1}$；\n(2) 二次型 $g(\\mathbf{x}) = \\mathbf{x}^T \\mathbf{A} \\mathbf{x}$ 与 $f(\\mathbf{x})$ 的规范形是否相同？说明理由。"
+ },
+ {
+  "coreNo": 1033,
+  "sec": "二次型",
+  "zxNo": 304,
+  "score": 0.7832,
+  "stem": "（本题满分 11 分）\n设二次型 $f(x_{1},x_{2},x_{3})=ax_{1}^{2}+ax_{2}^{2}+(a-1)x_{3}^{2}+2x_{1}x_{3}-2x_{2}x_{3}$\n（I）求二次型 $f$ 的矩阵的所有特征值；\n（II）若二次型 $f$ 的规范形为 $y_{1}^{2}+y_{2}^{2}$，求 $a$ 的值。"
+ },
+ {
+  "coreNo": 1034,
+  "sec": "二次型",
+  "zxNo": 305,
+  "score": 0.7629,
+  "stem": "设 $A$ 是 3 阶实对称矩阵，$E$ 是 3 阶单位矩阵。若 $A^2+A=2E$，且 $|A|=4$，则二次型 $x^TAx$ 的规范形为（ ）。"
+ },
+ {
+  "coreNo": 1035,
+  "sec": "二次型",
+  "zxNo": 323,
+  "score": 0.0247,
+  "stem": "函数 $f(x)=\\begin{cases}\\frac{1}{\\sqrt{1+x^2}},&x\\le0\\\\(x+1)\\cos x,&x>0\\end{cases}$ 的一个原函数为（　）"
+ },
+ {
+  "coreNo": 1036,
+  "sec": "二次型",
+  "zxNo": 323,
+  "score": 0.0303,
+  "stem": "函数 $f(x)=\\dfrac{e^{\\frac{1}{x-1}}\\ln|1+x|}{(e^x-1)(x-2)}$ 的第二类间断点的个数为（　）"
+ },
+ {
+  "coreNo": 1037,
+  "sec": "二次型",
+  "zxNo": 315,
+  "score": 0.5263,
+  "stem": "设二次型 $f(x_1, x_2) = x_1^2 - 4x_1x_2 + 4x_2^2$ 经正交变换 $\\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\mathbf{Q} \\begin{pmatrix} y_1 \\\\ y_2 \\end{pmatrix}$ 化为二次型 $g(y_1, y_2) = a y_1^2 + 4y_1y_2 + b y_2^2$，其中 $a \\ge b$。\n(I) 求 $a, b$ 的值；\n(II) 求正交矩阵 $\\mathbf{Q}$。"
+ },
+ {
+  "coreNo": 1038,
+  "sec": "二次型",
+  "zxNo": 316,
+  "score": 0.4706,
+  "stem": "已知二次型 $f(x_1, x_2, x_3) = x_1^2 + 2x_2^2 + 2x_3^2 + 2x_1x_2 - 2x_1x_3$，$g(y_1, y_2, y_3) = y_1^2 + y_2^2 + y_3^2 + 2y_2y_3$。\n(1) 求可逆变换 $\\mathbf{x} = \\mathbf{P}\\mathbf{y}$ 将 $f(x_1, x_2, x_3)$ 化成 $g(y_1, y_2, y_3)$；\n(2) 是否存在正交变换 $\\mathbf{x} = \\mathbf{Q}\\mathbf{y}$ 将 $f(x_1, x_2, x_3)$ 化成 $g(y_1, y_2, y_3)$？"
+ },
+ {
+  "coreNo": 1039,
+  "sec": "二次型",
+  "zxNo": 318,
+  "score": 0.3066,
+  "stem": "已知二次型 $f(x_1,x_2,x_3)=(1-a)x_1^2+(1-a)x_2^2+2x_3^2+2(1+a)x_1x_2$ 的秩为 $2$。(I) 求 $a$ 的值；(II) 求正交变换 $\\mathbf{x}=Q\\mathbf{y}$，把 $f(x_1,x_2,x_3)$ 化成标准形；(III) 求方程 $f(x_1,x_2,x_3)=0$ 的解。"
+ },
+ {
+  "coreNo": 1040,
+  "sec": "二次型",
+  "zxNo": 317,
+  "score": 0.9247,
+  "stem": "（本题满分11分）\n设实二次型 $f(x_1,x_2,x_3)=(x_1-x_2+x_3)^2+(x_2+x_3)^2+(x_1+ax_3)^2$，其中 $a$ 是参数。\n（I）求 $f(x_1,x_2,x_3)=0$ 的解；\n（II）求 $f(x_1,x_2,x_3)$ 的规范形。"
+ },
+ {
+  "coreNo": 1041,
+  "sec": "二次型",
+  "zxNo": 318,
+  "score": 0.6061,
+  "stem": "设二次型\n$$\nf(x_1,x_2,x_3)=\\sum_{i=1}^3\\sum_{j=1}^3ijx_ix_j.\n$$\n(I) 求 $f(x_1,x_2,x_3)$ 对应的矩阵；(II) 求正交变换 $\\mathbf{x}=Q\\mathbf{y}$，将 $f(x_1,x_2,x_3)$ 化为标准形；(III) 求 $f(x_1,x_2,x_3)=0$ 的解。"
+ },
+ {
+  "coreNo": 1044,
+  "sec": "二次型",
+  "zxNo": 328,
+  "score": 0.7,
+  "stem": "设二次型 $f(x_1,x_2,x_3)=x_1^2-x_2^2+2ax_1x_3+4x_2x_3$ 的负惯性指数为 $1$，则 $a$ 的取值范围是 \\_$\\underline{\\hspace{2cm}}$。"
+ },
+ {
+  "coreNo": 1045,
+  "sec": "二次型",
+  "zxNo": null,
+  "score": 0,
+  "stem": "设 $\\alpha_1=x(\\cos\\sqrt{x}-1)$，$\\alpha_2=\\sqrt{x}\\ln(1+\\sqrt[3]{x})$，$\\alpha_3=\\sqrt[3]{x+1}-1$。当 $x\\to0^+$ 时，以上 3 个无穷小量按照从低阶到高阶的排序是（　）"
+ },
+ {
+  "coreNo": 1046,
+  "sec": "二次型",
+  "zxNo": 311,
+  "score": 0.0208,
+  "stem": "设 \n$$\n\\mathbf{A}=\\begin{pmatrix}1&1&1&1\\\\1&1&1&1\\\\1&1&1&1\\\\1&1&1&1\\end{pmatrix},\\quad \\mathbf{B}=\\begin{pmatrix}4&0&0&0\\\\0&0&0&0\\\\0&0&0&0\\\\0&0&0&0\\end{pmatrix},\n$$\n 则 $\\mathbf{A}$ 与 $\\mathbf{B}$（ ）。"
+ },
+ {
+  "coreNo": 1047,
+  "sec": "二次型",
+  "zxNo": 332,
+  "score": 0.2128,
+  "stem": "设 $A=\\begin{pmatrix}2&-1&-1\\\\-1&2&-1\\\\-1&-1&2\\end{pmatrix}$，$B=\\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&0\\end{pmatrix}$，则 $A$ 与 $B$（ ）。"
+ },
+ {
+  "coreNo": 1048,
+  "sec": "二次型",
+  "zxNo": null,
+  "score": 0,
+  "stem": "设函数 $\\displaystyle f(x)=\\frac{\\ln|x|}{|x-1|}\\sin x$，则 $f(x)$ 有（　　）\n（A）1 个可去间断点，1 个跳跃间断点\n（B）1 个可去间断点，1 个无穷间断点\n（C）2 个跳跃间断点\n（D）2 个无穷间断点"
+ },
+ {
+  "coreNo": 1049,
+  "sec": "二次型",
+  "zxNo": 338,
+  "score": 0.7733,
+  "stem": "若二次型 $f(x_1,x_2,x_3)=2x_1^2+x_2^2+x_3^2+2x_1x_2+tx_2x_3$ 是正定的，则 $t$ 的取值范围是 ______。"
+ },
+ {
+  "coreNo": 1050,
+  "sec": "二次型",
+  "zxNo": 339,
+  "score": 0.3733,
+  "stem": "设矩阵 $\\mathbf{A} = \\begin{pmatrix} 1 & 0 & 1 \\\\ 0 & 2 & 0 \\\\ 1 & 0 & 1 \\end{pmatrix}$，矩阵 $\\mathbf{B} = (k\\mathbf{E} + \\mathbf{A})^2$，其中 $k$ 为实数，$\\mathbf{E}$ 为单位矩阵。求对角矩阵 $\\mathbf{\\Lambda}$，使 $\\mathbf{B}$ 与 $\\mathbf{\\Lambda}$ 相似，并求 $k$ 为何值时，$\\mathbf{B}$ 为正定矩阵。"
+ },
+ {
+  "coreNo": 1051,
+  "sec": "二次型",
+  "zxNo": 343,
+  "score": 0.4252,
+  "stem": "设  $ \\mathbf{A} $  为  $ m $  阶实对称矩阵且正定， $ \\mathbf{B} $  为  $ m \\times n $  实矩阵， $ \\mathbf{B}^T $  为  $ \\mathbf{B} $  的转置矩阵，试证： $ \\mathbf{B}^T \\mathbf{A} \\mathbf{B} $  为正定矩阵的充分必要条件是  $ \\mathbf{B} $  的秩  $ r(\\mathbf{B}) = n $ 。"
+ },
+ {
+  "coreNo": 1052,
+  "sec": "二次型",
+  "zxNo": 342,
+  "score": 0.6047,
+  "stem": "设 $A$ 为 $m\\times n$ 实矩阵，$E$ 为 $n$ 阶单位矩阵。已知矩阵 $B=\\lambda E+A^TA$，试证：当 $\\lambda\\gt0$ 时，矩阵 $B$ 为正定矩阵。"
+ },
+ {
+  "coreNo": 1053,
+  "sec": "二次型",
+  "zxNo": 340,
+  "score": 0.7831,
+  "stem": "设有 $n$ 元实二次型 $f(x_1, x_2, \\dots, x_n) = (x_1 + a_1 x_2)^2 + (x_2 + a_2 x_3)^2 + \\dots + (x_{n-1} + a_{n-1} x_n)^2 + (x_n + a_n x_1)^2$，其中 $a_i(i=1,2,\\dots, n)$ 为实数。试问：当 $a_1, a_2, \\dots, a_n$ 满足何种条件时，二次型 $f(x_1, x_2, \\dots, x_n)$ 为正定二次型。"
+ },
+ {
+  "coreNo": 1054,
+  "sec": "二次型",
+  "zxNo": 335,
+  "score": 0.0449,
+  "stem": "设 $A$ 是 $n$ 阶正定阵，$E$ 是 $n$ 阶单位阵，证明 $|A+E|\\gt1$。"
+ },
+ {
+  "coreNo": 1055,
+  "sec": "二次型",
+  "zxNo": 306,
+  "score": 0.3269,
+  "stem": "考虑二次型 $f(x_1, x_2, x_3) = x_1^2 + 4x_2^2 + x_3^2 + 2\\lambda x_1x_2 - 2x_1x_3 + 4x_2x_3$。问 $\\lambda$ 取何值时，$f$ 为正定二次型。"
+ },
+ {
+  "coreNo": 1056,
+  "sec": "二次型",
+  "zxNo": 345,
+  "score": 0.0863,
+  "stem": "设 $\\mathbf{A}$、$\\mathbf{B}$ 分别为 $m$、$n$ 阶正定矩阵，试判定分块矩阵 $\\mathbf{C} = \\begin{pmatrix} \\mathbf{A} & \\mathbf{0} \\\\ \\mathbf{0} & \\mathbf{B} \\end{pmatrix}$ 是否为正定矩阵。"
+ },
+ {
+  "coreNo": 1057,
+  "sec": "二次型",
+  "zxNo": 345,
+  "score": 0.3256,
+  "stem": "设 $\\mathbf{D} = \\begin{pmatrix} \\mathbf{A} & \\mathbf{C} \\\\ \\mathbf{C}^T & \\mathbf{B} \\end{pmatrix}$ 为正定矩阵，其中 $\\mathbf{A}$、$\\mathbf{B}$ 分别为 $m$ 阶、$n$ 阶对称矩阵，$\\mathbf{C}$ 为 $m \\times n$ 矩阵。\n(I) 计算 $\\mathbf{P}^T \\mathbf{D} \\mathbf{P}$，其中 $\\mathbf{P} = \\begin{pmatrix} \\mathbf{E}_m & -\\mathbf{A}^{-1}\\mathbf{C} \\\\ \\mathbf{0} & \\mathbf{E}_n \\end{pmatrix}$；\n(II)利用(I)的结果判断矩阵 $\\mathbf{B} - \\mathbf{C}^T \\mathbf{A}^{-1} \\mathbf{C}$ 是否为正定矩阵，并证明你的结论。"
+ },
+ {
+  "coreNo": 1058,
+  "sec": "二次型",
+  "zxNo": 287,
+  "score": 0.2113,
+  "stem": "设二次型 $f(x_1,x_2,x_3)$ 的矩阵为 $A$，已知 $|A+E|=0$，$AB-2B=O$，其中\n$$\nB=\\begin{pmatrix}-1&-1&-1\\\\1&0&2\\\\0&1&-1\\end{pmatrix}.\n$$\n求一个正交变换 $\\mathbf{x}=Q\\mathbf{y}$，将二次型 $f(x_1,x_2,x_3)$ 化为标准形，并求矩阵 $A$。"
+ },
+ {
+  "coreNo": 1059,
+  "sec": "二次型",
+  "zxNo": 353,
+  "score": 0.1987,
+  "stem": "设二次型 \n$$\nf(x_{1},x_{2},x_{3})=5x_{1}^{2}+5x_{2}^{2}+cx_{3}^{2}-2x_{1}x_{2}+6x_{1}x_{3}-6x_{2}x_{3}\n$$\n 的秩为 $2$。$(1)$ 求参数 $c$ 及此二次型对应矩阵的特征值；$(2)$ 指出方程 $f(x_{1},x_{2},x_{3})=1$ 表示什么二次曲面。"
+ },
+ {
+  "coreNo": 1060,
+  "sec": "二次型",
+  "zxNo": 311,
+  "score": 0.0265,
+  "stem": "设 $\\mathbf{B}$ 是秩为 $2$ 的 $5 \\times 4$ 矩阵，\n$$\n\\boldsymbol{\\alpha}_1=(1,\\,1,\\,2,\\,3)^{\\mathsf T},\\quad \\boldsymbol{\\alpha}_2=(-1,\\,1,\\,4,\\,-1)^{\\mathsf T},\\quad \\boldsymbol{\\alpha}_3=(5,\\,-1,\\,-8,\\,9)^{\\mathsf T}\n$$\n是齐次线性方程组 $\\mathbf{B}\\mathbf{X}=\\mathbf{0}$ 的解向量，求 $\\mathbf{B}\\mathbf{X}=\\mathbf{0}$ 的解集中的两个互相垂直的单位向量。"
+ },
+ {
+  "coreNo": 1061,
+  "sec": "二次型",
+  "zxNo": 293,
+  "score": 0.0561,
+  "stem": "设 \n$$\n\\mathbf{a}_1=\\begin{pmatrix}a_1\\\\a_2\\\\a_3\\end{pmatrix},\\quad \\mathbf{a}_2=\\begin{pmatrix}b_1\\\\b_2\\\\b_3\\end{pmatrix},\\quad \\mathbf{a}_3=\\begin{pmatrix}c_1\\\\c_2\\\\c_3\\end{pmatrix},\n$$\n 则三条直线 $a_1x+b_1y+c_1=0$，$a_2x+b_2y+c_2=0$，$a_3x+b_3y+c_3=0$（其中 $a_i^2+b_i^2\\ne0, i=1,2,3$）相交于一点的充要条件是（ ）。"
+ },
+ {
+  "coreNo": 1062,
+  "sec": "二次型",
+  "zxNo": 293,
+  "score": 0.0856,
+  "stem": "设矩阵 $\\begin{pmatrix}a_1&b_1&c_1\\\\a_2&b_2&c_2\\\\a_3&b_3&c_3\\end{pmatrix}$ 满秩，则直线 \n$$\n\\frac{x-a_3}{a_1-a_2}=\\frac{y-b_3}{b_1-b_2}=\\frac{z-c_3}{c_1-c_2}\n$$\n 与直线 \n$$\n\\frac{x-a_1}{a_2-a_3}=\\frac{y-b_1}{b_2-b_3}=\\frac{z-c_1}{c_2-c_3}\n$$\n（ ）。"
+ },
+ {
+  "coreNo": 1063,
+  "sec": "二次型",
+  "zxNo": 286,
+  "score": 0.014,
+  "stem": "已知直线 $L_1:\\displaystyle\\frac{x-a_2}{a_1}=\\frac{y-b_2}{b_1}=\\frac{z-c_2}{c_1}$ 与直线 $L_2:\\displaystyle\\frac{x-a_3}{a_2}=\\frac{y-b_3}{b_2}=\\frac{z-c_3}{c_2}$ 相交于一点，记向量 \n$$\n\\mathbf a_i=\\begin{pmatrix}a_i\\\\b_i\\\\c_i\\end{pmatrix},\\quad i=1,2,3,\n$$\n 则（ ）。"
+ },
+ {
+  "coreNo": 1064,
+  "sec": "二次型",
+  "zxNo": 315,
+  "score": 0.071,
+  "stem": "已知二次曲面方程 $x^{2}+ay^{2}+z^{2}+2bxy+2xz+2yz=4$ 可经正交变换 $\\begin{pmatrix}x\\\\ y\\\\ z\\end{pmatrix}= \\mathbf{P}\\begin{pmatrix}\\xi\\\\ \\eta\\\\ \\zeta\\end{pmatrix}$ 化为椭圆柱面方程 $\\eta^{2}+4\\zeta^{2}=4$，求 $a,b$ 的值和正交矩阵 $\\mathbf{P}$。"
+ },
+ {
+  "coreNo": 1065,
+  "sec": "二次型",
+  "zxNo": 340,
+  "score": 0.0137,
+  "stem": "设有三张不同平面的方程 $a_{i1}x+a_{i2}y+a_{i3}z=b_i$，$i=1,2,3$，它们所组成的线性方程组的系数矩阵与增广矩阵的秩都为 $2$，则这三张平面可能的位置关系为：_____。"
+ },
+ {
+  "coreNo": 1066,
+  "sec": "二次型",
+  "zxNo": 343,
+  "score": 0.0678,
+  "stem": "已知平面上三条不同直线的方程分别为：\n$$\n l_1:ax+2by+3c=0, \n\n l_2:bx+2cy+3a=0, \n\n l_3:cx+2ay+3b=0. \n$$\n试证：这三条直线交于一点的充分必要条件为 $a+b+c=0$。"
+ },
+ {
+  "coreNo": 1067,
+  "sec": "二次型",
+  "zxNo": null,
+  "score": 0,
+  "stem": "从 $\\mathbb{R}^{2}$ 的基 $\\boldsymbol{\\alpha}_1=\\begin{pmatrix}1\\\\ 0\\end{pmatrix}$，$\\boldsymbol{\\alpha}_2=\\begin{pmatrix}1\\\\ -1\\end{pmatrix}$ 到基 $\\boldsymbol{\\beta}_1=\\begin{pmatrix}1\\\\ 1\\end{pmatrix}$，$\\boldsymbol{\\beta}_2=\\begin{pmatrix}1\\\\ 2\\end{pmatrix}$ 的过渡矩阵为 _____"
+ },
+ {
+  "coreNo": 1068,
+  "sec": "二次型",
+  "zxNo": 327,
+  "score": 0.0845,
+  "stem": "设 $\\mathbf A$ 为 $3$ 阶实对称矩阵，如果二次曲面方程 $\\begin{pmatrix}x&y&z\\end{pmatrix}\\mathbf A\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix}=1$ 在正交变换下的标准方程的图形为一个单叶双曲面，则 $\\mathbf A$ 的正特征值个数为（ ）。"
+ },
+ {
+  "coreNo": 1069,
+  "sec": "二次型",
+  "zxNo": null,
+  "score": 0,
+  "stem": "设 $\\mathbf a_1,\\mathbf a_2,\\mathbf a_3$ 是 $\\mathbb R^3$ 的一组基，则由基 $\\mathbf a_1,\\frac12\\mathbf a_2,\\frac13\\mathbf a_3$ 到基 $\\mathbf a_1+\\mathbf a_2,\\mathbf a_2+\\mathbf a_3,\\mathbf a_3+\\mathbf a_1$ 的过渡矩阵为（ ）。"
+ },
+ {
+  "coreNo": 1070,
+  "sec": "二次型",
+  "zxNo": 311,
+  "score": 0.0364,
+  "stem": "设 \n$$\n\\boldsymbol{\\alpha}_1 =(1,\\, 2,\\, -1,\\, 0)^{\\mathsf{T}},\\qquad\n\\boldsymbol{\\alpha}_2 =(1,\\, 1,\\, 0,\\, 2)^{\\mathsf{T}},\\qquad\n\\boldsymbol{\\alpha}_3 =(2,\\, 1,\\, 1,\\, a)^{\\mathsf{T}}.\n$$\n若向量组 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3$ 的秩为 $2$，则 $a=\\_\\_\\_\\_\\_$。"
+ },
+ {
+  "coreNo": 1071,
+  "sec": "二次型",
+  "zxNo": 301,
+  "score": 0.069,
+  "stem": "若二次曲面的方程\n$$\n x^{2}+3y^{2}+z^{2}+2axy+2xz+2yz=4 \n$$\n经正交变换化为 $y_{1}^{2}+4z_{1}^{2}=4$，则 $a = \\_\\_\\_\\_\\_$。"
+ },
+ {
+  "coreNo": 1072,
+  "sec": "二次型",
+  "zxNo": 304,
+  "score": 0.067,
+  "stem": "（本题满分 $11$ 分）\n设向量组 $\\boldsymbol{\\alpha}_1=(1,0,1)^\\mathrm{T},\\ \\boldsymbol{\\alpha}_2=(0,1,1)^\\mathrm{T},\\ \\boldsymbol{\\alpha}_3=(1,3,5)^\\mathrm{T}$ 不能由向量组 $\\boldsymbol{\\beta}_1=(1,1,1)^\\mathrm{T},\\ \\boldsymbol{\\beta}_2=(1,2,3)^\\mathrm{T},\\ \\boldsymbol{\\beta}_3=(3,4,a)^\\mathrm{T}$ 线性表示。\n（Ⅰ）求 $a$ 的值；\n（Ⅱ）将 $\\boldsymbol{\\beta}_1,\\boldsymbol{\\beta}_2,\\boldsymbol{\\beta}_3$ 用 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3$ 线性表示。"
+ },
+ {
+  "coreNo": 1073,
+  "sec": "二次型",
+  "zxNo": 312,
+  "score": 0.4041,
+  "stem": "（本题满分11分）\n设二次型\n$$\nf(x_1,x_2,x_3)=x_1^2+x_2^2+x_3^2+2ax_1x_2+2ax_1x_3+2ax_2x_3\n$$\n经过可逆变换\n$$\n\\begin{pmatrix}x_1\\\\x_2\\\\x_3\\end{pmatrix}=P\\begin{pmatrix}y_1\\\\y_2\\\\y_3\\end{pmatrix}\n$$\n化为二次型 $g(y_1,y_2,y_3)=y_1^2+y_2^2+4y_3^2+2y_1y_2$。\n(I) 求 $a$ 的值。\n(II) 求可逆矩阵 $P$。"
+ },
+ {
+  "coreNo": 1074,
+  "sec": "二次型",
+  "zxNo": 340,
+  "score": 0.0121,
+  "stem": "如图所示（图略：三张平面两两相交，交线互相平行），有 $3$ 张平面两两相交，交线相互平行，它们的方程 $a_{i1}x+a_{i2}y+a_{i3}z=d_i$（$i=1,2,3$）组成的线性方程组的系数矩阵和增广矩阵分别记为 $\\mathbf A,\\bar{\\mathbf A}$，则（ ）。"
+ },
+ {
+  "coreNo": 1075,
+  "sec": "二次型",
+  "zxNo": 340,
+  "score": 0.009,
+  "stem": "在空间直角坐标系 $O-xyz$ 中，三张平面 $\\Pi_i:a_ix+b_iy+c_iz=d_i$（$i=1,2,3$）的位置关系如图所示（图略：三平面交于一条直线），记 \n$$\n\\boldsymbol\\alpha_i=(a_i,b_i,c_i)^{\\mathsf T},\\quad \\boldsymbol\\beta_i=(a_i,b_i,c_i,d_i)^{\\mathsf T}.\n$$\n 若 $r\\begin{pmatrix}\\boldsymbol\\alpha_1\\\\\\boldsymbol\\alpha_2\\\\\\boldsymbol\\alpha_3\\end{pmatrix}=m$，$r\\begin{pmatrix}\\boldsymbol\\beta_1\\\\\\boldsymbol\\beta_2\\\\\\boldsymbol\\beta_3\\end{pmatrix}=n$，则（ ）。"
+ }
+]

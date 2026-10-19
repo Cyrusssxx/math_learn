@@ -1,0 +1,504 @@
+[
+ {
+  "no": 2,
+  "cat": "具体行列式计算",
+  "src": "2015数一",
+  "page": 12,
+  "qimg": "pwa/data/img/zx_q/zx002.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx002_0.jpg"
+  ],
+  "hdr": "b) 2015 数一 >>"
+ },
+ {
+  "no": 9,
+  "cat": "抽象行列式计算",
+  "src": "2001数一; 880相似综合填空",
+  "page": 13,
+  "qimg": "pwa/data/img/zx_q/zx009.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx009_0.jpg",
+   "pwa/data/img/zx_a/zx009_1.jpg"
+  ],
+  "hdr": "e) 2001 数一; 880 相似综合填空 >>"
+ },
+ {
+  "no": 10,
+  "cat": "抽象行列式计算",
+  "src": "1995数一; 880行列式基础填空",
+  "page": 14,
+  "qimg": "pwa/data/img/zx_q/zx010.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx010_0.jpg"
+  ],
+  "hdr": "f) 1995 数一; 880 行列式基础填空 >>"
+ },
+ {
+  "no": 11,
+  "cat": "抽象行列式计算",
+  "src": "2010数二三",
+  "page": 14,
+  "qimg": "pwa/data/img/zx_q/zx011.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx011_0.jpg",
+   "pwa/data/img/zx_a/zx011_1.jpg",
+   "pwa/data/img/zx_a/zx011_2.jpg",
+   "pwa/data/img/zx_a/zx011_3.jpg"
+  ],
+  "hdr": "g) 2010 数二三 >>"
+ },
+ {
+  "no": 15,
+  "cat": "抽象行列式计算",
+  "src": "2015数二三",
+  "page": 15,
+  "qimg": "pwa/data/img/zx_q/zx015.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx015_0.jpg",
+   "pwa/data/img/zx_a/zx015_1.jpg",
+   "pwa/data/img/zx_a/zx015_2.jpg"
+  ],
+  "hdr": "k) 2015 数二三 >>"
+ },
+ {
+  "no": 17,
+  "cat": "抽象行列式计算",
+  "src": "880行列式综合填空",
+  "page": 15,
+  "qimg": "pwa/data/img/zx_q/zx017.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx017_0.jpg"
+  ],
+  "hdr": "m) 880 行列式综合填空 >>"
+ },
+ {
+  "no": 23,
+  "cat": "抽象行列式计算",
+  "src": "姜晓千强化例题; 880行列式基础填空",
+  "page": 16,
+  "qimg": "pwa/data/img/zx_q/zx023.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx023_0.jpg"
+  ],
+  "hdr": "s) 姜晓千强化例题; 880 行列式基础填空 >>"
+ },
+ {
+  "no": 34,
+  "cat": "行列式 → (代数)余子式相关问题 → 余子式求和",
+  "src": "2024数三",
+  "page": 18,
+  "qimg": "pwa/data/img/zx_q/zx034.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx034_0.jpg"
+  ],
+  "hdr": "(1) 2024 数三 >>"
+ },
+ {
+  "no": 41,
+  "cat": "矩阵 → 逆 → 抽象逆",
+  "src": "2001数一",
+  "page": 22,
+  "qimg": "pwa/data/img/zx_q/zx041.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx041_0.jpg",
+   "pwa/data/img/zx_a/zx041_1.jpg"
+  ],
+  "hdr": "(1) 2001 数一 >>"
+ },
+ {
+  "no": 56,
+  "cat": "求秩",
+  "src": "2010数一",
+  "page": 25,
+  "qimg": "pwa/data/img/zx_q/zx056.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx056_0.jpg",
+   "pwa/data/img/zx_a/zx056_1.jpg",
+   "pwa/data/img/zx_a/zx056_2.jpg",
+   "pwa/data/img/zx_a/zx056_3.jpg"
+  ],
+  "hdr": "(3) 2010 数一 >>"
+ },
+ {
+  "no": 60,
+  "cat": "求秩",
+  "src": "900题数二第五章A类",
+  "page": 25,
+  "qimg": "pwa/data/img/zx_q/zx060.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx060_0.jpg",
+   "pwa/data/img/zx_a/zx060_1.jpg",
+   "pwa/data/img/zx_a/zx060_2.jpg",
+   "pwa/data/img/zx_a/zx060_3.jpg"
+  ],
+  "hdr": "(7) 900 题数二第五章A 类 >>"
+ },
+ {
+  "no": 63,
+  "cat": "矩阵 → 秩 → 秩相关推理",
+  "src": "2003数三; 880矩阵综合选择",
+  "page": 26,
+  "qimg": "pwa/data/img/zx_q/zx063.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx063_0.jpg"
+  ],
+  "hdr": "(1) 2003 数三; 880 矩阵综合选择 >>"
+ },
+ {
+  "no": 72,
+  "cat": "高次幂",
+  "src": "880矩阵基础解答; 姜晓千强化例题",
+  "page": 28,
+  "qimg": "pwa/data/img/zx_q/zx072.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx072_0.jpg"
+  ],
+  "hdr": "d) 880 矩阵基础解答; 姜晓千强化例题 >>"
+ },
+ {
+  "no": 82,
+  "cat": "初等变换与初等矩阵",
+  "src": "2009数二三",
+  "page": 31,
+  "qimg": "pwa/data/img/zx_q/zx082.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx082_0.jpg",
+   "pwa/data/img/zx_a/zx082_1.jpg"
+  ],
+  "hdr": "b) 2009 数二三 >>"
+ },
+ {
+  "no": 87,
+  "cat": "初等变换与初等矩阵",
+  "src": "2024数二三",
+  "page": 32,
+  "qimg": "pwa/data/img/zx_q/zx087.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx087_0.jpg"
+  ],
+  "hdr": "g) 2024 数二三 >>"
+ },
+ {
+  "no": 90,
+  "cat": "初等变换与初等矩阵",
+  "src": "姜晓千强化例题",
+  "page": 33,
+  "qimg": "pwa/data/img/zx_q/zx090.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx090_0.jpg",
+   "pwa/data/img/zx_a/zx090_1.jpg"
+  ],
+  "hdr": "j) 姜晓千强化例题 >>"
+ },
+ {
+  "no": 92,
+  "cat": "矩阵 → 矩阵等价",
+  "src": "2004数三",
+  "page": 34,
+  "qimg": "pwa/data/img/zx_q/zx092.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx092_0.jpg",
+   "pwa/data/img/zx_a/zx092_1.jpg"
+  ],
+  "hdr": "a) 2004 数三 >>"
+ },
+ {
+  "no": 93,
+  "cat": "矩阵等价",
+  "src": "2016数二",
+  "page": 34,
+  "qimg": "pwa/data/img/zx_q/zx093.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx093_0.jpg"
+  ],
+  "hdr": "b) 2016 数二 >>"
+ },
+ {
+  "no": 100,
+  "cat": "分块矩阵秩",
+  "src": "2021数一",
+  "page": 36,
+  "qimg": "pwa/data/img/zx_q/zx100.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx100_0.jpg"
+  ],
+  "hdr": "(4) 2021 数一 >>"
+ },
+ {
+  "no": 117,
+  "cat": "向量有关计算",
+  "src": "2023数一",
+  "page": 41,
+  "qimg": "pwa/data/img/zx_q/zx117.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx117_0.jpg",
+   "pwa/data/img/zx_a/zx117_1.jpg"
+  ],
+  "hdr": "b) 2023 数一 >>"
+ },
+ {
+  "no": 127,
+  "cat": "线性表示相关推理",
+  "src": "2010数二三",
+  "page": 43,
+  "qimg": "pwa/data/img/zx_q/zx127.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx127_0.jpg"
+  ],
+  "hdr": "(5) 2010 数二三 >>"
+ },
+ {
+  "no": 146,
+  "cat": "综合",
+  "src": "2024数二",
+  "page": 48,
+  "qimg": "pwa/data/img/zx_q/zx146.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx146_0.jpg"
+  ],
+  "hdr": "(4) 2024 数二 >>"
+ },
+ {
+  "no": 156,
+  "cat": "已知解的情况确定参数",
+  "src": "2019数学三",
+  "page": 52,
+  "qimg": "pwa/data/img/zx_q/zx156.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx156_0.jpg"
+  ],
+  "hdr": "(3) 2019 数学三 >>"
+ },
+ {
+  "no": 172,
+  "cat": "具体矩阵",
+  "src": "2016数学二三",
+  "page": 56,
+  "qimg": "pwa/data/img/zx_q/zx172.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx172_0.jpg"
+  ],
+  "hdr": "viii) 2016 数学二三 >>"
+ },
+ {
+  "no": 176,
+  "cat": "解的结构",
+  "src": "880方程组综合解答",
+  "page": 57,
+  "qimg": "pwa/data/img/zx_q/zx176.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx176_0.jpg"
+  ],
+  "hdr": "(c) 880 方程组综合解答 >>"
+ },
+ {
+  "no": 180,
+  "cat": "已知向量关系求通解",
+  "src": "2017数一二三",
+  "page": 58,
+  "qimg": "pwa/data/img/zx_q/zx180.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx180_0.jpg"
+  ],
+  "hdr": "(c) 2017 数一二三 >>"
+ },
+ {
+  "no": 184,
+  "cat": "已知一方程组通解，求另一方程组通解",
+  "src": "姜晓千真题同源150",
+  "page": 59,
+  "qimg": "pwa/data/img/zx_q/zx184.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx184_0.jpg"
+  ],
+  "hdr": "(b) 姜晓千真题同源150 >>"
+ },
+ {
+  "no": 188,
+  "cat": "根据其他已知条件求解",
+  "src": "900题数二第四章B类",
+  "page": 60,
+  "qimg": "pwa/data/img/zx_q/zx188.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx188_0.jpg",
+   "pwa/data/img/zx_a/zx188_1.jpg"
+  ],
+  "hdr": "(c) 900 题数二第四章B 类 >>"
+ },
+ {
+  "no": 203,
+  "cat": "两个方程组其他解的关系",
+  "src": "2024数二",
+  "page": 64,
+  "qimg": "pwa/data/img/zx_q/zx203.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx203_0.jpg"
+  ],
+  "hdr": "(4) 2024 数二 >>"
+ },
+ {
+  "no": 214,
+  "cat": "可逆",
+  "src": "2015数二三",
+  "page": 67,
+  "qimg": "pwa/data/img/zx_q/zx214.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx214_0.jpg"
+  ],
+  "hdr": "(4) 2015 数二三 >>"
+ },
+ {
+  "no": 236,
+  "cat": "根据相似推理",
+  "src": "2009数二",
+  "page": 73,
+  "qimg": "pwa/data/img/zx_q/zx236.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx236_0.jpg",
+   "pwa/data/img/zx_a/zx236_1.jpg",
+   "pwa/data/img/zx_a/zx236_2.jpg",
+   "pwa/data/img/zx_a/zx236_3.jpg"
+  ],
+  "hdr": "(2) 2009 数二 >>"
+ },
+ {
+  "no": 241,
+  "cat": "判断/证明相似",
+  "src": "2017数一二三; 880相似基础选择",
+  "page": 74,
+  "qimg": "pwa/data/img/zx_q/zx241.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx241_0.jpg",
+   "pwa/data/img/zx_a/zx241_1.jpg",
+   "pwa/data/img/zx_a/zx241_2.jpg"
+  ],
+  "hdr": "(4) 2017 数一二三; 880 相似基础选择 >>"
+ },
+ {
+  "no": 244,
+  "cat": "判断/证明相似",
+  "src": "2014数一二三",
+  "page": 75,
+  "qimg": "pwa/data/img/zx_q/zx244.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx244_0.jpg"
+  ],
+  "hdr": "(7) 2014 数一二三 >>"
+ },
+ {
+  "no": 246,
+  "cat": "求可逆矩阵P，使得P逆AP=B",
+  "src": "姜晓千真题同源150",
+  "page": 75,
+  "qimg": "pwa/data/img/zx_q/zx246.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx246_0.jpg"
+  ],
+  "hdr": "(2) 姜晓千真题同源150 >>"
+ },
+ {
+  "no": 249,
+  "cat": "相似对角化概念",
+  "src": "2017数二",
+  "page": 76,
+  "qimg": "pwa/data/img/zx_q/zx249.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx249_0.jpg"
+  ],
+  "hdr": "(2) 2017 数二 >>"
+ },
+ {
+  "no": 250,
+  "cat": "相似对角化概念",
+  "src": "2020数二三",
+  "page": 76,
+  "qimg": "pwa/data/img/zx_q/zx250.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx250_0.jpg"
+  ],
+  "hdr": "(3) 2020 数二三 >>"
+ },
+ {
+  "no": 269,
+  "cat": "求相似对角化的可逆阵P及对角阵Λ",
+  "src": "姜晓千真题同源150",
+  "page": 81,
+  "qimg": "pwa/data/img/zx_q/zx269.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx269_0.jpg"
+  ],
+  "hdr": "(5) 姜晓千真题同源150 >>"
+ },
+ {
+  "no": 283,
+  "cat": "求实对称矩阵A",
+  "src": "姜晓千真题同源150",
+  "page": 84,
+  "qimg": "pwa/data/img/zx_q/zx283.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx283_0.jpg",
+   "pwa/data/img/zx_a/zx283_1.jpg",
+   "pwa/data/img/zx_a/zx283_2.jpg"
+  ],
+  "hdr": "(5) 姜晓千真题同源150 >>"
+ },
+ {
+  "no": 299,
+  "cat": "正交变换x=Qy",
+  "src": "姜晓千真题同源150",
+  "page": 90,
+  "qimg": "pwa/data/img/zx_q/zx299.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx299_0.jpg"
+  ],
+  "hdr": "(12) 姜晓千真题同源150 >>"
+ },
+ {
+  "no": 306,
+  "cat": "规范形",
+  "src": "2023数学二三",
+  "page": 92,
+  "qimg": "pwa/data/img/zx_q/zx306.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx306_0.jpg",
+   "pwa/data/img/zx_a/zx306_1.jpg",
+   "pwa/data/img/zx_a/zx306_2.jpg"
+  ],
+  "hdr": "d) 2023 数学二三 >>"
+ },
+ {
+  "no": 307,
+  "cat": "规范形",
+  "src": "2026数二三",
+  "page": 92,
+  "qimg": "pwa/data/img/zx_q/zx307.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx307_0.jpg"
+  ],
+  "hdr": "e) 2026 数二三 >>"
+ },
+ {
+  "no": 349,
+  "cat": "二次型 → 正定 → 正定矩阵的分解 → 平方根分解",
+  "src": "900题数二第六章B类7",
+  "page": 101,
+  "qimg": "pwa/data/img/zx_q/zx349.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx349_0.jpg"
+  ],
+  "hdr": "i) 900 题数二第六章B 类7 >>"
+ },
+ {
+  "no": 350,
+  "cat": "平方根分解",
+  "src": "2021数一",
+  "page": 102,
+  "qimg": "pwa/data/img/zx_q/zx350.png",
+  "aimgs": [
+   "pwa/data/img/zx_a/zx350_0.jpg",
+   "pwa/data/img/zx_a/zx350_1.jpg",
+   "pwa/data/img/zx_a/zx350_2.jpg"
+  ],
+  "hdr": "ii) 2021 数一 >>"
+ }
+]

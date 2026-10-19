@@ -1,0 +1,2487 @@
+[
+ {
+  "zx": 11,
+  "sec": "行列式",
+  "coreNo": 761,
+  "score": 1,
+  "inAdded": false
+ },
+ {
+  "zx": 41,
+  "sec": "矩阵",
+  "coreNo": 781,
+  "score": 1,
+  "inAdded": false
+ },
+ {
+  "zx": 107,
+  "sec": "矩阵",
+  "coreNo": 841,
+  "score": 0.98,
+  "inAdded": false
+ },
+ {
+  "zx": 48,
+  "sec": "矩阵",
+  "coreNo": 795,
+  "score": 0.9778,
+  "inAdded": false
+ },
+ {
+  "zx": 189,
+  "sec": "线性方程组",
+  "coreNo": 723,
+  "score": 0.9778,
+  "inAdded": false
+ },
+ {
+  "zx": 12,
+  "sec": "行列式",
+  "coreNo": 762,
+  "score": 0.9706,
+  "inAdded": false
+ },
+ {
+  "zx": 317,
+  "sec": "二次型",
+  "coreNo": 1040,
+  "score": 0.9247,
+  "inAdded": false
+ },
+ {
+  "zx": 30,
+  "sec": "行列式",
+  "coreNo": 769,
+  "score": 0.878,
+  "inAdded": false
+ },
+ {
+  "zx": 44,
+  "sec": "矩阵",
+  "coreNo": 784,
+  "score": 0.8764,
+  "inAdded": false
+ },
+ {
+  "zx": 200,
+  "sec": "线性方程组",
+  "coreNo": 950,
+  "score": 0.8606,
+  "inAdded": false
+ },
+ {
+  "zx": 115,
+  "sec": "矩阵",
+  "coreNo": 717,
+  "score": 0.7965,
+  "inAdded": false
+ },
+ {
+  "zx": 304,
+  "sec": "二次型",
+  "coreNo": 1033,
+  "score": 0.7832,
+  "inAdded": false
+ },
+ {
+  "zx": 340,
+  "sec": "二次型",
+  "coreNo": 1053,
+  "score": 0.7831,
+  "inAdded": false
+ },
+ {
+  "zx": 338,
+  "sec": "二次型",
+  "coreNo": 1049,
+  "score": 0.7733,
+  "inAdded": false
+ },
+ {
+  "zx": 305,
+  "sec": "二次型",
+  "coreNo": 1034,
+  "score": 0.7629,
+  "inAdded": false
+ },
+ {
+  "zx": 50,
+  "sec": "矩阵",
+  "coreNo": 711,
+  "score": 0.7568,
+  "inAdded": true
+ },
+ {
+  "zx": 177,
+  "sec": "线性方程组",
+  "coreNo": 937,
+  "score": 0.7455,
+  "inAdded": false
+ },
+ {
+  "zx": 322,
+  "sec": "二次型",
+  "coreNo": 1019,
+  "score": 0.7368,
+  "inAdded": true
+ },
+ {
+  "zx": 204,
+  "sec": "线性方程组",
+  "coreNo": 727,
+  "score": 0.7246,
+  "inAdded": false
+ },
+ {
+  "zx": 294,
+  "sec": "二次型",
+  "coreNo": 1029,
+  "score": 0.7176,
+  "inAdded": false
+ },
+ {
+  "zx": 213,
+  "sec": "线性方程组",
+  "coreNo": 959,
+  "score": 0.7071,
+  "inAdded": false
+ },
+ {
+  "zx": 225,
+  "sec": "特征值与特征向量",
+  "coreNo": 975,
+  "score": 0.7009,
+  "inAdded": false
+ },
+ {
+  "zx": 328,
+  "sec": "二次型",
+  "coreNo": 1044,
+  "score": 0.7,
+  "inAdded": false
+ },
+ {
+  "zx": 152,
+  "sec": "线性方程组",
+  "coreNo": 719,
+  "score": 0.6861,
+  "inAdded": false
+ },
+ {
+  "zx": 191,
+  "sec": "线性方程组",
+  "coreNo": 932,
+  "score": 0.6833,
+  "inAdded": false
+ },
+ {
+  "zx": 47,
+  "sec": "矩阵",
+  "coreNo": 794,
+  "score": 0.6769,
+  "inAdded": false
+ },
+ {
+  "zx": 39,
+  "sec": "行列式",
+  "coreNo": 772,
+  "score": 0.6567,
+  "inAdded": true
+ },
+ {
+  "zx": 75,
+  "sec": "矩阵",
+  "coreNo": 714,
+  "score": 0.6567,
+  "inAdded": false
+ },
+ {
+  "zx": 297,
+  "sec": "二次型",
+  "coreNo": 740,
+  "score": 0.6489,
+  "inAdded": false
+ },
+ {
+  "zx": 252,
+  "sec": "特征值与特征向量",
+  "coreNo": 999,
+  "score": 0.641,
+  "inAdded": false
+ },
+ {
+  "zx": 165,
+  "sec": "线性方程组",
+  "coreNo": 930,
+  "score": 0.6364,
+  "inAdded": false
+ },
+ {
+  "zx": 211,
+  "sec": "线性方程组",
+  "coreNo": 957,
+  "score": 0.6364,
+  "inAdded": false
+ },
+ {
+  "zx": 216,
+  "sec": "线性方程组",
+  "coreNo": 963,
+  "score": 0.6296,
+  "inAdded": false
+ },
+ {
+  "zx": 199,
+  "sec": "线性方程组",
+  "coreNo": 949,
+  "score": 0.6259,
+  "inAdded": false
+ },
+ {
+  "zx": 86,
+  "sec": "矩阵",
+  "coreNo": 828,
+  "score": 0.6212,
+  "inAdded": false
+ },
+ {
+  "zx": 61,
+  "sec": "矩阵",
+  "coreNo": 712,
+  "score": 0.6173,
+  "inAdded": false
+ },
+ {
+  "zx": 109,
+  "sec": "矩阵",
+  "coreNo": 713,
+  "score": 0.6126,
+  "inAdded": false
+ },
+ {
+  "zx": 83,
+  "sec": "矩阵",
+  "coreNo": 826,
+  "score": 0.6125,
+  "inAdded": false
+ },
+ {
+  "zx": 78,
+  "sec": "矩阵",
+  "coreNo": 818,
+  "score": 0.6117,
+  "inAdded": false
+ },
+ {
+  "zx": 318,
+  "sec": "二次型",
+  "coreNo": 1041,
+  "score": 0.6061,
+  "inAdded": false
+ },
+ {
+  "zx": 342,
+  "sec": "二次型",
+  "coreNo": 1052,
+  "score": 0.6047,
+  "inAdded": false
+ },
+ {
+  "zx": 219,
+  "sec": "线性方程组",
+  "coreNo": 964,
+  "score": 0.6029,
+  "inAdded": false
+ },
+ {
+  "zx": 293,
+  "sec": "二次型",
+  "coreNo": 1028,
+  "score": 0.6008,
+  "inAdded": false
+ },
+ {
+  "zx": 274,
+  "sec": "特征值与特征向量",
+  "coreNo": 1012,
+  "score": 0.5923,
+  "inAdded": false
+ },
+ {
+  "zx": 291,
+  "sec": "二次型",
+  "coreNo": 1031,
+  "score": 0.5905,
+  "inAdded": false
+ },
+ {
+  "zx": 57,
+  "sec": "矩阵",
+  "coreNo": 806,
+  "score": 0.5902,
+  "inAdded": false
+ },
+ {
+  "zx": 289,
+  "sec": "二次型",
+  "coreNo": 1024,
+  "score": 0.5763,
+  "inAdded": false
+ },
+ {
+  "zx": 46,
+  "sec": "矩阵",
+  "coreNo": 787,
+  "score": 0.5728,
+  "inAdded": false
+ },
+ {
+  "zx": 154,
+  "sec": "线性方程组",
+  "coreNo": 902,
+  "score": 0.5714,
+  "inAdded": false
+ },
+ {
+  "zx": 260,
+  "sec": "特征值与特征向量",
+  "coreNo": 1005,
+  "score": 0.5694,
+  "inAdded": false
+ },
+ {
+  "zx": 38,
+  "sec": "行列式",
+  "coreNo": 774,
+  "score": 0.5672,
+  "inAdded": false
+ },
+ {
+  "zx": 295,
+  "sec": "二次型",
+  "coreNo": 1030,
+  "score": 0.5658,
+  "inAdded": false
+ },
+ {
+  "zx": 257,
+  "sec": "特征值与特征向量",
+  "coreNo": 1003,
+  "score": 0.5652,
+  "inAdded": true
+ },
+ {
+  "zx": 163,
+  "sec": "线性方程组",
+  "coreNo": 918,
+  "score": 0.5349,
+  "inAdded": false
+ },
+ {
+  "zx": 212,
+  "sec": "线性方程组",
+  "coreNo": 955,
+  "score": 0.5333,
+  "inAdded": false
+ },
+ {
+  "zx": 259,
+  "sec": "特征值与特征向量",
+  "coreNo": 1004,
+  "score": 0.527,
+  "inAdded": false
+ },
+ {
+  "zx": 315,
+  "sec": "二次型",
+  "coreNo": 1037,
+  "score": 0.5263,
+  "inAdded": false
+ },
+ {
+  "zx": 133,
+  "sec": "向量",
+  "coreNo": 882,
+  "score": 0.5212,
+  "inAdded": false
+ },
+ {
+  "zx": 282,
+  "sec": "特征值与特征向量",
+  "coreNo": 1018,
+  "score": 0.5185,
+  "inAdded": false
+ },
+ {
+  "zx": 277,
+  "sec": "特征值与特征向量",
+  "coreNo": 1013,
+  "score": 0.5138,
+  "inAdded": false
+ },
+ {
+  "zx": 120,
+  "sec": "向量",
+  "coreNo": 862,
+  "score": 0.5116,
+  "inAdded": false
+ },
+ {
+  "zx": 265,
+  "sec": "特征值与特征向量",
+  "coreNo": 1008,
+  "score": 0.5116,
+  "inAdded": false
+ },
+ {
+  "zx": 288,
+  "sec": "二次型",
+  "coreNo": 1022,
+  "score": 0.5081,
+  "inAdded": false
+ },
+ {
+  "zx": 94,
+  "sec": "矩阵",
+  "coreNo": 832,
+  "score": 0.5047,
+  "inAdded": false
+ },
+ {
+  "zx": 45,
+  "sec": "矩阵",
+  "coreNo": 790,
+  "score": 0.5,
+  "inAdded": true
+ },
+ {
+  "zx": 150,
+  "sec": "线性方程组",
+  "coreNo": 718,
+  "score": 0.5,
+  "inAdded": false
+ },
+ {
+  "zx": 226,
+  "sec": "特征值与特征向量",
+  "coreNo": 977,
+  "score": 0.5,
+  "inAdded": false
+ },
+ {
+  "zx": 245,
+  "sec": "特征值与特征向量",
+  "coreNo": 994,
+  "score": 0.5,
+  "inAdded": false
+ },
+ {
+  "zx": 168,
+  "sec": "线性方程组",
+  "coreNo": 933,
+  "score": 0.4977,
+  "inAdded": false
+ },
+ {
+  "zx": 280,
+  "sec": "特征值与特征向量",
+  "coreNo": 1016,
+  "score": 0.497,
+  "inAdded": false
+ },
+ {
+  "zx": 303,
+  "sec": "二次型",
+  "coreNo": 1032,
+  "score": 0.4965,
+  "inAdded": false
+ },
+ {
+  "zx": 208,
+  "sec": "线性方程组",
+  "coreNo": 728,
+  "score": 0.4854,
+  "inAdded": false
+ },
+ {
+  "zx": 194,
+  "sec": "线性方程组",
+  "coreNo": 947,
+  "score": 0.4835,
+  "inAdded": true
+ },
+ {
+  "zx": 104,
+  "sec": "矩阵",
+  "coreNo": 836,
+  "score": 0.4789,
+  "inAdded": false
+ },
+ {
+  "zx": 74,
+  "sec": "矩阵",
+  "coreNo": 715,
+  "score": 0.4762,
+  "inAdded": true
+ },
+ {
+  "zx": 171,
+  "sec": "线性方程组",
+  "coreNo": 936,
+  "score": 0.4762,
+  "inAdded": false
+ },
+ {
+  "zx": 316,
+  "sec": "二次型",
+  "coreNo": 1038,
+  "score": 0.4706,
+  "inAdded": false
+ },
+ {
+  "zx": 279,
+  "sec": "特征值与特征向量",
+  "coreNo": 1015,
+  "score": 0.4688,
+  "inAdded": true
+ },
+ {
+  "zx": 10,
+  "sec": "行列式",
+  "coreNo": 753,
+  "score": 0.4667,
+  "inAdded": false
+ },
+ {
+  "zx": 4,
+  "sec": "行列式",
+  "coreNo": 748,
+  "score": 0.4651,
+  "inAdded": true
+ },
+ {
+  "zx": 321,
+  "sec": "二次型",
+  "coreNo": 1019,
+  "score": 0.4638,
+  "inAdded": true
+ },
+ {
+  "zx": 14,
+  "sec": "行列式",
+  "coreNo": 764,
+  "score": 0.4615,
+  "inAdded": false
+ },
+ {
+  "zx": 223,
+  "sec": "特征值与特征向量",
+  "coreNo": 736,
+  "score": 0.4561,
+  "inAdded": false
+ },
+ {
+  "zx": 6,
+  "sec": "行列式",
+  "coreNo": 756,
+  "score": 0.4545,
+  "inAdded": true
+ },
+ {
+  "zx": 43,
+  "sec": "矩阵",
+  "coreNo": 783,
+  "score": 0.4494,
+  "inAdded": false
+ },
+ {
+  "zx": 292,
+  "sec": "二次型",
+  "coreNo": 1027,
+  "score": 0.443,
+  "inAdded": false
+ },
+ {
+  "zx": 285,
+  "sec": "二次型",
+  "coreNo": 1019,
+  "score": 0.4419,
+  "inAdded": true
+ },
+ {
+  "zx": 278,
+  "sec": "特征值与特征向量",
+  "coreNo": 734,
+  "score": 0.4386,
+  "inAdded": true
+ },
+ {
+  "zx": 122,
+  "sec": "向量",
+  "coreNo": 864,
+  "score": 0.4384,
+  "inAdded": false
+ },
+ {
+  "zx": 290,
+  "sec": "二次型",
+  "coreNo": 1026,
+  "score": 0.4356,
+  "inAdded": false
+ },
+ {
+  "zx": 96,
+  "sec": "矩阵",
+  "coreNo": 852,
+  "score": 0.4333,
+  "inAdded": true
+ },
+ {
+  "zx": 261,
+  "sec": "特征值与特征向量",
+  "coreNo": 1006,
+  "score": 0.4333,
+  "inAdded": true
+ },
+ {
+  "zx": 123,
+  "sec": "向量",
+  "coreNo": 856,
+  "score": 0.433,
+  "inAdded": false
+ },
+ {
+  "zx": 237,
+  "sec": "特征值与特征向量",
+  "coreNo": 732,
+  "score": 0.4286,
+  "inAdded": false
+ },
+ {
+  "zx": 16,
+  "sec": "行列式",
+  "coreNo": 767,
+  "score": 0.4262,
+  "inAdded": false
+ },
+ {
+  "zx": 221,
+  "sec": "特征值与特征向量",
+  "coreNo": 967,
+  "score": 0.4259,
+  "inAdded": true
+ },
+ {
+  "zx": 343,
+  "sec": "二次型",
+  "coreNo": 1051,
+  "score": 0.4252,
+  "inAdded": false
+ },
+ {
+  "zx": 174,
+  "sec": "线性方程组",
+  "coreNo": 939,
+  "score": 0.4186,
+  "inAdded": true
+ },
+ {
+  "zx": 138,
+  "sec": "向量",
+  "coreNo": 878,
+  "score": 0.4183,
+  "inAdded": false
+ },
+ {
+  "zx": 230,
+  "sec": "特征值与特征向量",
+  "coreNo": 730,
+  "score": 0.4086,
+  "inAdded": false
+ },
+ {
+  "zx": 67,
+  "sec": "矩阵",
+  "coreNo": 841,
+  "score": 0.4082,
+  "inAdded": true
+ },
+ {
+  "zx": 77,
+  "sec": "矩阵",
+  "coreNo": 819,
+  "score": 0.4074,
+  "inAdded": false
+ },
+ {
+  "zx": 312,
+  "sec": "二次型",
+  "coreNo": 1073,
+  "score": 0.4041,
+  "inAdded": true
+ },
+ {
+  "zx": 28,
+  "sec": "行列式",
+  "coreNo": 768,
+  "score": 0.4034,
+  "inAdded": false
+ },
+ {
+  "zx": 105,
+  "sec": "矩阵",
+  "coreNo": 837,
+  "score": 0.4,
+  "inAdded": true
+ },
+ {
+  "zx": 323,
+  "sec": "二次型",
+  "coreNo": 1019,
+  "score": 0.4,
+  "inAdded": true
+ },
+ {
+  "zx": 84,
+  "sec": "矩阵",
+  "coreNo": 827,
+  "score": 0.3871,
+  "inAdded": false
+ },
+ {
+  "zx": 164,
+  "sec": "线性方程组",
+  "coreNo": 919,
+  "score": 0.3855,
+  "inAdded": false
+ },
+ {
+  "zx": 81,
+  "sec": "矩阵",
+  "coreNo": 823,
+  "score": 0.382,
+  "inAdded": true
+ },
+ {
+  "zx": 136,
+  "sec": "向量",
+  "coreNo": 885,
+  "score": 0.3788,
+  "inAdded": false
+ },
+ {
+  "zx": 339,
+  "sec": "二次型",
+  "coreNo": 1050,
+  "score": 0.3733,
+  "inAdded": false
+ },
+ {
+  "zx": 92,
+  "sec": "矩阵",
+  "coreNo": 846,
+  "score": 0.3721,
+  "inAdded": false
+ },
+ {
+  "zx": 54,
+  "sec": "矩阵",
+  "coreNo": 801,
+  "score": 0.371,
+  "inAdded": false
+ },
+ {
+  "zx": 134,
+  "sec": "向量",
+  "coreNo": 890,
+  "score": 0.3709,
+  "inAdded": true
+ },
+ {
+  "zx": 233,
+  "sec": "特征值与特征向量",
+  "coreNo": 980,
+  "score": 0.3684,
+  "inAdded": false
+ },
+ {
+  "zx": 296,
+  "sec": "二次型",
+  "coreNo": 1020,
+  "score": 0.3673,
+  "inAdded": false
+ },
+ {
+  "zx": 106,
+  "sec": "矩阵",
+  "coreNo": 840,
+  "score": 0.3636,
+  "inAdded": false
+ },
+ {
+  "zx": 145,
+  "sec": "向量",
+  "coreNo": 897,
+  "score": 0.3636,
+  "inAdded": false
+ },
+ {
+  "zx": 272,
+  "sec": "特征值与特征向量",
+  "coreNo": 731,
+  "score": 0.3636,
+  "inAdded": true
+ },
+ {
+  "zx": 239,
+  "sec": "特征值与特征向量",
+  "coreNo": 988,
+  "score": 0.3585,
+  "inAdded": false
+ },
+ {
+  "zx": 161,
+  "sec": "线性方程组",
+  "coreNo": 916,
+  "score": 0.3566,
+  "inAdded": true
+ },
+ {
+  "zx": 160,
+  "sec": "线性方程组",
+  "coreNo": 915,
+  "score": 0.3564,
+  "inAdded": false
+ },
+ {
+  "zx": 255,
+  "sec": "特征值与特征向量",
+  "coreNo": 1001,
+  "score": 0.3564,
+  "inAdded": true
+ },
+ {
+  "zx": 281,
+  "sec": "特征值与特征向量",
+  "coreNo": 1017,
+  "score": 0.3553,
+  "inAdded": false
+ },
+ {
+  "zx": 42,
+  "sec": "矩阵",
+  "coreNo": 782,
+  "score": 0.3551,
+  "inAdded": false
+ },
+ {
+  "zx": 196,
+  "sec": "线性方程组",
+  "coreNo": 948,
+  "score": 0.3529,
+  "inAdded": false
+ },
+ {
+  "zx": 170,
+  "sec": "线性方程组",
+  "coreNo": 935,
+  "score": 0.352,
+  "inAdded": true
+ },
+ {
+  "zx": 227,
+  "sec": "特征值与特征向量",
+  "coreNo": 979,
+  "score": 0.3478,
+  "inAdded": false
+ },
+ {
+  "zx": 240,
+  "sec": "特征值与特征向量",
+  "coreNo": 989,
+  "score": 0.3478,
+  "inAdded": false
+ },
+ {
+  "zx": 324,
+  "sec": "二次型",
+  "coreNo": 1019,
+  "score": 0.3467,
+  "inAdded": true
+ },
+ {
+  "zx": 329,
+  "sec": "二次型",
+  "coreNo": 1019,
+  "score": 0.3409,
+  "inAdded": true
+ },
+ {
+  "zx": 155,
+  "sec": "线性方程组",
+  "coreNo": 907,
+  "score": 0.3404,
+  "inAdded": false
+ },
+ {
+  "zx": 125,
+  "sec": "向量",
+  "coreNo": 867,
+  "score": 0.3394,
+  "inAdded": false
+ },
+ {
+  "zx": 228,
+  "sec": "特征值与特征向量",
+  "coreNo": 737,
+  "score": 0.3364,
+  "inAdded": false
+ },
+ {
+  "zx": 143,
+  "sec": "向量",
+  "coreNo": 894,
+  "score": 0.3333,
+  "inAdded": false
+ },
+ {
+  "zx": 146,
+  "sec": "向量",
+  "coreNo": 891,
+  "score": 0.3333,
+  "inAdded": false
+ },
+ {
+  "zx": 185,
+  "sec": "线性方程组",
+  "coreNo": 725,
+  "score": 0.3288,
+  "inAdded": false
+ },
+ {
+  "zx": 306,
+  "sec": "二次型",
+  "coreNo": 1055,
+  "score": 0.3269,
+  "inAdded": false
+ },
+ {
+  "zx": 15,
+  "sec": "行列式",
+  "coreNo": 760,
+  "score": 0.3265,
+  "inAdded": false
+ },
+ {
+  "zx": 345,
+  "sec": "二次型",
+  "coreNo": 1057,
+  "score": 0.3256,
+  "inAdded": false
+ },
+ {
+  "zx": 144,
+  "sec": "向量",
+  "coreNo": 896,
+  "score": 0.32,
+  "inAdded": false
+ },
+ {
+  "zx": 1,
+  "sec": "行列式",
+  "coreNo": 746,
+  "score": 0.3133,
+  "inAdded": true
+ },
+ {
+  "zx": 284,
+  "sec": "特征值与特征向量",
+  "coreNo": 1011,
+  "score": 0.3117,
+  "inAdded": true
+ },
+ {
+  "zx": 49,
+  "sec": "矩阵",
+  "coreNo": 711,
+  "score": 0.3107,
+  "inAdded": true
+ },
+ {
+  "zx": 326,
+  "sec": "二次型",
+  "coreNo": 1019,
+  "score": 0.3063,
+  "inAdded": true
+ },
+ {
+  "zx": 103,
+  "sec": "矩阵",
+  "coreNo": 781,
+  "score": 0.2941,
+  "inAdded": true
+ },
+ {
+  "zx": 87,
+  "sec": "矩阵",
+  "coreNo": 842,
+  "score": 0.2857,
+  "inAdded": false
+ },
+ {
+  "zx": 101,
+  "sec": "矩阵",
+  "coreNo": 835,
+  "score": 0.2837,
+  "inAdded": false
+ },
+ {
+  "zx": 21,
+  "sec": "行列式",
+  "coreNo": 760,
+  "score": 0.2813,
+  "inAdded": true
+ },
+ {
+  "zx": 124,
+  "sec": "向量",
+  "coreNo": 866,
+  "score": 0.2774,
+  "inAdded": true
+ },
+ {
+  "zx": 169,
+  "sec": "线性方程组",
+  "coreNo": 934,
+  "score": 0.2754,
+  "inAdded": false
+ },
+ {
+  "zx": 118,
+  "sec": "向量",
+  "coreNo": 855,
+  "score": 0.2734,
+  "inAdded": false
+ },
+ {
+  "zx": 159,
+  "sec": "线性方程组",
+  "coreNo": 910,
+  "score": 0.2717,
+  "inAdded": true
+ },
+ {
+  "zx": 186,
+  "sec": "线性方程组",
+  "coreNo": 943,
+  "score": 0.2714,
+  "inAdded": false
+ },
+ {
+  "zx": 243,
+  "sec": "特征值与特征向量",
+  "coreNo": 733,
+  "score": 0.2707,
+  "inAdded": true
+ },
+ {
+  "zx": 76,
+  "sec": "矩阵",
+  "coreNo": 814,
+  "score": 0.2703,
+  "inAdded": false
+ },
+ {
+  "zx": 242,
+  "sec": "特征值与特征向量",
+  "coreNo": 991,
+  "score": 0.2667,
+  "inAdded": false
+ },
+ {
+  "zx": 301,
+  "sec": "二次型",
+  "coreNo": 1021,
+  "score": 0.2655,
+  "inAdded": true
+ },
+ {
+  "zx": 34,
+  "sec": "行列式",
+  "coreNo": 770,
+  "score": 0.2595,
+  "inAdded": false
+ },
+ {
+  "zx": 319,
+  "sec": "二次型",
+  "coreNo": 1023,
+  "score": 0.2595,
+  "inAdded": true
+ },
+ {
+  "zx": 210,
+  "sec": "线性方程组",
+  "coreNo": 952,
+  "score": 0.2593,
+  "inAdded": false
+ },
+ {
+  "zx": 283,
+  "sec": "特征值与特征向量",
+  "coreNo": 987,
+  "score": 0.2593,
+  "inAdded": false
+ },
+ {
+  "zx": 310,
+  "sec": "二次型",
+  "coreNo": 741,
+  "score": 0.2577,
+  "inAdded": false
+ },
+ {
+  "zx": 241,
+  "sec": "特征值与特征向量",
+  "coreNo": 993,
+  "score": 0.2526,
+  "inAdded": false
+ },
+ {
+  "zx": 158,
+  "sec": "线性方程组",
+  "coreNo": 920,
+  "score": 0.25,
+  "inAdded": false
+ },
+ {
+  "zx": 287,
+  "sec": "二次型",
+  "coreNo": 1019,
+  "score": 0.25,
+  "inAdded": true
+ },
+ {
+  "zx": 149,
+  "sec": "线性方程组",
+  "coreNo": 951,
+  "score": 0.2479,
+  "inAdded": true
+ },
+ {
+  "zx": 266,
+  "sec": "特征值与特征向量",
+  "coreNo": 1008,
+  "score": 0.2462,
+  "inAdded": true
+ },
+ {
+  "zx": 246,
+  "sec": "特征值与特征向量",
+  "coreNo": 994,
+  "score": 0.2449,
+  "inAdded": false
+ },
+ {
+  "zx": 238,
+  "sec": "特征值与特征向量",
+  "coreNo": 987,
+  "score": 0.2295,
+  "inAdded": false
+ },
+ {
+  "zx": 175,
+  "sec": "线性方程组",
+  "coreNo": 942,
+  "score": 0.2278,
+  "inAdded": true
+ },
+ {
+  "zx": 353,
+  "sec": "二次型",
+  "coreNo": 1049,
+  "score": 0.2241,
+  "inAdded": true
+ },
+ {
+  "zx": 320,
+  "sec": "二次型",
+  "coreNo": 1029,
+  "score": 0.2235,
+  "inAdded": true
+ },
+ {
+  "zx": 308,
+  "sec": "二次型",
+  "coreNo": 1021,
+  "score": 0.2222,
+  "inAdded": true
+ },
+ {
+  "zx": 352,
+  "sec": "二次型",
+  "coreNo": 1029,
+  "score": 0.2194,
+  "inAdded": true
+ },
+ {
+  "zx": 97,
+  "sec": "矩阵",
+  "coreNo": 833,
+  "score": 0.2192,
+  "inAdded": true
+ },
+ {
+  "zx": 132,
+  "sec": "向量",
+  "coreNo": 872,
+  "score": 0.2182,
+  "inAdded": false
+ },
+ {
+  "zx": 99,
+  "sec": "矩阵",
+  "coreNo": 834,
+  "score": 0.2154,
+  "inAdded": true
+ },
+ {
+  "zx": 332,
+  "sec": "二次型",
+  "coreNo": 1047,
+  "score": 0.2128,
+  "inAdded": true
+ },
+ {
+  "zx": 201,
+  "sec": "线性方程组",
+  "coreNo": 941,
+  "score": 0.2087,
+  "inAdded": true
+ },
+ {
+  "zx": 176,
+  "sec": "线性方程组",
+  "coreNo": 942,
+  "score": 0.2031,
+  "inAdded": false
+ },
+ {
+  "zx": 313,
+  "sec": "二次型",
+  "coreNo": 1073,
+  "score": 0.201,
+  "inAdded": true
+ },
+ {
+  "zx": 55,
+  "sec": "矩阵",
+  "coreNo": 804,
+  "score": 0.1982,
+  "inAdded": false
+ },
+ {
+  "zx": 275,
+  "sec": "特征值与特征向量",
+  "coreNo": 734,
+  "score": 0.1961,
+  "inAdded": true
+ },
+ {
+  "zx": 126,
+  "sec": "向量",
+  "coreNo": 868,
+  "score": 0.1957,
+  "inAdded": false
+ },
+ {
+  "zx": 251,
+  "sec": "特征值与特征向量",
+  "coreNo": 1015,
+  "score": 0.1905,
+  "inAdded": true
+ },
+ {
+  "zx": 248,
+  "sec": "特征值与特征向量",
+  "coreNo": 997,
+  "score": 0.189,
+  "inAdded": false
+ },
+ {
+  "zx": 148,
+  "sec": "线性方程组",
+  "coreNo": 900,
+  "score": 0.1882,
+  "inAdded": true
+ },
+ {
+  "zx": 98,
+  "sec": "矩阵",
+  "coreNo": 833,
+  "score": 0.1867,
+  "inAdded": true
+ },
+ {
+  "zx": 162,
+  "sec": "线性方程组",
+  "coreNo": 963,
+  "score": 0.1833,
+  "inAdded": true
+ },
+ {
+  "zx": 20,
+  "sec": "行列式",
+  "coreNo": 755,
+  "score": 0.1818,
+  "inAdded": true
+ },
+ {
+  "zx": 157,
+  "sec": "线性方程组",
+  "coreNo": 905,
+  "score": 0.1818,
+  "inAdded": true
+ },
+ {
+  "zx": 112,
+  "sec": "矩阵",
+  "coreNo": 841,
+  "score": 0.18,
+  "inAdded": true
+ },
+ {
+  "zx": 307,
+  "sec": "二次型",
+  "coreNo": 1034,
+  "score": 0.1791,
+  "inAdded": false
+ },
+ {
+  "zx": 302,
+  "sec": "二次型",
+  "coreNo": 1025,
+  "score": 0.1788,
+  "inAdded": true
+ },
+ {
+  "zx": 188,
+  "sec": "线性方程组",
+  "coreNo": 723,
+  "score": 0.1778,
+  "inAdded": false
+ },
+ {
+  "zx": 89,
+  "sec": "矩阵",
+  "coreNo": 791,
+  "score": 0.1772,
+  "inAdded": true
+ },
+ {
+  "zx": 298,
+  "sec": "二次型",
+  "coreNo": 1041,
+  "score": 0.1757,
+  "inAdded": true
+ },
+ {
+  "zx": 113,
+  "sec": "矩阵",
+  "coreNo": 800,
+  "score": 0.1754,
+  "inAdded": true
+ },
+ {
+  "zx": 195,
+  "sec": "线性方程组",
+  "coreNo": 948,
+  "score": 0.1714,
+  "inAdded": true
+ },
+ {
+  "zx": 270,
+  "sec": "特征值与特征向量",
+  "coreNo": 994,
+  "score": 0.1705,
+  "inAdded": true
+ },
+ {
+  "zx": 354,
+  "sec": "二次型",
+  "coreNo": 1073,
+  "score": 0.17,
+  "inAdded": true
+ },
+ {
+  "zx": 183,
+  "sec": "线性方程组",
+  "coreNo": 939,
+  "score": 0.1695,
+  "inAdded": false
+ },
+ {
+  "zx": 192,
+  "sec": "线性方程组",
+  "coreNo": 926,
+  "score": 0.1684,
+  "inAdded": true
+ },
+ {
+  "zx": 17,
+  "sec": "行列式",
+  "coreNo": 751,
+  "score": 0.1667,
+  "inAdded": false
+ },
+ {
+  "zx": 53,
+  "sec": "矩阵",
+  "coreNo": 795,
+  "score": 0.1647,
+  "inAdded": true
+ },
+ {
+  "zx": 184,
+  "sec": "线性方程组",
+  "coreNo": 939,
+  "score": 0.1639,
+  "inAdded": false
+ },
+ {
+  "zx": 299,
+  "sec": "二次型",
+  "coreNo": 1027,
+  "score": 0.1618,
+  "inAdded": false
+ },
+ {
+  "zx": 300,
+  "sec": "二次型",
+  "coreNo": 1029,
+  "score": 0.1618,
+  "inAdded": true
+ },
+ {
+  "zx": 140,
+  "sec": "向量",
+  "coreNo": 886,
+  "score": 0.16,
+  "inAdded": true
+ },
+ {
+  "zx": 127,
+  "sec": "向量",
+  "coreNo": 868,
+  "score": 0.1584,
+  "inAdded": false
+ },
+ {
+  "zx": 151,
+  "sec": "线性方程组",
+  "coreNo": 719,
+  "score": 0.1583,
+  "inAdded": true
+ },
+ {
+  "zx": 178,
+  "sec": "线性方程组",
+  "coreNo": 940,
+  "score": 0.1524,
+  "inAdded": false
+ },
+ {
+  "zx": 167,
+  "sec": "线性方程组",
+  "coreNo": 912,
+  "score": 0.152,
+  "inAdded": true
+ },
+ {
+  "zx": 187,
+  "sec": "线性方程组",
+  "coreNo": 915,
+  "score": 0.1515,
+  "inAdded": false
+ },
+ {
+  "zx": 269,
+  "sec": "特征值与特征向量",
+  "coreNo": 1007,
+  "score": 0.1515,
+  "inAdded": false
+ },
+ {
+  "zx": 110,
+  "sec": "矩阵",
+  "coreNo": 841,
+  "score": 0.1468,
+  "inAdded": true
+ },
+ {
+  "zx": 193,
+  "sec": "线性方程组",
+  "coreNo": 948,
+  "score": 0.1468,
+  "inAdded": true
+ },
+ {
+  "zx": 114,
+  "sec": "矩阵",
+  "coreNo": 846,
+  "score": 0.1463,
+  "inAdded": true
+ },
+ {
+  "zx": 90,
+  "sec": "矩阵",
+  "coreNo": 775,
+  "score": 0.1449,
+  "inAdded": false
+ },
+ {
+  "zx": 100,
+  "sec": "矩阵",
+  "coreNo": 834,
+  "score": 0.1449,
+  "inAdded": false
+ },
+ {
+  "zx": 51,
+  "sec": "矩阵",
+  "coreNo": 794,
+  "score": 0.1429,
+  "inAdded": true
+ },
+ {
+  "zx": 232,
+  "sec": "特征值与特征向量",
+  "coreNo": 989,
+  "score": 0.1429,
+  "inAdded": true
+ },
+ {
+  "zx": 209,
+  "sec": "线性方程组",
+  "coreNo": 719,
+  "score": 0.1418,
+  "inAdded": true
+ },
+ {
+  "zx": 64,
+  "sec": "矩阵",
+  "coreNo": 843,
+  "score": 0.1414,
+  "inAdded": true
+ },
+ {
+  "zx": 181,
+  "sec": "线性方程组",
+  "coreNo": 915,
+  "score": 0.1414,
+  "inAdded": true
+ },
+ {
+  "zx": 222,
+  "sec": "特征值与特征向量",
+  "coreNo": 967,
+  "score": 0.1412,
+  "inAdded": true
+ },
+ {
+  "zx": 33,
+  "sec": "行列式",
+  "coreNo": 747,
+  "score": 0.1404,
+  "inAdded": true
+ },
+ {
+  "zx": 262,
+  "sec": "特征值与特征向量",
+  "coreNo": 1014,
+  "score": 0.1391,
+  "inAdded": true
+ },
+ {
+  "zx": 137,
+  "sec": "向量",
+  "coreNo": 886,
+  "score": 0.1386,
+  "inAdded": true
+ },
+ {
+  "zx": 217,
+  "sec": "线性方程组",
+  "coreNo": 924,
+  "score": 0.1375,
+  "inAdded": true
+ },
+ {
+  "zx": 250,
+  "sec": "特征值与特征向量",
+  "coreNo": 975,
+  "score": 0.1374,
+  "inAdded": false
+ },
+ {
+  "zx": 117,
+  "sec": "向量",
+  "coreNo": 854,
+  "score": 0.1366,
+  "inAdded": false
+ },
+ {
+  "zx": 111,
+  "sec": "矩阵",
+  "coreNo": 841,
+  "score": 0.1345,
+  "inAdded": true
+ },
+ {
+  "zx": 8,
+  "sec": "行列式",
+  "coreNo": 767,
+  "score": 0.1333,
+  "inAdded": true
+ },
+ {
+  "zx": 147,
+  "sec": "线性方程组",
+  "coreNo": 899,
+  "score": 0.1333,
+  "inAdded": true
+ },
+ {
+  "zx": 224,
+  "sec": "特征值与特征向量",
+  "coreNo": 970,
+  "score": 0.1333,
+  "inAdded": true
+ },
+ {
+  "zx": 235,
+  "sec": "特征值与特征向量",
+  "coreNo": 989,
+  "score": 0.1333,
+  "inAdded": true
+ },
+ {
+  "zx": 267,
+  "sec": "特征值与特征向量",
+  "coreNo": 1008,
+  "score": 0.1333,
+  "inAdded": true
+ },
+ {
+  "zx": 156,
+  "sec": "线性方程组",
+  "coreNo": 963,
+  "score": 0.129,
+  "inAdded": false
+ },
+ {
+  "zx": 93,
+  "sec": "矩阵",
+  "coreNo": 807,
+  "score": 0.1282,
+  "inAdded": false
+ },
+ {
+  "zx": 5,
+  "sec": "行列式",
+  "coreNo": 754,
+  "score": 0.127,
+  "inAdded": true
+ },
+ {
+  "zx": 66,
+  "sec": "矩阵",
+  "coreNo": 841,
+  "score": 0.1261,
+  "inAdded": true
+ },
+ {
+  "zx": 108,
+  "sec": "矩阵",
+  "coreNo": 808,
+  "score": 0.125,
+  "inAdded": true
+ },
+ {
+  "zx": 249,
+  "sec": "特征值与特征向量",
+  "coreNo": 994,
+  "score": 0.125,
+  "inAdded": false
+ },
+ {
+  "zx": 325,
+  "sec": "二次型",
+  "coreNo": 1019,
+  "score": 0.125,
+  "inAdded": true
+ },
+ {
+  "zx": 218,
+  "sec": "线性方程组",
+  "coreNo": 953,
+  "score": 0.1237,
+  "inAdded": true
+ },
+ {
+  "zx": 40,
+  "sec": "行列式",
+  "coreNo": 772,
+  "score": 0.1231,
+  "inAdded": true
+ },
+ {
+  "zx": 309,
+  "sec": "二次型",
+  "coreNo": 1025,
+  "score": 0.1231,
+  "inAdded": true
+ },
+ {
+  "zx": 70,
+  "sec": "矩阵",
+  "coreNo": 775,
+  "score": 0.1224,
+  "inAdded": true
+ },
+ {
+  "zx": 37,
+  "sec": "行列式",
+  "coreNo": 774,
+  "score": 0.1212,
+  "inAdded": true
+ },
+ {
+  "zx": 60,
+  "sec": "矩阵",
+  "coreNo": 846,
+  "score": 0.1212,
+  "inAdded": false
+ },
+ {
+  "zx": 263,
+  "sec": "特征值与特征向量",
+  "coreNo": 1001,
+  "score": 0.1212,
+  "inAdded": true
+ },
+ {
+  "zx": 268,
+  "sec": "特征值与特征向量",
+  "coreNo": 994,
+  "score": 0.1207,
+  "inAdded": true
+ },
+ {
+  "zx": 85,
+  "sec": "矩阵",
+  "coreNo": 777,
+  "score": 0.1203,
+  "inAdded": true
+ },
+ {
+  "zx": 25,
+  "sec": "行列式",
+  "coreNo": 752,
+  "score": 0.119,
+  "inAdded": true
+ },
+ {
+  "zx": 202,
+  "sec": "线性方程组",
+  "coreNo": 948,
+  "score": 0.119,
+  "inAdded": true
+ },
+ {
+  "zx": 256,
+  "sec": "特征值与特征向量",
+  "coreNo": 1013,
+  "score": 0.1176,
+  "inAdded": true
+ },
+ {
+  "zx": 355,
+  "sec": "二次型",
+  "coreNo": 1073,
+  "score": 0.1176,
+  "inAdded": true
+ },
+ {
+  "zx": 254,
+  "sec": "特征值与特征向量",
+  "coreNo": 1001,
+  "score": 0.1159,
+  "inAdded": true
+ },
+ {
+  "zx": 271,
+  "sec": "特征值与特征向量",
+  "coreNo": 1015,
+  "score": 0.1154,
+  "inAdded": true
+ },
+ {
+  "zx": 314,
+  "sec": "二次型",
+  "coreNo": 1047,
+  "score": 0.1149,
+  "inAdded": true
+ },
+ {
+  "zx": 71,
+  "sec": "矩阵",
+  "coreNo": 845,
+  "score": 0.1143,
+  "inAdded": true
+ },
+ {
+  "zx": 247,
+  "sec": "特征值与特征向量",
+  "coreNo": 974,
+  "score": 0.1118,
+  "inAdded": true
+ },
+ {
+  "zx": 121,
+  "sec": "向量",
+  "coreNo": 866,
+  "score": 0.1101,
+  "inAdded": true
+ },
+ {
+  "zx": 215,
+  "sec": "线性方程组",
+  "coreNo": 956,
+  "score": 0.1096,
+  "inAdded": true
+ },
+ {
+  "zx": 82,
+  "sec": "矩阵",
+  "coreNo": 842,
+  "score": 0.1094,
+  "inAdded": false
+ },
+ {
+  "zx": 56,
+  "sec": "矩阵",
+  "coreNo": 789,
+  "score": 0.1087,
+  "inAdded": false
+ },
+ {
+  "zx": 214,
+  "sec": "线性方程组",
+  "coreNo": 960,
+  "score": 0.1081,
+  "inAdded": false
+ },
+ {
+  "zx": 142,
+  "sec": "向量",
+  "coreNo": 885,
+  "score": 0.1074,
+  "inAdded": true
+ },
+ {
+  "zx": 182,
+  "sec": "线性方程组",
+  "coreNo": 719,
+  "score": 0.1069,
+  "inAdded": true
+ },
+ {
+  "zx": 2,
+  "sec": "行列式",
+  "coreNo": 743,
+  "score": 0.1053,
+  "inAdded": false
+ },
+ {
+  "zx": 135,
+  "sec": "向量",
+  "coreNo": 895,
+  "score": 0.1053,
+  "inAdded": true
+ },
+ {
+  "zx": 63,
+  "sec": "矩阵",
+  "coreNo": 812,
+  "score": 0.1039,
+  "inAdded": false
+ },
+ {
+  "zx": 179,
+  "sec": "线性方程组",
+  "coreNo": 942,
+  "score": 0.1031,
+  "inAdded": true
+ },
+ {
+  "zx": 153,
+  "sec": "线性方程组",
+  "coreNo": 947,
+  "score": 0.1026,
+  "inAdded": true
+ },
+ {
+  "zx": 88,
+  "sec": "矩阵",
+  "coreNo": 852,
+  "score": 0.1017,
+  "inAdded": true
+ },
+ {
+  "zx": 27,
+  "sec": "行列式",
+  "coreNo": 753,
+  "score": 0.1,
+  "inAdded": true
+ },
+ {
+  "zx": 52,
+  "sec": "矩阵",
+  "coreNo": 781,
+  "score": 0.1,
+  "inAdded": true
+ },
+ {
+  "zx": 253,
+  "sec": "特征值与特征向量",
+  "coreNo": 1001,
+  "score": 0.0984,
+  "inAdded": true
+ },
+ {
+  "zx": 198,
+  "sec": "线性方程组",
+  "coreNo": 728,
+  "score": 0.098,
+  "inAdded": true
+ },
+ {
+  "zx": 205,
+  "sec": "线性方程组",
+  "coreNo": 935,
+  "score": 0.0966,
+  "inAdded": true
+ },
+ {
+  "zx": 244,
+  "sec": "特征值与特征向量",
+  "coreNo": 1013,
+  "score": 0.0964,
+  "inAdded": false
+ },
+ {
+  "zx": 203,
+  "sec": "线性方程组",
+  "coreNo": 950,
+  "score": 0.0947,
+  "inAdded": false
+ },
+ {
+  "zx": 341,
+  "sec": "二次型",
+  "coreNo": 1044,
+  "score": 0.0943,
+  "inAdded": true
+ },
+ {
+  "zx": 180,
+  "sec": "线性方程组",
+  "coreNo": 723,
+  "score": 0.0941,
+  "inAdded": false
+ },
+ {
+  "zx": 311,
+  "sec": "二次型",
+  "coreNo": 1047,
+  "score": 0.0941,
+  "inAdded": true
+ },
+ {
+  "zx": 172,
+  "sec": "线性方程组",
+  "coreNo": 935,
+  "score": 0.0938,
+  "inAdded": false
+ },
+ {
+  "zx": 31,
+  "sec": "行列式",
+  "coreNo": 769,
+  "score": 0.092,
+  "inAdded": true
+ },
+ {
+  "zx": 347,
+  "sec": "二次型",
+  "coreNo": 1051,
+  "score": 0.0917,
+  "inAdded": true
+ },
+ {
+  "zx": 128,
+  "sec": "向量",
+  "coreNo": 870,
+  "score": 0.0909,
+  "inAdded": false
+ },
+ {
+  "zx": 95,
+  "sec": "矩阵",
+  "coreNo": 808,
+  "score": 0.087,
+  "inAdded": true
+ },
+ {
+  "zx": 234,
+  "sec": "特征值与特征向量",
+  "coreNo": 989,
+  "score": 0.087,
+  "inAdded": true
+ },
+ {
+  "zx": 3,
+  "sec": "行列式",
+  "coreNo": 765,
+  "score": 0.086,
+  "inAdded": true
+ },
+ {
+  "zx": 207,
+  "sec": "线性方程组",
+  "coreNo": 948,
+  "score": 0.0851,
+  "inAdded": true
+ },
+ {
+  "zx": 141,
+  "sec": "向量",
+  "coreNo": 885,
+  "score": 0.0848,
+  "inAdded": true
+ },
+ {
+  "zx": 69,
+  "sec": "矩阵",
+  "coreNo": 802,
+  "score": 0.0845,
+  "inAdded": true
+ },
+ {
+  "zx": 327,
+  "sec": "二次型",
+  "coreNo": 1068,
+  "score": 0.0845,
+  "inAdded": true
+ },
+ {
+  "zx": 24,
+  "sec": "行列式",
+  "coreNo": 753,
+  "score": 0.0816,
+  "inAdded": true
+ },
+ {
+  "zx": 190,
+  "sec": "线性方程组",
+  "coreNo": 948,
+  "score": 0.0816,
+  "inAdded": true
+ },
+ {
+  "zx": 273,
+  "sec": "特征值与特征向量",
+  "coreNo": 987,
+  "score": 0.0811,
+  "inAdded": true
+ },
+ {
+  "zx": 62,
+  "sec": "矩阵",
+  "coreNo": 846,
+  "score": 0.08,
+  "inAdded": true
+ },
+ {
+  "zx": 116,
+  "sec": "向量",
+  "coreNo": 853,
+  "score": 0.0784,
+  "inAdded": false
+ },
+ {
+  "zx": 65,
+  "sec": "矩阵",
+  "coreNo": 808,
+  "score": 0.0777,
+  "inAdded": true
+ },
+ {
+  "zx": 231,
+  "sec": "特征值与特征向量",
+  "coreNo": 979,
+  "score": 0.0777,
+  "inAdded": true
+ },
+ {
+  "zx": 258,
+  "sec": "特征值与特征向量",
+  "coreNo": 979,
+  "score": 0.0777,
+  "inAdded": true
+ },
+ {
+  "zx": 346,
+  "sec": "二次型",
+  "coreNo": 1052,
+  "score": 0.0769,
+  "inAdded": true
+ },
+ {
+  "zx": 80,
+  "sec": "矩阵",
+  "coreNo": 809,
+  "score": 0.0755,
+  "inAdded": true
+ },
+ {
+  "zx": 348,
+  "sec": "二次型",
+  "coreNo": 1052,
+  "score": 0.0755,
+  "inAdded": true
+ },
+ {
+  "zx": 264,
+  "sec": "特征值与特征向量",
+  "coreNo": 973,
+  "score": 0.0741,
+  "inAdded": true
+ },
+ {
+  "zx": 36,
+  "sec": "行列式",
+  "coreNo": 770,
+  "score": 0.0723,
+  "inAdded": true
+ },
+ {
+  "zx": 68,
+  "sec": "矩阵",
+  "coreNo": 710,
+  "score": 0.0714,
+  "inAdded": true
+ },
+ {
+  "zx": 334,
+  "sec": "二次型",
+  "coreNo": 1068,
+  "score": 0.0714,
+  "inAdded": true
+ },
+ {
+  "zx": 220,
+  "sec": "线性方程组",
+  "coreNo": 959,
+  "score": 0.0709,
+  "inAdded": true
+ },
+ {
+  "zx": 129,
+  "sec": "向量",
+  "coreNo": 871,
+  "score": 0.0708,
+  "inAdded": true
+ },
+ {
+  "zx": 91,
+  "sec": "矩阵",
+  "coreNo": 827,
+  "score": 0.0706,
+  "inAdded": true
+ },
+ {
+  "zx": 197,
+  "sec": "线性方程组",
+  "coreNo": 899,
+  "score": 0.0684,
+  "inAdded": true
+ },
+ {
+  "zx": 350,
+  "sec": "二次型",
+  "coreNo": 1034,
+  "score": 0.0682,
+  "inAdded": false
+ },
+ {
+  "zx": 23,
+  "sec": "行列式",
+  "coreNo": 760,
+  "score": 0.0667,
+  "inAdded": false
+ },
+ {
+  "zx": 139,
+  "sec": "向量",
+  "coreNo": 894,
+  "score": 0.0667,
+  "inAdded": true
+ },
+ {
+  "zx": 206,
+  "sec": "线性方程组",
+  "coreNo": 956,
+  "score": 0.0667,
+  "inAdded": true
+ },
+ {
+  "zx": 286,
+  "sec": "二次型",
+  "coreNo": 1062,
+  "score": 0.064,
+  "inAdded": true
+ },
+ {
+  "zx": 276,
+  "sec": "特征值与特征向量",
+  "coreNo": 737,
+  "score": 0.0635,
+  "inAdded": true
+ },
+ {
+  "zx": 58,
+  "sec": "矩阵",
+  "coreNo": 807,
+  "score": 0.0632,
+  "inAdded": true
+ },
+ {
+  "zx": 166,
+  "sec": "线性方程组",
+  "coreNo": 908,
+  "score": 0.0625,
+  "inAdded": true
+ },
+ {
+  "zx": 13,
+  "sec": "行列式",
+  "coreNo": 763,
+  "score": 0.0606,
+  "inAdded": true
+ },
+ {
+  "zx": 32,
+  "sec": "行列式",
+  "coreNo": 769,
+  "score": 0.0588,
+  "inAdded": true
+ },
+ {
+  "zx": 79,
+  "sec": "矩阵",
+  "coreNo": 841,
+  "score": 0.0571,
+  "inAdded": true
+ },
+ {
+  "zx": 59,
+  "sec": "矩阵",
+  "coreNo": 808,
+  "score": 0.0548,
+  "inAdded": true
+ },
+ {
+  "zx": 236,
+  "sec": "特征值与特征向量",
+  "coreNo": 978,
+  "score": 0.0548,
+  "inAdded": false
+ },
+ {
+  "zx": 19,
+  "sec": "行列式",
+  "coreNo": 757,
+  "score": 0.0526,
+  "inAdded": true
+ },
+ {
+  "zx": 119,
+  "sec": "向量",
+  "coreNo": 893,
+  "score": 0.0506,
+  "inAdded": true
+ },
+ {
+  "zx": 9,
+  "sec": "行列式",
+  "coreNo": 760,
+  "score": 0.05,
+  "inAdded": false
+ },
+ {
+  "zx": 349,
+  "sec": "二次型",
+  "coreNo": 1052,
+  "score": 0.0494,
+  "inAdded": false
+ },
+ {
+  "zx": 35,
+  "sec": "行列式",
+  "coreNo": 768,
+  "score": 0.0492,
+  "inAdded": true
+ },
+ {
+  "zx": 173,
+  "sec": "线性方程组",
+  "coreNo": 729,
+  "score": 0.0472,
+  "inAdded": true
+ },
+ {
+  "zx": 344,
+  "sec": "二次型",
+  "coreNo": 1052,
+  "score": 0.0458,
+  "inAdded": true
+ },
+ {
+  "zx": 131,
+  "sec": "向量",
+  "coreNo": 893,
+  "score": 0.0455,
+  "inAdded": true
+ },
+ {
+  "zx": 335,
+  "sec": "二次型",
+  "coreNo": 1054,
+  "score": 0.0449,
+  "inAdded": true
+ },
+ {
+  "zx": 26,
+  "sec": "行列式",
+  "coreNo": 751,
+  "score": 0.0435,
+  "inAdded": true
+ },
+ {
+  "zx": 102,
+  "sec": "矩阵",
+  "coreNo": 848,
+  "score": 0.043,
+  "inAdded": true
+ },
+ {
+  "zx": 72,
+  "sec": "矩阵",
+  "coreNo": 822,
+  "score": 0.0339,
+  "inAdded": false
+ },
+ {
+  "zx": 330,
+  "sec": "二次型",
+  "coreNo": 1058,
+  "score": 0.0333,
+  "inAdded": true
+ },
+ {
+  "zx": 331,
+  "sec": "二次型",
+  "coreNo": 1070,
+  "score": 0.0303,
+  "inAdded": true
+ },
+ {
+  "zx": 336,
+  "sec": "二次型",
+  "coreNo": 1032,
+  "score": 0.0264,
+  "inAdded": true
+ },
+ {
+  "zx": 337,
+  "sec": "二次型",
+  "coreNo": 742,
+  "score": 0.0258,
+  "inAdded": true
+ },
+ {
+  "zx": 351,
+  "sec": "二次型",
+  "coreNo": 1052,
+  "score": 0.0238,
+  "inAdded": true
+ },
+ {
+  "zx": 130,
+  "sec": "向量",
+  "coreNo": 854,
+  "score": 0.0223,
+  "inAdded": true
+ },
+ {
+  "zx": 229,
+  "sec": "特征值与特征向量",
+  "coreNo": 988,
+  "score": 0.0215,
+  "inAdded": true
+ },
+ {
+  "zx": 7,
+  "sec": "行列式",
+  "coreNo": null,
+  "score": 0,
+  "inAdded": true
+ },
+ {
+  "zx": 18,
+  "sec": "行列式",
+  "coreNo": null,
+  "score": 0,
+  "inAdded": true
+ },
+ {
+  "zx": 22,
+  "sec": "行列式",
+  "coreNo": null,
+  "score": 0,
+  "inAdded": true
+ },
+ {
+  "zx": 29,
+  "sec": "行列式",
+  "coreNo": null,
+  "score": 0,
+  "inAdded": true
+ },
+ {
+  "zx": 73,
+  "sec": "矩阵",
+  "coreNo": null,
+  "score": 0,
+  "inAdded": true
+ },
+ {
+  "zx": 333,
+  "sec": "二次型",
+  "coreNo": null,
+  "score": 0,
+  "inAdded": true
+ }
+]
