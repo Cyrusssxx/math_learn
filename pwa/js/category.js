@@ -1372,6 +1372,10 @@ function applySrcMode(persist) {
         try { localStorage.setItem(SRC_MODE_KEY, 'exam'); } catch (e) { }
     }
     papers = (srcMode === 'core') ? corePapers : examPapers;
+    // 切到核心题库时并入本地增补题（catDeep 未就绪的首次初始化由 init 里那次并入兜底）
+    if (srcMode === 'core' && window.CoreExtra && catDeep) {
+        try { CoreExtra.mergeInto(corePapers, catDeep); } catch (e) { }
+    }
     const meta = SRC_META[srcMode] || SRC_META.exam;
     const btn = document.getElementById('srcToggle');
     if (btn) {
@@ -1748,6 +1752,11 @@ function catCard(paper, secTitle, q) {
         : paper.id === 'bank'
         ? (paper.year ? `<span class="q-year"><span class="q-year-tag">${paper.year}年</span></span>` : '')
         : `<span class="q-year"><a href="${paperLink}" title="在真题页打开此套卷">${paper.year}年</a></span>`;
+    // 「收到核心题库」：非核心题库来源的题可一键收进核心题库（本地增补层）
+    const isCoreSrc = paper.id === 'core';
+    const addedCore = !isCoreSrc && window.CoreExtra && CoreExtra.has(q);
+    const addCoreBtn = isCoreSrc ? '' :
+        `<button class="q-op q-add-core${addedCore ? ' has' : ''}" onclick="coreAddFromCard(this)" title="收进核心题库（本机保存；首页可导出）">${addedCore ? '✅ 已收进核心题库' : '📥 收到核心题库'}</button>`;
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
             <span class="q-no">${q.no}</span>
@@ -1774,12 +1783,50 @@ function catCard(paper, secTitle, q) {
             ${tipsBtn}
             <button class="q-op${hasNote ? ' has' : ''}" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>
             <button class="q-op q-note-editbtn${hasNote ? ' saved' : ''}" onclick="toggleNoteEdit(this)" title="编辑笔记（编辑中点击保存）">✏️ 编辑</button>
+            ${addCoreBtn}
         </div>
         ${ideaHtml}${tipsHtml}${noteHtml}
         <div class="q-sec q-answer" data-copy-md="${copyMdAttr(q.answer || '')}" data-copy-key="answer" hidden><div class="q-answer-body">${mdBlock(q.answer || '')}</div></div>
     </div>`;
 }
 
+
+// ===== 「收到核心题库」：把当前卡片的题收进核心题库本地增补层 =====
+function catToast(msg) {
+    let el = document.getElementById('catToast');
+    if (!el) {
+        el = document.createElement('div');
+        el.id = 'catToast';
+        el.setAttribute('style', 'position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:9999;' +
+            'background:var(--accent,#2b8a6b);color:#fff;padding:9px 16px;border-radius:8px;font-size:14px;' +
+            'box-shadow:0 3px 12px rgba(0,0,0,.28);max-width:80vw;text-align:center;transition:opacity .25s');
+        document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.opacity = '1';
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.style.opacity = '0'; }, 2600);
+}
+function coreAddFromCard(btn) {
+    if (!window.CoreExtra) { catToast('核心增补模块未加载'); return; }
+    const card = btn.closest('.q-card');
+    if (!card) return;
+    const qid = card.id.replace(/^q-/, '');
+    let ent = allEntries.find(e => qidOf(e.paper.id, e.q.no) === qid);
+    if (!ent) {   // 兜底：qid 重定向等情况下按题号再找一次
+        const qno = card.dataset.qno;
+        ent = allEntries.find(e => String(e.q.no) === String(qno));
+    }
+    if (!ent) { catToast('未找到题目数据'); return; }
+    const r = CoreExtra.add(ent.q, { paperId: ent.paper.id, srcNo: ent.q.no });
+    if (r.ok) {
+        btn.textContent = '✅ 已收进核心题库';
+        btn.classList.add('has');
+        catToast('已收进核心题库（本机）· 新题号 ' + r.no + '，切到「核心题库」即可看到');
+    } else {
+        catToast(r.msg || '添加失败');
+    }
+}
 
 // 状态按钮点击：互斥切换不熟/不会，刷新按钮态 + 若正在搜索结果中刷新列表
 function toggleQStatus(btn, qid, v) {
@@ -3036,6 +3083,13 @@ async function init() {
     // 其余步骤（buildEntries / buildDeepIndex / renderTree / renderNav）保持不变 ——
     // activeEntries() 等依赖它们，跳过会引入不可预知的副作用。
     if (!REVIEW_MODE && !PAPER_MODE) await loadCatDeep();
+    // 本地「收到核心题库」增补层：把用户手动收进来的题并进 corePapers（需 catDeep 解析章节）
+    try {
+        if (window.CoreExtra && corePapers && corePapers.length) {
+            const n = CoreExtra.mergeInto(corePapers, catDeep);
+            if (n) console.info('[核心增补] 并入', n, '题');
+        }
+    } catch (e) { console.warn('核心增补并入失败', e); }
     buildEntries();
     if (!PAPER_MODE) buildDeepIndex();   // 拼卷左栏是历史卷列表，不需要细分类索引
     if (!PAPER_MODE) renderTree();       // ⚠️ 必须跳过：否则分类树会覆盖左栏的卷列表

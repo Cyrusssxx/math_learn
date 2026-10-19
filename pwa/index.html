@@ -53,6 +53,9 @@
                 <button onclick="Annot.openRecover()" title="找回因笔记内容变动而丢失位置的标注">恢复</button>
                 <button onclick="document.getElementById('annImport').click()" title="从备份恢复标注（合并）">导入</button>
                 <input type="file" id="annImport" accept="application/json" style="display:none" onchange="Annot.importAnnot(this)">
+                <button onclick="exportCoreExtra()" title="导出分类页「收到核心题库」手动收进来的题（本机增补），便于备份或并入 core_bank.json">导出核心增补</button>
+                <button onclick="document.getElementById('coreExtraImport').click()" title="从备份导入核心增补（合并，自动去重）">导入增补</button>
+                <input type="file" id="coreExtraImport" accept="application/json" style="display:none" onchange="importCoreExtra(this)">
             </span>
         </div>
     </aside>
@@ -72,7 +75,7 @@
     <button class="toc-collapse" id="tocCollapse" onclick="toggleTocCollapse()" title="收起目录" aria-label="收起目录">›</button>
     <aside class="toc" id="tocPane"></aside>
 
-    <script src="js/common.js?v=15fdc1a1"></script>
+    <script src="js/common.js?v=0372b086"></script>
     <script defer src="vendor/katex/katex.min.js"></script>
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/annotate.js?v=acd3a239"></script>

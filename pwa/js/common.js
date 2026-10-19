@@ -515,3 +515,55 @@ async function importAllData(fileInput) {
     alert('导入完成！页面即将刷新。');
     setTimeout(() => location.reload(), 600);
 }
+
+// ============ 核心题库「收到核心题库」增补：导出 / 导入 ============
+// 增补题存在 localStorage 的 coreExtraV1（分类题库页卡片上的 📥 按钮写入）。
+// 导出给用户备份/换设备；导入按「题源+题干」去重合并。
+function exportCoreExtra() {
+    let items = [];
+    try { items = JSON.parse(localStorage.getItem('coreExtraV1') || '[]') || []; } catch (e) { }
+    if (!items.length) {
+        alert('还没有收进核心题库的题。\n\n在「分类题库」页任意题目卡片上点「📥 收到核心题库」即可。');
+        return;
+    }
+    const payload = { app: 'math-note', v: 1, kind: 'core-extra', exportedAt: new Date().toISOString(), items };
+    const blob = new Blob([JSON.stringify(payload, null, 1)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '核心题库增补-' + dayKeyOf() + '.json';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 30000);
+    alert('已导出 ' + items.length + ' 道核心增补题。\n\n如需永久并入线上核心题库，把这个文件发给我即可。');
+}
+function importCoreExtra(input) {
+    const f = input && input.files && input.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => {
+        try {
+            const o = JSON.parse(rd.result);
+            const items = Array.isArray(o) ? o : (o.items || []);
+            let arr = [];
+            try { arr = JSON.parse(localStorage.getItem('coreExtraV1') || '[]') || []; } catch (e) { }
+            const sig = q => String(q.source || '').trim() + '||' +
+                String(q.stem || '').replace(/\s+/g, '').slice(0, 120);
+            const seen = new Set(arr.map(sig));
+            let no = 9000;
+            for (const x of arr) if ((x.no || 0) > no) no = x.no;
+            let added = 0;
+            for (const q of items) {
+                if (!q || seen.has(sig(q))) continue;
+                no++;
+                arr.push(Object.assign({}, q, { no: no, custom: true }));
+                seen.add(sig(q));
+                added++;
+            }
+            localStorage.setItem('coreExtraV1', JSON.stringify(arr));
+            alert('已导入 ' + added + ' 道（当前共 ' + arr.length + ' 道增补）。\n刷新「分类题库」页后生效。');
+        } catch (e) {
+            alert('导入失败：' + e.message);
+        }
+        input.value = '';
+    };
+    rd.readAsText(f);
+}
