@@ -2107,13 +2107,22 @@ function ppWeight(qid, st, isFav) {
     return isFav ? 1 : 0;
 }
 
-/** 真实题型。⚠️ q.kind 不可靠（解答题也标 blank），必须看 section.title */
+/** 真实题型。⚠️ q.kind 不可靠（解答题也标 blank），优先看 section.title；
+ *  章节式题库（核心题库/大观园）节名不含题型 → 再按题目自身特征判定：
+ *  有选项/kind=choice → 选择；有填空横线（含 \text{\_\_\_} 写法）或「（）」且非证明 → 填空；其余 → 解答 */
 function ppKindOf(secTitle, q) {
     const t = secTitle || '';
     if (t.indexOf('选择') >= 0) return '选择';
     if (t.indexOf('填空') >= 0) return '填空';
     if (t.indexOf('解答') >= 0) return '解答';
-    return q.kind === 'choice' ? '选择' : '解答';   // 兜底：大观园库无 section 时的猜测
+    const stem = String((q && q.stem) || '');
+    if ((q && q.options && q.options.length) || (q && q.kind === 'choice')) return '选择';
+    const isProof = (q && q.kind === 'proof') || /证明/.test(stem);
+    if (!isProof) {
+        // 填空特征：连续下划线（含 \text{\_\_\_} 的转义写法）或题干以「（）」收尾
+        if (/_{2,}|＿{2,}|\\text\{\\?_|（\s*）\s*$/.test(stem)) return '填空';
+    }
+    return '解答';
 }
 
 /** catId → 章（12 节之一）。运行时从 core_bank 的节归属取众数 ——
@@ -2215,18 +2224,27 @@ function ppSample(arr, k) {
  *  所以不再满足 5 章就早停）。返回 { items, chapters, pool, short } */
 function ppBuild() {
     const pool = ppBuildPool();
+    // 选填共 16 题（数二：10 选择 + 6 填空，每题 5 分）。选择题不够时用填空题补足 16 个选填位。
+    const CHOICE_MAX = PP_SHAPE[0].scores.length;                       // 10
+    const TIANXUAN_N = PP_SHAPE[0].scores.length + PP_SHAPE[1].scores.length;  // 16
+    const AN_SCORES = PP_SHAPE[2].scores;                               // [12,12,12,12,11,11]
     let best = null;
     for (let t = 0; t < PP_RETRY; t++) {
         const picked = [];
-        for (const seg of PP_SHAPE) {
-            const got = ppSample(pool[seg.kind], seg.scores.length);
-            got.forEach((it, i) => picked.push(Object.assign({}, it, {
-                kind: seg.kind, score: seg.scores[i],
-            })));
+        // ① 选填 16 位：先抽选择（≤10），差额用填空补齐（都按 5 分计）
+        const ch = ppSample(pool['选择'], CHOICE_MAX);
+        ch.forEach(it => picked.push(Object.assign({}, it, { kind: '选择', score: 5 })));
+        const needFill = TIANXUAN_N - ch.length;
+        if (needFill > 0) {
+            ppSample(pool['填空'], needFill).forEach(it =>
+                picked.push(Object.assign({}, it, { kind: '填空', score: 5 })));
         }
+        // ② 解答 6 题
+        ppSample(pool['解答'], AN_SCORES.length).forEach((it, i) =>
+            picked.push(Object.assign({}, it, { kind: '解答', score: AN_SCORES[i] })));
         if (!picked.length) break;
         const chs = [];
-        for (const it of picked) { const ch = ppChapterOf(it.q); if (ch && chs.indexOf(ch) < 0) chs.push(ch); }
+        for (const it of picked) { const ch2 = ppChapterOf(it.q); if (ch2 && chs.indexOf(ch2) < 0) chs.push(ch2); }
         const rec = { items: picked, chapters: chs, pool, short: false };
         if (!best || chs.length > best.chapters.length) best = rec;   // 取覆盖最多
     }
@@ -2384,9 +2402,13 @@ function ppRender() {
     }
     const total = items.reduce((a, it) => a + (it.score || 0), 0);
     const nCh = (ppCur.chapters || []).length;
+    const nChoice = items.filter(it => it.kind === '选择').length;
+    const nFill = items.filter(it => it.kind === '填空').length;
+    const fillNote = (nChoice < PP_SHAPE[0].scores.length && nFill > PP_SHAPE[1].scores.length)
+        ? `｜选择题不足，已用填空题补足 ${PP_SHAPE[0].scores.length + PP_SHAPE[1].scores.length} 个选填位` : '';
     let html = `<div class="paper-head">
         <h1>🎲 拼卷 · ${ppFmtTs(ppCur.ts)}</h1>
-        <div class="paper-sub">共 ${items.length} 题 · ${total} 分｜${c.unknown} 不会 · ${c.unfamiliar} 不熟 · ${c.plain} 仅收藏${nCh ? '｜覆盖 ' + nCh + ' 章' : ''}</div>
+        <div class="paper-sub">共 ${items.length} 题 · ${total} 分｜${c.unknown} 不会 · ${c.unfamiliar} 不熟 · ${c.plain} 仅收藏${nCh ? '｜覆盖 ' + nCh + ' 章' : ''}${fillNote}</div>
         <div class="pp-bar">
             <button class="exam-btn" onclick="ppNew()" title="按同样的规则重新抽一份">🎲 重新拼卷</button>
             <div class="pp-timer">
