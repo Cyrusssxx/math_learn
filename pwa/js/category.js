@@ -2898,6 +2898,8 @@ function onChapterNodeEnter(nodeEl, chId) {
         }
     }
     if (!sub[root]) { scheduleHideDeepFly(60); return; }
+    // 与 onCatNodeEnter 同：根下没有有题的子分支就不弹（避免只剩「本级·未细分」）
+    if (!(deepChildrenView[root] || []).some(c => (sub[c] || 0) > 0)) { scheduleHideDeepFly(60); return; }
     _flySub = sub;
     _flyDirect = direct;
     clearTimeout(_flyHideTimer);
@@ -3000,6 +3002,10 @@ function onCatNodeEnter(nodeEl, catId) {
     // 计数按「被悬停的这个知识点」统计，与点击后列表口径一致
     const { sub, direct } = deepCountsForCat(catId);
     if (!sub[root]) { scheduleHideDeepFly(60); return; }
+    // 细分类根下没有任何有题的子分支 → 题目全挂在「本级」，弹出来只会得到
+    // 「▸ 本级（未细分）+ 该分支下暂无细分类题目」，没有可浏览的下分支，干脆不弹
+    const kids = (deepChildrenView[root] || []).filter(c => (sub[c] || 0) > 0);
+    if (!kids.length) { scheduleHideDeepFly(60); return; }
     _flySub = sub;
     _flyDirect = direct;
     clearTimeout(_flyHideTimer);
