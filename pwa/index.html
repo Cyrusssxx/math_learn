@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="icons/icon-192.png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
-    <link rel="stylesheet" href="css/notes.css?v=e8d0e2b0">
+    <link rel="stylesheet" href="css/notes.css?v=cb2f7719">
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -45,20 +45,37 @@
         </nav>
         <div class="side-foot">
             <span id="navTimer" title="今日阅读时长（切换到其他窗口时暂停）">⏱ 00:00:00</span>
-            <span class="foot-btns">
-                <button onclick="exportAllData()" title="备份全部做题数据（收藏 / 不熟不会标记 / 做题笔记 / 每日做题 / 历史拼卷 / 好题与精选收藏 / 笔记贴图）到一个 JSON 文件">导出数据</button>
-                <button onclick="document.getElementById('allImport').click()" title="从全量备份恢复：覆盖当前设备的收藏 / 标记 / 做题笔记 / 每日做题 / 历史拼卷 / 贴图（换设备用）">导入数据</button>
-                <input type="file" id="allImport" accept="application/json" style="display:none" onchange="importAllData(this)">
-                <button onclick="Annot.exportAnnot()" title="备份全部荧光/批注到 JSON 文件">导出标注</button>
-                <button onclick="Annot.openRecover()" title="找回因笔记内容变动而丢失位置的标注">恢复</button>
-                <button onclick="document.getElementById('annImport').click()" title="从备份恢复标注（合并）">导入</button>
-                <input type="file" id="annImport" accept="application/json" style="display:none" onchange="Annot.importAnnot(this)">
-                <button onclick="exportCoreExtra()" title="导出分类页「收到核心题库」手动收进来的题（本机增补），便于备份或并入 core_bank.json">导出核心增补</button>
-                <button onclick="document.getElementById('coreExtraImport').click()" title="从备份导入核心增补（合并，自动去重）">导入增补</button>
-                <input type="file" id="coreExtraImport" accept="application/json" style="display:none" onchange="importCoreExtra(this)">
-            </span>
+            <button class="foot-gear" id="footGear" onclick="toggleFootPanel(event)"
+                    title="设置：数据备份 / 荧光与批注" aria-label="设置" aria-expanded="false">⚙️</button>
         </div>
     </aside>
+
+    <!-- 设置面板：原来底部一排 8 个按钮全挤在这里，收成一个齿轮 + 弹层 -->
+    <div class="foot-panel" id="footPanel" hidden role="dialog" aria-label="设置">
+        <div class="foot-panel-head">
+            <span>设置</span>
+            <button class="foot-panel-close" onclick="closeFootPanel()" aria-label="关闭">✕</button>
+        </div>
+        <div class="foot-sec">
+            <label>数据备份 · 换设备用</label>
+            <div class="foot-row">
+                <button class="foot-btn" onclick="exportAllData()" title="备份全部做题数据（收藏 / 不熟不会标记 / 做题笔记 / 每日做题 / 历史拼卷 / 好题与精选收藏 / 笔记贴图）到一个 JSON 文件">导出数据</button>
+                <button class="foot-btn" onclick="document.getElementById('allImport').click()" title="从全量备份恢复：覆盖当前设备的收藏 / 标记 / 做题笔记 / 每日做题 / 历史拼卷 / 贴图">导入数据</button>
+            </div>
+            <span class="foot-hint">含收藏、标记、做题笔记、拼卷历史、贴图。</span>
+        </div>
+        <div class="foot-sec">
+            <label>荧光与批注</label>
+            <div class="foot-row">
+                <button class="foot-btn" onclick="Annot.exportAnnot()" title="备份全部荧光 / 批注到 JSON 文件">导出标注</button>
+                <button class="foot-btn" onclick="document.getElementById('annImport').click()" title="从备份恢复标注（合并，不覆盖现有标注）">导入标注</button>
+                <button class="foot-btn" onclick="Annot.openRecover()" title="找回因笔记内容变动而丢失位置的标注">恢复丢失标注</button>
+            </div>
+            <span class="foot-hint">「导入标注」是合并；「恢复」用于笔记改过之后重新锚定。</span>
+        </div>
+    </div>
+    <input type="file" id="allImport" accept="application/json" style="display:none" onchange="importAllData(this)">
+    <input type="file" id="annImport" accept="application/json" style="display:none" onchange="Annot.importAnnot(this)">
 
     <!-- 左栏收起按钮（贴文件目录右缘，点击向左收起） -->
     <button class="side-collapse" id="sideCollapse" onclick="toggleSideCollapse()" title="收起目录" aria-label="收起目录">‹</button>
@@ -74,6 +91,54 @@
     <!-- 右栏：本页目录（左侧贴边按钮可向左收起） -->
     <button class="toc-collapse" id="tocCollapse" onclick="toggleTocCollapse()" title="收起目录" aria-label="收起目录">›</button>
     <aside class="toc" id="tocPane"></aside>
+
+    <!-- 设置面板交互：点击齿轮弹出、点外部/按 Esc 关闭 -->
+    <script>
+(function () {
+    var panel = null, gear = null;
+    function el(id) { return document.getElementById(id); }
+
+    function outside(ev) {
+        if (!panel || panel.hidden) return;
+        if (panel.contains(ev.target)) return;
+        if (gear && (ev.target === gear || gear.contains(ev.target))) return;
+        closeFootPanel();
+    }
+
+    window.closeFootPanel = function () {
+        if (!panel) { panel = el('footPanel'); gear = el('footGear'); }
+        if (panel) panel.hidden = true;
+        if (gear) gear.setAttribute('aria-expanded', 'false');
+        document.removeEventListener('click', outside, true);
+    };
+
+    window.toggleFootPanel = function (ev) {
+        if (ev) ev.stopPropagation();
+        panel = el('footPanel'); gear = el('footGear');
+        if (!panel || !gear) return;
+        if (!panel.hidden) { window.closeFootPanel(); return; }
+
+        panel.hidden = false;
+        // 先显示再量尺寸，才能算准位置；弹在齿轮上方，越界则翻到下方
+        var r = gear.getBoundingClientRect();
+        var w = panel.offsetWidth, h = panel.offsetHeight;
+        var left = Math.min(Math.max(8, r.right - w), window.innerWidth - w - 8);
+        var top = r.top - h - 8;
+        if (top < 8) top = Math.min(r.bottom + 8, window.innerHeight - h - 8);
+        panel.style.left = left + 'px';
+        panel.style.top = Math.max(8, top) + 'px';
+        gear.setAttribute('aria-expanded', 'true');
+        // 捕获阶段监听：面板内点击不会冒泡到外面误关
+        setTimeout(function () { document.addEventListener('click', outside, true); }, 0);
+    };
+
+    document.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Escape') window.closeFootPanel();
+    });
+    // 侧栏收起 / 窗口缩放时，面板位置会失效，直接关掉
+    window.addEventListener('resize', function () { window.closeFootPanel(); });
+})();
+    </script>
 
     <script src="js/common.js?v=0372b086"></script>
     <script defer src="vendor/katex/katex.min.js"></script>

@@ -304,23 +304,58 @@ html.dark .exam-link:hover { color: #1e1e2e; }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 16px;
+    padding: 5px 12px;          /* 2026-10-20：原来 10px 16px，收成一条细行 */
     border-top: 1px solid var(--border);
-    font-size: 12px;
+    font-size: 11.5px;
     color: var(--text-faint);
 }
 
-.foot-btns { display: flex; gap: 6px; }
-.foot-btns button {
-    border: 1px solid var(--border);
-    background: var(--bg);
-    color: var(--text-dim);
-    border-radius: 6px;
-    padding: 2px 8px;
-    font-size: 12px;
-    cursor: pointer;
+/* 底部设置入口：原来 8 个按钮横排挤在这一行，改成一个齿轮 + 弹层 */
+.foot-gear {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 23px; padding: 0;
+    border: 1px solid var(--border); border-radius: 7px;
+    background: var(--bg); color: var(--text-dim);
+    font-size: 12.5px; line-height: 1; cursor: pointer;
+    transition: background .12s, color .12s, border-color .12s;
 }
-.foot-btns button:hover { background: var(--bg-hover); color: var(--text); }
+.foot-gear:hover { background: var(--bg-hover); color: var(--text); }
+.foot-gear[aria-expanded="true"] { background: var(--bg-hover); color: var(--text); border-color: var(--accent); }
+
+.foot-panel {
+    position: fixed; z-index: 400; width: 252px; box-sizing: border-box;
+    padding: 10px 12px 12px;
+    border: 1px solid var(--border); border-radius: 12px;
+    background: var(--bg); color: var(--text);
+    box-shadow: 0 10px 34px rgba(0, 0, 0, .2);
+}
+.foot-panel[hidden] { display: none; }
+.foot-panel-head {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; font-weight: 700;
+}
+.foot-panel-close {
+    border: 0; background: transparent; color: var(--text-dim);
+    cursor: pointer; font-size: 13px; padding: 2px 4px; border-radius: 4px;
+}
+.foot-panel-close:hover { background: var(--bg-hover); color: var(--text); }
+.foot-sec { margin-top: 10px; }
+.foot-sec > label {
+    display: block; font-size: 11.5px; font-weight: 600;
+    color: var(--text-dim); margin-bottom: 6px;
+}
+.foot-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.foot-btn {
+    border: 1px solid var(--border); border-radius: 7px;
+    background: var(--bg); color: var(--text);
+    padding: 4px 9px; font-size: 12px; cursor: pointer;
+    transition: background .12s, border-color .12s;
+}
+.foot-btn:hover { background: var(--bg-hover); border-color: var(--accent); }
+.foot-hint {
+    display: block; margin-top: 6px;
+    font-size: 11px; color: var(--text-faint); line-height: 1.5;
+}
 
 /* ============ 中栏：正文 ============ */
 .doc {
@@ -1280,7 +1315,8 @@ sup.fml-note-mark { cursor: pointer; color: var(--accent); font-size: .7em; marg
 .review-dot,
 .nav-q,
 .menu-btn,
-.foot-btns button,
+.foot-btn,
+.foot-gear,
 .search-chips button,
 .q-note textarea,
 .ann-edit,
@@ -1340,7 +1376,8 @@ html.dark .review-btn,
 html.dark .review-dot,
 html.dark .nav-q,
 html.dark .menu-btn,
-html.dark .foot-btns button,
+html.dark .foot-btn,
+html.dark .foot-gear,
 html.dark .search-chips button,
 html.dark .q-note textarea,
 html.dark .ann-edit,
