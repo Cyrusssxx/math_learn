@@ -1396,10 +1396,91 @@ function applySrcMode(persist) {
     }
     const t = document.querySelector('.exam-title');
     if (t) t.textContent = meta.title;
-    const sub = document.getElementById('examSub');
-    if (sub) { sub.textContent = meta.sub || ''; sub.hidden = !meta.sub; }   // 无副标题时整块隐藏
+    renderExamSub(meta);
     if (persist) { try { localStorage.setItem(SRC_MODE_KEY, srcMode); } catch (e) { } }
 }
+
+/* ============ 副标题：真题模式是普通文案；核心题库模式是紧凑小块 + 悬停看分章明细 ============ */
+const SUB_GAO = ['极限', '一元微分', '一元积分', '多元微分', '二重积分', '微分方程'];
+const SUB_LA = ['行列式', '矩阵', '向量', '线性方程组', '特征值与特征向量', '二次型'];
+
+function subCounts() {
+    const cnt = {};
+    for (const p of (corePapers || [])) {
+        for (const s of (p.sections || [])) for (const q of (s.questions || [])) cnt[s.title] = (cnt[s.title] || 0) + 1;
+    }
+    const sum = ks => ks.reduce((a, k) => a + (cnt[k] || 0), 0);
+    return { cnt, gao: sum(SUB_GAO), la: sum(SUB_LA) };
+}
+
+function renderExamSub(meta) {
+    const sub = document.getElementById('examSub');
+    if (!sub) return;
+    const txt = meta.sub || '';
+    sub.hidden = !txt;
+    hideSubFly();
+    if (!txt) { sub.innerHTML = ''; return; }
+    if (srcMode !== 'core') { sub.textContent = txt; return; }
+    // 核心题库:紧凑 pill(分章明细靠悬停展开,见 showSubFly)
+    const c = subCounts();
+    sub.innerHTML = '<span class="sub-pill" id="subPill" tabindex="0" role="img" '
+        + 'title="悬停查看核心题库分章明细" '
+        + 'aria-label="核心题库构成:高数 ' + c.gao + ' 题,线代臻选题 ' + c.la + ' 题,悬停查看明细">'
+        + '<b>高数</b>' + c.gao + ' 题 + <b>线代臻选</b>' + c.la + ' 题'
+        + '<i>▾</i></span>';
+}
+
+function subFlyHtml() {
+    const { cnt, gao, la } = subCounts();
+    const row = (k, n) => '<div class="sub-fly-row"><span>' + k + '</span><b>' + (n || 0) + '</b></div>';
+    return '<div class="sub-fly-t">核心题库构成 · 共 ' + (gao + la) + ' 题</div>'
+        + row('高数', gao) + SUB_GAO.map(k => row('· ' + k, cnt[k])).join('')
+        + '<div class="sub-fly-hr"></div>'
+        + row('线代臻选题(全面替代原线代)', la) + SUB_LA.map(k => row('· ' + k, cnt[k])).join('')
+        + '<div class="sub-fly-note">线代六章由《线代臻选题》全量重建(共 ' + la
+        + ' 题,与 PDF 扉页一致),已替代原核心题库线代;高数部分不变。</div>';
+}
+
+function showSubFly(anchor) {
+    let fly = document.getElementById('subFly');
+    if (!fly) {
+        fly = document.createElement('div');
+        fly.id = 'subFly'; fly.className = 'sub-fly'; fly.hidden = true;
+        document.body.appendChild(fly);
+        fly.addEventListener('mouseenter', () => clearTimeout(_subFlyTimer));
+        fly.addEventListener('mouseleave', () => hideSubFly(120));
+    }
+    fly.innerHTML = subFlyHtml();
+    fly.hidden = false;
+    const r = anchor.getBoundingClientRect(), w = fly.offsetWidth, h = fly.offsetHeight;
+    let left = Math.min(r.left, window.innerWidth - w - 10);
+    let top = r.bottom + 8;
+    if (top + h > window.innerHeight - 8) top = Math.max(8, r.top - h - 8);
+    fly.style.left = Math.max(8, left) + 'px';
+    fly.style.top = top + 'px';
+}
+let _subFlyTimer = null;
+function hideSubFly(delay) {
+    clearTimeout(_subFlyTimer);
+    _subFlyTimer = setTimeout(() => { const f = document.getElementById('subFly'); if (f) f.hidden = true; }, delay == null ? 0 : delay);
+}
+
+/* 悬停/聚焦展开详情（事件委托挂在 #examSub 上，renderExamSub 重建 innerHTML 后依然有效） */
+(function bindSubPill() {
+    const bind = () => {
+        const host = document.getElementById('examSub');
+        if (!host || host.dataset.subBound) return;
+        host.dataset.subBound = '1';
+        host.addEventListener('mouseover', e => { const p = e.target.closest && e.target.closest('.sub-pill'); if (p) showSubFly(p); });
+        host.addEventListener('mouseout', e => {
+            const p = e.target.closest && e.target.closest('.sub-pill');
+            if (p && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('#subFly'))) hideSubFly(140);
+        });
+        host.addEventListener('focusin', e => { const p = e.target.closest && e.target.closest('.sub-pill'); if (p) showSubFly(p); });
+        host.addEventListener('focusout', () => hideSubFly(80));
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind); else bind();
+})();
 
 function toggleSrcMode() {
     // 两态循环：exam ⇄ core

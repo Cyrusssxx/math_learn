@@ -11,7 +11,7 @@
     <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
     <link rel="stylesheet" href="css/notes.css?v=e8d0e2b0">
     <link rel="stylesheet" href="css/exam.css?v=3cd466c8">
-    <link rel="stylesheet" href="css/category.css?v=519cedbb">
+    <link rel="stylesheet" href="css/category.css?v=b5f76ab3">
     <link rel="stylesheet" href="css/analysis.css?v=a6201435">
     <link rel="stylesheet" href="css/mastery.css?v=0d6b5ffc">
     <link rel="stylesheet" href="css/advice.css?v=0bcf771f">
@@ -45,6 +45,7 @@
                 <button class="cat-search-clear" id="catSearchClear" style="display:none" onclick="clearCatSearch()" title="清除搜索">✕</button>
             </div>
             <button class="exam-btn" onclick="toggleDark()" title="切换夜间模式">🌙 <span id="darkState">关</span></button>
+            <button class="exam-btn" onclick="exportAllData()" title="导出全部做题数据:收藏 / 标记 / 笔记 / 拼卷历史 / 贴图,存成一个 JSON 文件,换设备时用「笔记」页的「导入数据」一键恢复">⬇️ 导出数据</button>
             <a class="exam-btn" href="exam.html" title="返回真题页">📝 真题页</a>
             <a class="exam-btn" href="index.html" title="打开笔记站">📚 笔记</a>
         </div>
@@ -75,7 +76,7 @@
     <script defer src="vendor/katex/katex.min.js"></script>
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/core-extra.js?v=2088dfed"></script>
-    <script defer src="js/category.js?v=a7949fd9"></script>
+    <script defer src="js/category.js?v=658c1b1e"></script>
     <script defer src="js/mastery.js?v=b07a4da3"></script>
     <script defer src="js/advice.js?v=ad875048"></script>
 

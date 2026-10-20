@@ -379,13 +379,44 @@ html.dark .bg-btn:hover { background: #2d3640; }
 .cat-chapter-name, .cat-chapter-head .cat-count { cursor: pointer; }
 .paper-group-name:hover, .cat-chapter-name:hover { text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
 
-/* ============ 顶栏压缩：让所有按钮在同一行（小屏仍允许换行） ============ */
-.exam-topbtns { gap: 6px; row-gap: 6px; flex-wrap: nowrap; }
-.exam-topbtns .exam-btn { padding: 4px 9px; font-size: 12.5px; }
-.exam-topbtns .cat-mark { padding: 3px 8px; font-size: 12.5px; }
-.exam-topbtns .cat-search { width: 158px; font-size: 12.5px; }
-.exam-topbtns .cat-search:focus { width: 200px; }
-@media (max-width: 1400px) { .exam-topbtns { flex-wrap: wrap; } }
+/* ============ 顶栏压缩:让所有按钮在同一行(小屏才整体换行) ============ */
+.exam-topbtns { gap: 4px; row-gap: 4px; flex-wrap: nowrap; }
+/* 按钮一律不收缩、不换行:要么整排排下,要么由容器整体换行兜底。
+   否则 .cat-marks 这类内层 flex-wrap 容器被挤后会「自己竖着换行」,把顶栏撑两三行。 */
+.exam-topbtns > * { flex-shrink: 0; }
+.exam-topbtns .cat-marks { flex-wrap: nowrap; }
+.exam-topbtns .exam-btn { padding: 4px 6px; font-size: 12.5px; }
+.exam-topbtns .cat-mark { padding: 3px 5px; font-size: 12.5px; }
+.exam-topbtns .cat-search { width: 124px; font-size: 12.5px; }
+.exam-topbtns .cat-search:focus { width: 186px; }
+/* 只有真的排不下(窄屏 / 移动端)才整体换行 */
+@media (max-width: 1359px) { .exam-topbtns { flex-wrap: wrap; } }
+
+/* 副标题信息小块：默认只显示紧凑汇总，悬停才展开分章明细（占位从 330px 收到 ~150px，
+   把空间让给顶栏按钮，窄屏也能保持一排） */
+.sub-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 2px; padding: 1px 8px;
+    border: 0.5px solid var(--border); border-radius: 999px;
+    background: var(--bg-hover);
+    font-size: 11px; line-height: 1.7; color: var(--text-dim);
+    white-space: nowrap; cursor: default; user-select: none;
+    transition: color .12s, border-color .12s;
+}
+.sub-pill:hover, .sub-pill:focus-visible { color: var(--text); border-color: var(--accent); outline: none; }
+.sub-pill b { font-weight: 500; color: var(--text); }
+.sub-pill i { font-style: normal; color: var(--text-faint); margin-left: 2px; font-size: 10.5px; }
+.sub-fly {
+    position: fixed; z-index: 60; min-width: 220px; max-width: 320px;
+    padding: 10px 13px; border: 0.5px solid var(--border); border-radius: 8px;
+    background: var(--bg); box-shadow: 0 6px 24px rgba(0, 0, 0, .16);
+    font-size: 12px; line-height: 1.8; color: var(--text-dim);
+}
+.sub-fly-t { font-weight: 500; color: var(--text); margin-bottom: 5px; font-size: 12.5px; }
+.sub-fly-row { display: flex; justify-content: space-between; gap: 14px; }
+.sub-fly-row b { font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; }
+.sub-fly-hr { border-top: 0.5px solid var(--border); margin: 6px 0; }
+.sub-fly-note { margin-top: 6px; font-size: 11.5px; color: var(--text-faint); line-height: 1.6; }
 
 /* ============ 复测页（category.html?review=1） ============ */
 body.review-mode .exam-wrap { grid-template-columns: 1fr; }
