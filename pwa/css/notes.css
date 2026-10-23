@@ -776,10 +776,12 @@ html.dark .note-article mark.search-hit {
 
 /* ============ 用户标注：荧光 / 批注 / 浮动工具条 ============ */
 /* 选中文字荧光 */
+/* 选中文字荧光：半高亮（只涂下半截，上沿留白）——整块实心色压在字上对比太强，
+   用户 2026-10-23 选定方案 3。字的上半截不涂色，视觉上不压字，但仍有「划过」的辨识度。 */
 mark.mk { padding: 0 1px; border-radius: 3px; color: inherit; cursor: pointer; }
-mark.mk-y { background: var(--mk-y); }
-mark.mk-g { background: var(--mk-g); }
-mark.mk-b { background: var(--mk-b); }
+mark.mk-y { background: linear-gradient(to top, var(--mk-y) 0 52%, transparent 52%); }
+mark.mk-g { background: linear-gradient(to top, var(--mk-g) 0 52%, transparent 52%); }
+mark.mk-b { background: linear-gradient(to top, var(--mk-b) 0 52%, transparent 52%); }
 
 /* 整块高亮（li/p），可点击修改 */
 li.hl-y, p.hl-y { background: var(--hl-y); border-radius: 6px; }

@@ -309,6 +309,22 @@ html.dark .bg-btn:hover { background: #2d3640; }
 }
 .deep-clear:hover { border-color: var(--accent, #4a6fd9); color: var(--accent, #4a6fd9); }
 
+/* 面包屑：除当前层外每一级都可点，用来改选上层（浮层收起后的稳定入口） */
+.deep-crumb {
+    color: var(--accent, #4a6fd9);
+    cursor: pointer;
+    padding: 0 3px;
+    border-radius: 4px;
+    border-bottom: 1px dashed transparent;
+    transition: background .12s, border-color .12s;
+}
+.deep-crumb:hover {
+    background: rgba(74, 144, 217, .14);
+    border-bottom-color: currentColor;
+}
+.deep-crumb-cur { color: var(--accent, #4a6fd9); }
+.deep-crumb-sep { color: var(--text-faint, #9aa0a6); margin: 0 1px; }
+
 /* ============ 左侧目录栏收起态（exam.css 隐藏的是 #paperList，此处补 catTree） ============ */
 .exam-wrap.side-closed #catTree { display: none; }
 

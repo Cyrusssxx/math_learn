@@ -3012,15 +3012,49 @@ function onChapterNodeEnter(nodeEl, chId) {
     showDeepBrowse(root, 0, nodeEl.getBoundingClientRect());
 }
 
-/** 细分类筛选态提示条（页头）：题数用列表实际条数，避免与浮层计数口径不一致 */
+/** 细分类节点的逐级链 [{id, n}]，由根到叶（页头面包屑可点用） */
+function deepChain(id) {
+    const parts = [];
+    let cur = id, guard = 0;
+    while (cur && catDeep && catDeep.nodes[cur] && guard++ < 20) {
+        parts.unshift({ id: String(cur), n: catDeep.nodes[cur].n });
+        cur = catDeep.nodes[cur].p;
+    }
+    return parts;
+}
+
+/** 细分类筛选态提示条（页头）：题数用列表实际条数，避免与浮层计数口径不一致。
+ *  每一级都可点 —— 用户反馈级联浮层在右下容易收起、选不到，这里给一个稳定的改选入口。 */
 function deepFilterTip(n) {
     if (!curDeepCat) return '';
-    return `<div class="deep-filter-tip">🔎 细分类：<b>${esc(deepPath(curDeepCat))}</b>${curDeepSelf ? '（本级·未细分）' : ''}（${n != null ? n : 0} 题）
+    const chain = deepChain(curDeepCat);
+    const crumbs = chain.map((p, i) => {
+        const last = i === chain.length - 1;
+        if (last) return `<b class="deep-crumb-cur">${esc(p.n)}</b>`;
+        return `<a class="deep-crumb" onclick="selectDeepCat('${p.id}')" title="改看「${esc(p.n)}」这一层（含其全部下级）">${esc(p.n)}</a>`;
+    }).join('<span class="deep-crumb-sep">/</span>');
+    return `<div class="deep-filter-tip">🔎 细分类：${crumbs}${curDeepSelf ? '（本级·未细分）' : ''}（${n != null ? n : 0} 题）
         <button class="deep-clear" onclick="clearDeepCat()" title="退出细分类，回到该知识点全部题">✕ 清除细分类</button></div>`;
 }
 
 // ---- 浮层渲染与逐级级联 ----
 let _flyHideTimer = null;const _flyLevels = [];   // 当前显示的各层级元素
+// 指针位置：级联浮层之间只有 8px 缝，鼠标斜向往右下走时两边都不算 :hover，
+// 220ms 后整组就被判成「已离开」而收起 —— 用户反馈「鼠标到右下一截分支就消失，选不了」。
+let _flyMouse = { x: -9999, y: -9999 };
+document.addEventListener('mousemove', ev => { _flyMouse.x = ev.clientX; _flyMouse.y = ev.clientY; }, { passive: true });
+
+/** 指针是否落在某个可见浮层内、或其边缘 margin 像素范围内（用来兜住面板之间的缝） */
+function _flyPointerNear(margin) {
+    const m = margin == null ? 16 : margin;
+    for (const el of _flyLevels) {
+        if (!el || el.hidden) continue;
+        const r = el.getBoundingClientRect();
+        if (_flyMouse.x >= r.left - m && _flyMouse.x <= r.right + m &&
+            _flyMouse.y >= r.top - m && _flyMouse.y <= r.bottom + m) return true;
+    }
+    return false;
+}
 
 function _flyEnsure(level) {
     let el = document.getElementById('deepFly' + level);
@@ -3043,7 +3077,11 @@ function hideDeepFlyNow() {
 }
 function scheduleHideDeepFly(delay) {
     clearTimeout(_flyHideTimer);
-    _flyHideTimer = setTimeout(() => { if (!document.querySelector('.deep-fly:hover')) hideDeepFlyNow(); }, delay || 220);
+    _flyHideTimer = setTimeout(() => {
+        if (document.querySelector('.deep-fly:hover')) return;
+        if (_flyPointerNear(16)) return;   // 指针还在浮层缝里/边缘 → 别收起
+        hideDeepFlyNow();
+    }, delay || 300);
 }
 
 /** 在第 level 层展示 nodeId 的子分支；anchor 为触发元素（用其右缘定位） */
