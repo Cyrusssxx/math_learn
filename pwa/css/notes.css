@@ -28,6 +28,12 @@
     --hl-b: #e3effc;
     --ann-bg: #fffbe8;
     --ann-border: #e0c968;
+    --ann-border-soft: #ecdcac;
+    /* 书上原有的「📝 批注」：冷灰蓝，与我自己的暖黄批注形成对比 */
+    --annsrc-bg: #f2f6fb;
+    --annsrc-border: #8aa9cd;
+    --annsrc-lab-bg: #dde8f5;
+    --annsrc-lab-fg: #44658f;
     --code-bg: #f0f0f4;
     --shadow: 0 4px 18px rgba(0, 0, 0, .12);
     /* 背景自定义变量 */
@@ -63,6 +69,11 @@ html.dark {
     --hl-b: #1f2f45;
     --ann-bg: #2e2b1d;
     --ann-border: #8a7a3a;
+    --ann-border-soft: #5d5330;
+    --annsrc-bg: #1d2532;
+    --annsrc-border: #5b7ba3;
+    --annsrc-lab-bg: #26374c;
+    --annsrc-lab-fg: #a9c6e6;
     --code-bg: #2a2a3c;
     --shadow: 0 4px 18px rgba(0, 0, 0, .45);
     /* 背景自定义变量 - 暗色模式 */
@@ -382,7 +393,7 @@ html.dark .exam-link:hover { color: #1e1e2e; }
 
 .note-article h2 {
     font-size: 22px;
-    margin: 42px 0 12px;
+    margin: 30px 0 10px;
     padding-top: 10px;
     scroll-margin-top: 24px;
 }
@@ -398,7 +409,7 @@ html.dark .exam-link:hover { color: #1e1e2e; }
 .note-article h3.md-h3 {
     font-size: 18px;
     font-weight: 700;
-    margin: 30px 0 10px;
+    margin: 22px 0 8px;
     padding: 2px 0 2px 10px;
     border-left: 3px solid var(--accent);
     border-radius: 2px;
@@ -444,7 +455,7 @@ html.dark .exam-link:hover { color: #1e1e2e; }
     word-break: break-all;
 }
 
-.note-article p { margin: 14px 0; line-height: 2.0; }
+.note-article p { margin: 10px 0; line-height: 1.95; }
 
 /* 加粗批注用暖色突出 */
 .note-article strong { color: var(--strong); }
@@ -458,17 +469,21 @@ html.dark .exam-link:hover { color: #1e1e2e; }
 .note-article .star { font-size: .8em; vertical-align: 1px; }
 
 .note-article ul {
-    margin: 10px 0;
+    margin: 8px 0;
     padding-left: 22px;
 }
-.note-article li { margin: 14px 0; line-height: 2.6; }
-/* 含公式的列表行：加大行距——KaTeX 行内分式（万能公式等多分式连排）在 2.6 下笔画贴叠，
-   实测 3.6 行距（57.6px）分式行完全分开且单公式行仍协调；dfrac→frac 同高无效故走加大距离 */
-.note-article li:has(.katex) { line-height: 3.6; }
-.note-article li > ul { margin: 8px 0 6px; }
+/* 2026-10-23 排版收紧：原来 li 2.6 行高 + 上下 14px，一级条目再加到 22px，
+   一条内容能占 86px，整屏只放 5 行。改为 1.95 / 6px，一级 12px。 */
+.note-article li { margin: 6px 0; line-height: 1.95; }
+/* 含公式的行：只给「分式/多行公式」留额外空间。原来一刀切 3.6（57.6px），
+   连一行 $\int\sin x=-\cos x$ 都撑到 57.6px，空隙大得离谱。 */
+.note-article li:has(.katex) { line-height: 2.15; }
+.note-article li:has(.katex .mfrac),
+.note-article li:has(.katex .mtable) { line-height: 2.6; }
+.note-article li > ul { margin: 4px 0 2px; }
 /* 顶层知识点之间拉开间隙 */
 .note-article > ul > li,
-.note-article article > ul > li { margin: 22px 0; }
+.note-article article > ul > li { margin: 12px 0; }
 .note-article li::marker { color: var(--text-faint); }
 
 /* Note 风格提示块：⚠️易错 / 💡技巧 / 例题 */
@@ -500,6 +515,53 @@ li.c-warn li, li.c-tip li, li.c-example li, li.c-star li {
     margin: 8px 0;
     padding: 0;
 }
+
+/* ============ 书上原有的「📝 批注」条目（.li-embed-ann）============
+ * 这类批注是源笔记里本来就写好的重点旁注（md 中以「📝 批注：」开头）。
+ * 之前只有类名、**没有任何样式**，和普通列表项长得一模一样，完全看不出是「批注」。
+ * 现在做成冷灰蓝的旁注卡片：与我自己的暖黄批注（.ann-box）明确区分。
+ * 文字内容不动（只把前缀包一层 span），避免破坏批注锚点/搜索定位的 data-raw。 */
+li.li-embed-ann {
+    list-style: none;
+    margin: 8px 0 8px -22px;
+    padding: 8px 14px 9px;
+    border-radius: 8px;
+    border-left: 3px solid var(--annsrc-border);
+    background: var(--annsrc-bg);
+    font-size: 14.5px;
+    line-height: 1.85;
+}
+li.li-embed-ann .ann-src-lab {
+    display: block;
+    width: fit-content;
+    margin-bottom: 4px;
+    padding: 0 7px;
+    border-radius: 4px;
+    background: var(--annsrc-lab-bg);
+    color: var(--annsrc-lab-fg);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.75;
+    letter-spacing: .02em;
+}
+/* 批注卡片里的图片：原书批注常一张卡塞 2-3 张公式图，
+   不限制的话一张卡能占半屏。这里改成行内并限高，多张自动并排。 */
+li.li-embed-ann img,
+li.li-embed-ann img.li-img {
+    display: inline-block;
+    max-width: min(100%, 340px);
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin: 4px 8px 4px 0;
+    vertical-align: top;
+    border-radius: 6px;
+    box-shadow: none;
+}
+/* 批注卡片里的子列表（若有）恢复圆点并收紧 */
+li.li-embed-ann > ul { padding-left: 18px; margin: 4px 0 2px; }
+li.li-embed-ann li { list-style: disc; margin: 4px 0; line-height: 1.8; }
 
 /* 笔记内嵌图片（![说明](图片) 语法） */
 .note-article .md-img {
@@ -728,22 +790,44 @@ li.hl-y, p.hl-y { background: var(--hl-y); border-radius: 6px; }
 li.hl-g, p.hl-g { background: var(--hl-g); border-radius: 6px; }
 li.hl-b, p.hl-b { background: var(--hl-b); border-radius: 6px; }
 
-/* 批注框：手写风小字条 */
+/* ============ 我自己的批注（.ann-box）============
+ * 与「书上批注」(li.c-ann-src，冷灰蓝卡片)刻意区分：暖纸底 + 左侧实心导轨 + 虚线外框。
+ * 顶部一枚「✍️ 我的批注」标签；编辑/删按钮平时隐藏，悬停或键盘聚焦才出现，减少视觉噪音。 */
 .ann-box {
-    margin: 6px 0;
-    padding: 6px 10px;
-    font-size: 13.5px;
+    margin: 8px 0;
+    padding: 7px 12px 9px;
+    font-size: 14px;
     background: var(--ann-bg);
+    border: 1px dashed var(--ann-border-soft);
     border-left: 3px solid var(--ann-border);
-    border-radius: 0 8px 8px 0;
+    border-radius: 8px;
     color: var(--text);
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 6px;
     flex-wrap: wrap;
 }
+.ann-lab {
+    flex: none;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: var(--ann-border);
+    white-space: nowrap;
+}
 .ann-icon { flex: none; }
-.ann-text { flex: 1; min-width: 120px; white-space: pre-wrap; }
+.ann-text {
+    flex: 1 1 100%;
+    min-width: 120px;
+    white-space: pre-wrap;
+    line-height: 1.9;
+}
+/* 只在非编辑态隐藏操作按钮（编辑态的「保存/取消」必须一直可见） */
+@media (hover: hover) {
+    .ann-box:not(:has(.ann-edit)) .ann-ops { opacity: 0; transition: opacity .12s; }
+    .ann-box:not(:has(.ann-edit)):hover .ann-ops,
+    .ann-box:not(:has(.ann-edit)):focus-within .ann-ops { opacity: 1; }
+}
 .ann-text img.ann-img {
     display: block;
     max-width: min(100%, 480px);

@@ -63,14 +63,29 @@ function breakLines(text) {
     return segs.map(inline).join('<br>');
 }
 
-/** 列表项样式类：⚠️ 易错 / 💡 技巧 / 例：例题；⭐ 叠加常考高亮 */
+/** 书上原有的批注行：md 里以「📝 批注：」开头 */
+const ANN_SRC_RE = /^📝\s*批注[：:]/;
+
+/** 列表项样式类：书上批注 / ⚠️ 易错 / 💡 技巧 / 例：例题；⭐ 叠加常考高亮 */
 function liClass(text) {
+    const t = text.trim();
+    // 批注行单独成块，不再叠加易错/技巧/常考样式（否则几种底色打架）
+    if (ANN_SRC_RE.test(t)) return ' class="li-embed-ann"';
     const cls = [];
     if (text.includes('⚠️')) cls.push('c-warn');
     else if (text.includes('💡')) cls.push('c-tip');
-    else if (/^例[：（(]/.test(text.trim())) cls.push('c-example');
+    else if (/^例[：（(]/.test(t)) cls.push('c-example');
     if (text.includes('⭐')) cls.push('c-star');
     return cls.length ? ` class="${cls.join(' ')}"` : '';
+}
+
+/** 列表项正文：批注行把「📝 批注：」前缀包成标签 span。
+ *  ⚠️ 只加一层标签、**不改文字** —— textContent 不变，
+ *  所以 annotate.js 里按文本判断「嵌入批注」的去重逻辑、以及批注锚点都不受影响。 */
+function liBody(text) {
+    const h = breakLines(text);
+    if (!ANN_SRC_RE.test(text.trim())) return h;
+    return h.replace(/^(📝\s*批注[：:])/, '<span class="ann-src-lab">$1</span>');
 }
 
 /** 递归输出嵌套列表；items = [{level, text}] */
@@ -84,7 +99,7 @@ function emitList(items, start, level) {
             const [subHtml, subNext] = emitList(items, i, items[i].level);
             html += subHtml; i = subNext; continue;
         }
-        html += `<li${liClass(items[i].text)}>` + breakLines(items[i].text);
+        html += `<li${liClass(items[i].text)}>` + liBody(items[i].text);
         let j = i + 1;
         if (j < items.length && items[j].level > level) {
             const [childHtml, next] = emitList(items, j, items[j].level);

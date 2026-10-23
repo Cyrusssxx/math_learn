@@ -192,8 +192,13 @@ function breakLines(text) {
     return segs.map(inline).join('<br>');
 }
 
-/** 列表项样式类：⚠️ 易错 / 💡 技巧 / 例：例题；⭐ 叠加常考高亮 */
+/** 书上原有的批注行：md 里以「📝 批注：」开头（与 mdrender.js 保持一致） */
+const ANN_SRC_RE = /^📝\s*批注[：:]/;
+
+/** 列表项样式类：书上批注 / ⚠️ 易错 / 💡 技巧 / 例：例题；⭐ 叠加常考高亮 */
 function liClass(text) {
+    // 批注行单独成块，不再叠加易错/技巧/常考样式（否则几种底色打架）
+    if (ANN_SRC_RE.test(text)) return ' class="li-embed-ann"';
     const cls = [];
     if (text.includes('⚠️')) cls.push('c-warn');
     else if (text.includes('💡')) cls.push('c-tip');
@@ -213,11 +218,16 @@ function emitList(items, start, level) {
             const [subHtml, subNext] = emitList(items, i, items[i].level);
             html += subHtml; i = subNext; continue;
         }
-        const isEmb = items[i].text.startsWith('📝 批注：');
-        const liCls = liClass(items[i].text) + (isEmb ? ' li-embed-ann' : '');
-        const liRaw = isEmb ? ` data-raw="${esc(items[i].text.slice('📝 批注：'.length)).replace(/"/g, '&quot;')}"` : '';
+        const embM = ANN_SRC_RE.exec(items[i].text);
+        const isEmb = !!embM;
+        const liCls = liClass(items[i].text);   // 批注行的 li-embed-ann 已由 liClass 给出
+        const liRaw = isEmb ? ` data-raw="${esc(items[i].text.slice(embM[0].length)).replace(/"/g, '&quot;')}"` : '';
         const anc = items[i].anc ? `<span id="${items[i].anc}" class="anch"></span>` : '';
-        html += `<li${liCls}${liRaw}>` + anc + breakLines(items[i].text);
+        // 批注前缀包一层标签 span：只加标签、不改文字 → textContent 不变，
+        // 批注锚点与「定位到正文」用的 data-raw 都不受影响。
+        let body = breakLines(items[i].text);
+        if (isEmb) body = body.replace(/^(📝\s*批注[：:])/, '<span class="ann-src-lab">$1</span>');
+        html += `<li${liCls}${liRaw}>` + anc + body;
         let j = i + 1;
         if (j < items.length && items[j].level > level) {
             const [childHtml, next] = emitList(items, j, items[j].level);

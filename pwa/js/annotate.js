@@ -334,9 +334,10 @@ const Annot = (() => {
             if (text) annPreviewOnInput(ed);   // 进入编辑即有内容时立即渲染预览
             box.querySelector('.ann-toolbar').hidden = false;
         } else {
-            box.innerHTML = `<span class="ann-icon">📝</span><span class="ann-text" data-raw="${escAttr(text)}">${noteHtml(text)}</span>
+            box.innerHTML = `<span class="ann-lab">✍️ 我的批注</span>
                 <span class="ann-ops"><button onclick="Annot.editNote(this)">编辑</button>
-                <button onclick="Annot.delNote(this)">删</button></span>`;
+                <button onclick="Annot.delNote(this)">删</button></span>
+                <span class="ann-text" data-raw="${escAttr(text)}">${noteHtml(text)}</span>`;
             fillImgs(box);
         }
         const childUl = block.querySelector(':scope > ul');
