@@ -393,7 +393,7 @@ html.dark .exam-link:hover { color: #1e1e2e; }
 
 .note-article h2 {
     font-size: 22px;
-    margin: 30px 0 10px;
+    margin: 38px 0 12px;
     padding-top: 10px;
     scroll-margin-top: 24px;
 }
@@ -409,7 +409,7 @@ html.dark .exam-link:hover { color: #1e1e2e; }
 .note-article h3.md-h3 {
     font-size: 18px;
     font-weight: 700;
-    margin: 22px 0 8px;
+    margin: 28px 0 10px;
     padding: 2px 0 2px 10px;
     border-left: 3px solid var(--accent);
     border-radius: 2px;
@@ -455,7 +455,7 @@ html.dark .exam-link:hover { color: #1e1e2e; }
     word-break: break-all;
 }
 
-.note-article p { margin: 10px 0; line-height: 1.95; }
+.note-article p { margin: 13px 0; line-height: 2.05; }
 
 /* 加粗批注用暖色突出 */
 .note-article strong { color: var(--strong); }
@@ -469,21 +469,21 @@ html.dark .exam-link:hover { color: #1e1e2e; }
 .note-article .star { font-size: .8em; vertical-align: 1px; }
 
 .note-article ul {
-    margin: 8px 0;
+    margin: 10px 0;
     padding-left: 22px;
 }
 /* 2026-10-23 排版收紧：原来 li 2.6 行高 + 上下 14px，一级条目再加到 22px，
    一条内容能占 86px，整屏只放 5 行。改为 1.95 / 6px，一级 12px。 */
-.note-article li { margin: 6px 0; line-height: 1.95; }
+.note-article li { margin: 11px 0; line-height: 2.4; }
 /* 含公式的行：只给「分式/多行公式」留额外空间。原来一刀切 3.6（57.6px），
    连一行 $\int\sin x=-\cos x$ 都撑到 57.6px，空隙大得离谱。 */
-.note-article li:has(.katex) { line-height: 2.15; }
+.note-article li:has(.katex) { line-height: 2.6; }
 .note-article li:has(.katex .mfrac),
-.note-article li:has(.katex .mtable) { line-height: 2.6; }
-.note-article li > ul { margin: 4px 0 2px; }
+.note-article li:has(.katex .mtable) { line-height: 3.1; }
+.note-article li > ul { margin: 7px 0 5px; }
 /* 顶层知识点之间拉开间隙 */
 .note-article > ul > li,
-.note-article article > ul > li { margin: 12px 0; }
+.note-article article > ul > li { margin: 20px 0; }
 .note-article li::marker { color: var(--text-faint); }
 
 /* Note 风格提示块：⚠️易错 / 💡技巧 / 例题 */
@@ -528,8 +528,8 @@ li.li-embed-ann {
     border-radius: 8px;
     border-left: 3px solid var(--annsrc-border);
     background: var(--annsrc-bg);
-    font-size: 14.5px;
-    line-height: 1.85;
+    font-size: 15px;
+    line-height: 1.9;
 }
 li.li-embed-ann .ann-src-lab {
     display: block;
@@ -794,9 +794,9 @@ li.hl-b, p.hl-b { background: var(--hl-b); border-radius: 6px; }
  * 与「书上批注」(li.c-ann-src，冷灰蓝卡片)刻意区分：暖纸底 + 左侧实心导轨 + 虚线外框。
  * 顶部一枚「✍️ 我的批注」标签；编辑/删按钮平时隐藏，悬停或键盘聚焦才出现，减少视觉噪音。 */
 .ann-box {
-    margin: 8px 0;
-    padding: 7px 12px 9px;
-    font-size: 14px;
+    margin: 10px 0;
+    padding: 8px 13px 10px;
+    font-size: 14.5px;
     background: var(--ann-bg);
     border: 1px dashed var(--ann-border-soft);
     border-left: 3px solid var(--ann-border);
@@ -820,7 +820,7 @@ li.hl-b, p.hl-b { background: var(--hl-b); border-radius: 6px; }
     flex: 1 1 100%;
     min-width: 120px;
     white-space: pre-wrap;
-    line-height: 1.9;
+    line-height: 2.0;
 }
 /* 只在非编辑态隐藏操作按钮（编辑态的「保存/取消」必须一直可见） */
 @media (hover: hover) {
