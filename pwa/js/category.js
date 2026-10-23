@@ -1855,8 +1855,12 @@ function catCard(paper, secTitle, q) {
     // 「收到核心题库」：非核心题库来源的题可一键收进核心题库（本地增补层）
     const isCoreSrc = paper.id === 'core';
     const addedCore = !isCoreSrc && window.CoreExtra && CoreExtra.has(q);
+    // 这道题本来就在核心题库里 → 按钮直接显示「已在」，不提供「收进/撤销」
+    const inCoreBank = !isCoreSrc && !addedCore && window.CoreExtra && coreBankHas(q, qidOf(paper.id, q.no));
     const addCoreBtn = isCoreSrc ? '' :
-        `<button class="q-op q-add-core${addedCore ? ' has' : ''}" onclick="coreAddFromCard(this)" title="${addedCore ? '再点一次撤销（从核心题库移除）' : '收进核心题库（本机保存；首页可导出）'}">${addedCore ? '✅ 已收进核心题库' : '📥 收到核心题库'}</button>`;
+        inCoreBank
+            ? `<button class="q-op q-add-core has" onclick="coreAddFromCard(this)" title="这道题本来就在核心题库里，不需要收">✅ 已在核心题库</button>`
+            : `<button class="q-op q-add-core${addedCore ? ' has' : ''}" onclick="coreAddFromCard(this)" title="${addedCore ? '再点一次撤销（从核心题库移除）' : '收进核心题库（本机保存；首页可导出）'}">${addedCore ? '✅ 已收进核心题库' : '📥 收到核心题库'}</button>`;
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
             <span class="q-no">${q.no}</span>
@@ -1907,6 +1911,63 @@ function catToast(msg) {
     clearTimeout(el._t);
     el._t = setTimeout(() => { el.style.opacity = '0'; }, 2600);
 }
+/* 题干归一化（比 normStem 再多去掉行首的题号 / 满分声明）：
+ * 核心题库里的题常写成「12. 斜边长为…」「（本题满分11分）设曲线…」，
+ * 而真题库同题没有这些前缀，直接比 normStem 会漏匹配。 */
+function _coreNormStem(s) {
+    let t = normStem(s);
+    t = t.replace(/^[(【\[]+/, '');
+    t = t.replace(/^本题满分[0-9一二三四五六七八九十]+\s*分?/, '');
+    t = t.replace(/^[)\]】]+/, '');
+    t = t.replace(/^\d{1,2}(?=[^\d]|$)/, '');
+    return t;
+}
+
+/* 判断一道题「本来就在不在核心题库里」（core_bank.json 内置，不含本地增补）。
+ * 用途：「收到核心题库」之前先查一下，否则会把已有题再存一条到 localStorage，
+ * 按钮还显示成「✅ 已收进」，撤销也撤不掉（它本来就在），用户会被误导。
+ *
+ * 两级判据：
+ *  ① linkedQid（主，精确 O(1)）——核心题若来自某道真题/习题，会挂 linkedQid = 那道题的 qid。
+ *     2026-10-23 给物理应用 54 道补全 linkedQid 后覆盖 54/54。
+ *  ② 题干归一化后完全相同（兜底没挂 linkedQid 的老题）。
+ *
+ * ⚠️ 刻意不用「模糊相似度」：核心题库自身就有 300+ 对同类近似题
+ *    （实测 difflib 0.60 阈值会误配 323 对），任何阈值都会把「相似但不同」的题判成同题。
+ * ⚠️ 排除「臻选题补录题」占位题干：191 道图片题的题干文字完全相同，
+ *    不排除的话它们会互相全等匹配。 */
+let _coreLinkSet = null, _coreStemSet = null, _coreNoSet = null;
+function _coreBuildIndex() {
+    if (_coreLinkSet) return;
+    _coreLinkSet = new Set();
+    _coreStemSet = new Set();
+    _coreNoSet = new Set();
+    for (const p of (corePapers || [])) {
+        for (const sec of (p.sections || [])) {
+            for (const q of (sec.questions || [])) {
+                if (!q || q.custom) continue;                   // 本地增补不算「本来就有」
+                if (q.no != null) _coreNoSet.add(String(q.no));
+                if (q.linkedQid) _coreLinkSet.add(String(q.linkedQid));
+                const raw = String(q.stem || '');
+                if (raw.indexOf('臻选题补录题') >= 0) continue;   // 图片题占位题干
+                const t = _coreNormStem(raw);
+                if (t.length >= 15) _coreStemSet.add(t);
+            }
+        }
+    }
+}
+function coreBankHas(q, qid) {
+    if (!q) return false;
+    _coreBuildIndex();
+    if (qid && _coreLinkSet.has(String(qid))) return true;
+    // 反向：这道题自己挂着指向核心题的链接（如大观园真题库版本 ↔ 核心题库里的改写版）
+    const lq = q.linkedQid ? String(q.linkedQid) : '';
+    if (/^core-\d+$/.test(lq) && _coreNoSet.has(lq.slice(5))) return true;
+    const t = _coreNormStem(q.stem);
+    return t.length >= 15 && _coreStemSet.has(t);
+}
+
+
 function coreAddFromCard(btn) {
     if (!window.CoreExtra) { catToast('核心增补模块未加载'); return; }
     const card = btn.closest('.q-card');
@@ -1934,10 +1995,27 @@ function coreAddFromCard(btn) {
                 }
             }
         }
-        btn.textContent = '📥 收到核心题库';
-        btn.classList.remove('has');
-        btn.title = '收进核心题库（本机保存；首页可导出）';
+        _coreStemSet = null;   // corePapers 变了，题干集合作废
+        // 撤销后若这道题本来就在核心题库里，按钮应显示「已在」而不是「收到」
+        if (coreBankHas(ent.q, qidOf(ent.paper.id, ent.q.no))) {
+            btn.textContent = '✅ 已在核心题库';
+            btn.classList.add('has');
+            btn.title = '这道题本来就在核心题库里，不需要收';
+        } else {
+            btn.textContent = '📥 收到核心题库';
+            btn.classList.remove('has');
+            btn.title = '收进核心题库（本机保存；首页可导出）';
+        }
         catToast('已撤销：从核心题库移除（原题号 ' + rec.no + '）');
+        return;
+    }
+
+    // ---- 本来就在核心题库里：不收（白存一条 localStorage），只提示 ----
+    if (coreBankHas(ent.q, qidOf(ent.paper.id, ent.q.no))) {
+        btn.textContent = '✅ 已在核心题库';
+        btn.classList.add('has');
+        btn.title = '这道题本来就在核心题库里，不需要收';
+        catToast('这道题本来就在核心题库里，不用收');
         return;
     }
 
