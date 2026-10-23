@@ -1856,7 +1856,7 @@ function catCard(paper, secTitle, q) {
     const isCoreSrc = paper.id === 'core';
     const addedCore = !isCoreSrc && window.CoreExtra && CoreExtra.has(q);
     const addCoreBtn = isCoreSrc ? '' :
-        `<button class="q-op q-add-core${addedCore ? ' has' : ''}" onclick="coreAddFromCard(this)" title="收进核心题库（本机保存；首页可导出）">${addedCore ? '✅ 已收进核心题库' : '📥 收到核心题库'}</button>`;
+        `<button class="q-op q-add-core${addedCore ? ' has' : ''}" onclick="coreAddFromCard(this)" title="${addedCore ? '再点一次撤销（从核心题库移除）' : '收进核心题库（本机保存；首页可导出）'}">${addedCore ? '✅ 已收进核心题库' : '📥 收到核心题库'}</button>`;
     return `<div class="q-card" id="q-${qid}" data-qno="${q.no}">
         <div class="q-head">
             <span class="q-no">${q.no}</span>
@@ -1918,11 +1918,36 @@ function coreAddFromCard(btn) {
         ent = allEntries.find(e => String(e.q.no) === String(qno));
     }
     if (!ent) { catToast('未找到题目数据'); return; }
+
+    // ---- 已在增补里：再点一次 = 撤销（从核心题库移除）----
+    if (CoreExtra.has(ent.q)) {
+        const s = CoreExtra.sig(ent.q);
+        const rec = CoreExtra.list().find(x => CoreExtra.sig(x) === s);
+        if (!rec) { catToast('没找到要撤销的记录，请刷新后重试'); return; }
+        if (!CoreExtra.remove(rec.no)) { catToast('撤销失败：本地存储写入失败'); return; }
+        // 同步从内存中的 corePapers 摘掉，否则不刷新页面它还在核心题库里
+        for (const p of (corePapers || [])) {
+            for (const sec of (p.sections || [])) {
+                const qs = sec.questions || [];
+                for (let i = qs.length - 1; i >= 0; i--) {
+                    if (CoreExtra.sig(qs[i]) === s) qs.splice(i, 1);
+                }
+            }
+        }
+        btn.textContent = '📥 收到核心题库';
+        btn.classList.remove('has');
+        btn.title = '收进核心题库（本机保存；首页可导出）';
+        catToast('已撤销：从核心题库移除（原题号 ' + rec.no + '）');
+        return;
+    }
+
+    // ---- 未收过：收进核心题库 ----
     const r = CoreExtra.add(ent.q, { paperId: ent.paper.id, srcNo: ent.q.no });
     if (r.ok) {
         btn.textContent = '✅ 已收进核心题库';
         btn.classList.add('has');
-        catToast('已收进核心题库（本机）· 新题号 ' + r.no + '，切到「核心题库」即可看到');
+        btn.title = '再点一次撤销（从核心题库移除）';
+        catToast('已收进核心题库（本机）· 新题号 ' + r.no + '，切到「核心题库」即可看到；再点一次可撤销');
     } else {
         catToast(r.msg || '添加失败');
     }
