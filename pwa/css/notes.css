@@ -23,9 +23,11 @@
     --mk-y: #ffe884;
     --mk-g: #b6efb6;
     --mk-b: #b7dcff;
+    --mk-r: #ffb3ba;
     --hl-y: #fdf6cf;
     --hl-g: #e6f6e3;
     --hl-b: #e3effc;
+    --hl-r: #fce9ec;
     --ann-bg: #fffbe8;
     --ann-border: #e0c968;
     --ann-border-soft: #ecdcac;
@@ -64,9 +66,11 @@ html.dark {
     --mk-y: #7a6a1f;
     --mk-g: #2f5e33;
     --mk-b: #2b4d75;
+    --mk-r: #7a3742;
     --hl-y: #35311c;
     --hl-g: #24331f;
     --hl-b: #1f2f45;
+    --hl-r: #3a2429;
     --ann-bg: #2e2b1d;
     --ann-border: #8a7a3a;
     --ann-border-soft: #5d5330;
@@ -782,11 +786,13 @@ mark.mk { padding: 0 1px; border-radius: 3px; color: inherit; cursor: pointer; }
 mark.mk-y { background: linear-gradient(to top, var(--mk-y) 0 52%, transparent 52%); }
 mark.mk-g { background: linear-gradient(to top, var(--mk-g) 0 52%, transparent 52%); }
 mark.mk-b { background: linear-gradient(to top, var(--mk-b) 0 52%, transparent 52%); }
+mark.mk-r { background: linear-gradient(to top, var(--mk-r) 0 52%, transparent 52%); }
 
 /* 整块高亮（li/p），可点击修改 */
 li.hl-y, p.hl-y { background: var(--hl-y); border-radius: 6px; }
 li.hl-g, p.hl-g { background: var(--hl-g); border-radius: 6px; }
 li.hl-b, p.hl-b { background: var(--hl-b); border-radius: 6px; }
+li.hl-r, p.hl-r { background: var(--hl-r); border-radius: 6px; }
 
 /* ============ 我自己的批注（.ann-box）============
  * 与「书上批注」(li.c-ann-src，冷灰蓝卡片)刻意区分：暖纸底 + 左侧实心导轨 + 虚线外框。
@@ -1022,6 +1028,7 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
 .ab-y { background: #ffd54a; }
 .ab-g { background: #7ed87e; }
 .ab-b { background: #6fb7ff; }
+.ab-r { background: #ff8a99; }
 .ab-btn {
     border: 1px solid var(--border);
     background: var(--bg-side);
@@ -1323,6 +1330,7 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
 .katex.fml-hl-y { background: var(--hl-y); border-radius: 4px; box-shadow: 0 0 0 2px var(--hl-y); }
 .katex.fml-hl-g { background: var(--hl-g); border-radius: 4px; box-shadow: 0 0 0 2px var(--hl-g); }
 .katex.fml-hl-b { background: var(--hl-b); border-radius: 4px; box-shadow: 0 0 0 2px var(--hl-b); }
+.katex.fml-hl-r { background: var(--hl-r); border-radius: 4px; box-shadow: 0 0 0 2px var(--hl-r); }
 
 /* 批注 / 标签指示标记（作为 .katex 的兄弟节点插入） */
 sup.fml-note-mark { cursor: pointer; color: var(--accent); font-size: .7em; margin-left: 2px; user-select: none; }

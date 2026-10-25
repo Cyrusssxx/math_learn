@@ -206,7 +206,7 @@ const Annot = (() => {
 
     // ============ 荧光：整块 ============
     function setBlockHl(block, color) {
-        block.classList.remove('hl-y', 'hl-g', 'hl-b');
+        block.classList.remove('hl-y', 'hl-g', 'hl-b', 'hl-r');
         if (color) {
             block.classList.add('hl-' + color);
             bucket().hl[block.dataset.sid] = color;
@@ -527,7 +527,7 @@ const Annot = (() => {
     let recoverListCache = [];
 
     const kindName = k => k === 'hl' ? '荧光' : k === 'note' ? '批注' : '选段';
-    const colorName = c => c === 'y' ? '黄' : c === 'g' ? '绿' : c === 'b' ? '蓝' : c;
+    const colorName = c => c === 'y' ? '黄' : c === 'g' ? '绿' : c === 'b' ? '蓝' : c === 'r' ? '红' : c;
 
     /** 最长公共子串长度（用于智能匹配；大文本截断抽样避免卡顿） */
     function lcsLen(a, b) {
@@ -629,7 +629,7 @@ const Annot = (() => {
         removeEverywhere(it.key, it.text, it.color, it.n);
         if (it.kind === 'hl') {
             b.hl[target] = it.color;
-            block.classList.remove('hl-y', 'hl-g', 'hl-b'); block.classList.add('hl-' + it.color);
+            block.classList.remove('hl-y', 'hl-g', 'hl-b', 'hl-r'); block.classList.add('hl-' + it.color);
         } else if (it.kind === 'note') {
             b.notes[target] = it.text;
             renderNoteBox(block, it.text, false);
@@ -637,7 +637,7 @@ const Annot = (() => {
             const rec = { k: target, t: it.text, c: it.color, n: it.n };
             if (!wrapText(block, it.text, it.color, it.n, gidOf(rec))) {  // 文本已变找不到，降级整块荧光
                 b.hl[target] = it.color;
-                block.classList.remove('hl-y', 'hl-g', 'hl-b'); block.classList.add('hl-' + it.color);
+                block.classList.remove('hl-y', 'hl-g', 'hl-b', 'hl-r'); block.classList.add('hl-' + it.color);
             } else b.marks.push(rec);
         }
         return true;
@@ -710,7 +710,7 @@ const Annot = (() => {
 
     function showBar(mode, rect, target) {
         barTarget = target;
-        const btns = ['y', 'g', 'b'].map(c =>
+        const btns = ['y', 'g', 'b', 'r'].map(c =>
             `<button class="ab-dot ab-${c}" data-act="color" data-c="${c}" title="荧光高亮"></button>`);
         if (mode !== 'mark') btns.push(`<button class="ab-btn" data-act="note">📝批注</button>`);
         if (mode !== 'sel') btns.push(`<button class="ab-btn" data-act="clear">清除</button>`);
@@ -759,6 +759,9 @@ const Annot = (() => {
                 const cac = r.commonAncestorContainer;
                 const el = cac.nodeType === 1 ? cac : cac.parentElement;
                 if (!el || !el.closest('#docPane')) return;
+                // 批注编辑框内选字 → 归编辑器自带的格式工具条管，不弹正文浮条（此前两套颜色选择会同时弹出打架）
+                const inAnn = n => { const p = n.nodeType === 3 ? n.parentElement : n; return !!(p && p.closest('.ann-box')); };
+                if (inAnn(r.startContainer) || inAnn(r.endContainer)) return;
                 const sc = r.startContainer;
                 const block = (sc.nodeType === 3 ? sc.parentElement : sc).closest('[data-sid]');
                 if (!block) return;
@@ -791,8 +794,8 @@ const Annot = (() => {
                 showBar('mark', mk.getBoundingClientRect(), { gid: mk.dataset.g });
                 return;
             }
-            const blk = e.target.closest('.hl-y, .hl-g, .hl-b');
-            if (blk && blk.closest('#docPane') && !e.target.closest('a')) {
+            const blk = e.target.closest('.hl-y, .hl-g, .hl-b, .hl-r');
+            if (blk && blk.closest('#docPane') && !e.target.closest('a') && !e.target.closest('.ann-box')) {
                 showBar('block', { left: e.clientX, width: 0, top: e.clientY }, { block: blk });
                 return;
             }
@@ -985,6 +988,7 @@ const Annot = (() => {
             '<button class="ab-dot ab-y" data-fact="hl" data-c="y" title="公式高亮·黄"></button>',
             '<button class="ab-dot ab-g" data-fact="hl" data-c="g" title="公式高亮·绿"></button>',
             '<button class="ab-dot ab-b" data-fact="hl" data-c="b" title="公式高亮·蓝"></button>',
+            '<button class="ab-dot ab-r" data-fact="hl" data-c="r" title="公式高亮·红"></button>',
             '<button class="ab-btn" data-fact="note" title="给公式写批注 / 打标签">📝批注</button>',
             '<button class="ab-btn" data-fact="clear" title="清除该公式的高亮/批注/标签">清除</button>'
         ].join('');
@@ -1005,7 +1009,7 @@ const Annot = (() => {
     function setFmlHl(el, c) {
         const key = el.dataset.fid; const b = ensureFml();
         const rec = b[key] || (b[key] = {});
-        el.classList.remove('fml-hl-y', 'fml-hl-g', 'fml-hl-b');
+        el.classList.remove('fml-hl-y', 'fml-hl-g', 'fml-hl-b', 'fml-hl-r');
         if (rec.hl === c) delete rec.hl; else { rec.hl = c; el.classList.add('fml-hl-' + c); }
         if (!Object.keys(rec).length) delete b[key];
         save();
@@ -1039,7 +1043,7 @@ const Annot = (() => {
     function clearFml(el) {
         const key = el.dataset.fid; const b = data[curId];
         if (b && b.fml) { delete b.fml[key]; save(); }
-        el.classList.remove('fml-hl-y', 'fml-hl-g', 'fml-hl-b');
+        el.classList.remove('fml-hl-y', 'fml-hl-g', 'fml-hl-b', 'fml-hl-r');
         applyFml();
     }
     // 公式放大 / 复制 / 目录（源码展示）已移除

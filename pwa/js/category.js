@@ -2334,8 +2334,9 @@ window.addEventListener('storage', (e) => {
 });
 
 // ============ 拼卷页（category.html?paper=1）：随机抽收藏题，拼一份真题规模的卷 ============
-// 需求（2026-10-14 grill 定稿）：
-//   · 抽样：加权随机无放回 —— 不会 5 / 不熟 3 / 只收藏无状态 1 / 已掌握 0（排除）
+// 需求（2026-10-14 grill 定稿；2026-10-24 抽样改两段式）：
+//   · 抽样：两段式 —— 先把「不会/不熟」抽完（配额内全部入卷；超出配额才按 不会5/不熟3 加权抽），
+//     剩余名额再从「仅收藏」里按收藏时间系数补（越早收藏越优先）；已掌握 0（排除）
 //   · 池子：严格只从「标记过的题」抽（收藏或有状态）；某题型不够就缩水并在卷首标注
 //   · 配比：选择 10 / 填空 6 / 解答 6 = 22 题（2024–2026 数二真题结构），统一 150 分制
 //   · 章节：轻约束「至少覆盖 5 章」，不满足重抽（上限 20 次，试不出取覆盖最多的一版）
@@ -2416,11 +2417,11 @@ function ppChapterOf(q) {
 
 /** 收集所有源的标记题，按题型分层。⚠️ 收藏横跨 4 个源（真题/核心题库/大观园习题/真题库），
  *  漏掉任何一源都会让部分收藏题永远抽不到。
- *  权重体系（2026-10-14 起）：
+ *  权重体系（2026-10-24 起，两段式）：
  *    sw = 状态权重（不会 5 / 不熟 3 / 仅收藏 1；已掌握排除）
- *    tf = 收藏时间系数（越早越高，1~3，与 sw **相乘**）
- *    w  = sw × tf  ← 抽样实际用这个
- *  这样「早收藏的仅收藏题」(1×3=3) 仍低于「近期不会的题」(5×1=5)，状态优先级不被推翻。 */
+ *    tf = 收藏时间系数（越早越高，1~3）
+ *    「不会/不熟」层：ppSampleTiered 里**先抽完**（层内超配额时按 sw=5/3 加权），不吃时间系数；
+ *    「仅收藏」层：剩余名额按 w = 1 × tf 抽（越早收藏越优先）。 */
 function ppBuildPool() {
     const fav = favGet() || {}, st = statusGet() || {};
     const seen = new Set();
@@ -2479,6 +2480,22 @@ function ppSample(arr, k) {
     return out;
 }
 
+/** 两段式抽 k 个（2026-10-24 起）：
+ *  ① 先抽「不会/不熟」——不超过配额时**全部入卷**（"先抽完"），超出配额时层内按 不会5/不熟3
+ *     加权抽（不会的题更优先），**不吃收藏时间系数**；
+ *  ② 剩余名额再从「仅收藏」里抽，按收藏时间系数加权（越早收藏越优先，老收藏不被无限积压）。 */
+function ppSampleTiered(arr, k) {
+    const hot = [], warm = [];
+    for (const it of (arr || [])) {
+        if (it.state === 'unknown' || it.state === 'unfamiliar') hot.push(it);
+        else warm.push(it);
+    }
+    const out = ppSample(hot.map(it => Object.assign({}, it, { w: it.sw })), Math.min(k, hot.length));
+    const rest = k - out.length;
+    if (rest > 0) out.push(...ppSample(warm, rest));
+    return out;
+}
+
 /** 拼一份卷：按配额抽 → 20 次重抽里**取章节覆盖最多的一版**（用户要「知识点覆盖尽量广」，
  *  所以不再满足 5 章就早停）。返回 { items, chapters, pool, short } */
 function ppBuild() {
@@ -2490,16 +2507,16 @@ function ppBuild() {
     let best = null;
     for (let t = 0; t < PP_RETRY; t++) {
         const picked = [];
-        // ① 选填 16 位：先抽选择（≤10），差额用填空补齐（都按 5 分计）
-        const ch = ppSample(pool['选择'], CHOICE_MAX);
+        // ① 选填 16 位：先抽选择（≤10），差额用填空补齐（都按 5 分计）；两段式：不会/不熟先抽完
+        const ch = ppSampleTiered(pool['选择'], CHOICE_MAX);
         ch.forEach(it => picked.push(Object.assign({}, it, { kind: '选择', score: 5 })));
         const needFill = TIANXUAN_N - ch.length;
         if (needFill > 0) {
-            ppSample(pool['填空'], needFill).forEach(it =>
+            ppSampleTiered(pool['填空'], needFill).forEach(it =>
                 picked.push(Object.assign({}, it, { kind: '填空', score: 5 })));
         }
         // ② 解答 6 题
-        ppSample(pool['解答'], AN_SCORES.length).forEach((it, i) =>
+        ppSampleTiered(pool['解答'], AN_SCORES.length).forEach((it, i) =>
             picked.push(Object.assign({}, it, { kind: '解答', score: AN_SCORES[i] })));
         if (!picked.length) break;
         const chs = [];
