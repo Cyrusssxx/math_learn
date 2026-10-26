@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>高亮样式预览 · 半高亮 + 下划线</title>
+<link rel="stylesheet" href="css/notes.css?v=5ff2ee38">
+<style>
+  body { padding: 28px 34px 60px; font-size: 15px; line-height: 2; }
+  h1 { font-size: 19px; margin: 0 0 4px; }
+  .sub { color: var(--text-dim); font-size: 13px; margin-bottom: 22px; }
+  h2 { font-size: 14px; margin: 26px 0 10px; color: var(--text-dim); font-weight: 600;
+       border-left: 3px solid var(--accent); padding-left: 9px; }
+  .demo { background: var(--bg-card, #fff); border: 1px solid var(--border);
+          border-radius: 12px; padding: 16px 20px; max-width: 760px; }
+  .demo li { margin: 8px 0; padding: 2px 8px; }
+  .demo p { margin: 8px 0; padding: 2px 8px; }
+  .row { display: flex; gap: 26px; flex-wrap: wrap; }
+  .cell { min-width: 150px; }
+  .katex { font-family: "Cambria Math", serif; padding: 1px 4px; }
+  .tip { color: var(--text-faint); font-size: 12px; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <h1>高亮样式预览</h1>
+  <div class="sub">半透明底色 + 同色系下划线 · 浅色/深色两套变量都已配好</div>
+
+  <h2>行内荧光（mark.mk-*）</h2>
+  <div class="demo">
+    <div class="row">
+      <div class="cell">黄：<mark class="mk mk-y">可对角化的充要条件</mark></div>
+      <div class="cell">绿：<mark class="mk mk-g">线性无关</mark></div>
+      <div class="cell">蓝：<mark class="mk mk-b">基础解系</mark></div>
+      <div class="cell">红：<mark class="mk mk-r">易错点</mark></div>
+    </div>
+    <div class="tip">跨行效果：<mark class="mk mk-y">这一段的文字故意写得长一些，用来验证换行时每一行都各自带圆角和下划线，不会只画一条贯穿到底的长线</mark></div>
+  </div>
+
+  <h2>整块高亮（li.hl-* / p.hl-*）</h2>
+  <div class="demo">
+    <ul style="margin:0;padding-left:22px">
+      <li class="hl-y">黄块：A 可对角化 ⟺ A 有 n 个线性无关的特征向量</li>
+      <li class="hl-g">绿块：属于不同特征值的特征向量线性无关</li>
+      <li class="hl-b">蓝块：r(A)=n−k，基础解系含 k 个向量</li>
+      <li class="hl-r">红块：这条容易和「满秩」混淆</li>
+    </ul>
+  </div>
+
+  <h2>公式高亮（.katex.fml-hl-*）</h2>
+  <div class="demo">
+    <span class="katex fml-hl-y">A = P Λ P⁻¹</span>　
+    <span class="katex fml-hl-g">|A − λE| = 0</span>　
+    <span class="katex fml-hl-b">Ax = 0</span>　
+    <span class="katex fml-hl-r">r(A) + r(B) ≤ n</span>
+  </div>
+
+  <h2>批注框里的高亮（.ann-text mark）</h2>
+  <div class="demo">
+    <div class="ann-box" style="margin:0">
+      <span class="ann-text">这里的 <mark style="background:rgba(255,221,92,.38)">半透明底色</mark> 配合下划线，和正文荧光是同一套观感；<mark style="background:rgba(120,176,248,.32)">蓝色同理</mark>。</span>
+    </div>
+  </div>
+
+  <script>
+    // 跟随系统深色
+    if (matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark');
+  </script>
+</body>
+</html>

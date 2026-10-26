@@ -28,6 +28,16 @@
     --hl-g: #e6f6e3;
     --hl-b: #e3effc;
     --hl-r: #fce9ec;
+    /* 半高亮（半透明底）+ 下划线：底色只用 30~40% 不透明度，压不住字；
+       下划线用同色系更深一档，负责"划重点"的辨识度。2026-10-26 用户指定 */
+    --hl-y-soft: rgba(255, 221, 92, .38);
+    --hl-y-line: #d9b72c;
+    --hl-g-soft: rgba(126, 214, 140, .32);
+    --hl-g-line: #45a256;
+    --hl-b-soft: rgba(120, 176, 248, .32);
+    --hl-b-line: #3d82cb;
+    --hl-r-soft: rgba(255, 126, 142, .28);
+    --hl-r-line: #cc5265;
     --ann-bg: #fffbe8;
     --ann-border: #e0c968;
     --ann-border-soft: #ecdcac;
@@ -71,6 +81,14 @@ html.dark {
     --hl-g: #24331f;
     --hl-b: #1f2f45;
     --hl-r: #3a2429;
+    --hl-y-soft: rgba(255, 221, 92, .17);
+    --hl-y-line: #c9a832;
+    --hl-g-soft: rgba(126, 214, 140, .16);
+    --hl-g-line: #4aa95a;
+    --hl-b-soft: rgba(120, 176, 248, .18);
+    --hl-b-line: #5b9be0;
+    --hl-r-soft: rgba(255, 126, 142, .16);
+    --hl-r-line: #c4556a;
     --ann-bg: #2e2b1d;
     --ann-border: #8a7a3a;
     --ann-border-soft: #5d5330;
@@ -780,19 +798,24 @@ html.dark .note-article mark.search-hit {
 
 /* ============ 用户标注：荧光 / 批注 / 浮动工具条 ============ */
 /* 选中文字荧光 */
-/* 选中文字荧光：半高亮（只涂下半截，上沿留白）——整块实心色压在字上对比太强，
-   用户 2026-10-23 选定方案 3。字的上半截不涂色，视觉上不压字，但仍有「划过」的辨识度。 */
-mark.mk { padding: 0 1px; border-radius: 3px; color: inherit; cursor: pointer; }
-mark.mk-y { background: linear-gradient(to top, var(--mk-y) 0 52%, transparent 52%); }
-mark.mk-g { background: linear-gradient(to top, var(--mk-g) 0 52%, transparent 52%); }
-mark.mk-b { background: linear-gradient(to top, var(--mk-b) 0 52%, transparent 52%); }
-mark.mk-r { background: linear-gradient(to top, var(--mk-r) 0 52%, transparent 52%); }
+/* 选中文字荧光：半透明底 + 下划线（2026-10-26 用户指定）。
+   底色只铺 30~40% 不透明度，字压不住；靠同色系下划线给出"划过重点"的辨识度。
+   box-decoration-break: clone 保证跨行断行时每行都有自己的圆角和下划线。 */
+mark.mk {
+    padding: 0 1px; border-radius: 3px; color: inherit; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+mark.mk-y { background: var(--hl-y-soft); border-bottom-color: var(--hl-y-line); }
+mark.mk-g { background: var(--hl-g-soft); border-bottom-color: var(--hl-g-line); }
+mark.mk-b { background: var(--hl-b-soft); border-bottom-color: var(--hl-b-line); }
+mark.mk-r { background: var(--hl-r-soft); border-bottom-color: var(--hl-r-line); }
 
-/* 整块高亮（li/p），可点击修改 */
-li.hl-y, p.hl-y { background: var(--hl-y); border-radius: 6px; }
-li.hl-g, p.hl-g { background: var(--hl-g); border-radius: 6px; }
-li.hl-b, p.hl-b { background: var(--hl-b); border-radius: 6px; }
-li.hl-r, p.hl-r { background: var(--hl-r); border-radius: 6px; }
+/* 整块高亮（li/p），可点击修改：同样半透明底 + 底部一条实线当"下划线" */
+li.hl-y, p.hl-y { background: var(--hl-y-soft); border-bottom: 2px solid var(--hl-y-line); border-radius: 6px; }
+li.hl-g, p.hl-g { background: var(--hl-g-soft); border-bottom: 2px solid var(--hl-g-line); border-radius: 6px; }
+li.hl-b, p.hl-b { background: var(--hl-b-soft); border-bottom: 2px solid var(--hl-b-line); border-radius: 6px; }
+li.hl-r, p.hl-r { background: var(--hl-r-soft); border-bottom: 2px solid var(--hl-r-line); border-radius: 6px; }
 
 /* ============ 我自己的批注（.ann-box）============
  * 与「书上批注」(li.c-ann-src，冷灰蓝卡片)刻意区分：暖纸底 + 左侧实心导轨 + 虚线外框。
@@ -984,6 +1007,16 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
 .ann-text h2 { font-size: 1.12em; font-weight: 700; margin: .35em 0 .25em; line-height: 1.4; }
 .ann-text b, .ann-text strong { font-weight: 800; }
 .ann-text i, .ann-text em { font-style: italic; }
+
+/* 批注里的高亮（编辑器 execCommand 写入的 mark[style*=background]）：
+   底色已是半透明，这里补一条下划线，和正文荧光保持同一套观感。 */
+.ann-text mark, .ann-edit mark {
+    color: inherit;
+    border-bottom: 2px solid var(--hl-y-line);
+    border-radius: 3px;
+    padding: 0 1px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
 
 /* 批注编辑器实时预览（支持 $...$ 公式识别） */
 .ann-preview {
@@ -1327,10 +1360,10 @@ mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
 
 /* ============ 公式识别 / 标注（方案 C 混合层） ============ */
 /* 公式级高亮（作用于 .katex 本身） */
-.katex.fml-hl-y { background: var(--hl-y); border-radius: 4px; box-shadow: 0 0 0 2px var(--hl-y); }
-.katex.fml-hl-g { background: var(--hl-g); border-radius: 4px; box-shadow: 0 0 0 2px var(--hl-g); }
-.katex.fml-hl-b { background: var(--hl-b); border-radius: 4px; box-shadow: 0 0 0 2px var(--hl-b); }
-.katex.fml-hl-r { background: var(--hl-r); border-radius: 4px; box-shadow: 0 0 0 2px var(--hl-r); }
+.katex.fml-hl-y { background: var(--hl-y-soft); border-radius: 4px; box-shadow: inset 0 -2px 0 var(--hl-y-line); }
+.katex.fml-hl-g { background: var(--hl-g-soft); border-radius: 4px; box-shadow: inset 0 -2px 0 var(--hl-g-line); }
+.katex.fml-hl-b { background: var(--hl-b-soft); border-radius: 4px; box-shadow: inset 0 -2px 0 var(--hl-b-line); }
+.katex.fml-hl-r { background: var(--hl-r-soft); border-radius: 4px; box-shadow: inset 0 -2px 0 var(--hl-r-line); }
 
 /* 批注 / 标签指示标记（作为 .katex 的兄弟节点插入） */
 sup.fml-note-mark { cursor: pointer; color: var(--accent); font-size: .7em; margin-left: 2px; user-select: none; }
