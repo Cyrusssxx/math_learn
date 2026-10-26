@@ -943,7 +943,14 @@ html.dark .q-tips-btn.on, html.dark .q-tips-btn:hover { background: #2e2545; }
 .q-nt-h1 { width: 26px; font-weight: 800; font-size: 14px; }
 .q-nt-h2 { width: 26px; font-weight: 800; font-size: 12px; }
 .q-nt-b:hover, .q-nt-i:hover, .q-nt-h1:hover, .q-nt-h2:hover { transform: scale(1.1); background: var(--bg-hover); }
-mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
+/* 笔记/批注文字高亮：半透明底 + 下划线（颜色由行内 --nhl 传入，见 notes.css 同名规则） */
+mark.note-hl {
+    color: inherit; padding: 0 1px; border-radius: 3px;
+    background: var(--nhl);
+    background: color-mix(in srgb, var(--nhl) 42%, transparent);
+    border-bottom: 2px solid var(--nhl);
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
 
 .q-note-preview {
     margin-top: 8px;

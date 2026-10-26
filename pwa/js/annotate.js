@@ -240,7 +240,7 @@ const Annot = (() => {
         }
         // 富文本令牌还原（与真题页 exam.js mdBlock 同源）：字色 <c:>、高亮底 <h:>、粗 <b>、斜 <i>、标题 <h1>/<h2>
         h = h
-            .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, '<mark class="note-hl" style="background:$1">$2</mark>')
+            .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, '<mark class="note-hl" style="--nhl:$1">$2</mark>')
             .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
             .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
             .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
@@ -1093,9 +1093,9 @@ const Annot = (() => {
     // ============ 富文本编辑（移植自 exam.js 笔记富文本体系，令牌对齐） ============
     const ANN_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<h1>|<\/h1>|<h2>|<\/h2>/g;
     const ANN_COLORS = ['#e03131', '#e8590c', '#2f9e44', '#1971c2', '#9c36b5', '#495057'];
-    // 高亮色板：一律用半透明色（2026-10-26 与正文荧光统一成「半高亮 + 下划线」，
-    // 实心色压字太重）。下划线由 notes.css 的 .ann-text mark / .ann-edit mark 负责。
-    const ANN_HLS = ['rgba(255,221,92,.38)', 'rgba(126,214,140,.32)', 'rgba(120,176,248,.32)', 'rgba(255,126,142,.28)', 'rgba(255,170,110,.30)'];
+    // 高亮色板：必须保持 #rrggbb（rgbToHex 会丢掉 alpha，用 rgba 会被存成饱和色）。
+    // 「半高亮 + 下划线 + 更淡」由 CSS 的 mark.note-hl 负责（背景降到 ~42% 不透明度）。
+    const ANN_HLS = ['#fff3bf', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4'];
 
     // ---- 贴图缩略图条：编辑器内不显示图片，只在编辑框下方以卡片显示（与真题页笔记交互对齐） ----
     function annThumbCard(id) {

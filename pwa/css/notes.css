@@ -955,7 +955,15 @@ li.hl-r, p.hl-r { background: var(--hl-r-soft); border-bottom: 2px solid var(--h
 .ann-nt-h2 { width: 26px; font-weight: 800; font-size: 12px; }
 .ann-nt-b:hover, .ann-nt-i:hover, .ann-nt-h1:hover, .ann-nt-h2:hover { transform: scale(1.1); background: var(--bg-hover); }
 /* 高亮底令牌渲染 */
-mark.note-hl { color: inherit; padding: 0 1px; border-radius: 3px; }
+/* 笔记/批注里的文字高亮（<h:#rrggbb> 令牌）：半透明底 + 下划线，颜色比原来淡一档。
+   颜色从行内 --nhl 传入；color-mix 不支持时退回原色（仍是整块色，不会丢高亮）。 */
+mark.note-hl {
+    color: inherit; padding: 0 1px; border-radius: 3px;
+    background: var(--nhl);
+    background: color-mix(in srgb, var(--nhl) 42%, transparent);
+    border-bottom: 2px solid var(--nhl);
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
 
 /* 批注内嵌图片（contenteditable 内）：图片 + 删除按钮组合，整体不可编辑 */
 .ann-img-wrap { position: relative; display: inline-block; vertical-align: middle; }

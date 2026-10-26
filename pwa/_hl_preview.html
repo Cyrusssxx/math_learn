@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>高亮样式预览 · 半高亮 + 下划线</title>
-<link rel="stylesheet" href="css/notes.css?v=5ff2ee38">
+<link rel="stylesheet" href="css/notes.css?v=c2f2ffbb">
 <style>
   body { padding: 28px 34px 60px; font-size: 15px; line-height: 2; }
   h1 { font-size: 19px; margin: 0 0 4px; }
@@ -59,6 +59,18 @@
     <div class="ann-box" style="margin:0">
       <span class="ann-text">这里的 <mark style="background:rgba(255,221,92,.38)">半透明底色</mark> 配合下划线，和正文荧光是同一套观感；<mark style="background:rgba(120,176,248,.32)">蓝色同理</mark>。</span>
     </div>
+  </div>
+
+  <h2>题库 / 真题页的笔记高亮（mark.note-hl）</h2>
+  <div class="demo">
+    <p style="margin:0;line-height:2.2">
+      这条规则用在题目卡片里的笔记与批注上：
+      <mark class="note-hl" style="--nhl:#fff3bf">关键结论是这样高亮的</mark>，
+      <mark class="note-hl" style="--nhl:#d3f9d8">绿色的推导步骤</mark>，
+      <mark class="note-hl" style="--nhl:#d0ebff">蓝色的补充说明</mark>，
+      <mark class="note-hl" style="--nhl:#ffe3e3">红色的易错提醒</mark>。
+    </p>
+    <div class="tip">底色降到原色的 42% 不透明度，下划线保留原色——比整块实心淡一档，但辨识度不降。</div>
   </div>
 
   <script>
