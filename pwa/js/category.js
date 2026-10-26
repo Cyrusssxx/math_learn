@@ -579,7 +579,9 @@ function editorToNote(el) {
     // 返回序列化片段；c/h=字色/高亮 hex，b/i=是否处于粗/斜上下文（行内令牌），heading 由 H1/H2 元素单独包块级令牌
     let base = (function run(n, c, h, b, i) {
         let s = '';
-        for (const ch of n.childNodes) {
+        const _kids = [...n.childNodes];
+        for (let _ki = 0; _ki < _kids.length; _ki++) {
+            const ch = _kids[_ki], _next = _kids[_ki + 1];
             if (ch.nodeType === 3) {
                 // 保留 NBSP（\u00A0）：浏览器用它保真「行首空格 / 连续空格」，降级成普通空格会被 trim 与 HTML 折叠吃掉
                 const t = ch.nodeValue.replace(/\u200B/g, '').replace(/ {2,}/g, m => m.replace(/ /g, '\u00A0'));  // 只丢弃零宽空格分隔符；连续普通空格转 NBSP（HTML 会折叠连续普通空格，单个空格不受影响）
@@ -592,18 +594,31 @@ function editorToNote(el) {
                 s += inner;
             } else if (ch.nodeType === 1) {
                 if (ch.classList && ch.classList.contains('exam-note-img-wrap')) {
-                    const img = ch.querySelector('img[data-img]');
+                    // 先输出自己的 [图:id]，再把「图片/删除按钮之外」的子内容也序列化出来。
+                    // 光标落进包裹内部时（点图片后粘贴或输入极易发生），浏览器会把后续图文
+                    // 嵌进这个 wrap；过去这里只取 img、直接丢掉子节点 —— 表现为
+                    // 「第二张图 + 它后面的文字保存不了」（2026-10-26 复现并修复）。
+                    const img = ch.querySelector(':scope > img[data-img]') || ch.querySelector('img[data-img]');
                     if (img) s += '[图:' + img.dataset.img + ']';
+                    let rest = '';
+                    for (const sub of ch.childNodes) {
+                        if (sub === img) continue;
+                        if (sub.nodeType === 1 && (sub.tagName === 'BUTTON' || sub.tagName === 'IMG')) continue;
+                        const box = document.createElement('span');
+                        box.appendChild(sub.cloneNode(true));
+                        rest += run(box, c, h, b, i);
+                    }
+                    s += rest;
                 }
                 else if (ch.tagName === 'IMG' && ch.dataset.img) s += '[图:' + ch.dataset.img + ']';
                 else if (ch.tagName === 'BR') s += '\n';
                 else if (ch.tagName === 'H1') {
                     if (s && !s.endsWith('\n')) s += '\n';
-                    s += '<h1>' + run(ch, c, h, false, false) + '</h1>' + '\n';
+                    s += '<h1>' + run(ch, c, h, false, false) + '</h1>' + ((_next && _next.nodeType === 1 && _next.tagName === 'BR') ? '' : '\n');
                 }
                 else if (ch.tagName === 'H2') {
                     if (s && !s.endsWith('\n')) s += '\n';
-                    s += '<h2>' + run(ch, c, h, false, false) + '</h2>' + '\n';
+                    s += '<h2>' + run(ch, c, h, false, false) + '</h2>' + ((_next && _next.nodeType === 1 && _next.tagName === 'BR') ? '' : '\n');
                 }
                 else if (isBold(ch)) {
                     // 粗体节点上的字色/高亮同样要保留（加粗后再上色的常见顺序）
@@ -765,6 +780,21 @@ function pasteOneNoteImg(ta, raw) {
                     range.selectNodeContents(brHost);
                     range.collapse(true);
                 } catch (e2) { }
+            }
+        }
+        // 光标落在已有图片包裹内部时（点图片后粘贴极易出现），直接 insertNode 会把新图
+        // 嵌进旧 wrap → 序列化只取外层 img，内层图文全丢。归位：插入点移到该 wrap 之后。
+        if (range && range.startContainer && ta.contains(range.startContainer)) {
+            const sc0 = range.startContainer;
+            const host0 = sc0.nodeType === 1 ? sc0 : sc0.parentElement;
+            const w0 = host0 && host0.closest ? host0.closest('.exam-note-img-wrap, .ann-img-wrap') : null;
+            if (w0 && ta.contains(w0)) {
+                try {
+                    const r2 = document.createRange();
+                    r2.setStartAfter(w0);
+                    r2.collapse(true);
+                    range = r2;
+                } catch (e3) { }
             }
         }
         if (range && ta.contains(range.startContainer)) {

@@ -1164,7 +1164,9 @@ const Annot = (() => {
         };
         let base = (function run(n, c, h, b, i) {
             let s = '';
-            for (const ch of n.childNodes) {
+            const _kids = [...n.childNodes];
+            for (let _ki = 0; _ki < _kids.length; _ki++) {
+                const ch = _kids[_ki], _next = _kids[_ki + 1];
                 if (ch.nodeType === 3) {
                     const t = ch.nodeValue.replace(/\u00A0/g, ' '); if (!t) continue;
                     let inner = t;
@@ -1174,11 +1176,22 @@ const Annot = (() => {
                     if (c) inner = '<c:' + c + '>' + inner + '</c>';
                     s += inner;
                 } else if (ch.nodeType === 1) {
-                    if (ch.classList && ch.classList.contains('ann-img-wrap')) { const img = ch.querySelector('img[data-img]'); if (img) s += '[图:' + img.dataset.img + ']'; }
+                    if (ch.classList && ch.classList.contains('ann-img-wrap')) {
+                        // 同 category.js：包裹内可能被塞进后续图文（光标落在图片里时），不能只取 img
+                        const img = ch.querySelector(':scope > img[data-img]') || ch.querySelector('img[data-img]');
+                        if (img) s += '[图:' + img.dataset.img + ']';
+                        for (const sub of ch.childNodes) {
+                            if (sub === img) continue;
+                            if (sub.nodeType === 1 && (sub.tagName === 'BUTTON' || sub.tagName === 'IMG')) continue;
+                            const box = document.createElement('span');
+                            box.appendChild(sub.cloneNode(true));
+                            s += run(box, c, h, b, i);
+                        }
+                    }
                     else if (ch.tagName === 'IMG' && ch.dataset.img) s += '[图:' + ch.dataset.img + ']';
                     else if (ch.tagName === 'BR') s += '\n';
-                    else if (ch.tagName === 'H1') { if (s && !s.endsWith('\n')) s += '\n'; s += '<h1>' + run(ch, c, h, false, false) + '</h1>' + '\n'; }
-                    else if (ch.tagName === 'H2') { if (s && !s.endsWith('\n')) s += '\n'; s += '<h2>' + run(ch, c, h, false, false) + '</h2>' + '\n'; }
+                    else if (ch.tagName === 'H1') { if (s && !s.endsWith('\n')) s += '\n'; s += '<h1>' + run(ch, c, h, false, false) + '</h1>' + ((_next && _next.nodeType === 1 && _next.tagName === 'BR') ? '' : '\n'); }
+                    else if (ch.tagName === 'H2') { if (s && !s.endsWith('\n')) s += '\n'; s += '<h2>' + run(ch, c, h, false, false) + '</h2>' + ((_next && _next.nodeType === 1 && _next.tagName === 'BR') ? '' : '\n'); }
                     else if (isBold(ch)) { const [bc, bh] = colorOf(ch, c, h); const block = ch.tagName === 'DIV' || ch.tagName === 'P'; if (block && s && !s.endsWith('\n')) s += '\n'; s += run(ch, bc, bh, true, i); if (block && s && !s.endsWith('\n')) s += '\n'; }
                     else if (isItalic(ch)) { const [ic, ih] = colorOf(ch, c, h); s += run(ch, ic, ih, b, true); }
                     else {
