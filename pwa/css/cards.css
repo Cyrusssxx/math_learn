@@ -127,7 +127,14 @@ body {
 .cd-card-body table { border-collapse: collapse; margin: 8px 0; font-size: 13.5px; }
 .cd-card-body td, .cd-card-body th { border: 1px solid var(--border); padding: 4px 8px; }
 .cd-card-body code { background: var(--bg-side); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
-.cd-card-body mark { background: var(--mk-y, #ffe884); padding: 0 2px; border-radius: 3px; }
+/* 卡片正文里的高亮：半透明底 + 下划线（与笔记页/题库页统一） */
+.cd-card-body mark {
+    background: var(--mk-y, #ffe884);
+    background: color-mix(in srgb, var(--mk-y, #ffe884) 42%, transparent);
+    border-bottom: 2px solid var(--mk-y, #ffe884);
+    padding: 0 2px; border-radius: 3px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
 
 .cd-card-foot { margin-top: 12px; font-size: 12px; color: var(--text-faint); text-align: right; }
 

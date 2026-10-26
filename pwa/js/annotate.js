@@ -1097,6 +1097,32 @@ const Annot = (() => {
     // 「半高亮 + 下划线 + 更淡」由 CSS 的 mark.note-hl 负责（背景降到 ~42% 不透明度）。
     const ANN_HLS = ['#fff3bf', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4'];
 
+    /** #rrggbb -> rgba(...,0.42)：编辑器里也显示成半高亮。
+     *  反向提取（normColor/rgbToHex）只取 RGB，所以 rgba 存回去仍是原来的 hex，不会污染令牌。 */
+    function annHlRgba(v, a) {
+        const m = /^#([0-9a-fA-F]{6})$/.exec(String(v || '').trim());
+        if (!m) return v;
+        const n = parseInt(m[1], 16);
+        return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + (a == null ? 0.42 : a) + ')';
+    }
+
+    /** 编辑器里已有的实心高亮（老内容 / 浏览器 execCommand 产物）统一压成半透明 */
+    function annSoftenHl(ed) {
+        if (!ed || !ed.querySelectorAll) return;
+        ed.querySelectorAll('mark, span, font').forEach(n => {
+            const st = n.style; if (!st) return;
+            const bg = st.backgroundColor || (n.getAttribute && n.getAttribute('bgcolor'));
+            if (!bg) return;
+            const m = /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+))?/.exec(bg);
+            if (!m) return;
+            const al = m[4] == null ? 1 : parseFloat(m[4]);
+            if (al < 0.9) return;                       // 已经是半透明
+            st.backgroundColor = 'rgba(' + m[1] + ',' + m[2] + ',' + m[3] + ',0.42)';
+            st.borderBottom = '2px solid rgb(' + m[1] + ',' + m[2] + ',' + m[3] + ')';
+            if (n.getAttribute && n.getAttribute('bgcolor') != null) n.removeAttribute('bgcolor');
+        });
+    }
+
     // ---- 贴图缩略图条：编辑器内不显示图片，只在编辑框下方以卡片显示（与真题页笔记交互对齐） ----
     function annThumbCard(id) {
         const card = document.createElement('span');
@@ -1260,7 +1286,7 @@ const Annot = (() => {
                 emitText(text.slice(i, mf.index));
                 const m0 = mf[0];
                 if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</h1>' || m0 === '</h2>') { if (stack.length > 1) stack.pop(); }
-                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:' + mf[2] }); stack[stack.length - 1].appendChild(node); stack.push(node); }
+                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:' + annHlRgba(mf[2]) + ';border-bottom:2px solid ' + mf[2] }); stack[stack.length - 1].appendChild(node); stack.push(node); }
                 i = mf.index + mf[0].length;
             } else if (mi >= 0) {
                 emitText(text.slice(i, mi));
@@ -1337,6 +1363,7 @@ const Annot = (() => {
         } else {
             try { document.execCommand('styleWithCSS', false, true); } catch (e) { }
             document.execCommand(cmd, false, val || null);
+            if (cmd === 'hiliteColor') annSoftenHl(ed);   // 编辑器里也显示成半高亮
         }
     }
     function annToolbarHtml() {
