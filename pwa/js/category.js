@@ -1902,7 +1902,7 @@ function catCard(paper, secTitle, q) {
             ${st === 'unknown' ? '<span class="q-mark-chip m-unk" title="不会">🔴 不会</span>' : ''}
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
             ${yearHtml}
-            ${q.video && q.video.url ? `<a class="q-video" href="${esc(String(q.video.url)).replace(/"/g, '&quot;')}" target="_blank" rel="noopener noreferrer" title="视频讲解：${esc(String(q.video.label || '')).replace(/"/g, '&quot;')}">🎬 视频</a>` : ''}
+            ${videoBtnHtml(q)}
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
             <button class="q-copy-latex" onclick="copyCatQLatex(this)" title="复制本题 LaTeX 源码（题干+选项+答案，含 $...$ 原始命令）">📋 LaTeX</button>
         </div>
@@ -1923,6 +1923,53 @@ function catCard(paper, secTitle, q) {
         ${ideaHtml}${tipsHtml}${noteHtml}
         <div class="q-sec q-answer" data-copy-md="${copyMdAttr(q.answer || '')}" data-copy-key="answer" hidden>${ansTabsHtml(q)}</div>
     </div>`;
+}
+
+/** 视频讲解按钮：有视频才显示，点开是弹窗列出全部视频（用户 2026-10-26 要求）。
+ *  数据来自 core_bank 的 q.videos = [{url,label}]，一个题常有多个（数一/数二/数三、不同老师）。 */
+function videoBtnHtml(q) {
+    const vs = Array.isArray(q.videos) ? q.videos : [];
+    if (!vs.length) return '';
+    const qa = v => esc(String(v == null ? '' : v)).replace(/"/g, '&quot;');
+    return `<button class="q-video" data-videos="${qa(JSON.stringify(vs))}" data-src="${qa(q.source || '')}" `
+        + `onclick="openVideoModal(this)" title="视频讲解（${vs.length} 个）">🎬 视频${vs.length > 1 ? ' ' + vs.length : ''}</button>`;
+}
+
+function closeVideoModal() {
+    const ov = document.getElementById('videoModal');
+    if (ov) ov.remove();
+    document.removeEventListener('keydown', videoModalEsc);
+}
+function videoModalEsc(e) { if (e.key === 'Escape') closeVideoModal(); }
+
+function openVideoModal(btn) {
+    let vs = [];
+    try { vs = JSON.parse(btn.dataset.videos || '[]'); } catch (e) { vs = []; }
+    if (!vs.length) return;
+    const src = btn.dataset.src || '';
+    closeVideoModal();
+    const qa = v => esc(String(v == null ? '' : v)).replace(/"/g, '&quot;');
+    const ov = document.createElement('div');
+    ov.id = 'videoModal';
+    ov.className = 'vm-overlay';
+    ov.innerHTML = `<div class="vm-dialog" role="dialog" aria-label="视频讲解">
+        <div class="vm-head">
+            <div>
+                <div class="vm-title">视频讲解</div>
+                <div class="vm-sub">${esc(src)} · ${vs.length} 个视频</div>
+            </div>
+            <button class="vm-close" onclick="closeVideoModal()" aria-label="关闭">✕</button>
+        </div>
+        <ul class="vm-list">${vs.map(v => `<li>
+            <a href="${qa(v.url)}" target="_blank" rel="noopener noreferrer">
+                <span class="vm-ico">🎬</span>
+                <span class="vm-label">${esc(String(v.label || '视频讲解'))}</span>
+                <span class="vm-out">↗</span>
+            </a></li>`).join('')}</ul>
+    </div>`;
+    ov.addEventListener('click', e => { if (e.target === ov) closeVideoModal(); });
+    document.body.appendChild(ov);
+    document.addEventListener('keydown', videoModalEsc);
 }
 
 /** 「文字解析」文本是否有实质内容。
