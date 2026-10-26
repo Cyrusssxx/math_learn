@@ -682,6 +682,47 @@ html.dark .exam-btn.on { color: #e5c860; }
     line-height: 1.7;
 }
 .q-sec.q-idea { border-left: 3px solid var(--accent, #4a90d9); background: var(--warn-bg, #f4f8ff); font-size: 15px; line-height: 1.75; }
+
+/* 答案区页签：文字解析 / 原图解析（有原图时才出现，见 category.js ansTabsHtml） */
+.ans-tabs {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin: 0 0 10px;
+    padding: 3px;
+    border-radius: 999px;
+    background: var(--bg, #fff);
+    border: 1px solid var(--border);
+}
+.ans-tab {
+    border: 0;
+    background: transparent;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: var(--text-dim, #6b6b76);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .12s, color .12s;
+}
+.ans-tab:hover { color: var(--accent, #2f6fd0); }
+.ans-tab.on {
+    color: var(--accent, #2f6fd0);
+    background: var(--bg-hover, #eef3fb);
+    font-weight: 600;
+}
+/* 原图解析：纵向排列，点击放大 */
+.ans-pane-img { display: flex; flex-direction: column; gap: 10px; }
+.q-ans-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    cursor: zoom-in;
+}
 /* 📌 点睛块：本题专属 公式/易错/技巧/注意 四段 */
 .q-sec.q-tips { border-left: 3px solid #9a6cd9; background: var(--bg-hover); font-size: 14.5px; line-height: 1.75; padding: 10px 12px; }
 .q-tip-sec { padding: 6px 0; }

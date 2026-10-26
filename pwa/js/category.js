@@ -1920,8 +1920,53 @@ function catCard(paper, secTitle, q) {
             ${addCoreBtn}
         </div>
         ${ideaHtml}${tipsHtml}${noteHtml}
-        <div class="q-sec q-answer" data-copy-md="${copyMdAttr(q.answer || '')}" data-copy-key="answer" hidden><div class="q-answer-body">${mdBlock(q.answer || '')}</div></div>
+        <div class="q-sec q-answer" data-copy-md="${copyMdAttr(q.answer || '')}" data-copy-key="answer" hidden>${ansTabsHtml(q)}</div>
     </div>`;
+}
+
+/** 「文字解析」文本是否有实质内容。
+ *  线代臻选题里有相当一部分 answer 只有一句占位语
+ *  「【答案与解析】完整过程见下方配图（源自《线代臻选题·通用答案》）。」，
+ *  这种不该占一个 tab —— 直接把「原图解析」作为唯一/默认页签。 */
+function ansTextMeaningful(t) {
+    const s = String(t || '')
+        .replace(/【答案与解析】完整过程见下方配图（[^）]*）。?/g, '')
+        .replace(/完整过程见下方配图/g, '')
+        .trim();
+    return s.length >= 10;
+}
+
+/** 答案区：有原图时给「文字解析 / 原图解析」两个页签（用户 2026-10-26 要求） */
+function ansTabsHtml(q) {
+    const imgs = Array.isArray(q.ansImg) ? q.ansImg : [];
+    const textOk = ansTextMeaningful(q.answer);
+    const tabs = imgs.length
+        ? (textOk
+            ? `<div class="ans-tabs">`
+              + `<button class="ans-tab on" data-tab="text" onclick="switchAnsTab(this,'text')">文字解析</button>`
+              + `<button class="ans-tab" data-tab="img" onclick="switchAnsTab(this,'img')">原图解析</button></div>`
+            : `<div class="ans-tabs">`
+              + `<button class="ans-tab on" data-tab="img" onclick="switchAnsTab(this,'img')">原图解析</button></div>`)
+        : '';
+    const textPane = `<div class="ans-pane ans-pane-text"${imgs.length && !textOk ? ' hidden' : ''}>`
+        + `<div class="q-answer-body">${mdBlock(q.answer || '')}</div></div>`;
+    const imgPane = imgs.length
+        ? `<div class="ans-pane ans-pane-img"${textOk ? ' hidden' : ''}>`
+          + imgs.map((p, i) => `<img class="q-ans-img" src="${esc(String(p)).replace(/"/g, '&quot;')}" alt="原图解析 ${i + 1}" loading="lazy" onclick="zoomAnsImg(this)">`).join('')
+          + `</div>`
+        : '';
+    return tabs + textPane + imgPane;
+}
+
+function switchAnsTab(btn, which) {
+    const box = btn.closest('.q-answer');
+    if (!box) return;
+    box.querySelectorAll('.ans-tab').forEach(b => b.classList.toggle('on', b === btn));
+    const tp = box.querySelector('.ans-pane-text');
+    const ip = box.querySelector('.ans-pane-img');
+    if (tp) tp.hidden = which !== 'text';
+    if (ip) ip.hidden = which !== 'img';
+    if (which === 'text' && tp) renderMath(tp);
 }
 
 
