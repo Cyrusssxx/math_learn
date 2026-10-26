@@ -1902,6 +1902,7 @@ function catCard(paper, secTitle, q) {
             ${st === 'unknown' ? '<span class="q-mark-chip m-unk" title="不会">🔴 不会</span>' : ''}
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
             ${yearHtml}
+            ${q.video && q.video.url ? `<a class="q-video" href="${esc(String(q.video.url)).replace(/"/g, '&quot;')}" target="_blank" rel="noopener noreferrer" title="视频讲解：${esc(String(q.video.label || '')).replace(/"/g, '&quot;')}">🎬 视频</a>` : ''}
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
             <button class="q-copy-latex" onclick="copyCatQLatex(this)" title="复制本题 LaTeX 源码（题干+选项+答案，含 $...$ 原始命令）">📋 LaTeX</button>
         </div>
