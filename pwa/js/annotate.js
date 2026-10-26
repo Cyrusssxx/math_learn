@@ -276,12 +276,36 @@ const Annot = (() => {
     }
 
     /** 编辑框内 Ctrl+V 贴图：存库后不进编辑器 DOM，缩略图卡片出现在编辑框下方 */
+    // 一次粘贴可能带多张图（多选图片 / 从 Word、网页复制图文混排）。
+    // 旧实现用 .find() 只取第一张 → 「第二个图片保存不进去」。
+    // 与 category.js 的 notePasteImg 对齐：遍历全部 image item，无独立 image item 时
+    // 再从 text/html 里提取 data: 图兜底。
     function onPasteImg(e) {
-        const it = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith('image/'));
-        if (!it) return;
+        const items = [...(e.clipboardData?.items || [])];
+        let files = items.filter(i => i.type.startsWith('image/')).map(it => it.getAsFile()).filter(Boolean);
+        if (!files.length && e.clipboardData?.getData) {
+            let html = '';
+            try { html = e.clipboardData.getData('text/html') || ''; } catch (err) { }
+            if (html) {
+                const srcs = [...html.matchAll(/<img[^>]+src=["'](data:image\/[^"']+)["']/gi)].map(m => m[1]);
+                files = srcs.map(src => {
+                    try {
+                        const i = src.indexOf(','), meta = src.slice(5, i);
+                        return new File([Uint8Array.from(atob(src.slice(i + 1)), c => c.charCodeAt(0))], 'img.png', { type: meta.split(';')[0] });
+                    } catch (err) { return null; }
+                }).filter(Boolean);
+            }
+        }
+        if (!files.length) return;
         e.preventDefault();
-        const ed = e.target;
-        const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+        files.forEach(f => pasteOneAnnImg(e.target, f));
+    }
+
+    // 粘贴单张图：同步登记缩略图卡片（令牌载体）→ 异步写库 → 回填 blob
+    function pasteOneAnnImg(ed, file) {
+        // 碰撞免疫：与 category.js 一致，优先 crypto.randomUUID（去连字符后全 [a-z0-9]）。
+        // 旧实现用 Date.now()+随机，连续粘贴可能撞 id → 后一张覆盖前一张。
+        const id = (crypto.randomUUID ? crypto.randomUUID().replace(/-/g, '') : (Date.now().toString(36) + Math.random().toString(36).slice(2, 6)));
         // 关键：先同步把缩略图卡片（即 [图:id] 令牌的载体）登记进编辑框下方的条，
         // 再异步写 IndexedDB。否则「粘贴后立刻点保存」会在异步写入完成前触发保存，
         // 此时条里还没有卡片 → annEditorToNote 漏抓令牌 → 图片丢失。
@@ -296,7 +320,7 @@ const Annot = (() => {
             ed.value = ed.value.slice(0, p) + tag + ed.value.slice(ed.selectionEnd);
             ed.selectionStart = ed.selectionEnd = p + tag.length;
         }
-        imgPut(id, it.getAsFile()).then(() => {
+        imgPut(id, file).then(() => {
             // 写入完成后再回填这张图的 blob——此时 id 对应的 blob 一定已落库，绝不误判丢失
             if (ed && ed.isContentEditable) {
                 const card = ed.closest('.ann-box') && ed.closest('.ann-box').querySelector('.ann-imgs .ann-img-card[data-img="' + id + '"]');
