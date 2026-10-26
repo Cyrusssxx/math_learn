@@ -26294,7 +26294,10 @@
        "10"
       ],
       "status": "merged-xd",
-      "linkedQid": "2012数二真题-14"
+      "linkedQid": "2012数二真题-14",
+      "ansImg": [
+       "data/img/zx_site/762_0.png"
+      ]
      },
      {
       "no": 764,
@@ -26462,6 +26465,10 @@
        "$a=0$ 或 $a=\\dfrac32$",
        "$b=1$ 或 $b=-\\dfrac12$",
        "$b=-1$ 或 $b=\\dfrac12$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/770_0.png",
+       "data/img/zx_site/770_1.png"
       ]
      },
      {
@@ -27623,6 +27630,9 @@
        "$-(ad-bc)^2$",
        "$a^2d^2-b^2c^2$",
        "$b^2c^2-a^2d^2$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2007_0.png"
       ]
      }
     ]
@@ -28917,6 +28927,9 @@
        "$A$ 的列向量组线性相关，$B$ 的列向量组线性相关",
        "$A$ 的行向量组线性相关，$B$ 的行向量组线性相关",
        "$A$ 的行向量组线性相关，$B$ 的列向量组线性相关"
+      ],
+      "ansImg": [
+       "data/img/zx_site/841_0.png"
       ]
      },
      {
@@ -30247,7 +30260,10 @@
        "36"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2001_0.png"
+      ]
      },
      {
       "no": 2008,
@@ -30271,6 +30287,9 @@
        "$E+\\alpha\\alpha^{\\mathrm{T}}$ 不可逆",
        "$E+2\\alpha\\alpha^{\\mathrm{T}}$ 不可逆",
        "$E-2\\alpha\\alpha^{\\mathrm{T}}$ 不可逆"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2008_0.png"
       ]
      },
      {
@@ -30295,6 +30314,9 @@
        "$$\nr(AB^{\\mathsf T},AB^{\\mathsf T}B)\n=r(AB^{\\mathsf T}).\n$$",
        "$$\nr\\begin{pmatrix}\nA^{\\mathsf T}A\\\\\nB^{\\mathsf T}A\n\\end{pmatrix}=r(A).\n$$",
        "$$\nr\\begin{pmatrix}\nBA\\\\\nB^{\\mathsf T}BA\n\\end{pmatrix}=r(AB^{\\mathsf T}).\n$$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2020_0.png"
       ]
      },
      {
@@ -30319,6 +30341,9 @@
        "$AB$ 的行向量组与 $A$ 的行向量组等价",
        "$BA$ 的列向量组与 $A$ 的列向量组等价",
        "$BA$ 的行向量组与 $A$ 的行向量组等价"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2021_0.png"
       ]
      },
      {
@@ -30367,6 +30392,9 @@
        "方程组 $\\begin{pmatrix}A\\\\B\\end{pmatrix}x=0$ 有非零解",
        "$AB$ 与 $BA$ 相似",
        "$A+B$ 的列向量组线性相关"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2032_0.png"
       ]
      },
      {
@@ -30391,6 +30419,10 @@
        "$r(BA,B)\\le r(A,B)$",
        "$r(A,AB)\\le r(A,BA)$",
        "$r(AB,B)\\le r(BA,B)$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2033_0.png",
+       "data/img/zx_site/2033_1.png"
       ]
      },
      {
@@ -30415,6 +30447,10 @@
        "$1$ 或 $3$",
        "$2$ 或 $3$",
        "$1$ 或 $2$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2043_0.png",
+       "data/img/zx_site/2043_1.png"
       ]
      },
      {
@@ -30433,7 +30469,10 @@
        "39"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2049_0.png"
+      ]
      },
      {
       "no": 2051,
@@ -30457,6 +30496,10 @@
        "存在实对称矩阵 $A$，使得 $A^2+E$ 不可逆。",
        "不存在实对称矩阵 $A$，使得 $A^2=A$，但 $\\operatorname{tr}(A)\\ne r(A)$。",
        "以上说法均不正确。"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2051_0.png",
+       "data/img/zx_site/2051_1.png"
       ]
      },
      {
@@ -30475,7 +30518,11 @@
        "28"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2060_0.png",
+       "data/img/zx_site/2060_1.png"
+      ]
      },
      {
       "no": 2075,
@@ -30493,7 +30540,10 @@
        "28"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2075_0.png"
+      ]
      }
     ]
    },
@@ -30823,6 +30873,9 @@
        "$\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,k\\boldsymbol{\\beta}_1+\\boldsymbol{\\beta}_2$ 线性相关",
        "$\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\beta}_1+k\\boldsymbol{\\beta}_2$ 线性无关",
        "$\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\beta}_1+k\\boldsymbol{\\beta}_2$ 线性相关"
+      ],
+      "ansImg": [
+       "data/img/zx_site/867_0.png"
       ]
      },
      {
@@ -31604,6 +31657,9 @@
        "当 $r \\gt s$ 时，向量组 (II) 线性相关",
        "当 $r \\lt s$ 时，向量组 (I) 线性相关",
        "当 $r \\gt s$ 时，向量组 (I) 线性相关"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2034_0.png"
       ]
      },
      {
@@ -31622,7 +31678,11 @@
        "128"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2035_0.png",
+       "data/img/zx_site/2035_1.png"
+      ]
      },
      {
       "no": 2055,
@@ -31640,7 +31700,10 @@
        "129"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2055_0.png"
+      ]
      },
      {
       "no": 2061,
@@ -31658,7 +31721,11 @@
        "121"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2061_0.png",
+       "data/img/zx_site/2061_1.png"
+      ]
      },
      {
       "no": 2066,
@@ -31676,7 +31743,11 @@
        "124"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2066_0.png",
+       "data/img/zx_site/2066_1.png"
+      ]
      }
     ]
    },
@@ -31922,7 +31993,10 @@
        "136"
       ],
       "status": "merged-xd",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/915_0.png"
+      ]
      },
      {
       "no": 916,
@@ -33533,7 +33607,10 @@
        "134"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2002_0.png"
+      ]
      },
      {
       "no": 2003,
@@ -33551,7 +33628,10 @@
        "171"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2003_0.png"
+      ]
      },
      {
       "no": 2009,
@@ -33575,6 +33655,9 @@
        "当 $n>m$ 时，必有非零解",
        "当 $m>n$ 时，只有零解",
        "当 $m>n$ 时，必有非零解"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2009_0.png"
       ]
      },
      {
@@ -33599,6 +33682,9 @@
        "$a\\notin\\Omega,\\ d\\in\\Omega$",
        "$a\\in\\Omega,\\ d\\notin\\Omega$",
        "$a\\in\\Omega,\\ d\\in\\Omega$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2010_0.png"
       ]
      },
      {
@@ -33617,7 +33703,11 @@
        "152"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2011_0.png",
+       "data/img/zx_site/2011_1.png"
+      ]
      },
      {
       "no": 2012,
@@ -33635,7 +33725,10 @@
        "172"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2012_0.png"
+      ]
      },
      {
       "no": 2018,
@@ -33659,6 +33752,9 @@
        "$A^{\\mathsf T}\\boldsymbol x=0$ 的解均为 $B^{\\mathsf T}\\boldsymbol x=0$ 的解",
        "$B\\boldsymbol x=0$ 的解均为 $A\\boldsymbol x=0$ 的解",
        "$B^{\\mathsf T}\\boldsymbol x=0$ 的解均为 $A^{\\mathsf T}\\boldsymbol x=0$ 的解"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2018_0.png"
       ]
      },
      {
@@ -33701,7 +33797,10 @@
        "134"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2022_0.png"
+      ]
      },
      {
       "no": 2023,
@@ -33719,7 +33818,10 @@
        "153"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2023_0.png"
+      ]
      },
      {
       "no": 2024,
@@ -33737,7 +33839,11 @@
        "158"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2024_0.png",
+       "data/img/zx_site/2024_1.png"
+      ]
      },
      {
       "no": 2029,
@@ -33785,6 +33891,10 @@
        "$(\\boldsymbol{\\alpha}^T P\\boldsymbol{\\alpha} P^{-1} - \\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T) \\mathbf{x}=0$",
        "$(\\boldsymbol{\\alpha}^T P^{-1}\\boldsymbol{\\beta} P-\\boldsymbol{\\beta}\\boldsymbol{\\alpha}^T) \\mathbf{x}=0$",
        "$(E+\\boldsymbol{\\beta}\\boldsymbol{\\beta}^T) \\mathbf{x}=0$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2036_0.png",
+       "data/img/zx_site/2036_1.png"
       ]
      },
      {
@@ -33803,7 +33913,10 @@
        "134"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2037_0.png"
+      ]
      },
      {
       "no": 2038,
@@ -33821,7 +33934,11 @@
        "149"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2038_0.png",
+       "data/img/zx_site/2038_1.png"
+      ]
      },
      {
       "no": 2039,
@@ -33845,6 +33962,9 @@
        "线性方程组 $\\begin{pmatrix} E & O \\\\ O & A \\end{pmatrix}x=0$ 与 $\\begin{pmatrix} E & A^T \\\\ A & O \\end{pmatrix}x=0$ 同解",
        "线性方程组 $\\begin{pmatrix} E & O \\\\ O & A^T \\end{pmatrix}x=0$ 与 $\\begin{pmatrix} E & A^T \\\\ A & A^T \\end{pmatrix}x=0$ 同解",
        "线性方程组 $\\begin{pmatrix} E & O \\\\ O & A \\end{pmatrix}x=0$ 与 $\\begin{pmatrix} E & A^T \\\\ A & A^T \\end{pmatrix}x=0$ 同解"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2039_0.png"
       ]
      },
      {
@@ -33863,7 +33983,12 @@
        "171"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2040_0.png",
+       "data/img/zx_site/2040_1.png",
+       "data/img/zx_site/2040_2.png"
+      ]
      },
      {
       "no": 2044,
@@ -33887,6 +34012,9 @@
        "线性方程组 $A\\mathbf{x} = 0$ 有非零解",
        "$\\forall \\mathbf{b}$，线性方程组 $A^T \\mathbf{x} = \\mathbf{b}$ 有唯一解",
        "$\\forall \\mathbf{b}$，线性方程组 $A\\mathbf{x} = \\mathbf{b}$ 有无穷多解"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2044_0.png"
       ]
      },
      {
@@ -33911,6 +34039,9 @@
        "$\\alpha_1,\\alpha_3$",
        "$\\alpha_1,\\alpha_2,\\alpha_3$",
        "$\\alpha_2,\\alpha_3,\\alpha_4$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2048_0.png"
       ]
      },
      {
@@ -33935,6 +34066,9 @@
        "$A\\mathbf{x} = 0$ 的解与 $A$ 的列向量正交",
        "$A^T \\mathbf{x} = \\mathbf{b}$ 有解",
        "$A\\mathbf{x} = \\mathbf{b}$ 有解"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2056_0.png"
       ]
      },
      {
@@ -36116,6 +36250,9 @@
        "$A,B$ 同时可逆或同时不可逆",
        "$A$ 和 $B$ 有相同的特征向量",
        "$A$ 和 $B$ 均与同一个对角矩阵相似"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2004_0.png"
       ]
      },
      {
@@ -36140,6 +36277,9 @@
        "$\\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&2\\end{pmatrix}$",
        "$\\begin{pmatrix}2&0&0\\\\0&1&0\\\\0&0&2\\end{pmatrix}$",
        "$\\begin{pmatrix}2&0&0\\\\0&2&0\\\\0&0&1\\end{pmatrix}$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2005_0.png"
       ]
      },
      {
@@ -36158,7 +36298,10 @@
        "186"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2013_0.png"
+      ]
      },
      {
       "no": 2014,
@@ -36176,7 +36319,10 @@
        "191"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2014_0.png"
+      ]
      },
      {
       "no": 2017,
@@ -36194,7 +36340,11 @@
        "184"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2017_0.png",
+       "data/img/zx_site/2017_1.png"
+      ]
      },
      {
       "no": 2025,
@@ -36218,6 +36368,10 @@
        "存在可逆矩阵 $P$，使 $A=P\\Lambda P^{-1}$",
        "存在正交矩阵 $Q$，使 $A=Q\\Lambda Q^{-1}$",
        "存在可逆矩阵 $P$，使 $A=P\\Lambda P^{\\mathsf T}$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2025_0.png",
+       "data/img/zx_site/2025_1.png"
       ]
      },
      {
@@ -36242,6 +36396,10 @@
        "$(A^TB)^2A$",
        "$ABA$",
        "$BAB$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2026_0.png",
+       "data/img/zx_site/2026_1.png"
       ]
      },
      {
@@ -36278,7 +36436,11 @@
        "193"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2041_0.png",
+       "data/img/zx_site/2041_1.png"
+      ]
      },
      {
       "no": 2042,
@@ -36320,7 +36482,11 @@
        "196"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2045_0.png",
+       "data/img/zx_site/2045_1.png"
+      ]
      },
      {
       "no": 2050,
@@ -36338,7 +36504,11 @@
        "193"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2050_0.png",
+       "data/img/zx_site/2050_1.png"
+      ]
      },
      {
       "no": 2057,
@@ -36362,6 +36532,10 @@
        "$|A|=-1$。",
        "$A$ 可相似对角化。",
        "$A$ 有 $n-1$ 个线性无关的属于特征值 $-1$ 的特征向量。"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2057_0.png",
+       "data/img/zx_site/2057_1.png"
       ]
      },
      {
@@ -38223,7 +38397,10 @@
        "217"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2006_0.png"
+      ]
      },
      {
       "no": 2015,
@@ -38247,6 +38424,9 @@
        "$a\\lt-2$",
        "$-2\\lt a\\lt1$",
        "$a=1$ 或 $a=-2$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2015_0.png"
       ]
      },
      {
@@ -38271,6 +38451,9 @@
        "合同，但不相似",
        "不合同，但相似",
        "既不合同，也不相似"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2016_0.png"
       ]
      },
      {
@@ -38289,7 +38472,10 @@
        "211"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2027_0.png"
+      ]
      },
      {
       "no": 2028,
@@ -38307,7 +38493,14 @@
        "214"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2028_0.png",
+       "data/img/zx_site/2028_1.png",
+       "data/img/zx_site/2028_2.png",
+       "data/img/zx_site/2028_3.png",
+       "data/img/zx_site/2028_4.png"
+      ]
      },
      {
       "no": 2046,
@@ -38331,6 +38524,10 @@
        "$p=1,\\ q=2$",
        "$p=1,\\ q=0$",
        "$p=0,\\ q=2$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2046_0.png",
+       "data/img/zx_site/2046_1.png"
       ]
      },
      {
@@ -38355,6 +38552,9 @@
        "$\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}$",
        "$\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}$",
        "$\\begin{pmatrix}1&-2\\\\-2&1\\end{pmatrix}$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2047_0.png"
       ]
      },
      {
@@ -38379,6 +38579,10 @@
        "$a\\lt0,\\ -1\\lt b\\lt1$",
        "$a\\gt0,\\ b\\gt1$ 或 $b\\lt-1$",
        "$a\\lt0,\\ b\\gt1$ 或 $b\\lt-1$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2052_0.png",
+       "data/img/zx_site/2052_1.png"
       ]
      },
      {
@@ -38397,7 +38601,10 @@
        "220"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2053_0.png"
+      ]
      },
      {
       "no": 2054,
@@ -38421,6 +38628,9 @@
        "$1,1$",
        "$2,1$",
        "$1,2$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2054_0.png"
       ]
      },
      {
@@ -38445,6 +38655,9 @@
        "$y_1^2-y_2^2$",
        "$y_1^2+y_2^2-4y_3^2$",
        "$y_1^2+y_2^2-y_3^2$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2058_0.png"
       ]
      },
      {
@@ -38469,6 +38682,9 @@
        "$2$",
        "$3$",
        "$4$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2059_0.png"
       ]
      },
      {
@@ -38487,7 +38703,13 @@
        "212"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2062_0.png",
+       "data/img/zx_site/2062_1.png",
+       "data/img/zx_site/2062_2.png",
+       "data/img/zx_site/2062_3.png"
+      ]
      },
      {
       "no": 2065,
@@ -38529,7 +38751,11 @@
        "212"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2067_0.png",
+       "data/img/zx_site/2067_1.png"
+      ]
      },
      {
       "no": 2068,
@@ -38553,6 +38779,9 @@
        "$B,C$ 既相似又合同",
        "$A,C$ 不相似但合同",
        "$B,C$ 不相似但合同"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2068_0.png"
       ]
      },
      {
@@ -38571,7 +38800,11 @@
        "212"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "ansImg": [
+       "data/img/zx_site/2069_0.png",
+       "data/img/zx_site/2069_1.png"
+      ]
      },
      {
       "no": 2070,
@@ -38613,6 +38846,10 @@
        "$1$",
        "$2$",
        "$3$"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2071_0.png",
+       "data/img/zx_site/2071_1.png"
       ]
      },
      {
@@ -38655,6 +38892,10 @@
        "$A$ 与 $D$ 相似，$B$ 与 $D$ 合同。",
        "$A$ 与 $D$ 合同，$B$ 与 $C$ 相似。",
        "$B$ 与 $D$ 相似，$C$ 与 $D$ 合同。"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2073_0.png",
+       "data/img/zx_site/2073_1.png"
       ]
      },
      {
@@ -38679,6 +38920,10 @@
        "$A$ 与 $B$ 相似、合同但不等价",
        "$A$ 与 $B$ 相似但不合同",
        "$A$ 与 $B$ 等价但不相似"
+      ],
+      "ansImg": [
+       "data/img/zx_site/2074_0.png",
+       "data/img/zx_site/2074_1.png"
       ]
      }
     ]
