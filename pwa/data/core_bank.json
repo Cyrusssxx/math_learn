@@ -35855,9 +35855,9 @@
        "184"
       ],
       "linkedQid": null,
-      "source": "2025数三",
+      "source": "2025 数二",
       "srcPage": 78,
-      "srcOrder": 258,
+      "srcOrder": 229,
       "status": "transcribed",
       "key": false,
       "ansImg": [
@@ -36961,6 +36961,33 @@
        "data/img/zx_a/zx284_2.jpg",
        "data/img/zx_a/zx284_3.jpg"
       ]
+     },
+     {
+      "no": 1376,
+      "kind": "choice",
+      "type": "choice",
+      "stem": "设 $A$ 为 $3$ 阶矩阵，则 $A^3-A^2$ 可对角化是 $A$ 可对角化的（　）。",
+      "options": [
+       "充分但不必要条件",
+       "必要但不充分条件",
+       "充分必要条件",
+       "既不充分又不必要条件"
+      ],
+      "answer": "（B）必要但不充分条件\n\n**必要性**：若 $A$ 可对角化，则存在可逆矩阵 $P$ 使\n$$\nP^{-1}AP=\\Lambda=\\operatorname{diag}(\\lambda_1,\\lambda_2,\\lambda_3),\n$$\n于是\n$$\nP^{-1}(A^3-A^2)P=\\Lambda^3-\\Lambda^2=\\operatorname{diag}(\\lambda_1^3-\\lambda_1^2,\\ \\lambda_2^3-\\lambda_2^2,\\ \\lambda_3^3-\\lambda_3^2),\n$$\n仍是对角矩阵，故 $A^3-A^2$ 可对角化 ⟹ 是必要条件 ✓\n\n**不充分**：取\n$$\nA=\\begin{pmatrix}0&1&0\\\\0&0&0\\\\0&0&1\\end{pmatrix}.\n$$\n$A$ 的特征值为 $0,0,1$，而 $r(A)=2$，故 $\\lambda=0$ 的几何重数 $=3-r(A)=1<2$（代数重数），所以 $A$ 不可对角化。\n但\n$$\nA^2=\\begin{pmatrix}0&0&0\\\\0&0&0\\\\0&0&1\\end{pmatrix},\\qquad A^3=A^2A=\\begin{pmatrix}0&0&0\\\\0&0&0\\\\0&0&1\\end{pmatrix},\n$$\n于是 $A^3-A^2=O$，零矩阵当然可对角化。可见「$A^3-A^2$ 可对角化」推不出「$A$ 可对角化」✗\n\n结论：选 (B)。",
+      "idea": "① 多项式保持可对角化：$A$ 可对角化 ⟹ 任意 $f(A)$ 可对角化（同一个 $P$ 同时把两者对角化），这就是「必要性」的通用套路；② 反例要挑「特征值有重根、几何重数不足」的不可对角化矩阵，并让 $f$ 在它的特征值上取零——本题 $A^3-A^2=A^2(A-E)$ 在 $\\lambda=0,1$ 处为 $0$，正好把不可对角化的部分压成零矩阵；③ 所以这类题先看 $f$ 的零点是否覆盖了重特征值。",
+      "source": "2025 数三",
+      "categoryIds": [
+       179
+      ],
+      "catId": 179,
+      "deepCats": [
+       "192"
+      ],
+      "linkedQid": null,
+      "srcPage": 78,
+      "srcOrder": 258,
+      "status": "transcribed",
+      "key": false
      }
     ]
    },
