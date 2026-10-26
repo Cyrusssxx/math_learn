@@ -712,7 +712,10 @@ html.dark .exam-btn.on { color: #e5c860; }
     background: var(--bg-hover, #eef3fb);
     font-weight: 600;
 }
-/* 原图解析：纵向排列，点击放大 */
+/* 原图解析：纵向排列，点击放大。
+   注意：作者样式 display:flex 会覆盖 [hidden] 的 display:none，
+   必须显式处理 hidden，否则「文字解析」下面会同时冒出一份原图（2026-10-26 用户反馈重复）。 */
+.ans-pane[hidden] { display: none !important; }
 .ans-pane-img { display: flex; flex-direction: column; gap: 10px; }
 .q-ans-img {
     display: block;
