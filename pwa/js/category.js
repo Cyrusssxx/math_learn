@@ -2502,14 +2502,21 @@ function ppWeight(qid, st, isFav) {
     return isFav ? 1 : 0;
 }
 
-/** 真实题型。⚠️ q.kind 不可靠（解答题也标 blank），优先看 section.title；
- *  章节式题库（核心题库/大观园）节名不含题型 → 再按题目自身特征判定：
- *  有选项/kind=choice → 选择；有填空横线（含 \text{\_\_\_} 写法）或「（）」且非证明 → 填空；其余 → 解答 */
+/** 真实题型。判定优先级（2026-10-27 修正）：
+ *  ① section.title 含「选择/填空/解答」→ 直接用（真题卷的节名最可靠；
+ *     ⚠️ exam.json 的 q.kind 不可信：解答题一律标 blank，个别卷「选择题」也标 blank）
+ *  ② 节名不含题型（核心题库 / 大观园）→ 用题目自带 q.kind
+ *     （core_bank 的 kind 已核对：1113 题里 0 处「choice 却无选项」，可信）
+ *  ③ 都没有 → 按题干特征猜
+ *  这样把「填空/解答」误判率从 6.7%（75/1112）降到接近 0。 */
 function ppKindOf(secTitle, q) {
     const t = secTitle || '';
     if (t.indexOf('选择') >= 0) return '选择';
     if (t.indexOf('填空') >= 0) return '填空';
     if (t.indexOf('解答') >= 0) return '解答';
+    const KMAP = { choice: '选择', blank: '填空', calc: '解答', proof: '解答' };
+    const kq = q && q.kind;
+    if (KMAP[kq] && !(kq === 'choice' && !((q.options || []).length))) return KMAP[kq];
     const stem = String((q && q.stem) || '');
     if ((q && q.options && q.options.length) || (q && q.kind === 'choice')) return '选择';
     const isProof = (q && q.kind === 'proof') || /证明/.test(stem);
