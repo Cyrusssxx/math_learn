@@ -717,3 +717,37 @@ body.paper-mode #catMain { max-width: 900px; }
     background: transparent; border: 1px dashed var(--border); color: var(--text-faint);
 }
 .pp-clear-draw:hover { border-color: #b3261e; color: #b3261e; background: rgba(220, 38, 38, .06); }
+
+/* ============ 拼卷：重新拼卷悬浮窗（2026-10-27） ============ */
+.pp-modal { position: fixed; inset: 0; z-index: 400; display: flex; align-items: center; justify-content: center; }
+.pp-modal[hidden] { display: none; }
+.pp-modal-mask { position: absolute; inset: 0; background: rgba(0, 0, 0, .42); backdrop-filter: blur(1.5px); }
+.pp-modal-box {
+    position: relative; width: min(420px, calc(100vw - 40px));
+    background: var(--bg-card, #fff); color: var(--text);
+    border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 22px 18px; box-shadow: 0 18px 60px rgba(0, 0, 0, .28);
+}
+.pp-modal-t { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.pp-modal-sub { font-size: 12.5px; line-height: 1.6; color: var(--text-dim); margin-bottom: 16px; }
+.pp-modal-lab { font-size: 12.5px; color: var(--text-dim); margin-bottom: 8px; }
+.pp-modal-n { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pp-nbtn {
+    padding: 7px 14px; cursor: pointer; font-size: 13px; border-radius: 9px;
+    border: 1px solid var(--border); background: transparent; color: var(--text);
+}
+.pp-nbtn:hover { border-color: var(--accent); color: var(--accent); }
+.pp-nbtn.on { border-color: var(--accent); background: rgba(var(--pp-rgb, 74, 111, 217), .14); color: var(--accent); font-weight: 700; }
+.pp-ninput {
+    width: 76px; padding: 7px 9px; font-size: 13px; border-radius: 9px;
+    border: 1px solid var(--border); background: var(--bg-card, #fff); color: var(--text);
+}
+.pp-ninput:focus { outline: none; border-color: var(--accent); }
+.pp-modal-act { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.pp-mbtn {
+    padding: 8px 18px; cursor: pointer; font-size: 13px; border-radius: 9px;
+    border: 1px solid var(--border); background: transparent; color: var(--text);
+}
+.pp-mbtn:hover { background: var(--bg-hover); }
+.pp-mbtn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.pp-mbtn.primary:hover { filter: brightness(1.08); background: var(--accent); }

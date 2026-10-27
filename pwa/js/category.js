@@ -2475,15 +2475,17 @@ const PP_SHAPE = [
 const PP_RETRY = 20;        // 重抽次数（取其中章节覆盖最多的一版）
 const PP_KEEP = 10;         // 历史卷保留份数
 const PP_STORE = 'paperList';
-/** 每卷题量：可选 22 / 20 / 15 / 10，默认 22（2026-10-27 用户要求可调） */
-const PP_N_OPTS = [22, 20, 15, 10];
-let ppN = (function () {
-    const v = parseInt(localStorage.getItem('ppN') || '22', 10);
-    return PP_N_OPTS.indexOf(v) >= 0 ? v : 22;
-})();
+/** 每卷题量：**只能多不能少**，最小 22（数二真题规模），最大 60。默认 22。 */
+const PP_N_MIN = 22, PP_N_MAX = 60;
+const PP_N_PRESETS = [22, 25, 30, 40];
+function ppClampN(v) {
+    let n = parseInt(v, 10);
+    if (!n || isNaN(n)) n = PP_N_MIN;
+    return Math.max(PP_N_MIN, Math.min(PP_N_MAX, n));
+}
+let ppN = ppClampN(localStorage.getItem('ppN') || 22);
 function ppSetN(v) {
-    const n = parseInt(v, 10);
-    ppN = PP_N_OPTS.indexOf(n) >= 0 ? n : 22;
+    ppN = ppClampN(v);
     try { localStorage.setItem('ppN', String(ppN)); } catch (e) { }
 }
 const PP_SECS = 180 * 60;   // 计时总长（秒）
@@ -2837,7 +2839,7 @@ function ppSide() {
     const box = document.getElementById('paperList');
     if (!box) return;
     const list = ppListGet();
-    let html = `<button class="pp-new" onclick="ppNew()">🎲 重新拼卷</button>`;
+    let html = `<button class="pp-new" onclick="ppAskNew()">🎲 重新拼卷</button>`;
     if (!list.length) {
         html += `<div class="pp-empty">还没有拼过卷。</div>`;
     } else {
@@ -2895,15 +2897,11 @@ function ppRender() {
     const wantN = ppCur.n || ppN;
     const [wCh, wFi] = ppSplitN(wantN);
     const fillNote = (nChoice < wCh) ? `｜选择题不足，已用填空题补足 ${wCh + wFi} 个选填位` : '';
-    const nOpts = PP_N_OPTS.map(v => `<option value="${v}"${v === ppN ? ' selected' : ''}>${v} 题</option>`).join('');
     let html = `<div class="paper-head">
         <h1>🎲 拼卷 · ${ppFmtTs(ppCur.ts)}</h1>
         <div class="paper-sub">共 ${items.length} 题 · ${total} 分｜${c.unknown} 不会 · ${c.unfamiliar} 不熟 · ${c.plain} 仅收藏${nCh ? '｜覆盖 ' + nCh + ' 章' : ''}${fillNote}</div>
         <div class="pp-bar">
-            <button class="exam-btn" onclick="ppNew()" title="按同样的规则重新抽一份">🎲 重新拼卷</button>
-            <label class="pp-nsel" title="下一份卷抽多少题（对当前这张卷无影响）">题量
-                <select onchange="ppSetN(this.value)">${nOpts}</select>
-            </label>
+            <button class="exam-btn" onclick="ppAskNew()" title="选题量后重新抽一份">🎲 重新拼卷</button>
             <div class="pp-timer">
                 <span class="pp-clock" id="ppClock">${ppClockText(ppCur.left != null ? ppCur.left : PP_SECS)}</span>
                 <button class="pp-tbtn" id="ppTimerBtn" onclick="ppToggleTimer()" title="暂停 / 继续">${ppCur.running ? '⏸' : '▶'}</button>
@@ -2933,6 +2931,45 @@ function ppRender() {
     ppAfterRender(el);
     ppPaintClock();
 }
+
+/** 重新拼卷前的悬浮窗：选题量（只能 ≥22）。点「开始拼卷」才真正抽。 */
+function ppAskNew() {
+    let m = document.getElementById('ppModal');
+    if (!m) {
+        m = document.createElement('div');
+        m.id = 'ppModal'; m.className = 'pp-modal'; m.hidden = true;
+        m.innerHTML = `<div class="pp-modal-mask" onclick="ppCloseAsk()"></div>
+          <div class="pp-modal-box" role="dialog" aria-modal="true">
+            <div class="pp-modal-t">🎲 重新拼卷</div>
+            <div class="pp-modal-sub">从你收藏的题里抽：不会 / 不熟优先，7 天内抽过的不重复，同一细分支尽量不重复。</div>
+            <div class="pp-modal-lab">题量（最少 ${PP_N_MIN} 题）</div>
+            <div class="pp-modal-n">
+              ${PP_N_PRESETS.map(v => `<button type="button" class="pp-nbtn" data-n="${v}" onclick="ppPickN(${v})">${v} 题</button>`).join('')}
+              <input class="pp-ninput" id="ppNInput" type="number" min="${PP_N_MIN}" max="${PP_N_MAX}" step="1"
+                     value="${ppN}" oninput="ppPickN(this.value, 1)" onblur="ppPickN(this.value, 1)">
+            </div>
+            <div class="pp-modal-act">
+              <button type="button" class="pp-mbtn" onclick="ppCloseAsk()">取消</button>
+              <button type="button" class="pp-mbtn primary" onclick="ppDoNew()">开始拼卷</button>
+            </div>
+          </div>`;
+        document.body.appendChild(m);
+    }
+    m.hidden = false;
+    const inp = document.getElementById('ppNInput');
+    if (inp) inp.value = ppN;
+    ppSyncNBtns();
+}
+function ppCloseAsk() { const m = document.getElementById('ppModal'); if (m) m.hidden = true; }
+function ppSyncNBtns() {
+    document.querySelectorAll('#ppModal .pp-nbtn').forEach(b => b.classList.toggle('on', +b.dataset.n === ppN));
+}
+function ppPickN(v, fromInput) {
+    ppN = ppClampN(v);
+    if (fromInput) { const inp = document.getElementById('ppNInput'); if (inp && +inp.value !== ppN) inp.value = ppN; }
+    ppSyncNBtns();
+}
+function ppDoNew() { ppSetN(ppN); ppCloseAsk(); ppNew(); }
 
 /** 拼一份新卷（加入历史列表并切过去） */
 function ppNew() {
@@ -2972,16 +3009,46 @@ function ppOpen(id) {
     ppStopTimer(); ppSide(); ppRender();
 }
 
+/** 一次性回填：把**已有的历史卷**写进抽题记录（qDraw）。
+ *  为什么需要：qDraw 是 2026-10-27 才加的键，之前拼过的卷没有任何记录，
+ *  不回填的话那些题会被当成「从没抽过」而立刻重复抽到。
+ *  回填用卷子的 ts 作为「上次抽中时间」，所以 7 天前的旧卷不会占用 7 天窗口，
+ *  但仍会累计 d（软衰减）。用 qDrawBF 标记只跑一次。 */
+function ppBackfillDraw() {
+    try {
+        if (localStorage.getItem('qDrawBF') === '1') return;
+        const list = ppListGet();
+        let n = 0;
+        if (list.length) {
+            const dr = drawGet();
+            for (const p of list) {
+                const ts = p.ts || 0;
+                for (const it of (p.items || [])) {
+                    if (!it.qid) continue;
+                    const r = dr[it.qid] || { d: 0, ld: 0 };
+                    r.d = (r.d || 0) + 1;
+                    r.ld = Math.max(r.ld || 0, ts);
+                    dr[it.qid] = r; n++;
+                }
+            }
+            drawSave(dr);
+        }
+        localStorage.setItem('qDrawBF', '1');
+        if (n) console.info('[拼卷] 已把历史卷 ' + list.length + ' 份 / ' + n + ' 条抽题记录回填进 qDraw');
+    } catch (e) { }
+}
+
 /** 拼卷模式初始化：顶栏改文案、隐藏分类专属控件、左栏换成历史拼卷列表 */
 function ppApplyMode() {
     if (!PAPER_MODE) return;
+    ppBackfillDraw();
     document.body.classList.add('paper-mode');
     const t = document.querySelector('.exam-title');
     if (t) t.textContent = '🎲 拼卷';
     document.title = '🎲 拼卷 · 随机收藏题';
     const sub = document.getElementById('examSub');
     if (sub) {
-        sub.textContent = '从标记过的题里随机拼一份 22 题 / 150 分的卷 · 优先「不会 / 不熟」';
+        sub.textContent = '从收藏的题里拼一份卷（22 题起，可加量）· 不会 / 不熟优先 · 7 天内抽过的不重复';
         sub.hidden = false;
     }
     ['srcToggle', 'unmarkedFirst', 'yearSortBtn'].forEach(id => {
