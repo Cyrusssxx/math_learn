@@ -567,3 +567,38 @@ function importCoreExtra(input) {
     };
     rd.readAsText(f);
 }
+
+/* ============ 笔记高亮配色助手（2026-10-27） ============
+ * 笔记高亮令牌存的是淡色（#fff3bf / #d0ebff 这类），直接用这个淡色做下划线会"淡对淡"看不见，
+ * 直接用这个淡色做背景又几乎等于实心。所以：
+ *   hlBg(hex)   -> 同一个色相、降到 42% 不透明度，做底色
+ *   hlLine(hex) -> 同一个色相、把饱和度拉高、亮度压到 0.52，做下划线（可见）
+ * 颜色仍然是 #rrggbb，反向提取（rgbToHex）不受影响。 */
+window.hlBg = function (hex) {
+    var m = /^#([0-9a-fA-F]{6})$/.exec(String(hex || '').trim());
+    if (!m) return hex;
+    var n = parseInt(m[1], 16);
+    return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',.42)';
+};
+window.hlLine = function (hex) {
+    var m = /^#([0-9a-fA-F]{6})$/.exec(String(hex || '').trim());
+    if (!m) return hex;
+    var n = parseInt(m[1], 16);
+    var r = ((n >> 16) & 255) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255;
+    var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
+    var h = 0, s = 0;
+    if (d) {
+        s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
+        h = mx === r ? ((g - b) / d + (g < b ? 6 : 0)) : mx === g ? ((b - r) / d + 2) : ((r - g) / d + 4);
+        h /= 6;
+    }
+    s = Math.min(0.58, Math.max(0.42, s * 0.6));
+    var L = 0.56;
+    var q = L < 0.5 ? L * (1 + s) : L + s - L * s, p = 2 * L - q;
+    var f = function (t) {
+        t = (t + 1) % 1;
+        return t < 1 / 6 ? p + (q - p) * 6 * t : t < 1 / 2 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p;
+    };
+    var to = function (v) { return Math.round(v * 255); };
+    return 'rgb(' + to(f(h + 1 / 3)) + ',' + to(f(h)) + ',' + to(f(h - 1 / 3)) + ')';
+};

@@ -961,7 +961,7 @@ mark.note-hl {
     color: inherit; padding: 0 1px; border-radius: 3px;
     background: var(--nhl);
     background: var(--nhl-bg, color-mix(in srgb, var(--nhl) 42%, transparent));
-    border-bottom: 2px solid var(--nhl);
+    border-bottom: 2px solid var(--nhl-line, var(--nhl));
     -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
 

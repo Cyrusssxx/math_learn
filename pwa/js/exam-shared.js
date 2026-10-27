@@ -248,7 +248,7 @@ function mdBlock(s) {
     if (mathBuf) out.push('<p>' + mdInline(mathBuf) + '</p>');
     // 笔记令牌还原（存储经 esc 后形如 &lt;b&gt;…&lt;/b&gt;；高亮/字色 → 行内标签，粗体/斜体 → 行内标签，H1/H2 → 块级标题）
     return out.join('')
-        .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, ((m, c, t) => { const n = parseInt(c.slice(1), 16); const bg = 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',.42)'; return '<mark class="note-hl" style="--nhl:' + c + ';--nhl-bg:' + bg + '">' + t + '</mark>'; }))
+        .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, ((m, c, t) => '<mark class="note-hl" style="--nhl:' + c + ';--nhl-bg:' + hlBg(c) + ';--nhl-line:' + hlLine(c) + '">' + t + '</mark>'))
         .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
         .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
         .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
