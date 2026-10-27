@@ -240,7 +240,7 @@ const Annot = (() => {
         }
         // 富文本令牌还原（与真题页 exam.js mdBlock 同源）：字色 <c:>、高亮底 <h:>、粗 <b>、斜 <i>、标题 <h1>/<h2>
         h = h
-            .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, '<mark class="note-hl" style="--nhl:$1">$2</mark>')
+            .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, ((m, c, t) => { const n = parseInt(c.slice(1), 16); const bg = 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',.42)'; return '<mark class="note-hl" style="--nhl:' + c + ';--nhl-bg:' + bg + '">' + t + '</mark>'; }))
             .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
             .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
             .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')

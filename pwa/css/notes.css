@@ -960,7 +960,7 @@ li.hl-r, p.hl-r { background: var(--hl-r-soft); border-bottom: 2px solid var(--h
 mark.note-hl {
     color: inherit; padding: 0 1px; border-radius: 3px;
     background: var(--nhl);
-    background: color-mix(in srgb, var(--nhl) 42%, transparent);
+    background: var(--nhl-bg, color-mix(in srgb, var(--nhl) 42%, transparent));
     border-bottom: 2px solid var(--nhl);
     -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }

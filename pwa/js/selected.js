@@ -109,7 +109,15 @@ function mdBlock(s){
         if(!l.includes('$')&&!/[\u4e00-\u9fff]/.test(l)&&l.trim().length>3&&/\\[a-zA-Z]{2,}/.test(l)&&/[=+\-^_{}]/.test(l)){out.push('<p>'+mdInline('$'+l+'$')+'</p>');continue;}
         out.push('<p>'+mdInline(l)+'</p>');
     }if(mathBuf)out.push('<p>'+mdInline(mathBuf)+'</p>');
-    return out.join('');
+    // 笔记富文本令牌还原（与 category.js / exam.js 同源）：高亮/字色/粗/斜/标题
+    return out.join('')
+        .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g,
+            (m, c, t) => { const n = parseInt(c.slice(1), 16); const bg = 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',.42)'; return '<mark class="note-hl" style="--nhl:' + c + ';--nhl-bg:' + bg + '">' + t + '</mark>'; })
+        .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
+        .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
+        .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
+        .replace(/&lt;h1&gt;([\s\S]*?)&lt;\/h1&gt;/g, '<h1>$1</h1>')
+        .replace(/&lt;h2&gt;([\s\S]*?)&lt;\/h2&gt;/g, '<h2>$1</h2>');
 }
 
 // ============ 渲染 ============

@@ -26276,6 +26276,33 @@
       "linkedQid": "2003数二真题-6",
       "ansImg": [
        "data/img/zx_site/756_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=87&t=214",
+        "label": "没咋了 · 没咋了 2003年数学二（6） · 抽象行列式计算",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1wa411Z7TC/?p=18&t=0",
+        "label": "喻老 · 喻老 2003年数学二（6） · 抽象行列式计算",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=490",
+        "label": "帕拉迪宇 · 帕拉迪宇 2003年数学二（6） · 抽象行列式计算",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=11&t=538",
+        "label": "汤家凤 · 汤家凤 2003年数学二（6） · 抽象行列式计算",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=505",
+        "label": "帕拉迪宇 · 2003数二；25 版 880 行列式综合填空 3",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -26297,6 +26324,48 @@
       "linkedQid": "2012数二真题-14",
       "ansImg": [
        "data/img/zx_site/762_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=15&t=1845",
+        "label": "2012 数二 第14题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=15&t=1612",
+        "label": "2012 数三 第13题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=15&t=1642",
+        "label": "李艳芳 · 李艳芳 2012年数学二/三（二14、三13） · 抽象行列式计算",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=15&t=1871",
+        "label": "李艳芳 · 李艳芳 2012年数学二/三（二14、三13） · 抽象行列式计算",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=863",
+        "label": "帕拉迪宇 · 帕拉迪宇 2012年数学二/三（二14、三13） · 抽象行列式计算",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=38&t=2001",
+        "label": "汤家凤 · 汤家凤 2012年数学二/三（二14、三13） · 抽象行列式计算",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=39&t=2269",
+        "label": "汤家凤 · 汤家凤 2012年数学二/三（二14、三13） · 抽象行列式计算",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=880",
+        "label": "帕拉迪宇 · 2012数二三",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -26469,6 +26538,28 @@
       "ansImg": [
        "data/img/zx_site/770_0.png",
        "data/img/zx_site/770_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=83&t=437",
+        "label": "2024 数三 第7题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=83&t=559",
+        "label": "李艳芳 · 李艳芳 2024年数学三（7） · 给出余子式相关信息定参",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1aeUWYUEiT/?p=1&t=3240",
+        "label": "帕拉迪宇 · 帕拉迪宇 2024年数学三（7） · 给出余子式相关信息定参",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=72&t=700",
+        "label": "汤家凤 · 汤家凤 2024年数学三（7） · 给出余子式相关信息定参",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -26702,6 +26793,13 @@
       "key": false,
       "ansImg": [
        "data/img/zx_site/1083_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=2728",
+        "label": "帕拉迪宇 · 三个反对角分块的行列式 · 45:28",
+        "status": "confirmed"
+       }
       ]
      },
      {
@@ -27396,6 +27494,13 @@
       "key": false,
       "ansImg": [
        "data/img/zx_site/1300_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=4&t=6200",
+        "label": "汤家凤 · 2001数一原卷第十题 · P4 1:43:20",
+        "status": "confirmed"
+       }
       ]
      },
      {
@@ -27626,7 +27731,7 @@
        "9"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2014数二真题-7",
       "options": [
        "$(ad-bc)^2$",
        "$-(ad-bc)^2$",
@@ -27635,6 +27740,58 @@
       ],
       "ansImg": [
        "data/img/zx_site/2007_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=26&t=20",
+        "label": "2014 数一 第5题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=26&t=958",
+        "label": "2014 数二 第7题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=26&t=20",
+        "label": "2014 数三 第5题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=26&t=50",
+        "label": "李艳芳 · 李艳芳 2014年数学一/二/三（一5、二7、三5） · X型",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=26&t=973",
+        "label": "李艳芳 · 李艳芳 2014年数学一/二/三（一5、二7、三5） · X型",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=26&t=49",
+        "label": "李艳芳 · 李艳芳 2014年数学一/二/三（一5、二7、三5） · X型",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1aeUWYUEiT/?p=1&t=1634",
+        "label": "帕拉迪宇 · 帕拉迪宇 2014年数学一/二/三（一5、二7、三5） · X型",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=43&t=919",
+        "label": "汤家凤 · 汤家凤 2014年数学一/二/三（一5、二7、三5） · X型",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=44&t=800",
+        "label": "汤家凤 · 汤家凤 2014年数学一/二/三（一5、二7、三5） · X型",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=45&t=648",
+        "label": "汤家凤 · 汤家凤 2014年数学一/二/三（一5、二7、三5） · X型",
+        "status": "unreviewed"
+       }
       ]
      }
     ]
@@ -28932,6 +29089,23 @@
       ],
       "ansImg": [
        "data/img/zx_site/841_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ze4y1o7in/?p=29&t=1",
+        "label": "喻老 · 喻老 2004年数学一/二（一12、二14） · AB=O",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=13&t=1961",
+        "label": "汤家凤 · 汤家凤 2004年数学一/二（一12、二14） · AB=O",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=14&t=1980",
+        "label": "汤家凤 · 汤家凤 2004年数学一/二（一12、二14） · AB=O",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -29977,6 +30151,53 @@
       "key": false,
       "ansImg": [
        "data/img/zx_a/zx110_0.jpg"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=20&t=12",
+        "label": "2013 数一 第5题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=20&t=713",
+        "label": "2013 数二 第7题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=20&t=20",
+        "label": "2013 数三 第5题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=20&t=43",
+        "label": "李艳芳 · 李艳芳 2013年数学一/二/三（一5、二7、三5）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=20&t=46",
+        "label": "李艳芳 · 李艳芳 2013年数学一/二/三（一5、二7、三5）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=20&t=737",
+        "label": "李艳芳 · 李艳芳 2013年数学一/二/三（一5、二7、三5）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=40&t=1611",
+        "label": "汤家凤 · 汤家凤 2013年数学一/二/三（一5、二7、三5）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=41&t=765",
+        "label": "汤家凤 · 汤家凤 2013年数学一/二/三（一5、二7、三5）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=42&t=733",
+        "label": "汤家凤 · 汤家凤 2013年数学一/二/三（一5、二7、三5）",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30262,6 +30483,23 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2001_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=4196",
+        "label": "帕拉迪宇 · 帕拉迪宇 1990年数学三 · (不)可逆的判定与证明",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1ot4y137ih/?p=1&t=3049",
+        "label": "汤家凤 · 汤家凤 1990年数学三 · (不)可逆的判定与证明",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=4215",
+        "label": "帕拉迪宇 · 1990数三",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30289,6 +30527,48 @@
       ],
       "ansImg": [
        "data/img/zx_site/2008_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=44&t=18",
+        "label": "2017 数一 第5题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=44&t=19",
+        "label": "2017 数三 第5题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=44&t=82",
+        "label": "李艳芳 · 李艳芳 2017年数学一/三（一5、三5） · (不)可逆的判定与证明",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=44&t=196",
+        "label": "李艳芳 · 李艳芳 2017年数学一/三（一5、三5） · (不)可逆的判定与证明",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=4491",
+        "label": "帕拉迪宇 · 帕拉迪宇 2017年数学一/三（一5、三5） · (不)可逆的判定与证明",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=52&t=492",
+        "label": "汤家凤 · 汤家凤 2017年数学一/三（一5、三5） · (不)可逆的判定与证明",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=54&t=569",
+        "label": "汤家凤 · 汤家凤 2017年数学一/三（一5、三5） · (不)可逆的判定与证明",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=4505",
+        "label": "帕拉迪宇 · 2017数一三",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30316,6 +30596,13 @@
       ],
       "ansImg": [
        "data/img/zx_site/2020_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=10307",
+        "label": "帕拉迪宇 · 实对称矩阵版本（条件有误，须结合勘误）",
+        "status": "confirmed"
+       }
       ]
      },
      {
@@ -30343,6 +30630,13 @@
       ],
       "ansImg": [
        "data/img/zx_site/2021_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=12195",
+        "label": "帕拉迪宇 · 帕拉迪宇 线性代数大观（下篇） · AB=C",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30361,12 +30655,29 @@
        "42"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2025数二真题-10",
       "options": [
        "方程组 $(A+B)X=0$ 只有零解",
        "方程组 $AX=0$ 与方程组 $BX=0$ 均只有零解",
        "方程组 $AX=0$ 与方程组 $BX=0$ 没有公共非零解",
        "方程组 $ABAX=0$ 与方程组 $BABX=0$ 有公共非零解"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=94&t=3260",
+        "label": "2025 数二 第10题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=94&t=3297",
+        "label": "李艳芳 · 李艳芳 2025年数学二（10）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=74&t=2312",
+        "label": "汤家凤 · 汤家凤 2025年数学二（10）",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30394,6 +30705,18 @@
       ],
       "ansImg": [
        "data/img/zx_site/2032_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=6344",
+        "label": "帕拉迪宇 · 帕拉迪宇 线性代数大观（下篇） · 利用秩推理",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=6355",
+        "label": "帕拉迪宇 · 24 余丙森五套数一二 第三套",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30422,6 +30745,18 @@
       "ansImg": [
        "data/img/zx_site/2033_0.png",
        "data/img/zx_site/2033_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=10456",
+        "label": "帕拉迪宇 · 帕拉迪宇 线性代数大观（下篇） · 分块矩阵秩",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=10465",
+        "label": "帕拉迪宇 · 900 题数二第二章 B 类 5",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30440,7 +30775,7 @@
        "46"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2024数二真题-9",
       "options": [
        "$0$ 或 $1$",
        "$1$ 或 $3$",
@@ -30450,6 +30785,28 @@
       "ansImg": [
        "data/img/zx_site/2043_0.png",
        "data/img/zx_site/2043_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=89&t=2018",
+        "label": "2024 数二 第9题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=89&t=2096",
+        "label": "李艳芳 · 李艳芳 2024年数学二（9） · AB=O",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=11572",
+        "label": "帕拉迪宇 · 帕拉迪宇 2024年数学二（9） · AB=O",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=71&t=1682",
+        "label": "汤家凤 · 汤家凤 2024年数学二（9） · AB=O",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30471,6 +30828,18 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2049_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=6079",
+        "label": "帕拉迪宇 · 帕拉迪宇 线性代数大观（下篇） · 求秩及证明秩",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=6070",
+        "label": "帕拉迪宇 · 🫚基础例题",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30499,6 +30868,13 @@
       "ansImg": [
        "data/img/zx_site/2051_0.png",
        "data/img/zx_site/2051_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1yhgZ6YESU/?p=80&t=3231",
+        "label": "拉普拉丝儿 · 实对称矩阵命题正确的是",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30521,6 +30897,18 @@
       "ansImg": [
        "data/img/zx_site/2060_0.png",
        "data/img/zx_site/2060_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=7094",
+        "label": "帕拉迪宇 · 2024数一第21题 · 矩阵高次幂与数列递推",
+        "status": "confirmed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=7070",
+        "label": "帕拉迪宇 · 2024数一",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -30542,6 +30930,23 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2075_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1UwLG6WET6/?p=95&t=1403",
+        "label": "没咋了 · A=P^{-1}BP求A^4-2B^2",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1YXL36hEG5/?p=93&t=1417",
+        "label": "没咋了 · A=P^{-1}BP，求A^4-2B^2",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=91&t=1417",
+        "label": "没咋了 · A=P⁻¹BP求A⁴-2B²",
+        "status": "unreviewed"
+       }
       ]
      }
     ]
@@ -30657,6 +31062,13 @@
       "ansImg": [
        "data/img/zx_site/855_0.png",
        "data/img/zx_site/855_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=14355",
+        "label": "帕拉迪宇 · 2024数一第15题 · 二次型不等式",
+        "status": "confirmed"
+       }
       ]
      },
      {
@@ -30875,6 +31287,23 @@
       ],
       "ansImg": [
        "data/img/zx_site/867_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=16000",
+        "label": "帕拉迪宇 · 帕拉迪宇 2002年数学二（10） · 根据线性表示推理",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=8&t=1416",
+        "label": "汤家凤 · 汤家凤 2002年数学二（10） · 根据线性表示推理",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=16025",
+        "label": "帕拉迪宇 · 2002数二",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -31619,7 +32048,7 @@
        "126"
       ],
       "status": "transcribed",
-      "linkedQid": null,
+      "linkedQid": "2023数二真题-10",
       "options": [
        "$k(3,3,4)^{\\mathrm T},\\quad k\\in\\mathbb R$",
        "$k(3,5,10)^{\\mathrm T},\\quad k\\in\\mathbb R$",
@@ -31632,6 +32061,13 @@
       "ansImg": [
        "data/img/zx_site/1327_0.png",
        "data/img/zx_site/1327_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=16760",
+        "label": "帕拉迪宇 · 2023数一二三 · 共同线性表示",
+        "status": "confirmed"
+       }
       ]
      },
      {
@@ -31650,7 +32086,7 @@
        "125"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2003数二真题-12",
       "options": [
        "当 $r \\lt s$ 时，向量组 (II) 线性相关",
        "当 $r \\gt s$ 时，向量组 (II) 线性相关",
@@ -31659,6 +32095,23 @@
       ],
       "ansImg": [
        "data/img/zx_site/2034_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1wa411Z7TC/?p=28&t=0",
+        "label": "喻老 · 喻老 2003年数学一/二（一10、二12） · 根据线性表示推理",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=10&t=1614",
+        "label": "汤家凤 · 汤家凤 2003年数学一/二（一10、二12） · 根据线性表示推理",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=11&t=1936",
+        "label": "汤家凤 · 汤家凤 2003年数学一/二（一10、二12） · 根据线性表示推理",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -31702,6 +32155,18 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2055_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1YXL36hEG5/?p=106&t=1980",
+        "label": "没咋了 · 没咋了 李林880数学二 · 25版880 向量综合解答 7 · 证明线性无关",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=103&t=1636",
+        "label": "没咋了 · 没咋了 李林880数学三 · 25版880 向量综合解答 7 · 证明线性无关",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -31720,10 +32185,42 @@
        "121"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2019数二真题-22",
       "ansImg": [
        "data/img/zx_site/2061_0.png",
        "data/img/zx_site/2061_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=60&t=91",
+        "label": "李艳芳 · 李艳芳 2019年数学二/三（二21、三20） · 根据线性表示情况确定参数并将",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=66&t=1758",
+        "label": "李艳芳 · 李艳芳 2019年数学二/三（二21、三20） · 根据线性表示情况确定参数并将",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=15060",
+        "label": "帕拉迪宇 · 帕拉迪宇 2019年数学二/三（二21、三20） · 根据线性表示情况确定参数并",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=59&t=4775",
+        "label": "汤家凤 · 汤家凤 2019年数学二/三（二21、三20） · 根据线性表示情况确定参数并将",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=60&t=3540",
+        "label": "汤家凤 · 汤家凤 2019年数学二/三（二21、三20） · 根据线性表示情况确定参数并将",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=15085",
+        "label": "帕拉迪宇 · 2019数二三",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -31742,10 +32239,32 @@
        "124"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2005数二真题-22",
       "ansImg": [
        "data/img/zx_site/2066_0.png",
        "data/img/zx_site/2066_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1TN4y1F7Jz/?p=52&t=0",
+        "label": "喻老 · 喻老 2005年数学二（22） · 根据线性表示情况确定参数并将向量线性表示",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=15348",
+        "label": "帕拉迪宇 · 帕拉迪宇 2005年数学二（22） · 根据线性表示情况确定参数并将向量线性表示",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=17&t=5174",
+        "label": "汤家凤 · 汤家凤 2005年数学二（22） · 根据线性表示情况确定参数并将向量线性表示",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=15365",
+        "label": "帕拉迪宇 · 2005数二；25张宇八套数一二三第七套",
+        "status": "unreviewed"
+       }
       ]
      }
     ]
@@ -32370,6 +32889,28 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/940_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=20393",
+        "label": "帕拉迪宇 · 帕拉迪宇 2002年数学一/二（一17、二20） · 已知向量关系求通解",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=7&t=4188",
+        "label": "汤家凤 · 汤家凤 2002年数学一/二（一17、二20） · 已知向量关系求通解",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=8&t=6147",
+        "label": "汤家凤 · 汤家凤 2002年数学一/二（一17、二20） · 已知向量关系求通解",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=20415",
+        "label": "帕拉迪宇 · 2002数一二三",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -32547,7 +33088,19 @@
        "163"
       ],
       "status": "merged-xd",
-      "linkedQid": null
+      "linkedQid": null,
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1TN4y1F7Jz/?p=47&t=0",
+        "label": "喻老 · 喻老 2005年数学三（20）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=18&t=3837",
+        "label": "汤家凤 · 汤家凤 2005年数学三（20）",
+        "status": "unreviewed"
+       }
+      ]
      },
      {
       "no": 950,
@@ -32946,7 +33499,19 @@
       "ansImg": [
        "data/img/zx_site/1125_0.png"
       ],
-      "img": "data/img/zx_q/zx190.png"
+      "img": "data/img/zx_q/zx190.png",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1UwLG6WET6/?p=112&t=0",
+        "label": "没咋了 · 没咋了 李林880数学一 · 25版880 方程组综合填空 1 · 找一个非齐次特解",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=109&t=0",
+        "label": "没咋了 · 没咋了 李林880数学三 · 25版880 方程组综合填空 1 · 找一个非齐次特解",
+        "status": "unreviewed"
+       }
+      ]
      },
      {
       "no": 1126,
@@ -33225,6 +33790,13 @@
       "key": false,
       "ansImg": [
        "data/img/zx_site/1215_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=9&t=4045",
+        "label": "汤家凤 · 汤家凤 2002年数学三（17） · 具体矩阵",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33608,6 +34180,13 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2002_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1pB4y1t785/?p=1&t=3300",
+        "label": "汤家凤 · 汤家凤 1992年数学三 · 已知解的情况确定参数",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33629,6 +34208,13 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2003_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1DV4y1j7pT/?p=1&t=2643",
+        "label": "汤家凤 · 汤家凤 1990年数学一 · 可逆",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33656,6 +34242,13 @@
       ],
       "ansImg": [
        "data/img/zx_site/2009_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=9&t=1361",
+        "label": "汤家凤 · 汤家凤 2002年数学三（8） · 判断解的情况",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33674,7 +34267,7 @@
        "134"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2015数二真题-7",
       "options": [
        "$a\\notin\\Omega,\\ d\\notin\\Omega$",
        "$a\\notin\\Omega,\\ d\\in\\Omega$",
@@ -33683,6 +34276,63 @@
       ],
       "ansImg": [
        "data/img/zx_site/2010_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=32&t=20",
+        "label": "2015 数一 第5题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=32&t=966",
+        "label": "2015 数二 第7题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=32&t=20",
+        "label": "2015 数三 第5题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=32&t=92",
+        "label": "李艳芳 · 李艳芳 2015年数学一/二/三（一5、二7、三5） · 已知解的情况确定参数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=32&t=990",
+        "label": "李艳芳 · 李艳芳 2015年数学一/二/三（一5、二7、三5） · 已知解的情况确定参数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=32&t=155",
+        "label": "李艳芳 · 李艳芳 2015年数学一/二/三（一5、二7、三5） · 已知解的情况确定参数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=18793",
+        "label": "帕拉迪宇 · 帕拉迪宇 2015年数学一/二/三（一5、二7、三5） · 已知解的情况确定参数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=46&t=852",
+        "label": "汤家凤 · 汤家凤 2015年数学一/二/三（一5、二7、三5） · 已知解的情况确定参数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=47&t=1006",
+        "label": "汤家凤 · 汤家凤 2015年数学一/二/三（一5、二7、三5） · 已知解的情况确定参数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=48&t=631",
+        "label": "汤家凤 · 汤家凤 2015年数学一/二/三（一5、二7、三5） · 已知解的情况确定参数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=18800",
+        "label": "帕拉迪宇 · 2015数一二三",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33726,6 +34376,23 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2012_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=42&t=20",
+        "label": "2016 数一 第20题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=42&t=117",
+        "label": "李艳芳 · 李艳芳 2016年数学一（20） · 含参数讨论完再解",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=49&t=5680",
+        "label": "汤家凤 · 汤家凤 2016年数学一（20） · 含参数讨论完再解",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33744,7 +34411,7 @@
        "168"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2021数二真题-9",
       "options": [
        "$A\\boldsymbol x=0$ 的解均为 $B\\boldsymbol x=0$ 的解",
        "$A^{\\mathsf T}\\boldsymbol x=0$ 的解均为 $B^{\\mathsf T}\\boldsymbol x=0$ 的解",
@@ -33753,6 +34420,28 @@
       ],
       "ansImg": [
        "data/img/zx_site/2018_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=74&t=1827",
+        "label": "2021 数二 第9题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=74&t=1850",
+        "label": "李艳芳 · 李艳芳 2021年数学二（9） · 两个方程组其他解的关系",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=21784",
+        "label": "帕拉迪宇 · 2021 数二第9题",
+        "status": "confirmed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=65&t=1233",
+        "label": "汤家凤 · 汤家凤 2021年数学二（9） · 两个方程组其他解的关系",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33798,6 +34487,13 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2022_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=60&t=1421",
+        "label": "汤家凤 · 2019数三 #455",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33819,6 +34515,13 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2023_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1yhgZ6YESU/?p=77&t=4026",
+        "label": "拉普拉丝儿 · 拉普拉丝儿 李艳芳900 · 900数二第四章 B类 13 · 由条件求通解",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33865,6 +34568,18 @@
        "当 $A^Tx=\\beta$ 有解时，$B^Tx=\\beta$ 有解",
        "当 $Bx=\\beta$ 有解时，$Ax=\\beta$ 有解",
        "当 $B^Tx=\\beta$ 有解时，$A^Tx=\\beta$ 有解"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1W6zfBBELF/?p=2&t=1",
+        "label": "李艳芳 · 李艳芳 2026年数学一（6）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=76&t=1458",
+        "label": "汤家凤 · 汤家凤 2026年数学一（6）",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33893,6 +34608,13 @@
       "ansImg": [
        "data/img/zx_site/2036_0.png",
        "data/img/zx_site/2036_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=18420",
+        "label": "帕拉迪宇 · 帕拉迪宇 线性代数大观（下篇） · 判断解的情况",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33936,6 +34658,18 @@
       "ansImg": [
        "data/img/zx_site/2038_0.png",
        "data/img/zx_site/2038_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=20542",
+        "label": "帕拉迪宇 · 帕拉迪宇 线性代数大观（下篇） · 已知向量关系求通解",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=20560",
+        "label": "帕拉迪宇 · 🫚真题同源 150",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -33981,11 +34715,43 @@
        "171"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2015数二真题-22",
       "ansImg": [
        "data/img/zx_site/2040_0.png",
        "data/img/zx_site/2040_1.png",
        "data/img/zx_site/2040_2.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=36&t=655",
+        "label": "2015 数二 第22题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=36&t=20",
+        "label": "2015 数三 第20题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=36&t=58",
+        "label": "李艳芳 · 李艳芳 2015年数学二/三（二22、三20） · 可逆",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=36&t=675",
+        "label": "李艳芳 · 李艳芳 2015年数学二/三（二22、三20） · 可逆",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=47&t=4644",
+        "label": "汤家凤 · 汤家凤 2015年数学二/三（二22、三20） · 可逆",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=22980",
+        "label": "帕拉迪宇 · 2015数二三",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -34013,6 +34779,18 @@
       ],
       "ansImg": [
        "data/img/zx_site/2044_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1YXL36hEG5/?p=112&t=0",
+        "label": "没咋了 · r(A)=m<n 行向量无关，选不正确项（答案C）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=108&t=0",
+        "label": "没咋了 · r(A)=m<n判断结论不正确",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -34031,7 +34809,7 @@
        "136"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2011数二真题-8",
       "options": [
        "$\\alpha_1,\\alpha_2$",
        "$\\alpha_1,\\alpha_3$",
@@ -34040,6 +34818,38 @@
       ],
       "ansImg": [
        "data/img/zx_site/2048_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=8&t=281",
+        "label": "2011 数一 第6题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=8&t=1077",
+        "label": "2011 数二 第8题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=19391",
+        "label": "帕拉迪宇 · 帕拉迪宇 2011年数学一/二（一6、二8） · 求基础解系(通解)",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=34&t=1289",
+        "label": "汤家凤 · 汤家凤 2011年数学一/二（一6、二8） · 求基础解系(通解)",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=35&t=857",
+        "label": "汤家凤 · 汤家凤 2011年数学一/二（一6、二8） · 求基础解系(通解)",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=19390",
+        "label": "帕拉迪宇 · 2011数一二",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -34085,7 +34895,24 @@
        "145"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=91&t=889",
+        "label": "2025 数一 第21题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=91&t=929",
+        "label": "李艳芳 · 李艳芳 2025年数学一（21）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=73&t=5405",
+        "label": "汤家凤 · 汤家凤 2025年数学一（21）",
+        "status": "unreviewed"
+       }
+      ]
      }
     ]
    },
@@ -34865,7 +35692,7 @@
        "190"
       ],
       "status": "merged-xd",
-      "linkedQid": null,
+      "linkedQid": "2012数二真题-8",
       "options": [
        "$\\boldsymbol{a}_1+\\boldsymbol{a}_2$",
        "$\\boldsymbol{a}_2+2\\boldsymbol{a}_3$",
@@ -34874,6 +35701,23 @@
       ],
       "ansImg": [
        "data/img/zx_site/997_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=50&t=726",
+        "label": "2017 数二 第7题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=50&t=759",
+        "label": "李艳芳 · 李艳芳 2017年数学二（7） · 相似对角化概念",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=53&t=1175",
+        "label": "汤家凤 · 汤家凤 2017年数学二（7） · 相似对角化概念",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -35385,6 +36229,18 @@
       "ansImg": [
        "data/img/zx_site/1017_0.png",
        "data/img/zx_site/1017_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=6&t=708",
+        "label": "李艳芳 · 李艳芳 2010年数学一（21） · 求实对称矩阵 A",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=31&t=4395",
+        "label": "汤家凤 · 汤家凤 2010年数学一（21） · 求实对称矩阵 A",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -35573,7 +36429,7 @@
        "183"
       ],
       "status": "transcribed",
-      "linkedQid": null,
+      "linkedQid": "2025数二真题-8",
       "options": [
        "$a\\gt4,\\ b\\gt0$",
        "$a\\lt4,\\ b\\gt0$",
@@ -35630,7 +36486,14 @@
       "ansImg": [
        "data/img/zx_site/1151_0.png"
       ],
-      "img": "data/img/zx_q/zx271.png"
+      "img": "data/img/zx_q/zx271.png",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=24494",
+        "label": "帕拉迪宇 · 帕拉迪宇 线性代数大观（下篇） · 实对称矩阵相关推理",
+        "status": "unreviewed"
+       }
+      ]
      },
      {
       "no": 1152,
@@ -35967,7 +36830,7 @@
        "196"
       ],
       "status": "transcribed",
-      "linkedQid": null,
+      "linkedQid": "2025数二真题-22",
       "srcOrder": 276,
       "srcPage": 83,
       "key": false,
@@ -35976,7 +36839,24 @@
        "data/img/zx_a/zx276_1.jpg",
        "data/img/zx_a/zx276_2.jpg"
       ],
-      "img": "data/img/zx_q/zx276.png"
+      "img": "data/img/zx_q/zx276.png",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=97&t=2489",
+        "label": "2025 数二 第22题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=97&t=2516",
+        "label": "李艳芳 · 李艳芳 2025年数学二（22）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=74&t=6165",
+        "label": "汤家凤 · 汤家凤 2025年数学二（22）",
+        "status": "unreviewed"
+       }
+      ]
      },
      {
       "no": 1246,
@@ -36224,7 +37104,24 @@
       ],
       "srcOrder": 258,
       "srcPage": 78,
-      "key": false
+      "key": false,
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=88&t=1",
+        "label": "2025 数三 第6题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=88&t=18",
+        "label": "李艳芳 · 李艳芳 2025年数学三（6）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=75&t=794",
+        "label": "汤家凤 · 汤家凤 2025年数学三（6）",
+        "status": "unreviewed"
+       }
+      ]
      },
      {
       "no": 2004,
@@ -36251,6 +37148,18 @@
       ],
       "ansImg": [
        "data/img/zx_site/2004_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1UwLG6WET6/?p=115&t=635",
+        "label": "没咋了 · 没咋了 李林880数学一 · 25版880 相似基础选择 5 · 相似确定参数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=112&t=635",
+        "label": "没咋了 · 没咋了 李林880数学三 · 25版880 相似基础选择 5 · 相似确定参数",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -36269,7 +37178,7 @@
        "190"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2012数二真题-8",
       "options": [
        "$\\begin{pmatrix}1&0&0\\\\0&2&0\\\\0&0&1\\end{pmatrix}$",
        "$\\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&2\\end{pmatrix}$",
@@ -36278,6 +37187,53 @@
       ],
       "ansImg": [
        "data/img/zx_site/2005_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=14&t=198",
+        "label": "2012 数一 第6题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=14&t=1130",
+        "label": "2012 数二 第8题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=14&t=118",
+        "label": "2012 数三 第6题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=14&t=176",
+        "label": "李艳芳 · 李艳芳 2012年数学一/二/三（一6、二8、三6） · 相似对角化概念",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=14&t=1160",
+        "label": "李艳芳 · 李艳芳 2012年数学一/二/三（一6、二8、三6） · 相似对角化概念",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=14&t=269",
+        "label": "李艳芳 · 李艳芳 2012年数学一/二/三（一6、二8、三6） · 相似对角化概念",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=37&t=1197",
+        "label": "汤家凤 · 汤家凤 2012年数学一/二/三（一6、二8、三6） · 相似对角化概念",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=38&t=1280",
+        "label": "汤家凤 · 汤家凤 2012年数学一/二/三（一6、二8、三6） · 相似对角化概念",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=39&t=612",
+        "label": "汤家凤 · 汤家凤 2012年数学一/二/三（一6、二8、三6） · 相似对角化概念",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -36296,9 +37252,26 @@
        "186"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2009数二真题-14",
       "ansImg": [
        "data/img/zx_site/2013_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1BJ411w7d8/?p=1&t=5211",
+        "label": "2009 数二 第14题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1BJ411w7d8/?p=1&t=5202",
+        "label": "李艳芳 · 李艳芳 2009年数学二（14） · 根据相似确定参数或推理",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=29&t=2130",
+        "label": "汤家凤 · 汤家凤 2009年数学二（14） · 根据相似确定参数或推理",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -36317,9 +37290,26 @@
        "191"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2004数二真题-23",
       "ansImg": [
        "data/img/zx_site/2014_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ze4y1o7in/?p=51&t=1",
+        "label": "喻老 · 喻老 2004年数学一/二（一21、二23） · 可相似对角化相关讨论及证明",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=13&t=5902",
+        "label": "汤家凤 · 汤家凤 2004年数学一/二（一21、二23） · 可相似对角化相关讨论及证明",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=14&t=5127",
+        "label": "汤家凤 · 汤家凤 2004年数学一/二（一21、二23） · 可相似对角化相关讨论及证明",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -36342,6 +37332,13 @@
       "ansImg": [
        "data/img/zx_site/2017_0.png",
        "data/img/zx_site/2017_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1shzdYqEXq/?p=1&t=23155",
+        "label": "帕拉迪宇 · 姜晓千强化例题 · 06:25:55",
+        "status": "confirmed"
+       }
       ]
      },
      {
@@ -36360,7 +37357,7 @@
        "192"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2022数二真题-8",
       "options": [
        "存在可逆矩阵 $P,Q$，使 $A=P\\Lambda Q$",
        "存在可逆矩阵 $P$，使 $A=P\\Lambda P^{-1}$",
@@ -36370,6 +37367,18 @@
       "ansImg": [
        "data/img/zx_site/2025_0.png",
        "data/img/zx_site/2025_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=68&t=1216",
+        "label": "汤家凤 · 2022数二三 #714",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=69&t=619",
+        "label": "汤家凤 · 2022数二三 #714",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -36438,6 +37447,13 @@
       "ansImg": [
        "data/img/zx_site/2041_0.png",
        "data/img/zx_site/2041_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=117&t=300",
+        "label": "没咋了 · 没咋了 李林880数学三 · 25版880 相似综合解答 1 · 相似对角化求P",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -36456,12 +37472,34 @@
        "183"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2026数二真题-10",
       "options": [
        "$(A-B)^3=O$",
        "$A-B$ 只有零特征值",
        "$A,B$ 不能都是对角矩阵",
        "$A-B$ 只有一个线性无关的特征向量"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=99&t=2151",
+        "label": "李艳芳 · 李艳芳 2026年数学二/三（二10、三7）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1tgctzVEx5/?p=2&t=448",
+        "label": "李艳芳 · 李艳芳 2026年数学二/三（二10、三7）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=77&t=1818",
+        "label": "汤家凤 · 汤家凤 2026年数学二/三（二10、三7）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=78&t=1087",
+        "label": "汤家凤 · 汤家凤 2026年数学二/三（二10、三7）",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -36534,6 +37572,13 @@
       "ansImg": [
        "data/img/zx_site/2057_0.png",
        "data/img/zx_site/2057_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1yhgZ6YESU/?p=80&t=0",
+        "label": "拉普拉丝儿 · 拉普拉丝儿 李艳芳900 · 900数二第五章 B类 2 · 判断是否可以相似对角化",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -36700,6 +37745,23 @@
       "ansImg": [
        "data/img/zx_site/1026_0.png",
        "data/img/zx_site/1026_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=9&t=1109",
+        "label": "2011 数三 第13题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=9&t=1131",
+        "label": "李艳芳 · 李艳芳 2011年数学三（13） · 正交变换",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=36&t=1365",
+        "label": "汤家凤 · 汤家凤 2011年数学三（13） · 正交变换",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -37229,6 +38291,48 @@
       "ansImg": [
        "data/img/zx_site/1040_0.png",
        "data/img/zx_site/1040_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=54&t=19",
+        "label": "2018 数一 第20题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=60&t=1414",
+        "label": "2018 数二 第22题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=54&t=19",
+        "label": "2018 数三 第20题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=54&t=69",
+        "label": "李艳芳 · 李艳芳 2018年数学一/二/三（一20、二22、三20） · 求二次型的解",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=60&t=1456",
+        "label": "李艳芳 · 李艳芳 2018年数学一/二/三（一20、二22、三20） · 求二次型的解",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=55&t=5847",
+        "label": "汤家凤 · 汤家凤 2018年数学一/二/三（一20、二22、三20） · 求二次型的解",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=56&t=6115",
+        "label": "汤家凤 · 汤家凤 2018年数学一/二/三（一20、二22、三20） · 求二次型的解",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=57&t=4394",
+        "label": "汤家凤 · 汤家凤 2018年数学一/二/三（一20、二22、三20） · 求二次型的解",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38398,9 +39502,26 @@
        "217"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2011数二真题-14",
       "ansImg": [
        "data/img/zx_site/2006_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=9&t=1588",
+        "label": "2011 数二 第14题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=9&t=1656",
+        "label": "李艳芳 · 李艳芳 2011年数学二（14） · 求正负惯性指数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=35&t=1502",
+        "label": "汤家凤 · 汤家凤 2011年数学二（14） · 求正负惯性指数",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38419,7 +39540,7 @@
        "218"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2016数二真题-8",
       "options": [
        "$a\\gt1$",
        "$a\\lt-2$",
@@ -38428,6 +39549,38 @@
       ],
       "ansImg": [
        "data/img/zx_site/2015_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=44&t=1252",
+        "label": "2016 数二 第8题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=38&t=412",
+        "label": "2016 数三 第6题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=38&t=463",
+        "label": "李艳芳 · 李艳芳 2016年数学二/三（二8、三6） · 确定参数或其他",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=44&t=1274",
+        "label": "李艳芳 · 李艳芳 2016年数学二/三（二8、三6） · 确定参数或其他",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=50&t=1174",
+        "label": "汤家凤 · 汤家凤 2016年数学二/三（二8、三6） · 确定参数或其他",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=51&t=987",
+        "label": "汤家凤 · 汤家凤 2016年数学二/三（二8、三6） · 确定参数或其他",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38446,7 +39599,7 @@
        "209"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2007数二真题-10",
       "options": [
        "合同且相似",
        "合同，但不相似",
@@ -38455,6 +39608,28 @@
       ],
       "ansImg": [
        "data/img/zx_site/2016_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1514y1Y7CK/?p=11&t=0",
+        "label": "喻老 · 喻老 2007年数学一/二/三（一8、二10、三8） · 合同",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=22&t=1399",
+        "label": "汤家凤 · 汤家凤 2007年数学一/二/三（一8、二10、三8） · 合同",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=23&t=2002",
+        "label": "汤家凤 · 汤家凤 2007年数学一/二/三（一8、二10、三8） · 合同",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=24&t=1289",
+        "label": "汤家凤 · 汤家凤 2007年数学一/二/三（一8、二10、三8） · 合同",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38476,6 +39651,13 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2027_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=128&t=10",
+        "label": "没咋了 · 李林880数学三 · 第十四章拓展题1（1） · P128 · 00:10",
+        "status": "confirmed"
+       }
       ]
      },
      {
@@ -38494,13 +39676,30 @@
        "214"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2020数二真题-22",
       "ansImg": [
        "data/img/zx_site/2028_0.png",
        "data/img/zx_site/2028_1.png",
        "data/img/zx_site/2028_2.png",
        "data/img/zx_site/2028_3.png",
        "data/img/zx_site/2028_4.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=72&t=1182",
+        "label": "2020 数二 第22题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=72&t=224",
+        "label": "李艳芳 · 李艳芳 2020年数学二（22） · 可逆变换求变换矩阵",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=61&t=5317",
+        "label": "汤家凤 · 汤家凤 2020年数学二（22） · 可逆变换求变换矩阵",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38529,6 +39728,13 @@
       "ansImg": [
        "data/img/zx_site/2046_0.png",
        "data/img/zx_site/2046_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=123&t=0",
+        "label": "没咋了 · 没咋了 李林880数学三 · 25版880 二次型综合选择 1 · 求正负惯性指数",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38547,7 +39753,7 @@
        "209"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2008数二真题-8",
       "options": [
        "$\\begin{pmatrix}-2&1\\\\1&-2\\end{pmatrix}$",
        "$\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}$",
@@ -38556,6 +39762,23 @@
       ],
       "ansImg": [
        "data/img/zx_site/2047_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1kR4y197it/?p=15&t=0",
+        "label": "喻老 · 喻老 2008年数学二/三（二8、三6） · 合同",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=26&t=920",
+        "label": "汤家凤 · 汤家凤 2008年数学二/三（二8、三6） · 合同",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=27&t=544",
+        "label": "汤家凤 · 汤家凤 2008年数学二/三（二8、三6） · 合同",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38584,6 +39807,13 @@
       "ansImg": [
        "data/img/zx_site/2052_0.png",
        "data/img/zx_site/2052_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1yhgZ6YESU/?p=82&t=1821",
+        "label": "拉普拉丝儿 · 拉普拉丝儿 李艳芳900 · 900数二第六章A类 13 · 可逆变换求变换矩阵",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38605,6 +39835,13 @@
       "linkedQid": null,
       "ansImg": [
        "data/img/zx_site/2053_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1YXL36hEG5/?p=131&t=4012",
+        "label": "没咋了 · 没咋了 李林880数学二 · 25版880 二次型综合解答 5 · 正定相关证明",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38623,7 +39860,7 @@
        "217"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2021数二真题-8",
       "options": [
        "$2,0$",
        "$1,1$",
@@ -38632,6 +39869,48 @@
       ],
       "ansImg": [
        "data/img/zx_site/2054_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=67&t=1674",
+        "label": "2021 数一 第5题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=74&t=1036",
+        "label": "2021 数二 第8题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=67&t=1595",
+        "label": "2021 数三 第5题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=67&t=1707",
+        "label": "李艳芳 · 李艳芳 2021年数学一/二/三（一5、二8、三5） · 求正负惯性指数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=74&t=1110",
+        "label": "李艳芳 · 李艳芳 2021年数学一/二/三（一5、二8、三5） · 求正负惯性指数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=64&t=566",
+        "label": "汤家凤 · 汤家凤 2021年数学一/二/三（一5、二8、三5） · 求正负惯性指数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=65&t=971",
+        "label": "汤家凤 · 汤家凤 2021年数学一/二/三（一5、二8、三5） · 求正负惯性指数",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=66&t=581",
+        "label": "汤家凤 · 汤家凤 2021年数学一/二/三（一5、二8、三5） · 求正负惯性指数",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38650,7 +39929,7 @@
        "204"
       ],
       "status": "site",
-      "linkedQid": null,
+      "linkedQid": "2023数二真题-9",
       "options": [
        "$y_1^2+y_2^2$",
        "$y_1^2-y_2^2$",
@@ -38659,6 +39938,38 @@
       ],
       "ansImg": [
        "data/img/zx_site/2058_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=84&t=2220",
+        "label": "2023 数二 第9题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=78&t=12",
+        "label": "2023 数三 第6题 · 导入视频",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=78&t=40",
+        "label": "李艳芳 · 李艳芳 2023年数学二/三（二9、三6） · 规范形",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=84&t=2248",
+        "label": "李艳芳 · 李艳芳 2023年数学二/三（二9、三6） · 规范形",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=54&t=50",
+        "label": "李艳芳 · 李艳芳 2023年数学二/三（二9、三6） · 规范形",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1K34y1K7rx/?p=1&t=3003",
+        "label": "帕拉迪宇 · 帕拉迪宇 2023年数学二/三（二9、三6） · 规范形",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38710,6 +40021,18 @@
        "data/img/zx_site/2062_1.png",
        "data/img/zx_site/2062_2.png",
        "data/img/zx_site/2062_3.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1UwLG6WET6/?p=125&t=21",
+        "label": "没咋了 · 没咋了 李林880数学一 · 25版880 二次型基础解答 1 · 可逆 + 正交",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1K34y1K7rx/?p=1&t=2765",
+        "label": "帕拉迪宇 · 帕拉迪宇 二次型大观（中篇） · 可逆 + 正交",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38783,6 +40106,13 @@
       ],
       "ansImg": [
        "data/img/zx_site/2068_0.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1mmyWYPEUF/?p=52&t=0",
+        "label": "夜雨 · 25 李艳芳三套数二 第三套 #901",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38851,6 +40181,13 @@
       "ansImg": [
        "data/img/zx_site/2071_0.png",
        "data/img/zx_site/2071_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV12Jh7zHE7r/?p=23&t=1787",
+        "label": "一只柠檬 · 900题数二第六章 B类 6 #905",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38869,7 +40206,29 @@
        "204"
       ],
       "status": "site",
-      "linkedQid": null
+      "linkedQid": "2026数二真题-16",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=100&t=1612",
+        "label": "李艳芳 · 李艳芳 2026年数学二/三（二16、三15）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1tgctzVEx5/?p=3&t=1982",
+        "label": "李艳芳 · 李艳芳 2026年数学二/三（二16、三15）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=77&t=2479",
+        "label": "汤家凤 · 汤家凤 2026年数学二/三（二16、三15）",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=78&t=2873",
+        "label": "汤家凤 · 汤家凤 2026年数学二/三（二16、三15）",
+        "status": "unreviewed"
+       }
+      ]
      },
      {
       "no": 2073,
@@ -38897,6 +40256,23 @@
       "ansImg": [
        "data/img/zx_site/2073_0.png",
        "data/img/zx_site/2073_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1UwLG6WET6/?p=126&t=278",
+        "label": "没咋了 · 二阶矩阵A,B,C,D的相似与合同判断",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1YXL36hEG5/?p=128&t=243",
+        "label": "没咋了 · 矩阵相似与合同判断，选A",
+        "status": "unreviewed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=123&t=301",
+        "label": "没咋了 · 二阶A,B,C,D相似与合同判断，选A",
+        "status": "unreviewed"
+       }
       ]
      },
      {
@@ -38925,6 +40301,13 @@
       "ansImg": [
        "data/img/zx_site/2074_0.png",
        "data/img/zx_site/2074_1.png"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1UwLG6WET6/?p=123&t=325",
+        "label": "没咋了 · 没咋了 李林880数学一 · 25版880 二次型基础选择 4 · 合同",
+        "status": "unreviewed"
+       }
       ]
      }
     ]
