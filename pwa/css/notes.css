@@ -24,6 +24,11 @@
     --mk-g: #b6efb6;
     --mk-b: #b7dcff;
     --mk-r: #ffb3ba;
+    /* 半高亮带的颜色（比 --mk-* 淡一档，只涂下半截时不刺眼） */
+    --mk-y2: #ffefb8;
+    --mk-g2: #d3f6d3;
+    --mk-b2: #d4eaff;
+    --mk-r2: #ffd4d8;
     --hl-y: #fdf6cf;
     --hl-g: #e6f6e3;
     --hl-b: #e3effc;
@@ -77,6 +82,10 @@ html.dark {
     --mk-g: #2f5e33;
     --mk-b: #2b4d75;
     --mk-r: #7a3742;
+    --mk-y2: #4d4419;
+    --mk-g2: #24462a;
+    --mk-b2: #223a56;
+    --mk-r2: #4d262c;
     --hl-y: #35311c;
     --hl-g: #24331f;
     --hl-b: #1f2f45;
@@ -797,21 +806,22 @@ html.dark .note-article mark.search-hit {
 }
 
 /* ============ 用户标注：荧光 / 批注 / 浮动工具条 ============ */
-/* 选中文字荧光 */
-/* 选中文字荧光：半透明底 + 下划线（2026-10-26 用户指定）。
-   底色只铺 30~40% 不透明度，字压不住；靠同色系下划线给出"划过重点"的辨识度。
+/* 选中文字荧光：半高亮（只涂下半截，上沿留白）+ 下划线（2026-10-27 用户指定）。
+   「半高亮」= 高亮带只覆盖行高的下半 52%，字的上半截不涂色，不压字；
+   下划线用同色相加深一档，负责"划过重点"的辨识度。
    box-decoration-break: clone 保证跨行断行时每行都有自己的圆角和下划线。 */
 mark.mk {
     padding: 0 1px; border-radius: 3px; color: inherit; cursor: pointer;
-    border-bottom: 2px solid transparent;
+    text-decoration-line: underline; text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
     -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
-mark.mk-y { background: var(--hl-y-soft); border-bottom-color: var(--hl-y-line); }
-mark.mk-g { background: var(--hl-g-soft); border-bottom-color: var(--hl-g-line); }
-mark.mk-b { background: var(--hl-b-soft); border-bottom-color: var(--hl-b-line); }
-mark.mk-r { background: var(--hl-r-soft); border-bottom-color: var(--hl-r-line); }
+mark.mk-y { background: linear-gradient(to top, var(--mk-y2) 0 52%, transparent 52%); text-decoration-color: var(--hl-y-line); }
+mark.mk-g { background: linear-gradient(to top, var(--mk-g2) 0 52%, transparent 52%); text-decoration-color: var(--hl-g-line); }
+mark.mk-b { background: linear-gradient(to top, var(--mk-b2) 0 52%, transparent 52%); text-decoration-color: var(--hl-b-line); }
+mark.mk-r { background: linear-gradient(to top, var(--mk-r2) 0 52%, transparent 52%); text-decoration-color: var(--hl-r-line); }
 
-/* 整块高亮（li/p），可点击修改：同样半透明底 + 底部一条实线当"下划线" */
+/* 整块高亮（li/p），可点击修改：半透明底 + 底部一条实线当"下划线" */
 li.hl-y, p.hl-y { background: var(--hl-y-soft); border-bottom: 2px solid var(--hl-y-line); border-radius: 6px; }
 li.hl-g, p.hl-g { background: var(--hl-g-soft); border-bottom: 2px solid var(--hl-g-line); border-radius: 6px; }
 li.hl-b, p.hl-b { background: var(--hl-b-soft); border-bottom: 2px solid var(--hl-b-line); border-radius: 6px; }
@@ -959,9 +969,10 @@ li.hl-r, p.hl-r { background: var(--hl-r-soft); border-bottom: 2px solid var(--h
    颜色从行内 --nhl 传入；color-mix 不支持时退回原色（仍是整块色，不会丢高亮）。 */
 mark.note-hl {
     color: inherit; padding: 0 1px; border-radius: 3px;
-    background: var(--nhl);
-    background: var(--nhl-bg, color-mix(in srgb, var(--nhl) 42%, transparent));
-    border-bottom: 2px solid var(--nhl-line, var(--nhl));
+    /* 半高亮：只涂行高下半 52%，上沿留白不压字 */
+    background: linear-gradient(to top, var(--nhl) 0 52%, transparent 52%);
+    text-decoration-line: underline; text-decoration-thickness: 2px;
+    text-decoration-color: var(--nhl-line, var(--nhl)); text-underline-offset: 2px;
     -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
 

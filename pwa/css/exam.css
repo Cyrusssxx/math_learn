@@ -946,9 +946,10 @@ html.dark .q-tips-btn.on, html.dark .q-tips-btn:hover { background: #2e2545; }
 /* 笔记/批注文字高亮：半透明底 + 下划线（颜色由行内 --nhl 传入，见 notes.css 同名规则） */
 mark.note-hl {
     color: inherit; padding: 0 1px; border-radius: 3px;
-    background: var(--nhl);
-    background: var(--nhl-bg, color-mix(in srgb, var(--nhl) 42%, transparent));
-    border-bottom: 2px solid var(--nhl-line, var(--nhl));
+    /* 半高亮：只涂行高下半 52%，上沿留白不压字 */
+    background: linear-gradient(to top, var(--nhl) 0 52%, transparent 52%);
+    text-decoration-line: underline; text-decoration-thickness: 2px;
+    text-decoration-color: var(--nhl-line, var(--nhl)); text-underline-offset: 2px;
     -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
 

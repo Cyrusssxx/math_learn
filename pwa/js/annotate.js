@@ -1117,7 +1117,7 @@ const Annot = (() => {
             if (!m) return;
             const al = m[4] == null ? 1 : parseFloat(m[4]);
             if (al < 0.9) return;                       // 已经是半透明
-            st.backgroundColor = 'rgba(' + m[1] + ',' + m[2] + ',' + m[3] + ',0.42)';
+            const hexc = '#' + [m[1], m[2], m[3]].map(v => (+v).toString(16).padStart(2, '0')).join(''); st.background = 'linear-gradient(to top,' + hexc + ' 0 52%,transparent 52%)'; if (n.setAttribute) n.setAttribute('data-hl', hexc);
             st.borderBottom = '2px solid rgb(' + m[1] + ',' + m[2] + ',' + m[3] + ')';
             if (n.getAttribute && n.getAttribute('bgcolor') != null) n.removeAttribute('bgcolor');
         });
@@ -1206,7 +1206,7 @@ const Annot = (() => {
             let nc = c, nh = h;
             if (ch.style) {
                 const hc = normColor(ch.style.color); if (hc) nc = hc;
-                const hb = normColor(ch.style.backgroundColor); if (hb) nh = hb;
+                const hb = (ch.getAttribute && ch.getAttribute('data-hl')) || normColor(ch.style.backgroundColor); if (hb) nh = hb;
             }
             const fattr = ch.getAttribute && ch.getAttribute('color');
             if (fattr) { const fc = normColor(fattr); if (fc) nc = fc; }
@@ -1248,7 +1248,7 @@ const Annot = (() => {
                     else if (isItalic(ch)) { const [ic, ih] = colorOf(ch, c, h); s += run(ch, ic, ih, b, true); }
                     else {
                         let nc = c, nh = h;
-                        if (ch.style) { const hc = normColor(ch.style.color); if (hc) nc = hc; const hb = normColor(ch.style.backgroundColor); if (hb) nh = hb; }
+                        if (ch.style) { const hc = normColor(ch.style.color); if (hc) nc = hc; const hb = (ch.getAttribute && ch.getAttribute('data-hl')) || normColor(ch.style.backgroundColor); if (hb) nh = hb; }
                         // 兼容 <font color="..."> / <font bgcolor="...">：部分浏览器 foreColor/hiliteColor 生成 font 而非 span，颜色只在属性上、style.color 为空
                         const fattr = ch.getAttribute && ch.getAttribute('color');
                         if (fattr) { const fc = normColor(fattr); if (fc) nc = fc; }
@@ -1286,7 +1286,7 @@ const Annot = (() => {
                 emitText(text.slice(i, mf.index));
                 const m0 = mf[0];
                 if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</h1>' || m0 === '</h2>') { if (stack.length > 1) stack.pop(); }
-                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:' + annHlRgba(mf[2]) + ';border-bottom:2px solid ' + mf[2] }); stack[stack.length - 1].appendChild(node); stack.push(node); }
+                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:linear-gradient(to top,' + mf[2] + ' 0 52%,transparent 52%);border-bottom:2px solid ' + hlLine(mf[2]) }); stack[stack.length - 1].appendChild(node); stack.push(node); }
                 i = mf.index + mf[0].length;
             } else if (mi >= 0) {
                 emitText(text.slice(i, mi));
@@ -1329,6 +1329,7 @@ const Annot = (() => {
             // 部分浏览器 hiliteColor/foreColor 会生成 <font bgcolor/color="...">
             if (s.removeAttribute) {
                 if (s.hasAttribute('bgcolor')) s.removeAttribute('bgcolor');
+                if (s.hasAttribute('data-hl')) s.removeAttribute('data-hl');
                 if (s.tagName === 'FONT' && s.hasAttribute('color')) s.removeAttribute('color');
             }
             if (s.tagName === 'MARK') {   // 高亮容器直接拆掉，只留文字
