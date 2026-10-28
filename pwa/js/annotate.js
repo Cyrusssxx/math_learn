@@ -83,8 +83,38 @@ const Annot = (() => {
     const imgDel = ids => !ids.length ? Promise.resolve() : db().then(d => new Promise(res => {
         const tx = d.transaction('imgs', 'readwrite');
         ids.forEach(id => tx.objectStore('imgs').delete(id));
-        tx.oncomplete = res; tx.onerror = res;
+        const done = () => { imgForget(ids); res(); };
+        tx.oncomplete = done; tx.onerror = done;
     }));
+
+    /* 图片 objectURL 缓存（2026-10-28 修卡顿）
+     * 旧实现每次渲染都 URL.createObjectURL(blob)，且**从不 revoke**：
+     * 编辑时每敲一次字就重渲染预览 → 每张图都新建一个 blob URL，旧的随 innerHTML 一起被丢弃，
+     * 但 URL 仍被浏览器持有。一篇带 5 张图的批注敲 100 个字 = 500 个未释放的 blob，
+     * 每个可能是几百 KB ~ 几 MB → 内存暴涨 → 卡死。
+     * 现在按图片 id 缓存 URL，同一张图全局只建一次；删图时才 revoke。 */
+    const _imgUrl = new Map();    // id -> objectURL
+    const _imgPend = new Map();   // id -> Promise（防并发重复建）
+    function imgSrc(id) {
+        if (_imgUrl.has(id)) return Promise.resolve(_imgUrl.get(id));
+        if (_imgPend.has(id)) return _imgPend.get(id);
+        const p = imgGet(id).then(blob => {
+            _imgPend.delete(id);
+            if (!blob) return null;
+            const u = URL.createObjectURL(blob);
+            _imgUrl.set(id, u);
+            return u;
+        });
+        _imgPend.set(id, p);
+        return p;
+    }
+    function imgForget(ids) {
+        (ids || []).forEach(id => {
+            const u = _imgUrl.get(id);
+            if (u) { try { URL.revokeObjectURL(u); } catch (e) { } _imgUrl.delete(id); }
+            _imgPend.delete(id);
+        });
+    }
     const refsOf = t => [...(t || '').matchAll(/\[图:([a-z0-9]+)\]/g)].map(m => m[1]);
     const blobToDataURL = blob => new Promise(res => {
         const rd = new FileReader();
@@ -256,8 +286,10 @@ const Annot = (() => {
 
     function fillImgs(box) {
         box.querySelectorAll('img.ann-img[data-img]').forEach(img => {
-            imgGet(img.dataset.img).then(blob => {
-                if (blob) img.src = URL.createObjectURL(blob);
+            const id = img.dataset.img;
+            imgSrc(id).then(u => {
+                if (!img.isConnected) return;          // 已被重渲染丢弃的节点，别再赋值
+                if (u) img.src = u;
                 else img.replaceWith('[图片已丢失]');
             });
         });
@@ -270,9 +302,11 @@ const Annot = (() => {
         clearTimeout(ed._prevT);
         ed._prevT = setTimeout(() => {
             const v = annEditorToNote(ed);
+            if (v === ed._pvLast) return;              // 内容没变（只是移动光标/选字）→ 不重排、不重跑 KaTeX
+            ed._pvLast = v;
             pv.innerHTML = noteHtml(v);
             fillImgs(pv);
-        }, 350);
+        }, 600);
     }
 
     /** 编辑框内 Ctrl+V 贴图：存库后不进编辑器 DOM，缩略图卡片出现在编辑框下方 */
@@ -325,7 +359,7 @@ const Annot = (() => {
             if (ed && ed.isContentEditable) {
                 const card = ed.closest('.ann-box') && ed.closest('.ann-box').querySelector('.ann-imgs .ann-img-card[data-img="' + id + '"]');
                 const im = card && card.querySelector('img.ann-img');
-                if (im) imgGet(id).then(blob => { if (blob) im.src = URL.createObjectURL(blob); else im.replaceWith('[图片已丢失]'); });
+                if (im) imgSrc(id).then(u => { if (!im.isConnected) return; if (u) im.src = u; else im.replaceWith('[图片已丢失]'); });
                 annPreviewOnInput(ed);   // 刷新下方实时预览
             }
         }).catch(() => {
