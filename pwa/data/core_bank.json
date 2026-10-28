@@ -27048,9 +27048,6 @@
       "srcOrder": 36,
       "srcPage": 19,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx036_0.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1T2mhYfEwR/?p=173&t=1",
@@ -27079,10 +27076,6 @@
       "srcOrder": 40,
       "srcPage": 20,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx040_0.jpg",
-       "data/img/zx_a/zx040_1.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=89&t=1654",
@@ -27121,11 +27114,6 @@
       "srcOrder": 355,
       "srcPage": 103,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx355_0.jpg",
-       "data/img/zx_a/zx355_1.jpg",
-       "data/img/zx_a/zx355_3.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1gEzYY7Ebg/?p=16&t=5",
@@ -29226,10 +29214,7 @@
       "linkedQid": null,
       "srcOrder": 51,
       "srcPage": 24,
-      "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx051_0.jpg"
-      ]
+      "key": false
      },
      {
       "no": 1096,
@@ -29257,9 +29242,6 @@
       "srcOrder": 53,
       "srcPage": 24,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx053_0.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1tgctzVEx5/?p=2&t=2",
@@ -29324,9 +29306,6 @@
       "srcOrder": 62,
       "srcPage": 26,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx062_0.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=4&t=6200",
@@ -29361,10 +29340,6 @@
       "srcOrder": 64,
       "srcPage": 26,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx064_0.jpg",
-       "data/img/zx_a/zx064_1.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=88&t=512",
@@ -29554,9 +29529,6 @@
       "srcOrder": 89,
       "srcPage": 33,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx089_0.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=99&t=1472",
@@ -29904,9 +29876,6 @@
       "srcOrder": 80,
       "srcPage": 30,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx080_0.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1b8411k7Xt/?p=22",
@@ -30039,9 +30008,6 @@
       "srcOrder": 88,
       "srcPage": 33,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx088_0.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=94&t=2707",
@@ -30149,9 +30115,6 @@
       "srcOrder": 110,
       "srcPage": 38,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx110_0.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=20&t=12",
@@ -33387,11 +33350,7 @@
       ],
       "srcOrder": 98,
       "srcPage": 35,
-      "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx098_0.jpg",
-       "data/img/zx_a/zx098_1.jpg"
-      ]
+      "key": false
      },
      {
       "no": 1119,
@@ -33455,9 +33414,6 @@
       "srcOrder": 179,
       "srcPage": 58,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx179_0.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=95&t=1807",
@@ -33556,10 +33512,7 @@
       "linkedQid": null,
       "srcOrder": 195,
       "srcPage": 61,
-      "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx195_0.jpg"
-      ]
+      "key": false
      },
      {
       "no": 1134,
@@ -33586,10 +33539,7 @@
       ],
       "srcOrder": 209,
       "srcPage": 66,
-      "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx209_0.jpg"
-      ]
+      "key": false
      },
      {
       "no": 1135,
@@ -33635,11 +33585,7 @@
       "linkedQid": null,
       "srcOrder": 220,
       "srcPage": 68,
-      "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx220_0.jpg",
-       "data/img/zx_a/zx220_1.jpg"
-      ]
+      "key": false
      },
      {
       "no": 1141,
@@ -33667,10 +33613,6 @@
       "srcOrder": 232,
       "srcPage": 72,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx232_0.jpg",
-       "data/img/zx_a/zx232_1.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=99&t=1830",
@@ -33970,9 +33912,6 @@
       "srcOrder": 323,
       "srcPage": 96,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx323_0.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=89&t=1342",
@@ -36367,9 +36306,6 @@
       "srcOrder": 231,
       "srcPage": 72,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx231_0.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1W6zfBBELF/?p=3&t=1026",
@@ -36595,10 +36531,6 @@
       "srcOrder": 1,
       "srcPage": 12,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx001_0.jpg",
-       "data/img/zx_a/zx001_1.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=30&t=578",
@@ -36834,11 +36766,6 @@
       "srcOrder": 276,
       "srcPage": 83,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx276_0.jpg",
-       "data/img/zx_a/zx276_1.jpg",
-       "data/img/zx_a/zx276_2.jpg"
-      ],
       "img": "data/img/zx_q/zx276.png",
       "videos": [
        {
@@ -38618,10 +38545,6 @@
       "srcOrder": 207,
       "srcPage": 65,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx207_0.jpg",
-       "data/img/zx_a/zx207_1.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=87&t=2938",
@@ -38850,12 +38773,7 @@
       "linkedQid": null,
       "srcOrder": 320,
       "srcPage": 95,
-      "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx320_0.jpg",
-       "data/img/zx_a/zx320_1.jpg",
-       "data/img/zx_a/zx320_2.jpg"
-      ]
+      "key": false
      },
      {
       "no": 1163,
@@ -38921,10 +38839,6 @@
       "srcOrder": 341,
       "srcPage": 100,
       "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx341_0.jpg",
-       "data/img/zx_a/zx341_1.jpg"
-      ],
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=88&t=410",
@@ -39048,12 +38962,7 @@
       "linkedQid": null,
       "srcOrder": 354,
       "srcPage": 103,
-      "key": false,
-      "ansImg": [
-       "data/img/zx_a/zx354_0.jpg",
-       "data/img/zx_a/zx354_1.jpg",
-       "data/img/zx_a/zx354_2.jpg"
-      ]
+      "key": false
      },
      {
       "no": 1177,
