@@ -294,19 +294,44 @@ const Annot = (() => {
             });
         });
     }
-    /** 编辑态实时预览：编辑器在上、预览在下，随输入防抖刷新（与真题页 noteInput 同源思路） */
+    /* 编辑态实时预览（2026-10-28 二次修卡顿）
+     * 「越打越卡」的成因：预览是**整段重渲染**（annEditorToNote 走一遍 DOM + noteHtml 跑一遍 KaTeX），
+     * 成本与内容长度成正比。批注越长，每次防抖触发的渲染越慢，而输入是连续的 →
+     * 主线程被一次次长任务占满，表现就是「越打越卡」。
+     * 对策：给单次渲染计时，一旦超过 120ms 就**自动降级为手动刷新**，
+     * 不再随输入重渲染；内容本身很长（>1200 字）时一进编辑就用手动模式。 */
+    const PV_HEAVY_MS = 120;
+    function annShowPvRefresh(ed, pv) {
+        if (!pv) return;
+        ed._pvHeavy = true;
+        pv.innerHTML = '<button type="button" class="ann-pv-refresh">🔄 内容较长，已暂停自动预览 · 点此刷新</button>';
+        const b = pv.querySelector('button');
+        if (b) b.onclick = () => { ed._pvHeavy = false; annRenderPreview(ed, pv, true); };
+    }
+    function annRenderPreview(ed, pv, force) {
+        const v = annEditorToNote(ed);
+        if (!force && v === ed._pvLast) return;        // 内容没变（只是移动光标/选字）→ 不重排、不重跑 KaTeX
+        ed._pvLast = v;
+        const t0 = performance.now();
+        pv.innerHTML = noteHtml(v);
+        // 编辑态预览里不真加载图片：只放占位符。图片解码在每次输入时都做一遍是纯浪费，
+        // 且批注里的贴图往往很大（截图），一张几百 KB 解码就能吃掉几十毫秒。
+        pv.querySelectorAll('img.ann-img[data-img]').forEach(img => {
+            const ph = document.createElement('span');
+            ph.className = 'ann-img-ph'; ph.textContent = '🖼'; ph.title = '图片（保存后显示）';
+            img.replaceWith(ph);
+        });
+        const cost = performance.now() - t0;
+        ed._pvCost = cost;
+        if (!force && cost > PV_HEAVY_MS) annShowPvRefresh(ed, pv);
+    }
     function annPreviewOnInput(ed) {
         const box = ed.closest('.ann-box');
         const pv = box && box.querySelector('.ann-preview');
         if (!pv) return;
         clearTimeout(ed._prevT);
-        ed._prevT = setTimeout(() => {
-            const v = annEditorToNote(ed);
-            if (v === ed._pvLast) return;              // 内容没变（只是移动光标/选字）→ 不重排、不重跑 KaTeX
-            ed._pvLast = v;
-            pv.innerHTML = noteHtml(v);
-            fillImgs(pv);
-        }, 600);
+        if (ed._pvHeavy) return;                       // 已判定太重 → 只接受手动刷新
+        ed._prevT = setTimeout(() => annRenderPreview(ed, pv, false), 700);
     }
 
     /** 编辑框内 Ctrl+V 贴图：存库后不进编辑器 DOM，缩略图卡片出现在编辑框下方 */
@@ -389,7 +414,11 @@ const Annot = (() => {
             if (text) annNoteToEditor(ed, text);
             ed.addEventListener('paste', onPasteImg);
             ed.addEventListener('input', () => annPreviewOnInput(ed));
-            if (text) annPreviewOnInput(ed);   // 进入编辑即有内容时立即渲染预览
+            if (text) {
+                const pv0 = box.querySelector('.ann-preview');
+                if (text.length > 1200) annShowPvRefresh(ed, pv0);   // 太长：直接手动，避免一进来就卡
+                else annPreviewOnInput(ed);
+            }
             box.querySelector('.ann-toolbar').hidden = false;
         } else {
             box.innerHTML = `<span class="ann-lab">✍️ 我的批注</span>

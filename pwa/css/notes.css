@@ -1783,3 +1783,15 @@ html.dark .search-box input:focus-visible,
 html.dark .toc-filter input:focus-visible {
     box-shadow: 0 0 0 2px rgba(137, 180, 250, .22);
 }
+
+/* 编辑态预览：内容过长时的手动刷新按钮 + 图片占位（2026-10-28 卡顿优化） */
+.ann-preview .ann-pv-refresh {
+    display: inline-block; padding: 5px 12px; cursor: pointer; font-size: 12.5px;
+    border: 1px dashed var(--border); border-radius: 8px;
+    background: transparent; color: var(--text-dim);
+}
+.ann-preview .ann-pv-refresh:hover { border-color: var(--accent); color: var(--accent); }
+.ann-preview .ann-img-ph {
+    display: inline-block; padding: 0 6px; margin: 0 2px;
+    border: 1px dashed var(--border); border-radius: 5px; color: var(--text-faint); font-size: .95em;
+}
