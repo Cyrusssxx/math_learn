@@ -1549,6 +1549,19 @@ function masteryRankOf(qid) {
  *        组内「收藏时间倒序 → 年份（倒序/顺序由开关控制）」
  *  开启「⭕ 无标记」：无标记的排最前，其余仍按掌握度分组
  */
+/** 是否真题：source 里同时出现「19xx/20xx 年份」和「数一/数二/数三」。
+ *  「姜晓千真题同源150」名字里虽有「真题」，但没有年份+数123，不算真题（2026-10-29 用户口径）。 */
+const ZHENTI_RE = /(?:19|20)\d{2}[^0-9]{0,6}数[一二三]/;
+function isZhenti(q) { return ZHENTI_RE.test((q && q.source) || ''); }
+
+/** 年份：核心题库的题没有 paper.year，只能从 source 里取第一个年份；
+ *  取不到再退回 paper.year（真题卷模式用得上）。 */
+function entryYear(e) {
+    const m = ((e.q && e.q.source) || '').match(/(?:19|20)\d{2}/);
+    if (m) return parseInt(m[0], 10);
+    return parseInt(e.paper && e.paper.year, 10) || 0;
+}
+
 function compareEntries(a, b) {
     const qa = qidOf(a.paper.id, a.q.no);
     const qb = qidOf(b.paper.id, b.q.no);
@@ -1567,9 +1580,13 @@ function compareEntries(a, b) {
     const ta = favTime(qa);
     const tb = favTime(qb);
     if (ta && tb) return tb - ta;
+    // 真题优先（方案 A：只在同一标记层内生效，不凌驾于掌握度/收藏时间）
+    const za = isZhenti(a.q) ? 0 : 1;
+    const zb = isZhenti(b.q) ? 0 : 1;
+    if (za !== zb) return za - zb;
     // 年份排序（兜底 0：无年份的补充题排到有年份真题之后，避免 NaN 失序淹没真题）
-    const ya = parseInt(a.paper.year, 10) || 0;
-    const yb = parseInt(b.paper.year, 10) || 0;
+    const ya = entryYear(a);
+    const yb = entryYear(b);
     if (yb !== ya) {
         return yearSortDesc ? (yb - ya) : (ya - yb);
     }
