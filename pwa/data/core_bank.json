@@ -35701,9 +35701,9 @@
       "categoryIds": [
        135
       ],
-      "catId": 184,
+      "catId": 135,
       "deepCats": [
-       "184"
+       "145"
       ],
       "status": "site",
       "linkedQid": null,
@@ -35725,8 +35725,8 @@
        }
       ],
       "tips": {
-       "gs": "解 $|\\lambda E-A|=0$ 得特征值，再解 $(\\lambda E-A)x=0$ 得特征向量。",
-       "zy": "特征向量要写成**通解形式**（带任意常数），不能只给一个特例。"
+       "gs": "「$1$ 是特征多项式的重根」⟹ $|E-A|=0$，再用 $\\operatorname{tr}A=1+a$、$|A|$ 与特征值之和/积的关系定 $a$；第二问由 $A\\alpha=\\alpha+\\beta$ 消去 $\\beta$，得 $(A^2-A-E)\\alpha=0$。",
+       "zy": "重根条件要用「$|E-A|=0$」+「$\\operatorname{tr}A$」两条联立，单用一条定不出 $a$；第二问必须先消 $\\beta$，否则两个未知向量解不动。"
       }
      }
     ]
