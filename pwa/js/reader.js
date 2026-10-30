@@ -72,7 +72,9 @@ function route() {
         openFiles[note.id] = true;
         renderDoc(note);
         renderToc(note);
-        renderTree();
+        // ⚠️ 左侧树有 32 篇 × 全部章节（约 330 个节点），整棵重建实测 ~240ms，是切笔记卡顿的主因。
+        //    这里只做「展开 + 高亮」的增量更新，并放到空闲时段，先让正文上屏。
+        syncTreeActive();
         // 换笔记时旧标红已随 DOM 重建消失；但 pendingLocate 带来的新标红由 locateBlock 负责。
     }
     if (h3No && !pendingLocate) {
@@ -401,26 +403,39 @@ function mdToHtml(md) {
     return out.join('\n');
 }
 
+/** 已渲染正文的缓存（含 KaTeX 输出）：同一篇再进来直接复用，省掉 mdToHtml + 全部公式排版（实测 ~70ms）。
+ *  ⚠️ 快照必须在 fillDocToc / Annot.apply **之前**抓：目录里带 active 类、批注/荧光是用户态，不能进缓存。
+ *  只留最近 4 篇，避免 32 篇正文（每篇 0.3~1MB HTML）把内存吃掉。 */
+const _docCache = new Map();
+const DOC_CACHE_MAX = 4;
+
 function renderDoc(note) {
     const el = document.getElementById('docPane');
     // 正文顶部自动生成「本文目录」（章节 ≥ 2 时）。
     // ⚠️ 右栏 `.toc` 在 ≤1150px 被 `display:none` 隐藏，所以这里是窄屏/移动端**唯一**的目录入口，
     //    必须和右侧目录一样给出 ### 小节，否则小屏用户拿不到二级导航（曾经只有一级章）。
     //    小节的 id 要等 mdToHtml 渲染完才知道，所以先渲染正文、再回填目录。
-    el.innerHTML = `<article class="note-article">
+    const cached = _docCache.get(note.id);
+    if (cached) {
+        el.innerHTML = cached;                 // 命中：省掉解析 md + 700 次 KaTeX
+    } else {
+        el.innerHTML = `<article class="note-article">
         <div class="doc-crumb">${SUBJECT_NAMES[note.subject]}</div>
         <h1>${inline(note.title)}</h1>
         <div id="docTocSlot"></div>
         ${mdToHtml(note.md)}
     </article>`;
+        renderMath(el);                        // 公式渲染完才有缓存价值
+        _docCache.set(note.id, el.innerHTML);
+        if (_docCache.size > DOC_CACHE_MAX) _docCache.delete(_docCache.keys().next().value);
+    }
     fillDocToc(note);
     // 正文里带 ⭐ 的小节标题也标成重点（与右侧目录的 is-key 一致）
     el.querySelectorAll('.note-article h3.md-h3').forEach(h => {
         if (h.textContent.indexOf('⭐') >= 0) h.classList.add('is-key');
     });
     document.title = note.name + ' - 考研数学笔记';
-    renderMath(el);
-    if (window.Annot) Annot.apply(note.id);  // 公式渲染完再恢复用户标注
+    if (window.Annot) Annot.apply(note.id);  // 恢复用户标注（缓存里不含批注层）
 }
 
 /** 回填正文顶部的「本文目录」：章 + 小节（与右侧目录同源，都用 tocItems()）。
@@ -465,6 +480,25 @@ function toggleGroup(key) {
 }
 
 
+/** 左侧树：只同步「当前笔记展开 + 高亮」，不重建 DOM（切换笔记时用，实测比 renderTree 快两个数量级）。
+ *  树还没建过（首次）时才整棵渲染；渲染延后到空闲时段，避免和正文排版抢主线程。 */
+let _treeBuilt = false;
+function syncTreeActive() {
+    const run = () => {
+        const el = document.getElementById('navTree');
+        if (!el || !_treeBuilt || !el.querySelector('.tree-file')) { renderTree(); return; }
+        el.querySelectorAll('.tree-file').forEach(f => {
+            const a = f.querySelector('.tree-file-row a');
+            const id = a && a.dataset.note;
+            const on = !!(cur && id === cur.id);
+            f.classList.toggle('active', on);
+            f.classList.toggle('open', !!openFiles[id]);
+        });
+    };
+    if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 250 });
+    else setTimeout(run, 0);
+}
+
 function renderTree() {
     const el = document.getElementById('navTree');
     const keep = el.scrollTop;
@@ -494,6 +528,7 @@ function renderTree() {
     }
     el.innerHTML = html;
     el.scrollTop = keep;
+    _treeBuilt = true;
 }
 
 // ============ 右侧「本页目录」+ scrollspy ============
