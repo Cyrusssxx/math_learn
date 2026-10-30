@@ -2516,12 +2516,20 @@ let ppCur = null;           // 当前卷 { id, ts, items:[{qid,kind,score}], lef
 let ppTimerId = null;       // 计时器句柄
 
 /** 状态权重：不会 5 / 不熟 3 / 仅收藏无状态 1 / 已掌握 0（排除） */
-function ppWeight(qid, st, isFav) {
+/** 状态权重（2026-10-30 用户要求：真题的抽取优先级提到「不会 / 不熟」同级）
+ *  基础档：不会 4 / 不熟 2 / 仅收藏 1 / 已掌握 0（排除）
+ *  真题在自身档基础上**升一档**：仅收藏真题 1→2（= 不熟），不熟真题 2→4（= 不会），不会真题封顶 4。
+ *  ⟹ 同一状态里真题永远比非真题重；真题收藏不再被「不会 / 不熟」挤掉（原来它排在第二段，几乎抽不到）。
+ *  ⚠️ 已掌握仍返回 0：真题身份不能把「已掌握」拉回池子。 */
+function ppWeight(qid, st, isFav, zt) {
     const s = st[qid];
-    if (s === 'unknown') return 4;
-    if (s === 'unfamiliar') return 2;
-    if (s === 'mastered') return 0;
-    return isFav ? 1 : 0;
+    let w;
+    if (s === 'unknown') w = 4;
+    else if (s === 'unfamiliar') w = 2;
+    else if (s === 'mastered') return 0;
+    else w = isFav ? 1 : 0;
+    if (zt && w > 0) w = w === 1 ? 2 : 4;      // 真题升一档（1→2、2→4、4→4）
+    return w;
 }
 
 /** 真实题型。判定优先级（2026-10-27 修正）：
@@ -2618,7 +2626,8 @@ function ppBuildPool() {
         seen.add(qid);
         // ⚠️ 严格只抽**收藏**的题（2026-10-14 定：某题型不够就缩水，不放宽到「有状态未收藏」）
         if (!fav[qid]) return;
-        const sw = ppWeight(qid, st, true);
+        const zt = isZhentiOf(paper, q);
+        const sw = ppWeight(qid, st, true, zt);      // 真题升一档参与加权
         if (sw <= 0) return;                         // 已掌握 → 排除
         const rec = dr[qid] || {};
         const d = rec.d || 0, ld = rec.ld || 0;
@@ -2626,7 +2635,7 @@ function ppBuildPool() {
             paper, secTitle, q, qid, sw, tf: 1, w: sw,
             state: st[qid] || null, fav: true,
             t: favTime(qid) || 0,
-            br: ppBranchOf(q), d, ld, zt: isZhentiOf(paper, q),
+            br: ppBranchOf(q), d, ld, zt,
         };
         const bucket = (ld && now - ld < PP_NO_REPEAT_MS) ? old : fresh;
         if (bucket === old) relaxed++;
@@ -2656,16 +2665,6 @@ function ppBuildPool() {
 
 /** 加权无放回抽 k 个。权重 = w × 软衰减 × 细分支惩罚
  *  ctx.br 记录本卷已选各细分支的题数：同分支第 2 题 ×0.35、第 3 题 ×0.12、第 4 题起 ×0.04 */
-/** 同级内「真题优先」抽取：先只在真题候选里按权重抽，真题不够再从其余候选补（2026-10-30 用户要求：
- *  同级抽取时真题优先级大于其他）。权重、软衰减、细分支分散都保持不变，只是候选先按真题分两批。 */
-function ppPickWeightedZT(arr, k, ctx) {
-    const a = (arr || []).filter(it => it.zt), b = (arr || []).filter(it => !it.zt);
-    const out = ppPickWeighted(a, Math.min(k, a.length), ctx);
-    const rest = k - out.length;
-    if (rest > 0) out.push(...ppPickWeighted(b, rest, ctx));
-    return out;
-}
-
 function ppPickWeighted(arr, k, ctx) {
     const pool = (arr || []).slice();
     const out = [];
@@ -2690,21 +2689,23 @@ function ppPickWeighted(arr, k, ctx) {
     return out;
 }
 
-/** 两段式抽 k 个（题型内）：
- *  ① 「不会/不熟」层：不超配额时**全部入卷**，超出时层内按 4:2 加权（不吃收藏时间系数）；
- *  ② 剩余名额从「仅收藏」层按 w 加权；
- *  ③ 仍不够 → 从「7 天内抽过」的题里按上次抽中时间升序补位（最久远的先补）。 */
+/** 两段式抽 k 个（题型内），分层依据是**权重档**而不是原始状态：
+ *  ① 首选段（sw ≥ 2）：不会、不熟、**仅收藏的真题**（真题升一档后进入这一段）——
+ *     段内不超配额就全部入卷，超出则按权重加权随机（不会 4 / 真题不熟 4 / 不熟 2 / 真题收藏 2）；
+ *  ② 次选段（sw = 1）：仅收藏的非真题；
+ *  ③ 仍不够 → 从「7 天内抽过」的题里按上次抽中时间升序补位（最久远的先补）。
+ *  真题因此不再被「不会 / 不熟」挤到抽不到，同时也不会把不会的题全部挤掉。 */
 function ppSampleTiered(tiers, kind, k, ctx) {
     const arr = tiers.fresh[kind] || [];
     const oldArr = (tiers.old[kind] || []).slice().sort((a, b) => (a.ld || 0) - (b.ld || 0));
-    const isHot = it => it.state === 'unknown' || it.state === 'unfamiliar';
+    const isHot = it => (it.sw || 0) >= 2;
     const hot = arr.filter(isHot), warm = arr.filter(it => !isHot(it));
-    const out = ppPickWeightedZT(hot, Math.min(k, hot.length), ctx);
+    const out = ppPickWeighted(hot, Math.min(k, hot.length), ctx);
     const rest = k - out.length;
-    if (rest > 0) out.push(...ppPickWeightedZT(warm, rest, ctx));
+    if (rest > 0) out.push(...ppPickWeighted(warm, rest, ctx));
     const need = k - out.length;
     if (need > 0) {
-        const extra = ppPickWeightedZT(oldArr, need, ctx);
+        const extra = ppPickWeighted(oldArr, need, ctx);
         for (const it of extra) it.relaxed = true;   // 标记：这道题是「7 天内抽过、被放宽补进来的」
         out.push(...extra);
     }
@@ -2957,7 +2958,7 @@ function ppRender() {
         <div class="pp-banner" id="ppBanner" hidden></div>
         ${items.length < wantN ? `<div class="pp-short">⚠️ 本卷只有 ${items.length} 题（标记的题不够凑满 ${wantN} 题；多收藏一些题就能凑齐）</div>` : ''}
         ${(ppCur.relaxed || 0) > 0 ? `<div class="pp-short">⚠️ 其中 ${ppCur.relaxed} 题是 7 天内抽过的（可抽的收藏题不够，已按「最久没抽」放宽补位）</div>` : ''}
-        ${items.length ? `<div class="pp-stat">🎯 真题 ${items.filter(it => ppZtOf(it)).length} / ${items.length} 题（同级内优先抽真题）</div>` : ''}
+        ${items.length ? `<div class="pp-stat">🎯 真题 ${items.filter(it => ppZtOf(it)).length} / ${items.length} 题（真题按「不会/不熟」同级优先）</div>` : ''}
     </div>`;
     let n = 0;
     for (const seg of PP_SEGS) {
