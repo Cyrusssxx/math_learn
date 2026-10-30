@@ -1684,28 +1684,21 @@ function buildTree(entries) {
         if (cnt <= 0) continue;
         if (!subjMap[subj.name]) subjMap[subj.name] = { id: subj.id, name: subj.name, display: subj.display, chapters: {} };
         const cm = subjMap[subj.name].chapters;
-        if (!cm[ch.id]) cm[ch.id] = { id: ch.id, name: ch.name, display: ch.display, count: 0, leaves: [] };
+        if (!cm[ch.id]) cm[ch.id] = { id: ch.id, name: ch.name, display: ch.display, count: 0, ord: ch.ord, leaves: [] };
         cm[ch.id].count += cnt;
-        cm[ch.id].leaves.push({ id: c.id, name: c.name, display: c.display, count: cnt });
+        cm[ch.id].leaves.push({ id: c.id, name: c.name, display: c.display, count: cnt, ord: c.ord });
     }
     const order = ['高等数学', '线性代数', '概率统计'];
-    const laChapterOrder = ['行列式', '矩阵', '向量', '线性方程组', '特征值与特征向量', '二次型'];
+    // 章节 / 知识点的顺序一律跟源站（cxyonly.fans）走：exam_categories.json 的 `ord` 字段
+    // = 该节点在站点同父节点下的排列序号（站点没有的节点用 9000+id 排到最后）。
+    // 2026-10-30 用户要求：以前按题数降序，和站点对不上。
+    const byOrd = (a, b) => (a.ord == null ? 9e9 : a.ord) - (b.ord == null ? 9e9 : b.ord) || b.count - a.count;
     const subs = Object.keys(subjMap)
         .filter(s => Object.keys(subjMap[s].chapters).length)
         .sort((a, b) => { const ia = order.indexOf(a), ib = order.indexOf(b); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib); });
     return subs.map(s => {
-        let chapters = Object.values(subjMap[s].chapters);
-        if (s === '线性代数') {
-            // 线代章节按用户指定固定顺序：行列式 -> 矩阵 -> 向量 -> 线性方程组 -> 特征值与特征向量 -> 二次型
-            chapters.sort((a, b) => {
-                const ia = laChapterOrder.indexOf(a.name);
-                const ib = laChapterOrder.indexOf(b.name);
-                return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
-            });
-        } else {
-            chapters.sort((a, b) => b.count - a.count);
-        }
-        chapters.forEach(ch => ch.leaves.sort((a, b) => b.count - a.count));
+        const chapters = Object.values(subjMap[s].chapters).sort(byOrd);
+        chapters.forEach(ch => ch.leaves.sort(byOrd));
         return { subject: s, id: subjMap[s].id, display: subjMap[s].display || s, chapters };
     });
 }
