@@ -32,6 +32,20 @@ async function init() {
     initSearchSubj();
     renderTree();
     window.addEventListener('hashchange', route);
+    // 目录点击（右侧栏 + 正文顶部「本文目录」）：自己接管
+    //  → 同 hash 也能定位；点小节会把它所在的章展开
+    document.addEventListener('click', e => {
+        const a = e.target.closest('#tocPane .toc-link, #tocPane .toc-sub-link, .doc-toc .toc-link, .doc-toc .toc-sub-link');
+        if (!a) return;
+        e.preventDefault();
+        let ch = a.dataset.ch != null ? parseInt(a.dataset.ch, 10) : -1;
+        if (ch < 0) {                        // 小节链接若没带 data-ch，从所属条目反推（否则会被当成章号）
+            const box = a.closest('.toc-item, .doc-toc-item');
+            const lk = box && box.querySelector('.toc-link');
+            if (lk && lk.dataset.ch != null) ch = parseInt(lk.dataset.ch, 10);
+        }
+        tocJump(ch, a.dataset.h3 || '');
+    });
     // 页内导航：点击「图形导航」锚点链接平滑滚动到对应 figure（不改动路由 hash）
     document.addEventListener('click', e => {
         const a = e.target.closest('a.jumplink');
@@ -62,18 +76,9 @@ function route() {
         // 换笔记时旧标红已随 DOM 重建消失；但 pendingLocate 带来的新标红由 locateBlock 负责。
     }
     if (h3No && !pendingLocate) {
-        // 二级目录：先滚到所属章，再滚到小节（小节更精确，以它为准）
-        const el = document.getElementById('h3-' + h3No);
-        if (el) {
-            for (let d = el.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;   // 小节在折叠块里也要能展开
-            el.scrollIntoView({ block: 'start' });
-        } else if (chIdx >= 0) {
-            const h = document.getElementById('ch-' + chIdx);
-            if (h) h.scrollIntoView({ block: 'start' });
-        }
+        jumpInPage(chIdx, h3No);            // 小节优先，顺带展开所在章与折叠块
     } else if (chIdx >= 0 && !pendingLocate) {
-        const el = document.getElementById('ch-' + chIdx);
-        if (el) el.scrollIntoView({ block: 'start' });
+        jumpInPage(chIdx, '');
     } else if (!pendingLocate) {
         window.scrollTo(0, 0);
     }
@@ -430,7 +435,7 @@ function fillDocToc(note) {
         const num = `<span class="toc-num">${i + 1}</span>`;
         const kids = c.h3s.length
             ? `<div class="doc-toc-kids">` + c.h3s.map(h =>
-                `<a class="toc-sub-link" data-h3="${h.id.slice(3)}" href="#/${note.id}/${c.ch}/${h.id.slice(3)}" title="${esc(h.name)}">${inline(h.name)}</a>`
+                `<a class="toc-sub-link" data-ch="${c.ch}" data-h3="${h.id.slice(3)}" href="#/${note.id}/${c.ch}/${h.id.slice(3)}" title="${esc(h.name)}">${inline(h.name)}</a>`
               ).join('') + `</div>`
             : '';
         return `<div class="doc-toc-item">` +
@@ -539,7 +544,7 @@ function renderToc(note) {
         const kids = c.h3s.map(h => {
             const n = h.id.slice(3);
             const kc = h.key ? ' is-key' : '';
-            return `<a class="toc-sub-link${kc}" data-h3="${n}" href="#/${note.id}/${c.ch}/${n}" title="${esc(h.name)}">${inline(h.name)}</a>`;
+            return `<a class="toc-sub-link${kc}" data-ch="${c.ch}" data-h3="${n}" href="#/${note.id}/${c.ch}/${n}" title="${esc(h.name)}">${inline(h.name)}</a>`;
         }).join('');
         const cls = 'toc-item' + (c.h3s.length ? ' has-kids' : '');
         return `<div class="${cls}">` +
@@ -589,6 +594,62 @@ function updateTocGroups(activeCh) {
     });
 }
 
+/* ---------- 页内定位（目录点击 / 路由跳转共用） ---------- */
+/** 手动点目录后的一小段时间内，不让 scrollspy 改动章的展开状态——
+ *  否则滚动途中 scrollspy 会把刚点开的章又收起来（用户看到的「点了小节不展开」）。 */
+let tocLockUntil = 0;
+
+/** 瞬时滚到元素：临时关掉 html{scroll-behavior:smooth}。
+ *  长笔记里平滑滚动要 1s 以上，期间再点目录会像「点不动」，也会让 scrollspy 中途误判当前章。 */
+function scrollToEl(el, pad) {
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + (window.pageYOffset || 0) - (pad == null ? 16 : pad);
+    const html = document.documentElement;
+    const prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    // ⚠️ 先钉住当前位置：CSS 的 scroll-behavior:smooth 可能还有一次在途动画（上一步点目录/回顶），
+    //    它会在我们跳完之后继续往旧目标跑，表现就是「点了定位不了 / 落点偏掉」。
+    window.scrollTo(0, window.pageYOffset || 0);
+    window.scrollTo(0, Math.max(0, y));
+    requestAnimationFrame(() => { html.style.scrollBehavior = prev; });
+    el.classList.add('locate-flash');
+    setTimeout(() => el.classList.remove('locate-flash'), 1200);
+}
+
+/** 展开右侧目录里指定的章 */
+function openTocChapter(ch) {
+    const el = document.getElementById('tocPane');
+    if (!el || ch < 0) return;
+    el.querySelectorAll('.toc-item').forEach(it => {
+        const a = it.querySelector('.toc-link');
+        if (a && parseInt(a.dataset.ch, 10) === ch) it.classList.add('open');
+    });
+}
+
+/** 在当前笔记里定位到「章」或「章 + 小节」（小节在 ::: fold 里也会先展开折叠块） */
+function jumpInPage(ch, h3) {
+    const el = (h3 !== '' && h3 != null)
+        ? document.getElementById('h3-' + h3)
+        : (ch >= 0 ? document.getElementById('ch-' + ch) : null);
+    if (!el) return;
+    for (let d = el.closest('details'); d; d = d.parentElement.closest('details')) d.open = true;
+    scrollToEl(el, 20);
+    if (ch >= 0) openTocChapter(ch);
+    highlightToc();
+}
+
+/** 目录点击：hash 没变时浏览器**不会**发 hashchange，必须手动定位
+ *  —— 这就是「有时候点了没反应」的根因（点当前章、或重复点同一条）。 */
+function tocJump(ch, h3) {
+    if (!cur) return;
+    const target = '#/' + cur.id + (ch >= 0 ? '/' + ch : '') + (h3 ? '/' + h3 : '');
+    tocLockUntil = Date.now() + 1000;
+    if (ch >= 0) openTocChapter(ch);
+    const curHash = '#' + decodeURIComponent(location.hash.replace(/^#/, ''));
+    if (curHash === '#' + decodeURIComponent(target.slice(1))) jumpInPage(ch, h3);
+    else location.hash = target;
+}
+
 /** 滚动高亮：章 + 小节两级联动。小节命中时，其上方的章也保持 active。 */
 function highlightToc() {
     if (!cur) return;
@@ -598,9 +659,11 @@ function highlightToc() {
         if (h.getBoundingClientRect().top <= 90) activeCh = parseInt(h.id.slice(3), 10);
         else break;
     }
-    // 小节：取最后一个「已经越过判定线」的 h3
-    let activeH3 = '';
-    for (const h of document.querySelectorAll('.note-article h3')) {
+    // 小节：只在**当前章**范围内取（否则上一章最后一个 h3 会抢走高亮，导致刚点开的章又被收起）
+    let activeH3 = '', h3Ch = -1;
+    for (const h of document.querySelectorAll('.note-article h2, .note-article h3')) {
+        if (h.tagName === 'H2') { h3Ch = parseInt(h.id.slice(3), 10); continue; }
+        if (h3Ch !== activeCh) continue;
         if (h.getBoundingClientRect().top <= 90) activeH3 = h.id.slice(3);
         else break;
     }
@@ -617,7 +680,8 @@ function highlightToc() {
     updateTocGroups(activeCh);
     // 只把「有 active 小节的章」自动展开；用户手动点过按钮（expand-all）就尊重其选择
     const el = document.getElementById('tocPane');
-    if (el && !el.classList.contains('expand-all')) {
+    // 手动点目录后 1s 内不改展开状态：等滚动落定，避免"点了又收起来"
+    if (el && !el.classList.contains('expand-all') && Date.now() > tocLockUntil) {
         el.querySelectorAll('.toc-item').forEach(it => {
             const hitSub = !!it.querySelector('.toc-sub-link.active');
             const hitCh = !!it.querySelector('.toc-link.active');

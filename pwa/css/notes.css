@@ -115,7 +115,10 @@ html.dark {
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* ⚠️ 这里刻意用 auto（2026-10-30）：全局 smooth 会让每次 scrollTo/scrollIntoView 变成 1s 以上的动画，
+   在途动画会和下一次目录点击打架（表现为「点了定位不了 / 落点偏掉」）。
+   需要平滑的地方（回顶、图形导航）在 JS 里显式传 behavior:'smooth'。 */
+html { scroll-behavior: auto; }
 
 body {
     margin: 0;
@@ -1231,7 +1234,7 @@ mark.note-hl {
     transition: max-height .18s ease;
 }
 .toc-item.open > .toc-children,
-.toc.expand-all .toc-children { max-height: 800px; }
+.toc.expand-all .toc-children { max-height: 2000px; }
 
 /* 小节条目：靠 1px 竖导轨 + 更浅的灰表达层级 */
 .toc-sub-link {
