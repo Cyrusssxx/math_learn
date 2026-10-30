@@ -1554,6 +1554,14 @@ function masteryRankOf(qid) {
 const ZHENTI_RE = /(?:19|20)\d{2}[^0-9]{0,6}数[一二三]/;
 function isZhenti(q) { return ZHENTI_RE.test((q && q.source) || ''); }
 
+/** 综合判真题：① 题目 source 里有「年份+数一二三」；② 它来自真题套卷（paper.id 形如「2025数二真题」或 paper.year 有值）。
+ *  ⚠️ exam.json 里的题**没有 source 字段**，只判 source 会把整套真题误判成"非真题"（拼卷的真题优先会反向生效）。 */
+function isZhentiOf(paper, q) {
+    if (isZhenti(q)) return true;
+    const id = (paper && paper.id) || '';
+    return !!((paper && paper.year) || /(?:19|20)\d{2}数[一二三]/.test(id));
+}
+
 /** 年份：核心题库的题没有 paper.year，只能从 source 里取第一个年份；
  *  取不到再退回 paper.year（真题卷模式用得上）。 */
 function entryYear(e) {
@@ -1581,8 +1589,8 @@ function compareEntries(a, b) {
     const tb = favTime(qb);
     if (ta && tb) return tb - ta;
     // 真题优先（方案 A：只在同一标记层内生效，不凌驾于掌握度/收藏时间）
-    const za = isZhenti(a.q) ? 0 : 1;
-    const zb = isZhenti(b.q) ? 0 : 1;
+    const za = isZhentiOf(a.paper, a.q) ? 0 : 1;
+    const zb = isZhentiOf(b.paper, b.q) ? 0 : 1;
     if (za !== zb) return za - zb;
     // 年份排序（兜底 0：无年份的补充题排到有年份真题之后，避免 NaN 失序淹没真题）
     const ya = entryYear(a);
@@ -2621,7 +2629,7 @@ function ppBuildPool() {
             paper, secTitle, q, qid, sw, tf: 1, w: sw,
             state: st[qid] || null, fav: true,
             t: favTime(qid) || 0,
-            br: ppBranchOf(q), d, ld,
+            br: ppBranchOf(q), d, ld, zt: isZhentiOf(paper, q),
         };
         const bucket = (ld && now - ld < PP_NO_REPEAT_MS) ? old : fresh;
         if (bucket === old) relaxed++;
@@ -2651,6 +2659,16 @@ function ppBuildPool() {
 
 /** 加权无放回抽 k 个。权重 = w × 软衰减 × 细分支惩罚
  *  ctx.br 记录本卷已选各细分支的题数：同分支第 2 题 ×0.35、第 3 题 ×0.12、第 4 题起 ×0.04 */
+/** 同级内「真题优先」抽取：先只在真题候选里按权重抽，真题不够再从其余候选补（2026-10-30 用户要求：
+ *  同级抽取时真题优先级大于其他）。权重、软衰减、细分支分散都保持不变，只是候选先按真题分两批。 */
+function ppPickWeightedZT(arr, k, ctx) {
+    const a = (arr || []).filter(it => it.zt), b = (arr || []).filter(it => !it.zt);
+    const out = ppPickWeighted(a, Math.min(k, a.length), ctx);
+    const rest = k - out.length;
+    if (rest > 0) out.push(...ppPickWeighted(b, rest, ctx));
+    return out;
+}
+
 function ppPickWeighted(arr, k, ctx) {
     const pool = (arr || []).slice();
     const out = [];
@@ -2684,12 +2702,12 @@ function ppSampleTiered(tiers, kind, k, ctx) {
     const oldArr = (tiers.old[kind] || []).slice().sort((a, b) => (a.ld || 0) - (b.ld || 0));
     const isHot = it => it.state === 'unknown' || it.state === 'unfamiliar';
     const hot = arr.filter(isHot), warm = arr.filter(it => !isHot(it));
-    const out = ppPickWeighted(hot, Math.min(k, hot.length), ctx);
+    const out = ppPickWeightedZT(hot, Math.min(k, hot.length), ctx);
     const rest = k - out.length;
-    if (rest > 0) out.push(...ppPickWeighted(warm, rest, ctx));
+    if (rest > 0) out.push(...ppPickWeightedZT(warm, rest, ctx));
     const need = k - out.length;
     if (need > 0) {
-        const extra = ppPickWeighted(oldArr, need, ctx);
+        const extra = ppPickWeightedZT(oldArr, need, ctx);
         for (const it of extra) it.relaxed = true;   // 标记：这道题是「7 天内抽过、被放宽补进来的」
         out.push(...extra);
     }
@@ -2748,6 +2766,13 @@ function ppBuild(nTotal) {
     }
     if (best) { best.short = best.items.length < N; return best; }
     return { items: [], chapters: [], pool: tiers, short: true, relaxed: tiers.relaxed };
+}
+
+/** 卷面题是否真题：新卷直接带 zt；旧历史卷（存时还没有这个字段）按 qid 反查题目再判 */
+function ppZtOf(it) {
+    if (it && typeof it.zt === 'boolean') return it.zt;
+    const f = it && it.qid ? ppOfQid(it.qid) : null;
+    return f ? isZhentiOf(f.paper, f.q) : false;
 }
 
 /* ---------- 拼卷：qid 索引（按 qid 还原题，供历史卷用；建一次缓存） ---------- */
@@ -2935,6 +2960,7 @@ function ppRender() {
         <div class="pp-banner" id="ppBanner" hidden></div>
         ${items.length < wantN ? `<div class="pp-short">⚠️ 本卷只有 ${items.length} 题（标记的题不够凑满 ${wantN} 题；多收藏一些题就能凑齐）</div>` : ''}
         ${(ppCur.relaxed || 0) > 0 ? `<div class="pp-short">⚠️ 其中 ${ppCur.relaxed} 题是 7 天内抽过的（可抽的收藏题不够，已按「最久没抽」放宽补位）</div>` : ''}
+        ${items.length ? `<div class="pp-stat">🎯 真题 ${items.filter(it => ppZtOf(it)).length} / ${items.length} 题（同级内优先抽真题）</div>` : ''}
     </div>`;
     let n = 0;
     for (const seg of PP_SEGS) {
@@ -3007,7 +3033,7 @@ function ppNew() {
         id: String(Date.now()), ts: Date.now(), left: PP_SECS, running: false, done: false,
         chapters: rec.chapters || [], n: ppN,
         relaxed: rec.items.filter(it => it.relaxed).length,
-        items: rec.items.map(it => ({ qid: it.qid, kind: it.kind, score: it.score, state: it.state || null })),
+        items: rec.items.map(it => ({ qid: it.qid, kind: it.kind, score: it.score, state: it.state || null, zt: !!it.zt })),
     };
     // 记「被抽中」：次数 +1、时间刷新（供软衰减与一周去重使用）
     try {
