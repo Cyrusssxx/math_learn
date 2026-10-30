@@ -1795,3 +1795,15 @@ html.dark .toc-filter input:focus-visible {
     display: inline-block; padding: 0 6px; margin: 0 2px;
     border: 1px dashed var(--border); border-radius: 5px; color: var(--text-faint); font-size: .95em;
 }
+
+/* ============ 重点小节（标题带 ⭐）：目录与正文都加重（2026-10-30 用户要求） ============ */
+.toc-sub-link.is-key {
+    color: var(--text);
+    border-left-color: var(--accent);
+    font-weight: 500;
+}
+.toc-sub-link.is-key:hover { color: var(--accent); }
+.note-article h3.md-h3.is-key {
+    background: rgba(var(--accent-rgb, 74, 111, 217), .07);
+    border-radius: 4px;
+}

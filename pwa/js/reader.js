@@ -409,6 +409,10 @@ function renderDoc(note) {
         ${mdToHtml(note.md)}
     </article>`;
     fillDocToc(note);
+    // 正文里带 ⭐ 的小节标题也标成重点（与右侧目录的 is-key 一致）
+    el.querySelectorAll('.note-article h3.md-h3').forEach(h => {
+        if (h.textContent.indexOf('⭐') >= 0) h.classList.add('is-key');
+    });
     document.title = note.name + ' - 考研数学笔记';
     renderMath(el);
     if (window.Annot) Annot.apply(note.id);  // 公式渲染完再恢复用户标注
@@ -506,7 +510,9 @@ function tocItems() {
             curCh = { ch: n, name: stripChNum(el.textContent.trim()), raw: el.textContent.trim(), h3s: [] };
             out.push(curCh);
         } else if (el.tagName === 'H3' && curCh) {
-            curCh.h3s.push({ id: el.id, name: el.textContent.trim() });
+            // 小节名里带 ⭐ 的算「重点小节」：目录里单独加重（用户：重点的打打重点）
+            const nm = el.textContent.trim();
+            curCh.h3s.push({ id: el.id, name: nm, key: nm.indexOf('⭐') >= 0 });
         }
     }
     return out;
@@ -526,7 +532,8 @@ function renderToc(note) {
         const num = `<span class="toc-num">${i + 1}</span>`;
         const kids = c.h3s.map(h => {
             const n = h.id.slice(3);
-            return `<a class="toc-sub-link" data-h3="${n}" href="#/${note.id}/${c.ch}/${n}" title="${esc(h.name)}">${inline(h.name)}</a>`;
+            const kc = h.key ? ' is-key' : '';
+            return `<a class="toc-sub-link${kc}" data-h3="${n}" href="#/${note.id}/${c.ch}/${n}" title="${esc(h.name)}">${inline(h.name)}</a>`;
         }).join('');
         const cls = 'toc-item' + (c.h3s.length ? ' has-kids' : '');
         return `<div class="${cls}">` +
