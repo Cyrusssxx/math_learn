@@ -29333,7 +29333,7 @@
       "kind": "choice",
       "type": "choice",
       "stem": "设 $A,B$ 为满足 $AB=O$ 的任意两个非零矩阵，则必有（ ）。",
-      "answer": "（A）\n\n设 $A$ 为 $m\\times n$ 矩阵，$B$ 为 $n\\times s$ 矩阵。由 $AB=O$，有\n$$\n\\operatorname{Col}(B)\\subseteq\\ker A,\n$$\n从而\n$$\nr(A)+r(B)\\le n.\n$$\n因为 $A,B$ 均非零，所以 $r(A)\\ge1$ 且 $r(B)\\ge1$，进而\n$$\nr(A)\\lt n,\n\\;\nr(B)\\lt n.\n$$\n矩阵 $A$ 有 $n$ 个列向量，故其列向量组线性相关；矩阵 $B$ 有 $n$ 个行向量，故其行向量组线性相关。故选 A。",
+      "answer": "（A）\n\n设 $A$ 为 $m\\times n$ 矩阵，$B$ 为 $n\\times s$ 矩阵。由 $AB=O$ 知 $B$ 的每一列都是 $Ax=0$ 的解，而 $Ax=0$ 的基础解系含 $n-r(A)$ 个向量，所以 $B$ 的列秩不超过 $n-r(A)$，即\n$$\nr(A)+r(B)\\le n.\n$$\n因为 $A,B$ 均非零，所以 $r(A)\\ge1$ 且 $r(B)\\ge1$，进而\n$$\nr(A)\\lt n,\n\\;\nr(B)\\lt n.\n$$\n矩阵 $A$ 有 $n$ 个列向量，故其列向量组线性相关；矩阵 $B$ 有 $n$ 个行向量，故其行向量组线性相关。故选 A。",
       "idea": "① $AB=O$ 用秩不等式 $r(A)+r(B)\\le n$；\n② 由 $A\\ne O$（$r(A)\\ge1$）得 $r(B)<n$，故 $B$ 的行向量组线性相关；\n③ 同理由 $r(A)<n$ 得 $A$ 的列向量组线性相关。",
       "source": "(2004 数一、二)",
       "categoryIds": [
@@ -30474,8 +30474,8 @@
       "kind": "choice",
       "type": "choice",
       "stem": "设 $A,B,C$ 均为 $n$ 阶矩阵，若 $AB=C$，且 $B$ 可逆，则（ ）。",
-      "answer": "（B）\n\n由 $C=AB$ 可知，$C$ 的每个列向量都是 $A$ 的列向量组的线性组合，因此\n$$\n\\operatorname{Col}(C)\\subseteq\\operatorname{Col}(A).\n$$\n又因为 $B$ 可逆，所以 $A=CB^{-1}$，从而\n$$\n\\operatorname{Col}(A)\\subseteq\\operatorname{Col}(C).\n$$\n故矩阵 $C$ 的列向量组与矩阵 $A$ 的列向量组等价，选 B。",
-      "idea": "由 $AB=C$ 且 $B$ 可逆，$C$ 的每个列向量都是 $A$ 的列向量组的线性组合，故 $\\operatorname{Col}(C)\\subseteq\\operatorname{Col}(A)$；又 $A=CB^{-1}$，故 $\\operatorname{Col}(A)\\subseteq\\operatorname{Col}(C)$。因此 $C$ 的列向量组与 $A$ 的列向量组等价，选 B。",
+      "answer": "（B）\n\n由 $C=AB$ 可知，$C$ 的每个列向量都是 $A$ 的列向量组的线性组合，即 $C$ 的列向量组能由 $A$ 的列向量组线性表示。又因为 $B$ 可逆，所以 $A=CB^{-1}$，反过来 $A$ 的列向量组也能由 $C$ 的列向量组线性表示。故两个列向量组等价，选 B。",
+      "idea": "由 $AB=C$ 知 $C$ 的第 $j$ 列就是 $A$ 乘 $B$ 的第 $j$ 列，故 **$C$ 的列向量组能由 $A$ 的列向量组线性表示**；又 $B$ 可逆使 $A=CB^{-1}$，反向也能表示。两个列向量组可互相表示 ⟹ 等价，选 B。",
       "source": "2013数一二三",
       "categoryIds": [
        31
@@ -30673,8 +30673,8 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设 $A=\\begin{pmatrix}2&-1&3\\\\a&1&b\\\\4&c&6\\end{pmatrix}$，且 $BA=O$，$B$ 是 $3$ 阶方阵，$r(B)\\gt1$，求 $A^n$。",
-      "answer": "$a=-2$，$b=-3$，$c=-2$；$A^n=9^{n-1}A$（$n\\ge1$）。\n\n由 $BA=O$ 且 $r(B)\\gt1$，知 $A$ 的列空间包含于 $B$ 的零空间，而 $\\dim\\ker B=3-r(B)\\le1$，故 $r(A)\\le1$。又 $A$ 第一行非零，故 $r(A)=1$，三行成比例。由第二行第二个元素为 $1$ 得第二行等于第一行的 $-1$ 倍，所以 $a=-2$、$b=-3$；第三行等于第一行的 $2$ 倍，所以 $c=-2$。此时 $A=uv^{\\mathrm{T}}$，且 $v^{\\mathrm{T}}u=9$，故 $A^n=9^{n-1}A$。",
-      "idea": "① $BA=O$ 且 $r(B)>1$ ⟹ $A$ 的列含于 $\\ker B$，而 $\\dim\\ker B=3-r(B)\\le1$，故 $r(A)\\le1$；又 $A$ 非零 ⟹ $r(A)=1$，三行成比例；\n② 用第一行 $(2,-1,3)$ 的比例定出 $a=-2,\\ b=-3,\\ c=-2$（第 2 行是它的 $-1$ 倍、第 3 行是 $2$ 倍）；\n③ 秩 1 分解 $A=uv^{\\mathrm T}$ 满足 $A^2=(v^{\\mathrm T}u)A=9A$，归纳得 $A^n=9^{n-1}A$。",
+      "answer": "$a=-2$，$b=-3$，$c=-2$；$A^n=9^{n-1}A$（$n\\ge1$）。\n\n由 $BA=O$ 且 $r(B)\\gt1$，知 $A$ 的每一列都是 $Bx=0$ 的解，而 $Bx=0$ 的基础解系含 $3-r(B)\\le1$ 个向量，故 $r(A)\\le1$。又 $A$ 第一行非零，故 $r(A)=1$，三行成比例。由第二行第二个元素为 $1$ 得第二行等于第一行的 $-1$ 倍，所以 $a=-2$、$b=-3$；第三行等于第一行的 $2$ 倍，所以 $c=-2$。此时 $A=uv^{\\mathrm{T}}$，且 $v^{\\mathrm{T}}u=9$，故 $A^n=9^{n-1}A$。",
+      "idea": "① $BA=O$ ⟹ $A$ 的每一列都是 $Bx=0$ 的解；而 $Bx=0$ 的基础解系含 $3-r(B)\\le1$ 个向量，故 $r(A)\\le1$；又 $A$ 非零 ⟹ $r(A)=1$，三行成比例；\n② 用第一行 $(2,-1,3)$ 的比例定出 $a=-2,\\ b=-3,\\ c=-2$（第 2 行是它的 $-1$ 倍、第 3 行是 $2$ 倍）；\n③ 秩 1 分解 $A=uv^{\\mathrm T}$ 满足 $A^2=(v^{\\mathrm T}u)A=9A$，归纳得 $A^n=9^{n-1}A$。",
       "source": "880矩阵基础解答; 姜晓千强化例题",
       "categoryIds": [
        28
@@ -31511,7 +31511,7 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设向量组 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性相关，向量组 $\\alpha_2, \\alpha_3, \\alpha_4$ 线性无关，问：(1) $\\alpha_1$ 能否由 $\\alpha_2, \\alpha_3$ 线性表出? 证明你的结论。(2) $\\alpha_4$ 能否由 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性表出? 证明你的结论。",
-      "answer": "(1) 能；(2) 不能。\n\n因 $\\alpha_2,\\alpha_3,\\alpha_4$ 线性无关，故 $\\alpha_2,\\alpha_3$ 线性无关。又 $\\alpha_1,\\alpha_2,\\alpha_3$ 线性相关，所以相关关系中 $\\alpha_1$ 的系数不能为 $0$，从而 $\\alpha_1$ 能由 $\\alpha_2,\\alpha_3$ 表示。于是 $\\operatorname{span}(\\alpha_1,\\alpha_2,\\alpha_3)=\\operatorname{span}(\\alpha_2,\\alpha_3)$。而 $\\alpha_2,\\alpha_3,\\alpha_4$ 线性无关，所以 $\\alpha_4$ 不能由 $\\alpha_1,\\alpha_2,\\alpha_3$ 表示。",
+      "answer": "(1) 能；(2) 不能。\n\n因 $\\alpha_2,\\alpha_3,\\alpha_4$ 线性无关，故 $\\alpha_2,\\alpha_3$ 线性无关。又 $\\alpha_1,\\alpha_2,\\alpha_3$ 线性相关，所以相关关系中 $\\alpha_1$ 的系数不能为 $0$，从而 $\\alpha_1$ 能由 $\\alpha_2,\\alpha_3$ 表示。于是凡能由 $\\alpha_1,\\alpha_2,\\alpha_3$ 线性表示的向量，都能由 $\\alpha_2,\\alpha_3$ 线性表示。而 $\\alpha_2,\\alpha_3,\\alpha_4$ 线性无关，所以 $\\alpha_4$ 不能由 $\\alpha_1,\\alpha_2,\\alpha_3$ 表示。",
       "idea": "$\\alpha_2,\\alpha_3,\\alpha_4$ 无关 ⟹ $\\alpha_2,\\alpha_3$ 无关。由 $\\alpha_1,\\alpha_2,\\alpha_3$ 相关，写 $k_1\\alpha_1+k_2\\alpha_2+k_3\\alpha_3=0$；若 $k_1=0$ 则与 $\\alpha_2,\\alpha_3$ 无关矛盾，故 $k_1\\ne0$，$\\alpha_1$ 可由 $\\alpha_2,\\alpha_3$ 表示，两组可互相表出；若 $\\alpha_4$ 也能被表示则 $\\alpha_2,\\alpha_3,\\alpha_4$ 相关，矛盾。故（1）能、（2）不能。",
       "source": "(1992 数一; 25版 880 向量基础选择1)",
       "categoryIds": [
@@ -32900,7 +32900,7 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设 $\\boldsymbol{\\alpha},\\boldsymbol{\\beta},\\boldsymbol{\\gamma}$ 是 $3$ 阶矩阵 $\\mathbf{A}$ 的 $3$ 个特征向量，其中 $\\boldsymbol{\\beta}$ 与 $\\boldsymbol{\\gamma}$ 为属于不同特征值的特征向量。方程组\n$$\n\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}+\\boldsymbol{\\gamma}\n$$\n的通解为\n$$\n\\mathbf{x}=k\\boldsymbol{\\alpha}+\\boldsymbol{\\beta}+\\frac{1}{3}\\boldsymbol{\\gamma},\\quad k\\in\\mathbb{R}.\n$$\n(I) 求方程组 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}-\\boldsymbol{\\gamma}$ 的通解；\n(II) 若 $\\boldsymbol{\\alpha}=(1,1,1)^T$，且 $\\mathbf{A}$ 的伴随矩阵 $\\mathbf{A}^*$ 为对称矩阵，求 $\\mathbf{A}^*$。",
-      "answer": "(I)\n$$\n\\mathbf{x}=k\\boldsymbol{\\alpha}+\\boldsymbol{\\beta}-\\frac{1}{3}\\boldsymbol{\\gamma},\\quad k\\in\\mathbb{R}.\n$$\n(II)\n$$\n\\mathbf{A}^*=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix}.\n$$\n\n由 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}+\\boldsymbol{\\gamma}$ 的通解可知 $\\ker\\mathbf{A}=\\operatorname{span}\\{\\boldsymbol{\\alpha}\\}$，故 $\\mathbf{A}\\boldsymbol{\\alpha}=\\mathbf{0}$。又\n$$\n\\mathbf{A}\\left(\\boldsymbol{\\beta}+\\frac{1}{3}\\boldsymbol{\\gamma}\\right)=\\boldsymbol{\\beta}+\\boldsymbol{\\gamma}.\n$$\n设 $\\boldsymbol{\\beta},\\boldsymbol{\\gamma}$ 对应的特征值分别为 $\\lambda_\\beta,\\lambda_\\gamma$。因 $\\boldsymbol{\\beta},\\boldsymbol{\\gamma}$ 属于不同特征值，二者线性无关，比较系数得\n$$\n\\lambda_\\beta=1,\\quad \\lambda_\\gamma=3.\n$$\n所以 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}-\\boldsymbol{\\gamma}$ 的一个特解为 $\\boldsymbol{\\beta}-\\frac{1}{3}\\boldsymbol{\\gamma}$，通解为\n$$\n\\mathbf{x}=k\\boldsymbol{\\alpha}+\\boldsymbol{\\beta}-\\frac{1}{3}\\boldsymbol{\\gamma}.\n$$\n\n$\\mathbf{A}$ 的特征值为 $0,1,3$，故 $\\mathbf{A}^*$ 在 $\\boldsymbol{\\alpha}$ 方向上的特征值为 $1\\cdot3=3$，在另外两个特征向量方向上的特征值为 $0$。若 $\\mathbf{A}^*$ 对称，且 $\\boldsymbol{\\alpha}=(1,1,1)^T$，则\n$$\n\\mathbf{A}^*=\\frac{3}{\\|\\boldsymbol{\\alpha}\\|^2}\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T\n=\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T\n=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix}.\n$$",
+      "answer": "(I)\n$$\n\\mathbf{x}=k\\boldsymbol{\\alpha}+\\boldsymbol{\\beta}-\\frac{1}{3}\\boldsymbol{\\gamma},\\quad k\\in\\mathbb{R}.\n$$\n(II)\n$$\n\\mathbf{A}^*=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix}.\n$$\n\n由 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}+\\boldsymbol{\\gamma}$ 的通解可知 $\\mathbf{A}\\boldsymbol{x}=\\boldsymbol{0}$ 的全部解为 $k\\boldsymbol{\\alpha}$，故 $\\mathbf{A}\\boldsymbol{\\alpha}=\\mathbf{0}$。又\n$$\n\\mathbf{A}\\left(\\boldsymbol{\\beta}+\\frac{1}{3}\\boldsymbol{\\gamma}\\right)=\\boldsymbol{\\beta}+\\boldsymbol{\\gamma}.\n$$\n设 $\\boldsymbol{\\beta},\\boldsymbol{\\gamma}$ 对应的特征值分别为 $\\lambda_\\beta,\\lambda_\\gamma$。因 $\\boldsymbol{\\beta},\\boldsymbol{\\gamma}$ 属于不同特征值，二者线性无关，比较系数得\n$$\n\\lambda_\\beta=1,\\quad \\lambda_\\gamma=3.\n$$\n所以 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}-\\boldsymbol{\\gamma}$ 的一个特解为 $\\boldsymbol{\\beta}-\\frac{1}{3}\\boldsymbol{\\gamma}$，通解为\n$$\n\\mathbf{x}=k\\boldsymbol{\\alpha}+\\boldsymbol{\\beta}-\\frac{1}{3}\\boldsymbol{\\gamma}.\n$$\n\n$\\mathbf{A}$ 的特征值为 $0,1,3$，故 $\\mathbf{A}^*$ 在 $\\boldsymbol{\\alpha}$ 方向上的特征值为 $1\\cdot3=3$，在另外两个特征向量方向上的特征值为 $0$。若 $\\mathbf{A}^*$ 对称，且 $\\boldsymbol{\\alpha}=(1,1,1)^T$，则\n$$\n\\mathbf{A}^*=\\frac{3}{\\|\\boldsymbol{\\alpha}\\|^2}\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T\n=\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T\n=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix}.\n$$",
       "idea": "① 通解得 $A\\alpha=0$、$\\lambda_\\beta=1$、$\\lambda_\\gamma=3$；\n② 右端只含 $\\beta,\\gamma$ ⟹ **直接设特解** $\\beta-\\frac13\\gamma$；\n③ $A^*$ 特征值 $3,0,0$，由 **对称 + 秩 1** 得 $A^*=\\alpha\\alpha^{\\mathrm T}$。",
       "source": "25 李艳芳三套数二第一套(重点)",
       "categoryIds": [
@@ -32936,8 +32936,8 @@
       "kind": "choice",
       "type": "choice",
       "stem": "设 $A,B$ 为 $n$ 阶方阵，若线性方程组 $Ax=0$ 的解均为 $Bx=0$ 的解，则下列方程组与 $Ax=0$ 同解的个数为（ ）。① $(A+B)x=0$ ② $ABx=0$ ③ $BAx=0$ ④ $\\begin{pmatrix}A-B\\\\A+B\\end{pmatrix}x=0$ ⑤ $\\begin{pmatrix}A\\\\B\\end{pmatrix}x=0$",
-      "answer": "（B）\n\n已知 $N(A)\\subseteq N(B)$。对于④，方程组等价于\n$$\n(A-B)x=0,\\ (A+B)x=0.\n$$\n两式相加、相减可得 $Ax=0$ 且 $Bx=0$，再结合 $N(A)\\subseteq N(B)$，可知④与 $Ax=0$ 同解。对于⑤，方程组就是 $Ax=0$ 且 $Bx=0$，同样与 $Ax=0$ 同解。①②③一般不能反推出 $Ax=0$，故共有 $2$ 个，选 B。",
-      "idea": "① 设 $N(A)\\subseteq N(B)$（$A\\boldsymbol x=0$ 的解都是 $B\\boldsymbol x=0$ 的解）；\n② 逐个选项看其解集是否恰好也为 $N(A)$：\n④\n⑤ 是 $A\\boldsymbol x=0$ 与 $B\\boldsymbol x=0$ 的联立，由包含关系知其解集仍为 $N(A)$；\n③ ①\n②\n③ 一般方向相反（解集可能变大），不予保证；\n④ 数出同解的个数。",
+      "answer": "（B）\n\n已知 $Ax=0$ 的每个解都是 $Bx=0$ 的解。对于④，方程组等价于\n$$\n(A-B)x=0,\\ (A+B)x=0.\n$$\n两式相加、相减可得 $Ax=0$ 且 $Bx=0$，再结合题设（$Bx=0$ 不会多出解），可知④与 $Ax=0$ 同解。对于⑤，方程组就是 $Ax=0$ 且 $Bx=0$，同样与 $Ax=0$ 同解。①②③一般不能反推出 $Ax=0$，故共有 $2$ 个，选 B。",
+      "idea": "① 题设：$Ax=0$ 的每个解都是 $Bx=0$ 的解（前者解集被后者包含）；\n② ④ $\\begin{pmatrix}A-B\\\\A+B\\end{pmatrix}x=0$ 等价于「同时满足 $Ax=0$ 与 $Bx=0$」，由题设后者不多出解，故与 $Ax=0$ 同解；⑤ 同理；\n③ ①②③ 只能由 $Ax=0$ 推出它们成立（$Ax=0$ ⟹ $ABx=0$、$BAx=0$），反过来推不出，故不同解；\n④ 共 $2$ 个，选 B。",
       "source": "姜晓千真题同源 150(重点)",
       "categoryIds": [
        157
@@ -33742,7 +33742,7 @@
       "kind": "choice",
       "type": "choice",
       "stem": "设有齐次线性方程组 $Ax=0$ 和 $Bx=0$，其中 $A$、$B$ 均为 $m\\times n$ 矩阵。现有 $4$ 个命题：① 若 $Ax=0$ 的解均是 $Bx=0$ 的解，则 $r(A)\\ge r(B)$；② 若 $r(A)\\ge r(B)$，则 $Ax=0$ 的解均是 $Bx=0$ 的解；③ 若 $Ax=0$ 与 $Bx=0$ 同解，则 $r(A)=r(B)$；④ 若 $r(A)=r(B)$，则 $Ax=0$ 与 $Bx=0$ 同解。以上命题中正确的是（ ）。",
-      "answer": "（B）\n\n记齐次线性方程组 $A\\boldsymbol{x}=\\boldsymbol{0}$ 与 $B\\boldsymbol{x}=\\boldsymbol{0}$ 的解集合分别为 $N(A)$ 与 $N(B)$。\n\n若 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的解都是 $B\\boldsymbol{x}=\\boldsymbol{0}$ 的解，则\n$$\nN(A)\\subseteq N(B).\n$$\n因此\n$$\n\\dim N(A)\\le\\dim N(B).\n$$\n由齐次线性方程组的基础解系所含向量个数为 $n-r(A)$，可得\n$$\nn-r(A)\\le n-r(B),\n$$\n即 $r(A)\\ge r(B)$。所以命题①正确。\n\n命题②不正确。例如取\n$$\nA=\\begin{pmatrix}1&0\\end{pmatrix},\n\\,\nB=\\begin{pmatrix}0&1\\end{pmatrix}.\n$$\n虽然 $r(A)=r(B)$，但两个方程组的解并不相同，也不存在题设所说的包含关系。\n\n若两个方程组同解，则 $N(A)=N(B)$，从而\n$$\nn-r(A)=n-r(B),\n$$\n即 $r(A)=r(B)$。所以命题③正确。\n\n上面的反例同时说明，仅有 $r(A)=r(B)$ 不能推出两个方程组同解，故命题④错误。\n\n正确的是①③，故选 B。",
+      "answer": "（B）\n\n若 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的解都是 $B\\boldsymbol{x}=\\boldsymbol{0}$ 的解，则 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的解集被 $B\\boldsymbol{x}=\\boldsymbol{0}$ 的解集包含，而解集越大、基础解系含的向量越多，故\n$$\nn-r(A)\\le n-r(B),\n$$\n即 $r(A)\\ge r(B)$。所以命题①正确。\n\n命题②不正确。例如取\n$$\nA=\\begin{pmatrix}1&0\\end{pmatrix},\n\\,\nB=\\begin{pmatrix}0&1\\end{pmatrix}.\n$$\n虽然 $r(A)=r(B)$，但两个方程组的解并不相同，也不存在题设所说的包含关系。\n\n若两个方程组同解，则两者的基础解系所含向量个数相同，即\n$$\nn-r(A)=n-r(B),\n$$\n即 $r(A)=r(B)$。所以命题③正确。\n\n上面的反例同时说明，仅有 $r(A)=r(B)$ 不能推出两个方程组同解，故命题④错误。\n\n正确的是①③，故选 B。",
       "idea": "① 工具：$n$ 元齐次方程组基础解系含 $n-r$ 个向量，解集越大（越「宽松」）秩越小；\n② 「$A\\boldsymbol x=0$ 的解都是 $B\\boldsymbol x=0$ 的解」⇒ $n-r(A)\\le n-r(B)$ ⇒ $r(A)\\ge r(B)$（①对）；\n③ 反方向不成立（用低阶矩阵举反例），同解则秩相等但秩相等不一定同解，据此判定四个命题。",
       "source": "(2003 数一)",
       "categoryIds": [
@@ -34214,8 +34214,8 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设矩阵 $A=\\begin{pmatrix}a&1&1\\\\0&a-1&0\\\\1&1&a\\end{pmatrix}$ 不可逆，$\\beta=(b,1,1)^{\\mathrm T}$。已知方程组 $A^{\\mathrm T}X=0$ 的解均是 $\\beta^{\\mathrm T}X=0$ 的解。\n\n（I）求 $a,b$ 的值；（II）求可逆矩阵 $P$，使得 $P^{-1}AP=\\Lambda$。",
-      "answer": "$a=-1,b=-2$；可取 $P=\\begin{pmatrix}1&-1&-1\\\\0&1&0\\\\1&0&1\\end{pmatrix}$，$\\Lambda=\\operatorname{diag}(0,-2,-2)$。\n\n（1）$|A|=(a-1)^2(a+1)=0$，所以 $a=1$ 或 $a=-1$。当 $a=1$ 时，$(0,1,0)^{\\mathrm T}\\in\\ker A^{\\mathrm T}$，但它与 $\\beta$ 的内积为 $1$，矛盾。当 $a=-1$ 时，$\\ker A^{\\mathrm T}=\\operatorname{span}\\{(1,1,1)^{\\mathrm T}\\}$，故 $b+2=0$。\n（2）此时 $A$ 对应特征值 $0$ 的特征向量可取 $(1,0,1)^{\\mathrm T}$，对应 $-2$ 的两个线性无关特征向量可取 $(-1,1,0)^{\\mathrm T},(-1,0,1)^{\\mathrm T}$。按此组成所示 $P$，有 $|P|=2\\ne0$，且 $AP=P\\Lambda$。",
-      "idea": "① $A$ 不可逆 ⟹ $|A|=(a-1)^2(a+1)=0$，得 $a=\\pm1$；\n② 零空间包含 **$\\ker A^{\\mathrm T}\\subseteq\\ker\\beta^{\\mathrm T}$**：取候选 $a$ 的 $\\ker A^{\\mathrm T}$ 基向量代入 $\\beta^{\\mathrm T}X=0$ 检验，定出 $a,b$；\n③ 求特征值与特征向量拼成 $P$。",
+      "answer": "$a=-1,b=-2$；可取 $P=\\begin{pmatrix}1&-1&-1\\\\0&1&0\\\\1&0&1\\end{pmatrix}$，$\\Lambda=\\operatorname{diag}(0,-2,-2)$。\n\n（1）$|A|=(a-1)^2(a+1)=0$，所以 $a=1$ 或 $a=-1$。当 $a=1$ 时，$(0,1,0)^{\\mathrm T}$ 是 $A^{\\mathrm T}X=0$ 的解，但它与 $\\beta$ 的内积为 $1$，即不满足 $\\beta^{\\mathrm T}X=0$，矛盾。当 $a=-1$ 时，$A^{\\mathrm T}X=0$ 的全部解为 $k(1,1,1)^{\\mathrm T}$，要求它也满足 $\\beta^{\\mathrm T}X=0$，即 $b+2=0$。\n（2）此时 $A$ 对应特征值 $0$ 的特征向量可取 $(1,0,1)^{\\mathrm T}$，对应 $-2$ 的两个线性无关特征向量可取 $(-1,1,0)^{\\mathrm T},(-1,0,1)^{\\mathrm T}$。按此组成所示 $P$，有 $|P|=2\\ne0$，且 $AP=P\\Lambda$。",
+      "idea": "① $A$ 不可逆 ⟹ $|A|=(a-1)^2(a+1)=0$，得 $a=\\pm1$；\n② 题设「$A^{\\mathrm T}X=0$ 的解都是 $\\beta^{\\mathrm T}X=0$ 的解」：对候选的 $a$ 先解 $A^{\\mathrm T}X=0$ 求出基础解系（只有一个向量），再要求它也满足 $\\beta^{\\mathrm T}X=0$，由此定出 $a,b$；\n③ 求特征值与特征向量拼成 $P$。",
       "source": "26押题王六套卷数二卷六8",
       "categoryIds": [
        157
@@ -34240,7 +34240,7 @@
       "type": "choice",
       "stem": "设 $A$ 是秩为 $2$ 的 $2\\times5$ 矩阵，$B$ 是秩为 $3$ 的 $3\\times5$ 矩阵，若 $AB^{\\mathrm T}=O$，则对于齐次线性方程组 $Ax=0$ 的任一非零解 $b$ 有（ ）。",
       "answer": "（C）\n\n考点：线性代数 / 方程组 / 解的关系 / 两个方程组其他解的关系；基础解系与解的唯一性。\n\n将 $B^{\\mathrm T}$ 的三个列向量记为 $\\beta_1,\\beta_2,\\beta_3$。由\n$$\nAB^{\\mathrm T}=O\n$$\n可知\n$$\nA\\beta_1=A\\beta_2=A\\beta_3=0.\n$$\n所以这三个列向量都是 $Ax=0$ 的解。又因为\n$$\nr(B^{\\mathrm T})=r(B)=3,\n$$\n故它们线性无关。\n\n方程组 $Ax=0$ 有 $5$ 个未知量，且 $r(A)=2$，所以基础解系含有 $5-2=3$ 个向量。因此 $\\beta_1,\\beta_2,\\beta_3$ 恰好构成一组基础解系。\n\n于是任一解 $b$ 都可以唯一写成\n$$\nb=y_1\\beta_1+y_2\\beta_2+y_3\\beta_3,\n$$\n也就是 $B^{\\mathrm T}y=b$ 有唯一解，选 $\\boxed{\\mathrm C}$。\n\n再说明 $A^{\\mathrm T}y=b$ 为什么无解：若有解，则由 $Ab=0$ 可得\n$$\nb^{\\mathrm T}b=(A^{\\mathrm T}y)^{\\mathrm T}b\n=y^{\\mathrm T}Ab=0,\n$$\n从而 $b=0$，与题设矛盾。",
-      "idea": "$AB^{\\mathrm T}=O$ 说明 $\\operatorname{Im}B^{\\mathrm T}\\subseteq\\ker A$。两者维数都为 $3$，故相等。任意 $b\\in\\ker A$ 都可写成 $B^{\\mathrm T}y$；又 $r(B^{\\mathrm T})=3$ 等于其列数，所以解唯一。选 C。",
+      "idea": "$AB^{\\mathrm T}=O$ ⟹ $B^{\\mathrm T}$ 的每一列都是 $Ax=0$ 的解；$r(B^{\\mathrm T})=3$ 说明这三列线性无关，而 $A$ 是 $2\\times5$、$r(A)=2$，$Ax=0$ 的基础解系恰好含 $5-2=3$ 个向量，故它就是这三列。于是任一解 $b$ 都能写成 $B^{\\mathrm T}y$，且三列无关使 $y$ 唯一。选 C。",
       "source": "25🐙四套数二卷四10",
       "categoryIds": [
        157
@@ -34637,7 +34637,7 @@
       "type": "calc",
       "stem": "设 $3$ 阶矩阵 $A=(\\alpha_1,\\alpha_2,\\alpha_3)$，非齐次线性方程组 $Ax=\\beta$ 的通解为 $k(2,1,1)^T+(1,-2,0)^T$，其中 $k$ 为任意常数。若 $B=(\\alpha_1,\\alpha_2,\\alpha_3,\\beta-5\\alpha_3)$，求线性方程组 $By=\\beta+\\alpha_3$ 的通解。",
       "answer": "$y=(-1,-3,0,0)^T+s(2,1,1,0)^T+t(-11,-3,0,1)^T$，其中 $s,t$ 为任意常数。\n\n由 $Ax=\\beta$ 的通解知 $\\alpha_1-2\\alpha_2=\\beta$，且 $2\\alpha_1+\\alpha_2+\\alpha_3=0$，故 $\\alpha_3=-2\\alpha_1-\\alpha_2$。于是 $\\beta+\\alpha_3=-\\alpha_1-3\\alpha_2$，$\\beta-5\\alpha_3=11\\alpha_1+3\\alpha_2$。设 $y=(y_1,y_2,y_3,y_4)^T$，则\n$By=(y_1-2y_3+11y_4)\\alpha_1+(y_2-y_3+3y_4)\\alpha_2$。\n比较系数得 $y_1-2y_3+11y_4=-1$，$y_2-y_3+3y_4=-3$。令 $y_3=s$，$y_4=t$，得通解\n$y=(-1,-3,0,0)^T+s(2,1,1,0)^T+t(-11,-3,0,1)^T$。",
-      "idea": "① 通解含一个参数 ⟹ **$r(A)=2$**，且 $\\beta=\\alpha_1-2\\alpha_2$、$\\alpha_3=-2\\alpha_1-\\alpha_2$；\n② $B$ 四列全在 $\\operatorname{span}\\{\\alpha_1,\\alpha_2\\}$ 内 ⟹ **$r(B)=2$**；\n③ 右端改写到同一组基上，比较系数写通解。",
+      "idea": "① 通解含一个参数 ⟹ **$r(A)=2$**；特解给出 $\\beta=\\alpha_1-2\\alpha_2$，齐次解给出 $\\alpha_3=-2\\alpha_1-\\alpha_2$；\n② $B$ 的四列都能由 $\\alpha_1,\\alpha_2$ 线性表示 ⟹ **$r(B)=2$**；\n③ 右端 $=-\\alpha_1-3\\alpha_2$，比较系数得两方程，取两个自由变量写通解。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        135
@@ -34665,8 +34665,8 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设矩阵 $A=\\begin{pmatrix}4&2&-3\\\\a&3&-4\\\\b&5&-7\\end{pmatrix}$。若方程组 $A^2X=0$ 与 $AX=0$ 不同解，则 $a-b=\\underline{\\hspace{3em}}$。",
-      "answer": "$-4$\n\n若两方程组解不同，则 $A$ 必为奇异矩阵，且 $N(A)\\subsetneqq N(A^2)$。先由 \n$$\n|A|=b-a-4\n$$\n 得 $b=a+4$。此时第三行等于第一行加第二行，左零向量可取 $u=(1,1,-1)^T$。$AX=0$ 的一个基解向量可取 \n$$\nv=(1,16-3a,12-2a)^T.\n$$\n 要使 $N(A^2)$ 比 $N(A)$ 更大，需要 $v\\in R(A)$，即 $u^Tv=0$。于是 \n$$\n1+16-3a-(12-2a)=0,\n$$\n 得 $a=5$，从而 $b=9$，故 $a-b=-4$。",
-      "idea": "① 两方程组解不同 ⟹ $N(A)\\subsetneqq N(A^2)$：先必有 $|A|=0$（否则两者同为 $\\{0\\}$），由 $|A|=b-a-4=0$ 得 $b=a+4$；\n② 此时第三行 = 第一行 + 第二行，左零向量 $u=(1,1,-1)^{\\mathrm T}$，解出 $Ax=0$ 的基解向量 $v$；\n③ **$N(A^2)\\supsetneqq N(A)$ 的判据：$v\\in R(A)$，即 $u^{\\mathrm T}v=0$**，由此定出 $a$，故 $a-b=-4$。",
+      "answer": "$-4$\n\n若两方程组解不同，则 $A$ 必为奇异矩阵，且 $A^2x=0$ 的解比 $Ax=0$ 的解多（真包含）。先由 \n$$\n|A|=b-a-4\n$$\n 得 $b=a+4$。此时第三行等于第一行加第二行，左零向量可取 $u=(1,1,-1)^T$。$AX=0$ 的一个基解向量可取 \n$$\nv=(1,16-3a,12-2a)^T.\n$$\n 要使 $A^2x=0$ 的解比 $Ax=0$ 更多，需要这个 $v$ 能由 $A$ 的列向量组线性表示，即 $u^Tv=0$。于是 \n$$\n1+16-3a-(12-2a)=0,\n$$\n 得 $a=5$，从而 $b=9$，故 $a-b=-4$。",
+      "idea": "① 两方程组解不同 ⟹ $A^2x=0$ 的解比 $Ax=0$ 的解多（真包含）：先必有 $|A|=0$（否则两者同为 $\\{0\\}$），由 $|A|=b-a-4=0$ 得 $b=a+4$；\n② 此时第三行 = 第一行 + 第二行，左零向量 $u=(1,1,-1)^{\\mathrm T}$，解出 $Ax=0$ 的基解向量 $v$；\n③ **判据：$Ax=0$ 的解 $v$ 要成为 $A^2x=0$ 的新解，必须 $v$ 能由 $A$ 的列向量组线性表示，即 $u^{\\mathrm T}v=0$**，由此定出 $a$，故 $a-b=-4$。",
       "source": "2025数一",
       "categoryIds": [
        157
@@ -34770,7 +34770,7 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设 $3$ 阶矩阵 $A = (\\alpha_1, \\alpha_2, \\alpha_3)$ 有三个不同的特征值，其中 $\\alpha_3 = \\alpha_1 + 2\\alpha_2$。(I) 证明 $r(A)=2$；(II) 若 $\\beta = \\alpha_1 + \\alpha_2 + \\alpha_3$，求线性方程组 $Ax = \\beta$ 的通解。",
-      "answer": "（I）$r(A)=2$，证明见解析。\n\n（II）通解可写为\n$$\nx=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\n+t\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix},\n\\qquad t\\in\\mathbb R.\n$$\n等价地，也可写为\n$$\nx=\\begin{pmatrix}2\\\\3\\\\0\\end{pmatrix}\n+c\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix},\n\\qquad c\\in\\mathbb R.\n$$\n\n（I）证明 $r(A)=2$。\n\n由 $\\alpha_3=\\alpha_1+2\\alpha_2$，$A$ 的列向量线性相关，故 $|A|=0$，即 $0$ 是 $A$ 的一个特征值。\n\n又 $A$ 有三个不同的特征值，故与 $0$ 对应的特征子空间维数为 $1$，即\n$$\n\\dim\\ker A=1.\n$$\n由秩与零空间维数的关系，\n$$\nr(A)=3-1=2.\n$$\n\n（II）求非齐次方程组的通解。\n\n第一步：找出一个特解。\n\n由 $\\beta=\\alpha_1+\\alpha_2+\\alpha_3$，直接得到\n$$\nA\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}=\\beta.\n$$\n所以 $x_0=(1,1,1)^{\\mathrm T}$ 是一个特解。\n\n第二步：求对应齐次方程的基础解系。\n\n由 $-\\alpha_1-2\\alpha_2+\\alpha_3=0$，知\n$$\nA\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix}=0.\n$$\n因齐次解空间维数为 $1$，此非零向量即构成基础解系。因此通解为\n$$\nx=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\n+t\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix}.\n$$\n\n第三步：说明不同写法的等价性。\n\n因为\n$$\n\\begin{pmatrix}2\\\\3\\\\0\\end{pmatrix}\n=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\n-\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix},\n$$\n令 $t=c-1$，即可得到答案中的另一种写法。两者只是特解和自由参数的选取不同，表示同一个解集。",
+      "answer": "（I）$r(A)=2$，证明见解析。\n\n（II）通解可写为\n$$\nx=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\n+t\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix},\n\\qquad t\\in\\mathbb R.\n$$\n等价地，也可写为\n$$\nx=\\begin{pmatrix}2\\\\3\\\\0\\end{pmatrix}\n+c\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix},\n\\qquad c\\in\\mathbb R.\n$$\n\n（I）证明 $r(A)=2$。\n\n由 $\\alpha_3=\\alpha_1+2\\alpha_2$，$A$ 的列向量线性相关，故 $|A|=0$，即 $0$ 是 $A$ 的一个特征值。\n\n又 $A$ 有三个不同的特征值，故与 $0$ 对应的线性无关特征向量只有 $1$ 个，即 $Ax=0$ 的基础解系只含 $1$ 个向量，故\n$$\nr(A)=3-1=2.\n$$\n\n（II）求非齐次方程组的通解。\n\n第一步：找出一个特解。\n\n由 $\\beta=\\alpha_1+\\alpha_2+\\alpha_3$，直接得到\n$$\nA\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}=\\beta.\n$$\n所以 $x_0=(1,1,1)^{\\mathrm T}$ 是一个特解。\n\n第二步：求对应齐次方程的基础解系。\n\n由 $-\\alpha_1-2\\alpha_2+\\alpha_3=0$，知\n$$\nA\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix}=0.\n$$\n因 $Ax=0$ 的基础解系只含 $1$ 个向量，这个非零向量即构成基础解系。因此通解为\n$$\nx=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\n+t\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix}.\n$$\n\n第三步：说明不同写法的等价性。\n\n因为\n$$\n\\begin{pmatrix}2\\\\3\\\\0\\end{pmatrix}\n=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\n-\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix},\n$$\n令 $t=c-1$，即可得到答案中的另一种写法。两者只是特解和自由参数的选取不同，表示同一个解集。",
       "idea": "(I) 由 $\\alpha_3=\\alpha_1+2\\alpha_2$ 得 $|A|=0$；三个特征值互异 ⟹ 对应 $0$ 的特征子空间是 $1$ 维 ⟹ $r(A)=2$；(II) $\\beta=A(1,1,1)^{\\mathrm T}$ 给特解，齐次解是 $(1,2,-1)^{\\mathrm T}$ 的倍数，故通解 $=(1,1,1)^{\\mathrm T}+k(1,2,-1)^{\\mathrm T}$。",
       "source": "2017数一二三",
       "categoryIds": [
@@ -34810,8 +34810,8 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设矩阵 $\\mathbf{A} = \\begin{pmatrix} 0 & 1 & a \\\\ 1 & 0 & 1 \\end{pmatrix}, \\mathbf{B} = \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\\\ b & 2 \\end{pmatrix}$，二次型 $f(x_1, x_2, x_3) = \\mathbf{x}^T \\mathbf{B}\\mathbf{A}\\mathbf{x}$。已知方程组 $\\mathbf{A}\\mathbf{x}=0$ 的解均是 $\\mathbf{B}^T\\mathbf{x}=0$ 的解，但这两个方程组不同解。(I) 求 a,b 的值；(II) 求正交变换 $\\mathbf{x}=\\mathbf{Q}\\mathbf{y}$ 将 $f(x_1, x_2, x_3)$ 化为标准形。",
-      "answer": "$a=1,\\ b=2$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt6}&\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\\\\\frac1{\\sqrt6}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\\\\\frac2{\\sqrt6}&0&-\\frac1{\\sqrt3}\\end{pmatrix},\n$$\n在正交变换 $x=Qy$ 下，标准形为\n$$\nf=6y_1^2.\n$$\n\n（1）由 $Ax=0$ 的解均是 $B^Tx=0$ 的解但不同解，知 $N(A)\\subsetneqq N(B^T)$。矩阵 $A$ 的秩恒为 $2$，所以 $N(A)$ 为一维；要使包含且不同，必须 $r(B^T)=1$，从而 $b=2$。此时 $B^Tx=0$ 为 $x_1+x_2+2x_3=0$。又 $Ax=0$ 的基础解向量可取 $(-1,-a,1)^T$，代入得 $-1-a+2=0$，故 $a=1$。\n（2）于是\n$$\nBA=\\begin{pmatrix}1&1&2\\\\1&1&2\\\\2&2&4\\end{pmatrix}=uu^T,\\quad u=(1,1,2)^T.\n$$\n取 $Q$ 的第一列为 $u/\\|u\\|=(1,1,2)^T/\\sqrt6$，其余两列取与其正交的单位向量，即题示 $Q$，则 $Q^TBAQ=\\operatorname{diag}(6,0,0)$，故 $f=6y_1^2$。",
-      "idea": "由「$Ax=0$ 的解都是 $B^{\\mathrm T}x=0$ 的解但不同解」得 $N(A)\\subsetneq N(B^{\\mathrm T})$；$r(A)=2$ 使 $N(A)$ 为一维，故需 $r(B^{\\mathrm T})=1$，据此定 $b$，再代回求 $f$ 的规范形。",
+      "answer": "$a=1,\\ b=2$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt6}&\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\\\\\frac1{\\sqrt6}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\\\\\frac2{\\sqrt6}&0&-\\frac1{\\sqrt3}\\end{pmatrix},\n$$\n在正交变换 $x=Qy$ 下，标准形为\n$$\nf=6y_1^2.\n$$\n\n（1）由 $Ax=0$ 的解均是 $B^Tx=0$ 的解但不同解，知 $B^Tx=0$ 的解比 $Ax=0$ 的解多（真包含）。矩阵 $A$ 的秩恒为 $2$，所以 $Ax=0$ 的基础解系只有 $1$ 个向量；要使包含且不同，必须 $r(B^T)=1$，从而 $b=2$。此时 $B^Tx=0$ 为 $x_1+x_2+2x_3=0$。又 $Ax=0$ 的基础解向量可取 $(-1,-a,1)^T$，代入得 $-1-a+2=0$，故 $a=1$。\n（2）于是\n$$\nBA=\\begin{pmatrix}1&1&2\\\\1&1&2\\\\2&2&4\\end{pmatrix}=uu^T,\\quad u=(1,1,2)^T.\n$$\n取 $Q$ 的第一列为 $u/\\|u\\|=(1,1,2)^T/\\sqrt6$，其余两列取与其正交的单位向量，即题示 $Q$，则 $Q^TBAQ=\\operatorname{diag}(6,0,0)$，故 $f=6y_1^2$。",
+      "idea": "由「$Ax=0$ 的解都是 $B^{\\mathrm T}x=0$ 的解但不同解」得 $B^{\\mathrm T}x=0$ 的解比 $Ax=0$ 的解多（真包含）；$r(A)=2$ 使 $Ax=0$ 的基础解系只有 $1$ 个向量，故需 $r(B^{\\mathrm T})=1$，据此定 $b$，再代回求 $f$ 的规范形。",
       "source": "2024数二",
       "categoryIds": [
        157
@@ -34898,7 +34898,7 @@
       "type": "calc",
       "stem": "已知三阶矩阵 $B\\ne O$，且 $B$ 的每一个列向量都是方程组\n$$\n\\begin{cases}\nx_1+2x_2-2x_3=0,\\\\\n2x_1-x_2+\\lambda x_3=0,\\\\\n3x_1+x_2-x_3=0\n\\end{cases}\n$$\n的解。求 $\\lambda$ 的值，并证明 $|B|=0$。",
       "answer": "$\\lambda=1$，且 $|B|=0$。\n\n记该齐次线性方程组的系数矩阵为\n$$\nA=\\begin{pmatrix}\n1&2&-2\\\\\n2&-1&\\lambda\\\\\n3&1&-1\n\\end{pmatrix}.\n$$\n由于 $B\\ne O$，且 $B$ 的每一个列向量都是 $AX=O$ 的解，所以 $AX=O$ 有非零解。因此\n$$\n|A|=0.\n$$\n计算得\n$$\n|A|=5\\lambda-5=5(\\lambda-1),\n$$\n故 $\\lambda=1$。\n\n当 $\\lambda=1$ 时，$A\\ne O$，所以 $\\operatorname{rank}(A)\\ge1$。于是方程组 $AX=O$ 的解空间维数小于 $3$。矩阵 $B$ 的三个列向量都属于这个真子空间，因此必线性相关，从而\n$$\n|B|=0.\n$$",
-      "idea": "① $B\\ne O$ 且每一列都是 $Ax=0$ 的解 ⟹ $Ax=0$ 有非零解 ⟹ $|A|=0$：算 $|A|=5(\\lambda-1)$ 得 $\\lambda=1$；\n② 证明 $|B|=0$：$\\lambda=1$ 时 $r(A)=2$，$\\ker A$ 只有一维，$B$ 的所有列都落在这个一维空间里 ⟹ 三列相关 ⟹ $|B|=0$。",
+      "idea": "① $B\\ne O$ 且每一列都是 $Ax=0$ 的解 ⟹ $Ax=0$ 有非零解 ⟹ $|A|=0$：算 $|A|=5(\\lambda-1)$ 得 $\\lambda=1$；\n② 证明 $|B|=0$：$\\lambda=1$ 时 $r(A)=2$，$Ax=0$ 的基础解系只含 $3-2=1$ 个向量，$B$ 的三列都是它的倍数 ⟹ 三列相关 ⟹ $|B|=0$。",
       "source": "1992数三",
       "categoryIds": [
        132
@@ -35088,7 +35088,7 @@
       "type": "calc",
       "stem": "设 $4$ 阶矩阵 $A=(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4)$，非齐次线性方程组 $Ax=\\beta$ 的通解为 $k(1,-2,4,0)^T+(1,2,2,1)^T$，其中 $k$ 为任意常数。若 $B=(\\alpha_3,\\alpha_2,\\alpha_1,\\beta-\\alpha_4)$，求线性方程组 $Bx=\\alpha_1-\\alpha_2+\\alpha_3$ 的通解。",
       "answer": "$x=(-3,1,0,0)^T+s(4,-2,1,0)^T+t(2,-4,0,1)^T$，其中 $s,t$ 为任意常数。\n\n由 $Ax=\\beta$ 的通解知 $\\alpha_1+2\\alpha_2+2\\alpha_3+\\alpha_4=\\beta$，且 $\\alpha_1-2\\alpha_2+4\\alpha_3=0$，故 $\\alpha_1=2\\alpha_2-4\\alpha_3$，$\\beta-\\alpha_4=4\\alpha_2-2\\alpha_3$。设 $x=(x_1,x_2,x_3,x_4)^T$，则\n$Bx=(x_2+2x_3+4x_4)\\alpha_2+(x_1-4x_3-2x_4)\\alpha_3$。\n又 $\\alpha_1-\\alpha_2+\\alpha_3=\\alpha_2-3\\alpha_3$，故\n$x_2+2x_3+4x_4=1$，$x_1-4x_3-2x_4=-3$。\n令 $x_3=s$，$x_4=t$，得通解\n$x=(-3,1,0,0)^T+s(4,-2,1,0)^T+t(2,-4,0,1)^T$。",
-      "idea": "① 通解含一个参数 ⟹ **$r(A)=3$**，且 $\\alpha_1=2\\alpha_2-4\\alpha_3$；\n② $B$ 四列全在 $\\operatorname{span}\\{\\alpha_2,\\alpha_3\\}$ 内 ⟹ **$r(B)=2$**；\n③ 右端改写到同一组基上，比较系数写通解。",
+      "idea": "① 通解含一个参数 ⟹ **$r(A)=3$**；特解给出 $\\beta$，齐次解给出 $\\alpha_1=2\\alpha_2-4\\alpha_3$；\n② $B$ 的四列都能由 $\\alpha_2,\\alpha_3$ 线性表示 ⟹ **$r(B)=2$**；\n③ 右端 $=\\alpha_2-3\\alpha_3$，比较系数得两方程，取两个自由变量写通解。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        135
@@ -35209,7 +35209,7 @@
       "type": "choice",
       "stem": "设 $A$ 是 $m\\times s$ 矩阵，$B$ 是 $s\\times n$ 矩阵。方程组 $ABX=0$ 与 $BX=0$ 同解的充分必要条件是（ ）。",
       "answer": "（B）\n\n第一步：注意解之间的包含关系。\n\n$BX=0$ 的每个解一定满足 $ABX=0$。\n\n第二步：比较自由变量个数。\n\n两方程组都有 $n$ 个未知量，其基础解系所含向量个数分别为\n$$\nn-r(AB),\\qquad n-r(B).\n$$\n在已有包含关系下，两组同解当且仅当基础解系所含向量个数相同，即\n$$\n\\boxed{r(AB)=r(B)}.\n$$\n故选 B。",
-      "idea": "$BX=0$ 的解一定满足 $ABX=0$。要同解只需 $N(AB)=N(B)$，即 $r(AB)=r(B)$，用 $r(AB)\\le r(B)$ 夹住即可。",
+      "idea": "$BX=0$ 的解一定满足 $ABX=0$。要同解只需 $ABx=0$ 的解不多于 $Bx=0$ 的解，即 $r(AB)=r(B)$，用 $r(AB)\\le r(B)$ 夹住即可。",
       "source": "26押题王六套卷六",
       "categoryIds": [
        157
@@ -35269,7 +35269,7 @@
       "type": "calc",
       "stem": "设 $3$ 阶矩阵 $\\mathbf A=(\\mathbf a_1,\\mathbf a_2,\\mathbf a_3)$ 满足 $\\mathbf A\\mathbf a_1=(1,0,1)^{\\mathrm T}$，$\\mathbf A\\mathbf a_2=(0,1,0)^{\\mathrm T}$，$\\mathbf A\\mathbf a_3=(0,0,0)^{\\mathrm T}$，且 $\\mathbf a_3\\neq\\mathbf0$，则线性方程组 $\\mathbf A\\mathbf x=(1,1,1)^{\\mathrm T}$ 的通解为______。",
       "answer": "$\\boldsymbol x=\\boldsymbol a_1+\\boldsymbol a_2+t\\boldsymbol a_3$，$t$ 为任意常数\n\n$A\\boldsymbol a_1=(1,0,1)^{\\mathrm T}$ 与 $A\\boldsymbol a_2=(0,1,0)^{\\mathrm T}$ 线性无关，故 $r(A)\\ge2$；又 $A\\boldsymbol a_3=0$ 且 $\\boldsymbol a_3\\ne0$，故 $r(A)=2$，零空间由 $\\boldsymbol a_3$ 生成。由于 $A(\\boldsymbol a_1+\\boldsymbol a_2)=(1,1,1)^{\\mathrm T}$，通解如答案所示。",
-      "idea": "① $A\\alpha_1,A\\alpha_2$ 无关 ⟹ $r(A)\\ge2$；$A\\alpha_3=0$、$\\alpha_3\\ne0$ ⟹ $r(A)\\le2$，故 **$r(A)=2$、$\\ker A=\\operatorname{span}\\{\\alpha_3\\}$**；\n② 右端 $=A(\\alpha_1+\\alpha_2)$ ⟹ 特解 $\\alpha_1+\\alpha_2$；\n③ 通解 $=\\alpha_1+\\alpha_2+t\\alpha_3$。",
+      "idea": "① $A\\alpha_1,A\\alpha_2$ 无关 ⟹ $r(A)\\ge2$；$A\\alpha_3=0$、$\\alpha_3\\ne0$ ⟹ $r(A)\\le2$，故 **$r(A)=2$，$Ax=0$ 的全部解为 $t\\alpha_3$**；\n② 右端 $=A(\\alpha_1+\\alpha_2)$ ⟹ 特解 $\\alpha_1+\\alpha_2$；\n③ 通解 $=\\alpha_1+\\alpha_2+t\\alpha_3$。",
       "source": "0.9k 数二 第四章 B类 第13题",
       "categoryIds": [
        135
@@ -35326,7 +35326,7 @@
       "kind": "choice",
       "type": "choice",
       "stem": "设 $A,B$ 为 $n$ 阶矩阵，$\\beta$ 是 $n$ 维列向量。若 $A$ 的列向量组可由 $B$ 的列向量组线性表示，则（ ）",
-      "answer": "（A）\n\n“$A$ 的列向量组可由 $B$ 的列向量组线性表示”等价于存在矩阵 $C$，使\n$$\nA=BC.\n$$\n因此 $A$ 的列空间包含于 $B$ 的列空间：\n$$\n\\mathcal C(A)\\subseteq\\mathcal C(B).\n$$\n若方程 $A\\boldsymbol{x}=\\boldsymbol\\beta$ 有解，则\n$$\n\\boldsymbol\\beta\\in\\mathcal C(A).\n$$\n由列空间的包含关系可知\n$$\n\\boldsymbol\\beta\\in\\mathcal C(B),\n$$\n所以方程 $B\\boldsymbol{x}=\\boldsymbol\\beta$ 也有解。故 A 正确。\n\n下面说明其余选项均不成立。\n\n取\n$$\nB=\\begin{pmatrix}1&0\\\\0&0\\end{pmatrix},\n\\qquad\nA=\\begin{pmatrix}1&1\\\\0&0\\end{pmatrix}.\n$$\n$A$ 的每个列向量都可由 $B$ 的列向量线性表示。\n\n对于选项 B，取\n$$\n\\boldsymbol\\beta=\\begin{pmatrix}1\\\\1\\end{pmatrix}.\n$$\n因为\n$$\nA^{\\mathsf T}\\boldsymbol{x}\n=\\begin{pmatrix}x_1\\\\x_1\\end{pmatrix},\n$$\n所以 $A^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 有解；但\n$$\nB^{\\mathsf T}\\boldsymbol{x}\n=\\begin{pmatrix}x_1\\\\0\\end{pmatrix},\n$$\n故 $B^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 无解，B 错误。\n\n对于选项 D，仍用上述 $A,B$，取\n$$\n\\boldsymbol\\beta=\\begin{pmatrix}1\\\\0\\end{pmatrix}.\n$$\n此时 $B^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 有解，而\n$A^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 无解，故 D 错误。\n\n对于选项 C，取\n$$\nB=E,\\qquad\nA=\\begin{pmatrix}1&0\\\\0&0\\end{pmatrix},\n\\qquad\n\\boldsymbol\\beta=\\begin{pmatrix}0\\\\1\\end{pmatrix}.\n$$\n虽然 $B\\boldsymbol{x}=\\boldsymbol\\beta$ 有解，但\n$A\\boldsymbol{x}=\\boldsymbol\\beta$ 无解，故 C 错误。\n\n因此正确选项为 A。",
+      "answer": "（A）\n\n“$A$ 的列向量组可由 $B$ 的列向量组线性表示”等价于存在矩阵 $C$，使\n$$\nA=BC.\n$$\n也就是说，$A$ 的列向量组的任意线性组合都能由 $B$ 的列向量组线性表示。若方程 $A\\boldsymbol{x}=\\boldsymbol\\beta$ 有解，则 $\\boldsymbol\\beta$ 是 $A$ 的列向量组的线性组合，于是也能由 $B$ 的列向量组线性表示，所以方程 $B\\boldsymbol{x}=\\boldsymbol\\beta$ 也有解。故 A 正确。\n\n下面说明其余选项均不成立。\n\n取\n$$\nB=\\begin{pmatrix}1&0\\\\0&0\\end{pmatrix},\n\\qquad\nA=\\begin{pmatrix}1&1\\\\0&0\\end{pmatrix}.\n$$\n$A$ 的每个列向量都可由 $B$ 的列向量线性表示。\n\n对于选项 B，取\n$$\n\\boldsymbol\\beta=\\begin{pmatrix}1\\\\1\\end{pmatrix}.\n$$\n因为\n$$\nA^{\\mathsf T}\\boldsymbol{x}\n=\\begin{pmatrix}x_1\\\\x_1\\end{pmatrix},\n$$\n所以 $A^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 有解；但\n$$\nB^{\\mathsf T}\\boldsymbol{x}\n=\\begin{pmatrix}x_1\\\\0\\end{pmatrix},\n$$\n故 $B^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 无解，B 错误。\n\n对于选项 D，仍用上述 $A,B$，取\n$$\n\\boldsymbol\\beta=\\begin{pmatrix}1\\\\0\\end{pmatrix}.\n$$\n此时 $B^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 有解，而\n$A^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 无解，故 D 错误。\n\n对于选项 C，取\n$$\nB=E,\\qquad\nA=\\begin{pmatrix}1&0\\\\0&0\\end{pmatrix},\n\\qquad\n\\boldsymbol\\beta=\\begin{pmatrix}0\\\\1\\end{pmatrix}.\n$$\n虽然 $B\\boldsymbol{x}=\\boldsymbol\\beta$ 有解，但\n$A\\boldsymbol{x}=\\boldsymbol\\beta$ 无解，故 C 错误。\n\n因此正确选项为 A。",
       "idea": "$A$ 的列可由 $B$ 的列表示 ⟺ 存在 $C$ 使 $A=BC$ ⟹ 列空间包含，于是 $Bx=0$ 的解一定是 $Ax=0$ 的解。",
       "source": "2026数一 第6题",
       "categoryIds": [
@@ -35431,7 +35431,7 @@
       "type": "calc",
       "stem": "设 $4$ 阶矩阵 $\\mathbf{A}=(\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4)$，其中 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3$ 线性相关，$\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4$ 线性无关。若 $\\boldsymbol{\\xi}=(1,2,3,a)^T$ 为线性方程组 $\\mathbf{A}\\mathbf{x}=\\mathbf{0}$ 的解。\n(I) 求 $a$；\n(II) 若 $\\boldsymbol{\\eta}=(2,b,c,d)^T$ 为 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}$ 的解，$\\boldsymbol{\\beta}=\\boldsymbol{\\alpha}_1+\\boldsymbol{\\alpha}_2+\\boldsymbol{\\alpha}_3+\\boldsymbol{\\alpha}_4$，求 $b,c,d$。",
       "answer": "$a=0$；$b=3,\\ c=4,\\ d=1$。\n\n（1）由 $\\boldsymbol{\\xi}=(1,2,3,a)^T$ 为 $\\mathbf{A}\\mathbf{x}=\\mathbf{0}$ 的解，得\n$$\n\\boldsymbol{\\alpha}_1+2\\boldsymbol{\\alpha}_2+3\\boldsymbol{\\alpha}_3+a\\boldsymbol{\\alpha}_4=\\mathbf{0}.\n$$\n因为 $\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4$ 线性无关，而 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3$ 线性相关，所以 $\\boldsymbol{\\alpha}_1$ 可由 $\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3$ 表示，上式中 $\\boldsymbol{\\alpha}_4$ 的系数必须为 $0$，故 $a=0$，且\n$$\n\\boldsymbol{\\alpha}_1=-2\\boldsymbol{\\alpha}_2-3\\boldsymbol{\\alpha}_3.\n$$\n\n\n（2）又 $\\boldsymbol{\\eta}=(2,b,c,d)^T$ 是 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}$ 的解，所以\n$$\n2\\boldsymbol{\\alpha}_1+b\\boldsymbol{\\alpha}_2+c\\boldsymbol{\\alpha}_3+d\\boldsymbol{\\alpha}_4\n=\\boldsymbol{\\alpha}_1+\\boldsymbol{\\alpha}_2+\\boldsymbol{\\alpha}_3+\\boldsymbol{\\alpha}_4.\n$$\n代入 $\\boldsymbol{\\alpha}_1=-2\\boldsymbol{\\alpha}_2-3\\boldsymbol{\\alpha}_3$，并比较 $\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4$ 的系数，得\n$$\nb-4=-1,\\quad c-6=-2,\\quad d=1,\n$$\n故 $b=3,\\ c=4,\\ d=1$。",
-      "idea": "① $\\alpha_1,\\alpha_2,\\alpha_3$ 相关而 $\\alpha_2,\\alpha_3,\\alpha_4$ 无关 ⟹ **$r(A)=3$、$\\ker A$ 恰一维**：齐次解方向唯一；\n② 把 $\\xi=(1,2,3,a)^{\\mathrm T}$ 代入 $A\\xi=0$ 得 $\\alpha_1+2\\alpha_2+3\\alpha_3+a\\alpha_4=0$，与题设给的列关系联立，逐个定出各参数。",
+      "idea": "① $\\alpha_1,\\alpha_2,\\alpha_3$ 相关而 $\\alpha_2,\\alpha_3,\\alpha_4$ 无关 ⟹ **$r(A)=3$，$Ax=0$ 的基础解系只含 $4-3=1$ 个向量**，齐次解方向唯一；\n② 把 $\\xi=(1,2,3,a)^{\\mathrm T}$ 代入 $A\\xi=0$ 得 $\\alpha_1+2\\alpha_2+3\\alpha_3+a\\alpha_4=0$，与题设给的列关系联立，逐个定出各参数。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        135
@@ -35601,7 +35601,7 @@
       "kind": "choice",
       "type": "choice",
       "stem": "设 $A=(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4)$ 为 $4$ 阶矩阵，$(1,0,1,0)^T$ 为线性方程组 $Ax=0$ 的基础解系，则 $A^*x=0$ 的基础解系可为（ ）。",
-      "answer": "（D）\n\n由 $Ax=0$ 的基础解系只含一个向量可知\n$$\n\\dim N(A)=1,\\qquad r(A)=4-1=3.\n$$\n因此 $|A|=0$，且 $r(A^*)=1$，从而\n$$\n\\dim N(A^*)=4-r(A^*)=3.\n$$\n又\n$$\nA\\begin{pmatrix}1\\\\0\\\\1\\\\0\\end{pmatrix}=\\alpha_1+\\alpha_3=0,\n$$\n故 $\\alpha_3=-\\alpha_1$。由伴随矩阵恒等式\n$$\nA^*A=|A|E=0\n$$\n可知 $A^*\\alpha_i=0\\ (i=1,2,3,4)$，即 $A$ 的每个列向量都是方程组 $A^*x=0$ 的解。\n\n由于 $r(A)=3$ 且 $\\alpha_1=-\\alpha_3$，向量 $\\alpha_2,\\alpha_3,\\alpha_4$ 线性无关。它们恰有三个，故构成 $A^*x=0$ 的基础解系。因此选 D。",
+      "answer": "（D）\n\n由 $Ax=0$ 的基础解系只含一个向量可知 $r(A)=4-1=3$。因此 $|A|=0$，且 $r(A^*)=1$，从而 $A^*x=0$ 的基础解系含 $4-r(A^*)=3$ 个向量。\n又\n$$\nA\\begin{pmatrix}1\\\\0\\\\1\\\\0\\end{pmatrix}=\\alpha_1+\\alpha_3=0,\n$$\n故 $\\alpha_3=-\\alpha_1$。由伴随矩阵恒等式\n$$\nA^*A=|A|E=0\n$$\n可知 $A^*\\alpha_i=0\\ (i=1,2,3,4)$，即 $A$ 的每个列向量都是方程组 $A^*x=0$ 的解。\n\n由于 $r(A)=3$ 且 $\\alpha_1=-\\alpha_3$，向量 $\\alpha_2,\\alpha_3,\\alpha_4$ 线性无关。它们恰有三个，故构成 $A^*x=0$ 的基础解系。因此选 D。",
       "idea": "$Ax=0$ 的基础解系含 $1$ 个向量 ⟹ $r(A)=3$，故 $r(A^*)=1$，$A^*x=0$ 的解空间维数为 $3$；再结合列向量关系写出具体解。",
       "source": "2011数一二（一6、二8）",
       "categoryIds": [
@@ -36748,8 +36748,8 @@
       "kind": "calc",
       "type": "calc",
       "stem": "已知 $\\boldsymbol{\\xi} = (1,1,-1)^T$ 是矩阵 $A = \\begin{pmatrix} 2 & -1 & 2 \\\\ 5 & a & 3 \\\\ -1 & b & -2 \\end{pmatrix}$ 的一个特征向量。(I) 确定参数 $a, b$ 及特征向量 $\\boldsymbol{\\xi}$ 所对应的特征值；(II) 问 $A$ 能否相似于对角阵？说明理由。",
-      "answer": "$a=-3,b=0$，对应特征值为 $-1$；$A$ 不可相似对角化。\n\n（1）由 $A\\boldsymbol{\\xi}=\\lambda\\boldsymbol{\\xi}$ 比较三个分量，得 $\\lambda=-1$、$a=-3$、$b=0$。\n（2）此时特征多项式为 $(\\lambda+1)^3$，而 $\\dim N(A+E)=1$，只有一个线性无关的特征向量，因此不可相似对角化。",
-      "idea": "① 由 $A\\xi=\\lambda\\xi$ 比较分量：第 1、3 两式解出 $\\lambda$，再代回得 $a,b$；\n② 算特征多项式：此时为 $(\\lambda+1)^3$（三重根）；\n③ **对角化判据：$r(A+E)=2$ ⟹ $\\dim N(A+E)=1<3$**，几何重数不够 ⟹ 不可相似对角化。",
+      "answer": "$a=-3,b=0$，对应特征值为 $-1$；$A$ 不可相似对角化。\n\n（1）由 $A\\boldsymbol{\\xi}=\\lambda\\boldsymbol{\\xi}$ 比较三个分量，得 $\\lambda=-1$、$a=-3$、$b=0$。\n（2）此时特征多项式为 $(\\lambda+1)^3$，而 $(A+E)x=0$ 的基础解系只含 $1$ 个向量，即只有一个线性无关的特征向量，因此不可相似对角化。",
+      "idea": "① 由 $A\\xi=\\lambda\\xi$ 比较分量：第 1、3 两式解出 $\\lambda$，再代回得 $a,b$；\n② 算特征多项式：此时为 $(\\lambda+1)^3$（三重根）；\n③ **对角化判据：$r(A+E)=2$ ⟹ $(A+E)x=0$ 的基础解系只含 $1$ 个向量，小于 $3$**，几何重数不够 ⟹ 不可相似对角化。",
       "source": "1997 数一",
       "categoryIds": [
        179
@@ -36863,7 +36863,7 @@
       "kind": "choice",
       "type": "choice",
       "stem": "下列矩阵中不能相似于对角矩阵的是（ ）。",
-      "answer": "（D）\n\n选项 A 有三个不同特征值 $1,2,3$，可相似对角化；选项 B 为实对称矩阵，可正交相似对角化。选项 C 的特征值为 $1,2,2$，且 $\\dim\\ker(C-2E)=2$，也可相似对角化。选项 D 的特征值为 $1,2,2$，但 $D-2E$ 的方程组给出 $z=0,y=x$，故 $\\dim\\ker(D-2E)=1$，小于特征值 $2$ 的代数重数 $2$，不能相似于对角矩阵，选 D。",
+      "answer": "（D）\n\n选项 A 有三个不同特征值 $1,2,3$，可相似对角化；选项 B 为实对称矩阵，可正交相似对角化。选项 C 的特征值为 $1,2,2$，且 $(C-2E)x=0$ 的基础解系含 $2$ 个向量（等于特征值 $2$ 的重数），也可相似对角化。选项 D 的特征值为 $1,2,2$，但 $D-2E$ 的方程组给出 $z=0,y=x$，故 $(D-2E)x=0$ 的基础解系只含 $1$ 个向量，小于特征值 $2$ 的重数 $2$，不能相似于对角矩阵，选 D。",
       "idea": "① 逐项判断可否相似对角化：先求特征值；\n② 对重根 $\\lambda$，算 $r(A-\\lambda E)$ 得无关特征向量个数，与代数重数比较（相等则可对角化）；\n③ 找出无关特征向量个数小于代数重数（不可对角化）的矩阵。",
       "source": "2023 数一",
       "categoryIds": [
@@ -36995,7 +36995,7 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设 $3$ 阶实对称矩阵 $A$ 的各行元素之和均为 $3$。向量 $\\boldsymbol{\\alpha}_1=(-1,2,-1)^T$、$\\boldsymbol{\\alpha}_2=(0,-1,1)^T$ 是线性方程组 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的两个解。(I) 求 $A$ 的特征值与特征向量；(II) 求正交矩阵 $Q$ 和对角矩阵 $\\Lambda$，使 $Q^TAQ=\\Lambda$；(III) 求 $A$ 及 $\\left(A-\\dfrac32E\\right)^6$，其中 $E$ 为 $3$ 阶单位矩阵。",
-      "answer": "特征值为 $0$（二重）和 $3$，相应特征空间为\n$$\nV_0=\\operatorname{span}\\{(-1,2,-1)^T,(0,-1,1)^T\\},\\qquad V_3=\\operatorname{span}\\{(1,1,1)^T\\}.\n$$\n可取\n$$\nQ=\\begin{pmatrix}-1/\\sqrt6&-1/\\sqrt2&1/\\sqrt3\\\\2/\\sqrt6&0&1/\\sqrt3\\\\-1/\\sqrt6&1/\\sqrt2&1/\\sqrt3\\end{pmatrix},\\quad \\Lambda=\\operatorname{diag}(0,0,3).\n$$\n并且\n$$\nA=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix},\\qquad \\left(A-\\frac32E\\right)^6=\\frac{729}{64}E.\n$$\n\n（1）由各行元素之和为 $3$，$(1,1,1)^T$ 是特征值 $3$ 的特征向量；两个已知线性无关解张成特征值 $0$ 的特征空间。\n（2）正交单位化可得所给 $Q$。\n（3）由谱分解，$A$ 在 $(1,1,1)^T$ 方向上的特征值为 $3$，在其正交补上的特征值为 $0$，故 $A$ 为全 $1$ 矩阵。$A-\\dfrac32E$ 的三个特征值分别为 $\\dfrac32,-\\dfrac32,-\\dfrac32$，六次幂的三个特征值均为 $(\\dfrac32)^6=\\dfrac{729}{64}$，因此 $\\left(A-\\dfrac32E\\right)^6=\\dfrac{729}{64}E$。",
+      "answer": "特征值为 $0$（二重）和 $3$，相应的线性无关特征向量可取\n$$\n\\lambda=0:\\ (-1,2,-1)^T,\\ (0,-1,1)^T;\\qquad \\lambda=3:\\ (1,1,1)^T.\n$$\n可取\n$$\nQ=\\begin{pmatrix}-1/\\sqrt6&-1/\\sqrt2&1/\\sqrt3\\\\2/\\sqrt6&0&1/\\sqrt3\\\\-1/\\sqrt6&1/\\sqrt2&1/\\sqrt3\\end{pmatrix},\\quad \\Lambda=\\operatorname{diag}(0,0,3).\n$$\n并且\n$$\nA=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix},\\qquad \\left(A-\\frac32E\\right)^6=\\frac{729}{64}E.\n$$\n\n（1）由各行元素之和为 $3$，$(1,1,1)^T$ 是特征值 $3$ 的特征向量；两个已知线性无关解张成特征值 $0$ 的特征空间。\n（2）正交单位化可得所给 $Q$。\n（3）由谱分解，$A$ 在 $(1,1,1)^T$ 方向上的特征值为 $3$，在其正交补上的特征值为 $0$，故 $A$ 为全 $1$ 矩阵。$A-\\dfrac32E$ 的三个特征值分别为 $\\dfrac32,-\\dfrac32,-\\dfrac32$，六次幂的三个特征值均为 $(\\dfrac32)^6=\\dfrac{729}{64}$，因此 $\\left(A-\\dfrac32E\\right)^6=\\dfrac{729}{64}E$。",
       "idea": "① 各行元素之和为 $3$ ⟹ **$(1,1,1)^{\\mathrm T}$ 是特征值 $3$ 的特征向量**；\n② 题给两个线性无关的解给出二重特征值 $0$（**实对称矩阵几何重数等于代数重数**，可用迹 $=3$ 校验）；\n③ 单位化并正交化三个特征向量（$(-1,0,1)^{\\mathrm T}=\\boldsymbol\\alpha_1+2\\boldsymbol\\alpha_2$ 与单位化后的 $\\boldsymbol\\alpha_1$ 垂直）得 $Q$，$\\Lambda=\\operatorname{diag}(0,0,3)$。",
       "source": "(2006 数一二)",
       "categoryIds": [
@@ -37251,8 +37251,8 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设 $A,B$ 均为 $3$ 阶非零矩阵，若 $AB=O$ 且矩阵 $A+E$ 与 $B$ 相似，则 $|\\operatorname{tr}(A)|+|\\operatorname{tr}(B)|=$ ____.",
-      "answer": "$3$\n\n由 $AB=O$，$B$ 的每个列向量都属于 $Ax=0$ 的解空间，所以\n$$\nr(A)+r(B)\\le3.\n$$\n又因为 $B$ 与 $A+E$ 相似，$r(B)=r(A+E)$，从而\n$$\nr(A)+r(A+E)\\le3.\n$$\n\n关键是这两个秩之和也不可能小于 $3$。由秩的不等式，\n$$\n3=r(E)=r((A+E)-A)\\le r(A+E)+r(A).\n$$\n因此\n$$\nr(A)+r(A+E)=3.\n$$\n\n记\n$$\nU=\\ker A,\\qquad V=\\ker(A+E).\n$$\n由秩与零空间维数的关系，\n$$\n\\dim U+\\dim V=(3-r(A))+(3-r(A+E))=3.\n$$\n若 $x\\in U\\cap V$，则 $Ax=0$ 且 $Ax=-x$，所以 $x=0$。故两个子空间的基合起来恰好构成三维空间的一组基。\n\n其中 $U$ 内的非零向量是特征值 $0$ 的特征向量，$V$ 内的非零向量是特征值 $-1$ 的特征向量。这就说明 **已经有三个线性无关的特征向量，全部特征值均为 $0$ 或 $-1$**，不存在尚未确定的“第三个特征值”。\n\n设 $-1$ 的重数为 $k$，则\n$$\n\\operatorname{tr}(A)=-k,\\qquad\n\\operatorname{tr}(B)=\\operatorname{tr}(A+E)=3-k.\n$$\n由于 $A,B$ 均非零，$k=1$ 或 $2$。因此\n$$\n\\boxed{|\\operatorname{tr}(A)|+|\\operatorname{tr}(B)|=k+(3-k)=3}.\n$$",
-      "idea": "由 $AB=O$ 知 $\\operatorname{Im}B\\subseteq\\operatorname{Ker}A$，故 $r(B)\\le3-r(A)$。又 $B\\sim A+E$，所以 $r(B)=r(A+E)$。于是 $r(A)+r(A+E)\\le3$，可推出 $A$ 的特征值只可能由 $0$ 与 $-1$ 组成，且二者都出现。若 $-1$ 的重数为 $m=1$ 或 $2$，则 $\\operatorname{tr}(A)=-m$，$\\operatorname{tr}(B)=\\operatorname{tr}(A+E)=3-m$，故绝对值和恒为 $3$。",
+      "answer": "$3$\n\n由 $AB=O$，$B$ 的每个列向量都属于 $Ax=0$ 的解空间，所以\n$$\nr(A)+r(B)\\le3.\n$$\n又因为 $B$ 与 $A+E$ 相似，$r(B)=r(A+E)$，从而\n$$\nr(A)+r(A+E)\\le3.\n$$\n\n关键是这两个秩之和也不可能小于 $3$。由秩的不等式，\n$$\n3=r(E)=r((A+E)-A)\\le r(A+E)+r(A).\n$$\n因此\n$$\nr(A)+r(A+E)=3.\n$$\n\n记 $U$ 为 $Ax=0$ 的解的全体，$V$ 为 $(A+E)x=0$ 的解的全体。两组基础解系所含向量个数之和为\n$$\n(3-r(A))+(3-r(A+E))=3.\n$$\n若 $x$ 同时满足 $Ax=0$ 与 $Ax=-x$，则 $x=0$，故两个基础解系合起来恰好是 $3$ 个线性无关的向量。\n\n其中 $U$ 内的非零解是特征值 $0$ 的特征向量，$V$ 内的非零解是特征值 $-1$ 的特征向量。这就说明 **已经有三个线性无关的特征向量，全部特征值均为 $0$ 或 $-1$**，不存在尚未确定的“第三个特征值”。\n\n设 $-1$ 的重数为 $k$，则\n$$\n\\operatorname{tr}(A)=-k,\\qquad\n\\operatorname{tr}(B)=\\operatorname{tr}(A+E)=3-k.\n$$\n由于 $A,B$ 均非零，$k=1$ 或 $2$。因此\n$$\n\\boxed{|\\operatorname{tr}(A)|+|\\operatorname{tr}(B)|=k+(3-k)=3}.\n$$",
+      "idea": "由 $AB=O$ 知 $B$ 的每一列都是 $Ax=0$ 的解，故 $B$ 的列秩不超过 $Ax=0$ 基础解系的向量个数，即 $r(B)\\le3-r(A)$。又 $B\\sim A+E$，所以 $r(B)=r(A+E)$。于是 $r(A)+r(A+E)\\le3$，可推出 $A$ 的特征值只可能由 $0$ 与 $-1$ 组成，且二者都出现。若 $-1$ 的重数为 $m=1$ 或 $2$，则 $\\operatorname{tr}(A)=-m$，$\\operatorname{tr}(B)=\\operatorname{tr}(A+E)=3-m$，故绝对值和恒为 $3$。",
       "source": "27李艳芳三套数二第三套",
       "categoryIds": [
        177
@@ -37540,7 +37540,7 @@
       "kind": "calc",
       "type": "calc",
       "stem": "证明 $n$ 阶矩阵$$A=\\begin{pmatrix}1&1&\\cdots&1\\\\1&1&\\cdots&1\\\\\\vdots&\\vdots&&\\vdots\\\\1&1&\\cdots&1\\end{pmatrix}$$与$$B=\\begin{pmatrix}0&\\cdots&0&1\\\\0&\\cdots&0&2\\\\\\vdots&&\\vdots&\\vdots\\\\0&\\cdots&0&n\\end{pmatrix}$$相似。",
-      "answer": "取\n$$\nD=\\operatorname{diag}(n,0,\\ldots,0).\n$$\n可分别构造可逆矩阵 $P,Q$，使\n$$\nP^{-1}AP=D,\\; Q^{-1}BQ=D.\n$$\n因此 $A$ 与 $B$ 相似。\n\n记\n$$\n\\boldsymbol{e}=(1,1,\\ldots,1)^{\\mathsf T},\\;\n\\boldsymbol{v}=(1,2,\\ldots,n)^{\\mathsf T}.\n$$\n\n对于矩阵 $A$，有\n$$\nA=\\boldsymbol{e}\\boldsymbol{e}^{\\mathsf T}.\n$$\n因此\n$$\nA\\boldsymbol{e}=n\\boldsymbol{e},\n$$\n而\n$$\nA\\boldsymbol{x}=\\boldsymbol0\n\\Longleftrightarrow\n\\boldsymbol{e}^{\\mathsf T}\\boldsymbol{x}=0.\n$$\n故属于特征值 $0$ 的特征子空间为\n$$\n\\boldsymbol{e}^{\\perp}\n=\\{\\boldsymbol{x}\\mid\\boldsymbol{e}^{\\mathsf T}\\boldsymbol{x}=0\\},\n$$\n其维数为 $n-1$。取 $\\boldsymbol{\\alpha}_2,\\ldots,\\boldsymbol{\\alpha}_n$ 为 $\\boldsymbol{e}^{\\perp}$ 的一组基，并令\n$$\nP=(\\boldsymbol{e},\\boldsymbol{\\alpha}_2,\\ldots,\\boldsymbol{\\alpha}_n).\n$$\n则 $P$ 可逆，且\n$$\nP^{-1}AP=\\operatorname{diag}(n,0,\\ldots,0).\n$$\n\n对于矩阵 $B$，记 $\\boldsymbol{e}_n$ 为第 $n$ 个标准基向量，则\n$$\nB=\\boldsymbol{v}\\boldsymbol{e}_n^{\\mathsf T}.\n$$\n由于 $\\boldsymbol{e}_n^{\\mathsf T}\\boldsymbol{v}=n$，所以\n$$\nB\\boldsymbol{v}=n\\boldsymbol{v}.\n$$\n同时\n$$\nB\\boldsymbol{x}=\\boldsymbol0\n\\Longleftrightarrow x_n=0,\n$$\n故属于特征值 $0$ 的特征子空间为\n$$\n\\operatorname{span}\\{\\boldsymbol{e}_1,\\ldots,\\boldsymbol{e}_{n-1}\\}.\n$$\n令\n$$\nQ=(\\boldsymbol{v},\\boldsymbol{e}_1,\\ldots,\\boldsymbol{e}_{n-1}).\n$$\n因为 $\\boldsymbol{v}$ 的第 $n$ 个分量为 $n\\ne0$，所以 $Q$ 可逆，且\n$$\nQ^{-1}BQ=\\operatorname{diag}(n,0,\\ldots,0).\n$$\n\n由此，$A$ 与 $B$ 均相似于同一个对角矩阵，故 $A\\sim B$。",
+      "answer": "取\n$$\nD=\\operatorname{diag}(n,0,\\ldots,0).\n$$\n可分别构造可逆矩阵 $P,Q$，使\n$$\nP^{-1}AP=D,\\; Q^{-1}BQ=D.\n$$\n因此 $A$ 与 $B$ 相似。\n\n记\n$$\n\\boldsymbol{e}=(1,1,\\ldots,1)^{\\mathsf T},\\;\n\\boldsymbol{v}=(1,2,\\ldots,n)^{\\mathsf T}.\n$$\n\n对于矩阵 $A$，有\n$$\nA=\\boldsymbol{e}\\boldsymbol{e}^{\\mathsf T}.\n$$\n因此\n$$\nA\\boldsymbol{e}=n\\boldsymbol{e},\n$$\n而\n$$\nA\\boldsymbol{x}=\\boldsymbol0\n\\Longleftrightarrow\n\\boldsymbol{e}^{\\mathsf T}\\boldsymbol{x}=0.\n$$\n故属于特征值 $0$ 的特征向量满足\n$$\n\\boldsymbol{e}^{\\mathsf T}\\boldsymbol{x}=0\\ (\\text{即 }x_1+\\cdots+x_n=0),\n$$\n这个方程组的基础解系含 $n-1$ 个向量，取之为 $\\boldsymbol{\\alpha}_2,\\ldots,\\boldsymbol{\\alpha}_n$，并令\n$$\nP=(\\boldsymbol{e},\\boldsymbol{\\alpha}_2,\\ldots,\\boldsymbol{\\alpha}_n).\n$$\n则 $P$ 可逆，且\n$$\nP^{-1}AP=\\operatorname{diag}(n,0,\\ldots,0).\n$$\n\n对于矩阵 $B$，记 $\\boldsymbol{e}_n$ 为第 $n$ 个标准基向量，则\n$$\nB=\\boldsymbol{v}\\boldsymbol{e}_n^{\\mathsf T}.\n$$\n由于 $\\boldsymbol{e}_n^{\\mathsf T}\\boldsymbol{v}=n$，所以\n$$\nB\\boldsymbol{v}=n\\boldsymbol{v}.\n$$\n同时\n$$\nB\\boldsymbol{x}=\\boldsymbol0\n\\Longleftrightarrow x_n=0,\n$$\n故属于特征值 $0$ 的特征向量可取 $\\boldsymbol{e}_1,\\ldots,\\boldsymbol{e}_{n-1}$。令\n$$\nQ=(\\boldsymbol{v},\\boldsymbol{e}_1,\\ldots,\\boldsymbol{e}_{n-1}).\n$$\n因为 $\\boldsymbol{v}$ 的第 $n$ 个分量为 $n\\ne0$，所以 $Q$ 可逆，且\n$$\nQ^{-1}BQ=\\operatorname{diag}(n,0,\\ldots,0).\n$$\n\n由此，$A$ 与 $B$ 均相似于同一个对角矩阵，故 $A\\sim B$。",
       "idea": "① 找共同的相似标准形：$A=ee^{\\mathrm T}$（$e$ 全 $1$ 向量）的特征值为 $n$（一重）与 $0$（$n-1$ 重），显然可对角化；\n② $B$ 的秩为 $1$、迹为 $n$，直接验证 $B^2=nB$ ⟹ 特征值也是 $n,0,\\ldots,0$，同样可对角化；\n③ 二者都相似于 $D=\\operatorname{diag}(n,0,\\ldots,0)$，由相似的传递性得 $A\\sim B$。",
       "source": "2014数一二三",
       "categoryIds": [
@@ -38500,7 +38500,7 @@
       "kind": "choice",
       "type": "choice",
       "stem": "设 $3$ 阶矩阵 $A,B$ 满足 $AB+BA=A^2+B^2$，且 $A\\ne B$，则下列结论错误的是（ ）",
-      "answer": "（D）\n\n解法一：利用特征值与向量空间判断。\n\n第一步：整理题设条件。\n\n令 $N=A-B$。注意矩阵乘法的次序，有\n$$\n\\begin{aligned}\nN^2\n&=(A-B)^2\\\\\n&=A^2-AB-BA+B^2\\\\\n&=O.\n\\end{aligned}\n$$\n又因为 $A\\ne B$，所以 $N\\ne O$。\n\n第二步：判断选项 A、B、C。\n\n由 $N^2=O$，立即得到 $N^3=O$，所以 A 正确。\n\n若 $\\lambda$ 是 $N$ 的特征值，对应非零特征向量 $\\xi$，则\n$$\nN\\xi=\\lambda\\xi,\n$$\n从而\n$$\n0=N^2\\xi=\\lambda^2\\xi.\n$$\n因为 $\\xi\\ne0$，所以 $\\lambda=0$。又由 $N^2=O$ 知 $N$ 不可逆，故 $0$ 确实是其特征值。因此 B 正确。\n\n若 $A,B$ 都是对角矩阵，则 $N$ 也是对角矩阵。设\n$$\nN=\\operatorname{diag}(d_1,d_2,d_3),\n$$\n由 $N^2=O$ 得 $d_1^2=d_2^2=d_3^2=0$，于是 $N=O$，与题设矛盾。因此 C 正确。\n\n第三步：用向量空间说明 D 错误。\n\n由 $N^2=O$，对任意向量 $x$ 都有 $N(Nx)=0$，所以 $N$ 的像空间包含于其零空间：\n$$\n\\operatorname{Im}N\\subseteq\\ker N.\n$$\n记 $r(N)=r$。像空间的维数为 $r$，零空间的维数为 $3-r$，因此\n$$\nr\\le3-r.\n$$\n结合 $N\\ne O$，得\n$$\n1\\le r\\le\\frac32.\n$$\n秩为整数，故 $r=1$，零特征值对应的特征子空间维数为\n$$\n3-r=2.\n$$\n因此最多可取出两个线性无关的特征向量，D 所说的“只有一个”错误，选 D。\n\n解法二：直接构造矩阵并验证，不使用向量空间。\n\n第一步：选取满足题设的矩阵。\n\n取\n$$\nA=\\begin{pmatrix}\n0&1&0\\\\\n0&0&0\\\\\n0&0&0\n\\end{pmatrix},\n\\qquad B=O.\n$$\n直接计算可得\n$$\nA^2=B^2=O,\n$$\n$$\nAB=BA=O.\n$$\n所以这组矩阵满足\n$$\nAB+BA=A^2+B^2,\\qquad A\\ne B.\n$$\n\n第二步：直接求零特征值的特征向量。\n\n此时 $A-B=A$。设 $x=(x_1,x_2,x_3)^{\\mathsf T}$，则\n$$\n(A-B)x=\n\\begin{pmatrix}x_2\\\\0\\\\0\\end{pmatrix}.\n$$\n所以 $(A-B)x=0$ 等价于 $x_2=0$，其非零解都可写成\n$$\nx=\\begin{pmatrix}s\\\\0\\\\t\\end{pmatrix},\n\\qquad (s,t)\\ne(0,0).\n$$\n特别地，取\n$$\n\\xi_1=\\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix},\n\\qquad\n\\xi_2=\\begin{pmatrix}0\\\\0\\\\1\\end{pmatrix}.\n$$\n它们都是 $A-B$ 对应特征值 $0$ 的特征向量。\n\n若 $c_1\\xi_1+c_2\\xi_2=0$，比较第一、第三个分量，即得 $c_1=c_2=0$，所以二者线性无关。\n\n第三步：用反例排除错误结论。\n\n上述矩阵满足全部题设，却有两个线性无关的特征向量，故 D 不成立。\n\n本题问“下列结论错误的是”，找到这样一个反例即可否定 D；A、B、C 的一般性验证见解法一的前两步。\n$$\n\\boxed{\\text{选 D}}\n$$",
+      "answer": "（D）\n\n解法一：利用特征值与向量空间判断。\n\n第一步：整理题设条件。\n\n令 $N=A-B$。注意矩阵乘法的次序，有\n$$\n\\begin{aligned}\nN^2\n&=(A-B)^2\\\\\n&=A^2-AB-BA+B^2\\\\\n&=O.\n\\end{aligned}\n$$\n又因为 $A\\ne B$，所以 $N\\ne O$。\n\n第二步：判断选项 A、B、C。\n\n由 $N^2=O$，立即得到 $N^3=O$，所以 A 正确。\n\n若 $\\lambda$ 是 $N$ 的特征值，对应非零特征向量 $\\xi$，则\n$$\nN\\xi=\\lambda\\xi,\n$$\n从而\n$$\n0=N^2\\xi=\\lambda^2\\xi.\n$$\n因为 $\\xi\\ne0$，所以 $\\lambda=0$。又由 $N^2=O$ 知 $N$ 不可逆，故 $0$ 确实是其特征值。因此 B 正确。\n\n若 $A,B$ 都是对角矩阵，则 $N$ 也是对角矩阵。设\n$$\nN=\\operatorname{diag}(d_1,d_2,d_3),\n$$\n由 $N^2=O$ 得 $d_1^2=d_2^2=d_3^2=0$，于是 $N=O$，与题设矛盾。因此 C 正确。\n\n第三步：用向量空间说明 D 错误。\n\n由 $N^2=O$，对任意向量 $x$ 都有 $N(Nx)=0$，即 $Nx$ 必定是 $Ny=0$ 的解。记 $r(N)=r$：$N$ 的列向量组秩为 $r$，而 $Ny=0$ 的基础解系含 $3-r$ 个向量，故\n$$\nr\\le3-r.\n$$\n结合 $N\\ne O$，得\n$$\n1\\le r\\le\\frac32.\n$$\n秩为整数，故 $r=1$，零特征值对应的特征子空间维数为\n$$\n3-r=2.\n$$\n因此最多可取出两个线性无关的特征向量，D 所说的“只有一个”错误，选 D。\n\n解法二：直接构造矩阵并验证，不使用向量空间。\n\n第一步：选取满足题设的矩阵。\n\n取\n$$\nA=\\begin{pmatrix}\n0&1&0\\\\\n0&0&0\\\\\n0&0&0\n\\end{pmatrix},\n\\qquad B=O.\n$$\n直接计算可得\n$$\nA^2=B^2=O,\n$$\n$$\nAB=BA=O.\n$$\n所以这组矩阵满足\n$$\nAB+BA=A^2+B^2,\\qquad A\\ne B.\n$$\n\n第二步：直接求零特征值的特征向量。\n\n此时 $A-B=A$。设 $x=(x_1,x_2,x_3)^{\\mathsf T}$，则\n$$\n(A-B)x=\n\\begin{pmatrix}x_2\\\\0\\\\0\\end{pmatrix}.\n$$\n所以 $(A-B)x=0$ 等价于 $x_2=0$，其非零解都可写成\n$$\nx=\\begin{pmatrix}s\\\\0\\\\t\\end{pmatrix},\n\\qquad (s,t)\\ne(0,0).\n$$\n特别地，取\n$$\n\\xi_1=\\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix},\n\\qquad\n\\xi_2=\\begin{pmatrix}0\\\\0\\\\1\\end{pmatrix}.\n$$\n它们都是 $A-B$ 对应特征值 $0$ 的特征向量。\n\n若 $c_1\\xi_1+c_2\\xi_2=0$，比较第一、第三个分量，即得 $c_1=c_2=0$，所以二者线性无关。\n\n第三步：用反例排除错误结论。\n\n上述矩阵满足全部题设，却有两个线性无关的特征向量，故 D 不成立。\n\n本题问“下列结论错误的是”，找到这样一个反例即可否定 D；A、B、C 的一般性验证见解法一的前两步。\n$$\n\\boxed{\\text{选 D}}\n$$",
       "idea": "把 $AB+BA=A^2+B^2$ 整理成 $(A-B)$ 与 $AB-BA$ 的关系，用秩/迹/对称性逐项判断。",
       "source": "2026数二三（二10、三7）",
       "categoryIds": [
@@ -38602,7 +38602,7 @@
       "kind": "choice",
       "type": "choice",
       "stem": "设 $n$（$n\\ge3$）阶矩阵 $A=E-k\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T$，其中 $k\\ne0$，$\\boldsymbol{\\alpha}\\ne\\mathbf{0}$。若 $A^2=E$，则下列命题中，错误的是（ ）",
-      "answer": "（D）\n\n由 $A^2=E$ 得\n$$\n(E-k\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T)^2=E-2k\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T+k^2\\boldsymbol{\\alpha}(\\boldsymbol{\\alpha}^T\\boldsymbol{\\alpha})\\boldsymbol{\\alpha}^T=E,\n$$\n故 $k\\boldsymbol{\\alpha}^T\\boldsymbol{\\alpha}=2$。当 $\\mathbf{x}\\perp\\boldsymbol{\\alpha}$ 时，$A\\mathbf{x}=\\mathbf{x}$，故特征值 $1$ 的几何重数为 $n-1$；而 $A\\boldsymbol{\\alpha}=(1-k\\boldsymbol{\\alpha}^T\\boldsymbol{\\alpha})\\boldsymbol{\\alpha}=-\\boldsymbol{\\alpha}$，故特征值 $-1$ 的几何重数为 $1$。因此 $\\operatorname{tr}(A)=n-2$，$n-\\operatorname{tr}(A)=2$ 为偶数，$|A|=-1$，且 $A$ 有 $n$ 个线性无关特征向量，可相似对角化。错误的是 D。",
+      "answer": "（D）\n\n由 $A^2=E$ 得\n$$\n(E-k\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T)^2=E-2k\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T+k^2\\boldsymbol{\\alpha}(\\boldsymbol{\\alpha}^T\\boldsymbol{\\alpha})\\boldsymbol{\\alpha}^T=E,\n$$\n故 $k\\boldsymbol{\\alpha}^T\\boldsymbol{\\alpha}=2$。当 $\\mathbf{x}$ 与 $\\boldsymbol{\\alpha}$ 正交（即 $\\boldsymbol{\\alpha}^{\\mathrm T}\\mathbf{x}=0$）时，$A\\mathbf{x}=\\mathbf{x}$，故特征值 $1$ 的几何重数为 $n-1$；而 $A\\boldsymbol{\\alpha}=(1-k\\boldsymbol{\\alpha}^T\\boldsymbol{\\alpha})\\boldsymbol{\\alpha}=-\\boldsymbol{\\alpha}$，故特征值 $-1$ 的几何重数为 $1$。因此 $\\operatorname{tr}(A)=n-2$，$n-\\operatorname{tr}(A)=2$ 为偶数，$|A|=-1$，且 $A$ 有 $n$ 个线性无关特征向量，可相似对角化。错误的是 D。",
       "idea": "$A=E-k\\alpha\\alpha^{\\mathrm T}$：用 $\\alpha^{\\mathrm T}\\alpha$ 算出 $A^2$，由 $A^2=E$ 定 $k$，再判能否对角化。",
       "source": "0.9k 题 数二 第五章 B类 第2题",
       "categoryIds": [
