@@ -437,8 +437,14 @@ function fillDocToc(note) {
             `<a class="toc-link" data-ch="${c.ch}" href="#/${note.id}/${c.ch}" title="${esc(c.raw)}">${num}<span class="toc-name">${inline(c.name)}</span></a>` +
             kids + `</div>`;
     }).join('');
-    slot.innerHTML = `<details class="doc-toc" open><summary>📑 本文目录（${items.length} 章` +
+    // 正文顶部目录默认**收起**：加了小节之后它会很长（线代4 是 10 章 31 小节），默认展开会把正文顶下去。
+    // 记住用户手动展开的选择，下次进来仍保持（2026-10-30 用户要求"小节默认收起"）。
+    const dtOpen = localStorage.getItem('docTocOpen') === '1' ? ' open' : '';
+    slot.innerHTML = `<details class="doc-toc"${dtOpen}><summary>📑 本文目录（${items.length} 章` +
         (total ? ` · ${total} 小节` : '') + `）</summary><div class="doc-toc-body">${body}</div></details>`;
+    const dtEl = slot.querySelector('.doc-toc');
+    if (dtEl) dtEl.addEventListener('toggle', () =>
+        localStorage.setItem('docTocOpen', dtEl.open ? '1' : '0'));
 }
 
 // ============ 左侧目录树 ============
