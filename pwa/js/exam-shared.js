@@ -357,6 +357,9 @@ function toggleQSec(btn, act) {
 }
 
 function zoomAnsImg(img) {
+    // 统一交给 common.js 的放大遮罩（滚轮缩放 / 拖动 / 双击复位）；老实现只做"整屏显示"
+    const src = img.currentSrc || img.src;
+    if (window.zoomOverlayOpen) { window.zoomOverlayOpen(src); return; }
     let ov = document.getElementById('zoomOverlay');
     if (!ov) {
         ov = document.createElement('div');
@@ -364,20 +367,9 @@ function zoomAnsImg(img) {
         ov.className = 'zoom-overlay';
         ov.onclick = function () { ov.classList.remove('show'); };
         ov.innerHTML = '<img id="zoomImg" alt="放大图片">';
-        const big = ov.querySelector('#zoomImg');
-        // 点放大图本身不关闭，点遮罩其余处关闭
-        big.onclick = function (e) { e.stopPropagation(); };
         document.body.appendChild(ov);
-        // Esc 关闭
-        document.addEventListener('keydown', function onEsc(e) {
-            if (e.key === 'Escape') {
-                ov.classList.remove('show');
-                document.removeEventListener('keydown', onEsc);
-            }
-        });
     }
-    const big = document.getElementById('zoomImg');
-    big.src = img.currentSrc || img.src;
+    document.getElementById('zoomImg').src = src;
     ov.classList.add('show');
 }
 

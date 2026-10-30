@@ -602,3 +602,88 @@ window.hlLine = function (hex) {
     var to = function (v) { return Math.round(v * 255); };
     return 'rgb(' + to(f(h + 1 / 3)) + ',' + to(f(h)) + ',' + to(f(h - 1 / 3)) + ')';
 };
+
+/* ============ 图片放大遮罩（题目页通用，2026-10-30） ============
+ * 与笔记页 #imgLightbox 同一套手感：滚轮缩放（以指针为中心，1x~6x）、放大后拖动、
+ * 双击在 1x / 2.5x 之间切换、点遮罩空白 / ✕ / Esc 关闭、左下角显示倍数。
+ * 用法：window.zoomOverlayOpen(src)  —— category.js / exam-shared.js 的 zoomAnsImg 都转调它。 */
+(function () {
+    var st = { s: 1, x: 0, y: 0, drag: null };
+    function box() { return document.getElementById('zoomOverlay'); }
+    function apply() {
+        var o = box(); if (!o) return;
+        var img = o.querySelector('#zoomImg'); if (!img) return;
+        img.style.transform = 'translate(' + st.x + 'px,' + st.y + 'px) scale(' + st.s + ')';
+        img.style.cursor = st.s > 1 ? (st.drag ? 'grabbing' : 'grab') : 'zoom-in';
+        var p = o.querySelector('.zoom-pct');
+        if (p) p.textContent = Math.round(st.s * 100) + '%';
+    }
+    function zoomAt(f, cx, cy) {
+        var o = box(); var img = o && o.querySelector('#zoomImg'); if (!img) return;
+        var next = Math.min(6, Math.max(1, st.s * f));
+        if (Math.abs(next - st.s) < 1e-4) return;
+        var r = img.getBoundingClientRect();
+        var ox = cx - (r.left + r.width / 2), oy = cy - (r.top + r.height / 2);
+        var k = next / st.s;
+        st.x -= ox * (k - 1); st.y -= oy * (k - 1); st.s = next;
+        if (next === 1) { st.x = 0; st.y = 0; }
+        apply();
+    }
+    function close() {
+        var o = box(); if (!o) return;
+        o.classList.remove('show');
+        st.s = 1; st.x = 0; st.y = 0; st.drag = null;
+        apply();
+    }
+    window.zoomOverlayClose = close;
+    window.zoomOverlayOpen = function (src) {
+        var o = box();
+        if (!o) {
+            o = document.createElement('div');
+            o.id = 'zoomOverlay';
+            o.className = 'zoom-overlay';
+            o.innerHTML = '<img id="zoomImg" alt="放大图片">' +
+                '<div class="zoom-pct" style="position:fixed;left:16px;bottom:14px;padding:3px 10px;' +
+                'border-radius:999px;background:rgba(0,0,0,.5);color:#fff;font-size:12.5px;pointer-events:none">100%</div>' +
+                '<button class="zoom-close" title="关闭（Esc）" style="position:fixed;right:14px;top:14px;width:34px;height:34px;' +
+                'border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:15px;line-height:1;cursor:pointer">✕</button>';
+            document.body.appendChild(o);
+
+            var img = o.querySelector('#zoomImg');
+            img.style.transformOrigin = 'center center';
+            img.style.willChange = 'transform';
+            o.addEventListener('wheel', function (e) {
+                e.preventDefault();
+                zoomAt(e.deltaY < 0 ? 1.15 : 1 / 1.15, e.clientX, e.clientY);
+            }, { passive: false });
+            img.addEventListener('mousedown', function (e) {
+                if (st.s <= 1) return;
+                e.preventDefault();
+                st.drag = { x: e.clientX - st.x, y: e.clientY - st.y };
+                apply();
+            });
+            window.addEventListener('mousemove', function (e) {
+                if (!st.drag) return;
+                st.x = e.clientX - st.drag.x; st.y = e.clientY - st.drag.y; apply();
+            });
+            window.addEventListener('mouseup', function () {
+                if (!st.drag) return;
+                st.drag = null; apply();
+            });
+            img.addEventListener('dblclick', function (e) {
+                e.preventDefault();
+                if (st.s > 1.05) { st.s = 1; st.x = 0; st.y = 0; apply(); }
+                else zoomAt(2.5, e.clientX, e.clientY);
+            });
+            o.addEventListener('click', function (e) {
+                if (e.target === o || e.target.closest('.zoom-close')) close();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') close();
+            });
+        }
+        var im = o.querySelector('#zoomImg');
+        st.s = 1; st.x = 0; st.y = 0; st.drag = null;
+        im.src = src; apply(); o.classList.add('show');
+    };
+})();

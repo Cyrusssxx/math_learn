@@ -423,6 +423,9 @@ function renderMath(root) {
 
 // ============ 配图单击放大（复用 exam.css 的 .zoom-overlay 遮罩） ============
 function zoomAnsImg(img) {
+    // 统一交给 common.js 的放大遮罩（滚轮缩放 / 拖动 / 双击复位）；老实现只做"整屏显示"
+    const src = img.currentSrc || img.src;
+    if (window.zoomOverlayOpen) { window.zoomOverlayOpen(src); return; }
     let ov = document.getElementById('zoomOverlay');
     if (!ov) {
         ov = document.createElement('div');
@@ -430,15 +433,9 @@ function zoomAnsImg(img) {
         ov.className = 'zoom-overlay';
         ov.onclick = function () { ov.classList.remove('show'); };
         ov.innerHTML = '<img id="zoomImg" alt="放大图片">';
-        const big = ov.querySelector('#zoomImg');
-        big.onclick = function (e) { e.stopPropagation(); };
         document.body.appendChild(ov);
-        document.addEventListener('keydown', function onEsc(e) {
-            if (e.key === 'Escape') { ov.classList.remove('show'); document.removeEventListener('keydown', onEsc); }
-        });
     }
-    const big = document.getElementById('zoomImg');
-    big.src = img.currentSrc || img.src;
+    document.getElementById('zoomImg').src = src;
     ov.classList.add('show');
 }
 

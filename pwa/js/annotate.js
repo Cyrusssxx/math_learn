@@ -816,7 +816,16 @@ const Annot = (() => {
         const act = btn.dataset.act;
         if (act === 'color') {
             const c = btn.dataset.c;
-            if (mode === 'sel') { markSelection(c) || setBlockHl(barTarget.block, c); }
+            if (mode === 'sel') {
+                if (!markSelection(c)) {
+                    // 选区覆盖整块（无法逐字包裹）→ 落成整块高亮。
+                    // ⚠️ 必须手动清掉选区：否则选区还在，接下来点这块高亮会被「有选区就先让给 mouseup」的守卫吞掉，
+                    //    表现就是"整块高亮之后点它没反应、改不了颜色也删不掉"。
+                    setBlockHl(barTarget.block, c);
+                    const s = getSelection();
+                    if (s) s.removeAllRanges();
+                }
+            }
             else if (mode === 'mark') recolorMarkGroup(barTarget.gid, c);
             else setBlockHl(barTarget.block, c);
         } else if (act === 'note') {

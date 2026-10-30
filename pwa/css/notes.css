@@ -36,6 +36,11 @@
     /* 半高亮（半透明底）+ 下划线：底色只用 30~40% 不透明度，压不住字；
        下划线用同色系更深一档，负责"划重点"的辨识度。2026-10-26 用户指定 */
     --hl-y-soft: rgba(255, 221, 92, .38);
+    /* 整块高亮用更淡的一档（行内是 .38，整块铺满整行，同样浓度会压字） */
+    --hl-y-block: rgba(255, 221, 92, .20);
+    --hl-g-block: rgba(126, 214, 140, .18);
+    --hl-b-block: rgba(122, 176, 240, .18);
+    --hl-r-block: rgba(240, 122, 140, .16);
     --hl-y-line: #d9b72c;
     --hl-g-soft: rgba(126, 214, 140, .32);
     --hl-g-line: #45a256;
@@ -98,6 +103,11 @@ html.dark {
     --hl-b-line: #5b9be0;
     --hl-r-soft: rgba(255, 126, 142, .16);
     --hl-r-line: #c4556a;
+    /* 深色主题下整块高亮：比行内更淡一档，避免整行铺满后压字 */
+    --hl-y-block: rgba(255, 221, 92, .12);
+    --hl-g-block: rgba(126, 214, 140, .11);
+    --hl-b-block: rgba(120, 176, 248, .12);
+    --hl-r-block: rgba(255, 126, 142, .11);
     --ann-bg: #2e2b1d;
     --ann-border: #8a7a3a;
     --ann-border-soft: #5d5330;
@@ -797,9 +807,29 @@ html.dark .note-article mark.search-hit {
 
 /* 图片双击放大 lightbox */
 .md-img img, img.li-img, img.ann-img { cursor: zoom-in; }
-#imgLightbox { position: fixed; inset: 0; background: rgba(0, 0, 0, .85); display: none; align-items: center; justify-content: center; z-index: 300; cursor: zoom-out; }
+#imgLightbox { position: fixed; inset: 0; background: rgba(0, 0, 0, .85); display: none; align-items: center; justify-content: center; z-index: 300; overflow: hidden; }
 #imgLightbox.show { display: flex; }
-#imgLightbox img { max-width: 95vw; max-height: 95vh; border-radius: 6px; box-shadow: 0 8px 40px rgba(0, 0, 0, .5); }
+body.lb-open { overflow: hidden; }
+#imgLightbox img {
+    max-width: 95vw; max-height: 95vh; border-radius: 6px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, .5);
+    transform-origin: center center;
+    user-select: none; -webkit-user-drag: none;
+    will-change: transform;
+}
+#imgLightbox .lb-pct {
+    position: fixed; left: 16px; bottom: 14px;
+    padding: 3px 10px; border-radius: 999px;
+    background: rgba(0, 0, 0, .5); color: #fff;
+    font-size: 12.5px; letter-spacing: .4px; pointer-events: none;
+}
+#imgLightbox .lb-close {
+    position: fixed; right: 14px; top: 14px;
+    width: 34px; height: 34px; border: 0; border-radius: 50%;
+    background: rgba(255, 255, 255, .14); color: #fff;
+    font-size: 15px; line-height: 1; cursor: pointer;
+}
+#imgLightbox .lb-close:hover { background: rgba(255, 255, 255, .28); }
 
 /* 搜索精确定位:命中块闪烁提示 */
 .locate-flash { animation: locateFlash 1.8s ease-out; }
@@ -825,10 +855,30 @@ mark.mk-b { background: linear-gradient(to top, var(--mk-b2) 0 52%, transparent 
 mark.mk-r { background: linear-gradient(to top, var(--mk-r2) 0 52%, transparent 52%); text-decoration-color: var(--hl-r-line); }
 
 /* 整块高亮（li/p），可点击修改：半透明底 + 底部一条实线当"下划线" */
-li.hl-y, p.hl-y { background: var(--hl-y-soft); border-bottom: 2px solid var(--hl-y-line); border-radius: 6px; }
-li.hl-g, p.hl-g { background: var(--hl-g-soft); border-bottom: 2px solid var(--hl-g-line); border-radius: 6px; }
-li.hl-b, p.hl-b { background: var(--hl-b-soft); border-bottom: 2px solid var(--hl-b-line); border-radius: 6px; }
-li.hl-r, p.hl-r { background: var(--hl-r-soft); border-bottom: 2px solid var(--hl-r-line); border-radius: 6px; }
+/* 整块高亮（选中整段/整条）：底色比行内荧光更淡，用「左侧 3px 竖条 + 圆角」表达"这一块"。
+   不再用 border-bottom —— 那会让整块看起来像按钮，也和行内荧光的下划线撞风格。
+   ⚠️ 只用 inset 阴影画竖条，不加 padding/margin，避免列表圆点错位、文字与其它行不齐。 */
+li.hl-y, p.hl-y, li.hl-g, p.hl-g, li.hl-b, p.hl-b, li.hl-r, p.hl-r {
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color .15s ease;
+}
+/* 段落：底色 + 左侧竖条；竖条要靠内边距与文字拉开距离，
+   再用等量负 margin 抵消，保证文字与其它段落仍然左对齐。 */
+p.hl-y, p.hl-g, p.hl-b, p.hl-r { padding-left: 8px; margin-left: -8px; }
+p.hl-y { background: var(--hl-y-block); box-shadow: inset 3px 0 0 var(--hl-y-line); }
+p.hl-g { background: var(--hl-g-block); box-shadow: inset 3px 0 0 var(--hl-g-line); }
+p.hl-b { background: var(--hl-b-block); box-shadow: inset 3px 0 0 var(--hl-b-line); }
+p.hl-r { background: var(--hl-r-block); box-shadow: inset 3px 0 0 var(--hl-r-line); }
+/* 列表项：只上底色 —— 加内边距会把列表圆点也带偏，与相邻条目错位（实测差 8px） */
+li.hl-y { background: var(--hl-y-block); }
+li.hl-g { background: var(--hl-g-block); }
+li.hl-b { background: var(--hl-b-block); }
+li.hl-r { background: var(--hl-r-block); }
+li.hl-y:hover, p.hl-y:hover, li.hl-g:hover, p.hl-g:hover,
+li.hl-b:hover, p.hl-b:hover, li.hl-r:hover, p.hl-r:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, .035), rgba(0, 0, 0, .035));
+}
 
 /* ============ 我自己的批注（.ann-box）============
  * 与「书上批注」(li.c-ann-src，冷灰蓝卡片)刻意区分：暖纸底 + 左侧实心导轨 + 虚线外框。
@@ -1809,4 +1859,10 @@ html.dark .toc-filter input:focus-visible {
 .note-article h3.md-h3.is-key {
     background: rgba(var(--accent-rgb, 74, 111, 217), .07);
     border-radius: 4px;
+}
+
+/* 批注框自带底色，再叠整块高亮会混成脏色（灰+蓝/黄）→ 批注框不参与整块高亮的底色 */
+.ann-box.hl-y, .ann-box.hl-g, .ann-box.hl-b, .ann-box.hl-r {
+    background: var(--ann-bg);
+    box-shadow: none;
 }

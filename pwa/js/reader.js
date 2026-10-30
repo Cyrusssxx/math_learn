@@ -1078,21 +1078,105 @@ document.addEventListener('click', e => {
     }
 });
 
-// ============ 图片单击放大（正文图/行内图/批注贴图通用） ============
+// ============ 图片放大预览（正文图 / 行内图 / 批注贴图通用） ============
+// 支持：滚轮缩放（以指针为中心，1x~6x）、放大后拖动平移、双击在 1x 与 2.5x 之间切换、
+//      点背景 / ✕ / Esc 关闭、右上角显示当前倍数。
+const lbState = { scale: 1, x: 0, y: 0, drag: null };
+
+function lbApply() {
+    const lb = document.getElementById('imgLightbox');
+    if (!lb) return;
+    const img = lb.querySelector('img');
+    if (!img) return;
+    img.style.transform = `translate(${lbState.x}px, ${lbState.y}px) scale(${lbState.scale})`;
+    img.style.cursor = lbState.scale > 1 ? (lbState.drag ? 'grabbing' : 'grab') : 'zoom-in';
+    const pct = document.getElementById('lbPct');
+    if (pct) pct.textContent = Math.round(lbState.scale * 100) + '%';
+}
+
+function lbReset() { lbState.scale = 1; lbState.x = 0; lbState.y = 0; lbApply(); }
+
+/** 以 (cx,cy) 为不动点缩放；回到 1x 时自动复位偏移 */
+function lbZoom(factor, cx, cy) {
+    const lb = document.getElementById('imgLightbox');
+    const img = lb && lb.querySelector('img');
+    if (!img) return;
+    const next = Math.min(6, Math.max(1, lbState.scale * factor));
+    if (Math.abs(next - lbState.scale) < 1e-4) return;
+    const r = img.getBoundingClientRect();
+    const ox = cx - (r.left + r.width / 2), oy = cy - (r.top + r.height / 2);
+    const k = next / lbState.scale;
+    lbState.x -= ox * (k - 1);
+    lbState.y -= oy * (k - 1);
+    lbState.scale = next;
+    if (next === 1) { lbState.x = 0; lbState.y = 0; }
+    lbApply();
+}
+
+function lbClose() {
+    const lb = document.getElementById('imgLightbox');
+    if (!lb) return;
+    lb.classList.remove('show');
+    document.body.classList.remove('lb-open');
+    lbReset();
+}
+
 function openLightbox(src) {
     let lb = document.getElementById('imgLightbox');
     if (!lb) {
         lb = document.createElement('div');
         lb.id = 'imgLightbox';
-        lb.innerHTML = '<img alt="放大预览">';
-        lb.onclick = () => lb.classList.remove('show');
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') lb.classList.remove('show');
-        });
+        lb.innerHTML = '<img alt="放大预览" draggable="false">' +
+            '<div class="lb-pct" id="lbPct">100%</div>' +
+            '<button class="lb-close" id="lbClose" title="关闭（Esc）" aria-label="关闭">✕</button>';
         document.body.appendChild(lb);
+
+        const img = lb.querySelector('img');
+        lb.addEventListener('wheel', e => {
+            e.preventDefault();
+            lbZoom(e.deltaY < 0 ? 1.15 : 1 / 1.15, e.clientX, e.clientY);
+        }, { passive: false });
+
+        // 拖动平移（仅放大后）
+        img.addEventListener('mousedown', e => {
+            if (lbState.scale <= 1) return;
+            e.preventDefault();
+            lbState.drag = { x: e.clientX - lbState.x, y: e.clientY - lbState.y };
+            lbApply();
+        });
+        window.addEventListener('mousemove', e => {
+            if (!lbState.drag) return;
+            lbState.x = e.clientX - lbState.drag.x;
+            lbState.y = e.clientY - lbState.drag.y;
+            lbApply();
+        });
+        window.addEventListener('mouseup', () => {
+            if (!lbState.drag) return;
+            lbState.drag = null;
+            lbApply();
+        });
+
+        // 双击：1x ↔ 2.5x（以指针为中心）
+        img.addEventListener('dblclick', e => {
+            e.preventDefault();
+            if (lbState.scale > 1.05) lbReset();
+            else lbZoom(2.5, e.clientX, e.clientY);
+        });
+
+        // 点背景 / ✕ 关闭（点图片本身不关闭，避免拖动时误关）
+        lb.addEventListener('click', e => {
+            if (e.target === lb || e.target.closest('#lbClose')) lbClose();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') lbClose();
+        });
     }
-    lb.querySelector('img').src = src;
+    const img = lb.querySelector('img');
+    lbState.scale = 1; lbState.x = 0; lbState.y = 0; lbState.drag = null;
+    img.src = src;
+    lbApply();
     lb.classList.add('show');
+    document.body.classList.add('lb-open');
 }
 
 document.addEventListener('click', e => {
