@@ -32869,7 +32869,7 @@
       "type": "choice",
       "stem": "设 $A$ 为 $3$ 阶非零矩阵，下列命题中，是齐次线性方程组 $A\\boldsymbol{x}=0$ 有非零解的充分条件的个数为（ ）。①非齐次线性方程组 $A^*\\boldsymbol{x}=\\boldsymbol{b}$ 有唯一解；②非齐次线性方程组 $A^*\\boldsymbol{x}=\\boldsymbol{b}$ 有无穷多解；③非齐次线性方程组 $AA^T\\boldsymbol{x}=\\boldsymbol{b}$ 有唯一解；④非齐次线性方程组 $AA^T\\boldsymbol{x}=\\boldsymbol{b}$ 有无穷多解。",
       "answer": "（B）\n\n第一步：把所求结论转化为行列式条件。\n\n$A$ 是三阶方阵，因此\n$$\nA\\boldsymbol x=\\boldsymbol0\n\\text{ 有非零解}\n\\iff |A|=0.\n$$\n这里 $A^*$ 表示 $A$ 的伴随矩阵。由行列式的性质，\n$$\n|A^*|=|A|^2,\n$$\n$$\n|AA^{\\mathrm T}|\n=|A|\\,|A^{\\mathrm T}|=|A|^2.\n$$\n\n第二步：逐条判断是否能推出 $|A|=0$。\n\n① 若 $A^*\\boldsymbol x=\\boldsymbol b$ 有唯一解，则三阶系数矩阵 $A^*$ 的秩为 $3$，所以\n$$\n|A^*|\\ne0.\n$$\n由 $|A^*|=|A|^2$ 得 $|A|\\ne0$。此时 $A\\boldsymbol x=\\boldsymbol0$ 只有零解，故①不是充分条件。\n\n② 若 $A^*\\boldsymbol x=\\boldsymbol b$ 有无穷多解，则\n$$\nr(A^*)<3,\n$$\n所以 $|A^*|=0$，进而 $|A|=0$。故②是充分条件。\n\n③ 若 $AA^{\\mathrm T}\\boldsymbol x=\\boldsymbol b$ 有唯一解，则\n$$\n|AA^{\\mathrm T}|\\ne0,\n$$\n进而 $|A|\\ne0$，故③不是充分条件。\n\n④ 若 $AA^{\\mathrm T}\\boldsymbol x=\\boldsymbol b$ 有无穷多解，则\n$$\nr(AA^{\\mathrm T})<3,\n$$\n所以 $|AA^{\\mathrm T}|=0$，进而 $|A|=0$。故④是充分条件。\n\n符合要求的是②、④，共 $2$ 个，故选 B。",
-      "idea": "① $A\\boldsymbol x=0$ 有非零解 $\\iff A$ 奇异（$|A|=0$），把问题统一翻译成「$A$ 奇异」；\n② 逐条翻译各条件：由 $A^*$ 或 $AA^{\\mathrm T}$ 的可逆/奇异反推 $A$ 的可逆/奇异（用 $|A^*|=|A|^{n-1}$、$r(AA^{\\mathrm T})=r(A)$）；\n③ 数出能推出「$A$ 奇异」的充分条件个数。",
+      "idea": "**思想：$Ax=0$ 有非零解 $\\iff |A|=0$，把每个命题翻译成秩或行列式的条件**。\n① $A\\boldsymbol x=0$ 有非零解 $\\iff A$ 奇异（$|A|=0$），把问题统一翻译成「$A$ 奇异」；\n② 逐条翻译各条件：由 $A^*$ 或 $AA^{\\mathrm T}$ 的可逆/奇异反推 $A$ 的可逆/奇异（用 $|A^*|=|A|^{n-1}$、$r(AA^{\\mathrm T})=r(A)$）；\n③ 数出能推出「$A$ 奇异」的充分条件个数。",
       "source": "900 题数二第四章 A类 3(重点)",
       "categoryIds": [
        132
@@ -32910,7 +32910,7 @@
       "type": "calc",
       "stem": "若 $3$ 阶矩阵 $A$ 有三个特征值 $0,3,5$， $u, v, w$ 分别为属于 $0,3,5$ 的一个特征向量，则线性方程组 $Ax = v + w$ 的通解为______。",
       "answer": "$x=cu+\\dfrac13v+\\dfrac15w$，其中 $c$ 为任意常数。\n\n由 $Au=0$，$Av=3v$，$Aw=5w$，得 $A\\left(\\dfrac13v+\\dfrac15w\\right)=v+w$，故 $\\dfrac13v+\\dfrac15w$ 是一个特解。$Ax=0$ 的基础解系就是属于特征值 $0$ 的特征向量 $u$，因此通解为 $x=cu+\\dfrac13v+\\dfrac15w$。",
-      "idea": "① 找特解：由 $Au=0,Av=3v,Aw=5w$ 得 $A\\left(\\frac13v+\\frac15w\\right)=v+w$，故 $x_0=\\frac13v+\\frac15w$；\n② 定齐次的解：三个互异特征值的特征向量 $u,v,w$ 线性无关，$r(A)=2$，故 $A\\boldsymbol x=0$ 的解为 $cu$（$c$ 任意）；\n③ 通解为 $\\boldsymbol x=cu+\\frac13v+\\frac15w$。",
+      "idea": "**思想：先凑特解（用特征向量组合），通解 $=$ 特解 $+$ $Ax=0$ 的基础解系**。\n① 找特解：由 $Au=0,Av=3v,Aw=5w$ 得 $A\\left(\\frac13v+\\frac15w\\right)=v+w$，故 $x_0=\\frac13v+\\frac15w$；\n② 定齐次的解：三个互异特征值的特征向量 $u,v,w$ 线性无关，$r(A)=2$，故 $A\\boldsymbol x=0$ 的解为 $cu$（$c$ 任意）；\n③ 通解为 $\\boldsymbol x=cu+\\frac13v+\\frac15w$。",
       "source": "900 题数二第四章 B 类 11(重点)",
       "categoryIds": [
        135
@@ -32945,7 +32945,7 @@
       "type": "calc",
       "stem": "设 $\\boldsymbol{\\alpha},\\boldsymbol{\\beta},\\boldsymbol{\\gamma}$ 是 $3$ 阶矩阵 $\\mathbf{A}$ 的 $3$ 个特征向量，其中 $\\boldsymbol{\\beta}$ 与 $\\boldsymbol{\\gamma}$ 为属于不同特征值的特征向量。方程组\n$$\n\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}+\\boldsymbol{\\gamma}\n$$\n的通解为\n$$\n\\mathbf{x}=k\\boldsymbol{\\alpha}+\\boldsymbol{\\beta}+\\frac{1}{3}\\boldsymbol{\\gamma},\\quad k\\in\\mathbb{R}.\n$$\n(I) 求方程组 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}-\\boldsymbol{\\gamma}$ 的通解；\n(II) 若 $\\boldsymbol{\\alpha}=(1,1,1)^T$，且 $\\mathbf{A}$ 的伴随矩阵 $\\mathbf{A}^*$ 为对称矩阵，求 $\\mathbf{A}^*$。",
       "answer": "(I)\n$$\n\\mathbf{x}=k\\boldsymbol{\\alpha}+\\boldsymbol{\\beta}-\\frac{1}{3}\\boldsymbol{\\gamma},\\quad k\\in\\mathbb{R}.\n$$\n(II)\n$$\n\\mathbf{A}^*=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix}.\n$$\n\n由 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}+\\boldsymbol{\\gamma}$ 的通解可知 $\\mathbf{A}\\boldsymbol{x}=\\boldsymbol{0}$ 的全部解为 $k\\boldsymbol{\\alpha}$，故 $\\mathbf{A}\\boldsymbol{\\alpha}=\\mathbf{0}$。又\n$$\n\\mathbf{A}\\left(\\boldsymbol{\\beta}+\\frac{1}{3}\\boldsymbol{\\gamma}\\right)=\\boldsymbol{\\beta}+\\boldsymbol{\\gamma}.\n$$\n设 $\\boldsymbol{\\beta},\\boldsymbol{\\gamma}$ 对应的特征值分别为 $\\lambda_\\beta,\\lambda_\\gamma$。因 $\\boldsymbol{\\beta},\\boldsymbol{\\gamma}$ 属于不同特征值，二者线性无关，比较系数得\n$$\n\\lambda_\\beta=1,\\quad \\lambda_\\gamma=3.\n$$\n所以 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}-\\boldsymbol{\\gamma}$ 的一个特解为 $\\boldsymbol{\\beta}-\\frac{1}{3}\\boldsymbol{\\gamma}$，通解为\n$$\n\\mathbf{x}=k\\boldsymbol{\\alpha}+\\boldsymbol{\\beta}-\\frac{1}{3}\\boldsymbol{\\gamma}.\n$$\n\n$\\mathbf{A}$ 的特征值为 $0,1,3$，故 $\\mathbf{A}^*$ 在 $\\boldsymbol{\\alpha}$ 方向上的特征值为 $1\\cdot3=3$，在另外两个特征向量方向上的特征值为 $0$。若 $\\mathbf{A}^*$ 对称，且 $\\boldsymbol{\\alpha}=(1,1,1)^T$，则\n$$\n\\mathbf{A}^*=\\frac{3}{\\|\\boldsymbol{\\alpha}\\|^2}\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T\n=\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T\n=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix}.\n$$",
-      "idea": "① 通解得 $A\\alpha=0$、$\\lambda_\\beta=1$、$\\lambda_\\gamma=3$；\n② 右端只含 $\\beta,\\gamma$ ⟹ **直接设特解** $\\beta-\\frac13\\gamma$；\n③ $A^*$ 特征值 $3,0,0$，由 **对称 + 秩 1** 得 $A^*=\\alpha\\alpha^{\\mathrm T}$。",
+      "idea": "**思想：由通解反读 $A$ 的特征值与特征向量，再把 $Bx=\\beta$ 化成 $A$ 的关系**。\n① 通解得 $A\\alpha=0$、$\\lambda_\\beta=1$、$\\lambda_\\gamma=3$；\n② 右端只含 $\\beta,\\gamma$ ⟹ **直接设特解** $\\beta-\\frac13\\gamma$；\n③ $A^*$ 特征值 $3,0,0$，由 **对称 + 秩 1** 得 $A^*=\\alpha\\alpha^{\\mathrm T}$。",
       "source": "25 李艳芳三套数二第一套(重点)",
       "categoryIds": [
        135
@@ -32981,7 +32981,7 @@
       "type": "choice",
       "stem": "设 $A,B$ 为 $n$ 阶方阵，若线性方程组 $Ax=0$ 的解均为 $Bx=0$ 的解，则下列方程组与 $Ax=0$ 同解的个数为（ ）。① $(A+B)x=0$ ② $ABx=0$ ③ $BAx=0$ ④ $\\begin{pmatrix}A-B\\\\A+B\\end{pmatrix}x=0$ ⑤ $\\begin{pmatrix}A\\\\B\\end{pmatrix}x=0$",
       "answer": "（B）\n\n已知 $Ax=0$ 的每个解都是 $Bx=0$ 的解。对于④，方程组等价于\n$$\n(A-B)x=0,\\ (A+B)x=0.\n$$\n两式相加、相减可得 $Ax=0$ 且 $Bx=0$，再结合题设（$Bx=0$ 不会多出解），可知④与 $Ax=0$ 同解。对于⑤，方程组就是 $Ax=0$ 且 $Bx=0$，同样与 $Ax=0$ 同解。①②③一般不能反推出 $Ax=0$，故共有 $2$ 个，选 B。",
-      "idea": "① 题设：$Ax=0$ 的每个解都是 $Bx=0$ 的解（前者解集被后者包含）；\n② ④ $\\begin{pmatrix}A-B\\\\A+B\\end{pmatrix}x=0$ 等价于「同时满足 $Ax=0$ 与 $Bx=0$」，由题设后者不多出解，故与 $Ax=0$ 同解；⑤ 同理；\n③ ①②③ 只能由 $Ax=0$ 推出它们成立（$Ax=0$ ⟹ $ABx=0$、$BAx=0$），反过来推不出，故不同解；\n④ 共 $2$ 个，选 B。",
+      "idea": "**思想：解集包含 $\\iff$ 秩的反向不等式；判同解必须双向包含**。\n① 题设：$Ax=0$ 的每个解都是 $Bx=0$ 的解（前者解集被后者包含）；\n② ④ $\\begin{pmatrix}A-B\\\\A+B\\end{pmatrix}x=0$ 等价于「同时满足 $Ax=0$ 与 $Bx=0$」，由题设后者不多出解，故与 $Ax=0$ 同解；⑤ 同理；\n③ ①②③ 只能由 $Ax=0$ 推出它们成立（$Ax=0$ ⟹ $ABx=0$、$BAx=0$），反过来推不出，故不同解；\n④ 共 $2$ 个，选 B。",
       "source": "姜晓千真题同源 150(重点)",
       "categoryIds": [
        157
@@ -33027,7 +33027,7 @@
       "type": "choice",
       "stem": "设 $A$ 为 $n$（$n\\ge2$）阶矩阵，$B$ 为 $n$ 阶可逆矩阵，$b$ 为 $n$ 维列向量。下列命题中，错误的是（ ）。",
       "answer": "（B）\n\n若 $Ax=b$ 有解，设一解为 $x_0$，因 $B$ 可逆，取 $x=B^{-1}x_0$，则 $ABx=Ax_0=b$，故 A 正确。命题 B 不一定成立，因为 $BAx=b$ 等价于 $Ax=B^{-1}b$，而 $Ax=b$ 有解不能保证 $Ax=B^{-1}b$ 有解。若 $Ax=0$ 有非零解 $z$，取 $x=B^{-1}z\\ne0$，则 $ABx=Az=0$，故 C 正确。又 $B$ 可逆，$BAx=0$ 等价于 $Ax=0$，故 D 正确。因此错误命题为 B。",
-      "idea": "① 核心是判断「$A x=b$ 有解」与「$ABx=b$、$BAx=b$ 有解」之间的等价关系；\n② 利用 $B$ 可逆作变量替换：由 $x_0$ 有解可在 $ABx=b$ 中取 $x=B^{-1}x_0$，而 $BAx=b$ 等价于 $Ax=B^{-1}b$，与 $Ax=b$ 的右端不同；\n③ 逐项考察：能通过可逆变换互推的选项成立，右端被改变、无法保证有解的选项不成立。",
+      "idea": "**思想：$B$ 可逆 $\\Rightarrow$ 左乘或右乘 $B$ 不改解集（$ABx=b$、$BAx=b$ 与 $Ax=b$ 同解）**。\n① 核心是判断「$A x=b$ 有解」与「$ABx=b$、$BAx=b$ 有解」之间的等价关系；\n② 利用 $B$ 可逆作变量替换：由 $x_0$ 有解可在 $ABx=b$ 中取 $x=B^{-1}x_0$，而 $BAx=b$ 等价于 $Ax=B^{-1}b$，与 $Ax=b$ 的右端不同；\n③ 逐项考察：能通过可逆变换互推的选项成立，右端被改变、无法保证有解的选项不成立。",
       "source": "23 李艳芳三套数一第一套;900 题数二第四章 B 类 1(重点)",
       "categoryIds": [
        157
@@ -33068,7 +33068,7 @@
       "type": "choice",
       "stem": "设 $A$ 为 $n$ 阶矩阵，$\\boldsymbol{\\alpha}$ 为 $n$ 维列向量，且 $r\\begin{pmatrix} A & \\boldsymbol{\\alpha} \\\\ \\boldsymbol{\\alpha}^T & 0 \\end{pmatrix} = r(A)$，则线性方程组（ ）。",
       "answer": "（D）\n\n第一步：确定分块矩阵对应的未知数个数。\n\n记\n$$\nM=\\begin{pmatrix}\nA&\\boldsymbol\\alpha\\\\\n\\boldsymbol\\alpha^{\\mathrm T}&0\n\\end{pmatrix}.\n$$\n由于 $A$ 是 $n$ 阶矩阵，$M$ 是 $n+1$ 阶矩阵，方程组\n$$\nM\\begin{pmatrix}\\boldsymbol x\\\\y\\end{pmatrix}\n=\\boldsymbol0\n$$\n共有 $n+1$ 个未知数。\n\n第二步：用秩判断齐次方程组。\n\n由题设，\n$$\nr(M)=r(A)\\le n<n+1.\n$$\n系数矩阵的秩小于未知数个数，所以这个齐次方程组必有非零解。D 正确，C 错误。\n\n第三步：说明前两个选项为什么不能确定。\n\n矩阵 $A$ 是 $(A,\\boldsymbol\\alpha)$ 的子矩阵，而 $(A,\\boldsymbol\\alpha)$ 又是 $M$ 的子矩阵，所以\n$$\nr(A)\\le r(A,\\boldsymbol\\alpha)\\le r(M).\n$$\n结合 $r(M)=r(A)$，得到\n$$\nr(A,\\boldsymbol\\alpha)=r(A).\n$$\n因此 $A\\boldsymbol x=\\boldsymbol\\alpha$ 一定有解，但是否唯一，还要看 $r(A)$ 是否等于 $n$。\n\n若 $r(A)=n$，有唯一解；若 $r(A)<n$，有无穷多解。题设允许这两种情况：取 $\\boldsymbol\\alpha=\\boldsymbol0$ 时，$A=E_n$ 和 $A=0$ 都满足题设，分别对应唯一解和无穷多解。\n\n故 A、B 均不是必然成立的结论，选 D。",
-      "idea": "① 记分块矩阵为 $M$，条件给出 $r(M)=r(A)\\le n$；\n② $M$ 是 $(n+1)$ 阶方阵，齐次方程 $M\\binom{\\boldsymbol x}{y}=0$ 的系数秩最多为 $n$；\n③ 未知量个数为 $n+1$，基础解系至少含 $n+1-r(M)\\ge1$ 个向量，故必有非零解。",
+      "idea": "**思想：分块矩阵的秩被 $r(A)$ 夹住 $\\Rightarrow$ 用 $r(A)$ 与 $r(A\\mid\\alpha)$ 比大小判解**。\n① 记分块矩阵为 $M$，条件给出 $r(M)=r(A)\\le n$；\n② $M$ 是 $(n+1)$ 阶方阵，齐次方程 $M\\binom{\\boldsymbol x}{y}=0$ 的系数秩最多为 $n$；\n③ 未知量个数为 $n+1$，基础解系至少含 $n+1-r(M)\\ge1$ 个向量，故必有非零解。",
       "source": "(2001, 数三)",
       "categoryIds": [
        132
@@ -33116,7 +33116,7 @@
       "type": "blank",
       "stem": "设 $n$ 阶矩阵 $A=(a_{ij})$，且 $r(A)=n-1$。(I)若 $A$ 的各行元素之和均为零，则线性方程组 $Ax=0$ 的一个基础解系为______；(II)设 $a_{ij}$ 的代数余子式为 $A_{ij}$，若 $A_{11} \\neq 0$，则线性方程组 $Ax=0$ 的一个基础解系为______。",
       "answer": "(I) $\\{(1,1,\\ldots,1)^T\\}$；(II) $\\{(A_{11},A_{12},\\ldots,A_{1n})^T\\}$\n\n(I) 各行元素之和为零，故全 $1$ 向量是非零解；由 $r(A)=n-1$，零空间维数为 $1$，所以它构成基础解系。(II) 恒有 $AA^*=|A|E=O$。$A^*$ 的第一列为 $(A_{11},A_{12},\\ldots,A_{1n})^T$，它是 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的解；又 $A_{11}\\ne0$，该向量非零，因此构成基础解系。",
-      "idea": "① 行和为零意味着全 $1$ 向量满足 $A(1,\\ldots,1)^{\\mathrm T}=\\mathbf 0$，即 $(1,\\ldots,1)^{\\mathrm T}$ 是非零解；\n② $r(A)=n-1$ 表明基础解系含 $n-(n-1)=1$ 个向量；\n③ 这个非零解就构成基础解系，通解为 $\\boldsymbol x=k(1,1,\\ldots,1)^{\\mathrm T}$。",
+      "idea": "**思想：$r(A)=n-1$ $\\Rightarrow$ 基础解系只含 $1$ 个向量；行和为零 $\\Rightarrow$ 全 $1$ 向量就是它**。\n① 行和为零意味着全 $1$ 向量满足 $A(1,\\ldots,1)^{\\mathrm T}=\\mathbf 0$，即 $(1,\\ldots,1)^{\\mathrm T}$ 是非零解；\n② $r(A)=n-1$ 表明基础解系含 $n-(n-1)=1$ 个向量；\n③ 这个非零解就构成基础解系，通解为 $\\boldsymbol x=k(1,1,\\ldots,1)^{\\mathrm T}$。",
       "source": "(1993 数一)",
       "categoryIds": [
        135
@@ -33141,7 +33141,7 @@
       "type": "calc",
       "stem": "设 $3$ 阶矩阵 $A$ 的第 $1$ 行为 $(a,b,c)$，其中 $a,b,c$ 不全为零，且 $$B=\\begin{pmatrix}1&2&3\\\\2&4&6\\\\3&6&k\\end{pmatrix}.$$ 若 $AB=O$，求线性方程组 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的通解。",
       "answer": "记 $u=(1,2,3)^{\\mathrm T}$，$v=(3,6,k)^{\\mathrm T}$，以下 $C,C_1,C_2$ 均为任意常数。\n\n当 $k\\ne9$ 时，\n$$\n\\boldsymbol{x}=C_1u+C_2v.\n$$\n\n当 $k=9$ 时：\n\n① 若 $r(A)=2$，则 $\\boldsymbol{x}=Cu$；\n\n② 若 $r(A)=1$ 且 $a\\ne0$，则\n$$\n\\boldsymbol{x}\n=C_1\\begin{pmatrix}-b/a\\\\1\\\\0\\end{pmatrix}\n+C_2\\begin{pmatrix}-c/a\\\\0\\\\1\\end{pmatrix};\n$$\n\n③ 若 $r(A)=1$ 且 $a=0$，此时必有 $b\\ne0$，则\n$$\n\\boldsymbol{x}\n=C_1\\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}\n+C_2\\begin{pmatrix}0\\\\-c/b\\\\1\\end{pmatrix}.\n$$\n\n第一步：从 $AB=O$ 得到已知解。\n\n记 $B$ 的第一、第三列分别为\n$$\nu=(1,2,3)^{\\mathrm T},\\qquad v=(3,6,k)^{\\mathrm T}.\n$$\n则 $Au=Av=0$。又因 $A$ 的第一行非零，故 $r(A)\\ge1$。将 $B$ 作初等行变换，\n$$\nB\\xrightarrow{\\substack{r_2\\to r_2-2r_1\\\\r_3\\to r_3-3r_1}}\n\\begin{pmatrix}1&2&3\\\\0&0&0\\\\0&0&k-9\\end{pmatrix}.\n$$\n\n第二步：讨论 $k\\ne9$。\n\n此时 $r(B)=2$，且 $u,v$ 线性无关。由 $AB=O$，\n$$\nr(A)+r(B)\\le3,\n$$\n所以 $r(A)=1$。齐次方程组有 $3-r(A)=2$ 个线性无关的解构成基础解系，因此\n$$\n\\boldsymbol{x}=C_1u+C_2v.\n$$\n\n第三步：讨论 $k=9$。\n\n此时 $r(B)=1$，从而 $1\\le r(A)\\le2$。\n\n若 $r(A)=2$，基础解系只需一个非零解，可取 $u$，故\n$$\n\\boldsymbol{x}=Cu.\n$$\n\n若 $r(A)=1$，由于第一行 $(a,b,c)$ 非零，其余两行均为第一行的倍数。对增广矩阵作初等行变换，方程组等价于\n$$\n\\left(\\begin{array}{ccc|c}\na&b&c&0\\\\\n0&0&0&0\\\\\n0&0&0&0\n\\end{array}\\right).\n$$\n\n当 $a\\ne0$ 时，第一行除以 $a$，取 $x_2=C_1,x_3=C_2$，得到\n$$\n\\boldsymbol{x}\n=C_1\\begin{pmatrix}-b/a\\\\1\\\\0\\end{pmatrix}\n+C_2\\begin{pmatrix}-c/a\\\\0\\\\1\\end{pmatrix}.\n$$\n\n当 $a=0$ 时，由 $Au=0$ 的第一行有 $2b+3c=0$。若再有 $b=0$，则 $c=0$，与第一行非零矛盾。因此 $b\\ne0$，取 $x_1=C_1,x_3=C_2$，得到\n$$\n\\boldsymbol{x}\n=C_1\\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}\n+C_2\\begin{pmatrix}0\\\\-c/b\\\\1\\end{pmatrix}.\n$$\n以上各式中的常数均可任意取值。",
-      "idea": "① $AB=O$ ⟹ $B$ 的列都是 $Ax=0$ 的解：$u=(1,2,3)^{\\mathrm T}$、$v=(3,6,k)^{\\mathrm T}$；\n② $k\\ne9$ 时 $u,v$ 无关，通解 $C_1u+C_2v$；\n③ $k=9$ 时按 $r(A)=2$ 或 $1$ 分情况写通解。",
+      "idea": "**思想：$AB=O$ $\\Rightarrow$ $B$ 的列都是 $Ax=0$ 的解，再用 $r(B)$ 定基础解系**。\n① $AB=O$ ⟹ $B$ 的列都是 $Ax=0$ 的解：$u=(1,2,3)^{\\mathrm T}$、$v=(3,6,k)^{\\mathrm T}$；\n② $k\\ne9$ 时 $u,v$ 无关，通解 $C_1u+C_2v$；\n③ $k=9$ 时按 $r(A)=2$ 或 $1$ 分情况写通解。",
       "source": "2005 数一二",
       "categoryIds": [
        135
@@ -33166,7 +33166,7 @@
       "type": "blank",
       "stem": "设 $A = (\\alpha_1, \\alpha_2, \\alpha_3)$ 为 $3$ 阶矩阵，其中 $\\alpha_1, \\alpha_2$ 线性无关， $\\alpha_3 = -\\alpha_1 + 2\\alpha_2$，则线性方程组 $Ax=0$ 的通解为______。",
       "answer": "$\\boldsymbol{x}=k(1,-2,1)^T$，其中 $k$ 为任意常数\n\n令 $\\boldsymbol{x}=(x_1,x_2,x_3)^T$，则\n$$\nA\\boldsymbol{x}=(x_1-x_3)\\boldsymbol{\\alpha}_1+(x_2+2x_3)\\boldsymbol{\\alpha}_2.\n$$\n因 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2$ 线性无关，故 $x_1=x_3$、$x_2=-2x_3$，于是通解为 $k(1,-2,1)^T$。",
-      "idea": "① 把 $\\alpha_3=-\\alpha_1+2\\alpha_2$ 代入 $Ax=x_1\\alpha_1+x_2\\alpha_2+x_3\\alpha_3$，得 $(x_1-x_3)\\alpha_1+(x_2+2x_3)\\alpha_2=0$；\n② $\\alpha_1,\\alpha_2$ 无关 ⟹ 两系数同时为零：$x_1=x_3,\\ x_2=-2x_3$；同时这也说明 $r(A)=2$，基础解系只含 $3-2=1$ 个向量；\n③ 令 $x_3=k$，通解为 $k(1,-2,1)^{\\mathrm T}$。",
+      "idea": "**思想：把列之间的线性关系直接翻译成 $Ax=0$ 的解向量**。\n① 把 $\\alpha_3=-\\alpha_1+2\\alpha_2$ 代入 $Ax=x_1\\alpha_1+x_2\\alpha_2+x_3\\alpha_3$，得 $(x_1-x_3)\\alpha_1+(x_2+2x_3)\\alpha_2=0$；\n② $\\alpha_1,\\alpha_2$ 无关 ⟹ 两系数同时为零：$x_1=x_3,\\ x_2=-2x_3$；同时这也说明 $r(A)=2$，基础解系只含 $3-2=1$ 个向量；\n③ 令 $x_3=k$，通解为 $k(1,-2,1)^{\\mathrm T}$。",
       "source": "(2019,数一)",
       "categoryIds": [
        135
@@ -33198,7 +33198,7 @@
       "type": "calc",
       "stem": "设 $\\alpha_1, \\alpha_2, \\dots, \\alpha_s$ 为线性方程组 $Ax=0$ 的基础解系， $\\beta_1 = t_1 \\alpha_1 + t_2 \\alpha_2$， $\\beta_2 = t_1\\alpha_2 + t_2\\alpha_3$， $\\dots$， $\\beta_s = t_1\\alpha_s + t_2\\alpha_1$。当 $t_1, t_2$ 满足什么关系时， $\\beta_1, \\beta_2, \\dots, \\beta_s$ 也为 $Ax=0$ 的基础解系。",
       "answer": "$t_1^s-(-t_2)^s\\ne0$\n\n每个 $\\beta_i$ 都是 $\\alpha_1,\\alpha_2,\\ldots,\\alpha_s$ 的线性组合，因此均满足 $Ax=0$。写成矩阵形式：\n$$\n(\\beta_1,\\beta_2,\\ldots,\\beta_s)\n=(\\alpha_1,\\alpha_2,\\ldots,\\alpha_s)C,\n$$\n其中\n$$\nC=\n\\begin{pmatrix}\nt_1&0&\\cdots&0&t_2\\\\\nt_2&t_1&\\ddots&0&0\\\\\n0&t_2&\\ddots&\\ddots&\\vdots\\\\\n\\vdots&\\ddots&\\ddots&t_1&0\\\\\n0&\\cdots&0&t_2&t_1\n\\end{pmatrix}.\n$$\n由于 $\\alpha_1,\\ldots,\\alpha_s$ 是基础解系，向量组 $\\beta_1,\\ldots,\\beta_s$ 仍为基础解系，当且仅当 $C$ 可逆。\n\n在 $\\det C$ 的展开中，只有主对角线乘积和循环位置乘积可能非零，因此\n$$\n\\det C=t_1^s+(-1)^{s-1}t_2^s\n=t_1^s-(-t_2)^s.\n$$\n所以所求条件为\n$$\nt_1^s-(-t_2)^s\\ne0.\n$$",
-      "idea": "① $\\beta_i=t_1\\alpha_i+t_2\\alpha_{i+1}$（下标模 $s$）是解的线性组合，必为解；\n② 基础解系的规模为 $s$，故 $\\beta_1,\\dots,\\beta_s$ 也是基础解系 $\\iff$ 它们线性无关 $\\iff$ 过渡矩阵 $C$ 可逆；\n③ $C=t_1E+t_2P$ 为循环矩阵，特征值为 $t_1+t_2\\omega^k$（$\\omega$ 为 $s$ 次单位根），故 $\\det C=t_1^{\\,s}-(-t_2)^{\\,s}$，条件即 $t_1^{\\,s}-(-t_2)^{\\,s}\\ne0$。",
+      "idea": "**思想：基础解系换一组仍是基础解系 $\\iff$ 过渡矩阵可逆（$|T|\\ne0$）**。\n① $\\beta_i=t_1\\alpha_i+t_2\\alpha_{i+1}$（下标模 $s$）是解的线性组合，必为解；\n② 基础解系的规模为 $s$，故 $\\beta_1,\\dots,\\beta_s$ 也是基础解系 $\\iff$ 它们线性无关 $\\iff$ 过渡矩阵 $C$ 可逆；\n③ $C=t_1E+t_2P$ 为循环矩阵，特征值为 $t_1+t_2\\omega^k$（$\\omega$ 为 $s$ 次单位根），故 $\\det C=t_1^{\\,s}-(-t_2)^{\\,s}$，条件即 $t_1^{\\,s}-(-t_2)^{\\,s}\\ne0$。",
       "source": "(2001, 数一、二、三)",
       "categoryIds": [
        135
@@ -33230,7 +33230,7 @@
       "type": "calc",
       "stem": "$\\lambda$ 取何值时，方程组\n\n$$\n\\begin{cases}\n2x_1+\\lambda x_2-x_3=1,\\\\\n\\lambda x_1-x_2+x_3=2,\\\\\n4x_1+5x_2-5x_3=-1\n\\end{cases}\n$$\n\n无解、有唯一解或有无穷多解？并在有无穷多解时写出方程组的通解。",
       "answer": "当 $\\lambda=-\\dfrac45$ 时，无解。\n\n当 $\\lambda\\ne1,-\\dfrac45$ 时，有唯一解。\n\n当 $\\lambda=1$ 时，有无穷多解，通解为\n\n$$\n\\boldsymbol x=(1,t-1,t)^{\\mathrm T},\n\\qquad t\\in\\mathbb R.\n$$\n\n（1）列出增广矩阵，作初等行变换。\n\n方程组的增广矩阵为\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n2&\\lambda&-1&1\\\\\n\\lambda&-1&1&2\\\\\n4&5&-5&-1\n\\end{array}\n\\right].\n$$\n\n先将第二行乘以 $2$，再减去第一行的 $\\lambda$ 倍；第三行减去第一行的 $2$ 倍，得\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n2&\\lambda&-1&1\\\\\n0&-\\lambda^2-2&\\lambda+2&4-\\lambda\\\\\n0&5-2\\lambda&-3&-3\n\\end{array}\n\\right].\n$$\n\n对实参数 $\\lambda$，恒有 $\\lambda^2+2>0$。依次作\n\n$$\n\\begin{aligned}\nr_3&\\leftarrow(\\lambda^2+2)r_3,\\\\\nr_3&\\leftarrow r_3+(5-2\\lambda)r_2,\\\\\nr_3&\\leftarrow-r_3,\n\\end{aligned}\n$$\n\n得阶梯形增广矩阵\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n2&\\lambda&-1&1\\\\\n0&-\\lambda^2-2&\\lambda+2&4-\\lambda\\\\\n0&0&c&d\n\\end{array}\n\\right],\n$$\n\n其中\n\n$$\n\\begin{aligned}\nc&=(\\lambda-1)(5\\lambda+4),\\\\\nd&=(\\lambda-1)(\\lambda+14).\n\\end{aligned}\n$$\n\n（2）根据最后一行讨论解的情况。\n\n当 $\\lambda\\ne1,-\\dfrac45$ 时，$c\\ne0$。系数矩阵有三个非零主元，故方程组有唯一解。\n\n当 $\\lambda=-\\dfrac45$ 时，\n\n$$\nc=0,\\qquad d=-\\frac{594}{25}\\ne0.\n$$\n\n最后一行表示矛盾方程 $0=-594/25$，故方程组无解。\n\n当 $\\lambda=1$ 时，$c=d=0$，增广矩阵为\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n2&1&-1&1\\\\\n0&-3&3&3\\\\\n0&0&0&0\n\\end{array}\n\\right].\n$$\n\n此时系数矩阵与增广矩阵的秩均为 $2<3$，故有无穷多解。\n\n（3）求 $\\lambda=1$ 时的通解。\n\n将第二行除以 $-3$，再用第二行消去第一行的 $x_2$ 项，最后将第一行除以 $2$，得\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&0&0&1\\\\\n0&1&-1&-1\\\\\n0&0&0&0\n\\end{array}\n\\right].\n$$\n\n即 $x_1=1$、$x_2-x_3=-1$。令 $x_3=t$，则通解为\n\n$$\n\\boxed{\\boldsymbol x=(1,t-1,t)^{\\mathrm T}},\n\\qquad t\\in\\mathbb R.\n$$",
-      "idea": "① 增广矩阵行变换，用第三行消去前两行的对应元，化出含 $\\lambda-1$ 与 $5\\lambda+4$ 因子的行；\n② 无解：$5\\lambda+4=0$ 而常数项不为零；唯一解：$\\lambda\\ne1$ 且 $\\lambda\\ne-\\frac45$；\n③ $\\lambda=1$ 时两行成比例、$r(A)=2$：取 $x_3=t$ 回代，通解 $(1,t-1,t)^{\\mathrm T}$。",
+      "idea": "**思想：增广矩阵行变换，用 $|A|=0$ 分档，再比 $r(A)$ 与 $r(A\\mid b)$**。\n① 增广矩阵行变换，用第三行消去前两行的对应元，化出含 $\\lambda-1$ 与 $5\\lambda+4$ 因子的行；\n② 无解：$5\\lambda+4=0$ 而常数项不为零；唯一解：$\\lambda\\ne1$ 且 $\\lambda\\ne-\\frac45$；\n③ $\\lambda=1$ 时两行成比例、$r(A)=2$：取 $x_3=t$ 回代，通解 $(1,t-1,t)^{\\mathrm T}$。",
       "source": "1997 数二；25版 880 方程组基础解答 2",
       "categoryIds": [
        135
@@ -33255,7 +33255,7 @@
       "type": "calc",
       "stem": "设 $n$ 元线性方程组 $A \\mathbf{x} = \\mathbf{b}$，其中 $A = \\begin{pmatrix} 2a & 1 & & & \\\\ a^2 & 2a & 1 & & \\\\ & a^2 & 2a & 1 & \\\\ & & \\ddots & \\ddots & \\ddots \\\\ & & & a^2 & 2a & 1 \\\\ & & & & a^2 & 2a \\end{pmatrix}_{n\\times n}$， $\\mathbf{x}=\\begin{pmatrix} x_1\\\\ x_2\\\\ \\vdots\\\\ x_n \\end{pmatrix}$， $\\mathbf{b}=\\begin{pmatrix} 1\\\\ 0\\\\ \\vdots\\\\ 0 \\end{pmatrix}$。(I) 证明行列式 $|A|=(n+1)a^n$；(II) 当 $a$ 为何值时，该方程组有唯一解，并求 $x_1$；(III) 当 $a$ 为何值时，该方程组有无穷多解，并求通解。",
       "answer": "(I) $|A|=(n+1)a^n$。 (II) $a\\ne0$ 时有唯一解，且 $x_1=\\dfrac{n}{(n+1)a}$。 (III) $a=0$ 时有无穷多解，通解为 $(t,1,0,\\ldots,0)^T$。\n\n（1）设 $D_n=|A|$，三对角递推给出 $D_n=2aD_{n-1}-a^2D_{n-2}$，结合 $D_1=2a,D_2=3a^2$，归纳得 $D_n=(n+1)a^n$。\n（2）$a\\ne0$ 时 $|A|\\ne0$，由 Cramer 法则并利用 $|A_1|=D_{n-1}$ 得 $x_1=\\frac{n}{(n+1)a}$。\n（3）$a=0$ 时方程为 $x_2=1,x_3=\\cdots=x_n=0$，$x_1$ 自由，通解为 $(t,1,0,\\ldots,0)^T$。",
-      "idea": "① 设 $D_n=|A|$，三对角行列式按首行展开得 **$D_n=2aD_{n-1}-a^2D_{n-2}$**，用 $D_1,D_2$ 归纳得 $D_n=(n+1)a^n$；\n② $a\\ne0$ 时 $|A|\\ne0$，由 Cramer 法则并**利用 $|A_1|=D_{n-1}$** 求得 $x_1=\\frac{n}{(n+1)a}$；\n③ $a=0$ 时矩阵退化，方程只剩 $x_2=1$，其余为 $0$，$x_1$ 自由，写出通解。",
+      "idea": "**思想：三对角行列式先递推 $D_n$，再由 $|A|=0$ 分档讨论**。\n① 设 $D_n=|A|$，三对角行列式按首行展开得 **$D_n=2aD_{n-1}-a^2D_{n-2}$**，用 $D_1,D_2$ 归纳得 $D_n=(n+1)a^n$；\n② $a\\ne0$ 时 $|A|\\ne0$，由 Cramer 法则并**利用 $|A_1|=D_{n-1}$** 求得 $x_1=\\frac{n}{(n+1)a}$；\n③ $a=0$ 时矩阵退化，方程只剩 $x_2=1$，其余为 $0$，$x_1$ 自由，写出通解。",
       "source": "(2008数一二三)",
       "categoryIds": [
        135
@@ -33294,7 +33294,7 @@
       "type": "calc",
       "stem": "设\n$$\nA=\\begin{pmatrix}1&-1&-1\\\\-1&1&1\\\\0&-4&-2\\end{pmatrix},\n\\; \\xi_1=\\begin{pmatrix}-1\\\\1\\\\-2\\end{pmatrix}.\n$$\n（Ⅰ）求满足 $A\\xi_2=\\xi_1$、$A^2\\xi_3=\\xi_1$ 的所有向量 $\\xi_2,\\xi_3$；\n\n（Ⅱ）对（Ⅰ）中的任意向量 $\\xi_2,\\xi_3$，证明 $\\xi_1,\\xi_2,\\xi_3$ 线性无关。",
       "answer": "（Ⅰ）\n$$\n\\xi_2=\\begin{pmatrix}(s-1)/2\\\\(1-s)/2\\\\s\\end{pmatrix},\n\\;\n\\xi_3=\\begin{pmatrix}-1/2-t\\\\t\\\\u\\end{pmatrix},\n$$\n其中 $s,t,u$ 为任意实数。\n\n（Ⅱ）$\\xi_1,\\xi_2,\\xi_3$ 线性无关。\n\n（Ⅰ）分别求解两个非齐次线性方程组。\n\n先解 $A\\xi_2=\\xi_1$。对增广矩阵作初等行变换，\n$$\n\\left(\\begin{array}{ccc|c}\n1&-1&-1&-1\\\\\n-1&1&1&1\\\\\n0&-4&-2&-2\n\\end{array}\\right).\n$$\n化为\n$$\n\\left(\\begin{array}{ccc|c}\n1&0&-1/2&-1/2\\\\\n0&1&1/2&1/2\\\\\n0&0&0&0\n\\end{array}\\right).\n$$\n令第三个分量为 $s$，得\n$$\n\\xi_2=\\begin{pmatrix}(s-1)/2\\\\(1-s)/2\\\\s\\end{pmatrix}.\n$$\n\n再计算\n$$\nA^2=\\begin{pmatrix}2&2&0\\\\-2&-2&0\\\\4&4&0\\end{pmatrix}.\n$$\n方程 $A^2\\xi_3=\\xi_1$ 等价于\n$$\nx_1+x_2=-\\frac12.\n$$\n因此\n$$\n\\xi_3=\\begin{pmatrix}-1/2-t\\\\t\\\\u\\end{pmatrix},\n$$\n其中 $s,t,u$ 均为任意实数。\n\n（Ⅱ）利用已知的矩阵关系证明线性无关。\n\n直接计算得 $A\\xi_1=0$，所以\n$$\nA^2\\xi_1=0,\\; A^2\\xi_2=A\\xi_1=0.\n$$\n设\n$$\nk_1\\xi_1+k_2\\xi_2+k_3\\xi_3=0.\n$$\n两边左乘 $A^2$，由 $A^2\\xi_3=\\xi_1$，得 $k_3\\xi_1=0$。由于 $\\xi_1\\ne0$，故 $k_3=0$。\n\n原式化为 $k_1\\xi_1+k_2\\xi_2=0$，再左乘 $A$，得 $k_2\\xi_1=0$，故 $k_2=0$，继而 $k_1=0$。\n\n因此只有零系数线性组合能得到零向量，$\\xi_1,\\xi_2,\\xi_3$ 线性无关。",
-      "idea": "解两个非齐次方程组（通解 = 特解 + 齐次通解），再验无关。\n① $A\\xi_2=\\xi_1$：增广矩阵行变换，$r(A)=2$ ⇒ $\\xi_2=k_1(1,-1,2)^T+(0,0,1)^T$。\n② $A^2\\xi_3=\\xi_1$：同理 $\\xi_3=k_2(1,-1,0)^T+k_3(0,0,1)^T+(-\\tfrac12,0,0)^T$。\n③ (II) 算 $|\\xi_1,\\xi_2,\\xi_3|=\\tfrac12\\ne0$ ⇒ 线性无关。",
+      "idea": "**思想：非齐次通解 $=$ 特解 $+$ 齐次通解，最后验两解线性无关**。\n解两个非齐次方程组（通解 = 特解 + 齐次通解），再验无关。\n① $A\\xi_2=\\xi_1$：增广矩阵行变换，$r(A)=2$ ⇒ $\\xi_2=k_1(1,-1,2)^T+(0,0,1)^T$。\n② $A^2\\xi_3=\\xi_1$：同理 $\\xi_3=k_2(1,-1,0)^T+k_3(0,0,1)^T+(-\\tfrac12,0,0)^T$。\n③ (II) 算 $|\\xi_1,\\xi_2,\\xi_3|=\\tfrac12\\ne0$ ⇒ 线性无关。",
       "source": "(2009 数一二三)",
       "categoryIds": [
        135
@@ -33376,7 +33376,7 @@
       "type": "calc",
       "stem": "设\n$$\nA=\\begin{pmatrix}\n\\lambda&1&1\\\\\n0&\\lambda-1&0\\\\\n1&1&\\lambda\n\\end{pmatrix},\n$$\n\n$$\n\\boldsymbol b=\\begin{pmatrix}a\\\\1\\\\1\\end{pmatrix}.\n$$\n已知线性方程组 $A\\boldsymbol x=\\boldsymbol b$ 有两个不同的解。\n\n（I）求 $a,\\lambda$ 的值。\n\n（II）求方程组 $A\\boldsymbol x=\\boldsymbol b$ 的通解。",
       "answer": "（I）$a=-2,\\ \\lambda=-1$。\n\n（II）通解为\n$$\n\\boldsymbol x=\n\\begin{pmatrix}\\frac32\\\\-\\frac12\\\\0\\end{pmatrix}\n+t\\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix},\n$$\n其中 $t$ 为任意实数。\n\n（I）由解的个数确定参数。\n\n设方程组有两个不同的解 $\\boldsymbol x^{(1)}$、$\\boldsymbol x^{(2)}$，则\n$$\nA\\bigl(\\boldsymbol x^{(1)}-\\boldsymbol x^{(2)}\\bigr)=\\boldsymbol0.\n$$\n由于两解之差不为零，齐次方程组有非零解，故 $|A|=0$。\n\n沿第二行展开行列式，得\n$$\n\\begin{aligned}\n|A|\n&=(\\lambda-1)\n\\begin{vmatrix}\\lambda&1\\\\1&\\lambda\\end{vmatrix}\\\\\n&=(\\lambda-1)(\\lambda^2-1)\\\\\n&=(\\lambda-1)^2(\\lambda+1).\n\\end{aligned}\n$$\n因此 $\\lambda=1$ 或 $\\lambda=-1$。\n\n当 $\\lambda=1$ 时，原方程组的第二个方程为 $0=1$，方程组无解，与题意矛盾，舍去。\n\n当 $\\lambda=-1$ 时，原方程组为\n$$\n\\begin{cases}\n-x_1+x_2+x_3=a,\\\\\n-2x_2=1,\\\\\nx_1+x_2-x_3=1.\n\\end{cases}\n$$\n由第二式得 $x_2=-\\dfrac12$；将第一式与第三式相加，得\n$$\n2x_2=a+1.\n$$\n代入 $x_2=-\\dfrac12$，可得 $a=-2$。所以\n$$\n\\boxed{a=-2,\\qquad\\lambda=-1}.\n$$\n\n（II）化简增广矩阵，求通解。\n\n将上述参数代入，增广矩阵为\n$$\n(A\\mid\\boldsymbol b)=\n\\left(\\begin{array}{ccc|c}\n-1&1&1&-2\\\\\n0&-2&0&1\\\\\n1&1&-1&1\n\\end{array}\\right).\n$$\n先交换第一、三行，再作 $R_3\\leftarrow R_3+R_1$，得\n$$\n\\left(\\begin{array}{ccc|c}\n1&1&-1&1\\\\\n0&-2&0&1\\\\\n0&2&0&-1\n\\end{array}\\right).\n$$\n作 $R_3\\leftarrow R_3+R_2$，再将第二行除以 $-2$，最后作 $R_1\\leftarrow R_1-R_2$，得\n$$\n\\left(\\begin{array}{ccc|c}\n1&0&-1&\\frac32\\\\\n0&1&0&-\\frac12\\\\\n0&0&0&0\n\\end{array}\\right).\n$$\n故方程组等价于\n$$\n\\begin{cases}\nx_1-x_3=\\dfrac32,\\\\\nx_2=-\\dfrac12.\n\\end{cases}\n$$\n令自由变量 $x_3=t$，则\n$$\n\\boxed{\n\\boldsymbol x=\n\\begin{pmatrix}\\frac32\\\\-\\frac12\\\\0\\end{pmatrix}\n+t\\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix}\n},\n$$\n其中 $t$ 为任意实数。\n\n此时系数矩阵与增广矩阵的秩均为 $2<3$，方程组有无穷多个解，满足“有两个不同的解”的条件。",
-      "idea": "两个不同解 ⇒ $r(A)=r(\\bar A)<3$ ⇒ $|A|=0$。\n① $|A|=(\\lambda-1)^2(\\lambda+1)=0$ ⇒ $\\lambda=1$ 或 $-1$。\n② $\\lambda=1$ 时 $r(A)\\ne r(\\bar A)$ 无解舍去；$\\lambda=-1$ 时由秩等得 $a=-2$。\n③ 增广矩阵行变换：$x=k(1,0,1)^T+(\\tfrac32,-\\tfrac12,0)^T$。",
+      "idea": "**思想：两个不同解 $\\Rightarrow$ $r(A)=r(A\\mid b)<3$ $\\Rightarrow$ $|A|=0$ 定参数**。\n两个不同解 ⇒ $r(A)=r(\\bar A)<3$ ⇒ $|A|=0$。\n① $|A|=(\\lambda-1)^2(\\lambda+1)=0$ ⇒ $\\lambda=1$ 或 $-1$。\n② $\\lambda=1$ 时 $r(A)\\ne r(\\bar A)$ 无解舍去；$\\lambda=-1$ 时由秩等得 $a=-2$。\n③ 增广矩阵行变换：$x=k(1,0,1)^T+(\\tfrac32,-\\tfrac12,0)^T$。",
       "source": "(2010,数一、二、三)",
       "categoryIds": [
        135
@@ -33448,7 +33448,7 @@
       "type": "calc",
       "stem": "设\n\n$$\nA=\\begin{pmatrix}\n1&a&0&0\\\\\n0&1&a&0\\\\\n0&0&1&a\\\\\na&0&0&1\n\\end{pmatrix},\n$$\n\n$$\n\\boldsymbol\\beta=\\begin{pmatrix}1\\\\-1\\\\0\\\\0\\end{pmatrix}.\n$$\n\n（1）计算行列式 $|A|$；\n\n（2）当实数 $a$ 为何值时，方程组 $A\\boldsymbol x=\\boldsymbol\\beta$ 有无穷多解？并求其通解。",
       "answer": "（I）$|A|=1-a^4$。\n\n（II）当 $a=-1$ 时，方程组有无穷多解，通解为\n$$\n\\boldsymbol{x}=(t,t-1,t,t)^{\\mathrm T},\\qquad t\\in\\mathbb R.\n$$\n\n（1）对增广矩阵消元，同时求出 $|A|$。\n\n方程组的增广矩阵为\n\n$$\n[A\\mid\\boldsymbol\\beta]=\n\\left[\n\\begin{array}{rrrr|r}\n1&a&0&0&1\\\\\n0&1&a&0&-1\\\\\n0&0&1&a&0\\\\\na&0&0&1&0\n\\end{array}\n\\right].\n$$\n\n先作 $r_4\\leftarrow r_4-ar_1$，得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&a&0&0&1\\\\\n0&1&a&0&-1\\\\\n0&0&1&a&0\\\\\n0&-a^2&0&1&-a\n\\end{array}\n\\right].\n$$\n\n再依次作\n\n$$\nr_4\\leftarrow r_4+a^2r_2,\n\\qquad\nr_4\\leftarrow r_4-a^3r_3,\n$$\n\n得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&a&0&0&1\\\\\n0&1&a&0&-1\\\\\n0&0&1&a&0\\\\\n0&0&0&1-a^4&-a-a^2\n\\end{array}\n\\right].\n$$\n\n以上均是将一行的倍数加到另一行，不改变系数行列式。左侧系数矩阵已为上三角形，故\n\n$$\n\\boxed{|A|=1-a^4}.\n$$\n\n（2）讨论增广矩阵的最后一行。\n\n前三个主元恒为 $1$。要有无穷多解，最后一行的系数和右端必须同时为零，即\n\n$$\n\\begin{cases}\n1-a^4=0,\\\\\n-a-a^2=0.\n\\end{cases}\n$$\n\n由于 $a$ 为实数，第一式给出 $a=\\pm1$。\n\n当 $a=1$ 时，最后一行是\n\n$$\n[\\,0\\quad0\\quad0\\quad0\\mid-2\\,],\n$$\n\n出现矛盾方程，故无解。\n\n当 $a=-1$ 时，最后一行全为零。系数矩阵与增广矩阵的秩均为 $3<4$，因此有无穷多解。\n\n（3）求 $a=-1$ 时的通解。\n\n代入 $a=-1$，得到\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&-1&0&0&1\\\\\n0&1&-1&0&-1\\\\\n0&0&1&-1&0\\\\\n0&0&0&0&0\n\\end{array}\n\\right].\n$$\n\n先作 $r_2\\leftarrow r_2+r_3$，再作 $r_1\\leftarrow r_1+r_2$，得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&0&0&-1&0\\\\\n0&1&0&-1&-1\\\\\n0&0&1&-1&0\\\\\n0&0&0&0&0\n\\end{array}\n\\right].\n$$\n\n令 $x_4=t$，则\n\n$$\nx_1=t,\\qquad x_2=t-1,\\qquad x_3=t.\n$$\n\n故仅当 $a=-1$ 时有无穷多解，通解为\n\n$$\n\\boxed{\\boldsymbol x=(t,t-1,t,t)^{\\mathrm T}},\n\\qquad t\\in\\mathbb R.\n$$",
-      "idea": "① 按第一行展开算行列式：$|A|=1\\cdot1-a\\cdot a^3=1-a^4$；\n② **无穷多解 ⟹ $r(A)=r(A\\,|\\,\\beta)<4$**：令 $|A|=0$ 得 $a=\\pm1$；$a=1$ 时增广矩阵末行出现矛盾（无解），舍去；\n③ **$a=-1$ 时 $r(A)=r(A\\,|\\,\\beta)=3$**，解空间 $1$ 维：取 $x_1=t$ 回代，通解 $(t,t-1,t,t)^{\\mathrm T}=(0,-1,0,0)^{\\mathrm T}+t(1,1,1,1)^{\\mathrm T}$。",
+      "idea": "**思想：按第一行展开算 $|A|$，用 $|A|=0$ 分档**。\n① 按第一行展开算行列式：$|A|=1\\cdot1-a\\cdot a^3=1-a^4$；\n② **无穷多解 ⟹ $r(A)=r(A\\,|\\,\\beta)<4$**：令 $|A|=0$ 得 $a=\\pm1$；$a=1$ 时增广矩阵末行出现矛盾（无解），舍去；\n③ **$a=-1$ 时 $r(A)=r(A\\,|\\,\\beta)=3$**，解空间 $1$ 维：取 $x_1=t$ 回代，通解 $(t,t-1,t,t)^{\\mathrm T}=(0,-1,0,0)^{\\mathrm T}+t(1,1,1,1)^{\\mathrm T}$。",
       "source": "(2012 数一二三)",
       "categoryIds": [
        135
@@ -33473,7 +33473,7 @@
       "type": "choice",
       "stem": "设 $A$ 为 $4\\times3$ 矩阵，$\\eta_1,\\eta_2,\\eta_3$ 为非齐次线性方程组 $Ax=\\beta$ 的 $3$ 个线性无关的解，$k_1,k_2$ 为任意常数，则 $Ax=\\beta$ 的通解为（ ）。",
       "answer": "（C）\n\n因为\n$$\nA\\frac{\\eta_2+\\eta_3}{2}=\\beta,\n$$\n所以 $(\\eta_2+\\eta_3)/2$ 是一个特解；而\n$$\nA(\\eta_2-\\eta_1)=A(\\eta_3-\\eta_1)=0.\n$$\n由 $\\eta_1，\\eta_2，\\eta_3$ 线性无关，知 $\\eta_2-\\eta_1$ 与 $\\eta_3-\\eta_1$ 线性无关。又因方程组非齐次，$r(A)\\ge1$，故对应齐次方程组的基础解系恰含两个向量。因此通解为\n$$\n\\frac{\\eta_2+\\eta_3}{2}\n+k_1(\\eta_2-\\eta_1)\n+k_2(\\eta_3-\\eta_1).\n$$\n故选 C。",
-      "idea": "① 三个解线性无关 ⟹ 两个差向量线性无关，$Ax=0$ 的基础解系含 $2$ 个向量，$r(A)=1$；\n② 取 $\\frac{\\eta_2+\\eta_3}{2}$ 作特解，$\\eta_2-\\eta_1$、$\\eta_3-\\eta_1$ 作基础解系；\n③ 通解 $=\\frac{\\eta_2+\\eta_3}{2}+k_1(\\eta_2-\\eta_1)+k_2(\\eta_3-\\eta_1)$。",
+      "idea": "**思想：非齐次解之差是齐次解；$3$ 个无关解 $\\Rightarrow$ 基础解系含 $3-1=2$ 个**。\n① 三个解线性无关 ⟹ 两个差向量线性无关，$Ax=0$ 的基础解系含 $2$ 个向量，$r(A)=1$；\n② 取 $\\frac{\\eta_2+\\eta_3}{2}$ 作特解，$\\eta_2-\\eta_1$、$\\eta_3-\\eta_1$ 作基础解系；\n③ 通解 $=\\frac{\\eta_2+\\eta_3}{2}+k_1(\\eta_2-\\eta_1)+k_2(\\eta_3-\\eta_1)$。",
       "source": "(2011, 数三)",
       "categoryIds": [
        135
@@ -33531,7 +33531,7 @@
       "type": "calc",
       "stem": "已知四阶方阵\n$$\nA=(\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\n\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4),\n$$\n其中 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4$ 均为四维列向量，且 $\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4$ 线性无关，\n$$\n\\boldsymbol{\\alpha}_1\n=2\\boldsymbol{\\alpha}_2-\\boldsymbol{\\alpha}_3.\n$$\n若\n$$\n\\boldsymbol{\\beta}\n=\\boldsymbol{\\alpha}_1+\\boldsymbol{\\alpha}_2\n+\\boldsymbol{\\alpha}_3+\\boldsymbol{\\alpha}_4,\n$$\n求线性方程组\n$$\nA\\boldsymbol{x}=\\boldsymbol{\\beta}\n$$\n的通解。",
       "answer": "$$\n\\boldsymbol x=\n\\begin{pmatrix}1\\\\1\\\\1\\\\1\\end{pmatrix}\n+t\\begin{pmatrix}1\\\\-2\\\\1\\\\0\\end{pmatrix},\n\\qquad t\\in\\mathbb R.\n$$\n\n由题设\n$$\n\\boldsymbol\\beta\n=\\boldsymbol\\alpha_1+\\boldsymbol\\alpha_2\n+\\boldsymbol\\alpha_3+\\boldsymbol\\alpha_4,\n$$\n直接可得\n$$\nA\\begin{pmatrix}1\\\\1\\\\1\\\\1\\end{pmatrix}\n=\\boldsymbol\\beta.\n$$\n因此可以取特解\n$$\n\\boldsymbol\\eta=\\begin{pmatrix}1\\\\1\\\\1\\\\1\\end{pmatrix}.\n$$\n\n再求对应齐次方程 $A\\boldsymbol x=\\boldsymbol0$ 的通解。由\n$$\n\\boldsymbol\\alpha_1-2\\boldsymbol\\alpha_2\n+\\boldsymbol\\alpha_3=\\boldsymbol0\n$$\n知\n$$\n\\boldsymbol\\xi=\\begin{pmatrix}1\\\\-2\\\\1\\\\0\\end{pmatrix}\n$$\n是一个非零解。\n\n由于 $\\boldsymbol\\alpha_2,\\boldsymbol\\alpha_3,\\boldsymbol\\alpha_4$ 线性无关，而 $\\boldsymbol\\alpha_1$ 可由它们线性表示，故 $r(A)=3$。齐次方程的基础解系含 $4-3=1$ 个向量，所以 $\\boldsymbol\\xi$ 就构成一个基础解系。\n\n因此原方程组的通解为\n$$\n\\boldsymbol x=\n\\begin{pmatrix}1\\\\1\\\\1\\\\1\\end{pmatrix}\n+t\\begin{pmatrix}1\\\\-2\\\\1\\\\0\\end{pmatrix},\n\\qquad t\\in\\mathbb R.\n$$\n也可以取 $(0,3,0,1)^{\\mathrm T}$ 为特解，因为\n$$\n\\begin{pmatrix}1\\\\1\\\\1\\\\1\\end{pmatrix}\n-\\begin{pmatrix}0\\\\3\\\\0\\\\1\\end{pmatrix}\n=\\begin{pmatrix}1\\\\-2\\\\1\\\\0\\end{pmatrix}.\n$$\n两种通解只相差参数平移，表示的是同一解集。",
-      "idea": "① $\\beta=\\alpha_1+\\alpha_2+\\alpha_3+\\alpha_4$ ⟹ 特解 $(1,1,1,1)^{\\mathrm T}$；\n② $\\alpha_1=2\\alpha_2-\\alpha_3$ ⟹ $r(A)=3$、解空间一维，**齐次解 $(1,-2,1,0)^{\\mathrm T}$**；\n③ 通解 $=(1,1,1,1)^{\\mathrm T}+t(1,-2,1,0)^{\\mathrm T}$。",
+      "idea": "**思想：由列向量的线性关系读出特解与齐次解，通解 $=$ 特解 $+k\\cdot$ 齐次解**。\n① $\\beta=\\alpha_1+\\alpha_2+\\alpha_3+\\alpha_4$ ⟹ 特解 $(1,1,1,1)^{\\mathrm T}$；\n② $\\alpha_1=2\\alpha_2-\\alpha_3$ ⟹ $r(A)=3$、解空间一维，**齐次解 $(1,-2,1,0)^{\\mathrm T}$**；\n③ 通解 $=(1,1,1,1)^{\\mathrm T}+t(1,-2,1,0)^{\\mathrm T}$。",
       "source": "(2002, 数一、二、三)",
       "categoryIds": [
        135
@@ -33578,7 +33578,7 @@
       "type": "choice",
       "stem": "设 $A=(a_1,a_2,a_3,a_4)$ 为 $4$ 阶正交矩阵，$B=\\begin{pmatrix}a_1^T\\\\a_2^T\\\\a_3^T\\end{pmatrix}$，$\\beta=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$，$k$ 表示任意常数，则线性方程组 $BX=\\beta$ 的通解 $X=$（ ）。",
       "answer": "（D）\n\n因 $A$ 为正交矩阵，$X=c_1a_1+c_2a_2+c_3a_3+c_4a_4$。方程 $BX=\\beta$ 等价于 $a_1^TX=a_2^TX=a_3^TX=1$，故 $c_1=c_2=c_3=1$，$c_4$ 任意。",
-      "idea": "① $A$ 正交 ⇒ 其列向量两两正交且都是单位向量，任取 $X$ 按该组向量展开，坐标即 $\\boldsymbol a_i^{\\mathrm T}X$；\n② $B$ 由前三列转置构成，故 $BX=\\boldsymbol\\beta$ 等价于前三个坐标为 1；\n③ 第四个坐标自由，写出通解。",
+      "idea": "**思想：正交矩阵的列是单位正交组 $\\Rightarrow$ 坐标就是内积，$x=A^{\\mathrm T}b$ 直接读出**。\n① $A$ 正交 ⇒ 其列向量两两正交且都是单位向量，任取 $X$ 按该组向量展开，坐标即 $\\boldsymbol a_i^{\\mathrm T}X$；\n② $B$ 由前三列转置构成，故 $BX=\\boldsymbol\\beta$ 等价于前三个坐标为 1；\n③ 第四个坐标自由，写出通解。",
       "source": "(2021 数三)",
       "categoryIds": [
        135
@@ -33621,7 +33621,7 @@
       "type": "calc",
       "stem": "设线性方程组（Ⅰ）\n\n$$\n\\begin{cases}\nx_1+x_2+x_3=0,\\\\\nx_1+2x_2+ax_3=0,\\\\\nx_1+4x_2+a^2x_3=0\n\\end{cases}\n$$\n\n与方程（Ⅱ）\n\n$$\nx_1+2x_2+x_3=a-1\n$$\n\n有公共解，求 $a$ 的值及所有公共解。",
       "answer": "当 $a=1$ 时，全部公共解为\n$$\nk(-1,0,1)^{\\mathrm T},\\; k\\in\\mathbb R.\n$$\n当 $a=2$ 时，唯一公共解为\n$$\n(0,1,-1)^{\\mathrm T}.\n$$\n当 $a\\ne1,2$ 时，无公共解。\n\n（1）把两个方程组的条件合并，列出增广矩阵。\n\n公共解必须同时满足四个方程，因此只需解合并后的方程组。其增广矩阵为\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&1&1&0\\\\\n1&2&a&0\\\\\n1&4&a^2&0\\\\\n1&2&1&a-1\n\\end{array}\n\\right].\n$$\n\n第二、三、四行分别减去第一行，得\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&1&1&0\\\\\n0&1&a-1&0\\\\\n0&3&a^2-1&0\\\\\n0&1&0&a-1\n\\end{array}\n\\right].\n$$\n\n再作 $r_3\\leftarrow r_3-3r_2$、$r_4\\leftarrow r_4-r_2$。记\n\n$$\nc=a-1,\\qquad d=(a-1)(a-2),\n$$\n\n则增广矩阵化为\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&1&1&0\\\\\n0&1&c&0\\\\\n0&0&d&0\\\\\n0&0&-c&c\n\\end{array}\n\\right].\n$$\n\n因为 $d=c(a-2)$，作 $r_3\\leftarrow r_3+(a-2)r_4$ 后，再交换第三、四行，得\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&1&1&0\\\\\n0&1&c&0\\\\\n0&0&-c&c\\\\\n0&0&0&d\n\\end{array}\n\\right].\n$$\n\n（2）由有解条件确定 $a$。\n\n最后一行表示 $0=d$，因此有公共解必须满足\n\n$$\n(a-1)(a-2)=0,\n$$\n\n即 $a=1$ 或 $a=2$。下面分别求解，并检验这两种情况确实有解。\n\n（3）分别求全部公共解。\n\n当 $a=1$ 时，$c=d=0$。再用第二行消去第一行的 $x_2$ 项，增广矩阵化为\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&0&1&0\\\\\n0&1&0&0\\\\\n0&0&0&0\\\\\n0&0&0&0\n\\end{array}\n\\right].\n$$\n\n令 $x_3=k$，则 $x_2=0$、$x_1=-k$，故全部公共解为\n\n$$\n\\boxed{\\boldsymbol x=k(-1,0,1)^{\\mathrm T}},\n\\qquad k\\in\\mathbb R.\n$$\n\n当 $a=2$ 时，$c=1$、$d=0$，由第三行得 $x_3=-1$。继续向上消元，得\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&0&0&0\\\\\n0&1&0&1\\\\\n0&0&1&-1\\\\\n0&0&0&0\n\\end{array}\n\\right].\n$$\n\n故唯一公共解为\n\n$$\n\\boxed{\\boldsymbol x=(0,1,-1)^{\\mathrm T}}.\n$$\n\n当 $a\\ne1,2$ 时，最后一行出现矛盾方程 $0=d\\ne0$，因此没有公共解。",
-      "idea": "由方程组 (I) 的第二、三行分别减第一行，得\n$$\nx_2+(a-1)x_3=0,\\qquad 3x_2+(a^2-1)x_3=0.\n$$\n消去 $x_2$ 得 $(a-1)(a-2)x_3=0$。若 $a\\ne1,2$，则 (I) 只有零解，而零解不满足 (II) 的右端 $a-1\\ne0$。当 $a=1$ 时，(I) 的解为 $k(-1,0,1)^T$，且均满足 (II)。当 $a=2$ 时，(I) 的解为 $k(0,-1,1)^T$，代入 (II) 得 $-k=1$，故公共解为 $(0,1,-1)^T$。",
+      "idea": "**思想：公共解 $=$ 把两个方程组联立起来求通解**。\n由方程组 (I) 的第二、三行分别减第一行，得\n$$\nx_2+(a-1)x_3=0,\\qquad 3x_2+(a^2-1)x_3=0.\n$$\n消去 $x_2$ 得 $(a-1)(a-2)x_3=0$。若 $a\\ne1,2$，则 (I) 只有零解，而零解不满足 (II) 的右端 $a-1\\ne0$。当 $a=1$ 时，(I) 的解为 $k(-1,0,1)^T$，且均满足 (II)。当 $a=2$ 时，(I) 的解为 $k(0,-1,1)^T$，代入 (II) 得 $-k=1$，故公共解为 $(0,1,-1)^T$。",
       "source": "(2007, 数一、二、三)",
       "categoryIds": [
        157
@@ -33647,7 +33647,7 @@
       "type": "choice",
       "stem": "设 $A$ 是 $n$ 阶矩阵，对方程组 (I) $Ax=0$ 和 (II) $A^{T}Ax=0$，必有（ ）。",
       "answer": "（A）\n\n若 $Ax=0$，则 $A^TAx=0$；若 $A^TAx=0$，左乘 $x^T$ 得 $x^TA^TAx=\\|Ax\\|^2=0$，故 $Ax=0$。两个方程组同解，选 A。",
-      "idea": "① 证两方程组同解需双向包含；\n② $A\\boldsymbol x=0$ ⇒ 左乘 $A^{\\mathrm T}$ 得 $A^{\\mathrm T}A\\boldsymbol x=0$；\n③ $A^{\\mathrm T}A\\boldsymbol x=0$ ⇒ 左乘 $\\boldsymbol x^{\\mathrm T}$ 得 $\\|A\\boldsymbol x\\|^2=0$ ⇒ $A\\boldsymbol x=0$；故同解。",
+      "idea": "**思想：证同解要双向包含；$A^{\\mathrm T}Ax=0$ 与 $Ax=0$ 同解（两边左乘 $x^{\\mathrm T}$）**。\n① 证两方程组同解需双向包含；\n② $A\\boldsymbol x=0$ ⇒ 左乘 $A^{\\mathrm T}$ 得 $A^{\\mathrm T}A\\boldsymbol x=0$；\n③ $A^{\\mathrm T}A\\boldsymbol x=0$ ⇒ 左乘 $\\boldsymbol x^{\\mathrm T}$ 得 $\\|A\\boldsymbol x\\|^2=0$ ⇒ $A\\boldsymbol x=0$；故同解。",
       "source": "2000 数三;25 版 880 方程组基础选择 2",
       "categoryIds": [
        157
@@ -33695,7 +33695,7 @@
       "type": "choice",
       "stem": "设 $A,B$ 均为 $n$ 阶矩阵，如果方程组 $Ax=0$ 与 $Bx=0$ 同解，则（ ）",
       "answer": "（C）\n\n第一步：对选项 C 中两个方程组的增广矩阵作初等行变换。\n\n第一个方程组的增广矩阵为\n$$\n\\left[\\begin{array}{cc|c}\nA&B&0\\\\\nO&B&0\n\\end{array}\\right].\n$$\n将上面每一行减去下面的对应行，即依次作\n$$\nR_i\\leftarrow R_i-R_{n+i},\n\\qquad i=1,\\ldots,n,\n$$\n得到\n$$\n\\left[\\begin{array}{cc|c}\nA&O&0\\\\\nO&B&0\n\\end{array}\\right].\n$$\n这里每一步都是普通的初等行变换，因此不改变方程组的解。\n\n对第二个方程组作相同的行变换，得\n$$\n\\left[\\begin{array}{cc|c}\nB&A&0\\\\\nO&A&0\n\\end{array}\\right]\n\\sim\n\\left[\\begin{array}{cc|c}\nB&O&0\\\\\nO&A&0\n\\end{array}\\right].\n$$\n\n将未知向量 $y$ 的前 $n$ 个分量记为 $u$，后 $n$ 个分量记为 $v$，即\n$$\ny=\\begin{pmatrix}u\\\\v\\end{pmatrix}.\n$$\n于是，消元后的两个方程组分别为\n$$\n\\begin{cases}\nAu=0,\\\\\nBv=0,\n\\end{cases}\n\\qquad\n\\begin{cases}\nBu=0,\\\\\nAv=0.\n\\end{cases}\n$$\n题设 $Ax=0$ 与 $Bx=0$ 同解，说明\n$$\nAu=0\\Longleftrightarrow Bu=0,\n$$\n$$\nBv=0\\Longleftrightarrow Av=0.\n$$\n因此两组条件完全等价，所对应的 $y$ 相同，故选项 C 正确。\n\n第二步：用反例排除选项 A、B。\n\n取 $A=B=O$，显然满足题设的同解条件。选项 A 的增广矩阵可经交换对应行化为\n$$\n\\left[\\begin{array}{cc|c}\nO&O&0\\\\\nE&O&0\n\\end{array}\\right]\n\\sim\n\\left[\\begin{array}{cc|c}\nE&O&0\\\\\nO&O&0\n\\end{array}\\right].\n$$\n选项 B 的增广矩阵本身就是右边的矩阵。\n\n这两个方程组的系数矩阵的秩均为 $n$，小于未知数个数 $2n$，所以都有非零解，不能断定它们只有零解。故 A、B 均不正确。\n\n第三步：用增广矩阵说明选项 D 不一定成立。\n\n取\n$$\nA=\\begin{pmatrix}0&1\\\\0&0\\end{pmatrix},\n\\qquad\nB=\\begin{pmatrix}0&0\\\\0&1\\end{pmatrix}.\n$$\n交换 $B$ 的两行就得到 $A$，所以 $Ax=0$ 与 $Bx=0$ 同解，满足题设。直接相乘可得\n$$\nAB=A,\\qquad BA=O.\n$$\n\n此时，选项 D 左边方程组的增广矩阵为\n$$\n\\left[\\begin{array}{cccc|c}\n0&1&0&0&0\\\\\n0&0&0&1&0\\\\\n0&0&0&1&0\\\\\n0&0&0&0&0\n\\end{array}\\right].\n$$\n作 $R_3\\leftarrow R_3-R_2$，得\n$$\n\\left[\\begin{array}{cccc|c}\n0&1&0&0&0\\\\\n0&0&0&1&0\\\\\n0&0&0&0&0\\\\\n0&0&0&0&0\n\\end{array}\\right].\n$$\n因此左边方程组等价于\n$$\ny_2=0,\\qquad y_4=0.\n$$\n\n右边方程组的增广矩阵为\n$$\n\\left[\\begin{array}{cccc|c}\n0&0&0&1&0\\\\\n0&0&0&0&0\\\\\n0&0&0&0&0\\\\\n0&0&0&1&0\n\\end{array}\\right].\n$$\n作 $R_4\\leftarrow R_4-R_1$，得\n$$\n\\left[\\begin{array}{cccc|c}\n0&0&0&1&0\\\\\n0&0&0&0&0\\\\\n0&0&0&0&0\\\\\n0&0&0&0&0\n\\end{array}\\right].\n$$\n因此右边方程组只要求 $y_4=0$，对 $y_2$ 没有限制。\n\n例如 $(0,1,0,0)^{\\mathrm T}$ 是右边方程组的解，却不是左边方程组的解，故两个方程组不同解，D 不正确。\n\n综上，选 C。",
-      "idea": "设未知向量为 $(u,v)^T$。C 左侧方程组等价于 $Au=0,Bv=0$；右侧等价于 $Bu=0,Av=0$。因 $Ax=0$ 与 $Bx=0$ 同解，两组条件完全等价。",
+      "idea": "**思想：同解 $\\iff$ 秩相同且互相包含；分块方程组按块拆开比**。\n设未知向量为 $(u,v)^T$。C 左侧方程组等价于 $Au=0,Bv=0$；右侧等价于 $Bu=0,Av=0$。因 $Ax=0$ 与 $Bx=0$ 同解，两组条件完全等价。",
       "source": "(2022,数一)",
       "categoryIds": [
        157
@@ -33753,7 +33753,7 @@
       "type": "calc",
       "stem": "已知齐次线性方程组\n$$\n\\text{(i)}\\left\\{\n\\begin{aligned}\nx_1+2x_2+3x_3&=0,\\\\\n2x_1+3x_2+5x_3&=0,\\\\\nx_1+x_2+ax_3&=0\n\\end{aligned}\n\\right.\n$$\n和\n$$\n\\text{(ii)}\\left\\{\n\\begin{aligned}\nx_1+bx_2+cx_3&=0,\\\\\n2x_1+b^2x_2+(c+1)x_3&=0\n\\end{aligned}\n\\right.\n$$\n同解，求 $a,b,c$ 的值。",
       "answer": "$a=2$，$b=1$，$c=2$。\n\n方程组 (i) 的前两个方程相互独立。由\n$$\n\\begin{aligned}\nx_1+2x_2+3x_3&=0,\\\\\n2x_1+3x_2+5x_3&=0\n\\end{aligned}\n$$\n可得其通解为\n$$\n(x_1,x_2,x_3)=t(1,1,-1).\n$$\n方程组 (ii) 只有两个方程、三个未知量，必有非零解；两方程组同解，所以方程组 (i) 也必须保留上述一维非零解。将 $(1,1,-1)$ 代入 (i) 的第三个方程，得到\n$$\n1+1-a=0,\n$$\n故 $a=2$。\n\n再将 $(1,1,-1)$ 代入方程组 (ii)，得到\n$$\n\\begin{cases}\n1+b-c=0,\\\\\n2+b^2-(c+1)=0.\n\\end{cases}\n$$\n即\n$$\nc=b+1,\n\\;\nc=b^2+1.\n$$\n因此 $b(b-1)=0$，即 $b=0$ 或 $b=1$。\n\n若 $b=0$，则 $c=1$，方程组 (ii) 的两个方程成比例，解空间为二维，不可能与方程组 (i) 的一维解空间相同，故舍去。于是\n$$\nb=1,\n\\;\nc=2.\n$$\n综上，\n$$\na=2,\n\\;\nb=1,\n\\;\nc=2.\n$$",
-      "idea": "① (I) 的前两个方程秩为 $2$，解为 $k(-1,-1,1)^{\\mathrm T}$；要求第三个方程不改变解集，代入得 $a=2$；\n② (II) 与 (I) 同解必含 $(-1,-1,1)^{\\mathrm T}$，代入得 $-1-b+c=0$ 与 $-2-b^2+c+1=0$，解得 $b=0$ 或 $b=1$；\n③ $b=0$ 时 (II) 两行成比例、秩为 $1$，解集二维，不符；$b=1$ 时秩为 $2$，解集恰为 $k(-1,-1,1)^{\\mathrm T}$，故 $a=2,\\ b=1,\\ c=2$。",
+      "idea": "**思想：两方程组同解 $\\Rightarrow$ 解满足对方每个方程，代进去定 $a$**。\n① (I) 的前两个方程秩为 $2$，解为 $k(-1,-1,1)^{\\mathrm T}$；要求第三个方程不改变解集，代入得 $a=2$；\n② (II) 与 (I) 同解必含 $(-1,-1,1)^{\\mathrm T}$，代入得 $-1-b+c=0$ 与 $-2-b^2+c+1=0$，解得 $b=0$ 或 $b=1$；\n③ $b=0$ 时 (II) 两行成比例、秩为 $1$，解集二维，不符；$b=1$ 时秩为 $2$，解集恰为 $k(-1,-1,1)^{\\mathrm T}$，故 $a=2,\\ b=1,\\ c=2$。",
       "source": "(2005,数三)",
       "categoryIds": [
        157
@@ -33791,7 +33791,7 @@
       "type": "choice",
       "stem": "设有齐次线性方程组 $Ax=0$ 和 $Bx=0$，其中 $A$、$B$ 均为 $m\\times n$ 矩阵。现有 $4$ 个命题：① 若 $Ax=0$ 的解均是 $Bx=0$ 的解，则 $r(A)\\ge r(B)$；② 若 $r(A)\\ge r(B)$，则 $Ax=0$ 的解均是 $Bx=0$ 的解；③ 若 $Ax=0$ 与 $Bx=0$ 同解，则 $r(A)=r(B)$；④ 若 $r(A)=r(B)$，则 $Ax=0$ 与 $Bx=0$ 同解。以上命题中正确的是（ ）。",
       "answer": "（B）\n\n若 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的解都是 $B\\boldsymbol{x}=\\boldsymbol{0}$ 的解，则 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的解集被 $B\\boldsymbol{x}=\\boldsymbol{0}$ 的解集包含，而解集越大、基础解系含的向量越多，故\n$$\nn-r(A)\\le n-r(B),\n$$\n即 $r(A)\\ge r(B)$。所以命题①正确。\n\n命题②不正确。例如取\n$$\nA=\\begin{pmatrix}1&0\\end{pmatrix},\n\\,\nB=\\begin{pmatrix}0&1\\end{pmatrix}.\n$$\n虽然 $r(A)=r(B)$，但两个方程组的解并不相同，也不存在题设所说的包含关系。\n\n若两个方程组同解，则两者的基础解系所含向量个数相同，即\n$$\nn-r(A)=n-r(B),\n$$\n即 $r(A)=r(B)$。所以命题③正确。\n\n上面的反例同时说明，仅有 $r(A)=r(B)$ 不能推出两个方程组同解，故命题④错误。\n\n正确的是①③，故选 B。",
-      "idea": "① 工具：$n$ 元齐次方程组基础解系含 $n-r$ 个向量，解集越大（越「宽松」）秩越小；\n② 「$A\\boldsymbol x=0$ 的解都是 $B\\boldsymbol x=0$ 的解」⇒ $n-r(A)\\le n-r(B)$ ⇒ $r(A)\\ge r(B)$（①对）；\n③ 反方向不成立（用低阶矩阵举反例），同解则秩相等但秩相等不一定同解，据此判定四个命题。",
+      "idea": "**思想：基础解系含 $n-r$ 个 $\\Rightarrow$ 解集越大秩越小，据此判包含关系**。\n① 工具：$n$ 元齐次方程组基础解系含 $n-r$ 个向量，解集越大（越「宽松」）秩越小；\n② 「$A\\boldsymbol x=0$ 的解都是 $B\\boldsymbol x=0$ 的解」⇒ $n-r(A)\\le n-r(B)$ ⇒ $r(A)\\ge r(B)$（①对）；\n③ 反方向不成立（用低阶矩阵举反例），同解则秩相等但秩相等不一定同解，据此判定四个命题。",
       "source": "(2003 数一)",
       "categoryIds": [
        157
@@ -33839,7 +33839,7 @@
       "type": "calc",
       "stem": "设 $\\mathbf{A} = \\begin{pmatrix} 1 & a \\\\ 1 & 0 \\end{pmatrix}, \\mathbf{B} = \\begin{pmatrix} 0 & 1 \\\\ 1 & b \\end{pmatrix}$。当 $a, b$ 为何值时，存在矩阵 $\\mathbf{C}$ 使得 $\\mathbf{A}\\mathbf{C} - \\mathbf{C}\\mathbf{A} = \\mathbf{B}$，并求所有矩阵 $\\mathbf{C}$。",
       "answer": "$a=-1,b=0$，且\n$$\nC=\\begin{pmatrix}s+t+1&-s\\\\s&t\\end{pmatrix},\\quad s,t\\in\\mathbb R.\n$$\n\n设 $C=\\begin{pmatrix}x&y\\\\z&w\\end{pmatrix}$。比较 $AC-CA=B$ 的对应元素，得 $az-y=0$、$y+a(w-x)=1$、$x-z-w=1$、$y-az=b$。前后两式给出 $b=0$，其余方程推出 $a=-1$。令 $z=s,w=t$，即得全部解。",
-      "idea": "设 $C=\\begin{pmatrix}x&y\\\\z&w\\end{pmatrix}$。比较 $AC-CA=B$ 的对应元素，得 $az-y=0$、$y+a(w-x)=1$、$x-z-w=1$、$y-az=b$。前后两式给出 $b=0$，其余方程推出 $a=-1$。令 $z=s,w=t$，即得全部解。",
+      "idea": "**思想：矩阵方程按元素设未知量，比较 $AC-CB$ 的四个元素**。\n设 $C=\\begin{pmatrix}x&y\\\\z&w\\end{pmatrix}$。比较 $AC-CA=B$ 的对应元素，得 $az-y=0$、$y+a(w-x)=1$、$x-z-w=1$、$y-az=b$。前后两式给出 $b=0$，其余方程推出 $a=-1$。令 $z=s,w=t$，即得全部解。",
       "source": "(2013 数一二三)",
       "categoryIds": [
        169
@@ -33888,7 +33888,7 @@
       "type": "blank",
       "stem": "设 3 阶方阵  $ A, B $  满足关系式  $ A^{-1}BA = 6A + BA $ ，其中  $ A = \\begin{pmatrix} \\frac{1}{3} & 0 & 0 \\\\ 0 & \\frac{1}{4} & 0 \\\\ 0 & 0 & \\frac{1}{7} \\end{pmatrix} $ ，则  $ B= $  ______。",
       "answer": "$$\nB=\\begin{pmatrix}3&0&0\\\\0&2&0\\\\0&0&1\\end{pmatrix}.\n$$\n\n设 $B=(b_{ij})$。由于 $A$ 为对角矩阵，将 $A^{-1}BA=6A+BA$ 按元素比较，可知所有非对角元均为 $0$，对角元依次为 $3,2,1$。代回原式成立。",
-      "idea": "① $A$ 是可逆对角阵：把 $A^{-1}BA=6A+BA$ 按元素比较——非对角位置给出 $b_{ij}\\left(\\frac{a_j}{a_i}-a_j\\right)=0$ ⟹ $b_{ij}=0$（$B$ 也是对角阵）；\n② 对角位置：$b_{ii}=6a_{ii}+a_{ii}b_{ii}$ ⟹ $b_{ii}=\\frac{6a_{ii}}{1-a_{ii}}$，代入 $a_{11}=\\frac13,\\ a_{22}=\\frac14,\\ a_{33}=\\frac17$ 得 $3,2,1$。",
+      "idea": "**思想：$A$ 是对角阵 $\\Rightarrow$ 按元素比较 $A^{-1}BA=6A+BA$，非对角位置直接给出 $b_{ij}=0$**。\n① $A$ 是可逆对角阵：把 $A^{-1}BA=6A+BA$ 按元素比较——非对角位置给出 $b_{ij}\\left(\\frac{a_j}{a_i}-a_j\\right)=0$ ⟹ $b_{ij}=0$（$B$ 也是对角阵）；\n② 对角位置：$b_{ii}=6a_{ii}+a_{ii}b_{ii}$ ⟹ $b_{ii}=\\frac{6a_{ii}}{1-a_{ii}}$，代入 $a_{11}=\\frac13,\\ a_{22}=\\frac14,\\ a_{33}=\\frac17$ 得 $3,2,1$。",
       "source": "(1995 数一; 25版 880矩阵基础解答 14)",
       "categoryIds": [
        169
@@ -33920,7 +33920,7 @@
       "type": "blank",
       "stem": "设矩阵  $ A, B $  满足  $ A^* BA = 2BA - 8E $ ，其中  $ A = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & -2 & 0 \\\\ 0 & 0 & 1 \\end{pmatrix} $ ,  $ E $  为单位矩阵， $ A^* $  为  $ A $  的伴随矩阵，则  $ B= $  _____。",
       "answer": "$$\nB=\\begin{pmatrix}2&0&0\\\\0&-4&0\\\\0&0&2\\end{pmatrix}.\n$$\n\n由 $A^*=|A|A^{-1}=\\operatorname{diag}(-2,1,-2)$，原方程可写为 $(A^*-2E)BA=-8E$。两侧相关矩阵均可逆，解得\n$$\nB=\\begin{pmatrix}2&0&0\\\\0&-4&0\\\\0&0&2\\end{pmatrix}.\n$$",
-      "idea": "① 先算 $A^*=|A|A^{-1}$：$|A|=-2$，$A^{-1}=\\operatorname{diag}\\left(1,-\\frac12,1\\right)$，故 $A^*=\\operatorname{diag}(-2,1,-2)$；\n② 移项合并：$(A^*-2E)BA=-8E$；$A^*-2E=\\operatorname{diag}(-4,-1,-4)$ 与 $A$ 均可逆；\n③ $B=-8(A^*-2E)^{-1}A^{-1}=\\operatorname{diag}(2,-4,2)$。",
+      "idea": "**思想：先算 $A^*=|A|A^{-1}$，化成 $A^*BA=2BA-8E$ 再按元素解**。\n① 先算 $A^*=|A|A^{-1}$：$|A|=-2$，$A^{-1}=\\operatorname{diag}\\left(1,-\\frac12,1\\right)$，故 $A^*=\\operatorname{diag}(-2,1,-2)$；\n② 移项合并：$(A^*-2E)BA=-8E$；$A^*-2E=\\operatorname{diag}(-4,-1,-4)$ 与 $A$ 均可逆；\n③ $B=-8(A^*-2E)^{-1}A^{-1}=\\operatorname{diag}(2,-4,2)$。",
       "source": "(1998 数三; 25版 880矩阵综合解答 5)",
       "categoryIds": [
        169
@@ -33953,7 +33953,7 @@
       "type": "calc",
       "stem": "设  $ A = \\begin{pmatrix} 1 & -2 & 3 & -4 \\\\ 0 & 1 & -1 & 1 \\\\ 1 & 2 & 0 & -3 \\end{pmatrix} $ 。(I) 求线性方程组  $ Ax=0 $  的一个基础解系；(II) 求满足  $ AB = E $  的所有矩阵  $ B $ 。",
       "answer": "(I) 一个基础解系为\n$$\n\\left\\{\\begin{pmatrix}-1\\\\2\\\\3\\\\1\\end{pmatrix}\\right\\}.\n$$\n (II) 全部解为\n$$\nB=\\begin{pmatrix}2-r&6-s&-1-t\\\\2r-1&2s-3&2t+1\\\\3r-1&3s-4&3t+1\\\\r&s&t\\end{pmatrix},\\quad r,s,t\\in\\mathbb R.\n$$\n\n（1）对 $A$ 作行初等变换可得 $r(A)=3$，齐次方程的解空间维数为 $1$，解得基础解向量 $(-1,2,3,1)^T$。\n（2）对 $AB=E$ 按列分别求解三个非齐次方程，每列均为「一个特解加齐次通解」，合并后即得所列矩阵。",
-      "idea": "① 对 $A$ 行变换得行简化阶梯形，$r(A)=3$；取自由未知量 $x_4$，得基础解系 $(-1,2,3,1)^{\\mathrm T}$；\n② $AB=E$ 按列拆成三个非齐次方程组 $A\\mathbf b_j=\\mathbf e_j$，每个解都等于「一个特解 $+k(-1,2,3,1)^{\\mathrm T}$」；\n③ 分别求出三列特解 $(2,-1,-1,0)^{\\mathrm T}$、$(6,-3,-4,0)^{\\mathrm T}$、$(-1,1,1,0)^{\\mathrm T}$，配上齐次解即得全部 $B$。",
+      "idea": "**思想：行变换化行简化阶梯形，自由未知量取单位向量得基础解系**。\n① 对 $A$ 行变换得行简化阶梯形，$r(A)=3$；取自由未知量 $x_4$，得基础解系 $(-1,2,3,1)^{\\mathrm T}$；\n② $AB=E$ 按列拆成三个非齐次方程组 $A\\mathbf b_j=\\mathbf e_j$，每个解都等于「一个特解 $+k(-1,2,3,1)^{\\mathrm T}$」；\n③ 分别求出三列特解 $(2,-1,-1,0)^{\\mathrm T}$、$(6,-3,-4,0)^{\\mathrm T}$、$(-1,1,1,0)^{\\mathrm T}$，配上齐次解即得全部 $B$。",
       "source": "(2014, 数一、二、三)",
       "categoryIds": [
        169
@@ -33997,7 +33997,7 @@
       "type": "calc",
       "stem": "已知 $a$ 是常数，且矩阵\n$$\nA=\\begin{pmatrix}1&2&a\\\\1&3&0\\\\2&7&-a\\end{pmatrix}\n$$\n可经初等列变换化为矩阵\n$$\nB=\\begin{pmatrix}1&a&2\\\\0&1&1\\\\-1&1&1\\end{pmatrix}.\n$$\n(I) 求 $a$；\n(II) 求满足 $AP=B$ 的可逆矩阵 $P$。",
       "answer": "（I）\n\n$$\na=2.\n$$\n\n（II）全部满足条件的可逆矩阵为\n\n$$\nP=\n\\begin{pmatrix}\n3-6k_1&4-6k_2&4-6k_3\\\\\n2k_1-1&2k_2-1&2k_3-1\\\\\nk_1&k_2&k_3\n\\end{pmatrix},\n$$\n\n其中\n\n$$\nk_1,k_2,k_3\\in\\mathbb{R},\n$$\n\n且必须满足\n\n$$\nk_2\\ne k_3.\n$$\n\n（I）利用初等列变换保持矩阵的秩不变，求参数。\n\n矩阵 $A$ 的第三行等于第二行的三倍减去第一行，因此\n\n$$\n|A|=0.\n$$\n\n又有二阶子式\n\n$$\n\\begin{vmatrix}\n1&2\\\\\n1&3\n\\end{vmatrix}\n=1\\ne0,\n$$\n\n故对任意 $a$，均有\n\n$$\nr(A)=2.\n$$\n\n因为 $A$ 可经初等列变换化为 $B$，所以\n\n$$\nr(B)=r(A)=2.\n$$\n\n于是 $B$ 的行列式必须为零。计算得\n\n$$\n|B|=\n\\begin{vmatrix}\n1&a&2\\\\\n0&1&1\\\\\n-1&1&1\n\\end{vmatrix}\n=2-a.\n$$\n\n因此\n\n$$\n\\boxed{a=2}.\n$$\n\n此时 $B$ 也有非零二阶子式，故其秩确为 $2$。下面求出的可逆矩阵还将直接验证这一取值满足题意。\n\n（II）先求矩阵方程的全部解，再筛选可逆矩阵。\n\n第一步：同时求解三个列向量方程。\n\n将 $P$、$B$ 分别按列写为\n\n$$\nP=(p_1,p_2,p_3),\n$$\n\n$$\nB=(b_1,b_2,b_3).\n$$\n\n则矩阵方程等价于\n\n$$\nAp_j=b_j,\\; j=1,2,3.\n$$\n\n把 $a=2$ 代入，对增广矩阵\n\n$$\n(A\\mid B)=\n\\left(\n\\begin{array}{ccc|ccc}\n1&2&2&1&2&2\\\\\n1&3&0&0&1&1\\\\\n2&7&-2&-1&1&1\n\\end{array}\n\\right)\n$$\n\n依次进行初等行变换\n\n$$\n\\begin{aligned}\nR_2&\\leftarrow R_2-R_1,\\\\\nR_3&\\leftarrow R_3-2R_1,\\\\\nR_3&\\leftarrow R_3-3R_2,\\\\\nR_1&\\leftarrow R_1-2R_2,\n\\end{aligned}\n$$\n\n得到\n\n$$\n\\left(\n\\begin{array}{ccc|ccc}\n1&0&6&3&4&4\\\\\n0&1&-2&-1&-1&-1\\\\\n0&0&0&0&0&0\n\\end{array}\n\\right).\n$$\n\n三个列向量方程各有一个自由变量。分别令第三个分量为 $k_1$、$k_2$、$k_3$，便得到矩阵方程的全部解：\n\n$$\nP=\n\\begin{pmatrix}\n3-6k_1&4-6k_2&4-6k_3\\\\\n2k_1-1&2k_2-1&2k_3-1\\\\\nk_1&k_2&k_3\n\\end{pmatrix}.\n$$\n\n这里三个参数可以独立取任意实数，因此尚需另加可逆性条件。\n\n第二步：计算行列式，确定参数限制。\n\n在 $|P|$ 中进行不改变行列式的行变换\n\n$$\n\\begin{aligned}\nR_1&\\leftarrow R_1+6R_3,\\\\\nR_2&\\leftarrow R_2-2R_3.\n\\end{aligned}\n$$\n\n于是\n\n$$\n\\begin{aligned}\n|P|\n&=\n\\begin{vmatrix}\n3&4&4\\\\\n-1&-1&-1\\\\\nk_1&k_2&k_3\n\\end{vmatrix}\\\\[3pt]\n&=3(k_2-k_3)-4(k_1-k_3)\\\\\n&\\phantom{={}}+4(k_1-k_2)\\\\\n&=k_3-k_2.\n\\end{aligned}\n$$\n\n因此，$P$ 可逆当且仅当\n\n$$\n\\boxed{k_2\\ne k_3}.\n$$\n\n综上，全部满足题意的可逆矩阵就是上述通解中满足该条件的矩阵，$k_1$ 不受额外限制。\n\n例如，取\n\n$$\nk_1=0,\\; k_2=0,\\; k_3=1,\n$$\n\n便得到原答案中的矩阵\n\n$$\nP=\n\\begin{pmatrix}\n3&4&-2\\\\\n-1&-1&1\\\\\n0&0&1\n\\end{pmatrix}.\n$$\n\n它是通解中的一个特例，并不是全部解。",
-      "idea": "初等列变换不改变秩；$AP=B$ 即逐列解 $AX=B$。\n① $r(A)=2$ 恒成立，$r(B)=2\\iff a=2$。\n② 对 $(A,B)$ 作行变换解 $AX=B$，得含 $3$ 个参数的通解。\n③ 由 $|X|\\ne0\\iff k_2\\ne k_3$，写出可逆的 $P$。",
+      "idea": "**思想：初等列变换不改秩 $\\Rightarrow$ $AP=B$ 逐列解 $AX=B$**。\n初等列变换不改变秩；$AP=B$ 即逐列解 $AX=B$。\n① $r(A)=2$ 恒成立，$r(B)=2\\iff a=2$。\n② 对 $(A,B)$ 作行变换解 $AX=B$，得含 $3$ 个参数的通解。\n③ 由 $|X|\\ne0\\iff k_2\\ne k_3$，写出可逆的 $P$。",
       "source": "(2018 数一二三)",
       "categoryIds": [
        169
@@ -34075,7 +34075,7 @@
       "type": "choice",
       "stem": "设 $A$ 为 $n$ 阶矩阵，$b$ 为 $n$ 维非零列向量，\n\n$$\nB=\\begin{pmatrix}A&b\\\\b^{\\mathrm T}&0\\end{pmatrix}.\n$$\n\n若 $r(A)=r(B)$，则（ ）。",
       "answer": "（C）\n\n第一步：写出两个方程组的增广矩阵。\n\n方程组 $Ax=b$ 的增广矩阵为\n$$\n[A\\mid b].\n$$\n附加方程 $b^{\\mathrm T}x=0$ 后，增广矩阵为\n$$\n\\left[\\begin{array}{c|c}\nA&b\\\\\nb^{\\mathrm T}&0\n\\end{array}\\right],\n$$\n它恰好就是题设矩阵 $B$。\n\n第二步：由秩的关系说明 $Ax=b$ 有解。\n\n由于 $A$ 是 $[A\\mid b]$ 的子矩阵，而 $[A\\mid b]$ 又是 $B$ 的子矩阵，所以\n$$\nr(A)\\le r(A\\mid b)\\le r(B).\n$$\n结合题设 $r(B)=r(A)$，得到\n$$\nr(A\\mid b)=r(A).\n$$\n因此，方程组 $Ax=b$ 有解，选项 A 不正确。\n\n第三步：用初等行变换说明附加方程不改变原方程组的解。\n\n上一步还给出\n$$\nr(B)=r(A\\mid b).\n$$\n也就是说，在增广矩阵 $[A\\mid b]$ 下方增加一行 $(b^{\\mathrm T},0)$ 后，矩阵的秩没有增加。因此，新增的最后一行必能由前 $n$ 行线性表示。\n\n设相应系数为 $c_1,\\ldots,c_n$。依次从最后一行减去第 $i$ 行的 $c_i$ 倍，就能将最后一行化为零行，即\n$$\n\\left[\\begin{array}{c|c}\nA&b\\\\\nb^{\\mathrm T}&0\n\\end{array}\\right]\n\\sim\n\\left[\\begin{array}{c|c}\nA&b\\\\\nO&0\n\\end{array}\\right].\n$$\n初等行变换不改变方程组的解，而全零行只对应恒等式 $0=0$。\n\n所以，附加方程 $b^{\\mathrm T}x=0$ 可以由原方程组推出；两个方程组均有解，而且同解。\n\n因此，选 C。",
-      "idea": "考察 $B\\binom{y}{t}=0$，即 $Ay+t\\beta=0$ 且 $\\beta^{\\mathrm T}y=0$；按 $n$ 的奇偶讨论 $A$ 的可逆性。",
+      "idea": "**思想：把分块方程 $B\\binom{y}{t}=0$ 拆成 $Ay=-t\\beta$ 与 $\\beta^{\\mathrm T}y=0$ 讨论**。\n考察 $B\\binom{y}{t}=0$，即 $Ay+t\\beta=0$ 且 $\\beta^{\\mathrm T}y=0$；按 $n$ 的奇偶讨论 $A$ 的可逆性。",
       "source": "900题数二第二章B类",
       "categoryIds": [
        157
@@ -34110,7 +34110,7 @@
       "type": "choice",
       "stem": "设 $A = \\begin{pmatrix} 1 & 1 & 1 \\\\ 1 & a & a^2 \\\\ 1 & b & b^2 \\end{pmatrix}$，$\\boldsymbol{\\beta} = \\begin{pmatrix} 1 \\\\ 2 \\\\ 4 \\end{pmatrix}$，则线性方程组 $A\\mathbf{x} = \\boldsymbol{\\beta}$ 解的情况为（ ）。",
       "answer": "（D）\n\n**第一步：写出增广矩阵并作初等行变换。**\n\n方程组的增广矩阵为\n$$\n(A,\\boldsymbol{\\beta})=\n\\left(\n\\begin{array}{ccc|c}\n1&1&1&1\\\\\n1&a&a^2&2\\\\\n1&b&b^2&4\n\\end{array}\n\\right).\n$$\n作\n$$\nR_2\\leftarrow R_2-R_1,\\qquad\nR_3\\leftarrow R_3-R_1,\n$$\n得到\n$$\n\\left(\n\\begin{array}{ccc|c}\n1&1&1&1\\\\\n0&a-1&a^2-1&1\\\\\n0&b-1&b^2-1&3\n\\end{array}\n\\right).\n$$\n\n**第二步：当 $a=1$ 或 $b=1$ 时，判断是否有解。**\n\n若 $a=1$，第二行变为\n$$\n\\left(\\begin{array}{ccc|c}\n0&0&0&1\n\\end{array}\\right),\n$$\n对应矛盾方程 $0=1$，方程组无解。\n\n若 $b=1$，第三行变为\n$$\n\\left(\\begin{array}{ccc|c}\n0&0&0&3\n\\end{array}\\right),\n$$\n对应矛盾方程 $0=3$，方程组也无解。\n\n**第三步：当 $a\\ne1$ 且 $b\\ne1$ 时，继续化简。**\n\n此时可分别将第二、三行除以 $a-1$、$b-1$，利用平方差公式，得到\n$$\n\\left(\n\\begin{array}{ccc|c}\n1&1&1&1\\\\\n0&1&a+1&\\dfrac1{a-1}\\\\\n0&1&b+1&\\dfrac3{b-1}\n\\end{array}\n\\right).\n$$\n再作 $R_3\\leftarrow R_3-R_2$，得到阶梯形矩阵\n$$\n\\left(\n\\begin{array}{ccc|c}\n1&1&1&1\\\\\n0&1&a+1&\\dfrac1{a-1}\\\\\n0&0&b-a&\\dfrac3{b-1}-\\dfrac1{a-1}\n\\end{array}\n\\right).\n$$\n\n若 $a=b$，第三行左侧全为零，右端为\n$$\n\\frac3{a-1}-\\frac1{a-1}\n=\\frac2{a-1}\\ne0,\n$$\n出现矛盾行，方程组无解。\n\n若 $a\\ne b$，系数部分的三个主元依次为\n$$\n1,\\qquad1,\\qquad b-a,\n$$\n均不为零，因此\n$$\nr(A)=r(A,\\boldsymbol{\\beta})=3.\n$$\n方程组有三个未知数，所以有唯一解。\n\n**结论：**\n\n$a,b,1$ 两两不同时有唯一解；否则无解。所有情形中均不会出现无穷多解，故选 **D**。",
-      "idea": "写增广矩阵作行变换，比较 $r(A)$ 与 $r(A\\mid\\beta)$，对 $a,b$ 分情况讨论解的情形。",
+      "idea": "**思想：范德蒙型增广矩阵行变换，用 $|A|=0$ 分档再比 $r(A)$ 与 $r(A\\mid\\beta)$**。\n写增广矩阵作行变换，比较 $r(A)$ 与 $r(A\\mid\\beta)$，对 $a,b$ 分情况讨论解的情形。",
       "source": "2022数二三",
       "categoryIds": [
        132
@@ -34156,7 +34156,7 @@
       "type": "calc",
       "stem": "设矩阵 $A=(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4)$，若 $\\alpha_1,\\alpha_2,\\alpha_3$ 线性无关，且 $\\alpha_1+\\alpha_2=\\alpha_3+\\alpha_4$，则方程组 $AX=\\alpha_1+4\\alpha_4$ 的通解为 $X=\\underline{\\hspace{3em}}$。",
       "answer": "$$\nX=\\begin{pmatrix}1\\\\0\\\\0\\\\4\\end{pmatrix}\n+k\\begin{pmatrix}1\\\\1\\\\-1\\\\-1\\end{pmatrix},\n\\qquad k\\in\\mathbb R.\n$$\n等价地，\n$$\nX=\\begin{pmatrix}5\\\\4\\\\-4\\\\0\\end{pmatrix}\n+c\\begin{pmatrix}-1\\\\-1\\\\1\\\\1\\end{pmatrix},\n\\qquad c\\in\\mathbb R.\n$$\n\n由题设\n$$\n\\alpha_1+\\alpha_2-\\alpha_3-\\alpha_4=\\boldsymbol0,\n$$\n可知\n$$\n\\eta=\\begin{pmatrix}1\\\\1\\\\-1\\\\-1\\end{pmatrix}\n$$\n是齐次方程组 $AX=\\boldsymbol0$ 的一个非零解。又因为 $\\alpha_1,\\alpha_2,\\alpha_3$ 线性无关，而 $\\alpha_4=\\alpha_1+\\alpha_2-\\alpha_3$，所以 $r(A)=3$。齐次方程组有 $4-3=1$ 个自由未知量，其通解为 $k\\eta$。\n\n对非齐次方程组，观察右端 $\\alpha_1+4\\alpha_4$，立即得到一个特解\n$$\nX_0=\\begin{pmatrix}1\\\\0\\\\0\\\\4\\end{pmatrix}.\n$$\n所以所求通解为\n$$\n\\boxed{\nX=\\begin{pmatrix}1\\\\0\\\\0\\\\4\\end{pmatrix}\n+k\\begin{pmatrix}1\\\\1\\\\-1\\\\-1\\end{pmatrix},\n\\qquad k\\in\\mathbb R}.\n$$\n\n若把 $\\alpha_4$ 消去，也可写成系数方程组\n$$\n\\begin{cases}\nx_1+x_4=5,\\\\\nx_2+x_4=4,\\\\\nx_3-x_4=-4.\n\\end{cases}\n$$\n令 $x_4=c$，便得另一种写法\n$$\nX=\\begin{pmatrix}5\\\\4\\\\-4\\\\0\\end{pmatrix}\n+c\\begin{pmatrix}-1\\\\-1\\\\1\\\\1\\end{pmatrix}.\n$$\n两式令 $k=4-c$ 即完全相同。因此特解的选取、基础解系的正负号及参数名称可以不同，应比较全部解是否一致。",
-      "idea": "① 特解读系数：$(1,0,0,4)^{\\mathrm T}$；\n② $\\alpha_1,\\alpha_2,\\alpha_3$ 无关、$\\alpha_4$ 可由它们表示 ⟹ $r(A)=3$、解空间一维；\n③ 齐次解即列关系 $\\alpha_1+\\alpha_2-\\alpha_3-\\alpha_4=0$，通解 $(1,0,0,4)^{\\mathrm T}+k(1,1,-1,-1)^{\\mathrm T}$。",
+      "idea": "**思想：由 $\\alpha_1+\\alpha_2=\\alpha_3+\\alpha_4$ 读出齐次解，再由 $\\beta$ 的表示读出特解**。\n① 特解读系数：$(1,0,0,4)^{\\mathrm T}$；\n② $\\alpha_1,\\alpha_2,\\alpha_3$ 无关、$\\alpha_4$ 可由它们表示 ⟹ $r(A)=3$、解空间一维；\n③ 齐次解即列关系 $\\alpha_1+\\alpha_2-\\alpha_3-\\alpha_4=0$，通解 $(1,0,0,4)^{\\mathrm T}+k(1,1,-1,-1)^{\\mathrm T}$。",
       "source": "2025数二",
       "categoryIds": [
        135
@@ -34201,7 +34201,7 @@
       "type": "calc",
       "stem": "设 $\\alpha_1,\\alpha_2,\\alpha_3,\\beta$ 均为三维列向量，$A=(\\beta-\\alpha_1-2\\alpha_2-3\\alpha_3,\\alpha_1,\\alpha_2,\\alpha_3)$，则方程组 $Ax=\\beta$ 的一个特解为______。",
       "answer": "$(1,1,2,3)^T$\n\n取 $x=(1,1,2,3)^T$，则 \n$$\nAx=(\\beta-\\alpha_1-2\\alpha_2-3\\alpha_3)+\\alpha_1+2\\alpha_2+3\\alpha_3=\\beta.\n$$\n 因此 $(1,1,2,3)^T$ 是方程组 $Ax=\\beta$ 的一个特解。",
-      "idea": "① 观察 $A$ 的第一列被构造成「$\\beta$ 减去其余三列的和」：$\\beta=(\\beta-\\alpha_1-2\\alpha_2-3\\alpha_3)+\\alpha_1+2\\alpha_2+3\\alpha_3$；\n② 按列的线性组合对照系数，直接读出特解 $(1,1,2,3)^{\\mathrm T}$（第一列系数 $1$，其余系数即组合数）。",
+      "idea": "**思想：$A$ 的列被构造成「$\\beta$ 减去其余三列」$\\Rightarrow$ $A(1,1,1,1)^{\\mathrm T}=\\beta$，特解直接读出**。\n① 观察 $A$ 的第一列被构造成「$\\beta$ 减去其余三列的和」：$\\beta=(\\beta-\\alpha_1-2\\alpha_2-3\\alpha_3)+\\alpha_1+2\\alpha_2+3\\alpha_3$；\n② 按列的线性组合对照系数，直接读出特解 $(1,1,2,3)^{\\mathrm T}$（第一列系数 $1$，其余系数即组合数）。",
       "source": "880方程组综合填空",
       "categoryIds": [
        135
@@ -34242,7 +34242,7 @@
       "type": "calc",
       "stem": "设齐次线性方程组（Ⅰ）\n\n$$\n\\begin{cases}\n2x_1+3x_2-x_3=0,\\\\\nx_1+2x_2+x_3-x_4=0.\n\\end{cases}\n$$\n\n齐次线性方程组（Ⅱ）的一个基础解系为\n\n$$\n\\begin{aligned}\n\\boldsymbol\\alpha_1&=(2,-1,a+2,1)^{\\mathrm T},\\\\\n\\boldsymbol\\alpha_2&=(-1,2,4,a+8)^{\\mathrm T}.\n\\end{aligned}\n$$\n\n（1）求方程组（Ⅰ）的一个基础解系；\n\n（2）当 $a$ 为何值时，方程组（Ⅰ）与（Ⅱ）有非零公共解？并求所有非零公共解。",
       "answer": "（1）一个基础解系为\n\n$$\n\\begin{aligned}\n\\boldsymbol\\xi_1&=(5,-3,1,0)^{\\mathrm T},\\\\\n\\boldsymbol\\xi_2&=(-3,2,0,1)^{\\mathrm T}.\n\\end{aligned}\n$$\n\n（2）$a=-1$。所有非零公共解为\n\n$$\n\\begin{aligned}\n\\boldsymbol x\n&=k_1(2,-1,1,1)^{\\mathrm T}\\\\\n&\\quad+k_2(-1,2,4,7)^{\\mathrm T},\n\\end{aligned}\n$$\n\n其中 $k_1,k_2\\in\\mathbb R$，且不全为 $0$。\n\n（1）用增广矩阵求方程组（Ⅰ）的基础解系。\n\n方程组（Ⅰ）的增广矩阵为\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n2&3&-1&0&0\\\\\n1&2&1&-1&0\n\\end{array}\n\\right].\n$$\n\n交换两行，再作 $r_2\\leftarrow r_2-2r_1$，得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&2&1&-1&0\\\\\n0&-1&-3&2&0\n\\end{array}\n\\right].\n$$\n\n将第二行乘以 $-1$，再作 $r_1\\leftarrow r_1-2r_2$，得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&0&-5&3&0\\\\\n0&1&3&-2&0\n\\end{array}\n\\right].\n$$\n\n因此\n\n$$\n\\begin{cases}\nx_1=5x_3-3x_4,\\\\\nx_2=-3x_3+2x_4.\n\\end{cases}\n$$\n\n令 $x_3=s$、$x_4=t$，得通解\n\n$$\n\\begin{aligned}\n\\boldsymbol x\n&=s(5,-3,1,0)^{\\mathrm T}\\\\\n&\\quad+t(-3,2,0,1)^{\\mathrm T}.\n\\end{aligned}\n$$\n\n这两个向量线性无关，故可取基础解系\n\n$$\n\\begin{aligned}\n\\boldsymbol\\xi_1&=(5,-3,1,0)^{\\mathrm T},\\\\\n\\boldsymbol\\xi_2&=(-3,2,0,1)^{\\mathrm T}.\n\\end{aligned}\n$$\n\n（2）把（Ⅱ）的通解代入（Ⅰ），建立系数方程组。\n\n由题设，（Ⅱ）的通解为\n\n$$\n\\boldsymbol x=u\\boldsymbol\\alpha_1+v\\boldsymbol\\alpha_2.\n$$\n\n代入（Ⅰ）的两个方程，分别得\n\n$$\n\\begin{cases}\n-(a+1)u=0,\\\\\n(a+1)u-(a+1)v=0.\n\\end{cases}\n$$\n\n记 $c=a+1$，以 $u,v$ 为未知量，增广矩阵为\n\n$$\n\\left[\n\\begin{array}{rr|r}\n-c&0&0\\\\\nc&-c&0\n\\end{array}\n\\right].\n$$\n\n将第一行乘以 $-1$，第二行减去新的第一行，再将第二行乘以 $-1$，得\n\n$$\n\\left[\n\\begin{array}{rr|r}\nc&0&0\\\\\n0&c&0\n\\end{array}\n\\right].\n$$\n\n整个过程没有除以 $c$，因此对所有 $a$ 都成立。\n\n若 $a\\ne-1$，则 $c\\ne0$，只能有 $u=v=0$，从而公共解只有零解。\n\n若 $a=-1$，则 $c=0$，$u,v$ 可任取，故（Ⅱ）的全部解都满足（Ⅰ）。\n\n（3）写出所有非零公共解。\n\n当 $a=-1$ 时，\n\n$$\n\\begin{aligned}\n\\boldsymbol\\alpha_1&=(2,-1,1,1)^{\\mathrm T},\\\\\n\\boldsymbol\\alpha_2&=(-1,2,4,7)^{\\mathrm T}.\n\\end{aligned}\n$$\n\n两向量线性无关，所以所有非零公共解为\n\n$$\n\\begin{aligned}\n\\boldsymbol x\n&=k_1(2,-1,1,1)^{\\mathrm T}\\\\\n&\\quad+k_2(-1,2,4,7)^{\\mathrm T},\n\\end{aligned}\n$$\n\n其中 $k_1,k_2$ 不全为 $0$。",
-      "idea": "① (Ⅰ) 系数矩阵行变换化简，取自由变量 $(1,0)$、$(0,1)$ 得基础解系 $\\xi_1=(5,-3,1,0)^{\\mathrm T}$、$\\xi_2=(-3,2,0,1)^{\\mathrm T}$；\n② 公共解 $=$ (Ⅰ) 的解 $\\cap$ (Ⅱ) 的解：**把 $k_1\\alpha_1+k_2\\alpha_2$ 代入 (Ⅰ)**，得到关于 $k_1,k_2$ 的齐次方程组；\n③ **该方程组要有非零解 ⟹ 系数行列式为零**，解出 $a$；回代得公共解方向，即得全部非零公共解。",
+      "idea": "**思想：公共解 $=$ 联立两方程组；已知基础解系时用「系数矩阵的秩 $=$ 过渡矩阵的秩」**。\n① (Ⅰ) 系数矩阵行变换化简，取自由变量 $(1,0)$、$(0,1)$ 得基础解系 $\\xi_1=(5,-3,1,0)^{\\mathrm T}$、$\\xi_2=(-3,2,0,1)^{\\mathrm T}$；\n② 公共解 $=$ (Ⅰ) 的解 $\\cap$ (Ⅱ) 的解：**把 $k_1\\alpha_1+k_2\\alpha_2$ 代入 (Ⅰ)**，得到关于 $k_1,k_2$ 的齐次方程组；\n③ **该方程组要有非零解 ⟹ 系数行列式为零**，解出 $a$；回代得公共解方向，即得全部非零公共解。",
       "source": "姜晓千强化例题",
       "categoryIds": [
        157
@@ -34298,7 +34298,7 @@
       "type": "choice",
       "stem": "设 $A$ 是秩为 $2$ 的 $2\\times5$ 矩阵，$B$ 是秩为 $3$ 的 $3\\times5$ 矩阵，若 $AB^{\\mathrm T}=O$，则对于齐次线性方程组 $Ax=0$ 的任一非零解 $b$ 有（ ）。",
       "answer": "（C）\n\n考点：线性代数 / 方程组 / 解的关系 / 两个方程组其他解的关系；基础解系与解的唯一性。\n\n将 $B^{\\mathrm T}$ 的三个列向量记为 $\\beta_1,\\beta_2,\\beta_3$。由\n$$\nAB^{\\mathrm T}=O\n$$\n可知\n$$\nA\\beta_1=A\\beta_2=A\\beta_3=0.\n$$\n所以这三个列向量都是 $Ax=0$ 的解。又因为\n$$\nr(B^{\\mathrm T})=r(B)=3,\n$$\n故它们线性无关。\n\n方程组 $Ax=0$ 有 $5$ 个未知量，且 $r(A)=2$，所以基础解系含有 $5-2=3$ 个向量。因此 $\\beta_1,\\beta_2,\\beta_3$ 恰好构成一组基础解系。\n\n于是任一解 $b$ 都可以唯一写成\n$$\nb=y_1\\beta_1+y_2\\beta_2+y_3\\beta_3,\n$$\n也就是 $B^{\\mathrm T}y=b$ 有唯一解，选 $\\boxed{\\mathrm C}$。\n\n再说明 $A^{\\mathrm T}y=b$ 为什么无解：若有解，则由 $Ab=0$ 可得\n$$\nb^{\\mathrm T}b=(A^{\\mathrm T}y)^{\\mathrm T}b\n=y^{\\mathrm T}Ab=0,\n$$\n从而 $b=0$，与题设矛盾。",
-      "idea": "$AB^{\\mathrm T}=O$ ⟹ $B^{\\mathrm T}$ 的每一列都是 $Ax=0$ 的解；$r(B^{\\mathrm T})=3$ 说明这三列线性无关，而 $A$ 是 $2\\times5$、$r(A)=2$，$Ax=0$ 的基础解系恰好含 $5-2=3$ 个向量，故它就是这三列。于是任一解 $b$ 都能写成 $B^{\\mathrm T}y$，且三列无关使 $y$ 唯一。选 C。",
+      "idea": "**思想：$AB^{\\mathrm T}=O$ $\\Rightarrow$ $B^{\\mathrm T}$ 的列都是 $Ax=0$ 的解，比秩判包含**。\n$AB^{\\mathrm T}=O$ ⟹ $B^{\\mathrm T}$ 的每一列都是 $Ax=0$ 的解；$r(B^{\\mathrm T})=3$ 说明这三列线性无关，而 $A$ 是 $2\\times5$、$r(A)=2$，$Ax=0$ 的基础解系恰好含 $5-2=3$ 个向量，故它就是这三列。于是任一解 $b$ 都能写成 $B^{\\mathrm T}y$，且三列无关使 $y$ 唯一。选 C。",
       "source": "25🐙四套数二卷四10",
       "categoryIds": [
        157
@@ -34332,7 +34332,7 @@
       "type": "calc",
       "stem": "设\n$$\nA=\\begin{pmatrix}\n-1&0&1\\\\\n1&0&-1\\\\\n-2&0&2\n\\end{pmatrix},\n$$\n矩阵 $X$ 满足\n$$\nAX+E=A^{100}+2X,\n$$\n求矩阵 $X$。",
       "answer": "$$\nX=\\begin{pmatrix}\n1&0&-\\frac12\\\\\n-\\frac12&\\frac12&\\frac12\\\\\n1&0&-\\frac12\n\\end{pmatrix}.\n$$\n\n直接计算可得\n$$\nA^2=A,\n$$\n所以 $A$ 为幂等矩阵，从而\n$$\nA^{100}=A.\n$$\n原方程化为\n$$\nAX+E=A+2X,\n$$\n即\n$$\n(A-2E)X=A-E.\n$$\n又因为\n$$\n(A-2E)\\left[-\\frac12(A+E)\\right]\n=-\\frac12(A^2-A-2E)=E,\n$$\n所以\n$$\n(A-2E)^{-1}=-\\frac12(A+E).\n$$\n因此\n$$\n\\begin{aligned}\nX&=(A-2E)^{-1}(A-E)\\\\\n&=-\\frac12(A+E)(A-E)\\\\\n&=-\\frac12(A^2-E)\\\\\n&=\\frac12(E-A).\n\\end{aligned}\n$$\n代入 $A$ 得\n$$\nX=\\begin{pmatrix}\n1&0&-\\frac12\\\\\n-\\frac12&\\frac12&\\frac12\\\\\n1&0&-\\frac12\n\\end{pmatrix}.\n$$\n检验：$AX=0$，且 $A^{100}+2X=A+(E-A)=E$，故原方程成立。",
-      "idea": "① 直接验证 $A^2=A$（幂等）⟹ $A^{100}=A$，原方程化为 $(A-2E)X=A-E$；\n② 配方验证可解性：$(A-2E)\\cdot\\left[-\\frac12(A-E)\\right]=-\\frac12(A^2-3A+2E)=-\\frac12(-2A+2E)=A-E$（用 $A^2=A$）；\n③ 故 $X=-\\frac12(A-E)$，直接乘出即可。",
+      "idea": "**思想：先验证 $A^2=A$（幂等）把 $A^{100}$ 降成 $A$，再解矩阵方程**。\n① 直接验证 $A^2=A$（幂等）⟹ $A^{100}=A$，原方程化为 $(A-2E)X=A-E$；\n② 配方验证可解性：$(A-2E)\\cdot\\left[-\\frac12(A-E)\\right]=-\\frac12(A^2-3A+2E)=-\\frac12(-2A+2E)=A-E$（用 $A^2=A$）；\n③ 故 $X=-\\frac12(A-E)$，直接乘出即可。",
       "source": "姜晓千强化例题",
       "categoryIds": [
        169
@@ -34361,7 +34361,7 @@
       "type": "calc",
       "stem": "设\n\n$$\nA=\\begin{pmatrix}\n0&2&3\\\\\n2&2&a\\\\\n2&3&4\n\\end{pmatrix}.\n$$\n\n三阶实对称矩阵 $B$ 满足\n\n$$\nAB+B=A+E,\\qquad B\\ne E,\n$$\n\n其中 $E$ 为单位矩阵，且 $r(A+B)=3$。\n\n（1）求 $a$ 的值；\n\n（2）求所有满足题设条件的矩阵 $B$；\n\n（3）求可逆矩阵 $P$ 及对角矩阵 $\\Lambda$，使得 $P^{-1}BP=\\Lambda$。",
       "answer": "（1）$a=5$。\n\n（2）所有满足条件的矩阵为\n$$\nB=\\begin{pmatrix}\n1+t&t&-t\\\\\nt&1+t&-t\\\\\n-t&-t&1+t\n\\end{pmatrix},\n\\qquad t\\in\\mathbb R,\\quad t\\ne0.\n$$\n\n（3）可取\n$$\nP=\\begin{pmatrix}\n-1&1&-1\\\\\n1&0&-1\\\\\n0&1&1\n\\end{pmatrix},\n\\qquad\n\\Lambda=\\operatorname{diag}(1,1,1+3t).\n$$\n\n（1）由矩阵方程\n$$\nAB+B=A+E\n$$\n得\n$$\n(A+E)(B-E)=O.\n$$\n由于 $B\\ne E$，矩阵 $B-E$ 至少有一列非零，所以齐次方程组 $(A+E)\\boldsymbol x=\\boldsymbol0$ 必须有非零解。\n\n对它的增广矩阵作初等行变换：\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&2&3&0\\\\\n2&3&a&0\\\\\n2&3&5&0\n\\end{array}\n\\right]\n\\xrightarrow[\\ r_3\\leftarrow r_3-2r_1\\ ]{r_2\\leftarrow r_2-2r_1}\n\\left[\n\\begin{array}{rrr|r}\n1&2&3&0\\\\\n0&-1&a-6&0\\\\\n0&-1&-1&0\n\\end{array}\n\\right].\n$$\n再作 $r_2\\leftarrow r_2-r_3$，得到第二行为 $(0,0,a-5\\mid0)$。若 $a\\ne5$，方程组只有零解，与上述条件矛盾，所以\n$$\n\\boxed{a=5}.\n$$\n\n（2）当 $a=5$ 时，增广矩阵继续化为\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&0&1&0\\\\\n0&1&1&0\\\\\n0&0&0&0\n\\end{array}\n\\right].\n$$\n故通解为\n$$\n\\boldsymbol x=k\\boldsymbol w,\\qquad\n\\boldsymbol w=(-1,-1,1)^{\\mathrm T}.\n$$\n记 $C=B-E$。由于 $C$ 的每一列都是上述齐次方程组的解，可写成\n$$\nC=(p\\boldsymbol w,q\\boldsymbol w,r\\boldsymbol w)\n=\\begin{pmatrix}\n-p&-q&-r\\\\\n-p&-q&-r\\\\\np&q&r\n\\end{pmatrix}.\n$$\n又因 $B$ 对称，$C$ 也对称。比较对称位置的元素，得\n$$\np=q=-r.\n$$\n令 $t=r$，得到\n$$\nC=t\\begin{pmatrix}\n1&1&-1\\\\\n1&1&-1\\\\\n-1&-1&1\n\\end{pmatrix}\n=t\\boldsymbol w\\boldsymbol w^{\\mathrm T}.\n$$\n因此\n$$\n\\boxed{\nB=\\begin{pmatrix}\n1+t&t&-t\\\\\nt&1+t&-t\\\\\n-t&-t&1+t\n\\end{pmatrix}}.\n$$\n$B\\ne E$ 等价于 $t\\ne0$。还需核对秩条件：当 $a=5$ 时，\n$$\nA+B=\n\\begin{pmatrix}\n1+t&2+t&3-t\\\\\n2+t&3+t&5-t\\\\\n2-t&3-t&5+t\n\\end{pmatrix}.\n$$\n在其行列式中先作 $r_3\\leftarrow r_3-r_2$，再作 $r_2\\leftarrow r_2-r_1$，得\n$$\n\\begin{aligned}\n|A+B|\n&=\\begin{vmatrix}\n1+t&2+t&3-t\\\\\n1&1&2\\\\\n-2t&-2t&2t\n\\end{vmatrix}\\\\\n&=2t\\begin{vmatrix}\n1+t&2+t&3-t\\\\\n1&1&2\\\\\n-1&-1&1\n\\end{vmatrix}\\\\\n&=-6t.\n\\end{aligned}\n$$\n所以任意 $t\\ne0$ 均满足 $r(A+B)=3$，上式就是所有满足条件的 $B$。\n\n（3）由 $B=E+t\\boldsymbol w\\boldsymbol w^{\\mathrm T}$，若 $\\boldsymbol w^{\\mathrm T}\\boldsymbol z=0$，即\n$$\n-z_1-z_2+z_3=0,\n$$\n则 $B\\boldsymbol z=\\boldsymbol z$。可取两个线性无关的特征向量\n$$\n\\boldsymbol z_1=(-1,1,0)^{\\mathrm T},\n\\qquad\n\\boldsymbol z_2=(1,0,1)^{\\mathrm T}.\n$$\n另外，$\\boldsymbol w^{\\mathrm T}\\boldsymbol w=3$，所以\n$$\nB\\boldsymbol w=(1+3t)\\boldsymbol w.\n$$\n令\n$$\nP=(\\boldsymbol z_1,\\boldsymbol z_2,\\boldsymbol w)\n=\\begin{pmatrix}\n-1&1&-1\\\\\n1&0&-1\\\\\n0&1&1\n\\end{pmatrix}.\n$$\n由于 $|P|=-3\\ne0$，故 $P$ 可逆，且\n$$\n\\boxed{\nP^{-1}BP=\\Lambda=\\operatorname{diag}(1,1,1+3t),\n\\qquad t\\ne0}.\n$$",
-      "idea": "① 由 $AB+B=A+E$ 提成 $(A+E)(B-E)=O$，**$B\\ne E$ ⟹ $(A+E)x=0$ 有非零解** ⟹ $|A+E|=0$ 解出 $a$；\n② 代回解 $(A+E)x=0$，写出 $B=E+$ 齐次解的组合，**再用 $r(A+B)=3$ 筛出可行的 $B$**；\n③ 对 $B$ 求特征向量拼成 $P$。",
+      "idea": "**思想：把 $AB+B=A+E$ 提成 $(A+E)(B-E)=O$，$B\\ne E$ $\\Rightarrow$ $A+E$ 不可逆**。\n① 由 $AB+B=A+E$ 提成 $(A+E)(B-E)=O$，**$B\\ne E$ ⟹ $(A+E)x=0$ 有非零解** ⟹ $|A+E|=0$ 解出 $a$；\n② 代回解 $(A+E)x=0$，写出 $B=E+$ 齐次解的组合，**再用 $r(A+B)=3$ 筛出可行的 $B$**；\n③ 对 $B$ 求特征向量拼成 $P$。",
       "source": "26押题王四套卷数二卷一22",
       "categoryIds": [
        169
@@ -34390,7 +34390,7 @@
       "type": "choice",
       "stem": "设矩阵 $A=\\begin{pmatrix}1&0&1\\\\0&0&1\\\\1&1&3\\\\1&1&1\\end{pmatrix}$，$C=\\begin{pmatrix}2&0\\\\1&1\\\\1&1\\\\a&b\\end{pmatrix}$，若存在矩阵 $B$ 满足 $AB=C$，则（ ）",
       "answer": "（A）\n\n标准解法：存在 $B$ 使 $AB=C$，等价于 $C$ 的每一列都属于 $A$ 的列空间。设 $A(u,v,w)^T=(d_1,d_2,d_3,d_4)^T$，由四行方程得 $u+w=d_1$，$w=d_2$，$u+v+3w=d_3$，$u+v+w=d_4$，故必要且充分条件为 $d_4=d_3-2d_2$。对 $C$ 第一列 $(2,1,1,a)^T$ 得 $a=1-2=-1$；对第二列 $(0,1,1,b)^T$ 得 $b=1-2=-1$，选 A。特殊值检验：把 A 的结果代回，上述列空间条件两列均满足，其余选项至少一列不满足。",
-      "idea": "$AB=C$ 有解 ⟺ $C$ 的每一列都在 $A$ 的列空间；由 $A(u,v,w)^{\\mathrm T}$ 的四行方程得约束 $d_4=d_3-2d_2$，代两列定 $a,b$。",
+      "idea": "**思想：「$AB=C$ 有解」$\\iff$ $C$ 的每一列都能由 $A$ 的列向量组线性表示**。\n$AB=C$ 有解 ⟺ $C$ 的每一列都在 $A$ 的列空间；由 $A(u,v,w)^{\\mathrm T}$ 的四行方程得约束 $d_4=d_3-2d_2$，代两列定 $a,b$。",
       "source": "2026数二三",
       "categoryIds": [
        169
@@ -34446,7 +34446,7 @@
       "type": "calc",
       "stem": "设 $A=(a_{ij})_{3\\times 3}$ 是正交矩阵，且 $a_{22}=1$， $b=(0,1,0)^T$，则线性方程组 $Ax = b$ 的解是______。",
       "answer": "$x=(0,1,0)^{\\mathrm T}$\n\n正交矩阵的每一列都是单位向量。由 $a_{22}=1$ 可知第二列只能为 $(0,1,0)^{\\mathrm T}$，即 $Ae_2=e_2=b$。正交矩阵可逆，故方程组解唯一，为 $x=e_2=(0,1,0)^{\\mathrm T}$。",
-      "idea": "① 正交矩阵每列都是单位向量：第 2 列 $(a_{12},1,a_{32})^{\\mathrm T}$ 模长为 $1$ ⟹ $a_{12}=a_{32}=0$，即第 2 列就是 $e_2$；\n② 于是 $Ae_2=e_2=b$，$A$ 可逆 ⟹ 解唯一：$x=(0,1,0)^{\\mathrm T}$。",
+      "idea": "**思想：正交矩阵的列是单位正交组 $\\Rightarrow$ $x=A^{\\mathrm T}b$，逐分量算内积**。\n① 正交矩阵每列都是单位向量：第 2 列 $(a_{12},1,a_{32})^{\\mathrm T}$ 模长为 $1$ ⟹ $a_{12}=a_{32}=0$，即第 2 列就是 $e_2$；\n② 于是 $Ae_2=e_2=b$，$A$ 可逆 ⟹ 解唯一：$x=(0,1,0)^{\\mathrm T}$。",
       "source": "900题数二第五章B类2",
       "categoryIds": [
        135
@@ -34482,7 +34482,7 @@
       "type": "choice",
       "stem": "设 $A$ 为 $4$ 阶矩阵，$k$ 为任意常数，$\\eta_1,\\eta_2,\\eta_3$ 为非齐次线性方程组 $Ax=b$ 的三个解，满足 $\\eta_1+\\eta_2=\\begin{pmatrix}1\\\\2\\\\3\\\\4\\end{pmatrix}$，$\\eta_2+2\\eta_3=\\begin{pmatrix}2\\\\3\\\\4\\\\5\\end{pmatrix}$。若 $r(A)=3$，则 $Ax=b$ 的通解为（ ）。",
       "answer": "（C）\n\n因为 $\\eta_1,\\eta_2,\\eta_3$ 均为 $Ax=b$ 的解，所以\n$\\dfrac12(\\eta_1+\\eta_2)=\\left(\\dfrac12,1,\\dfrac32,2\\right)^T$，\n$\\dfrac13(\\eta_2+2\\eta_3)=\\left(\\dfrac23,1,\\dfrac43,\\dfrac53\\right)^T$\n都是 $Ax=b$ 的解。二者之差\n$\\left(\\dfrac16,0,-\\dfrac16,-\\dfrac13\\right)^T$\n是对应齐次方程的非零解，可取 $(-1,0,1,2)^T$ 为基础解系。又\n$(0,1,2,3)^T-\\left(\\dfrac12,1,\\dfrac32,2\\right)^T=\\left(-\\dfrac12,0,\\dfrac12,1\\right)^T$\n也是该齐次解方向上的向量，因此 $(0,1,2,3)^T$ 是一个特解，通解为 $(0,1,2,3)^T+k(-1,0,1,2)^T$，选 C。",
-      "idea": "① $r(A)=3$（$A$ 为 4 阶）⟹ 解空间 $4-3=1$ 维，只需求一个特解与一个齐次解；\n② 解的平均仍是解：$\\frac{\\eta_1+\\eta_2}{2}$ 与 $\\frac{\\eta_2+2\\eta_3}{3}$ 都是特解，二者相减即得齐次解；\n③ 通解 $=$ 特解 $+k\\cdot$ 齐次解。",
+      "idea": "**思想：$r(A)=3$ $\\Rightarrow$ 基础解系含 $4-3=1$ 个：先凑特解，再配一个齐次解**。\n① $r(A)=3$（$A$ 为 4 阶）⟹ 解空间 $4-3=1$ 维，只需求一个特解与一个齐次解；\n② 解的平均仍是解：$\\frac{\\eta_1+\\eta_2}{2}$ 与 $\\frac{\\eta_2+2\\eta_3}{3}$ 都是特解，二者相减即得齐次解；\n③ 通解 $=$ 特解 $+k\\cdot$ 齐次解。",
       "source": "姜晓千强化例题",
       "categoryIds": [
        135
@@ -34528,7 +34528,7 @@
       "type": "calc",
       "stem": "设齐次线性方程组\n$$\n\\begin{cases}\nax_1+bx_2+bx_3+\\cdots+bx_n=0,\\\\\nbx_1+ax_2+bx_3+\\cdots+bx_n=0,\\\\\n\\hspace{3em}\\cdots\\\\\nbx_1+bx_2+bx_3+\\cdots+ax_n=0,\n\\end{cases}\n$$\n其中 $a\\ne0$、$b\\ne0$、$n\\ge2$。\n\n讨论 $a,b$ 满足什么条件时方程组只有零解或有无穷多组解；在有无穷多组解时，求全部解，并用基础解系表示。",
       "answer": "只有零解的条件为\n$$\na\\ne b\n \\text{且} \na+(n-1)b\\ne0.\n$$\n当 $a=b$ 时，\n$$\nx_1+x_2+\\cdots+x_n=0;\n$$\n当 $a+(n-1)b=0$ 时，\n$$\n\\boldsymbol{x}=c(1,1,\\ldots,1)^{\\mathrm{T}}.\n$$\n\n系数矩阵可以写成\n$$\nM=(a-b)E+bJ,\n$$\n其中 $J$ 为所有元素均为 $1$ 的 $n$ 阶矩阵。\n\n对向量\n$$\n\\boldsymbol{e}=(1,1,\\ldots,1)^{\\mathrm{T}},\n$$\n有\n$$\nM\\boldsymbol{e}=[a+(n-1)b]\\boldsymbol{e}.\n$$\n对任意满足 $x_1+\\cdots+x_n=0$ 的向量 $\\boldsymbol{x}$，有 $J\\boldsymbol{x}=\\boldsymbol{0}$，从而\n$$\nM\\boldsymbol{x}=(a-b)\\boldsymbol{x}.\n$$\n因此 $M$ 的特征值为\n$$\na+(n-1)b\n$$\n和\n$$\na-b,\n$$\n后者的重数为 $n-1$。\n\n所以，当\n$$\na\\ne b\n \\text{且} \na+(n-1)b\\ne0\n$$\n时，$M$ 可逆，方程组只有零解。\n\n当 $a=b$ 时，方程组等价于\n$$\nx_1+x_2+\\cdots+x_n=0.\n$$\n一个基础解系为\n$$\n\\boldsymbol{e}_1-\\boldsymbol{e}_n,\n\\boldsymbol{e}_2-\\boldsymbol{e}_n,\n\\ldots,\n\\boldsymbol{e}_{n-1}-\\boldsymbol{e}_n,\n$$\n故全部解为\n$$\n\\boldsymbol{x}\n=c_1(\\boldsymbol{e}_1-\\boldsymbol{e}_n)\n+\\cdots+\nc_{n-1}(\\boldsymbol{e}_{n-1}-\\boldsymbol{e}_n).\n$$\n\n当 $a+(n-1)b=0$ 时，基础解系为\n$$\n(1,1,\\ldots,1)^{\\mathrm{T}},\n$$\n全部解为\n$$\n\\boldsymbol{x}=c(1,1,\\ldots,1)^{\\mathrm{T}}.\n$$",
-      "idea": "① 系数矩阵 $M=(a-b)E+bJ$（$J$ 为全 $1$ 阵）：$J$ 的特征值为 $n$（一重，对应 $(1,\\ldots,1)^{\\mathrm T}$）与 $0$（$n-1$ 重）；\n② 故 $M$ 的特征值为 $a+(n-1)b$（一重）与 $a-b$（$n-1$ 重）；\n③ 只有零解 ⟹ 两个特征值都不为零：$a\\ne b$ 且 $a+(n-1)b\\ne0$；$a=b$ 时解空间就是 $x_1+\\cdots+x_n=0$；$a+(n-1)b=0$ 时解为 $c(1,\\ldots,1)^{\\mathrm T}$。",
+      "idea": "**思想：系数矩阵是 $(a-b)E+bJ$ 型，用全 $1$ 矩阵 $J$ 的特征值判可逆**。\n① 系数矩阵 $M=(a-b)E+bJ$（$J$ 为全 $1$ 阵）：$J$ 的特征值为 $n$（一重，对应 $(1,\\ldots,1)^{\\mathrm T}$）与 $0$（$n-1$ 重）；\n② 故 $M$ 的特征值为 $a+(n-1)b$（一重）与 $a-b$（$n-1$ 重）；\n③ 只有零解 ⟹ 两个特征值都不为零：$a\\ne b$ 且 $a+(n-1)b\\ne0$；$a=b$ 时解空间就是 $x_1+\\cdots+x_n=0$；$a+(n-1)b=0$ 时解为 $c(1,\\ldots,1)^{\\mathrm T}$。",
       "source": "2002数三",
       "categoryIds": [
        135
@@ -34563,7 +34563,7 @@
       "type": "calc",
       "stem": "设 $\\boldsymbol{\\alpha} = \\begin{bmatrix} 1 \\\\ 2 \\\\ 1 \\end{bmatrix}$， $\\boldsymbol{\\beta} = \\begin{bmatrix} 1 \\\\ \\frac{1}{2} \\\\ 0 \\end{bmatrix}$， $\\gamma = \\begin{bmatrix} 0 \\\\ 0 \\\\ 8 \\end{bmatrix}$， $\\boldsymbol{A} = \\boldsymbol{\\alpha}\\boldsymbol{\\beta}^T$， $\\boldsymbol{B} = \\boldsymbol{\\beta}^T \\boldsymbol{\\alpha}$，其中 $\\boldsymbol{\\beta}^T$ 是 $\\boldsymbol{\\beta}$ 的转置，求解方程 $2\\boldsymbol{B}^2\\boldsymbol{A}^2\\boldsymbol{X} = \\boldsymbol{A}^4\\boldsymbol{X} + \\boldsymbol{B}^4\\boldsymbol{X} + \\boldsymbol{\\gamma}$。",
       "answer": "$\\mathbf X=t(1,2,1)^T+(0,0,-\\frac12)^T$，其中 $t$ 为任意常数。\n\n$B=\\beta^T\\alpha=2$，$A^2=2A$，故 $A^4=8A$，$B^2=4$，$B^4=16$。原方程化为 $(A-2E)X=(0,0,1)^T$。代入 $A=\\alpha\\beta^T$ 行化简得 $x_2=2x_1$，$x_3=x_1-\\frac12$。",
-      "idea": "① $A=\\alpha\\beta^{\\mathrm T}$ 是秩 1 阵，先算 $\\beta^{\\mathrm T}\\alpha=2$ ⟹ $A^2=2A$，故 $A^4=8A$；\n② 代入原方程整理成 $(A-2E)X=(0,0,1)^{\\mathrm T}$；\n③ 按行写出方程组求解，通解含一个自由参数。",
+      "idea": "**思想：$A=\\alpha\\beta^{\\mathrm T}$ 是秩 $1$ 矩阵，先算内积再解**。\n① $A=\\alpha\\beta^{\\mathrm T}$ 是秩 1 阵，先算 $\\beta^{\\mathrm T}\\alpha=2$ ⟹ $A^2=2A$，故 $A^4=8A$；\n② 代入原方程整理成 $(A-2E)X=(0,0,1)^{\\mathrm T}$；\n③ 按行写出方程组求解，通解含一个自由参数。",
       "source": "2000数二",
       "categoryIds": [
        135
@@ -34598,7 +34598,7 @@
       "type": "calc",
       "stem": "设线性方程组 $\\begin{cases} x_1 + x_2 + x_3 + x_4 = -1 \\\\ 4x_1 + 3x_2 + 5x_3 - x_4 = -1 \\\\ ax_1 + x_2 + 3x_3 + bx_4 = 1 \\end{cases}$ 有 $3$ 个线性无关的解。(I) 证明系数矩阵 $A$ 的秩 $r(A)=2$；(II) 求 $a,b$ 的值及方程组的通解。",
       "answer": "$a=2,b=-3$；通解为 $(2,-3,0,0)^T+s(-2,1,1,0)^T+t(4,-5,0,1)^T$。\n\n（1）有 $3$ 个线性无关解说明导出组维数为 $2$，且前两行线性无关，故 $r(A)=2$。\n（2）第三个增广行必须由前两行增广行线性表示，比较得系数 $-2,1$，从而 $a=2,b=-3$；代入化简得通解。",
-      "idea": "① $4$ 个未知数、有 $3$ 个线性无关的解 ⟹ 解集仿射维数 $\\ge2$ ⟹ 导出组维数 $4-r(A)\\ge2$；前两行显然无关 ⟹ $r(A)\\ge2$；**合得 $r(A)=2$**；\n② **$r(A)=2$ ⟹ 增广矩阵第 3 行是前两行的线性组合**：用系数部分的两个分量解出组合系数，代入常数项列得 $a=2,\\ b=-3$；\n③ 代回后行化简，取两个自由变量写出通解。",
+      "idea": "**思想：$3$ 个无关解 $\\Rightarrow$ 导出组基础解系含 $2$ 个，再用秩定参数**。\n① $4$ 个未知数、有 $3$ 个线性无关的解 ⟹ 解集仿射维数 $\\ge2$ ⟹ 导出组维数 $4-r(A)\\ge2$；前两行显然无关 ⟹ $r(A)\\ge2$；**合得 $r(A)=2$**；\n② **$r(A)=2$ ⟹ 增广矩阵第 3 行是前两行的线性组合**：用系数部分的两个分量解出组合系数，代入常数项列得 $a=2,\\ b=-3$；\n③ 代回后行化简，取两个自由变量写出通解。",
       "source": "2006数一二",
       "categoryIds": [
        135
@@ -34635,7 +34635,7 @@
       "type": "calc",
       "stem": "设 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4$ 均为 $4$ 维列向量，$\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3$ 线性无关，$\\boldsymbol{\\alpha}_4=\\boldsymbol{\\alpha}_1+\\boldsymbol{\\alpha}_2+2\\boldsymbol{\\alpha}_3$，非齐次线性方程组\n$$\n\\bigl(\\boldsymbol{\\alpha}_1-\\boldsymbol{\\alpha}_2,\\ \\boldsymbol{\\alpha}_2+\\boldsymbol{\\alpha}_3,\\ -\\boldsymbol{\\alpha}_1+t\\boldsymbol{\\alpha}_2+\\boldsymbol{\\alpha}_3\\bigr)\\mathbf{x}=\\boldsymbol{\\alpha}_4\n$$\n有无穷多解。\n(I) 求 $t$ 的值；\n(II) 求方程组的通解。",
       "answer": "$t=2$，通解为\n$$\n\\mathbf{x}=(1+k,\\ 2-k,\\ k)^T,\\quad k\\in\\mathbb{R}.\n$$\n\n在基 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3$ 下，方程组化为\n$$\n\\begin{pmatrix}1&0&-1\\\\-1&1&t\\\\0&1&1\\end{pmatrix}\\mathbf{x}\n=\\begin{pmatrix}1\\\\1\\\\2\\end{pmatrix}.\n$$\n系数矩阵行列式为\n$$\n\\begin{vmatrix}1&0&-1\\\\-1&1&t\\\\0&1&1\\end{vmatrix}=2-t.\n$$\n方程组有无穷多解，故系数矩阵不满秩且增广矩阵相容，于是 $t=2$。此时方程组为\n$$\nx_1-x_3=1,\\quad x_2+x_3=2.\n$$\n令 $x_3=k$，得通解\n$$\n\\mathbf{x}=(1+k,\\ 2-k,\\ k)^T,\\quad k\\in\\mathbb{R}.\n$$",
-      "idea": "① 以 $\\alpha_1,\\alpha_2,\\alpha_3$ 为基，把向量方程翻译成 $3\\times3$ 的线性方程组，系数行列式含参数 $t$；\n② 按系数行列式是否为零讨论：非零时唯一解；为零时比较系数矩阵与增广矩阵的秩，区分无解与无穷多解并写通解。",
+      "idea": "**思想：以 $\\alpha_1,\\alpha_2,\\alpha_3$ 为基，把向量方程翻译成 $3$ 元方程组**。\n① 以 $\\alpha_1,\\alpha_2,\\alpha_3$ 为基，把向量方程翻译成 $3\\times3$ 的线性方程组，系数行列式含参数 $t$；\n② 按系数行列式是否为零讨论：非零时唯一解；为零时比较系数矩阵与增广矩阵的秩，区分无解与无穷多解并写通解。",
       "source": "姜晓千真题同源150; 880方程组综合解答",
       "categoryIds": [
        135
@@ -34676,7 +34676,7 @@
       "type": "calc",
       "stem": "设矩阵\n\n$$\nA=\\begin{pmatrix}\n1&-1&0&-1\\\\\n1&1&0&3\\\\\n2&1&2&6\n\\end{pmatrix},\n$$\n\n$$\nB=\\begin{pmatrix}\n1&0&1&2\\\\\n1&-1&a&a-1\\\\\n2&-3&2&-2\n\\end{pmatrix},\n$$\n\n向量\n\n$$\n\\boldsymbol\\alpha=\\begin{pmatrix}0\\\\2\\\\3\\end{pmatrix},\n\\qquad\n\\boldsymbol\\beta=\\begin{pmatrix}1\\\\0\\\\-1\\end{pmatrix}.\n$$\n\n（1）证明：方程组 $A\\boldsymbol x=\\boldsymbol\\alpha$ 的解均为方程组 $B\\boldsymbol x=\\boldsymbol\\beta$ 的解；\n\n（2）若这两个方程组不同解，求 $a$ 的值。",
       "answer": "（1）证明见解析。\n\n（2）$a=1$。\n\n（1）分别化简两个增广矩阵，证明解的关系。\n\n先对 $A\\boldsymbol x=\\boldsymbol\\alpha$ 的增广矩阵作变换：\n\n$$\n[A\\mid\\boldsymbol\\alpha]=\n\\left[\n\\begin{array}{rrrr|r}\n1&-1&0&-1&0\\\\\n1&1&0&3&2\\\\\n2&1&2&6&3\n\\end{array}\n\\right].\n$$\n\n作 $r_2\\leftarrow r_2-r_1$、$r_3\\leftarrow r_3-2r_1$，得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&-1&0&-1&0\\\\\n0&2&0&4&2\\\\\n0&3&2&8&3\n\\end{array}\n\\right].\n$$\n\n将第二行除以 $2$，再依次作 $r_3\\leftarrow r_3-3r_2$、$r_1\\leftarrow r_1+r_2$，最后将第三行除以 $2$，得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&0&0&1&1\\\\\n0&1&0&2&1\\\\\n0&0&1&1&0\n\\end{array}\n\\right].\n$$\n\n因此第一个方程组等价于\n\n$$\n\\begin{cases}\nx_1+x_4=1,\\\\\nx_2+2x_4=1,\\\\\nx_3+x_4=0.\n\\end{cases}\n\\tag{1}\n$$\n\n再化简第二个方程组的增广矩阵：\n\n$$\n\n\\left[\n\\begin{array}{rrrr|r}\n1&0&1&2&1\\\\\n1&-1&a&a-1&0\\\\\n2&-3&2&-2&-1\n\\end{array}\n\\right].\n$$\n\n作 $r_2\\leftarrow r_2-r_1$、$r_3\\leftarrow r_3-2r_1$，得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&0&1&2&1\\\\\n0&-1&a-1&a-3&-1\\\\\n0&-3&0&-6&-3\n\\end{array}\n\\right].\n$$\n\n先作 $r_3\\leftarrow r_3-3r_2$，再将第二行乘以 $-1$、第三行除以 $-3$，得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&0&1&2&1\\\\\n0&1&1-a&3-a&1\\\\\n0&0&a-1&a-1&0\n\\end{array}\n\\right].\n$$\n\n最后作 $r_2\\leftarrow r_2+r_3$，得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&0&1&2&1\\\\\n0&1&0&2&1\\\\\n0&0&a-1&a-1&0\n\\end{array}\n\\right].\n$$\n\n上述变换没有除以 $a-1$，所以对任意 $a$ 都成立。第二个方程组等价于\n\n$$\n\\begin{cases}\nx_1+x_3+2x_4=1,\\\\\nx_2+2x_4=1,\\\\\n(a-1)(x_3+x_4)=0.\n\\end{cases}\n\\tag{2}\n$$\n\n若 $\\boldsymbol x$ 满足方程组（1），则\n\n$$\n\\begin{aligned}\n&x_1+x_3+2x_4\\\\\n&\\quad=(x_1+x_4)+(x_3+x_4)\\\\\n&\\quad=1+0=1.\n\\end{aligned}\n$$\n\n同时方程组（1）的第二式就是方程组（2）的第二式，且由 $x_3+x_4=0$ 可得方程组（2）的第三式。因此方程组（1）的每一个解都满足方程组（2），即所证结论成立。\n\n（2）讨论何时不同解。\n\n当 $a\\ne1$ 时，方程组（2）的第三式可除以 $a-1$，得到 $x_3+x_4=0$。再从方程组（2）的第一式减去此式，得到 $x_1+x_4=1$，故方程组（2）与方程组（1）完全等价，两方程组同解。\n\n当 $a=1$ 时，方程组（2）的第三式恒成立。令 $x_3=s$、$x_4=t$，得第二个方程组的通解\n\n$$\n\\begin{cases}\nx_1=1-s-2t,\\\\\nx_2=1-2t,\\\\\nx_3=s,\\quad x_4=t.\n\\end{cases}\n$$\n\n取 $s=1$、$t=0$，得到\n\n$$\n\\boldsymbol x=(0,1,1,0)^{\\mathrm T}.\n$$\n\n它满足方程组（2），但不满足方程组（1）中的 $x_3+x_4=0$，所以此时两方程组不同解。\n\n综上，\n\n$$\n\\boxed{a=1}.\n$$",
-      "idea": "① 对两个增广矩阵 $[A\\,|\\,\\alpha]$、$[B\\,|\\,\\beta]$ 分别作行变换化简，比较两个方程组解集之间的关系（第 (1) 问所证）；\n② 由该关系建立含 $a$ 的等式/不等式条件，解出 $a=1$。",
+      "idea": "**思想：两个方程组有公共解 $\\Rightarrow$ 联立成一个大方程组，行变换后比较秩**。\n① 对两个增广矩阵 $[A\\,|\\,\\alpha]$、$[B\\,|\\,\\beta]$ 分别作行变换化简，比较两个方程组解集之间的关系（第 (1) 问所证）；\n② 由该关系建立含 $a$ 的等式/不等式条件，解出 $a=1$。",
       "source": "2024数三",
       "categoryIds": [
        157
@@ -34705,7 +34705,7 @@
       "type": "calc",
       "stem": "设 $3$ 阶矩阵 $A=(\\alpha_1,\\alpha_2,\\alpha_3)$，非齐次线性方程组 $Ax=\\beta$ 的通解为 $k(2,1,1)^T+(1,-2,0)^T$，其中 $k$ 为任意常数。若 $B=(\\alpha_1,\\alpha_2,\\alpha_3,\\beta-5\\alpha_3)$，求线性方程组 $By=\\beta+\\alpha_3$ 的通解。",
       "answer": "$y=(-1,-3,0,0)^T+s(2,1,1,0)^T+t(-11,-3,0,1)^T$，其中 $s,t$ 为任意常数。\n\n由 $Ax=\\beta$ 的通解知 $\\alpha_1-2\\alpha_2=\\beta$，且 $2\\alpha_1+\\alpha_2+\\alpha_3=0$，故 $\\alpha_3=-2\\alpha_1-\\alpha_2$。于是 $\\beta+\\alpha_3=-\\alpha_1-3\\alpha_2$，$\\beta-5\\alpha_3=11\\alpha_1+3\\alpha_2$。设 $y=(y_1,y_2,y_3,y_4)^T$，则\n$By=(y_1-2y_3+11y_4)\\alpha_1+(y_2-y_3+3y_4)\\alpha_2$。\n比较系数得 $y_1-2y_3+11y_4=-1$，$y_2-y_3+3y_4=-3$。令 $y_3=s$，$y_4=t$，得通解\n$y=(-1,-3,0,0)^T+s(2,1,1,0)^T+t(-11,-3,0,1)^T$。",
-      "idea": "① 通解含一个参数 ⟹ **$r(A)=2$**；特解给出 $\\beta=\\alpha_1-2\\alpha_2$，齐次解给出 $\\alpha_3=-2\\alpha_1-\\alpha_2$；\n② $B$ 的四列都能由 $\\alpha_1,\\alpha_2$ 线性表示 ⟹ **$r(B)=2$**；\n③ 右端 $=-\\alpha_1-3\\alpha_2$，比较系数得两方程，取两个自由变量写通解。",
+      "idea": "**思想：通解含 $1$ 个参数 $\\Rightarrow$ $r(A)=2$；特解与齐次解反读出 $\\beta$、$\\alpha_i$ 的关系**。\n① 通解含一个参数 ⟹ **$r(A)=2$**；特解给出 $\\beta=\\alpha_1-2\\alpha_2$，齐次解给出 $\\alpha_3=-2\\alpha_1-\\alpha_2$；\n② $B$ 的四列都能由 $\\alpha_1,\\alpha_2$ 线性表示 ⟹ **$r(B)=2$**；\n③ 右端 $=-\\alpha_1-3\\alpha_2$，比较系数得两方程，取两个自由变量写通解。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        135
@@ -34734,7 +34734,7 @@
       "type": "calc",
       "stem": "设矩阵 $A=\\begin{pmatrix}4&2&-3\\\\a&3&-4\\\\b&5&-7\\end{pmatrix}$。若方程组 $A^2X=0$ 与 $AX=0$ 不同解，则 $a-b=\\underline{\\hspace{3em}}$。",
       "answer": "$-4$\n\n若两方程组解不同，则 $A$ 必为奇异矩阵，且 $A^2x=0$ 的解比 $Ax=0$ 的解多（真包含）。先由 \n$$\n|A|=b-a-4\n$$\n 得 $b=a+4$。此时第三行等于第一行加第二行，左零向量可取 $u=(1,1,-1)^T$。$AX=0$ 的一个基解向量可取 \n$$\nv=(1,16-3a,12-2a)^T.\n$$\n 要使 $A^2x=0$ 的解比 $Ax=0$ 更多，需要这个 $v$ 能由 $A$ 的列向量组线性表示，即 $u^Tv=0$。于是 \n$$\n1+16-3a-(12-2a)=0,\n$$\n 得 $a=5$，从而 $b=9$，故 $a-b=-4$。",
-      "idea": "① 两方程组解不同 ⟹ $A^2x=0$ 的解比 $Ax=0$ 的解多（真包含）：先必有 $|A|=0$（否则两者同为 $\\{0\\}$），由 $|A|=b-a-4=0$ 得 $b=a+4$；\n② 此时第三行 = 第一行 + 第二行，左零向量 $u=(1,1,-1)^{\\mathrm T}$，解出 $Ax=0$ 的基解向量 $v$；\n③ **判据：$Ax=0$ 的解 $v$ 要成为 $A^2x=0$ 的新解，必须 $v$ 能由 $A$ 的列向量组线性表示，即 $u^{\\mathrm T}v=0$**，由此定出 $a$，故 $a-b=-4$。",
+      "idea": "**思想：$A^2x=0$ 与 $Ax=0$ 不同解 $\\Rightarrow$ $r(A^2)<r(A)$ $\\Rightarrow$ $|A|=0$，定 $a,b$**。\n① 两方程组解不同 ⟹ $A^2x=0$ 的解比 $Ax=0$ 的解多（真包含）：先必有 $|A|=0$（否则两者同为 $\\{0\\}$），由 $|A|=b-a-4=0$ 得 $b=a+4$；\n② 此时第三行 = 第一行 + 第二行，左零向量 $u=(1,1,-1)^{\\mathrm T}$，解出 $Ax=0$ 的基解向量 $v$；\n③ **判据：$Ax=0$ 的解 $v$ 要成为 $A^2x=0$ 的新解，必须 $v$ 能由 $A$ 的列向量组线性表示，即 $u^{\\mathrm T}v=0$**，由此定出 $a$，故 $a-b=-4$。",
       "source": "2025数一",
       "categoryIds": [
        157
@@ -34779,7 +34779,7 @@
       "type": "calc",
       "stem": "设\n\n$$\nA=\\begin{pmatrix}\n1&1&1-a\\\\\n1&0&a\\\\\na+1&1&a+1\n\\end{pmatrix},\n$$\n\n$$\n\\boldsymbol\\beta=\\begin{pmatrix}0\\\\1\\\\2a-2\\end{pmatrix},\n$$\n\n且方程组 $A\\boldsymbol x=\\boldsymbol\\beta$ 无解。\n\n（1）求 $a$ 的值；\n\n（2）求方程组 $A^{\\mathrm T}A\\boldsymbol x=A^{\\mathrm T}\\boldsymbol\\beta$ 的通解。",
       "answer": "（1）$a=0$。\n\n（2）通解为\n\n$$\n\\boldsymbol x=(1,-2-t,t)^{\\mathrm T},\n\\qquad t\\in\\mathbb R.\n$$\n\n（1）由原方程组的增广矩阵确定 $a$。\n\n原方程组的增广矩阵为\n\n$$\n\n\\left[\n\\begin{array}{rrr|r}\n1&1&1-a&0\\\\\n1&0&a&1\\\\\na+1&1&a+1&2a-2\n\\end{array}\n\\right].\n$$\n\n作 $r_2\\leftarrow r_2-r_1$、$r_3\\leftarrow r_3-(a+1)r_1$，得\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&1&1-a&0\\\\\n0&-1&2a-1&1\\\\\n0&-a&a(a+1)&2a-2\n\\end{array}\n\\right].\n$$\n\n再作 $r_3\\leftarrow r_3-ar_2$，最后将第二行乘以 $-1$，得\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&1&1-a&0\\\\\n0&1&1-2a&-1\\\\\n0&0&a(2-a)&a-2\n\\end{array}\n\\right].\n$$\n\n前两个主元恒为 $1$，因此：\n\n当 $a\\ne0,2$ 时，第三个主元也非零，原方程组有唯一解。\n\n当 $a=2$ 时，最后一行全为零，系数矩阵与增广矩阵的秩均为 $2$，原方程组有无穷多解。\n\n当 $a=0$ 时，最后一行表示 $0=-2$，原方程组无解。\n\n由题设，得到\n\n$$\n\\boxed{a=0}.\n$$\n\n（2）计算新方程组的系数矩阵与右端。\n\n代入 $a=0$，有\n\n$$\nA=\\begin{pmatrix}\n1&1&1\\\\\n1&0&0\\\\\n1&1&1\n\\end{pmatrix},\n\\qquad\n\\boldsymbol\\beta=\\begin{pmatrix}0\\\\1\\\\-2\\end{pmatrix}.\n$$\n\n直接相乘，得\n\n$$\nA^{\\mathrm T}A=\n\\begin{pmatrix}\n3&2&2\\\\\n2&2&2\\\\\n2&2&2\n\\end{pmatrix},\n$$\n\n$$\nA^{\\mathrm T}\\boldsymbol\\beta=\n\\begin{pmatrix}-1\\\\-2\\\\-2\\end{pmatrix}.\n$$\n\n（3）用增广矩阵求新方程组的通解。\n\n新方程组的增广矩阵为\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n3&2&2&-1\\\\\n2&2&2&-2\\\\\n2&2&2&-2\n\\end{array}\n\\right].\n$$\n\n作 $r_3\\leftarrow r_3-r_2$、$r_1\\leftarrow r_1-r_2$，得\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&0&0&1\\\\\n2&2&2&-2\\\\\n0&0&0&0\n\\end{array}\n\\right].\n$$\n\n再作 $r_2\\leftarrow r_2-2r_1$，并将第二行除以 $2$，得\n\n$$\n\\left[\n\\begin{array}{rrr|r}\n1&0&0&1\\\\\n0&1&1&-2\\\\\n0&0&0&0\n\\end{array}\n\\right].\n$$\n\n即 $x_1=1$、$x_2+x_3=-2$。令 $x_3=t$，则通解为\n\n$$\n\\boxed{\\boldsymbol x=(1,-2-t,t)^{\\mathrm T}},\n\\qquad t\\in\\mathbb R.\n$$",
-      "idea": "① (Ⅰ) 无解 ⟹ $r(A)<r(A\\,|\\,\\beta)$：增广矩阵行变换，比较得 $a=0$；\n② (Ⅱ) 的正规方程 $A^{\\mathrm T}Ax=A^{\\mathrm T}\\beta$ 右端总在 $R(A^{\\mathrm T})$ 内、必有解：把 $a=0$ 代入后行变换求解；\n③ 解出通解 $(1,-2-t,t)^{\\mathrm T}$（一个特解加一维齐次通解）。",
+      "idea": "**思想：无解 $\\iff$ $r(A)<r(A\\mid\\beta)$：增广矩阵行变换定 $a$**。\n① (Ⅰ) 无解 ⟹ $r(A)<r(A\\,|\\,\\beta)$：增广矩阵行变换，比较得 $a=0$；\n② (Ⅱ) 的正规方程 $A^{\\mathrm T}Ax=A^{\\mathrm T}\\beta$ 右端总在 $R(A^{\\mathrm T})$ 内、必有解：把 $a=0$ 代入后行变换求解；\n③ 解出通解 $(1,-2-t,t)^{\\mathrm T}$（一个特解加一维齐次通解）。",
       "source": "2016数二三",
       "categoryIds": [
        135
@@ -34807,7 +34807,7 @@
       "type": "calc",
       "stem": "设 $A$ 是 $m\\times n$ 矩阵，$r(A)=n-2$，非齐次线性方程组 $Ax=b$ 的 $3$ 个解向量 $\\alpha_1,\\alpha_2,\\alpha_3$ 满足 $\\alpha_1+\\alpha_2=(1,2,3,4)^T$，$\\alpha_2+2\\alpha_3=(-2,1,5,3)^T$，$2\\alpha_3+3\\alpha_1=(11,5,-6,7)^T$，求方程组 $Ax=b$ 的通解。",
       "answer": "$x=\\left(\\dfrac72,\\dfrac32,-2,2\\right)^T+c_1(-6,-1,7,0)^T+c_2(-13,-5,8,-6)^T$，其中 $c_1,c_2$ 为任意常数。\n\n记 $p=(1,2,3,4)^T$，$q=(-2,1,5,3)^T$，$s=(11,5,-6,7)^T$。由\n$\\alpha_1+\\alpha_2=p$，$\\alpha_2+2\\alpha_3=q$，$2\\alpha_3+3\\alpha_1=s$，\n解得\n$\\alpha_1=\\left(\\dfrac72,\\dfrac32,-2,2\\right)^T$，$\\alpha_2=\\left(-\\dfrac52,\\dfrac12,5,2\\right)^T$，$\\alpha_3=\\left(\\dfrac14,\\dfrac14,0,\\dfrac12\\right)^T$。\n因 $r(A)=n-2$，齐次方程 $Ax=0$ 的基础解系含 $2$ 个向量。又 $\\alpha_2-\\alpha_1=(-6,-1,7,0)^T$，$4(\\alpha_3-\\alpha_1)=(-13,-5,8,-6)^T$ 均为齐次方程的解，且二者线性无关，所以它们构成基础解系。取 $\\alpha_1$ 为特解，即得通解。",
-      "idea": "① 三个等式是关于 $\\alpha_1,\\alpha_2,\\alpha_3$ 的线性方程组，解出 $\\alpha_1$ 作特解（通解只需一个特解）；\n② $r(A)=n-2$ ⟹ 齐次解空间二维；两解之差天然是齐次解，取 $\\alpha_1-\\alpha_2$、$\\alpha_2-\\alpha_3$ 作基础解系；\n③ 通解 $=$ 特解 $+$ 两个齐次解的任意组合。",
+      "idea": "**思想：$r(A)=n-2$ $\\Rightarrow$ 基础解系含 $2$ 个；先把三个解向量解出来再凑**。\n① 三个等式是关于 $\\alpha_1,\\alpha_2,\\alpha_3$ 的线性方程组，解出 $\\alpha_1$ 作特解（通解只需一个特解）；\n② $r(A)=n-2$ ⟹ 齐次解空间二维；两解之差天然是齐次解，取 $\\alpha_1-\\alpha_2$、$\\alpha_2-\\alpha_3$ 作基础解系；\n③ 通解 $=$ 特解 $+$ 两个齐次解的任意组合。",
       "source": "880方程组综合解答",
       "categoryIds": [
        135
@@ -34842,7 +34842,7 @@
       "type": "calc",
       "stem": "设 $3$ 阶矩阵 $A = (\\alpha_1, \\alpha_2, \\alpha_3)$ 有三个不同的特征值，其中 $\\alpha_3 = \\alpha_1 + 2\\alpha_2$。(I) 证明 $r(A)=2$；(II) 若 $\\beta = \\alpha_1 + \\alpha_2 + \\alpha_3$，求线性方程组 $Ax = \\beta$ 的通解。",
       "answer": "（I）$r(A)=2$，证明见解析。\n\n（II）通解可写为\n$$\nx=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\n+t\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix},\n\\qquad t\\in\\mathbb R.\n$$\n等价地，也可写为\n$$\nx=\\begin{pmatrix}2\\\\3\\\\0\\end{pmatrix}\n+c\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix},\n\\qquad c\\in\\mathbb R.\n$$\n\n（I）证明 $r(A)=2$。\n\n由 $\\alpha_3=\\alpha_1+2\\alpha_2$，$A$ 的列向量线性相关，故 $|A|=0$，即 $0$ 是 $A$ 的一个特征值。\n\n又 $A$ 有三个不同的特征值，故与 $0$ 对应的线性无关特征向量只有 $1$ 个，即 $Ax=0$ 的基础解系只含 $1$ 个向量，故\n$$\nr(A)=3-1=2.\n$$\n\n（II）求非齐次方程组的通解。\n\n第一步：找出一个特解。\n\n由 $\\beta=\\alpha_1+\\alpha_2+\\alpha_3$，直接得到\n$$\nA\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}=\\beta.\n$$\n所以 $x_0=(1,1,1)^{\\mathrm T}$ 是一个特解。\n\n第二步：求对应齐次方程的基础解系。\n\n由 $-\\alpha_1-2\\alpha_2+\\alpha_3=0$，知\n$$\nA\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix}=0.\n$$\n因 $Ax=0$ 的基础解系只含 $1$ 个向量，这个非零向量即构成基础解系。因此通解为\n$$\nx=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\n+t\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix}.\n$$\n\n第三步：说明不同写法的等价性。\n\n因为\n$$\n\\begin{pmatrix}2\\\\3\\\\0\\end{pmatrix}\n=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\n-\\begin{pmatrix}-1\\\\-2\\\\1\\end{pmatrix},\n$$\n令 $t=c-1$，即可得到答案中的另一种写法。两者只是特解和自由参数的选取不同，表示同一个解集。",
-      "idea": "(I) 由 $\\alpha_3=\\alpha_1+2\\alpha_2$ 得 $|A|=0$；三个特征值互异 ⟹ 属于 $0$ 的线性无关特征向量只有 $1$ 个（即 $3-r(A)=1$） ⟹ $r(A)=2$；(II) $\\beta=A(1,1,1)^{\\mathrm T}$ 给特解，齐次解是 $(1,2,-1)^{\\mathrm T}$ 的倍数，故通解 $=(1,1,1)^{\\mathrm T}+k(1,2,-1)^{\\mathrm T}$。",
+      "idea": "**思想：由 $\\alpha_3=\\alpha_1+2\\alpha_2$ 得 $|A|=0$，再用「三个特征值互异」定秩**。\n(I) 由 $\\alpha_3=\\alpha_1+2\\alpha_2$ 得 $|A|=0$；三个特征值互异 ⟹ 属于 $0$ 的线性无关特征向量只有 $1$ 个（即 $3-r(A)=1$） ⟹ $r(A)=2$；(II) $\\beta=A(1,1,1)^{\\mathrm T}$ 给特解，齐次解是 $(1,2,-1)^{\\mathrm T}$ 的倍数，故通解 $=(1,1,1)^{\\mathrm T}+k(1,2,-1)^{\\mathrm T}$。",
       "source": "2017数一二三",
       "categoryIds": [
        135
@@ -34882,7 +34882,7 @@
       "type": "calc",
       "stem": "设矩阵 $\\mathbf{A} = \\begin{pmatrix} 0 & 1 & a \\\\ 1 & 0 & 1 \\end{pmatrix}, \\mathbf{B} = \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\\\ b & 2 \\end{pmatrix}$，二次型 $f(x_1, x_2, x_3) = \\mathbf{x}^T \\mathbf{B}\\mathbf{A}\\mathbf{x}$。已知方程组 $\\mathbf{A}\\mathbf{x}=0$ 的解均是 $\\mathbf{B}^T\\mathbf{x}=0$ 的解，但这两个方程组不同解。(I) 求 a,b 的值；(II) 求正交变换 $\\mathbf{x}=\\mathbf{Q}\\mathbf{y}$ 将 $f(x_1, x_2, x_3)$ 化为标准形。",
       "answer": "$a=1,\\ b=2$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt6}&\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\\\\\frac1{\\sqrt6}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\\\\\frac2{\\sqrt6}&0&-\\frac1{\\sqrt3}\\end{pmatrix},\n$$\n在正交变换 $x=Qy$ 下，标准形为\n$$\nf=6y_1^2.\n$$\n\n（1）由 $Ax=0$ 的解均是 $B^Tx=0$ 的解但不同解，知 $B^Tx=0$ 的解比 $Ax=0$ 的解多（真包含）。矩阵 $A$ 的秩恒为 $2$，所以 $Ax=0$ 的基础解系只有 $1$ 个向量；要使包含且不同，必须 $r(B^T)=1$，从而 $b=2$。此时 $B^Tx=0$ 为 $x_1+x_2+2x_3=0$。又 $Ax=0$ 的基础解向量可取 $(-1,-a,1)^T$，代入得 $-1-a+2=0$，故 $a=1$。\n（2）于是\n$$\nBA=\\begin{pmatrix}1&1&2\\\\1&1&2\\\\2&2&4\\end{pmatrix}=uu^T,\\quad u=(1,1,2)^T.\n$$\n取 $Q$ 的第一列为 $u/\\|u\\|=(1,1,2)^T/\\sqrt6$，其余两列取与其正交的单位向量，即题示 $Q$，则 $Q^TBAQ=\\operatorname{diag}(6,0,0)$，故 $f=6y_1^2$。",
-      "idea": "由「$Ax=0$ 的解都是 $B^{\\mathrm T}x=0$ 的解但不同解」得 $B^{\\mathrm T}x=0$ 的解比 $Ax=0$ 的解多（真包含）；$r(A)=2$ 使 $Ax=0$ 的基础解系只有 $1$ 个向量，故需 $r(B^{\\mathrm T})=1$，据此定 $b$，再代回求 $f$ 的规范形。",
+      "idea": "**思想：解集真包含 $\\Rightarrow$ 秩严格不等：先由 $r(B^{\\mathrm T})<r(A)$ 定参数**。\n由「$Ax=0$ 的解都是 $B^{\\mathrm T}x=0$ 的解但不同解」得 $B^{\\mathrm T}x=0$ 的解比 $Ax=0$ 的解多（真包含）；$r(A)=2$ 使 $Ax=0$ 的基础解系只有 $1$ 个向量，故需 $r(B^{\\mathrm T})=1$，据此定 $b$，再代回求 $f$ 的规范形。",
       "source": "2024数二",
       "categoryIds": [
        157
@@ -34923,7 +34923,7 @@
       "type": "choice",
       "stem": "设 $4$ 阶矩阵 $\\mathbf{A}=(a_{ij})$ 不可逆，$a_{12}$ 的代数余子式 $A_{12}\\ne0$，$\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4$ 为矩阵 $\\mathbf A$ 的列向量组，$\\mathbf A^*$ 为 $\\mathbf A$ 的伴随矩阵，则方程组 $\\mathbf A^*\\mathbf x=0$ 的通解为（ ）。",
       "answer": "（C）\n\n由 $A$ 不可逆且 $A_{12}\\ne0$ 知 $r(A)=3$。于是 $A^*$ 秩为 $1$，且 $A^*A=O$，所以 $A$ 的列空间就是 $A^*x=0$ 的解空间。又 $A_{12}\\ne0$ 表明第 $1,3,4$ 列线性无关，故选 C。",
-      "idea": "由不可逆且 $A_{12}\\ne0$ 得 $r(A)=3$，故 $r(A^*)=1$ 且 $A^*A=O$；$A^*x=0$ 的解空间就是 $A$ 的列空间，再由 $A_{12}\\ne0$ 定哪三列无关。",
+      "idea": "**思想：$|A|=0$ 且某个代数余子式 $\\ne0$ $\\Rightarrow$ $r(A)=n-1$，于是 $r(A^*)=1$**。\n由不可逆且 $A_{12}\\ne0$ 得 $r(A)=3$，故 $r(A^*)=1$ 且 $A^*A=O$；$A^*x=0$ 的解空间就是 $A$ 的列空间，再由 $A_{12}\\ne0$ 定哪三列无关。",
       "source": "2020数二三",
       "categoryIds": [
        135
@@ -34969,7 +34969,7 @@
       "type": "calc",
       "stem": "已知三阶矩阵 $B\\ne O$，且 $B$ 的每一个列向量都是方程组\n$$\n\\begin{cases}\nx_1+2x_2-2x_3=0,\\\\\n2x_1-x_2+\\lambda x_3=0,\\\\\n3x_1+x_2-x_3=0\n\\end{cases}\n$$\n的解。求 $\\lambda$ 的值，并证明 $|B|=0$。",
       "answer": "$\\lambda=1$，且 $|B|=0$。\n\n记该齐次线性方程组的系数矩阵为\n$$\nA=\\begin{pmatrix}\n1&2&-2\\\\\n2&-1&\\lambda\\\\\n3&1&-1\n\\end{pmatrix}.\n$$\n由于 $B\\ne O$，且 $B$ 的每一个列向量都是 $AX=O$ 的解，所以 $AX=O$ 有非零解。因此\n$$\n|A|=0.\n$$\n计算得\n$$\n|A|=5\\lambda-5=5(\\lambda-1),\n$$\n故 $\\lambda=1$。\n\n当 $\\lambda=1$ 时，$A\\ne O$，所以 $\\operatorname{rank}(A)\\ge1$。于是方程组 $AX=O$ 的解空间维数小于 $3$。矩阵 $B$ 的三个列向量都属于这个真子空间，因此必线性相关，从而\n$$\n|B|=0.\n$$",
-      "idea": "① $B\\ne O$ 且每一列都是 $Ax=0$ 的解 ⟹ $Ax=0$ 有非零解 ⟹ $|A|=0$：算 $|A|=5(\\lambda-1)$ 得 $\\lambda=1$；\n② 证明 $|B|=0$：$\\lambda=1$ 时 $r(A)=2$，$Ax=0$ 的基础解系只含 $3-2=1$ 个向量，$B$ 的三列都是它的倍数 ⟹ 三列相关 ⟹ $|B|=0$。",
+      "idea": "**思想：$B\\ne O$ 且每列都是 $Ax=0$ 的解 $\\Rightarrow$ $Ax=0$ 有非零解 $\\Rightarrow$ $|A|=0$**。\n① $B\\ne O$ 且每一列都是 $Ax=0$ 的解 ⟹ $Ax=0$ 有非零解 ⟹ $|A|=0$：算 $|A|=5(\\lambda-1)$ 得 $\\lambda=1$；\n② 证明 $|B|=0$：$\\lambda=1$ 时 $r(A)=2$，$Ax=0$ 的基础解系只含 $3-2=1$ 个向量，$B$ 的三列都是它的倍数 ⟹ 三列相关 ⟹ $|B|=0$。",
       "source": "1992数三",
       "categoryIds": [
        132
@@ -35001,7 +35001,7 @@
       "type": "calc",
       "stem": "设 $B=\\begin{pmatrix}1&-1&0&0\\\\0&1&-1&0\\\\0&0&1&-1\\\\0&0&0&1\\end{pmatrix}$，$C=\\begin{pmatrix}2&1&3&4\\\\0&2&1&3\\\\0&0&2&1\\\\0&0&0&2\\end{pmatrix}$。矩阵 $A$ 满足 $A(E-C^{-1}B)^T C^T=E$，求矩阵 $A$。",
       "answer": "$A=\\begin{pmatrix}1&0&0&0\\\\-2&1&0&0\\\\1&-2&1&0\\\\0&1&-2&1\\end{pmatrix}$\n\n因为 $(E-C^{-1}B)^TC^T=(C-B)^T$，原式化为 $A(C-B)^T=E$，所以 $A=[(C-B)^T]^{-1}=\\begin{pmatrix}1&0&0&0\\\\-2&1&0&0\\\\1&-2&1&0\\\\0&1&-2&1\\end{pmatrix}$。",
-      "idea": "① 先用转置公式化简：$(E-C^{-1}B)^{\\mathrm T}C^{\\mathrm T}=\\big(C(E-C^{-1}B)\\big)^{\\mathrm T}=(C-B)^{\\mathrm T}$；\n② 原式即 $A(C-B)^{\\mathrm T}=E$ ⟹ $A=\\big[(C-B)^{\\mathrm T}\\big]^{-1}$；\n③ $C-B$ 是对角元为 $1$ 的三角阵，直接求逆后转置（或先转置再求逆）。",
+      "idea": "**思想：先用转置与逆把式子化简成 $X=$ 显式，再代数字**。\n① 先用转置公式化简：$(E-C^{-1}B)^{\\mathrm T}C^{\\mathrm T}=\\big(C(E-C^{-1}B)\\big)^{\\mathrm T}=(C-B)^{\\mathrm T}$；\n② 原式即 $A(C-B)^{\\mathrm T}=E$ ⟹ $A=\\big[(C-B)^{\\mathrm T}\\big]^{-1}$；\n③ $C-B$ 是对角元为 $1$ 的三角阵，直接求逆后转置（或先转置再求逆）。",
       "source": "1990数一",
       "categoryIds": [
        169
@@ -35033,7 +35033,7 @@
       "type": "choice",
       "stem": "设 $A$ 是 $m\\times n$ 矩阵，$B$ 是 $n\\times m$ 矩阵，则齐次线性方程组\n$$\n(AB)\\boldsymbol{x}=\\boldsymbol{0}\n$$\n（ ）。",
       "answer": "（D）\n\n第一步：看清乘积矩阵的阶数。\n\n$A$ 是 $m\\times n$ 矩阵，$B$ 是 $n\\times m$ 矩阵，所以 $AB$ 是 $m$ 阶矩阵。因而\n$$\n(AB)\\boldsymbol x=\\boldsymbol0\n$$\n有 $m$ 个未知数。\n\n第二步：比较系数矩阵的秩与未知数个数。\n\n由乘积矩阵的秩不超过任一因子的秩，\n$$\nr(AB)\\le r(B)\\le n.\n$$\n当 $m>n$ 时，\n$$\nr(AB)\\le n<m.\n$$\n系数矩阵的秩小于未知数个数，齐次方程组必有非零解。因此 D 正确，C 错误。\n\n第三步：说明 $n>m$ 时为什么不能确定。\n\n此时 $r(AB)$ 可能等于 $m$，也可能小于 $m$。例如取 $m=1,n=2$，\n$$\nA=\\begin{pmatrix}1&0\\end{pmatrix}.\n$$\n若\n$$\nB=\\begin{pmatrix}1\\\\0\\end{pmatrix},\n$$\n则 $AB=1$，方程只有零解；若\n$$\nB=\\begin{pmatrix}0\\\\1\\end{pmatrix},\n$$\n则 $AB=0$，方程有非零解。\n\n因此 A、B 都不是必然成立的结论，故选 D。",
-      "idea": "先看清阶数：$A$ 是 $m\\times n$、$B$ 是 $n\\times m$，所以 $AB$ 是 $m$ 阶方阵；再用 $r(AB)\\le\\min\\{r(A),r(B)\\}$ 判零解/非零解。",
+      "idea": "**思想：先看清阶数（$AB$ 是 $m$ 阶），再用 $r(AB)\\le\\min\\{r(A),r(B)\\}$ 判有没有非零解**。\n先看清阶数：$A$ 是 $m\\times n$、$B$ 是 $n\\times m$，所以 $AB$ 是 $m$ 阶方阵；再用 $r(AB)\\le\\min\\{r(A),r(B)\\}$ 判零解/非零解。",
       "source": "2002数三 第8题",
       "categoryIds": [
        132
@@ -35071,7 +35071,7 @@
       "type": "choice",
       "stem": "设\n$$\nA=\\begin{pmatrix}\n1&1&1\\\\\n1&2&a\\\\\n1&4&a^2\n\\end{pmatrix},\n\\;\nb=\\begin{pmatrix}1\\\\d\\\\d^2\\end{pmatrix}.\n$$\n若集合 $\\Omega=\\{1,2\\}$，则线性方程组 $A\\boldsymbol{x}=b$ 有无穷多解的充分必要条件为（ ）。",
       "answer": "（D）\n\n**第一步：写出增广矩阵并化为阶梯形。**\n\n方程组的增广矩阵为\n$$\n(A,b)=\n\\left(\n\\begin{array}{ccc|c}\n1&1&1&1\\\\\n1&2&a&d\\\\\n1&4&a^2&d^2\n\\end{array}\n\\right).\n$$\n先作\n$$\nR_2\\leftarrow R_2-R_1,\\qquad\nR_3\\leftarrow R_3-R_1,\n$$\n得到\n$$\n\\left(\n\\begin{array}{ccc|c}\n1&1&1&1\\\\\n0&1&a-1&d-1\\\\\n0&3&a^2-1&d^2-1\n\\end{array}\n\\right).\n$$\n再作 $R_3\\leftarrow R_3-3R_2$。为使矩阵书写简洁，记\n$$\n\\begin{aligned}\np&=a^2-1-3(a-1)\\\\\n&=(a-1)(a-2),\\\\\nq&=d^2-1-3(d-1)\\\\\n&=(d-1)(d-2).\n\\end{aligned}\n$$\n则增广矩阵化为\n$$\n\\left(\n\\begin{array}{ccc|c}\n1&1&1&1\\\\\n0&1&a-1&d-1\\\\\n0&0&p&q\n\\end{array}\n\\right).\n$$\n最后一行对应 $px_3=q$，也就是\n$$\n(a-1)(a-2)x_3=(d-1)(d-2).\n$$\n\n**第二步：根据主元和矛盾行，分类判断解的情况。**\n\n前两行在系数部分始终有两个主元，因此 $r(A)\\ge2$。\n\n若 $a\\notin\\{1,2\\}$，第三行的系数\n$$\n(a-1)(a-2)\\ne0,\n$$\n于是系数部分有三个主元，即\n$$\nr(A)=r(A,b)=3.\n$$\n此时方程组有唯一解，不符合无穷多解的要求。\n\n若 $a\\in\\{1,2\\}$，第三行的系数全为零，故 $r(A)=2$。这时需要继续看增广列：\n\n当 $d\\notin\\{1,2\\}$ 时，最后一行为\n$$\n\\left(\\begin{array}{ccc|c}\n0&0&0&(d-1)(d-2)\n\\end{array}\\right),\n$$\n右端不为零，是矛盾行。此时\n$$\nr(A)=2<r(A,b)=3,\n$$\n方程组无解。\n\n当 $d\\in\\{1,2\\}$ 时，最后一行全为零，增广矩阵只有两个非零行，且两个主元都在系数部分，所以\n$$\nr(A)=r(A,b)=2<3.\n$$\n方程组有一个自由未知数，因而有无穷多解。\n\n**结论：**\n\n方程组有无穷多解的充分必要条件是\n$$\n\\boxed{a\\in\\Omega,\\qquad d\\in\\Omega}.\n$$\n故选 **D**。",
-      "idea": "含参方程组：写增广矩阵做行变换，用 $|A|=0$ 分档，再比较 $r(A)$ 与 $r(A\\mid b)$ 定 $d$ 与集合 $\\Omega$。",
+      "idea": "**思想：含参方程组：行变换后按 $|A|=0$ 分档，再比 $r(A)$ 与 $r(A\\mid b)$**。\n含参方程组：写增广矩阵做行变换，用 $|A|=0$ 分档，再比较 $r(A)$ 与 $r(A\\mid b)$ 定 $d$ 与集合 $\\Omega$。",
       "source": "2015数一二三（一5、二7、三5）",
       "categoryIds": [
        132
@@ -35159,7 +35159,7 @@
       "type": "calc",
       "stem": "设 $4$ 阶矩阵 $A=(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4)$，非齐次线性方程组 $Ax=\\beta$ 的通解为 $k(1,-2,4,0)^T+(1,2,2,1)^T$，其中 $k$ 为任意常数。若 $B=(\\alpha_3,\\alpha_2,\\alpha_1,\\beta-\\alpha_4)$，求线性方程组 $Bx=\\alpha_1-\\alpha_2+\\alpha_3$ 的通解。",
       "answer": "$x=(-3,1,0,0)^T+s(4,-2,1,0)^T+t(2,-4,0,1)^T$，其中 $s,t$ 为任意常数。\n\n由 $Ax=\\beta$ 的通解知 $\\alpha_1+2\\alpha_2+2\\alpha_3+\\alpha_4=\\beta$，且 $\\alpha_1-2\\alpha_2+4\\alpha_3=0$，故 $\\alpha_1=2\\alpha_2-4\\alpha_3$，$\\beta-\\alpha_4=4\\alpha_2-2\\alpha_3$。设 $x=(x_1,x_2,x_3,x_4)^T$，则\n$Bx=(x_2+2x_3+4x_4)\\alpha_2+(x_1-4x_3-2x_4)\\alpha_3$。\n又 $\\alpha_1-\\alpha_2+\\alpha_3=\\alpha_2-3\\alpha_3$，故\n$x_2+2x_3+4x_4=1$，$x_1-4x_3-2x_4=-3$。\n令 $x_3=s$，$x_4=t$，得通解\n$x=(-3,1,0,0)^T+s(4,-2,1,0)^T+t(2,-4,0,1)^T$。",
-      "idea": "① 通解含一个参数 ⟹ **$r(A)=3$**；特解给出 $\\beta$，齐次解给出 $\\alpha_1=2\\alpha_2-4\\alpha_3$；\n② $B$ 的四列都能由 $\\alpha_2,\\alpha_3$ 线性表示 ⟹ **$r(B)=2$**；\n③ 右端 $=\\alpha_2-3\\alpha_3$，比较系数得两方程，取两个自由变量写通解。",
+      "idea": "**思想：通解含 $1$ 个参数 $\\Rightarrow$ $r(A)=3$；特解与齐次解反读出 $\\beta$ 与 $\\alpha_i$ 的关系**。\n① 通解含一个参数 ⟹ **$r(A)=3$**；特解给出 $\\beta$，齐次解给出 $\\alpha_1=2\\alpha_2-4\\alpha_3$；\n② $B$ 的四列都能由 $\\alpha_2,\\alpha_3$ 线性表示 ⟹ **$r(B)=2$**；\n③ 右端 $=\\alpha_2-3\\alpha_3$，比较系数得两方程，取两个自由变量写通解。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        135
@@ -35185,7 +35185,7 @@
       "type": "calc",
       "stem": "设矩阵 $A=\\begin{pmatrix}1&-1&-1\\\\2&a&1\\\\-1&1&a\\end{pmatrix},B=\\begin{pmatrix}2&2\\\\1&a\\\\-a-1&-2\\end{pmatrix}$。当 $a$ 为何值时，方程 $AX=B$ 无解、有唯一解、有无穷多解？在有解时，求解此方程。",
       "answer": "当 $a=-2$ 时无解；当 $a=1$ 时有无穷多解，\n$$\nX=\\begin{pmatrix}1&1\\\\s&t\\\\-1-s&-1-t\\end{pmatrix},\n$$\n其中 $s,t$ 为任意常数；当 $a\\ne-2,1$ 时有唯一解，\n$$\nX=\\begin{pmatrix}1&\\frac{3a}{a+2}\\\\0&\\frac{a-4}{a+2}\\\\-1&0\\end{pmatrix}.\n$$\n\n矩阵方程 $AX=B$ 相当于同时求解以 $B$ 的两列为右端项的两个方程组。对增广矩阵作\n$$\nr_2\\leftarrow r_2-2r_1,\\qquad\nr_3\\leftarrow r_3+r_1,\n$$\n得\n$$\n\\left[\n\\begin{array}{rrr|rr}\n1&-1&-1&2&2\\\\\n2&a&1&1&a\\\\\n-1&1&a&-a-1&-2\n\\end{array}\n\\right]\n\\longrightarrow\n\\left[\n\\begin{array}{rrr|rr}\n1&-1&-1&2&2\\\\\n0&a+2&3&-3&a-4\\\\\n0&0&a-1&1-a&0\n\\end{array}\n\\right].\n$$\n\n当 $a\\ne-2,1$ 时，三个主元均非零，两个方程组各有唯一解。由第三行、第二行、第一行依次回代，第一列解为\n$$\n(x_1,x_2,x_3)^{\\mathrm T}=(1,0,-1)^{\\mathrm T},\n$$\n第二列解为\n$$\n(x_1,x_2,x_3)^{\\mathrm T}\n=\\left(\\frac{3a}{a+2},\\frac{a-4}{a+2},0\\right)^{\\mathrm T}.\n$$\n故唯一解为\n$$\n\\boxed{\nX=\\begin{pmatrix}\n1&\\dfrac{3a}{a+2}\\\\\n0&\\dfrac{a-4}{a+2}\\\\\n-1&0\n\\end{pmatrix}}.\n$$\n\n当 $a=-2$ 时，上述增广矩阵的后两行为\n$$\n\\left[\n\\begin{array}{rrr|rr}\n0&0&3&-3&-6\\\\\n0&0&-3&3&0\n\\end{array}\n\\right].\n$$\n两行相加得到\n$$\n\\left[\\begin{array}{rrr|rr}0&0&0&0&-6\\end{array}\\right].\n$$\n第二列方程组出现 $0=-6$，所以矩阵方程无解。这里即使第一列方程组有解，也不能使整个 $AX=B$ 有解。\n\n当 $a=1$ 时，两个方程组都化为\n$$\n\\begin{cases}\nx_1-x_2-x_3=2,\\\\\nx_2+x_3=-1.\n\\end{cases}\n$$\n因此 $x_1=1$，而 $x_2$ 可任取。两列的自由参数应分别取为 $s,t$，故全部解为\n$$\n\\boxed{\nX=\\begin{pmatrix}\n1&1\\\\\ns&t\\\\\n-1-s&-1-t\n\\end{pmatrix},\n\\qquad s,t\\in\\mathbb R}.\n$$\n所以 $a=-2$ 时无解，$a=1$ 时有无穷多解，其余情形有唯一解。",
-      "idea": "① $AX=B$ 等于同时解两个同系数的方程组：对增广矩阵 $(A\\,|\\,B)$ 一起行变换；\n② $|A|=-(a+2)(a-1)$：$a=-2$ 时无解（增广秩大于系数秩），$a=1$ 时有无穷多解，其余值唯一解；\n③ 行化简后按自由变量写出 $X$ 的通式（无穷多解时含自由参数 $s,t$）。",
+      "idea": "**思想：$AX=B$ 就是同系数阵解多个右端：把 $(A\\mid B)$ 一起行变换**。\n① $AX=B$ 等于同时解两个同系数的方程组：对增广矩阵 $(A\\,|\\,B)$ 一起行变换；\n② $|A|=-(a+2)(a-1)$：$a=-2$ 时无解（增广秩大于系数秩），$a=1$ 时有无穷多解，其余值唯一解；\n③ 行化简后按自由变量写出 $X$ 的通式（无穷多解时含自由参数 $s,t$）。",
       "source": "2016数一 第20题",
       "categoryIds": [
        169
@@ -35227,7 +35227,7 @@
       "type": "choice",
       "stem": "设 $3$ 阶矩阵 $A=(\\alpha_1,\\alpha_2,\\alpha_3)$，$B=(\\beta_1,\\beta_2,\\beta_3)$。若向量组 $\\alpha_1,\\alpha_2,\\alpha_3$ 可以由向量组 $\\beta_1,\\beta_2,\\beta_3$ 线性表示，则（ ）。",
       "answer": "（D）\n\n标准解法：题设表示 $A$ 的每一列都是 $B$ 的列向量的线性组合，故存在矩阵 $C$ 使 $A=BC$。于是 \n$$\nA^{\\mathsf T}=C^{\\mathsf T}B^{\\mathsf T}.\n$$\n 若 $B^{\\mathsf T}\\boldsymbol x=0$，则 $A^{\\mathsf T}\\boldsymbol x=C^{\\mathsf T}B^{\\mathsf T}\\boldsymbol x=0$，所以 D 正确。其余方向一般不能由列空间包含关系推出。故选 D。快速核对：列空间包含反向对应左零空间包含。",
-      "idea": "$A$ 的列可由 $B$ 的列线性表示 ⟺ 存在 $C$ 使 $A=BC$；由此得 $r(A)\\le r(B)$，再逐项验证。",
+      "idea": "**思想：列可由列表示 $\\iff$ 存在 $C$ 使 $A=BC$ $\\Rightarrow$ $r(A)\\le r(B)$**。\n$A$ 的列可由 $B$ 的列线性表示 ⟺ 存在 $C$ 使 $A=BC$；由此得 $r(A)\\le r(B)$，再逐项验证。",
       "source": "2021数二 第9题",
       "categoryIds": [
        157
@@ -35280,7 +35280,7 @@
       "type": "choice",
       "stem": "设 $A$ 是 $m\\times s$ 矩阵，$B$ 是 $s\\times n$ 矩阵。方程组 $ABX=0$ 与 $BX=0$ 同解的充分必要条件是（ ）。",
       "answer": "（B）\n\n第一步：注意解之间的包含关系。\n\n$BX=0$ 的每个解一定满足 $ABX=0$。\n\n第二步：比较自由变量个数。\n\n两方程组都有 $n$ 个未知量，其基础解系所含向量个数分别为\n$$\nn-r(AB),\\qquad n-r(B).\n$$\n在已有包含关系下，两组同解当且仅当基础解系所含向量个数相同，即\n$$\n\\boxed{r(AB)=r(B)}.\n$$\n故选 B。",
-      "idea": "$BX=0$ 的解一定满足 $ABX=0$。要同解只需 $ABx=0$ 的解不多于 $Bx=0$ 的解，即 $r(AB)=r(B)$，用 $r(AB)\\le r(B)$ 夹住即可。",
+      "idea": "**思想：$BX=0$ 的解必是 $ABX=0$ 的解；要同解只需反向包含，用秩比**。\n$BX=0$ 的解一定满足 $ABX=0$。要同解只需 $ABx=0$ 的解不多于 $Bx=0$ 的解，即 $r(AB)=r(B)$，用 $r(AB)\\le r(B)$ 夹住即可。",
       "source": "26押题王六套卷六",
       "categoryIds": [
        157
@@ -35308,7 +35308,7 @@
       "type": "calc",
       "stem": "已知\n\n$$\nA=\\begin{pmatrix}\n1&0&-1\\\\\n1&1&-1\\\\\n0&1&a^2-1\n\\end{pmatrix},\n\\mathbf b=\\begin{pmatrix}0\\\\1\\\\a\\end{pmatrix}.\n$$\n\n若线性方程组 $A\\mathbf x=\\mathbf b$ 有无穷多解，则 $a=\\underline{\\hspace{3em}}$。",
       "answer": "$a=1$\n\n第一步，对增广矩阵作初等行变换。\n\n原增广矩阵为\n\n$$\n\\left(\\begin{array}{ccc|c}\n1&0&-1&0\\\\\n1&1&-1&1\\\\\n0&1&a^2-1&a\n\\end{array}\\right).\n$$\n\n先作 $R_2\\leftarrow R_2-R_1$，再用新的第二行作 $R_3\\leftarrow R_3-R_2$，增广矩阵化为\n\n$$\n\\left(\\begin{array}{ccc|c}\n1&0&-1&0\\\\\n0&1&0&1\\\\\n0&0&a^2-1&a-1\n\\end{array}\\right).\n$$\n\n因此最后一行表示\n\n$$\n(a^2-1)x_3=a-1.\n$$\n\n第二步，同时检查系数和右端。\n\n当 $a=1$ 时，最后一行是 $0=0$，不是矛盾。此时系数矩阵与增广矩阵的秩均为 $2$，小于未知数个数 $3$，所以有无穷多解。\n\n当 $a=-1$ 时，最后一行是 $0=-2$，方程组无解。\n\n当 $a\\ne\\pm1$ 时，$a^2-1\\ne0$，三个主元均非零，故有唯一解。\n\n综上，所求参数为\n\n$$\na=1.\n$$\n\n特别地，反馈指出的“$1-1=0$”正是 $a=1$ 时右端 $a-1=0$ 的结果；系数和右端同时消为零，表示该行约束冗余，并不表示无解。此时通解为\n\n$$\n\\mathbf x=\n\\begin{pmatrix}0\\\\1\\\\0\\end{pmatrix}\n+t\\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix},\nt\\in\\mathbb R.\n$$",
-      "idea": "① 增广矩阵行变换：$R_2-R_1$ 后再消第三行，末行化出含 $a^2-1$ 与常数 $a-1$ 的形式；\n② 无穷多解 ⟹ $r(A)=r(A\\,|\\,\\mathbf b)<3$：末行系数与常数必须同时为零 ⟹ $a^2-1=0$ 且 $a-1=0$，取公共值 $a=1$。",
+      "idea": "**思想：增广矩阵行变换，看末行是否矛盾来分档定 $a$**。\n① 增广矩阵行变换：$R_2-R_1$ 后再消第三行，末行化出含 $a^2-1$ 与常数 $a-1$ 的形式；\n② 无穷多解 ⟹ $r(A)=r(A\\,|\\,\\mathbf b)<3$：末行系数与常数必须同时为零 ⟹ $a^2-1=0$ 且 $a-1=0$，取公共值 $a=1$。",
       "source": "2019数三",
       "categoryIds": [
        132
@@ -35340,7 +35340,7 @@
       "type": "calc",
       "stem": "设 $3$ 阶矩阵 $\\mathbf A=(\\mathbf a_1,\\mathbf a_2,\\mathbf a_3)$ 满足 $\\mathbf A\\mathbf a_1=(1,0,1)^{\\mathrm T}$，$\\mathbf A\\mathbf a_2=(0,1,0)^{\\mathrm T}$，$\\mathbf A\\mathbf a_3=(0,0,0)^{\\mathrm T}$，且 $\\mathbf a_3\\neq\\mathbf0$，则线性方程组 $\\mathbf A\\mathbf x=(1,1,1)^{\\mathrm T}$ 的通解为______。",
       "answer": "$\\boldsymbol x=\\boldsymbol a_1+\\boldsymbol a_2+t\\boldsymbol a_3$，$t$ 为任意常数\n\n$A\\boldsymbol a_1=(1,0,1)^{\\mathrm T}$ 与 $A\\boldsymbol a_2=(0,1,0)^{\\mathrm T}$ 线性无关，故 $r(A)\\ge2$；又 $A\\boldsymbol a_3=0$ 且 $\\boldsymbol a_3\\ne0$，故 $r(A)=2$，零空间由 $\\boldsymbol a_3$ 生成。由于 $A(\\boldsymbol a_1+\\boldsymbol a_2)=(1,1,1)^{\\mathrm T}$，通解如答案所示。",
-      "idea": "① $A\\alpha_1,A\\alpha_2$ 无关 ⟹ $r(A)\\ge2$；$A\\alpha_3=0$、$\\alpha_3\\ne0$ ⟹ $r(A)\\le2$，故 **$r(A)=2$，$Ax=0$ 的全部解为 $t\\alpha_3$**；\n② 右端 $=A(\\alpha_1+\\alpha_2)$ ⟹ 特解 $\\alpha_1+\\alpha_2$；\n③ 通解 $=\\alpha_1+\\alpha_2+t\\alpha_3$。",
+      "idea": "**思想：由 $A\\alpha_i$ 的像定 $r(A)$，再判 $A\\alpha_3$ 能否由前两个线性表示**。\n① $A\\alpha_1,A\\alpha_2$ 无关 ⟹ $r(A)\\ge2$；$A\\alpha_3=0$、$\\alpha_3\\ne0$ ⟹ $r(A)\\le2$，故 **$r(A)=2$，$Ax=0$ 的全部解为 $t\\alpha_3$**；\n② 右端 $=A(\\alpha_1+\\alpha_2)$ ⟹ 特解 $\\alpha_1+\\alpha_2$；\n③ 通解 $=\\alpha_1+\\alpha_2+t\\alpha_3$。",
       "source": "0.9k 数二 第四章 B类 第13题",
       "categoryIds": [
        135
@@ -35372,7 +35372,7 @@
       "type": "calc",
       "stem": "设 $A$ 为 $2\\times4$ 矩阵，线性方程组 $A\\boldsymbol x=\\boldsymbol0$ 的基础解系为\n\n$$\n\\begin{aligned}\n\\boldsymbol\\alpha_1&=(1,3,0,2)^{\\mathrm T},\\\\\n\\boldsymbol\\alpha_2&=(1,2,-1,3)^{\\mathrm T}.\n\\end{aligned}\n$$\n\n线性方程组 $B\\boldsymbol x=\\boldsymbol0$ 的基础解系为\n\n$$\n\\begin{aligned}\n\\boldsymbol\\beta_1&=(1,1,2,1)^{\\mathrm T},\\\\\n\\boldsymbol\\beta_2&=(0,-3,1,a)^{\\mathrm T}.\n\\end{aligned}\n$$\n\n（1）求满足条件的一个矩阵 $A$；\n\n（2）若方程组 $A\\boldsymbol x=\\boldsymbol0$ 与 $B\\boldsymbol x=\\boldsymbol0$ 有非零公共解，求 $a$ 的值及所有非零公共解。",
       "answer": "(I) 可取\n$$\nA=\\begin{pmatrix}-3&1&-1&0\\\\-2&0&1&1\\end{pmatrix}.\n$$\n (II) $a=0$，所有非零公共解为 $k(1,4,1,1)^T$，其中 $k\\ne0$。\n\n（1）用增广矩阵求矩阵 $A$ 的各行。\n\n设 $A$ 的任意一行为 $(p,q,r,s)$。因为 $\\boldsymbol\\alpha_1,\\boldsymbol\\alpha_2$ 都是方程组的解，所以该行应满足\n\n$$\n\\begin{cases}\np+3q+2s=0,\\\\\np+2q-r+3s=0.\n\\end{cases}\n$$\n\n以 $p,q,r,s$ 为未知量，增广矩阵为\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&3&0&2&0\\\\\n1&2&-1&3&0\n\\end{array}\n\\right].\n$$\n\n作 $r_2\\leftarrow r_2-r_1$，再将第二行乘以 $-1$，得\n\n$$\n\\left[\n\\begin{array}{rrrr|r}\n1&3&0&2&0\\\\\n0&1&1&-1&0\n\\end{array}\n\\right].\n$$\n\n由这两行得\n\n$$\np=-3q-2s,\\qquad r=-q+s.\n$$\n\n分别取 $(q,s)=(1,0)$ 和 $(q,s)=(0,1)$，得到两行\n\n$$\n(-3,1,-1,0),\\qquad(-2,0,1,1).\n$$\n\n故可取\n\n$$\n\\boxed{\nA=\\begin{pmatrix}\n-3&1&-1&0\\\\\n-2&0&1&1\n\\end{pmatrix}}.\n$$\n\n上述两行线性无关，故 $r(A)=2$，基础解系应含 $4-2=2$ 个向量。又 $\\boldsymbol\\alpha_1,\\boldsymbol\\alpha_2$ 线性无关且均满足 $A\\boldsymbol x=\\boldsymbol0$，所以它们确实构成该方程组的基础解系。\n\n（2）将 $B\\boldsymbol x=\\boldsymbol0$ 的通解代入 $A\\boldsymbol x=\\boldsymbol0$。\n\n由题设，$B\\boldsymbol x=\\boldsymbol0$ 的通解为\n\n$$\n\\boldsymbol x=u\\boldsymbol\\beta_1+v\\boldsymbol\\beta_2.\n$$\n\n计算得\n\n$$\n\\begin{aligned}\nA\\boldsymbol\\beta_1&=\\begin{pmatrix}-4\\\\1\\end{pmatrix},\\\\\nA\\boldsymbol\\beta_2&=\\begin{pmatrix}-4\\\\a+1\\end{pmatrix}.\n\\end{aligned}\n$$\n\n因此公共解对应的系数 $u,v$ 满足\n\n$$\n\\begin{cases}\n-4u-4v=0,\\\\\nu+(a+1)v=0.\n\\end{cases}\n$$\n\n其增广矩阵为\n\n$$\n\\left[\n\\begin{array}{rr|r}\n-4&-4&0\\\\\n1&a+1&0\n\\end{array}\n\\right].\n$$\n\n先交换两行，再作 $r_2\\leftarrow r_2+4r_1$，得\n\n$$\n\\left[\n\\begin{array}{rr|r}\n1&a+1&0\\\\\n0&4a&0\n\\end{array}\n\\right].\n$$\n\n将第二行除以 $4$，再作 $r_1\\leftarrow r_1-r_2$，得\n\n$$\n\\left[\n\\begin{array}{rr|r}\n1&1&0\\\\\n0&a&0\n\\end{array}\n\\right].\n$$\n\n即\n\n$$\nu+v=0,\\qquad av=0.\n$$\n\n（3）确定参数并写出所有非零公共解。\n\n若 $a\\ne0$，则 $v=u=0$，只能得到零解。\n\n若 $a=0$，则可令 $u=k$、$v=-k$，得到\n\n$$\n\\begin{aligned}\n\\boldsymbol x\n&=k(\\boldsymbol\\beta_1-\\boldsymbol\\beta_2)\\\\\n&=k(1,4,1,1)^{\\mathrm T}.\n\\end{aligned}\n$$\n\n因此有非零公共解当且仅当\n\n$$\n\\boxed{a=0},\n$$\n\n此时所有非零公共解为\n\n$$\n\\boxed{\\boldsymbol x=k(1,4,1,1)^{\\mathrm T}},\n\\qquad k\\ne0.\n$$",
-      "idea": "① 反求 $A$：设 $A$ 的一行为 $(p,q,r,s)$，由**「解向量与行向量正交」**得它与 $\\alpha_1,\\alpha_2$ 的内积均为 $0$，两个方程定四个未知数——取两组自由变量值即得两行；\n② **公共解：联立** $c_1\\alpha_1+c_2\\alpha_2=d_1\\beta_1+d_2\\beta_2$，逐分量比较，化为关于系数的齐次方程组；\n③ 有非零公共解 ⟹ 系数行列式为零，解出 $a$，回代得公共解方向 $k(1,4,1,1)^{\\mathrm T}$。",
+      "idea": "**思想：解向量与 $A$ 的行向量正交 $\\Rightarrow$ 由基础解系反求 $A$ 的行**。\n① 反求 $A$：设 $A$ 的一行为 $(p,q,r,s)$，由**「解向量与行向量正交」**得它与 $\\alpha_1,\\alpha_2$ 的内积均为 $0$，两个方程定四个未知数——取两组自由变量值即得两行；\n② **公共解：联立** $c_1\\alpha_1+c_2\\alpha_2=d_1\\beta_1+d_2\\beta_2$，逐分量比较，化为关于系数的齐次方程组；\n③ 有非零公共解 ⟹ 系数行列式为零，解出 $a$，回代得公共解方向 $k(1,4,1,1)^{\\mathrm T}$。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        157
@@ -35398,7 +35398,7 @@
       "type": "choice",
       "stem": "设 $A,B$ 为 $n$ 阶矩阵，$\\beta$ 是 $n$ 维列向量。若 $A$ 的列向量组可由 $B$ 的列向量组线性表示，则（ ）",
       "answer": "（A）\n\n“$A$ 的列向量组可由 $B$ 的列向量组线性表示”等价于存在矩阵 $C$，使\n$$\nA=BC.\n$$\n也就是说，$A$ 的列向量组的任意线性组合都能由 $B$ 的列向量组线性表示。若方程 $A\\boldsymbol{x}=\\boldsymbol\\beta$ 有解，则 $\\boldsymbol\\beta$ 是 $A$ 的列向量组的线性组合，于是也能由 $B$ 的列向量组线性表示，所以方程 $B\\boldsymbol{x}=\\boldsymbol\\beta$ 也有解。故 A 正确。\n\n下面说明其余选项均不成立。\n\n取\n$$\nB=\\begin{pmatrix}1&0\\\\0&0\\end{pmatrix},\n\\qquad\nA=\\begin{pmatrix}1&1\\\\0&0\\end{pmatrix}.\n$$\n$A$ 的每个列向量都可由 $B$ 的列向量线性表示。\n\n对于选项 B，取\n$$\n\\boldsymbol\\beta=\\begin{pmatrix}1\\\\1\\end{pmatrix}.\n$$\n因为\n$$\nA^{\\mathsf T}\\boldsymbol{x}\n=\\begin{pmatrix}x_1\\\\x_1\\end{pmatrix},\n$$\n所以 $A^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 有解；但\n$$\nB^{\\mathsf T}\\boldsymbol{x}\n=\\begin{pmatrix}x_1\\\\0\\end{pmatrix},\n$$\n故 $B^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 无解，B 错误。\n\n对于选项 D，仍用上述 $A,B$，取\n$$\n\\boldsymbol\\beta=\\begin{pmatrix}1\\\\0\\end{pmatrix}.\n$$\n此时 $B^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 有解，而\n$A^{\\mathsf T}\\boldsymbol{x}=\\boldsymbol\\beta$ 无解，故 D 错误。\n\n对于选项 C，取\n$$\nB=E,\\qquad\nA=\\begin{pmatrix}1&0\\\\0&0\\end{pmatrix},\n\\qquad\n\\boldsymbol\\beta=\\begin{pmatrix}0\\\\1\\end{pmatrix}.\n$$\n虽然 $B\\boldsymbol{x}=\\boldsymbol\\beta$ 有解，但\n$A\\boldsymbol{x}=\\boldsymbol\\beta$ 无解，故 C 错误。\n\n因此正确选项为 A。",
-      "idea": "$A$ 的列可由 $B$ 的列表示 ⟺ 存在 $C$ 使 $A=BC$ ⟹ 列空间包含，于是 $Bx=0$ 的解一定是 $Ax=0$ 的解。",
+      "idea": "**思想：列可由列表示 $\\iff$ 存在 $C$ 使 $A=BC$，于是 $r(A)\\le r(B)$**。\n$A$ 的列可由 $B$ 的列表示 ⟺ 存在 $C$ 使 $A=BC$ ⟹ 列空间包含，于是 $Bx=0$ 的解一定是 $Ax=0$ 的解。",
       "source": "2026数一 第6题",
       "categoryIds": [
        157
@@ -35441,7 +35441,7 @@
       "type": "choice",
       "stem": "设 $\\boldsymbol{\\alpha}, \\boldsymbol{\\beta}$ 为 $n$ 维单位列向量，$P$ 为 $n$ 阶可逆矩阵，则下列方程组中只有零解的是（ ）。",
       "answer": "（D）\n\n单位列向量满足\n$$\n\\boldsymbol\\alpha^{\\mathrm T}\\boldsymbol\\alpha=1,\n\\qquad\n\\boldsymbol\\beta^{\\mathrm T}\\boldsymbol\\beta=1,\n$$\n所以 $\\boldsymbol\\alpha,\\boldsymbol\\beta$ 都不是零向量。\n\n判断一个齐次方程组是否只有零解，可以直接代入检验。下面先为 A、B、C 各找一个非零解。\n\n对 A，取 $\\boldsymbol x=\\boldsymbol\\alpha$，则\n$$\n\\begin{aligned}\n(E-\\boldsymbol\\alpha\\boldsymbol\\alpha^{\\mathrm T})\n\\boldsymbol\\alpha\n&=\\boldsymbol\\alpha\n-\\boldsymbol\\alpha\n(\\boldsymbol\\alpha^{\\mathrm T}\\boldsymbol\\alpha)\\\\\n&=\\boldsymbol0.\n\\end{aligned}\n$$\n故 A 有非零解。\n\n对 B，记实数\n$$\nc=\\boldsymbol\\alpha^{\\mathrm T}P\\boldsymbol\\alpha.\n$$\n取 $\\boldsymbol x=P\\boldsymbol\\alpha$。由于 $P$ 可逆且 $\\boldsymbol\\alpha\\ne\\boldsymbol0$，有 $P\\boldsymbol\\alpha\\ne\\boldsymbol0$。代入得\n$$\n\\begin{aligned}\n(cP^{-1}-\\boldsymbol\\alpha\\boldsymbol\\alpha^{\\mathrm T})\nP\\boldsymbol\\alpha\n&=c\\boldsymbol\\alpha\\\\\n&\\quad-\\boldsymbol\\alpha\n(\\boldsymbol\\alpha^{\\mathrm T}P\\boldsymbol\\alpha)\\\\\n&=c\\boldsymbol\\alpha-c\\boldsymbol\\alpha\\\\\n&=\\boldsymbol0.\n\\end{aligned}\n$$\n故 B 也有非零解。\n\n对 C，记实数\n$$\nd=\\boldsymbol\\alpha^{\\mathrm T}P^{-1}\\boldsymbol\\beta.\n$$\n取 $\\boldsymbol x=P^{-1}\\boldsymbol\\beta\\ne\\boldsymbol0$，代入得\n$$\n\\begin{aligned}\n(dP-\\boldsymbol\\beta\\boldsymbol\\alpha^{\\mathrm T})\nP^{-1}\\boldsymbol\\beta\n&=d\\boldsymbol\\beta\\\\\n&\\quad-\\boldsymbol\\beta\n(\\boldsymbol\\alpha^{\\mathrm T}P^{-1}\\boldsymbol\\beta)\\\\\n&=d\\boldsymbol\\beta-d\\boldsymbol\\beta\\\\\n&=\\boldsymbol0.\n\\end{aligned}\n$$\n故 C 也有非零解。\n\n对 D，设\n$$\n(E+\\boldsymbol\\beta\\boldsymbol\\beta^{\\mathrm T})\n\\boldsymbol x=\\boldsymbol0.\n$$\n两边左乘 $\\boldsymbol x^{\\mathrm T}$，得到\n$$\n\\boldsymbol x^{\\mathrm T}\\boldsymbol x\n+(\\boldsymbol\\beta^{\\mathrm T}\\boldsymbol x)^2=0,\n$$\n即\n$$\nx_1^2+\\cdots+x_n^2\n+(\\boldsymbol\\beta^{\\mathrm T}\\boldsymbol x)^2=0.\n$$\n左边各项都非负，和为零只能说明\n$$\nx_1=\\cdots=x_n=0.\n$$\n因此 D 只有零解，故选 D。",
-      "idea": "只有零解 ⟺ 系数矩阵可逆；把每个选项写成 $E-\\alpha\\alpha^{\\mathrm T}$ 这类形式，用特征值（$0$ 与 $1$）判断。",
+      "idea": "**思想：只有零解 $\\iff$ 系数矩阵可逆；把每个选项化成 $E-\\alpha\\alpha^{\\mathrm T}$ 再算行列式**。\n只有零解 ⟺ 系数矩阵可逆；把每个选项写成 $E-\\alpha\\alpha^{\\mathrm T}$ 这类形式，用特征值（$0$ 与 $1$）判断。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        132
@@ -35480,7 +35480,7 @@
       "type": "blank",
       "stem": "设\n$$\nA=\\begin{pmatrix}\n1&2&1\\\\\n2&3&a+2\\\\\n1&a&-2\n\\end{pmatrix},\n$$\n$$\n\\beta_1=\\begin{pmatrix}1\\\\3\\\\4\\end{pmatrix},\n\\qquad\n\\beta_2=\\begin{pmatrix}0\\\\1\\\\2\\end{pmatrix}.\n$$\n若方程组 $A\\mathbf X=\\beta_1$ 有解，且 $A\\mathbf X=\\beta_2$ 无解，则 $a=$ ______。",
       "answer": "$a=-1$\n\n第一步：将两个增广矩阵放在一起作相同的行变换。\n\n两个方程组的系数矩阵都是 $A$，只需将 $\\beta_1,\\beta_2$ 同时写在右侧，统一消元。两个竖线后的列分别是两组方程的常数列，应分别判断有解情况。\n\n写成矩阵为\n$$\n\\left[\\begin{array}{ccc|c|c}\n1&2&1&1&0\\\\\n2&3&a+2&3&1\\\\\n1&a&-2&4&2\n\\end{array}\\right].\n$$\n记 $R_i$ 为第 $i$ 行。作 $R_2\\leftarrow R_2-2R_1$、$R_3\\leftarrow R_3-R_1$，得\n$$\n\\left[\\begin{array}{ccc|c|c}\n1&2&1&1&0\\\\\n0&-1&a&1&1\\\\\n0&a-2&-3&3&2\n\\end{array}\\right].\n$$\n再作 $R_3\\leftarrow R_3+(a-2)R_2$。记\n$$\nd=(a-3)(a+1),\n$$\n则得到\n$$\n\\left[\\begin{array}{ccc|c|c}\n1&2&1&1&0\\\\\n0&-1&a&1&1\\\\\n0&0&d&a+1&a\n\\end{array}\\right].\n$$\n\n第二步：先利用 $A\\mathbf X=\\beta_2$ 无解确定可能的参数。\n\n若 $d\\ne0$，系数矩阵有 $3$ 个主元，两组方程都有唯一解，不符合题意。\n\n因此必须有\n$$\nd=0,\\qquad\\text{即 }a=3\\text{ 或 }a=-1.\n$$\n\n第三步：分别检查两组方程的最后一行。\n\n当 $a=3$ 时，上面矩阵的最后一行为\n$$\n\\left[\\begin{array}{ccc|c|c}\n0&0&0&4&3\n\\end{array}\\right].\n$$\n它在两组方程中分别对应 $0=4$、$0=3$，所以两组方程均无解，不符合第一组有解的要求。\n\n当 $a=-1$ 时，最后一行为\n$$\n\\left[\\begin{array}{ccc|c|c}\n0&0&0&0&-1\n\\end{array}\\right].\n$$\n对于第一组，最后一行是 $0=0$，且前两行有 $2$ 个主元，故\n$$\nr(A)=r(A\\mid\\beta_1)=2,\n$$\n所以第一组有解。\n\n对于第二组，最后一行是矛盾方程 $0=-1$，故第二组无解，恰好符合题意。\n\n因此\n$$\n\\boxed{a=-1}.\n$$",
-      "idea": "① 两个方程组共用系数阵 $A$：把 $\\beta_1,\\beta_2$ 并排成双右端增广矩阵，一次行变换同时消元；\n② $\\beta_1$ 有解而 $\\beta_2$ 无解 ⟹ $r(A)=r(A\\,|\\,\\beta_1)<r(A\\,|\\,\\beta_2)$：化简后 $\\beta_1$ 列末元为 $0$、$\\beta_2$ 列末元非零；\n③ 由末行的条件解出 $a=-1$。",
+      "idea": "**思想：两个方程组共用系数阵 $\\Rightarrow$ 把 $\\beta_1,\\beta_2$ 并排成双右端增广矩阵一起行变换**。\n① 两个方程组共用系数阵 $A$：把 $\\beta_1,\\beta_2$ 并排成双右端增广矩阵，一次行变换同时消元；\n② $\\beta_1$ 有解而 $\\beta_2$ 无解 ⟹ $r(A)=r(A\\,|\\,\\beta_1)<r(A\\,|\\,\\beta_2)$：化简后 $\\beta_1$ 列末元为 $0$、$\\beta_2$ 列末元非零；\n③ 由末行的条件解出 $a=-1$。",
       "source": "0.88k 25版 方程组 基础 填空第2题",
       "categoryIds": [
        132
@@ -35505,7 +35505,7 @@
       "type": "calc",
       "stem": "设 $4$ 阶矩阵 $\\mathbf{A}=(\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4)$，其中 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3$ 线性相关，$\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4$ 线性无关。若 $\\boldsymbol{\\xi}=(1,2,3,a)^T$ 为线性方程组 $\\mathbf{A}\\mathbf{x}=\\mathbf{0}$ 的解。\n(I) 求 $a$；\n(II) 若 $\\boldsymbol{\\eta}=(2,b,c,d)^T$ 为 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}$ 的解，$\\boldsymbol{\\beta}=\\boldsymbol{\\alpha}_1+\\boldsymbol{\\alpha}_2+\\boldsymbol{\\alpha}_3+\\boldsymbol{\\alpha}_4$，求 $b,c,d$。",
       "answer": "$a=0$；$b=3,\\ c=4,\\ d=1$。\n\n（1）由 $\\boldsymbol{\\xi}=(1,2,3,a)^T$ 为 $\\mathbf{A}\\mathbf{x}=\\mathbf{0}$ 的解，得\n$$\n\\boldsymbol{\\alpha}_1+2\\boldsymbol{\\alpha}_2+3\\boldsymbol{\\alpha}_3+a\\boldsymbol{\\alpha}_4=\\mathbf{0}.\n$$\n因为 $\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4$ 线性无关，而 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3$ 线性相关，所以 $\\boldsymbol{\\alpha}_1$ 可由 $\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3$ 表示，上式中 $\\boldsymbol{\\alpha}_4$ 的系数必须为 $0$，故 $a=0$，且\n$$\n\\boldsymbol{\\alpha}_1=-2\\boldsymbol{\\alpha}_2-3\\boldsymbol{\\alpha}_3.\n$$\n\n\n（2）又 $\\boldsymbol{\\eta}=(2,b,c,d)^T$ 是 $\\mathbf{A}\\mathbf{x}=\\boldsymbol{\\beta}$ 的解，所以\n$$\n2\\boldsymbol{\\alpha}_1+b\\boldsymbol{\\alpha}_2+c\\boldsymbol{\\alpha}_3+d\\boldsymbol{\\alpha}_4\n=\\boldsymbol{\\alpha}_1+\\boldsymbol{\\alpha}_2+\\boldsymbol{\\alpha}_3+\\boldsymbol{\\alpha}_4.\n$$\n代入 $\\boldsymbol{\\alpha}_1=-2\\boldsymbol{\\alpha}_2-3\\boldsymbol{\\alpha}_3$，并比较 $\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4$ 的系数，得\n$$\nb-4=-1,\\quad c-6=-2,\\quad d=1,\n$$\n故 $b=3,\\ c=4,\\ d=1$。",
-      "idea": "① $\\alpha_1,\\alpha_2,\\alpha_3$ 相关而 $\\alpha_2,\\alpha_3,\\alpha_4$ 无关 ⟹ **$r(A)=3$，$Ax=0$ 的基础解系只含 $4-3=1$ 个向量**，齐次解方向唯一；\n② 把 $\\xi=(1,2,3,a)^{\\mathrm T}$ 代入 $A\\xi=0$ 得 $\\alpha_1+2\\alpha_2+3\\alpha_3+a\\alpha_4=0$，与题设给的列关系联立，逐个定出各参数。",
+      "idea": "**思想：由列向量组的线性关系定秩，读出特解与基础解系**。\n① $\\alpha_1,\\alpha_2,\\alpha_3$ 相关而 $\\alpha_2,\\alpha_3,\\alpha_4$ 无关 ⟹ **$r(A)=3$，$Ax=0$ 的基础解系只含 $4-3=1$ 个向量**，齐次解方向唯一；\n② 把 $\\xi=(1,2,3,a)^{\\mathrm T}$ 代入 $A\\xi=0$ 得 $\\alpha_1+2\\alpha_2+3\\alpha_3+a\\alpha_4=0$，与题设给的列关系联立，逐个定出各参数。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        135
@@ -35543,7 +35543,7 @@
       "type": "choice",
       "stem": "设 $A$ 为 $n$ 阶实矩阵，$E$ 为 $n$ 阶单位矩阵，则（ ）。",
       "answer": "（A）\n\n设未知向量为 $(u,v)^T$。A 左侧为 $u=0,A^Tv=0$。右侧为 $u+A^Tv=0,Au=0$；代入 $u=-A^Tv$ 得 $AA^Tv=0$，从而 $\\|A^Tv\\|^2=0$，故 $A^Tv=0,u=0$。两者同解。",
-      "idea": "分块方程：设未知向量 $(u,v)^{\\mathrm T}$，两边都写成方程组，比较系数矩阵的零空间（$u=0$ 且 $A^{\\mathrm T}v=0$）。",
+      "idea": "**思想：分块方程组按块拆开，比较两边系数矩阵的秩**。\n分块方程：设未知向量 $(u,v)^{\\mathrm T}$，两边都写成方程组，比较系数矩阵的零空间（$u=0$ 且 $A^{\\mathrm T}v=0$）。",
       "source": "24 余丙森五数一二第一套",
       "categoryIds": [
        157
@@ -35574,7 +35574,7 @@
       "type": "calc",
       "stem": "设矩阵\n$$\nA=\\begin{pmatrix}\na&1&0\\\\\n1&a&-1\\\\\n0&1&a\n\\end{pmatrix},\n$$\n且 $A^3=O$。\n\n（I）求 $a$ 的值；\n\n（II）若矩阵 $X$ 满足\n$$\nX-XA^2-AX+AXA^2=E,\n$$\n其中 $E$ 为 $3$ 阶单位矩阵，求 $X$。",
       "answer": "（I）$a=0$。\n\n（II）\n$$\nX=\\begin{pmatrix}\n3&1&-2\\\\\n1&1&-1\\\\\n2&1&-1\n\\end{pmatrix}.\n$$\n\n（I）由 $A^3=O$ 可知 $A$ 的任一特征值 $\\lambda$ 都满足 $\\lambda^3=0$，故全部特征值为 $0$，故\n$$\n\\operatorname{tr}(A)=3a=0.\n$$\n因此 $a=0$。此时直接计算也可验证 $A^3=O$。\n\n（II）原方程左端可以因式分解为\n$$\n(E-A)X(E-A^2)=E.\n$$\n由 $A^3=O$，\n$$\n(E-A)^{-1}=E+A+A^2,\n\\;\n(E-A^2)^{-1}=E+A^2.\n$$\n所以\n$$\nX=(E+A+A^2)(E+A^2)=E+A+2A^2.\n$$\n当 $a=0$ 时，\n$$\nA=\\begin{pmatrix}\n0&1&0\\\\\n1&0&-1\\\\\n0&1&0\n\\end{pmatrix},\n\\;\nA^2=\\begin{pmatrix}\n1&0&-1\\\\\n0&0&0\\\\\n1&0&-1\n\\end{pmatrix}.\n$$\n代入得到\n$$\nX=\\begin{pmatrix}\n3&1&-2\\\\\n1&1&-1\\\\\n2&1&-1\n\\end{pmatrix}.\n$$",
-      "idea": "① **$A^3=O$ ⟹ 特征值全为 $0$ ⟹ $\\operatorname{tr}A=3a=0$**，得 $a=0$；\n② **左端因式分解**：$X(E-A^2)-AX(E-A^2)=(E-A)X(E-A^2)=E$ ⟹ $X=(E-A)^{-1}(E-A^2)^{-1}=(E-A-A^2)^{-1}$；\n③ 由 $A^3=O$ 验证 $(E-A-A^2)(E+A+2A^2)=E$ ⟹ $X=E+A+2A^2$，代入 $a=0$ 的 $A$ 直接乘出。",
+      "idea": "**思想：$A^3=O$ $\\Rightarrow$ 特征值全为 $0$ $\\Rightarrow$ $\\operatorname{tr}A=0$ 定 $a$，再解矩阵方程**。\n① **$A^3=O$ ⟹ 特征值全为 $0$ ⟹ $\\operatorname{tr}A=3a=0$**，得 $a=0$；\n② **左端因式分解**：$X(E-A^2)-AX(E-A^2)=(E-A)X(E-A^2)=E$ ⟹ $X=(E-A)^{-1}(E-A^2)^{-1}=(E-A-A^2)^{-1}$；\n③ 由 $A^3=O$ 验证 $(E-A-A^2)(E+A+2A^2)=E$ ⟹ $X=E+A+2A^2$，代入 $a=0$ 的 $A$ 直接乘出。",
       "source": "2015数二三（二22、三20）",
       "categoryIds": [
        169
@@ -35633,7 +35633,7 @@
       "type": "choice",
       "stem": "设 $A_{m \\times n}$ 为矩阵，且 $r(A) = m < n$，则下列结论不正确的是（ ）。",
       "answer": "（C）\n\n已知\n$$\nr(A)=r(A^{\\mathrm T})=m<n.\n$$\n判断时要分别看清 $A$ 与 $A^{\\mathrm T}$ 的列数，因为列数就是未知数个数。\n\n对 A，$A^{\\mathrm T}$ 是 $n\\times m$ 矩阵，方程组有 $m$ 个未知数，而\n$$\nr(A^{\\mathrm T})=m.\n$$\n系数矩阵的秩等于未知数个数，所以齐次方程组只有零解，A 正确。\n\n对 B，$A\\boldsymbol x=\\boldsymbol0$ 有 $n$ 个未知数，而\n$$\nr(A)=m<n.\n$$\n系数矩阵的秩小于未知数个数，所以有非零解，B 正确。\n\n对 D，任取一个 $m$ 维列向量 $\\boldsymbol b$。由于增广矩阵仍只有 $m$ 行，\n$$\nm=r(A)\\le r(A,\\boldsymbol b)\\le m,\n$$\n从而\n$$\nr(A,\\boldsymbol b)=r(A)=m<n.\n$$\n因此非齐次方程组对任意这样的 $\\boldsymbol b$ 都有无穷多解，D 正确。\n\n对 C，$A^{\\mathrm T}\\boldsymbol x=\\boldsymbol b$ 中的 $\\boldsymbol b$ 是 $n$ 维列向量。虽然系数矩阵的秩等于未知数个数 $m$，但这只能保证“若有解，则解唯一”，不能保证对任意 $\\boldsymbol b$ 都有解。\n\n例如取\n$$\nm=1,\\qquad n=2,\\qquad\nA=\\begin{pmatrix}1&0\\end{pmatrix},\n$$\n$$\n\\boldsymbol b=\\begin{pmatrix}0\\\\1\\end{pmatrix}.\n$$\n此时 $r(A)=1<2$，但 $A^{\\mathrm T}x=\\boldsymbol b$ 要求\n$$\nx=0,\\qquad 0=1,\n$$\n显然无解，所以 C 不正确。\n\n本题要求选择不正确的结论，故选 C。",
-      "idea": "$r(A)=m<n$ ⟹ $A$ 行满秩、$A^{\\mathrm T}$ 列满秩；逐条用 $r(A^{\\mathrm T}A)=r(A)$ 之类结论判断。",
+      "idea": "**思想：$r(A)=m<n$ $\\Rightarrow$ 行满秩、$A^{\\mathrm T}$ 列满秩，逐条用秩不等式排除**。\n$r(A)=m<n$ ⟹ $A$ 行满秩、$A^{\\mathrm T}$ 列满秩；逐条用 $r(A^{\\mathrm T}A)=r(A)$ 之类结论判断。",
       "source": "姜晓千强化例题；0.88k 25版 方程组 综合 选择第2题",
       "categoryIds": [
        132
@@ -35676,7 +35676,7 @@
       "type": "choice",
       "stem": "设 $A=(\\alpha_1,\\alpha_2,\\alpha_3,\\alpha_4)$ 为 $4$ 阶矩阵，$(1,0,1,0)^T$ 为线性方程组 $Ax=0$ 的基础解系，则 $A^*x=0$ 的基础解系可为（ ）。",
       "answer": "（D）\n\n由 $Ax=0$ 的基础解系只含一个向量可知 $r(A)=4-1=3$。因此 $|A|=0$，且 $r(A^*)=1$，从而 $A^*x=0$ 的基础解系含 $4-r(A^*)=3$ 个向量。\n又\n$$\nA\\begin{pmatrix}1\\\\0\\\\1\\\\0\\end{pmatrix}=\\alpha_1+\\alpha_3=0,\n$$\n故 $\\alpha_3=-\\alpha_1$。由伴随矩阵恒等式\n$$\nA^*A=|A|E=0\n$$\n可知 $A^*\\alpha_i=0\\ (i=1,2,3,4)$，即 $A$ 的每个列向量都是方程组 $A^*x=0$ 的解。\n\n由于 $r(A)=3$ 且 $\\alpha_1=-\\alpha_3$，向量 $\\alpha_2,\\alpha_3,\\alpha_4$ 线性无关。它们恰有三个，故构成 $A^*x=0$ 的基础解系。因此选 D。",
-      "idea": "$Ax=0$ 的基础解系含 $1$ 个向量 ⟹ $r(A)=3$，故 $r(A^*)=1$，$A^*x=0$ 的解空间维数为 $3$；再结合列向量关系写出具体解。",
+      "idea": "**思想：$Ax=0$ 的基础解系含 $1$ 个 $\\Rightarrow$ $r(A)=3$ $\\Rightarrow$ $r(A^*)=1$，再解 $A^*x=0$**。\n$Ax=0$ 的基础解系含 $1$ 个向量 ⟹ $r(A)=3$，故 $r(A^*)=1$，$A^*x=0$ 的解空间维数为 $3$；再结合列向量关系写出具体解。",
       "source": "2011数一二（一6、二8）",
       "categoryIds": [
        135
@@ -35739,7 +35739,7 @@
       "type": "choice",
       "stem": "设 $A$ 是 $n$ 阶矩阵，$\\mathbf{b}$ 是 $n$ 维列向量且与 $A^T \\mathbf{x} = 0$ 的解均正交，则（ ）。",
       "answer": "（D）\n\n第一步：把“正交”写成等式。\n\n题设的含义是：只要列向量 $\\boldsymbol y$ 满足\n$$\nA^{\\mathrm T}\\boldsymbol y=\\boldsymbol0,\n$$\n就一定有\n$$\n\\boldsymbol y^{\\mathrm T}\\boldsymbol b=0.\n$$\n\n第二步：用消元说明 $A\\boldsymbol x=\\boldsymbol b$ 必有解。\n\n假设它无解。对增广矩阵作初等行变换，必能得到一个矛盾方程\n$$\n0x_1+\\cdots+0x_n=c,\\qquad c\\ne0.\n$$\n初等行变换得到的每个方程，都是原方程组中各个方程的线性组合。设产生这个矛盾方程的组合系数为 $y_1,\\ldots,y_n$，记\n$$\n\\boldsymbol y=(y_1,\\ldots,y_n)^{\\mathrm T}.\n$$\n这个组合的左边全部系数为零，右边等于 $c$，即\n$$\n\\boldsymbol y^{\\mathrm T}A=\\boldsymbol0^{\\mathrm T},\n\\qquad\n\\boldsymbol y^{\\mathrm T}\\boldsymbol b=c\\ne0.\n$$\n第一个等式转置后为 $A^{\\mathrm T}\\boldsymbol y=\\boldsymbol0$，按题设却必须有 $\\boldsymbol y^{\\mathrm T}\\boldsymbol b=0$，产生矛盾。\n\n因此假设不成立，$A\\boldsymbol x=\\boldsymbol b$ 必有解，D 正确。\n\n第三步：用一个例子排除其余选项。\n\n取\n$$\nA=\\begin{pmatrix}1&1\\\\0&0\\end{pmatrix},\n\\qquad\n\\boldsymbol b=\\begin{pmatrix}1\\\\0\\end{pmatrix}.\n$$\n$A^{\\mathrm T}\\boldsymbol y=\\boldsymbol0$ 的解为 $\\boldsymbol y=(0,t)^{\\mathrm T}$，都与 $\\boldsymbol b$ 正交，所以这个例子满足题设。\n\n对 A，取上述解 $\\boldsymbol y=(0,1)^{\\mathrm T}$，它与 $A$ 的第一行 $(1,1)$ 的内积为 $1$，并不正交。\n\n对 B，$\\boldsymbol x=(1,-1)^{\\mathrm T}$ 是 $A\\boldsymbol x=\\boldsymbol0$ 的解，但它与 $A$ 的第一列 $(1,0)^{\\mathrm T}$ 的内积为 $1$，也不正交。\n\n对 C，$A^{\\mathrm T}\\boldsymbol x=\\boldsymbol b$ 要求同时满足\n$$\nx_1=1,\\qquad x_1=0,\n$$\n所以无解。\n\n故 A、B、C 都不一定成立，选 D。",
-      "idea": "\"$b$ 与 $A^{\\mathrm T}x=0$ 的解都正交\" ⟺ $b$ 属于 $A^{\\mathrm T}$ 的列空间 ⟺ $Ax=b$ 有解。",
+      "idea": "**思想：「$b$ 与 $A^{\\mathrm T}x=0$ 的解都正交」$\\iff$ $b$ 能由 $A$ 的列向量组线性表示**。\n\"$b$ 与 $A^{\\mathrm T}x=0$ 的解都正交\" ⟺ $b$ 属于 $A^{\\mathrm T}$ 的列空间 ⟺ $Ax=b$ 有解。",
       "source": "张宇八套 数一三 第二套",
       "categoryIds": [
        132
@@ -35770,7 +35770,7 @@
       "type": "calc",
       "stem": "设矩阵 $A=\\begin{pmatrix}0&-1&2\\\\-1&0&2\\\\-1&-1&a\\end{pmatrix}$，已知 $1$ 是 $A$ 的特征多项式的重根。（1）求 $a$ 的值；（2）求所有满足 $A\\alpha=\\alpha+\\beta$，$A^2\\alpha=\\alpha+2\\beta$ 的非零列向量 $\\alpha,\\beta$。",
       "answer": "$a=3$；所有解为 $\\alpha=(c_1,c_2,c_3)^T$ 且 $-c_1-c_2+2c_3\\ne0$，$\\beta=(-c_1-c_2+2c_3)(1,1,1)^T$。\n\n特征多项式为 \n$$\n|\\lambda E-A|=\\lambda^3-a\\lambda^2+3\\lambda+a-4.\n$$\n 因 $\\lambda=1$ 恒为根，且为重根，需 $p'(1)=0$，即 $6-2a=0$，故 $a=3$。 此时 \n$$\nA-E=\\begin{pmatrix}-1&-1&2\\\\-1&-1&2\\\\-1&-1&2\\end{pmatrix}, (A-E)^2=O.\n$$\n 由 $A\\alpha=\\alpha+\\beta$ 得 $\\beta=(A-E)\\alpha$；第二式等价于 $(A-E)^2\\alpha=0$，对任意 $\\alpha$ 成立。为使 $\\beta$ 非零，需要 $(-1,-1,2)\\alpha\\ne0$。设 $\\alpha=(c_1,c_2,c_3)^T$，则 \n$$\n\\beta=(-c_1-c_2+2c_3)(1,1,1)^T,\n$$\n 其中 $-c_1-c_2+2c_3\\ne0$。",
-      "idea": "① 「$1$ 是特征多项式的重根」⟹ $\\lambda=1$ 至少二重：用 $\\operatorname{tr}A=1+a$、$|A|$ 与特征值之和/积的关系（或 $|E-A|=0$ 且重根条件）解出 $a$，并求出第三个特征值；\n② 把 $A\\alpha=\\alpha+\\beta$ 代进 $A^2\\alpha=\\alpha+2\\beta$ 消去 $\\beta$，得 **$(A^2-A-E)\\alpha=0$**，解这个齐次方程组得 $\\alpha$，再由 $\\beta=A\\alpha-\\alpha$ 写出 $\\beta$。",
+      "idea": "**思想：$1$ 是特征多项式的重根 $\\Rightarrow$ 用 $\\operatorname{tr}A$ 与 $|A|$ 定 $a$，再解 $A\\alpha=\\alpha$**。\n① 「$1$ 是特征多项式的重根」⟹ $\\lambda=1$ 至少二重：用 $\\operatorname{tr}A=1+a$、$|A|$ 与特征值之和/积的关系（或 $|E-A|=0$ 且重根条件）解出 $a$，并求出第三个特征值；\n② 把 $A\\alpha=\\alpha+\\beta$ 代进 $A^2\\alpha=\\alpha+2\\beta$ 消去 $\\beta$，得 **$(A^2-A-E)\\alpha=0$**，解这个齐次方程组得 $\\alpha$，再由 $\\beta=A\\alpha-\\alpha$ 写出 $\\beta$。",
       "source": "2025数一 第21题",
       "categoryIds": [
        135
