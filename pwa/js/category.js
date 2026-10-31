@@ -2093,11 +2093,29 @@ function ansWarmFromDom(root) {
     setTimeout(step, 0);
 }
 
-/** 空闲时再热：绝不等在首屏渲染的同一帧里 */
+/** 空闲时再热：**必须等「首页加载完」**才动图片，绝不跟首屏抢带宽。
+ *  三级门禁（用户 2026-10-31：「确保是首页加载完再加载图片吗」）：
+ *   ① `document.readyState === 'complete'`（没到就等 window load 事件，只等一次）；
+ *   ② 等后台那 4.2MB（真题/大观园 JSON）到齐 —— 它们不参与首屏，但同样占同一条连接；
+ *   ③ 再排到 requestIdleCallback（浏览器真空闲才跑，3s 兜底）。
+ *  ⚠️ 三级门禁是异步的，期间用户可能已经切了分类 → 用调度时抓的 token 复核，旧列表直接放弃。 */
 function ansWarmSchedule(root) {
-    const run = () => ansWarmFromDom(root);
-    if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 2500 });
-    else setTimeout(run, 400);
+    const tok = _ansWarmToken;
+    const go = () => {
+        if (tok !== _ansWarmToken) return;            // 列表已换 → 放弃这次预热
+        if (!root || !root.isConnected) return;
+        ansWarmFromDom(root);
+    };
+    const idle = () => {
+        if (window.requestIdleCallback) requestIdleCallback(go, { timeout: 3000 });
+        else setTimeout(go, 500);
+    };
+    const afterBgData = () => {
+        Promise.resolve(typeof loadExamSources === 'function' ? loadExamSources() : null)
+            .catch(() => { }).then(idle);
+    };
+    if (document.readyState === 'complete') afterBgData();
+    else window.addEventListener('load', afterBgData, { once: true });
 }
 
 function switchAnsTab(btn, which) {
