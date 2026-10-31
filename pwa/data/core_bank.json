@@ -27236,7 +27236,8 @@
        "zy": "先把抽象矩阵化成 $|A|$、$|A+kE|$ 或特征值形式再用公式；$|kA|$ 是 $k^n|A|$，阶数 $n$ 最容易漏。"
       },
       "ansImg": [
-       "data/img/zx_site/1172_0.jpg"
+       "data/img/zx_site/1172_0.jpg",
+       "data/img/zx_site/1172_1.jpg"
       ]
      },
      {
@@ -34099,7 +34100,8 @@
        "zy": "$Ax=0$ 与 $A^{\\mathrm T}Ax=0$ 同解是恒成立的结论，别再去解方程验证。"
       },
       "ansImg": [
-       "data/img/zx_site/1109_0.jpg"
+       "data/img/zx_site/1109_0.jpg",
+       "data/img/zx_site/1109_1.jpg"
       ]
      },
      {
@@ -39896,7 +39898,8 @@
        "zy": "配方必须用**可逆**变换（不能出现某个变量被消掉却仍留在变换里）。"
       },
       "ansImg": [
-       "data/img/zx_site/1133_0.jpg"
+       "data/img/zx_site/1133_0.jpg",
+       "data/img/zx_site/1133_1.jpg"
       ]
      },
      {
