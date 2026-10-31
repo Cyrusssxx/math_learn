@@ -2,7 +2,7 @@
  * 预缓存全部页面/样式/脚本/笔记数据/KaTeX/图标，安装后完全离线可用。
  * 升级笔记数据或代码后：改 CACHE_VER 版本号即可让客户端自动换新缓存。
  */
-const CACHE_VER = 'mathcards-e6a78da5f1';
+const CACHE_VER = 'mathcards-17f6421717';
 
 /* 图片独立缓存（2026-10-31）：图片占 190MB，跟着 CACHE_VER 一起换代会导致「每次发版全部重下」。
    这里用固定的 cache 名，activate 时**不删**它，发版后图片仍然命中缓存。

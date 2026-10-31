@@ -2913,6 +2913,7 @@ function ppAfterRender(root) {
     root.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
 }
 
+let _ppNeedRepaint = false;
 function ppRender() {
     const el = document.getElementById('catMain');
     if (!el) return;
@@ -2963,14 +2964,24 @@ function ppRender() {
             n++;
             const found = ppOfQid(it.qid);
             const head = `<div class="pp-item-head">第 ${n} 题 · ${it.score} 分</div>`;
-            html += found
-                ? `<div class="pp-item">${head}${catCard(found.paper, found.secTitle, found.q)}</div>`
-                : `<div class="pp-item">${head}<div class="empty-tip">这道题已不在题库里（${it.qid}）</div></div>`;
+            if (found) {
+                html += `<div class="pp-item">${head}${catCard(found.paper, found.secTitle, found.q)}</div>`;
+            } else if (!_examLoaded) {
+                // 真题数据还在后台加载 → 不是「题目丢了」，等它回来重画
+                html += `<div class="pp-item">${head}<div class="empty-tip">⏳ 正在加载真题数据…</div></div>`;
+                _ppNeedRepaint = true;
+            } else {
+                html += `<div class="pp-item">${head}<div class="empty-tip">这道题已不在题库里（${it.qid}）</div></div>`;
+            }
         }
     }
     el.innerHTML = html;
     ppAfterRender(el);
     ppPaintClock();
+    if (_ppNeedRepaint) {
+        _ppNeedRepaint = false;
+        loadExamSources().then(() => { _ppIdx = null; ppRender(); });
+    }
 }
 
 /** 重新拼卷前的悬浮窗：选题量（只能 ≥22）。点「开始拼卷」才真正抽。 */
@@ -3010,7 +3021,17 @@ function ppPickN(v, fromInput) {
     if (fromInput) { const inp = document.getElementById('ppNInput'); if (inp && +inp.value !== ppN) inp.value = ppN; }
     ppSyncNBtns();
 }
-function ppDoNew() { ppSetN(ppN); ppCloseAsk(); ppNew(); }
+async function ppDoNew() {
+    ppSetN(ppN); ppCloseAsk();
+    // 拼卷池要遍历真题/大观园题：数据没到就先等，否则抽出来的卷子会偏少
+    if (!_examLoaded) {
+        const el = document.getElementById('catMain');
+        if (el) el.innerHTML = '<div class="cat-empty">⏳ 正在加载题库数据…</div>';
+        await loadExamSources();
+        _ppIdx = null;
+    }
+    ppNew();
+}
 
 /** 拼一份新卷（加入历史列表并切过去） */
 function ppNew() {
@@ -3624,6 +3645,7 @@ window.addEventListener('scroll', () => hideDeepFlyNow(), { passive: true });
  *  **不参与核心题库首屏渲染**——首屏只等 exam_categories + core_bank 就能出题。
  *  这三份放到首屏画完之后再拉；切到真题模式、或需要真题池时再 await（2026-10-31）。 */
 let _examSrc = null;
+let _examLoaded = false;        // 真题/大观园数据是否已到位（拼卷还原题要用）
 function loadExamSources() {
     if (_examSrc) return _examSrc;
     _examSrc = (async () => {
@@ -3681,6 +3703,8 @@ function loadExamSources() {
             return !(ns.length >= 20 && examStemSet.has(ns));
         });
     }
+        _examLoaded = true;
+        _ppIdx = null;          // 索引可能建在真题数据到位之前 → 必须失效重建
         console.info('[真题数据] 后台加载完成 ' + Math.round(performance.now() - t0) + 'ms');
         return true;
     })().catch(e => { console.warn('[真题数据] 后台加载失败', e); return false; });
