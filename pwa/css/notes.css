@@ -1856,6 +1856,10 @@ html.dark .toc-filter input:focus-visible {
     font-weight: 500;
 }
 .toc-sub-link.is-key:hover { color: var(--accent); }
+/* ⚠️ 重点小节**被选中**时必须仍然变蓝：`.toc-sub-link.is-key` 与 `.toc-sub-link.active` 特异性相同(0,2,0)，
+   而 is-key 写在后面 → 它会盖掉 active 的 color/font-weight，表现为「带⭐的小节滚到/点到时不变蓝」。
+   这里用 (0,3,0) 把它压回来（用户 2026-10-31 反馈）。 */
+.toc-sub-link.is-key.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
 .note-article h3.md-h3.is-key {
     background: rgba(var(--accent-rgb, 74, 111, 217), .07);
     border-radius: 4px;
