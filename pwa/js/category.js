@@ -2050,6 +2050,56 @@ function preloadAnsImgs(root) {
     });
 }
 
+// ===== 原图解析后台预热 =====
+// 正文（文字 + 公式）渲染完之后，按**当前显示顺序**预热前 20 张原图（用户 2026-10-31 要求）。
+// 目的：点「查看答案」时图已经在 SW 缓存里 → 切「原图解析」秒开。
+// ⚠️ 四条硬约束，缺一条就会变成「偷偷把 140MB 全下了」：
+//   ① **串行**：一次只发一张，别跟首屏的 KaTeX 字体 / 笔记贴图抢带宽；
+//   ② 用 `new Image()` **不进 DOM**：只留缓存字节，位图可被回收（20 张解码后 ≈ 96MB，不能常驻）；
+//   ③ 每个列表**只热一次**（`_ansWarmListDone`）：否则「加载更多」每翻一页又热 20 张，滚到底=全下；
+//   ④ **token 作废**：切分类 / 改排序 / 搜索 / 重新拼卷 → 队列立刻停，避免来回切重复下载。
+const ANS_WARM_N = 20;         // 最多预热几张（按图计，不是按题）
+const ANS_WARM_GAP = 80;       // 两张之间的间隔（ms），继续让出带宽
+let _ansWarmToken = 0, _ansWarmSeen = new Set(), _ansWarmListDone = false, _ansWarmCur = null;
+
+function ansWarmReset() { _ansWarmToken++; _ansWarmListDone = false; }
+
+function ansWarmFromDom(root) {
+    if (_ansWarmListDone || !root) return;
+    const conn = navigator.connection || {};
+    if (conn.saveData) return;                                       // 系统开了省流量 → 不热
+    if (/^(slow-)?2g$|^3g$/.test(conn.effectiveType || '')) return;  // 2G/3G → 不热
+    const urls = [];
+    for (const img of root.querySelectorAll('img.q-ans-img[data-src]')) {
+        const u = img.getAttribute('data-src');
+        if (u && !_ansWarmSeen.has(u)) urls.push(u);
+        if (urls.length >= ANS_WARM_N) break;
+    }
+    if (!urls.length) return;
+    _ansWarmListDone = true;
+    const token = _ansWarmToken;
+    let i = 0;
+    const step = () => {
+        if (token !== _ansWarmToken) return;          // 列表换了 → 停
+        const u = urls[i++];
+        if (!u) { _ansWarmCur = null; return; }
+        _ansWarmSeen.add(u);
+        const im = new Image();
+        _ansWarmCur = im;                             // 保引用，防止加载中被 GC 掉
+        im.decoding = 'async';
+        im.onload = im.onerror = () => { _ansWarmCur = null; setTimeout(step, ANS_WARM_GAP); };
+        im.src = u;
+    };
+    setTimeout(step, 0);
+}
+
+/** 空闲时再热：绝不等在首屏渲染的同一帧里 */
+function ansWarmSchedule(root) {
+    const run = () => ansWarmFromDom(root);
+    if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 2500 });
+    else setTimeout(run, 400);
+}
+
 function switchAnsTab(btn, which) {
     const box = btn.closest('.q-answer');
     if (!box) return;
@@ -2208,6 +2258,8 @@ let _catEntries = [], _catShown = 0, _catCardFn = null, _catIO = null;
 function catBatchAfterRender(batch) {
     renderMath(batch);
     batch.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+    // 正文渲染完 → 空闲时预热前 20 张原图解析（每个列表只热一次，见 ansWarmFromDom）
+    ansWarmSchedule(document.getElementById('catList') || batch);
 }
 function catUpdateMore() {
     const btn = document.getElementById('catMoreBtn');
@@ -2246,6 +2298,7 @@ function catStartList(entries, headHtml, cardFn) {
     _catEntries = entries || [];
     _catShown = 0;
     _catCardFn = cardFn || (e => catCard(e.paper, e.secTitle, e.q));
+    ansWarmReset();      // 列表换了：作废上一轮预热队列
     const more = _catEntries.length > CAT_PAGE
         ? `<div class="rv-bottom" id="catBottom"><button class="exam-btn" id="catMoreBtn" onclick="catAppendMore()">⬇️ 加载更多题</button><span class="rv-more-tip" id="catMoreTip"></span></div>`
         : '';
@@ -3001,6 +3054,9 @@ function ppRender() {
     el.innerHTML = html;
     ppAfterRender(el);
     ppPaintClock();
+    // 拼卷页同样预热：重置一轮（重新拼卷/重画都算新列表），再按显示顺序热前 20 张
+    ansWarmReset();
+    ansWarmSchedule(el);
     if (_ppNeedRepaint) {
         _ppNeedRepaint = false;
         loadExamSources().then(() => { _ppIdx = null; ppRender(); });
