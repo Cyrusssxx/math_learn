@@ -38779,7 +38779,7 @@
       "type": "calc",
       "stem": "设二次型 $f(\\mathbf{x})=\\mathbf{x}^TA\\mathbf{x}$，其中 $A$ 为实对称矩阵。已知 $A$ 的各行元素之和均为 $4$，且存在 3 维非零列向量 $\\alpha,\\beta$，使得 $A=E+\\alpha\\beta^T$。(I) 求 $A$ 的特征值与特征向量；(II) 求正交变换 $\\mathbf{x}=Q\\mathbf{y}$ 将 $f(x_1,x_2,x_3)$ 化为标准形。",
       "answer": "$A$ 的特征值为 $4,1,1$。属于特征值 $4$ 的特征向量为 $k(1,1,1)^T\\ (k\\ne0)$；属于特征值 $1$ 的特征向量为满足 $x_1+x_2+x_3=0$ 的非零向量。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\\\frac1{\\sqrt3}&0&-\\frac2{\\sqrt6}\\end{pmatrix},\n$$\n在正交变换 $\\mathbf{x}=Q\\mathbf{y}$ 下，标准形为\n$$\nf=4y_1^2+y_2^2+y_3^2.\n$$\n\n（1）由 $A$ 的各行元素之和均为 $4$，得\n$$\nA(1,1,1)^T=4(1,1,1)^T.\n$$\n又 $A=E+\\alpha\\beta^T$，故 $A-E$ 的秩为 $1$。因为 $A$ 为实对称矩阵，$A-E$ 也是实对称矩阵。向量 $(1,1,1)^T$ 是 $A-E$ 的特征向量，对应特征值为 $3$；而 $A-E$ 秩为 $1$，其余两个特征值为 $0$。所以 $A$ 的特征值为 $4,1,1$，且特征值 $1$ 的特征向量满足\n$$\nx_1+x_2+x_3=0.\n$$\n\n（2）取一组标准正交特征向量\n$$\nq_1=\\frac1{\\sqrt3}(1,1,1)^T,\\quad q_2=\\frac1{\\sqrt2}(1,-1,0)^T,\\quad q_3=\\frac1{\\sqrt6}(1,1,-2)^T,\n$$\n令 $Q=(q_1,q_2,q_3)$，则 $Q^TAQ=\\operatorname{diag}(4,1,1)$，标准形为 $4y_1^2+y_2^2+y_3^2$。",
-      "idea": "① 观察行和为常数 $4$，得全 $1$ 向量 $(1,1,1)^{\\mathrm T}$ 是属于特征值 $4$ 的特征向量；\n② 把 $A-E$ 写成秩 $1$ 实对称矩阵 $\\boldsymbol\\alpha\\boldsymbol\\beta^{\\mathrm T}$，利用「秩 $1$ 实对称矩阵的非零特征值等于其迹」求出它的特征值，从而得 $A$ 的全部特征值；\n③ 对重根特征值，解齐次方程 $x_1+x_2+x_3=0$，得属于该特征值的特征向量全体，在其中取两两垂直的单位向量，与第一个特征向量拼成正交矩阵，写出标准形。",
+      "idea": "**思想：行和相等 ⇒ 全 $1$ 向量就是特征向量，先抓它**。\n① 观察行和为常数 $4$，得全 $1$ 向量 $(1,1,1)^{\\mathrm T}$ 是属于特征值 $4$ 的特征向量；\n② 把 $A-E$ 写成秩 $1$ 实对称矩阵 $\\boldsymbol\\alpha\\boldsymbol\\beta^{\\mathrm T}$，利用「秩 $1$ 实对称矩阵的非零特征值等于其迹」求出它的特征值，从而得 $A$ 的全部特征值；\n③ 对重根特征值，解齐次方程 $x_1+x_2+x_3=0$，得属于该特征值的特征向量全体，在其中取两两垂直的单位向量，与第一个特征向量拼成正交矩阵，写出标准形。",
       "source": "900 题数二第六章 A类 22 (重点)",
       "categoryIds": [
        202
@@ -38815,7 +38815,7 @@
       "type": "calc",
       "stem": "设 3 阶实对称矩阵 $\\mathbf{A}$ 满足 $\\mathbf{A}^*\\boldsymbol{\\alpha} = \\boldsymbol{\\alpha}$，其中 $\\boldsymbol{\\alpha} = (-1, -1, 1)^T$。若存在正交矩阵 $\\mathbf{Q}$，使得 $\\mathbf{Q}^T \\mathbf{A} \\mathbf{Q} = \\boldsymbol{\\Lambda} = \\begin{pmatrix} -1 & & \\\\ & -1 & \\\\ & & 2 \\end{pmatrix}$。\n(I) 求矩阵 $\\mathbf{A}$；\n(II) 求二次型 $f(\\mathbf{x}) = \\mathbf{x}^T (\\mathbf{A}^*)^{-1} \\mathbf{x}$ 的表达式与规范形。",
       "answer": "$$\nA=\\begin{pmatrix}0&1&-1\\\\1&0&-1\\\\-1&-1&0\\end{pmatrix}.\n$$\n且\n$$\n(A^*)^{-1}=\\begin{pmatrix}0&\\frac12&-\\frac12\\\\\\frac12&0&-\\frac12\\\\-\\frac12&-\\frac12&0\\end{pmatrix},\n$$\n所以\n$$\nf(x)=x_1x_2-x_1x_3-x_2x_3,\n$$\n规范形为\n$$\ny_1^2-y_2^2-y_3^2.\n$$\n\n（1）由 $Q^TAQ=\\operatorname{diag}(-1,-1,2)$ 可知 $A^*$ 的特征值为 $-2,-2,1$。条件 $A^*\\alpha=\\alpha$ 说明 $\\alpha=(-1,-1,1)^T$ 是 $A$ 关于特征值 $2$ 的特征向量。令 $u=\\alpha/\\sqrt3$，则 $A$ 在 $u$ 方向上的特征值为 $2$，在与 $u$ 垂直的方向上特征值为 $-1$，故\n$$\nA=-E+3uu^T=\\begin{pmatrix}0&1&-1\\\\1&0&-1\\\\-1&-1&0\\end{pmatrix}.\n$$\n\n（2）同理 $(A^*)^{-1}$ 在 $u$ 方向特征值为 $1$，在与 $u$ 垂直的方向上特征值为 $-\\frac12$，从而得到题示矩阵和规范形。",
-      "idea": "① 由 $Q^{\\mathrm T}AQ=\\operatorname{diag}(-1,-1,2)$ 直接读出 $A$ 的特征值 $-1,-1,2$；\n② 由 $A^*\\boldsymbol\\alpha=\\boldsymbol\\alpha$ 结合 $A$ 实对称，确定 $\\boldsymbol\\alpha$ 对应的（简单）特征值，并单位化得单位向量；\n③ 用谱分解/投影把 $A$ 写成 $A=\\lambda_1E+\\lambda_2\\boldsymbol u\\boldsymbol u^{\\mathrm T}$ 形式，再求 $(A^*)^{-1}$ 与二次型。",
+      "idea": "**思想：由 $Q^{\\mathrm T}AQ=\\operatorname{diag}(\\cdot)$ 反读参数，再看惯性指数**。\n① 由 $Q^{\\mathrm T}AQ=\\operatorname{diag}(-1,-1,2)$ 直接读出 $A$ 的特征值 $-1,-1,2$；\n② 由 $A^*\\boldsymbol\\alpha=\\boldsymbol\\alpha$ 结合 $A$ 实对称，确定 $\\boldsymbol\\alpha$ 对应的（简单）特征值，并单位化得单位向量；\n③ 用谱分解/投影把 $A$ 写成 $A=\\lambda_1E+\\lambda_2\\boldsymbol u\\boldsymbol u^{\\mathrm T}$ 形式，再求 $(A^*)^{-1}$ 与二次型。",
       "source": "姜晓千真题同源 150 (重点)",
       "categoryIds": [
        204
@@ -38844,7 +38844,7 @@
       "type": "calc",
       "stem": "设二次型 $f = x_1^2 + x_2^2 + x_3^2 + 2\\alpha x_1 x_2 + 2\\beta x_2 x_3 + 2x_1 x_3$ 经正交变换 $\\mathbf{X} = \\mathbf{P}\\mathbf{Y}$ 化成 $f = y_2^2 + 2y_3^2$，其中 $\\mathbf{X} = (x_1, x_2, x_3)^T$ 和 $\\mathbf{Y} = (y_1, y_2, y_3)^T$ 是三维列向量，$\\mathbf{P}$ 是 3 阶正交矩阵。试求常数 $\\alpha, \\beta$。",
       "answer": "$\\alpha=0,\\ \\beta=0$。\n\n二次型矩阵为\n$$\nA=\\begin{pmatrix}1&\\alpha&1\\\\\\alpha&1&\\beta\\\\1&\\beta&1\\end{pmatrix}.\n$$\n正交变换后的标准形为 $y_2^2+2y_3^2$，故 $A$ 的特征值为 $0,1,2$。一方面 $\\operatorname{tr}A=3$ 与特征值和一致；另一方面二阶主子式之和应为 $0\\cdot1+0\\cdot2+1\\cdot2=2$。而 $A$ 的二阶主子式之和为 $2-\\alpha^2-\\beta^2$，故 $\\alpha^2+\\beta^2=0$，于是 $\\alpha=\\beta=0$。",
-      "idea": "① 正交变换下标准形系数即特征值，由 $y_2^2+2y_3^2$ 读出 $\\lambda=0,1,2$；\n② 用不变量定参数：$A$ 的迹恒为 $3$ 自动满足，二阶主子式之和为 $2-\\alpha^2-\\beta^2$，应等于 $0\\cdot1+0\\cdot2+1\\cdot2=2$；\n③ 故 $\\alpha^2+\\beta^2=0$，实数域只有 $\\alpha=\\beta=0$，代回验证特征值 $0,1,2$。",
+      "idea": "**思想：正交变换下标准形的系数就是特征值，反推参数**。\n① 正交变换下标准形系数即特征值，由 $y_2^2+2y_3^2$ 读出 $\\lambda=0,1,2$；\n② 用不变量定参数：$A$ 的迹恒为 $3$ 自动满足，二阶主子式之和为 $2-\\alpha^2-\\beta^2$，应等于 $0\\cdot1+0\\cdot2+1\\cdot2=2$；\n③ 故 $\\alpha^2+\\beta^2=0$，实数域只有 $\\alpha=\\beta=0$，代回验证特征值 $0,1,2$。",
       "source": "(1993 数三)",
       "categoryIds": [
        202
@@ -38877,7 +38877,7 @@
       "type": "blank",
       "stem": "已知二次型\n$$\nf(x_1,x_2,x_3)\n=a(x_1^2+x_2^2+x_3^2)+4x_1x_2+4x_1x_3+4x_2x_3\n$$\n经正交变换可化为标准形 $6y_1^2$，求 $a$。",
       "answer": "$$\na=2.\n$$\n\n二次型的矩阵为\n$$\nA=\\begin{pmatrix}\na&2&2\\\\\n2&a&2\\\\\n2&2&a\n\\end{pmatrix}.\n$$\n经正交变换所得标准形的对角元就是 $A$ 的特征值。由题意，$A$ 的特征值为 $6,0,0$，因此\n$$\n\\operatorname{tr}(A)=3a=6.\n$$\n解得\n$$\na=2.\n$$\n此时\n$$\nA=2\\begin{pmatrix}\n1&1&1\\\\\n1&1&1\\\\\n1&1&1\n\\end{pmatrix},\n$$\n其特征值确为 $6,0,0$。故\n$$\n\\boxed{a=2}.\n$$",
-      "idea": "① 交叉项系数折半写矩阵：$A=(a-2)E+2J$，$J$ 为 $3$ 阶全 $1$ 矩阵；\n② $J$ 的特征值为 $3,0,0$（$(1,1,1)^{\\mathrm T}$ 属于 $3$，秩为 $1$ 故其余为 $0$），于是 $A$ 的特征值为 $a+4,\\ a-2,\\ a-2$；\n③ 正交变换下标准形 $6y_1^2$ 的系数即特征值 $6,0,0$，比对得 $a-2=0$、$a+4=6$，即 $a=2$。",
+      "idea": "**思想：把矩阵拆成 $(a-2)E+2J$，用 $E$ 与全 $1$ 矩阵 $J$ 的特征值套**。\n① 交叉项系数折半写矩阵：$A=(a-2)E+2J$，$J$ 为 $3$ 阶全 $1$ 矩阵；\n② $J$ 的特征值为 $3,0,0$（$(1,1,1)^{\\mathrm T}$ 属于 $3$，秩为 $1$ 故其余为 $0$），于是 $A$ 的特征值为 $a+4,\\ a-2,\\ a-2$；\n③ 正交变换下标准形 $6y_1^2$ 的系数即特征值 $6,0,0$，比对得 $a-2=0$、$a+4=6$，即 $a=2$。",
       "source": "(2002 数一)",
       "categoryIds": [
        202
@@ -38910,7 +38910,7 @@
       "type": "calc",
       "stem": "设二次型\n$$\nf(x_1,x_2,x_3)=\\mathbf x^{\\mathsf T}A\\mathbf x\n$$\n的秩为 $1$，且 $A$ 的各行元素之和为 $3$，则 $f$ 在正交变换 $\\mathbf x=Q\\mathbf y$ 下的标准形为 $\\underline{\\qquad}$。",
       "answer": "$3y_1^2$\n\n二次型矩阵 $A$ 为实对称矩阵。由 $A$ 的各行元素之和为 $3$，有\n$$\nA\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\n=3\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix},\n$$\n故 $3$ 是 $A$ 的一个特征值。又因 $r(A)=1$，其余两个特征值均为 $0$。因此经正交变换后，标准形可写为\n$$\n3y_1^2.\n$$",
-      "idea": "① 各行元素之和为 $3$ 即 $A\\mathbf 1=3\\mathbf 1$，故 $3$ 是 $A$ 的特征值；\n② $A$ 为实对称矩阵且 $r(A)=1$，非零特征值恰有一个，故其余 $n-1$ 个特征值全为 $0$；\n③ 正交变换下标准形系数即特征值，故标准形为 $3y_1^2$。",
+      "idea": "**思想：行和为 $3$ ⇒ $A\\mathbf 1=3\\mathbf 1$，再用迹补另一个特征值**。\n① 各行元素之和为 $3$ 即 $A\\mathbf 1=3\\mathbf 1$，故 $3$ 是 $A$ 的特征值；\n② $A$ 为实对称矩阵且 $r(A)=1$，非零特征值恰有一个，故其余 $n-1$ 个特征值全为 $0$；\n③ 正交变换下标准形系数即特征值，故标准形为 $3y_1^2$。",
       "source": "(2011 数三)",
       "categoryIds": [
        202
@@ -38953,7 +38953,7 @@
       "type": "calc",
       "stem": "已知 $\\mathbf{A}=\\begin{pmatrix}1&0&1\\\\0&1&1\\\\-1&0&a\\\\0&a&-1\\end{pmatrix}$，二次型 $f(\\mathbf{x})=\\mathbf{x}^{\\mathrm T}(\\mathbf{A}^{\\mathrm T}\\mathbf{A})\\mathbf{x}$ 的秩为 $2$。\n\n(I) 求实数 $a$ 的值；\n\n(II) 求正交变换 $\\mathbf{x}=\\mathbf{Q}\\mathbf{y}$ 将二次型 $f$ 化为标准形。",
       "answer": "$a=-1$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt6}&\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\\\\\frac1{\\sqrt6}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt3}\\\\\\frac2{\\sqrt6}&0&-\\frac1{\\sqrt3}\\end{pmatrix},\n$$\n在 $x=Qy$ 下\n$$\nf=6y_1^2+2y_2^2.\n$$\n\n（1）二次型矩阵为 $A^TA$，其秩等于 $A$ 的列秩。记 $A$ 的三列为 $c_1,c_2,c_3$。若秩为 $2$，则 $c_3$ 应为 $c_1,c_2$ 的线性组合。由\n$$\nc_1=(1,0,-1,0)^T,\\quad c_2=(0,1,0,a)^T,\\quad c_3=(1,1,a,-1)^T\n$$\n比较分量得 $c_3=c_1+c_2$ 且 $a=-1$。\n（2）此时\n$$\nA^TA=\\begin{pmatrix}2&0&2\\\\0&2&2\\\\2&2&4\\end{pmatrix},\n$$\n其特征值为 $6,2,0$，对应单位特征向量可取 $\\frac1{\\sqrt6}(1,1,2)^T,\\frac1{\\sqrt2}(1,-1,0)^T,\\frac1{\\sqrt3}(1,1,-1)^T$，组成 $Q$ 即得标准形。",
-      "idea": "① 二次型矩阵是 $A^{\\mathrm T}A$，其秩 $=r(A)$；秩为 $2$ ⟺ 三列线性相关但存在两列无关，用 $|A^{\\mathrm T}A|=0$（或三阶子式为 $0$）解出 $a$；\n② 代回后求 $A^{\\mathrm T}A$ 的特征值，写出标准形。",
+      "idea": "**思想：二次型矩阵是 $A^{\\mathrm T}A$，秩等于 $r(A)$，半正定**。\n① 二次型矩阵是 $A^{\\mathrm T}A$，其秩 $=r(A)$；秩为 $2$ ⟺ 三列线性相关但存在两列无关，用 $|A^{\\mathrm T}A|=0$（或三阶子式为 $0$）解出 $a$；\n② 代回后求 $A^{\\mathrm T}A$ 的特征值，写出标准形。",
       "source": "(2012 数一二三)",
       "categoryIds": [
        202
@@ -39027,7 +39027,7 @@
       "type": "calc",
       "stem": "设二次型 $f(x_1, x_2, x_3) = 2(a_1 x_1 + a_2 x_2 + a_3 x_3)^2 + (b_1 x_1 + b_2 x_2 + b_3 x_3)^2$，记 $\\boldsymbol{\\alpha} = (a_1, a_2, a_3)^T, \\ \\boldsymbol{\\beta} = (b_1, b_2, b_3)^T$。\n(I) 证明二次型 $f$ 对应的矩阵为 $2\\boldsymbol{\\alpha}\\boldsymbol{\\alpha}^T + \\boldsymbol{\\beta}\\boldsymbol{\\beta}^T$；\n(II) 若 $\\boldsymbol{\\alpha}, \\boldsymbol{\\beta}$ 正交且均为单位向量，证明 $f$ 在正交变换下的标准形为 $2y_1^2 + y_2^2$。",
       "answer": "矩阵为 $2\\alpha\\alpha^T+\\beta\\beta^T$；当 $\\alpha,\\beta$ 正交且均为单位向量时，正交标准形为 $2y_1^2+y_2^2$。\n\n（1）记 $x=(x_1,x_2,x_3)^T$，则 $a_1x_1+a_2x_2+a_3x_3=\\alpha^Tx$，$b_1x_1+b_2x_2+b_3x_3=\\beta^Tx$。因此\n$$\nf=2(\\alpha^Tx)^2+(\\beta^Tx)^2=x^T(2\\alpha\\alpha^T+\\beta\\beta^T)x,\n$$\n故对应矩阵为 $2\\alpha\\alpha^T+\\beta\\beta^T$。\n（2）若 $\\alpha,\\beta$ 正交且为单位向量，取单位向量 $\\gamma$ 使 $Q=(\\alpha,\\beta,\\gamma)$ 为正交矩阵，则\n$$\nQ^T(2\\alpha\\alpha^T+\\beta\\beta^T)Q=\\operatorname{diag}(2,1,0),\n$$\n所以标准形为 $2y_1^2+y_2^2$。",
-      "idea": "把二次型写成 $x^TMx$ 求矩阵；$\\alpha,\\beta$ 正交单位时取正交变换化到坐标轴。\n① $(\\alpha^Tx)^2=x^T\\alpha\\alpha^Tx$，故 $f$ 对应矩阵为 $2\\alpha\\alpha^T+\\beta\\beta^T$。\n② 取正交矩阵 $Q=(\\alpha,\\beta,\\gamma)$，则 $\\alpha^Tx=y_1,\\ \\beta^Tx=y_2$。\n③ $f=2y_1^2+y_2^2$，即标准形为 $2y_1^2+y_2^2$。",
+      "idea": "**思想：先写成 $x^{\\mathrm T}Mx$；秩 $1$ 矩阵的特征值 = 迹 + 一堆 $0$**。\n把二次型写成 $x^TMx$ 求矩阵；$\\alpha,\\beta$ 正交单位时取正交变换化到坐标轴。\n① $(\\alpha^Tx)^2=x^T\\alpha\\alpha^Tx$，故 $f$ 对应矩阵为 $2\\alpha\\alpha^T+\\beta\\beta^T$。\n② 取正交矩阵 $Q=(\\alpha,\\beta,\\gamma)$，则 $\\alpha^Tx=y_1,\\ \\beta^Tx=y_2$。\n③ $f=2y_1^2+y_2^2$，即标准形为 $2y_1^2+y_2^2$。",
       "source": "(2013 数一二三)",
       "categoryIds": [
        202
@@ -39109,7 +39109,7 @@
       "type": "choice",
       "stem": "设二次型 $f(x_1,x_2,x_3)$ 在正交变换 $\\boldsymbol{x}=P\\boldsymbol{y}$ 下的标准形为\n$$\n2y_1^2+y_2^2-y_3^2,\n$$\n其中 $P=(e_1,e_2,e_3)$。若 $Q=(e_1,-e_3,e_2)$，则 $f(x_1,x_2,x_3)$ 在正交变换 $\\boldsymbol{x}=Q\\boldsymbol{y}$ 下的标准形为（ ）。",
       "answer": "（A）\n\n在基 $(e_1,e_2,e_3)$ 下，二次型为\n$$\n2z_1^2+z_2^2-z_3^2.\n$$\n而\n$$\nQ\\boldsymbol{y}=e_1y_1-e_3y_2+e_2y_3,\n$$\n所以新坐标与旧坐标的关系为\n$$\nz_1=y_1,\\; z_2=y_3,\\; z_3=-y_2.\n$$\n代入原标准形，得到\n$$\n2y_1^2+y_3^2-(-y_2)^2=2y_1^2-y_2^2+y_3^2.\n$$\n故选 A。\n\n快速判断：$Q$ 只把原来的第二、第三个正交方向交换，并将其中一个方向反向；平方会消去负号，因此系数顺序由 $(2,1,-1)$ 变为 $(2,-1,1)$。",
-      "idea": "① 由 $x=Py$ 知 $P^{\\mathrm T}AP=\\operatorname{diag}(2,1,-1)$；\n② 把 $Q$ 写成 $Q=PC$（$C$ 为列交换/变号矩阵），则 $Q^{\\mathrm T}AQ=C^{\\mathrm T}\\operatorname{diag}(2,1,-1)C$；\n③ 算出这个对角阵，写出新标准形。",
+      "idea": "**思想：已知 $P^{\\mathrm T}AP=\\Lambda$：标准形系数即特征值，$P$ 的列即特征向量**。\n① 由 $x=Py$ 知 $P^{\\mathrm T}AP=\\operatorname{diag}(2,1,-1)$；\n② 把 $Q$ 写成 $Q=PC$（$C$ 为列交换/变号矩阵），则 $Q^{\\mathrm T}AQ=C^{\\mathrm T}\\operatorname{diag}(2,1,-1)C$；\n③ 算出这个对角阵，写出新标准形。",
       "source": "(2015 数一二三)",
       "categoryIds": [
        202
@@ -39188,7 +39188,7 @@
       "type": "calc",
       "stem": "设二次型 $f(x_1, x_2, x_3) = 2x_1^2 - x_2^2 + ax_3^2 + 2x_1x_2 - 8x_1x_3 + 2x_2x_3$ 在正交变换 $\\mathbf{x} = \\mathbf{Q}\\mathbf{y}$ 下的标准形为 $\\lambda_1 y_1^2 + \\lambda_2 y_2^2$，求 $a$ 的值及一个正交矩阵 $\\mathbf{Q}$。",
       "answer": "$a=2$。可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt2}&\\frac1{\\sqrt3}&\\frac1{\\sqrt6}\\\\0&-\\frac1{\\sqrt3}&\\frac2{\\sqrt6}\\\\-\\frac1{\\sqrt2}&\\frac1{\\sqrt3}&\\frac1{\\sqrt6}\\end{pmatrix},\n$$\n在 $x=Qy$ 下\n$$\nf=6y_1^2-3y_2^2.\n$$\n\n二次型矩阵为\n$$\nA=\\begin{pmatrix}2&1&-4\\\\1&-1&1\\\\-4&1&a\\end{pmatrix}.\n$$\n题设标准形只有两个非零平方项，故 $r(A)=2$，从而 $\\det A=0$。计算得 $\\det A=6-3a$，所以 $a=2$。此时 $A$ 的特征值为 $6,-3,0$，对应特征向量可取 $(1,0,-1)^T,(1,-1,1)^T,(1,2,1)^T$。单位化后作为 $Q$ 的列，即有 $Q^TAQ=\\operatorname{diag}(6,-3,0)$，标准形为 $6y_1^2-3y_2^2$。",
-      "idea": "二次型矩阵为\n$$\nA=\\begin{pmatrix}2&1&-4\\\\1&-1&1\\\\-4&1&a\\end{pmatrix}.\n$$\n题设标准形只有两个非零平方项，故 $r(A)=2$，从而 $\\det A=0$。计算得 $\\det A=6-3a$，所以 $a=2$。此时 $A$ 的特征值为 $6,-3,0$，对应特征向量可取 $(1,0,-1)^T,(1,-1,1)^T,(1,2,1)^T$。单位化后作为 $Q$ 的列，即有 $Q^TAQ=\\operatorname{diag}(6,-3,0)$，标准形为 $6y_1^2-3y_2^2$。",
+      "idea": "**思想：正交变换法三步：写矩阵 → 求特征值 → 正交化拼 $Q$**。\n二次型矩阵为\n$$\nA=\\begin{pmatrix}2&1&-4\\\\1&-1&1\\\\-4&1&a\\end{pmatrix}.\n$$\n题设标准形只有两个非零平方项，故 $r(A)=2$，从而 $\\det A=0$。计算得 $\\det A=6-3a$，所以 $a=2$。此时 $A$ 的特征值为 $6,-3,0$，对应特征向量可取 $(1,0,-1)^T,(1,-1,1)^T,(1,2,1)^T$。单位化后作为 $Q$ 的列，即有 $Q^TAQ=\\operatorname{diag}(6,-3,0)$，标准形为 $6y_1^2-3y_2^2$。",
       "source": "(2017 数一二三)",
       "categoryIds": [
        202
@@ -39248,7 +39248,7 @@
       "type": "choice",
       "stem": "设二次型 $f(x)=x^TAx$ 在正交变换下可化成 $y_1^2-2y_2^2+3y_3^2$，则二次型 $f$ 的矩阵 $A$ 的行列式与迹分别为（ ）。",
       "answer": "（C）\n\n正交变换不改变矩阵的特征值。标准形对应的特征值为 $1,-2,3$，所以\n$$\n\\det A=1\\cdot(-2)\\cdot3=-6,\\quad \\operatorname{tr}A=1-2+3=2.\n$$\n故选 C。",
-      "idea": "① 正交变换不改变特征值，标准形的系数就是 $A$ 的特征值；\n② 行列式 $=$ 特征值之积；\n③ 迹 $=$ 特征值之和，分别计算。",
+      "idea": "**思想：正交变换不改变特征值，标准形系数直接读**。\n① 正交变换不改变特征值，标准形的系数就是 $A$ 的特征值；\n② 行列式 $=$ 特征值之积；\n③ 迹 $=$ 特征值之和，分别计算。",
       "source": "(2024 数三)",
       "categoryIds": [
        202
@@ -39279,7 +39279,7 @@
       "type": "calc",
       "stem": "设 $\\mathbf{A}$ 为 $n$ 阶实对称矩阵，$r(\\mathbf{A}) = n$，$A_{ij}$ 是 $\\mathbf{A} = (a_{ij})_{n \\times n}$ 中元素 $a_{ij}$ 的代数余子式 $(i, j = 1, 2,\\cdots, n)$，二次型 $f(x_1, x_2,\\cdots, x_n) = \\sum_{i=1}^n\\sum_{j=1}^n\\frac{A_{ij}}{|\\mathbf{A}|} x_i x_j$。\n(1) 记 $\\mathbf{x} = (x_1, x_2, \\dots, x_n)^T$，把 $f(x_1, x_2, \\dots, x_n)$ 写成矩阵形式，并证明二次型 $f(\\mathbf{x})$ 的矩阵为 $\\mathbf{A}^{-1}$；\n(2) 二次型 $g(\\mathbf{x}) = \\mathbf{x}^T \\mathbf{A} \\mathbf{x}$ 与 $f(\\mathbf{x})$ 的规范形是否相同？说明理由。",
       "answer": "$$\nf(x)=x^TA^{-1}x.\n$$\n二次型 $g(x)=x^TAx$ 与 $f(x)$ 的规范形相同。\n\n（1）因为 $A$ 为实对称矩阵且 $r(A)=n$，所以 $|A|\\ne0$。由逆矩阵公式\n$$\nA^{-1}=\\frac1{|A|}A^*,\n$$\n其中 $A^*$ 为伴随矩阵；又 $A$ 对称时其余子式矩阵也对称，因此题中系数矩阵正是 $A^{-1}$，故 $f(x)=x^TA^{-1}x$。\n（2）若 $A$ 的特征值为 $\\lambda_1,\\ldots,\\lambda_n$，则 $A^{-1}$ 的特征值为 $\\frac1{\\lambda_1},\\ldots,\\frac1{\\lambda_n}$。两者特征值符号相同，正、负惯性指数相同，所以规范形相同。",
-      "idea": "① 由 $A$ 实对称且满秩得 $|A|\\ne0$，用 $A^{-1}=\\frac1{|A|}A^*$ 说明二次型系数矩阵恰为 $A^{-1}$；\n② $A$ 与 $A^{-1}$ 的特征值互为倒数，符号相同，故正负惯性指数相同；\n③ 惯性指数相同则规范形相同。",
+      "idea": "**思想：伴随矩阵的特征值是 $|A|/\\lambda$，据此定正负个数**。\n① 由 $A$ 实对称且满秩得 $|A|\\ne0$，用 $A^{-1}=\\frac1{|A|}A^*$ 说明二次型系数矩阵恰为 $A^{-1}$；\n② $A$ 与 $A^{-1}$ 的特征值互为倒数，符号相同，故正负惯性指数相同；\n③ 惯性指数相同则规范形相同。",
       "source": "(2001 数三)",
       "categoryIds": [
        204
@@ -39312,7 +39312,7 @@
       "type": "calc",
       "stem": "设二次型\n$$\nf(x_1,x_2,x_3)=ax_1^2+ax_2^2+(a-1)x_3^2+2x_1x_3-2x_2x_3.\n$$\n（Ⅰ）求二次型 $f$ 的矩阵的所有特征值；\n\n（Ⅱ）若二次型 $f$ 的规范形为 $y_1^2+y_2^2$，求 $a$ 的值。",
       "answer": "（Ⅰ）特征值为 $a-2$、$a$、$a+1$。\n\n（Ⅱ）$a=2$。\n\n（Ⅰ）写出二次型矩阵并求特征值。\n\n交叉项的系数等于对应非对角元的两倍，所以二次型矩阵为\n$$\nA=\\begin{pmatrix}a&0&1\\\\0&a&-1\\\\1&-1&a-1\\end{pmatrix}.\n$$\n其特征多项式为\n$$\n\\begin{aligned}\n|\\lambda E-A|\n&=(\\lambda-a)\\bigl[(\\lambda-a)(\\lambda-a+1)-2\\bigr]\\\\\n&=(\\lambda-a)(\\lambda-a+2)(\\lambda-a-1).\n\\end{aligned}\n$$\n因此所有特征值为 $a-2$、$a$、$a+1$。\n\n（Ⅱ）利用惯性指数确定参数。\n\n规范形为 $y_1^2+y_2^2$，说明正惯性指数为 $2$，负惯性指数为 $0$，且矩阵秩为 $2$。因此三个特征值中应当有两个正数、一个零。\n\n出现零特征值只可能在 $a=2,0,-1$ 三种情形：\n\n当 $a=2$ 时，特征值为 $0,2,3$，符合要求。\n\n当 $a=0$ 时，特征值为 $-2,0,1$，有一个负数，不符合要求。\n\n当 $a=-1$ 时，特征值为 $-3,-1,0$，有两个负数，不符合要求。\n\n所以 $a=2$。",
-      "idea": "求特征多项式得特征值，用规范形定正负特征值个数。\n① $A=\\begin{pmatrix}a&0&1\\\\0&a&-1\\\\1&-1&a-1\\end{pmatrix}$，$|\\lambda E-A|=(\\lambda-a)(\\lambda-a+2)(\\lambda-a-1)$。\n② 特征值 $a,a-2,a+1$。\n③ 规范形 $y_1^2+y_2^2$ ⇒ 两正一零：$a-2=0$ ⇒ $a=2$（另两情形验算不符）。",
+      "idea": "**思想：先求特征值，再数正负个数得规范形**。\n求特征多项式得特征值，用规范形定正负特征值个数。\n① $A=\\begin{pmatrix}a&0&1\\\\0&a&-1\\\\1&-1&a-1\\end{pmatrix}$，$|\\lambda E-A|=(\\lambda-a)(\\lambda-a+2)(\\lambda-a-1)$。\n② 特征值 $a,a-2,a+1$。\n③ 规范形 $y_1^2+y_2^2$ ⇒ 两正一零：$a-2=0$ ⇒ $a=2$（另两情形验算不符）。",
       "source": "(2009 数一二三)",
       "categoryIds": [
        204
@@ -39384,7 +39384,7 @@
       "type": "choice",
       "stem": "设 $A$ 是 3 阶实对称矩阵，$E$ 是 3 阶单位矩阵。若 $A^2+A=2E$，且 $|A|=4$，则二次型 $x^TAx$ 的规范形为（ ）。",
       "answer": "（C）\n\n设 $\\lambda$ 为 $A$ 的特征值，由 $A^2+A=2E$ 得 $\\lambda^2+\\lambda=2$，所以 $\\lambda=1$ 或 $\\lambda=-2$。又 $|A|=4$，三个特征值的乘积为 $4$，故只能是 $1,-2,-2$。因此正惯性指数为 $1$，负惯性指数为 $2$，规范形为 $y_1^2-y_2^2-y_3^2$，故选 C。",
-      "idea": "① 由 $A^2+A=2E$ 得特征值满足 $\\lambda^2+\\lambda-2=0$，即 $\\lambda\\in\\{1,-2\\}$；\n② 用 $|A|=4$（三个特征值之积）确定各特征值的重数；\n③ 由正、负特征值个数写规范形。",
+      "idea": "**思想：由 $A^2+A=2E$ 知特征值只能是 $1,-2$，配合 $|A|$ 定个数**。\n① 由 $A^2+A=2E$ 得特征值满足 $\\lambda^2+\\lambda-2=0$，即 $\\lambda\\in\\{1,-2\\}$；\n② 用 $|A|=4$（三个特征值之积）确定各特征值的重数；\n③ 由正、负特征值个数写规范形。",
       "source": "(2019 数学一二三)",
       "categoryIds": [
        204
@@ -39436,7 +39436,7 @@
       "type": "calc",
       "stem": "设二次型 $f(x_1, x_2) = x_1^2 - 4x_1x_2 + 4x_2^2$ 经正交变换 $\\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\mathbf{Q} \\begin{pmatrix} y_1 \\\\ y_2 \\end{pmatrix}$ 化为二次型 $g(y_1, y_2) = a y_1^2 + 4y_1y_2 + b y_2^2$，其中 $a \\ge b$。\n(I) 求 $a, b$ 的值；\n(II) 求正交矩阵 $\\mathbf{Q}$。",
       "answer": "$a=4,\\ b=1$。可取\n$$\nQ=\\begin{pmatrix}0&1\\\\-1&0\\end{pmatrix}.\n$$\n\n（1）利用正交变换下的不变量求 $a,b$。\n\n原二次型与目标二次型的矩阵分别为\n\n$$\nA=\\begin{pmatrix}1&-2\\\\-2&4\\end{pmatrix},\n\\qquad\nG=\\begin{pmatrix}a&2\\\\2&b\\end{pmatrix}.\n$$\n\n由 $G=Q^{\\mathrm T}AQ$，且 $Q$ 为正交矩阵，知两矩阵的迹与行列式相同，故\n\n$$\na+b=5,\\qquad ab-4=0.\n$$\n\n结合 $a\\ge b$，得\n\n$$\n\\boxed{a=4,\\quad b=1}.\n$$\n\n\n（2）构造并验证一个正交矩阵。\n\n原二次型可写为\n\n$$\nf=(x_1-2x_2)^2.\n$$\n\n取 $x_1=y_2,\\ x_2=-y_1$，即\n\n$$\nQ=\\begin{pmatrix}0&1\\\\-1&0\\end{pmatrix}.\n$$\n\n直接计算可得 $Q^{\\mathrm T}Q=I$，故 $Q$ 为正交矩阵。代入后，\n\n$$\n\\begin{aligned}\nf&=(y_2+2y_1)^2\\\\\n&=4y_1^2+4y_1y_2+y_2^2.\n\\end{aligned}\n$$\n\n这正是所需的二次型。\n\n说明：满足条件的正交矩阵不唯一。因此矩阵的具体写法与视频不同，并不必然表示答案错误；只需同时满足 $Q^{\\mathrm T}Q=I$ 及 $Q^{\\mathrm T}AQ=G$。例如本题的 $-Q$ 也是一个合法答案。",
-      "idea": "① 正交变换保特征值：原式矩阵 $A=\\begin{pmatrix}1&-2\\\\-2&4\\end{pmatrix}$ 与目标 $G=\\begin{pmatrix}a&2\\\\2&b\\end{pmatrix}$ 特征值相同，由 $\\operatorname{tr}$ 与行列式分别相等列方程，结合 $a\\ge b$ 解出 $a=4,\\ b=1$；\n② 求正交矩阵：对 $G$ 解特征值 $4,1$ 对应的单位特征向量，按列拼成 $Q$。",
+      "idea": "**思想：正交变换保特征值，特征向量拼 $Q$（别忘了单位化）**。\n① 正交变换保特征值：原式矩阵 $A=\\begin{pmatrix}1&-2\\\\-2&4\\end{pmatrix}$ 与目标 $G=\\begin{pmatrix}a&2\\\\2&b\\end{pmatrix}$ 特征值相同，由 $\\operatorname{tr}$ 与行列式分别相等列方程，结合 $a\\ge b$ 解出 $a=4,\\ b=1$；\n② 求正交矩阵：对 $G$ 解特征值 $4,1$ 对应的单位特征向量，按列拼成 $Q$。",
       "source": "(2020, 数一、三)",
       "categoryIds": [
        203
@@ -39468,7 +39468,7 @@
       "type": "calc",
       "stem": "已知二次型 $f(x_1, x_2, x_3) = x_1^2 + 2x_2^2 + 2x_3^2 + 2x_1x_2 - 2x_1x_3$，$g(y_1, y_2, y_3) = y_1^2 + y_2^2 + y_3^2 + 2y_2y_3$。\n(1) 求可逆变换 $\\mathbf{x} = \\mathbf{P}\\mathbf{y}$ 将 $f(x_1, x_2, x_3)$ 化成 $g(y_1, y_2, y_3)$；\n(2) 是否存在正交变换 $\\mathbf{x} = \\mathbf{Q}\\mathbf{y}$ 将 $f(x_1, x_2, x_3)$ 化成 $g(y_1, y_2, y_3)$？",
       "answer": "可取\n$$\nP=\\begin{pmatrix}1&-1&1\\\\0&1&0\\\\0&0&1\\end{pmatrix},\n$$\n即 $x_1=y_1-y_2+y_3,\\ x_2=y_2,\\ x_3=y_3$。不存在正交变换 $x=Qy$ 将 $f$ 化为 $g$。\n\n（1）配方得\n$$\nf=(x_1+x_2-x_3)^2+(x_2+x_3)^2,\\quad g=y_1^2+(y_2+y_3)^2.\n$$\n令 $x_1=y_1-y_2+y_3,x_2=y_2,x_3=y_3$，则 $x_1+x_2-x_3=y_1$，$x_2+x_3=y_2+y_3$，故 $f$ 化为 $g$，对应 $P$ 如答案所示。\n（2）若存在正交变换，则两个矩阵必须有相同特征值。$f$ 的矩阵特征值为 $3,2,0$，$g$ 的矩阵特征值为 $2,1,0$，不相同，故不存在这样的正交变换。",
-      "idea": "① (Ⅰ) 配方读变换：$f=(x_1+x_2-x_3)^2+(x_2+x_3)^2$，令 $y_1=x_1+x_2-x_3$、$y_2=x_2+x_3$、$y_3=x_3$，取逆变换即得 $P$；\n② (Ⅱ) 判正交变换 ⟹ 比特征值：$f$ 的矩阵迹为 $5$、$g$ 的为 $3$，迹不同 ⟹ 特征值不同 ⟹ 不存在正交变换把 $f$ 化为 $g$（可逆变换只保合同，正交变换才保特征值）。",
+      "idea": "**思想：先配方拿到可逆变换，再把平方项正交化**。\n① (Ⅰ) 配方读变换：$f=(x_1+x_2-x_3)^2+(x_2+x_3)^2$，令 $y_1=x_1+x_2-x_3$、$y_2=x_2+x_3$、$y_3=x_3$，取逆变换即得 $P$；\n② (Ⅱ) 判正交变换 ⟹ 比特征值：$f$ 的矩阵迹为 $5$、$g$ 的为 $3$，迹不同 ⟹ 特征值不同 ⟹ 不存在正交变换把 $f$ 化为 $g$（可逆变换只保合同，正交变换才保特征值）。",
       "source": "(2023 数一)",
       "categoryIds": [
        203
@@ -39500,7 +39500,7 @@
       "type": "calc",
       "stem": "设实二次型$$f(x_1,x_2,x_3)=(x_1-x_2+x_3)^2+(x_2+x_3)^2+(x_1+ax_3)^2$$其中 $a$ 为参数。\n\n（I）求方程 $f(x_1,x_2,x_3)=0$ 的解；\n\n（II）求该二次型的规范形。",
       "answer": "当 $a=2$ 时，$f=0$ 的解为 $(x_1,x_2,x_3)^{\\mathsf T}=t(2,1,-1)^{\\mathsf T}$；当 $a\\ne2$ 时，只有零解。规范形在 $a=2$ 时为 $y_1^2+y_2^2$，在 $a\\ne2$ 时为 $y_1^2+y_2^2+y_3^2$。\n\n（1）因为 $f$ 是三个实数平方之和，所以 $f=0$ 当且仅当\n$$\n\\begin{cases}x_1-x_2+x_3=0,\\\\x_2+x_3=0,\\\\x_1+ax_3=0.\n\\end{cases}\n$$\n由前两式得 $x_1=-2x_3,x_2=-x_3$。代入第三式，得到$$ (a-2)x_3=0$$当 $a=2$ 时，令 $x_3=-t$，可得全部解为$$ (x_1,x_2,x_3)^{\\mathsf T}=t(2,1,-1)^{\\mathsf T}$$当 $a\\ne2$ 时，只能有 $x_3=0$，进而只有零解。\n\n\n（2）该二次型为平方和，故为半正定二次型。当 $a=2$ 时，三个线性形式的秩为 $2$，规范形为 $y_1^2+y_2^2$；当 $a\\ne2$ 时秩为 $3$，规范形为 $y_1^2+y_2^2+y_3^2$。",
-      "idea": "把 $f$ 写成三个平方和 $f=Y^TY$，其中 $Y=AX$，由 $|A|$ 分类。\n① 令 $y_1=x_1-x_2+x_3$，$y_2=x_2+x_3$，$y_3=x_1+ax_3$，$|A|=a-2$。\n② $f=0\\iff AX=0$：$a\\ne2$ 时唯一零解；$a=2$ 时 $x=k(-2,-1,1)^T$。\n③ 规范形：$a\\ne2$ 时为 $y_1^2+y_2^2+y_3^2$；$a=2$ 时为 $y_1^2+y_2^2$。",
+      "idea": "**思想：写成平方和 $f=Y^{\\mathrm T}Y$：$f=0 \\iff Y=0$，由 $|A|$ 分情况**。\n把 $f$ 写成三个平方和 $f=Y^TY$，其中 $Y=AX$，由 $|A|$ 分类。\n① 令 $y_1=x_1-x_2+x_3$，$y_2=x_2+x_3$，$y_3=x_1+ax_3$，$|A|=a-2$。\n② $f=0\\iff AX=0$：$a\\ne2$ 时唯一零解；$a=2$ 时 $x=k(-2,-1,1)^T$。\n③ 规范形：$a\\ne2$ 时为 $y_1^2+y_2^2+y_3^2$；$a=2$ 时为 $y_1^2+y_2^2$。",
       "source": "(2018 数一二三)",
       "categoryIds": [
        205
@@ -39568,7 +39568,7 @@
       "type": "calc",
       "stem": "设二次型\n$$\nf(x_1,x_2,x_3)=\\sum_{i=1}^3\\sum_{j=1}^3ijx_ix_j.\n$$\n(I) 求 $f(x_1,x_2,x_3)$ 对应的矩阵；(II) 求正交变换 $\\mathbf{x}=Q\\mathbf{y}$，将 $f(x_1,x_2,x_3)$ 化为标准形；(III) 求 $f(x_1,x_2,x_3)=0$ 的解。",
       "answer": "对应矩阵为\n$$\nA=\\begin{pmatrix}1&2&3\\\\2&4&6\\\\3&6&9\\end{pmatrix}.\n$$\n可取\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt{14}}&\\frac2{\\sqrt5}&\\frac3{\\sqrt{70}}\\\\\\frac2{\\sqrt{14}}&-\\frac1{\\sqrt5}&\\frac6{\\sqrt{70}}\\\\\\frac3{\\sqrt{14}}&0&-\\frac5{\\sqrt{70}}\\end{pmatrix},\n$$\n标准形为\n$$\nf=14y_1^2.\n$$\n方程 $f=0$ 的解为\n$$\nx_1+2x_2+3x_3=0.\n$$\n\n（1）因为 $a_{ij}=ij$，故二次型矩阵为\n$$\nA=(ij)_{3\\times3}=\\begin{pmatrix}1&2&3\\\\2&4&6\\\\3&6&9\\end{pmatrix}=(1,2,3)^T(1,2,3).\n$$\n\n（2）因此 $A$ 的秩为 $1$，非零特征值为\n$$\n1^2+2^2+3^2=14,\n$$\n对应单位特征向量为 $\\frac1{\\sqrt{14}}(1,2,3)^T$。取与其正交的单位向量\n$$\n\\frac1{\\sqrt5}(2,-1,0)^T,\\quad \\frac1{\\sqrt{70}}(3,6,-5)^T,\n$$\n组成正交矩阵 $Q$，则 $Q^TAQ=\\operatorname{diag}(14,0,0)$。\n（3）又\n$$\nf=(x_1+2x_2+3x_3)^2,\n$$\n故 $f=0$ 的解为 $x_1+2x_2+3x_3=0$。",
-      "idea": "① 由 $a_{ij}=ij$ 得 **$A=(1,2,3)^{\\mathrm T}(1,2,3)$，是秩 $1$ 对称阵**；\n② 特征值为 $14,0,0$，按特征向量拼正交阵 $Q$ 化标准形；\n③ **$f=0$ ⟺ $x$ 是特征值 $0$ 的特征向量**，即解 $x_1+2x_2+3x_3=0$。",
+      "idea": "**思想：系数 $a_{ij}=ij$ ⇒ 矩阵是秩 $1$ 的 $\\alpha\\alpha^{\\mathrm T}$（$\\alpha=(1,2,3)^{\\mathrm T}$）**。\n① 由 $a_{ij}=ij$ 得 **$A=(1,2,3)^{\\mathrm T}(1,2,3)$，是秩 $1$ 对称阵**；\n② 特征值为 $14,0,0$，按特征向量拼正交阵 $Q$ 化标准形；\n③ **$f=0$ ⟺ $x$ 是特征值 $0$ 的特征向量**，即解 $x_1+2x_2+3x_3=0$。",
       "source": "(2022, 数一)",
       "categoryIds": [
        205
@@ -39600,7 +39600,7 @@
       "type": "calc",
       "stem": "设二次型\n$$\nf(x_1,x_2,x_3)\n=x_1^2-x_2^2+2ax_1x_3+4x_2x_3\n$$\n的负惯性指数为 $1$，求参数 $a$ 的取值范围。",
       "answer": "$$\na\\in[-2,2].\n$$\n\n解法一：合同变换法\n\n（一）将二次型矩阵化为对角矩阵\n\n二次型的矩阵为\n$$\nA=\\begin{pmatrix}\n1&0&a\\\\\n0&-1&2\\\\\na&2&0\n\\end{pmatrix}.\n$$\n\n取可逆矩阵\n$$\nP=\\begin{pmatrix}\n1&0&-a\\\\\n0&1&2\\\\\n0&0&1\n\\end{pmatrix},\n$$\n其行列式为 $1$。直接计算得\n$$\nP^{\\mathsf T}AP=\n\\begin{pmatrix}\n1&0&0\\\\\n0&-1&0\\\\\n0&0&4-a^2\n\\end{pmatrix}.\n$$\n\n（二）利用惯性定理判断参数范围\n\n合同变换不改变二次型的正、负惯性指数。上式已经有一个负的对角元 $-1$，要使负惯性指数恰为 $1$，最后一个对角元必须非负，即\n$$\n4-a^2\\ge0.\n$$\n\n因此\n$$\n\\boxed{a\\in[-2,2]}.\n$$\n\n解法二：配方法\n\n（一）分别对含 $x_1$、$x_2$ 的项配方\n\n由\n$$\nx_1^2+2ax_1x_3=(x_1+ax_3)^2-a^2x_3^2,\n$$\n以及\n$$\n-x_2^2+4x_2x_3=-(x_2-2x_3)^2+4x_3^2,\n$$\n得到\n$$\n\\begin{aligned}\nf(x_1,x_2,x_3)\n&=(x_1+ax_3)^2-(x_2-2x_3)^2\\\\\n&{}+(4-a^2)x_3^2.\n\\end{aligned}\n$$\n\n（二）写出标准形并数负平方项\n\n作可逆线性替换\n$$\n\\begin{cases}\ny_1=x_1+ax_3,\\\\\ny_2=x_2-2x_3,\\\\\ny_3=x_3.\n\\end{cases}\n$$\n\n该替换的系数矩阵行列式为 $1$，故可逆。于是二次型化为标准形\n$$\nf=y_1^2-y_2^2+(4-a^2)y_3^2.\n$$\n\n负惯性指数等于标准形中负系数的个数。已有一个负平方项 $-y_2^2$，所以必须且只需\n$$\n4-a^2\\ge0.\n$$\n\n故\n$$\n\\boxed{-2\\le a\\le2}.\n$$\n\n当 $a=\\pm2$ 时，$y_3^2$ 的系数为 $0$，负平方项仍只有一个，因此两个端点均应取到。",
-      "idea": "二次型用配方法化为平方和差，负惯性指数即负平方项个数。\n① 配方：$f=(x_1+ax_3)^2-(x_2-2x_3)^2+(4-a^2)x_3^2$。\n② 负惯性指数为 $1$ ⇔ 恰有一个负平方项，须 $4-a^2\\ge0$。\n③ 得 $-2\\le a\\le2$。",
+      "idea": "**思想：配方法：负平方项的个数就是负惯性指数**。\n二次型用配方法化为平方和差，负惯性指数即负平方项个数。\n① 配方：$f=(x_1+ax_3)^2-(x_2-2x_3)^2+(4-a^2)x_3^2$。\n② 负惯性指数为 $1$ ⇔ 恰有一个负平方项，须 $4-a^2\\ge0$。\n③ 得 $-2\\le a\\le2$。",
       "source": "(2014 数一二三)",
       "categoryIds": [
        208
@@ -39662,7 +39662,7 @@
       "type": "calc",
       "stem": "若二次型 $f(x_1,x_2,x_3)=2x_1^2+x_2^2+x_3^2+2x_1x_2+tx_2x_3$ 是正定的，则 $t$ 的取值范围是 ______。",
       "answer": "$-\\sqrt2<t<\\sqrt2$。\n\n二次型对应的实对称矩阵为\n$$\nA=\\begin{pmatrix}2&1&0\\\\1&1&\\frac t2\\\\0&\\frac t2&1\\end{pmatrix}.\n$$\n由顺序主子式判别法，前两个顺序主子式为 $2$、$1$，均为正；又\n$$\n\\det A=1-\\frac{t^2}{2}.\n$$\n因此正定当且仅当 $1-\\frac{t^2}{2}>0$，即 $-\\sqrt2<t<\\sqrt2$。",
-      "idea": "二次型矩阵 $A=\\begin{pmatrix}2&1&0\\\\1&1&t/2\\\\0&t/2&1\\end{pmatrix}$（交叉项系数折半）。由 Sylvester 判据，顺序主子式 $\\Delta_1=2>0$、$\\Delta_2=1>0$ 恒成立，只需 $\\Delta_3=|A|=2(1-t^2/4)-1=1-\\frac{t^2}{2}>0$，即 $t^2<2$，故 $-\\sqrt2<t<\\sqrt2$。",
+      "idea": "**思想：正定 $\\iff$ 顺序主子式全 $>0$**。\n二次型矩阵 $A=\\begin{pmatrix}2&1&0\\\\1&1&t/2\\\\0&t/2&1\\end{pmatrix}$（交叉项系数折半）。由 Sylvester 判据，顺序主子式 $\\Delta_1=2>0$、$\\Delta_2=1>0$ 恒成立，只需 $\\Delta_3=|A|=2(1-t^2/4)-1=1-\\frac{t^2}{2}>0$，即 $t^2<2$，故 $-\\sqrt2<t<\\sqrt2$。",
       "source": "(1997 数三)",
       "categoryIds": [
        210
@@ -39694,7 +39694,7 @@
       "type": "calc",
       "stem": "设矩阵 $\\mathbf{A} = \\begin{pmatrix} 1 & 0 & 1 \\\\ 0 & 2 & 0 \\\\ 1 & 0 & 1 \\end{pmatrix}$，矩阵 $\\mathbf{B} = (k\\mathbf{E} + \\mathbf{A})^2$，其中 $k$ 为实数，$\\mathbf{E}$ 为单位矩阵。求对角矩阵 $\\mathbf{\\Lambda}$，使 $\\mathbf{B}$ 与 $\\mathbf{\\Lambda}$ 相似，并求 $k$ 为何值时，$\\mathbf{B}$ 为正定矩阵。",
       "answer": "$A$ 的特征值为 $0,2,2$，故\n$$\n\\Lambda=\\operatorname{diag}\\left(k^2,(k+2)^2,(k+2)^2\\right).\n$$\n当且仅当 $k\\ne0$ 且 $k\\ne-2$ 时，$B$ 为正定矩阵。\n\n矩阵\n$$\nA=\\begin{pmatrix}1&0&1\\\\0&2&0\\\\1&0&1\\end{pmatrix}\n$$\n的特征值为 $0,2,2$。因此 $kE+A$ 的特征值为 $k,k+2,k+2$，而\n$$\nB=(kE+A)^2\n$$\n的特征值为 $k^2,(k+2)^2,(k+2)^2$，所以 $B$ 与题示对角矩阵相似。$B$ 正定当且仅当三个特征值全为正，即 $k\\ne0,-2$。",
-      "idea": "① 先求 $A$ 的特征值 $0,2,2$；\n② 由「$f(A)$ 的特征值是 $f(\\lambda)$」得 $B=(kE+A)^2$ 的特征值为 $k^2,(k+2)^2,(k+2)^2$；\n③ 再按题目要求（正定 / 秩 / 行列式）用这三个特征值判断。",
+      "idea": "**思想：$B=A^2-4A+4E$ 的特征值是 $(\\lambda-2)^2$，正定 $\\iff$ 全部 $>0$**。\n① 先求 $A$ 的特征值 $0,2,2$；\n② 由「$f(A)$ 的特征值是 $f(\\lambda)$」得 $B=(kE+A)^2$ 的特征值为 $k^2,(k+2)^2,(k+2)^2$；\n③ 再按题目要求（正定 / 秩 / 行列式）用这三个特征值判断。",
       "source": "(1998 数三)",
       "categoryIds": [
        210
@@ -39726,7 +39726,7 @@
       "type": "calc",
       "stem": "设  $ \\mathbf{A} $  为  $ m $  阶实对称矩阵且正定， $ \\mathbf{B} $  为  $ m \\times n $  实矩阵， $ \\mathbf{B}^T $  为  $ \\mathbf{B} $  的转置矩阵，试证： $ \\mathbf{B}^T \\mathbf{A} \\mathbf{B} $  为正定矩阵的充分必要条件是  $ \\mathbf{B} $  的秩  $ r(\\mathbf{B}) = n $ 。",
       "answer": "$B^TAB$ 正定的充分必要条件是 $r(B)=n$。\n\n对任意 $x\\ne0$，有\n$$\nx^TB^TABx=(Bx)^TA(Bx).\n$$\n若 $r(B)=n$，则 $Bx\\ne0$，又 $A$ 正定，所以 $(Bx)^TA(Bx)\\gt0$，故 $B^TAB$ 正定。反之，若 $r(B)\\lt n$，则存在 $x\\ne0$ 使 $Bx=0$，于是 $x^TB^TABx=0$，与正定矛盾。因此充要条件为 $r(B)=n$。",
-      "idea": "① 先把 $B^TAB$ 写成 $(B\\boldsymbol{x})^TA(B\\boldsymbol{x})$，并验证其对称性；\n② 充分性：$r(B)=n$ 时 $B\\boldsymbol{x}\\ne\\boldsymbol 0$，由 $A$ 正定即得二次型 $>0$；\n③ 必要性：反设 $r(B)<n$，取 $B\\boldsymbol{x}_0=\\boldsymbol 0$ 的非零解，二次型值为 $0$，与正定矛盾。",
+      "idea": "**思想：把 $x^{\\mathrm T}B^{\\mathrm T}ABx$ 写成 $(Bx)^{\\mathrm T}A(Bx)$，正定 + 秩**。\n① 先把 $B^TAB$ 写成 $(B\\boldsymbol{x})^TA(B\\boldsymbol{x})$，并验证其对称性；\n② 充分性：$r(B)=n$ 时 $B\\boldsymbol{x}\\ne\\boldsymbol 0$，由 $A$ 正定即得二次型 $>0$；\n③ 必要性：反设 $r(B)<n$，取 $B\\boldsymbol{x}_0=\\boldsymbol 0$ 的非零解，二次型值为 $0$，与正定矛盾。",
       "source": "(1999 数一)",
       "categoryIds": [
        210
@@ -39759,7 +39759,7 @@
       "type": "calc",
       "stem": "设 $A$ 为 $m\\times n$ 实矩阵，$E$ 为 $n$ 阶单位矩阵。已知矩阵 $B=\\lambda E+A^TA$，试证：当 $\\lambda\\gt0$ 时，矩阵 $B$ 为正定矩阵。",
       "answer": "当 $\\lambda\\gt0$ 时，$B$ 正定。\n\n对任意非零向量 $x$，有\n$$\nx^TBx=x^T(\\lambda E+A^TA)x=\\lambda x^Tx+(Ax)^T(Ax).\n$$\n由于 $\\lambda\\gt0$，第一项严格大于 $0$，第二项非负，因此 $x^TBx\\gt0$。故 $B$ 为正定矩阵。",
-      "idea": "① 验证 $B^T=B$（$\\lambda E+A^TA$ 对称）；\n② 展开 $\\boldsymbol{x}^TB\\boldsymbol{x}=\\lambda\\|\\boldsymbol{x}\\|^2+\\|A\\boldsymbol{x}\\|^2$；\n③ 首项 $>0$、次项 $\\ge0$，故对非零 $\\boldsymbol{x}$ 恒为正，$B$ 正定。",
+      "idea": "**思想：$\\lambda E+A^{\\mathrm T}A$ 的特征值是 $\\lambda+\\mu_i$，全正才正定**。\n① 验证 $B^T=B$（$\\lambda E+A^TA$ 对称）；\n② 展开 $\\boldsymbol{x}^TB\\boldsymbol{x}=\\lambda\\|\\boldsymbol{x}\\|^2+\\|A\\boldsymbol{x}\\|^2$；\n③ 首项 $>0$、次项 $\\ge0$，故对非零 $\\boldsymbol{x}$ 恒为正，$B$ 正定。",
       "source": "(1999 数三)",
       "categoryIds": [
        210
@@ -39791,7 +39791,7 @@
       "type": "calc",
       "stem": "设有 $n$ 元实二次型 $f(x_1, x_2, \\dots, x_n) = (x_1 + a_1 x_2)^2 + (x_2 + a_2 x_3)^2 + \\dots + (x_{n-1} + a_{n-1} x_n)^2 + (x_n + a_n x_1)^2$，其中 $a_i(i=1,2,\\dots, n)$ 为实数。试问：当 $a_1, a_2, \\dots, a_n$ 满足何种条件时，二次型 $f(x_1, x_2, \\dots, x_n)$ 为正定二次型。",
       "answer": "当且仅当\n$$\na_1a_2\\cdots a_n\\ne(-1)^n\n$$\n时，$f$ 为正定二次型。\n\n该二次型是若干平方和，故必为半正定。它正定当且仅当方程组\n$$\nx_1+a_1x_2=0,\\ x_2+a_2x_3=0,\\ \\ldots,\\ x_n+a_nx_1=0\n$$\n只有零解。由这些方程递推得\n$$\nx_1=(-1)^n(a_1a_2\\cdots a_n)x_1.\n$$\n若 $a_1a_2\\cdots a_n=(-1)^n$，则存在非零解，二次型不正定；反之只能有零解，故二次型正定。",
-      "idea": "① $f$ 是平方和 ⟹ 必半正定：正定 ⟺ 方程组 $x_i+a_ix_{i+1}=0$（下标循环）只有零解；\n② 沿递推绕一圈：$x_1=(-1)^n(a_1a_2\\cdots a_n)x_1$ ⟹ 只有零解 ⟺ $a_1a_2\\cdots a_n\\ne(-1)^n$。",
+      "idea": "**思想：平方和正定 $\\iff$ 只有零解 $\\iff$ 系数行列式 $\\ne0$**。\n① $f$ 是平方和 ⟹ 必半正定：正定 ⟺ 方程组 $x_i+a_ix_{i+1}=0$（下标循环）只有零解；\n② 沿递推绕一圈：$x_1=(-1)^n(a_1a_2\\cdots a_n)x_1$ ⟹ 只有零解 ⟺ $a_1a_2\\cdots a_n\\ne(-1)^n$。",
       "source": "(2000 数三；25 版 880 二次型综合选择 3)",
       "categoryIds": [
        210
@@ -39823,7 +39823,7 @@
       "type": "calc",
       "stem": "设\n$$\nD=\\begin{pmatrix}\nA&C\\\\\nC^{\\mathrm T}&B\n\\end{pmatrix}\n$$\n为正定矩阵，其中 $A,B$ 分别为 $m$ 阶、$n$ 阶对称矩阵，$C$ 为 $m\\times n$ 矩阵。\n\n(I) 计算 $P^{\\mathrm T}DP$，其中\n$$\nP=\\begin{pmatrix}\nE_m&-A^{-1}C\\\\\nO&E_n\n\\end{pmatrix}.\n$$\n\n(II) 利用 (I) 的结果判断矩阵 $B-C^{\\mathrm T}A^{-1}C$ 是否为正定矩阵，并证明你的结论。",
       "answer": "$$\nP^{\\mathrm T}DP=\n\\begin{pmatrix}\nA&O\\\\\nO&B-C^{\\mathrm T}A^{-1}C\n\\end{pmatrix},\n$$\n且 $B-C^{\\mathrm T}A^{-1}C$ 为正定矩阵。\n\n（1）由于 $D$ 正定，其顺序主子矩阵 $A$ 也正定，故 $A$ 可逆。先计算\n$$\n\\begin{aligned}\nDP\n&=\\begin{pmatrix}\nA&C\\\\\nC^{\\mathrm T}&B\n\\end{pmatrix}\n\\begin{pmatrix}\nE_m&-A^{-1}C\\\\\nO&E_n\n\\end{pmatrix}\\\\\n&=\\begin{pmatrix}\nA&O\\\\\nC^{\\mathrm T}&B-C^{\\mathrm T}A^{-1}C\n\\end{pmatrix}.\n\\end{aligned}\n$$\n又因 $A$ 对称，$A^{-1}$ 也对称，所以\n$$\nP^{\\mathrm T}=\n\\begin{pmatrix}\nE_m&O\\\\\n-C^{\\mathrm T}A^{-1}&E_n\n\\end{pmatrix}.\n$$\n因此\n$$\nP^{\\mathrm T}DP=\n\\begin{pmatrix}\nA&O\\\\\nO&B-C^{\\mathrm T}A^{-1}C\n\\end{pmatrix}.\n$$\n\n（2）矩阵 $P$ 为可逆的分块上三角矩阵。由 $D$ 正定及合同变换保持正定性，$P^{\\mathrm T}DP$ 正定。正定分块对角矩阵的每个对角块均正定，故\n$$\nB-C^{\\mathrm T}A^{-1}C\n$$\n为正定矩阵。",
-      "idea": "① $D$ 正定 ⟹ 顺序主子块 $A$ 正定、可逆；\n② 直接乘出 $P^{\\mathrm T}DP$（先算 $DP$ 再左乘 $P^{\\mathrm T}$）：交叉块消为 $O$，右下块化为 $B-C^{\\mathrm T}A^{-1}C$；\n③ 可逆合同保正定 ⟹ 新的分块对角阵正定 ⟹ 对角块 $B-C^{\\mathrm T}A^{-1}C$ 正定。",
+      "idea": "**思想：分块正定 ⇒ 主子块 $A$ 正定可逆，再对 $x^{\\mathrm T}Dx$ 配方得 $B-C^{\\mathrm T}A^{-1}C$ 正定**。\n① $D$ 正定 ⟹ 顺序主子块 $A$ 正定、可逆；\n② 直接乘出 $P^{\\mathrm T}DP$（先算 $DP$ 再左乘 $P^{\\mathrm T}$）：交叉块消为 $O$，右下块化为 $B-C^{\\mathrm T}A^{-1}C$；\n③ 可逆合同保正定 ⟹ 新的分块对角阵正定 ⟹ 对角块 $B-C^{\\mathrm T}A^{-1}C$ 正定。",
       "source": "(2005 数三)",
       "categoryIds": [
        210
@@ -39860,7 +39860,7 @@
       "type": "choice",
       "stem": "二次型 $f(x_1,x_2,x_3)=x_1^2+2x_1x_2+2x_1x_3$ 的正惯性指数为（ ）",
       "answer": "（A）\n\n配方得 \n$$\nf=x_1^2+2x_1(x_2+x_3)=(x_1+x_2+x_3)^2-(x_2+x_3)^2.\n$$\n 因而二次型的规范形含一个正平方项、一个负平方项和一个零项，正惯性指数为 $1$，选 A。",
-      "idea": "直接配方成 $(x_1+x_2+x_3)^2-(x_2+x_3)^2$，数正、负平方项个数即得惯性指数。",
+      "idea": "**思想：直接配方成平方和，数正、负平方项的个数**。\n直接配方成 $(x_1+x_2+x_3)^2-(x_2+x_3)^2$，数正、负平方项个数即得惯性指数。",
       "source": "2025数一",
       "categoryIds": [
        208
@@ -39912,7 +39912,7 @@
       "type": "choice",
       "stem": "二次型 $f(x_1,x_2,x_3)=(x_1-x_2)^2+(x_2-x_3)^2+(x_3-x_1)^2$ 的标准形为（ ）。",
       "answer": "（B）\n\n令 $u=x_1-x_2$，$v=x_2-x_3$，则 $x_3-x_1=-(u+v)$，所以\n$$\nf=u^2+v^2+(u+v)^2=2\\left(u+\\frac v2\\right)^2+\\frac32v^2.\n$$\n因此标准形为 $2y_1^2+\\frac32y_2^2$，故选 B。",
-      "idea": "令 $u=x_1-x_2$、$v=x_2-x_3$，则 $x_3-x_1=-(u+v)$，代回配方得 $2y_1^2+\\frac32y_2^2$。",
+      "idea": "**思想：换元 $u=x_1-x_2,\\ v=x_2-x_3$，把平方和化到 $u,v$ 上**。\n令 $u=x_1-x_2$、$v=x_2-x_3$，则 $x_3-x_1=-(u+v)$，代回配方得 $2y_1^2+\\frac32y_2^2$。",
       "source": "880相似综合解答",
       "categoryIds": [
        202
@@ -39959,7 +39959,7 @@
       "type": "calc",
       "stem": "设 3 阶实对称矩阵 $A=(a_{ij})_{3\\times3}$ 有特征值 $\\lambda_1=\\lambda_2=2$，且 $\\sum_{i=1}^3a_{ii}=1$，$\\alpha=(1,0,-2)^T$ 是方程组 $A^*x=4\\alpha$ 的解向量。(I) 求矩阵 $A$；(II) 求正交变换 $\\mathbf{x}=Q\\mathbf{y}$，将二次型 $f(\\mathbf{x})=\\mathbf{x}^TA\\mathbf{x}$ 化为标准形。",
       "answer": "$A=\\begin{pmatrix}1&0&2\\\\0&2&0\\\\2&0&-2\\end{pmatrix}$。可取\n$$\nQ=\\begin{pmatrix}0&\\frac2{\\sqrt5}&\\frac1{\\sqrt5}\\\\1&0&0\\\\0&\\frac1{\\sqrt5}&-\\frac2{\\sqrt5}\\end{pmatrix},\n$$\n在正交变换 $\\mathbf{x}=Q\\mathbf{y}$ 下，标准形为\n$$\nf=2y_1^2+2y_2^2-3y_3^2.\n$$\n\n（I）求矩阵 $A$。\n\n由特征值之和为 $\\operatorname{tr}(A)=1$，第三个特征值为\n$$\n\\lambda_3=1-2-2=-3,\n$$\n且 $|A|=2\\cdot2\\cdot(-3)=-12$。\n\n题设说 $\\alpha$ 是 $A^*x=4\\alpha$ 的解，即 $A^*\\alpha=4\\alpha$。两边左乘 $A$，得\n$$\n-12\\alpha=AA^*\\alpha=4A\\alpha,\n$$\n所以 $A\\alpha=-3\\alpha$。\n\n注意 $\\alpha=(1,0,-2)^{\\mathsf T}$ **尚未单位化**，其长度平方为 $5$。令\n$$\nu=\\frac{\\alpha}{\\sqrt5},\n$$\n则 $u$ 为单位特征向量。因为另外两个特征值都是 $2$，\n$$\n\\begin{aligned}\nA&=2(E-uu^{\\mathsf T})-3uu^{\\mathsf T}\\\\\n&=2E-5uu^{\\mathsf T}\\\\\n&=2E-\\alpha\\alpha^{\\mathsf T}.\n\\end{aligned}\n$$\n因此\n$$\nA=\\begin{pmatrix}\n1&0&2\\\\\n0&2&0\\\\\n2&0&-2\n\\end{pmatrix}.\n$$\n系数 $5$ 与单位化产生的分母 $5$ 正好抵消；若使用未单位化的 $\\alpha$，不能再写成 $2E-5\\alpha\\alpha^{\\mathsf T}$。\n\n（II）求正交变换及标准形。\n\n对于特征值 $2$，可取两条互相垂直的单位特征向量\n$$\nq_1=(0,1,0)^{\\mathsf T},\\qquad\nq_2=\\frac1{\\sqrt5}(2,0,1)^{\\mathsf T}.\n$$\n对于特征值 $-3$，取\n$$\nq_3=u=\\frac1{\\sqrt5}(1,0,-2)^{\\mathsf T}.\n$$\n令 $Q=(q_1,q_2,q_3)$，则 $Q^{\\mathsf T}Q=E$，且\n$$\nQ^{\\mathsf T}AQ=\n\\begin{pmatrix}2&0&0\\\\0&2&0\\\\0&0&-3\\end{pmatrix}.\n$$\n因此在正交变换 $\\mathbf x=Q\\mathbf y$ 下，\n$$\n\\boxed{f=2y_1^2+2y_2^2-3y_3^2}.\n$$",
-      "idea": "① $\\operatorname{tr}A=\\lambda_1+\\lambda_2+\\lambda_3=1$，二重特征值为 $2$ ⟹ $\\lambda_3=-3$；\n② 把 $A^*\\alpha=4\\alpha$ 两边左乘 $A$，用 $AA^*=|A|E=-12E$ 化为 $(A+3E)\\alpha=0$ 型关系，解出 $A$ 的元素。",
+      "idea": "**思想：迹与行列式定参数，再正交化拼 $Q$**。\n① $\\operatorname{tr}A=\\lambda_1+\\lambda_2+\\lambda_3=1$，二重特征值为 $2$ ⟹ $\\lambda_3=-3$；\n② 把 $A^*\\alpha=4\\alpha$ 两边左乘 $A$，用 $AA^*=|A|E=-12E$ 化为 $(A+3E)\\alpha=0$ 型关系，解出 $A$ 的元素。",
       "source": "880二次型基础选择",
       "categoryIds": [
        202
@@ -39995,7 +39995,7 @@
       "type": "calc",
       "stem": "化二次型\n$$\nf(x_1,x_2,x_3)=2x_2^2+2x_1x_3\n$$\n为规范形，并写出所用坐标变换。",
       "answer": "令\n$$\n\\begin{cases}\ny_1=\\sqrt2\\,x_2,\\\\\ny_2=(x_1+x_3)/\\sqrt2,\\\\\ny_3=(x_1-x_3)/\\sqrt2,\n\\end{cases}\n$$\n则规范形为 $f=y_1^2+y_2^2-y_3^2$。\n\n等价地，可取坐标变换\n$$\nx=\\begin{pmatrix}\n0&1/\\sqrt2&1/\\sqrt2\\\\\n1/\\sqrt2&0&0\\\\\n0&1/\\sqrt2&-1/\\sqrt2\n\\end{pmatrix}y.\n$$\n\n第一步：将交叉项配成平方差。\n\n利用\n$$\n2x_1x_3=\\frac{(x_1+x_3)^2}{2}\n-\\frac{(x_1-x_3)^2}{2},\n$$\n得\n$$\nf=(\\sqrt2\\,x_2)^2\n+\\left(\\frac{x_1+x_3}{\\sqrt2}\\right)^2\n-\\left(\\frac{x_1-x_3}{\\sqrt2}\\right)^2.\n$$\n\n第二步：取新变量，写出规范形。\n\n令\n$$\n\\begin{cases}\ny_1=\\sqrt2\\,x_2,\\\\\ny_2=(x_1+x_3)/\\sqrt2,\\\\\ny_3=(x_1-x_3)/\\sqrt2,\n\\end{cases}\n$$\n即有\n$$\nf=y_1^2+y_2^2-y_3^2.\n$$\n其正惯性指数为 $2$，负惯性指数为 $1$。\n\n第三步：写出逆变换，验证可逆性。\n\n解得\n$$\n\\begin{cases}\nx_1=(y_2+y_3)/\\sqrt2,\\\\\nx_2=y_1/\\sqrt2,\\\\\nx_3=(y_2-y_3)/\\sqrt2.\n\\end{cases}\n$$\n所以 $x=Cy$，其中\n$$\nC=\\begin{pmatrix}\n0&1/\\sqrt2&1/\\sqrt2\\\\\n1/\\sqrt2&0&0\\\\\n0&1/\\sqrt2&-1/\\sqrt2\n\\end{pmatrix}.\n$$\n由 $|C|=1/\\sqrt2\\ne0$，该变换可逆。代入原二次型，可直接验证所得规范形。",
-      "idea": "① 只有一个交叉项 $2x_1x_3$：用平方差 $x_1x_3=\\frac14\\big[(x_1+x_3)^2-(x_1-x_3)^2\\big]$ 拆成两个平方；\n② 令 $y_1=\\sqrt2\\,x_2$、$y_2=\\frac{x_1+x_3}{\\sqrt2}$、$y_3=\\frac{x_1-x_3}{\\sqrt2}$（可逆线性变换），得规范形 $y_1^2+y_2^2-y_3^2$。",
+      "idea": "**思想：配方法化规范形：只有一个交叉项就用平方差凑**。\n① 只有一个交叉项 $2x_1x_3$：用平方差 $x_1x_3=\\frac14\\big[(x_1+x_3)^2-(x_1-x_3)^2\\big]$ 拆成两个平方；\n② 令 $y_1=\\sqrt2\\,x_2$、$y_2=\\frac{x_1+x_3}{\\sqrt2}$、$y_3=\\frac{x_1-x_3}{\\sqrt2}$（可逆线性变换），得规范形 $y_1^2+y_2^2-y_3^2$。",
       "source": "李永乐线代辅导讲义",
       "categoryIds": [
        204
@@ -40036,7 +40036,7 @@
       "type": "choice",
       "stem": "设 $A=\\begin{pmatrix}1&0&0\\\\0&2&0\\\\0&0&3\\end{pmatrix}$ 与 $B=\\begin{pmatrix}2&0&0\\\\0&3&0\\\\0&0&1\\end{pmatrix}$ 合同，则合同变换矩阵 $P=$（ ）。",
       "answer": "（B）\n\n要使 $P^TAP=B$，$P$ 的三列应分别取 $A$ 中对角元 $2,3,1$ 对应的标准基向量，即 $e_2,e_3,e_1$。因此\n$$\nP=(e_2,e_3,e_1)=\\begin{pmatrix}0&0&1\\\\1&0&0\\\\0&1&0\\end{pmatrix},\n$$\n故选 B。",
-      "idea": "$P^{\\mathrm T}AP=B$ 就是按对角元重排：$P$ 的三列分别取 $A$ 中 $2,3,1$ 对应的标准基向量。",
+      "idea": "**思想：$P^{\\mathrm T}AP=B$ 就是按对角元顺序重排：$P$ 的列取对应的单位向量**。\n$P^{\\mathrm T}AP=B$ 就是按对角元重排：$P$ 的三列分别取 $A$ 中 $2,3,1$ 对应的标准基向量。",
       "source": "880二次型基础选择",
       "categoryIds": [
        203
@@ -40088,7 +40088,7 @@
       "type": "calc",
       "stem": "设二次型 $f(x_1, x_2, x_3) = 3x_1^2 + 4x_2^2 + 3x_3^2 + 2x_1x_3$。\n(I) 求正交变换 $\\mathbf{x} = \\mathbf{Q}\\mathbf{y}$，将二次型化为标准形；\n(II) 证明 $\\min_{\\mathbf{x} \\neq \\mathbf{0}} \\frac{f(\\mathbf{x})}{\\mathbf{x}^T \\mathbf{x}} = 2$。",
       "answer": "可取\n\n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt2}&0&\\frac1{\\sqrt2}\\\\0&1&0\\\\-\\frac1{\\sqrt2}&0&\\frac1{\\sqrt2}\\end{pmatrix},\n$$\n\n标准形为\n\n$$\n2y_1^2+4y_2^2+4y_3^2.\n$$\n\n因此\n\n$$\n\\min_{x\\ne0}\\frac{f(x)}{x^Tx}=2.\n$$\n\n（I）二次型矩阵为\n\n$$\nA=\\begin{pmatrix}3&0&1\\\\0&4&0\\\\1&0&3\\end{pmatrix}.\n$$\n\n其特征值为 $2,4,4$，对应单位正交特征向量可取\n\n$$\nq_1=\\frac1{\\sqrt2}(1,0,-1)^{\\mathsf T},\\quad q_2=(0,1,0)^{\\mathsf T},\n$$\n\n$$\nq_3=\\frac1{\\sqrt2}(1,0,1)^{\\mathsf T}.\n$$\n\n令 $Q=(q_1,q_2,q_3)$，则 $Q^{\\mathsf T}Q=E$，且 $Q^{\\mathsf T}AQ=\\operatorname{diag}(2,4,4)$。所以在 $x=Qy$ 下，\n\n$$\nf=2y_1^2+4y_2^2+4y_3^2.\n$$\n\n（II）因为 $Q$ 正交，\n\n$$\nx^{\\mathsf T}x=y^{\\mathsf T}Q^{\\mathsf T}Qy=y_1^2+y_2^2+y_3^2.\n$$\n\n当 $x\\ne0$ 时，$y\\ne0$，于是\n\n$$\n\\frac{f(x)}{x^{\\mathsf T}x}\n=2+\\frac{2(y_2^2+y_3^2)}{y_1^2+y_2^2+y_3^2}\\ge2.\n$$\n\n取 $y_2=y_3=0$、$y_1\\ne0$ 时等号成立。故最小值为 $2$，例如在 $x=q_1$ 处取得。",
-      "idea": "(I) 写出二次型矩阵，求特征值 $2,4,4$ 及正交特征向量，按列拼 $Q$；(II) $\\frac{x^{\\mathrm T}Ax}{x^{\\mathrm T}x}$ 的最小值就是 $A$ 的最小特征值（Rayleigh 商），由 (I) 的结果直接读出。",
+      "idea": "**思想：正交变换下 $f$ 的最值就是最大、最小特征值**。\n(I) 写出二次型矩阵，求特征值 $2,4,4$ 及正交特征向量，按列拼 $Q$；(II) $\\frac{x^{\\mathrm T}Ax}{x^{\\mathrm T}x}$ 的最小值就是 $A$ 的最小特征值（Rayleigh 商），由 (I) 的结果直接读出。",
       "source": "2022数二三",
       "categoryIds": [
        206
@@ -40123,7 +40123,7 @@
       "type": "calc",
       "stem": "已知二次型 $f(x_1,x_2,x_3)=x^{\\mathrm T}Ax$ 在正交变换 $x=Qy$ 下的标准形为 $4y_1^2+y_2^2+y_3^2$，且 $Q$ 的第一列为 $\\frac1{\\sqrt3}(1,-1,-1)^{\\mathrm T}$。\n\n（I）求二次型矩阵 $A$；（II）求可逆矩阵 $P$，使得 $A=P^{\\mathrm T}P$；（III）记 $g(x_1,x_2,x_3)=x^{\\mathrm T}Ax+2x^{\\mathrm T}b$，其中 $b=(0,0,1)^{\\mathrm T}$，求 $g$ 的最小值，并写出一个最小值点。",
       "answer": "$A=\\begin{pmatrix}2&-1&-1\\\\-1&2&1\\\\-1&1&2\\end{pmatrix}$；可取 $P=\\frac13\\begin{pmatrix}4&-1&-1\\\\-1&4&1\\\\-1&1&4\\end{pmatrix}$；最小值为 $-\\frac34$，在 $x=(-\\frac14,\\frac14,-\\frac34)^{\\mathrm T}$ 处取得。\n\n（1）令 $u=(1,-1,-1)^{\\mathrm T}$。由谱分解，$A=E+uu^{\\mathrm T}$。\n（2）因为 $u^{\\mathrm T}u=3$，取 $P=E+\\frac13uu^{\\mathrm T}$ 就有 $P^{\\mathrm T}P=E+uu^{\\mathrm T}=A$，且 $P$ 正定可逆。\n（3）又 $A^{-1}=E-\\frac14uu^{\\mathrm T}$。配方得 $g=(x+A^{-1}b)^{\\mathrm T}A(x+A^{-1}b)-b^{\\mathrm T}A^{-1}b$，从而最小值为 $-\\frac34$，唯一最小值点为所示 $x$。",
-      "idea": "① 由标准形读出特征值 $4,1,1$、$Q$ 首列是对应 $4$ 的特征向量，用**谱分解 $A=E+uu^{\\mathrm T}$** 还原 $A$；\n② 求另两个特征向量，**令 $P$ 的列为 $\\sqrt{\\lambda_i}q_i$**，即得 $A=P^{\\mathrm T}P$；\n③ 用 $A$ 的谱分解把 $g$ 配成平方和，再求最小值。",
+      "idea": "**思想：标准形系数即特征值，最值直接读**。\n① 由标准形读出特征值 $4,1,1$、$Q$ 首列是对应 $4$ 的特征向量，用**谱分解 $A=E+uu^{\\mathrm T}$** 还原 $A$；\n② 求另两个特征向量，**令 $P$ 的列为 $\\sqrt{\\lambda_i}q_i$**，即得 $A=P^{\\mathrm T}P$；\n③ 用 $A$ 的谱分解把 $g$ 配成平方和，再求最小值。",
       "source": "25哈基米德三套数二卷三22",
       "categoryIds": [
        206
@@ -40152,7 +40152,7 @@
       "type": "choice",
       "stem": "设 $a$ 为正参数，二次型\n$$\n\\begin{aligned}\nf(x_1,x_2,x_3)\n&=(x_1+x_2)^2+(ax_3-x_2)^2\\\\\n&\\quad-(x_1-ax_2+2x_3)^2.\n\\end{aligned}\n$$\n下列关于 $f$ 的说法中，正确的是（ ）。",
       "answer": "（D）\n\n先按参数是否等于 $1$ 分类。\n\n当 $a\\ne1$ 时，令\n$$\n\\begin{cases}\ny_1=x_1+x_2,\\\\\ny_2=ax_3-x_2,\\\\\ny_3=x_1-ax_2+2x_3.\n\\end{cases}\n$$\n这个线性变换的系数矩阵为\n$$\nT=\\begin{pmatrix}\n1&1&0\\\\\n0&-1&a\\\\\n1&-a&2\n\\end{pmatrix},\n$$\n且 $|T|=(a-1)(a+2)$。因 $a>0$ 且 $a\\ne1$，故变换可逆。于是\n$$\nf=y_1^2+y_2^2-y_3^2,\n$$\n秩为 $3$，正、负惯性指数分别为 $2,1$。\n\n当 $a=1$ 时，令\n$$\nu=x_1+x_2,\\qquad v=x_3-x_2.\n$$\n此时 $x_1-x_2+2x_3=u+2v$，故\n$$\n\\begin{aligned}\nf&=u^2+v^2-(u+2v)^2\\\\\n&=-4uv-3v^2\\\\\n&=\\frac43u^2-3\\left(v+\\frac23u\\right)^2.\n\\end{aligned}\n$$\n$u,v$ 为两个线性无关的线性形式，可再取 $x_2$ 作为第三个新变量构成可逆变换。因此此时秩为 $2$，正、负惯性指数均为 $1$。\n\n综上，秩可能为 $2$ 或 $3$，正惯性指数可能为 $1$ 或 $2$，但负惯性指数恒为 $1$。所以选 D。",
-      "idea": "先看变换 $y=Tx$ 是否可逆（$|T|=(a-1)^2(a+2)$）：$a\\ne1,-2$ 时直接给规范形；$a=1$ 或 $-2$ 时降秩，需单独配方。",
+      "idea": "**思想：先判断变换 $y=Tx$ 是否可逆，再比两边惯性指数**。\n先看变换 $y=Tx$ 是否可逆（$|T|=(a-1)^2(a+2)$）：$a\\ne1,-2$ 时直接给规范形；$a=1$ 或 $-2$ 时降秩，需单独配方。",
       "source": "25李艳芳三套数二第三套",
       "categoryIds": [
        208
@@ -40194,7 +40194,7 @@
       "type": "choice",
       "stem": "设矩阵 $A=\\begin{pmatrix}1&2\\\\-2&-a\\end{pmatrix}$，$B=\\begin{pmatrix}1&0\\\\1&a\\end{pmatrix}$。若 $f(x,y)=|xA+yB|$ 是正定二次型，则 $a$ 的取值范围是（ ）。",
       "answer": "（B）\n\n标准解法：直接计算 \n$$\n|xA+yB|=(4-a)x^2-2xy+ay^2.\n$$\n 对应对称矩阵为 $\\begin{pmatrix}4-a&-1\\\\-1&a\\end{pmatrix}$。正定要求 \n$$\n4-a\\gt0,\\  a(4-a)-1\\gt0.\n$$\n 第二式等价于 $(a-2)^2\\lt3$，它同时保证第一式，因此 \n$$\n2-\\sqrt3\\lt a\\lt2+\\sqrt3.\n$$\n 选 B。检验：取区间中心 $a=2$ 时矩阵特征值为 $1,3$，确为正定。",
-      "idea": "直接算出 $|xA+yB|$ 得二次型，写对称矩阵，用顺序主子式全正解出 $a$ 的范围。",
+      "idea": "**思想：先算出 $|xA+yB|$ 得二次型，再用顺序主子式全正**。\n直接算出 $|xA+yB|$ 得二次型，写对称矩阵，用顺序主子式全正解出 $a$ 的范围。",
       "source": "2025数三",
       "categoryIds": [
        210
@@ -40245,7 +40245,7 @@
       "type": "calc",
       "stem": "证明：\n(I) 设 $\\mathbf{A}$ 为 $n$ 阶正定矩阵，$\\mathbf{B}$ 为 $n$ 阶反对称矩阵，则 $\\mathbf{A} - \\mathbf{B}^2$ 为正定矩阵；\n(II) 设 $\\mathbf{A}$、$\\mathbf{B}$ 为 $n$ 阶矩阵，且 $r(\\mathbf{A}+\\mathbf{B})=n$，则 $\\mathbf{A}^T \\mathbf{A} + \\mathbf{B}^T \\mathbf{B}$ 为正定矩阵。",
       "answer": "(I) $A-B^2$ 正定；(II) $A^TA+B^TB$ 正定。\n\n(I) 反对称矩阵满足 $B^T=-B$，故 $-B^2=B^TB$。对任意 $x\\ne0$，\n$$\nx^T(A-B^2)x=x^TAx+x^TB^TBx=x^TAx+\\|Bx\\|^2\\gt0,\n$$\n所以 $A-B^2$ 正定。(II) 对任意 $x\\ne0$，若\n$$\nx^T(A^TA+B^TB)x=\\|Ax\\|^2+\\|Bx\\|^2=0,\n$$\n则 $Ax=0$ 且 $Bx=0$，从而 $(A+B)x=0$，与 $r(A+B)=n$ 矛盾。因此该二次型对所有非零 $x$ 均大于 $0$，矩阵正定。",
-      "idea": "① (Ⅰ) 反对称 ⟹ $B^{\\mathrm T}=-B$，故 $-B^2=B^{\\mathrm T}B$：对任意 $x\\ne0$，$x^{\\mathrm T}(A-B^2)x=x^{\\mathrm T}Ax+\\|Bx\\|^2>0$（$A$ 正定）；\n② (Ⅱ) 若 $x^{\\mathrm T}(A^{\\mathrm T}A+B^{\\mathrm T}B)x=\\|Ax\\|^2+\\|Bx\\|^2=0$，则 $Ax=Bx=0$ ⟹ $(A+B)x=0$，与 $r(A+B)=n$（只有零解）矛盾 ⟹ 正定。",
+      "idea": "**思想：反对称 ⇒ $x^{\\mathrm T}Bx=0$，于是 $A+B$ 正定 $\\iff$ $A$ 正定**。\n① (Ⅰ) 反对称 ⟹ $B^{\\mathrm T}=-B$，故 $-B^2=B^{\\mathrm T}B$：对任意 $x\\ne0$，$x^{\\mathrm T}(A-B^2)x=x^{\\mathrm T}Ax+\\|Bx\\|^2>0$（$A$ 正定）；\n② (Ⅱ) 若 $x^{\\mathrm T}(A^{\\mathrm T}A+B^{\\mathrm T}B)x=\\|Ax\\|^2+\\|Bx\\|^2=0$，则 $Ax=Bx=0$ ⟹ $(A+B)x=0$，与 $r(A+B)=n$（只有零解）矛盾 ⟹ 正定。",
       "source": "姜晓千强化例题",
       "categoryIds": [
        210
@@ -40273,7 +40273,7 @@
       "type": "choice",
       "stem": "设 $A$ 为 $m\\times n$ 实矩阵，$r(A)=n$，则（ ）。",
       "answer": "（D）\n\n由 $r(A)=n$ 知 $A$ 列满秩。对任意非零向量 $x$，有 $x^{\\mathrm{T}}A^{\\mathrm{T}}Ax=\\|Ax\\|^2\\gt0$，故 $A^{\\mathrm{T}}A$ 为 $n$ 阶正定矩阵。任意正定矩阵都合同于单位矩阵，因此 D 正确。",
-      "idea": "$r(A)=n$ 列满秩 ⟹ $x^{\\mathrm T}A^{\\mathrm T}Ax=\\|Ax\\|^2>0$，故 $A^{\\mathrm T}A$ 正定；再用「正定 ⟺ 合同于 $E$」。",
+      "idea": "**思想：列满秩 ⇒ $A^{\\mathrm T}A$ 正定（$x\\ne0$ 时 $Ax\\ne0$）**。\n$r(A)=n$ 列满秩 ⟹ $x^{\\mathrm T}A^{\\mathrm T}Ax=\\|Ax\\|^2>0$，故 $A^{\\mathrm T}A$ 正定；再用「正定 ⟺ 合同于 $E$」。",
       "source": "24余丙森五数一二第四套",
       "categoryIds": [
        210
@@ -40307,7 +40307,7 @@
       "type": "calc",
       "stem": "设二次型 $\\mathbf{x}^T \\mathbf{A} \\mathbf{x} = a(x_1^2 + x_2^2 + x_3^2) + 2x_1 x_2 + 2b x_1 x_3 + 2x_2 x_3$，在正交变换 $\\mathbf{x} = \\mathbf{Q} \\mathbf{y}$ 下的标准形为 $y_1^2 + y_2^2 + 4y_3^2$，其中 $A^T = A$。(I) 求 $a, b$ 的值及正交矩阵 $Q$；(II) 若正定矩阵 $B$ 满足 $B^2 = A + A^*$，其中 $A^*$ 是 $A$ 的伴随矩阵，求 $B$。",
       "answer": "(I) $a=2$，$b=1$，可取 \n$$\nQ=\\begin{pmatrix}\\frac1{\\sqrt2}&\\frac1{\\sqrt6}&\\frac1{\\sqrt3}\\\\-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}&\\frac1{\\sqrt3}\\\\0&-\\frac2{\\sqrt6}&\\frac1{\\sqrt3}\\end{pmatrix}.\n$$\n (II) \n$$\nB=\\sqrt5E.\n$$\n\n标准形表明 $A$ 的特征值为 $1,1,4$。由 $\\operatorname{tr}(A)=3a=6$ 得 $a=2$；再比较二阶主子式之和与行列式可得 $b=1$。此时 $A=\\begin{pmatrix}2&1&1\\\\1&2&1\\\\1&1&2\\end{pmatrix}$，答案中的 $Q$ 以特征值 $1,1,4$ 的标准正交特征向量为列。又 $A^*=\\begin{pmatrix}3&-1&-1\\\\-1&3&-1\\\\-1&-1&3\\end{pmatrix}$，所以 $A+A^*=5E$。唯一正定平方根为 $B=\\sqrt5E$。",
-      "idea": "标准形表明 $A$ 的特征值为 $1,1,4$。由 $\\operatorname{tr}(A)=3a=6$ 得 $a=2$；再比较二阶主子式之和与行列式可得 $b=1$。此时 $A=\\begin{pmatrix}2&1&1\\\\1&2&1\\\\1&1&2\\end{pmatrix}$，答案中的 $Q$ 以特征值 $1,1,4$ 的标准正交特征向量为列。又 $A^*=\\begin{pmatrix}3&-1&-1\\\\-1&3&-1\\\\-1&-1&3\\end{pmatrix}$，所以 $A+A^*=5E$。唯一正定平方根为 $B=\\sqrt5E$。",
+      "idea": "**思想：正定 ⇒ $A=P\\Lambda P^{\\mathrm T}$，开方取 $A^{1/2}=P\\Lambda^{1/2}P^{\\mathrm T}$**。\n标准形表明 $A$ 的特征值为 $1,1,4$。由 $\\operatorname{tr}(A)=3a=6$ 得 $a=2$；再比较二阶主子式之和与行列式可得 $b=1$。此时 $A=\\begin{pmatrix}2&1&1\\\\1&2&1\\\\1&1&2\\end{pmatrix}$，答案中的 $Q$ 以特征值 $1,1,4$ 的标准正交特征向量为列。又 $A^*=\\begin{pmatrix}3&-1&-1\\\\-1&3&-1\\\\-1&-1&3\\end{pmatrix}$，所以 $A+A^*=5E$。唯一正定平方根为 $B=\\sqrt5E$。",
       "source": "880二次型综合解答",
       "categoryIds": [
        210
@@ -40343,7 +40343,7 @@
       "type": "calc",
       "stem": "设实对称矩阵 $A=(a_{ij})_{3\\times3}$ 有二重特征值 $1$，且 $\\sum_{i=1}^{3}a_{ij}=0\\ (j=1,2,3)$。\n\n（I）记 $X=(x_1,x_2,x_3)^{\\mathrm T}$，求方程 $X^{\\mathrm T}AX=0$ 的全部解；\n\n（II）求可逆矩阵 $P$，使得 $X^{\\mathrm T}(2E-A)X=\\lVert PX\\rVert^2$。",
       "answer": "（I）$X=t(1,1,1)^{\\mathrm T}$，$t\\in\\mathbb R$。\n\n（II）可取 $P=E+\\frac{\\sqrt2-1}{3}\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix}$。\n\n令 $e=(1,1,1)^{\\mathrm T}$，$J=ee^{\\mathrm T}$。由于 $A$ 为实对称矩阵且每列元素之和为零，有 $Ae=0$。结合二重特征值 $1$，可知 $A$ 的特征值为 $1,1,0$，故\n$$A=E-\\frac13J.$$\n\n（I）因此\n$$X^{\\mathrm T}AX=\\frac13\\big[(x_1-x_2)^2+(x_2-x_3)^2+(x_3-x_1)^2\\big].$$\n它等于零当且仅当 $x_1=x_2=x_3$，得到所示全部解。\n\n（II）有 $2E-A=E+\\frac13J$。利用 $J^2=3J$，令 $c=(\\sqrt2-1)/3$，则\n$$P^{\\mathrm T}P=(E+cJ)^2=E+(2c+3c^2)J=E+\\frac13J=2E-A.$$\n$P$ 的特征值为 $1,1,\\sqrt2$，所以 $P$ 可逆。于是对任意 $X$，都有\n$$X^{\\mathrm T}(2E-A)X=(PX)^{\\mathrm T}(PX)=\\lVert PX\\rVert^2.$$\n\n原稿第二问右侧范数漏印平方，此处已订正。",
-      "idea": "① 列和为零 ⟹ $Ae=0$（$e=(1,1,1)^{\\mathrm T}$），即 $0$ 是特征值；配二重特征值 $1$ 得特征值 $1,1,0$，由谱分解得 $A=E-\\frac13J$；\n② 把 $A=E-\\frac13J$ 代入 $X^{\\mathrm T}AX$ 直接展开合并即得。",
+      "idea": "**思想：列和为零 ⇒ $Ae=0$，先定出特征值 $0$ 与其余两个**。\n① 列和为零 ⟹ $Ae=0$（$e=(1,1,1)^{\\mathrm T}$），即 $0$ 是特征值；配二重特征值 $1$ 得特征值 $1,1,0$，由谱分解得 $A=E-\\frac13J$；\n② 把 $A=E-\\frac13J$ 代入 $X^{\\mathrm T}AX$ 直接展开合并即得。",
       "source": "23押题王四套数二第一套",
       "categoryIds": [
        210
@@ -40371,7 +40371,7 @@
       "type": "choice",
       "stem": "以下命题中：① $A,B$ 是同阶矩阵，如果 $A,B$ 为对称正定矩阵，则 $A+B$ 为正定矩阵；② $A,B$ 是同阶矩阵，如果 $A,B$ 为对称非正定矩阵，则 $A+B$ 为非正定矩阵；③ $A$ 是 $m\\times n$ 矩阵，$B$ 是 $m$ 阶方阵，如果 $A$ 行满秩，$B$ 为对称正定矩阵，则 $A^TBA$ 为正定矩阵；④ $A$ 是 $m\\times n$ 矩阵，$B$ 是 $m$ 阶方阵，如果 $A$ 列满秩，$B$ 为对称正定矩阵，则 $A^TBA$ 为正定矩阵。所有正确命题的序号为（ ）。",
       "answer": "（B）\n\n①正确，正定矩阵之和仍正定。②错误，两个非正定矩阵之和可能正定。③错误，$A$ 行满秩不保证 $A^TBA$ 满秩；当 $m<n$ 时它必奇异。④正确，若 $A$ 列满秩，则对任意 $x\\ne0$ 有 $Ax\\ne0$，于是\n$$\nx^TA^TBAx=(Ax)^TB(Ax)\\gt0.\n$$\n所以正确的是 ①④，选 B。",
-      "idea": "逐条判断：①正定之和仍正定；\n②举反例；\n③$A$ 行满秩不保证 $A^{\\mathrm T}BA$ 满秩；\n④列满秩时 $Ax\\ne0$ 使二次型恒正。",
+      "idea": "**思想：逐条回到定义 $x^{\\mathrm T}Mx>0$ 判断，构造反例要具体**。\n逐条判断：①正定之和仍正定；\n②举反例；\n③$A$ 行满秩不保证 $A^{\\mathrm T}BA$ 满秩；\n④列满秩时 $Ax\\ne0$ 使二次型恒正。",
       "source": "25张宇八套数二第一套套",
       "categoryIds": [
        210
@@ -40405,7 +40405,7 @@
       "type": "blank",
       "stem": "设\n$$\nA=\\begin{pmatrix}a_1&a_1&a_1\\\\a_1&a_1+a_2&a_1+a_2\\\\a_1&a_1+a_2&a_1+a_2+a_3\\end{pmatrix},\\quad B=\\begin{pmatrix}a_1&0&0\\\\0&a_2&0\\\\0&0&a_3\\end{pmatrix}.\n$$\n若存在可逆矩阵 $C$，使得 $C^TAC=B$，则 $C=$ ______。",
       "answer": "$C=\\begin{pmatrix}1&-1&0\\\\0&1&-1\\\\0&0&1\\end{pmatrix}$。\n\n**第一步：利用相邻两列作差，化简矩阵 $A$。**\n\n记矩阵的第 $i$ 列为 $c_i$。对 $A$ 依次进行列变换\n$$\nc_3\\leftarrow c_3-c_2,\\qquad\nc_2\\leftarrow c_2-c_1,\n$$\n得到\n$$\nA_1=\n\\begin{pmatrix}\na_1&0&0\\\\\na_1&a_2&0\\\\\na_1&a_2&a_3\n\\end{pmatrix}.\n$$\n注意先变第三列，再变第二列，这样两次作差都使用原来的相邻列。\n\n**第二步：求出上述列变换对应的矩阵 $C$。**\n\n对单位矩阵 $I_3$ 进行完全相同的列变换，得到\n$$\nC=\n\\begin{pmatrix}\n1&-1&0\\\\\n0&1&-1\\\\\n0&0&1\n\\end{pmatrix}.\n$$\n右乘 $C$ 就相当于第一步的列变换，因此\n$$\nAC=A_1.\n$$\n\n**第三步：进行对应的行变换，验证结果。**\n\n对 $A_1$ 依次进行行变换\n$$\nr_3\\leftarrow r_3-r_2,\\qquad\nr_2\\leftarrow r_2-r_1,\n$$\n即可得到对角矩阵 $B$。\n\n上述行变换对应的左乘矩阵为\n$$\nC^T=\n\\begin{pmatrix}\n1&0&0\\\\\n-1&1&0\\\\\n0&-1&1\n\\end{pmatrix},\n$$\n故\n$$\nC^TAC=\n\\begin{pmatrix}\na_1&0&0\\\\\n0&a_2&0\\\\\n0&0&a_3\n\\end{pmatrix}\n=B.\n$$\n又因为 $C$ 是上三角矩阵，\n$$\n\\det C=1\\ne0,\n$$\n所以 $C$ 可逆，符合题意。因此可取\n$$\n\\boxed{\nC=\n\\begin{pmatrix}\n1&-1&0\\\\\n0&1&-1\\\\\n0&0&1\n\\end{pmatrix}\n}.\n$$\n上述过程不需要除以 $a_1,a_2,a_3$，因此这些参数中有零时，所给矩阵仍然适用。",
-      "idea": "① 观察 $A$ 的累加结构：$(i,j)$ 元 $=a_1+\\cdots+a_{\\min(i,j)}$，即「差分的反向累加」；\n② 取差分矩阵 $C=\\begin{pmatrix}1&-1&0\\\\0&1&-1\\\\0&0&1\\end{pmatrix}$，直接验证 $C^{\\mathrm T}AC=\\operatorname{diag}(a_1,a_2,a_3)=B$（合同变换把累加还原成差分）。",
+      "idea": "**思想：累加结构 ⇒ 拆成 $(a_1+\\cdots+a_k)$ 的平方和**。\n① 观察 $A$ 的累加结构：$(i,j)$ 元 $=a_1+\\cdots+a_{\\min(i,j)}$，即「差分的反向累加」；\n② 取差分矩阵 $C=\\begin{pmatrix}1&-1&0\\\\0&1&-1\\\\0&0&1\\end{pmatrix}$，直接验证 $C^{\\mathrm T}AC=\\operatorname{diag}(a_1,a_2,a_3)=B$（合同变换把累加还原成差分）。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        202
@@ -40441,7 +40441,7 @@
       "type": "calc",
       "stem": "设 $\\mathbf{A} = \\begin{pmatrix} 2 & 1 & -1 \\\\ 1 & 2 & 1 \\\\ -1 & 1 & 2 \\end{pmatrix}, \\ \\mathbf{B} = \\begin{pmatrix} 1 & 0 & 1 \\\\ 0 & 1 & 1 \\\\ 1 & 1 & 2 \\end{pmatrix}$。\n(I) 证明 $\\mathbf{A}$ 与 $\\mathbf{B}$ 不相似；\n(II) 求可逆矩阵 $\\mathbf{C}$，使得 $\\mathbf{C}^T \\mathbf{A} \\mathbf{C} = \\mathbf{B}$。",
       "answer": "$A$ 与 $B$ 不相似。可取\n$$\nC=\\begin{pmatrix}\\frac{\\sqrt2}{2}&-\\frac{\\sqrt6}{6}&\\frac{6+3\\sqrt2-\\sqrt6}{6}\\\\0&\\frac{\\sqrt6}{3}&\\frac{\\sqrt6-3}{3}\\\\0&0&1\\end{pmatrix},\n$$\n则 $C^TAC=B$。\n\n（1）相似矩阵迹相同，而 $\\operatorname{tr}A=6$，$\\operatorname{tr}B=4$，故 $A$ 与 $B$ 不相似。\n（2）对 $A$ 对应二次型配方：\n$$\nx^TAx=2\\left(x_1+\\frac12x_2-\\frac12x_3\\right)^2+\\frac32(x_2+x_3)^2.\n$$\n令\n$$\nP_1=\\begin{pmatrix}1&-\\frac12&1\\\\0&1&-1\\\\0&0&1\\end{pmatrix},\n$$\n则 $P_1^TAP_1=\\operatorname{diag}\\left(2,\\frac32,0\\right)$。又\n$$\nz^TBz=(z_1+z_3)^2+(z_2+z_3)^2,\n$$\n令\n$$\nP_2^{-1}=\\begin{pmatrix}1&0&1\\\\0&1&1\\\\0&0&1\\end{pmatrix},\n$$\n并取\n$$\nD=\\operatorname{diag}\\left(\\frac1{\\sqrt2},\\sqrt{\\frac23},1\\right),\n$$\n则 $C=P_1DP_2^{-1}$，乘开即得题示矩阵，直接代回可验 $C^TAC=B$。",
-      "idea": "① 不相似的快速判据：$\\operatorname{tr}A=6\\ne4=\\operatorname{tr}B$，迹不同必不相似；\n② 合同看惯性指数：对 $A$ 的二次型配方得正惯性指数，与 $B$ 的规范形比对，一致即合同。",
+      "idea": "**思想：先判不相似（迹），再各自配方求合同变换矩阵**。\n① 不相似的快速判据：$\\operatorname{tr}A=6\\ne4=\\operatorname{tr}B$，迹不同必不相似；\n② 合同看惯性指数：对 $A$ 的二次型配方得正惯性指数，与 $B$ 的规范形比对，一致即合同。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        203
@@ -40478,7 +40478,7 @@
       "type": "choice",
       "stem": "二次型 $x^TAx=(x_1+2x_2+ax_3)(x_1+5x_2+bx_3)$ 的正惯性指数 $p$ 与负惯性指数 $q$ 分别是（ ）。",
       "answer": "（C）\n\n第一步，作可逆线性变换，将二次型化为两个新变量的乘积。\n\n令\n\n$$\n\\begin{cases}\ny_1=x_1+2x_2+ax_3,\\\\\ny_2=x_1+5x_2+bx_3,\\\\\ny_3=x_3.\n\\end{cases}\n$$\n\n变换矩阵的行列式为\n\n$$\n\\begin{vmatrix}\n1&2&a\\\\\n1&5&b\\\\\n0&0&1\n\\end{vmatrix}\n=3\\ne0.\n$$\n\n因此该变换对任意 $a,b$ 都可逆，且原二次型化为\n\n$$\nf=y_1y_2.\n$$\n\n第二步，再作可逆线性变换，化为标准形。\n\n令\n\n$$\n\\begin{cases}\nz_1=\\dfrac{y_1+y_2}{2},\\\\[2pt]\nz_2=\\dfrac{y_1-y_2}{2},\\\\[2pt]\nz_3=y_3.\n\\end{cases}\n$$\n\n其逆变换为 $y_1=z_1+z_2$、$y_2=z_1-z_2$、$y_3=z_3$，所以\n\n$$\nf=(z_1+z_2)(z_1-z_2)=z_1^2-z_2^2.\n$$\n\n第三步，由惯性定律得出结论。\n\n标准形中恰有一个正平方项、一个负平方项，另一个变量的系数为 $0$，故\n\n$$\np=1,\\qquad q=1.\n$$\n\n故选 C。",
-      "idea": "令 $y_1,y_2$ 取两个一次因式、$y_3=x_3$（变换行列式为 $3\\ne0$），二次型化为 $y_1y_2$；再用 $y_1y_2=\\frac{(y_1+y_2)^2-(y_1-y_2)^2}{4}$ 得 $p=q=1$。",
+      "idea": "**思想：乘积型：把两个一次因式当新变量 $y_1,y_2$，配齐第三个**。\n令 $y_1,y_2$ 取两个一次因式、$y_3=x_3$（变换行列式为 $3\\ne0$），二次型化为 $y_1y_2$；再用 $y_1y_2=\\frac{(y_1+y_2)^2-(y_1-y_2)^2}{4}$ 得 $p=q=1$。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        208
@@ -40513,7 +40513,7 @@
       "type": "choice",
       "stem": "已知二次型 $f(x_1,x_2,x_3)=2x_1^2+2x_2^2+x_3^2+2ax_1x_3+2bx_2x_3$ 可经正交变换化为标准形 $2ay_1^2-3by_2^2$，则下列选项中为 $f(x_1,x_2,x_3)$ 的规范形是（ ）。",
       "answer": "（C）\n\n二次型矩阵为\n$$\nA=\\begin{pmatrix}2&0&a\\\\0&2&b\\\\a&b&1\\end{pmatrix}.\n$$\n标准形只有两个非零项，故 $\\det A=0$，即 $a^2+b^2=2$。又标准形的两个非零特征值为 $2a,-3b$，由迹不变得 $2a-3b=5$；由二阶主子式之和不变得 $-6ab=6$，即 $ab=-1$。联立得 $a=1,b=-1$，故两个非零特征值为 $2,3$，均为正，规范形为 $y_1^2+y_2^2$，故选 C。",
-      "idea": "写出矩阵 $A$，由标准形只有两项得 $|A|=0$；再用「迹」和「二阶主子式之和」分别等于特征值之和、两两积，联立解 $a,b$。",
+      "idea": "**思想：标准形少一项 ⇒ $|A|=0$；再用迹与二阶主子式定参数**。\n写出矩阵 $A$，由标准形只有两项得 $|A|=0$；再用「迹」和「二阶主子式之和」分别等于特征值之和、两两积，联立解 $a,b$。",
       "source": "25李艳芳三套数二第一套",
       "categoryIds": [
        204
@@ -40555,7 +40555,7 @@
       "type": "choice",
       "stem": "设 $A$ 为 3 阶实对称矩阵，3 阶正交矩阵 $P=(\\alpha_1,\\alpha_2,\\alpha_3)$ 满足 $P^TAP=\\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&2\\end{pmatrix}$。若 $Q=(\\alpha_1+\\alpha_2,\\alpha_2,\\alpha_3)$，则（ ）。",
       "answer": "（C）\n\n在基 $P$ 下，令 $D=\\operatorname{diag}(1,1,2)$，且 $Q=PR$，其中\n$$\nR=\\begin{pmatrix}1&0&0\\\\1&1&0\\\\0&0&1\\end{pmatrix}.\n$$\n因前两个特征值相同，$R^{-1}DR=D$，故 $Q^{-1}AQ$ 与 $D$ 相似，特征值为 $1,1,2$。而\n$$\nQ^TAQ=R^TDR=\\begin{pmatrix}2&1&0\\\\1&1&0\\\\0&0&2\\end{pmatrix},\n$$\n其特征值不是 $1,1,2$，所以二者不相似。但二者均为正定实对称矩阵，故合同。选 C。",
-      "idea": "由 $Q=PR$ 得 $Q^{\\mathrm T}AQ=R^{\\mathrm T}DR$；$R$ 可逆但非正交，故 $Q$ 只保证合同——按 $D$ 的对角结构直接算即可。",
+      "idea": "**思想：$Q=PR$ ⇒ $Q^{\\mathrm T}AQ=R^{\\mathrm T}DR$：合同只看惯性指数**。\n由 $Q=PR$ 得 $Q^{\\mathrm T}AQ=R^{\\mathrm T}DR$；$R$ 可逆但非正交，故 $Q$ 只保证合同——按 $D$ 的对角结构直接算即可。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        209
@@ -40590,7 +40590,7 @@
       "type": "calc",
       "stem": "设 $A = \\begin{pmatrix} 20 & -2 & 4 \\\\ -2 & 17 & -2 \\\\ 4 & -2 & 20 \\end{pmatrix}$，判定 $A$ 是否正定，并求正定矩阵 $B$，使得 $B^2 = A$。",
       "answer": "$A$ 正定，且唯一的正定平方根为 \n$$\nB=\\frac19\\begin{pmatrix}40&-2&4\\\\-2&37&-2\\\\4&-2&40\\end{pmatrix}.\n$$\n\n矩阵 $A$ 的特征值为 $16,16,25$，均为正，故 $A$ 正定。对应特征值 $25$ 的单位特征向量可取 $q=\\frac13(-2,1,-2)^T$，因此 $A=16E+9qq^T$。正定平方根为 $B=4E+qq^T=\\frac19\\begin{pmatrix}40&-2&4\\\\-2&37&-2\\\\4&-2&40\\end{pmatrix}$，直接计算可得 $B^2=A$。",
-      "idea": "矩阵 $A$ 的特征值为 $16,16,25$，均为正，故 $A$ 正定。对应特征值 $25$ 的单位特征向量可取 $q=\\frac13(-2,1,-2)^T$，因此 $A=16E+9qq^T$。正定平方根为 $B=4E+qq^T=\\frac19\\begin{pmatrix}40&-2&4\\\\-2&37&-2\\\\4&-2&40\\end{pmatrix}$，直接计算可得 $B^2=A$。",
+      "idea": "**思想：特征值全正 ⇒ 开方构造平方根 $B$**。\n矩阵 $A$ 的特征值为 $16,16,25$，均为正，故 $A$ 正定。对应特征值 $25$ 的单位特征向量可取 $q=\\frac13(-2,1,-2)^T$，因此 $A=16E+9qq^T$。正定平方根为 $B=4E+qq^T=\\frac19\\begin{pmatrix}40&-2&4\\\\-2&37&-2\\\\4&-2&40\\end{pmatrix}$，直接计算可得 $B^2=A$。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        210
@@ -40635,7 +40635,7 @@
       "type": "calc",
       "stem": "设二次型\n$$\nf(x_1,x_2,x_3)=\\boldsymbol{x}^{\\mathrm T}A\\boldsymbol{x}=x_1^2+2x_2^2+6x_3^2-2x_1x_2+2x_1x_3-6x_2x_3.\n$$\n（I）求可逆线性变换 $\\boldsymbol{x}=C\\boldsymbol{y}$，将二次型化为规范形，并判定 $A$ 是否正定；（II）求可逆矩阵 $D$，使得 $A=D^{\\mathrm T}D$。",
       "answer": "$A$ 正定，规范形为 $y_1^2+y_2^2+y_3^2$。可取\n$$\nD=\\begin{pmatrix}1&-1&1\\\\0&1&-2\\\\0&0&1\\end{pmatrix},\\ C=D^{-1}=\\begin{pmatrix}1&1&1\\\\0&1&2\\\\0&0&1\\end{pmatrix}.\n$$\n\n先配方：\n$$\n\\begin{aligned}\nf(x_1,x_2,x_3)\n&=(x_1-x_2+x_3)^2+(x_2-2x_3)^2+x_3^2.\n\\end{aligned}\n$$\n令\n$$\n\\boldsymbol y=D\\boldsymbol x,\\qquad\nD=\\begin{pmatrix}\n1&-1&1\\\\\n0&1&-2\\\\\n0&0&1\n\\end{pmatrix},\n$$\n则\n$$\nf=y_1^2+y_2^2+y_3^2.\n$$\n所以规范形为 $y_1^2+y_2^2+y_3^2$，其正惯性指数为 $3$，故 $A$ 正定。\n\n题目第（I）问要求写成 $\\boldsymbol x=C\\boldsymbol y$。由 $\\boldsymbol y=D\\boldsymbol x$ 可知 $C=D^{-1}$。对上三角矩阵 $D$ 求逆，得\n$$\nC=D^{-1}\n=\\begin{pmatrix}\n1&1&1\\\\\n0&1&2\\\\\n0&0&1\n\\end{pmatrix},\n$$\n并可直接核对 $DC=CD=E$。\n\n又因为\n$$\nf=\\boldsymbol x^{\\mathrm T}A\\boldsymbol x\n=(D\\boldsymbol x)^{\\mathrm T}(D\\boldsymbol x)\n=\\boldsymbol x^{\\mathrm T}D^{\\mathrm T}D\\boldsymbol x,\n$$\n故\n$$\nA=D^{\\mathrm T}D,\n$$\n其中\n$$\nD=C^{-1}\n=\\begin{pmatrix}\n1&-1&1\\\\\n0&1&-2\\\\\n0&0&1\n\\end{pmatrix}.\n$$",
-      "idea": "(I) 配方成 $(x_1-x_2+x_3)^2+(x_2-2x_3)^2+x_3^2$，变换可逆，规范形为 $y_1^2+y_2^2+y_3^2$，三个正平方项 ⟹ $A$ 正定；(II) 把配方结果写成 $A=D^{\\mathrm T}D$ 的形式，即可读出 $D$。",
+      "idea": "**思想：配方得可逆变换 $P$，使 $P^{\\mathrm T}AP=\\Lambda$**。\n(I) 配方成 $(x_1-x_2+x_3)^2+(x_2-2x_3)^2+x_3^2$，变换可逆，规范形为 $y_1^2+y_2^2+y_3^2$，三个正平方项 ⟹ $A$ 正定；(II) 把配方结果写成 $A=D^{\\mathrm T}D$ 的形式，即可读出 $D$。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        210
@@ -40670,7 +40670,7 @@
       "type": "calc",
       "stem": "设二次型 $f(x_1,x_2,x_3)=x^TAx$（$A^T=A$）经正交变换 $x=Qy$ 化为标准形 $y_2^2+2y_3^2$，其中\n$$\nQ=\\frac1{\\sqrt2}\\begin{pmatrix}1&0&a\\\\0&c&0\\\\b&0&1\\end{pmatrix}\n$$\n（$b\\gt0,\\ c\\gt0$）。(I) 求 $a,b,c$ 的值及矩阵 $A$；(II) 求可逆矩阵 $P$，使得 $A=P^TP-E$。",
       "answer": "$a=-1,\\ b=1,\\ c=\\sqrt2$，\n$$\nA=\\begin{pmatrix}1&0&-1\\\\0&1&0\\\\-1&0&1\\end{pmatrix}.\n$$\n可取\n$$\nP=\\begin{pmatrix}\\frac1{\\sqrt2}&0&\\frac1{\\sqrt2}\\\\0&\\sqrt2&0\\\\-\\sqrt{\\frac32}&0&\\sqrt{\\frac32}\\end{pmatrix},\n$$\n则 $A=P^TP-E$。\n\n（1）由 $Q$ 正交得三列长度为 $1$ 且第一、三列正交：\n$$\n1+b^2=2,\\quad c^2=2,\\quad a^2+1=2,\\quad a+b=0.\n$$\n结合 $b\\gt0,c\\gt0$，得 $b=1,c=\\sqrt2,a=-1$。此时 $Q$ 的三列分别对应标准形系数 $0,1,2$，故\n$$\nA=Q\\operatorname{diag}(0,1,2)Q^T=\\begin{pmatrix}1&0&-1\\\\0&1&0\\\\-1&0&1\\end{pmatrix}.\n$$\n\n（2）于是 $A+E=Q\\operatorname{diag}(1,2,3)Q^T$，取 $P=\\operatorname{diag}(1,\\sqrt2,\\sqrt3)Q^T$ 即得题示矩阵。",
-      "idea": "① $Q$ 正交 ⟹ 各列单位、两两正交，解这组方程得 $a,b,c$；\n② 标准形的对角元就是特征值 $0,1,2$，故 $A=Q\\operatorname{diag}(0,1,2)Q^{\\mathrm T}$，直接乘出 $A$。",
+      "idea": "**思想：$Q$ 正交 ⇒ 各列单位且两两正交，用这组条件解参数**。\n① $Q$ 正交 ⟹ 各列单位、两两正交，解这组方程得 $a,b,c$；\n② 标准形的对角元就是特征值 $0,1,2$，故 $A=Q\\operatorname{diag}(0,1,2)Q^{\\mathrm T}$，直接乘出 $A$。",
       "source": "2015数二三",
       "categoryIds": [
        210
@@ -40707,7 +40707,7 @@
       "type": "calc",
       "stem": "设\n$$\nA=\\begin{pmatrix}\n2&2&0\\\\\n8&2&0\\\\\n0&a&6\n\\end{pmatrix}\n$$\n可相似对角化。\n\n（I）求 $a$ 的值；\n\n（II）求正交变换 $\\boldsymbol{x}=Q\\boldsymbol{y}$，将二次型 $\\boldsymbol{x}^{\\mathsf T}A\\boldsymbol{x}$ 化为标准形。",
       "answer": "（I）\n$$\na=0.\n$$\n\n（II）可取\n$$\nQ=\n\\begin{pmatrix}\n\\dfrac1{\\sqrt2}&\\dfrac1{\\sqrt2}&0\\\\\n\\dfrac1{\\sqrt2}&-\\dfrac1{\\sqrt2}&0\\\\\n0&0&1\n\\end{pmatrix},\n$$\n则\n$$\n\\boldsymbol{x}^{\\mathsf T}A\\boldsymbol{x}\n=7y_1^2-3y_2^2+6y_3^2.\n$$\n\n**（Ⅰ）由相似对角化条件求 $a$。**\n\n计算 $A$ 的特征多项式：\n$$\n\\begin{aligned}\n|\\lambda E-A|\n&=(\\lambda-6)\\bigl[(\\lambda-2)^2-16\\bigr]\\\\\n&=(\\lambda-6)^2(\\lambda+2).\n\\end{aligned}\n$$\n故 $A$ 的特征值为 $6,6,-2$。\n\n$A$ 可相似对角化，要求二重特征值 $6$ 对应两个线性无关的特征向量，即\n$$\nr(A-6E)=3-2=1.\n$$\n而\n$$\nA-6E=\n\\begin{pmatrix}\n-4&2&0\\\\\n8&-4&0\\\\\n0&a&0\n\\end{pmatrix}.\n$$\n第二行是第一行的 $-2$ 倍。当 $a\\ne0$ 时，第三行与第一行线性无关，秩为 $2$；当 $a=0$ 时，秩为 $1$。故\n$$\n\\boxed{a=0}.\n$$\n\n**（Ⅱ）先写出二次型对应的对称矩阵。**\n\n将 $a=0$ 代入，直接展开二次型：\n$$\n\\begin{aligned}\n\\boldsymbol x^{\\mathsf T}A\\boldsymbol x\n&=2x_1^2+2x_2^2+6x_3^2\\\\\n&\\quad+10x_1x_2.\n\\end{aligned}\n$$\n交叉项 $10x_1x_2$ 在对称矩阵中的两个对应元素均为 $5$，因此二次型矩阵为\n$$\nS=\\begin{pmatrix}\n2&5&0\\\\\n5&2&0\\\\\n0&0&6\n\\end{pmatrix}.\n$$\n注意：原矩阵 $A$ 不对称。正交化二次型时，应使用 $S$ 的特征值，不能直接使用 $A$ 的特征值。\n\n计算\n$$\n|\\lambda E-S|=(\\lambda-7)(\\lambda+3)(\\lambda-6).\n$$\n对应于 $7,-3,6$ 的单位特征向量可依次取\n$$\nq_1=\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix},\n$$\n$$\nq_2=\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\-1\\\\0\\end{pmatrix},\n$$\n$$\nq_3=\\begin{pmatrix}0\\\\0\\\\1\\end{pmatrix}.\n$$\n它们两两正交。取\n$$\nQ=(q_1,q_2,q_3)\n=\\begin{pmatrix}\n\\frac1{\\sqrt2}&\\frac1{\\sqrt2}&0\\\\\n\\frac1{\\sqrt2}&-\\frac1{\\sqrt2}&0\\\\\n0&0&1\n\\end{pmatrix},\n$$\n则 $Q^{\\mathsf T}Q=E$，且\n$$\nQ^{\\mathsf T}SQ=\\operatorname{diag}(7,-3,6).\n$$\n所以在正交变换 $\\boldsymbol x=Q\\boldsymbol y$ 下，\n$$\n\\boxed{7y_1^2-3y_2^2+6y_3^2}\n$$\n就是所求标准形。其系数与 $S$ 的特征值一致。",
-      "idea": "① 由特征多项式得特征值 $6,6,-2$；\n② 可对角化要求二重特征值 $6$ 的几何重数为 $2$，即 $r(6E-A)=1$，由此解出 $a$；\n③ 求 $A$ 的特征向量（$\\lambda=6$ 的两个无关向量、$\\lambda=-2$ 的一个），施密特正交化并单位化后按列拼成 $P$，使 $P^{\\mathrm T}AP=\\operatorname{diag}(6,6,-2)$。",
+      "idea": "**思想：特征多项式定参数，正交特征向量拼 $Q$**。\n① 由特征多项式得特征值 $6,6,-2$；\n② 可对角化要求二重特征值 $6$ 的几何重数为 $2$，即 $r(6E-A)=1$，由此解出 $a$；\n③ 求 $A$ 的特征向量（$\\lambda=6$ 的两个无关向量、$\\lambda=-2$ 的一个），施密特正交化并单位化后按列拼成 $P$，使 $P^{\\mathrm T}AP=\\operatorname{diag}(6,6,-2)$。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        202
@@ -40743,7 +40743,7 @@
       "type": "blank",
       "stem": "已知矩阵 $A=\\begin{pmatrix}a&1\\\\1&a\\end{pmatrix}$，正定矩阵 $C$ 满足 $C^2=(a+2)E-A$，则 $C$ 的所有元素之和为 ________。",
       "answer": "$2$\n\n有\n$$\n(a+2)E-A=\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}.\n$$\n该矩阵关于单位向量 $\\frac1{\\sqrt2}(1,1)^T$、$\\frac1{\\sqrt2}(1,-1)^T$ 的特征值分别为 $1,3$。正定矩阵 $C$ 是其正定平方根，故 $C$ 在这两个方向上的特征值分别为 $1,\\sqrt3$，于是\n$$\nC=\\frac12\\begin{pmatrix}1+\\sqrt3&1-\\sqrt3\\\\1-\\sqrt3&1+\\sqrt3\\end{pmatrix}.\n$$\n四个元素之和为 $2$。",
-      "idea": "① $(a+2)E-A=\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}$，在 $\\frac{(1,1)^{\\mathrm T}}{\\sqrt2}$、$\\frac{(1,-1)^{\\mathrm T}}{\\sqrt2}$ 两个方向上的特征值为 $1,3$；\n② $C$ 是它的正定平方根 ⟹ 特征值取算术根 $1,\\sqrt3$，特征向量不变；\n③ 按谱分解写出 $C$，再把四个元素相加，**元素和 $=2$**。",
+      "idea": "**思想：$C^2=B$ ⇒ $C$ 与 $B$ 共用特征向量，特征值开方**。\n① $(a+2)E-A=\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}$，在 $\\frac{(1,1)^{\\mathrm T}}{\\sqrt2}$、$\\frac{(1,-1)^{\\mathrm T}}{\\sqrt2}$ 两个方向上的特征值为 $1,3$；\n② $C$ 是它的正定平方根 ⟹ 特征值取算术根 $1,\\sqrt3$，特征向量不变；\n③ 按谱分解写出 $C$，再把四个元素相加，**元素和 $=2$**。",
       "source": "900题数二第六章B类7",
       "categoryIds": [
        210
@@ -40783,7 +40783,7 @@
       "type": "calc",
       "stem": "设 $A = \\begin{pmatrix} a & 1 & -1 \\\\ 1 & a & -1 \\\\ -1 & -1 & a \\end{pmatrix}$。(I) 求正交矩阵 $P$，使得 $P^T A P$ 为对角矩阵；(II) 求正定矩阵 $C$，使得 $C^2 = (a+3)E - A$。",
       "answer": "(I) 可取 \n$$\nP=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\-\\frac1{\\sqrt3}&0&\\frac2{\\sqrt6}\\end{pmatrix},\n$$\n 则 \n$$\nP^TAP=\\operatorname{diag}(a+2,a-1,a-1).\n$$\n (II) \n$$\nC=\\frac13\\begin{pmatrix}5&-1&1\\\\-1&5&1\\\\1&1&5\\end{pmatrix}.\n$$\n\n矩阵 $A$ 的一组标准正交特征向量为 $\\frac1{\\sqrt3}(1,1,-1)^T$、$\\frac1{\\sqrt2}(1,-1,0)^T$、$\\frac1{\\sqrt6}(1,1,2)^T$，对应特征值依次为 $a+2,a-1,a-1$，由此得到 $P$。在同一正交基下，$(a+3)E-A$ 的特征值为 $1,4,4$，故其正定平方根的特征值为 $1,2,2$，还原后得到答案中的 $C$。",
-      "idea": "① (Ⅰ) $A$ 每行元素之和均为 $a$ ⟹ $a$ 是特征值、$(1,1,1)^{\\mathrm T}$ 是特征向量；再用迹与行列式定出另两个特征值，逐个解 $(\\lambda E-A)x=0$，重根的施密特正交化后单位化拼成 $P$；\n② (Ⅱ) 与「平方根」题同型：$(a+3)E-A$ 的特征值取算术平方根即得 $C$ 的特征值，谱分解写出 $C$。",
+      "idea": "**思想：正交对角化后对特征值开方，再拼回去**。\n① (Ⅰ) $A$ 每行元素之和均为 $a$ ⟹ $a$ 是特征值、$(1,1,1)^{\\mathrm T}$ 是特征向量；再用迹与行列式定出另两个特征值，逐个解 $(\\lambda E-A)x=0$，重根的施密特正交化后单位化拼成 $P$；\n② (Ⅱ) 与「平方根」题同型：$(a+3)E-A$ 的特征值取算术平方根即得 $C$ 的特征值，谱分解写出 $C$。",
       "source": "2021数一",
       "categoryIds": [
        210
@@ -40850,7 +40850,7 @@
       "type": "calc",
       "stem": "二次型 $f(x_1, x_2, x_3) = x_1^2 + 3x_2^2 + x_3^2 + 2x_1x_2 + 2x_1x_3 + 2x_2x_3$，则 $f$ 的正惯性指数为______。",
       "answer": "$2$。\n\n将二次型配方：\n$$\nf(x_1,x_2,x_3)\n=(x_1+x_2+x_3)^2+2x_2^2.\n$$\n它经可逆线性变换可化为两个正平方项和一个零项，因此正惯性指数为 $2$。",
-      "idea": "① 不求特征值，直接配方：$f=(x_1+x_2+x_3)^2+2x_2^2$；\n② 经可逆线性变换化为两个正平方项 ⟹ 正惯性指数为 $2$（秩 $2$，零化 $1$ 维）。",
+      "idea": "**思想：不求特征值，直接配方法数正负**。\n① 不求特征值，直接配方：$f=(x_1+x_2+x_3)^2+2x_2^2$；\n② 经可逆线性变换化为两个正平方项 ⟹ 正惯性指数为 $2$（秩 $2$，零化 $1$ 维）。",
       "source": "2011数二 第14题",
       "categoryIds": [
        208
@@ -40892,7 +40892,7 @@
       "type": "choice",
       "stem": "设二次型 $f(x_1,x_2,x_3)=a(x_1^2+x_2^2+x_3^2)+2x_1x_2+2x_2x_3+2x_1x_3$ 的正、负惯性指数分别为 $1,2$，则（ ）。",
       "answer": "（C）\n\n二次型矩阵为 $A=(a-1)E+J$，其中 $J$ 是三阶全 $1$ 矩阵。故特征值为 $a+2$ 以及二重特征值 $a-1$。要正惯性指数为 $1$、负惯性指数为 $2$，需\n$$\na+2\\gt0,\\quad a-1\\lt0,\n$$\n即 $-2\\lt a\\lt1$。故选 C。",
-      "idea": "矩阵是 $(a-1)E+J$ 型（$J$ 为全 $1$ 矩阵）⟹ 特征值为 $a+2$ 和二重 $a-1$；由惯性指数 $(1,2)$ 定 $a$ 的符号区间。",
+      "idea": "**思想：矩阵是 $(a-1)E+J$ 型，特征值为 $a+2,a-1,a-1$**。\n矩阵是 $(a-1)E+J$ 型（$J$ 为全 $1$ 矩阵）⟹ 特征值为 $a+2$ 和二重 $a-1$；由惯性指数 $(1,2)$ 定 $a$ 的符号区间。",
       "source": "2016数二三（二8、三6）",
       "categoryIds": [
        208
@@ -40955,7 +40955,7 @@
       "type": "choice",
       "stem": "设 $A=\\begin{pmatrix}2&-1&-1\\\\-1&2&-1\\\\-1&-1&2\\end{pmatrix}$，$B=\\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&0\\end{pmatrix}$，则 $A$ 与 $B$（ ）。",
       "answer": "（B）\n\n$A$ 的特征值为 $3,3,0$，$B$ 的特征值为 $1,1,0$，故二者不相似。但二者都半正定且秩为 $2$，正惯性指数均为 $2$，故合同。选 B。",
-      "idea": "相似看特征值、合同看惯性指数，两条要分开判：$A$ 特征值 $3,3,0$、$B$ 是 $1,1,0$，不相似但同惯性指数，故合同。",
+      "idea": "**思想：相似看特征值、合同看惯性指数，两条分开判**。\n相似看特征值、合同看惯性指数，两条要分开判：$A$ 特征值 $3,3,0$、$B$ 是 $1,1,0$，不相似但同惯性指数，故合同。",
       "source": "2007数一二三（一8、二10、三8）",
       "categoryIds": [
        209
@@ -41008,7 +41008,7 @@
       "type": "calc",
       "stem": "设二次型 $f(x_1, x_2, x_3) = 2x_1x_2 + 3x_2x_3 + 4x_1x_3$。求可逆线性变换 $\\mathbf{x} = \\mathbf{P}\\mathbf{z}$，使得 $f(x_1, x_2, x_3)$ 化为标准形，并求二次型的秩及正、负惯性指数。",
       "answer": "可取\n$$\nP=\\begin{pmatrix}\\frac12&\\frac12&-\\frac32\\\\\\frac12&-\\frac12&-2\\\\0&0&1\\end{pmatrix},\n$$\n此时\n$$\nf=\\frac12z_1^2-\\frac12z_2^2-6z_3^2.\n$$\n二次型的秩为 $3$，正惯性指数为 $1$，负惯性指数为 $2$。\n\n**第一步：通过换元引入平方项。**\n\n原二次型没有平方项，先令\n$$\n\\begin{cases}\nu=x_1+x_2,\\\\\nv=x_1-x_2,\\\\\nw=x_3.\n\\end{cases}\n$$\n反解得\n$$\n\\begin{cases}\nx_1=\\dfrac{u+v}{2},\\\\[5pt]\nx_2=\\dfrac{u-v}{2},\\\\[5pt]\nx_3=w.\n\\end{cases}\n$$\n于是\n$$\n2x_1x_2=\\frac12u^2-\\frac12v^2,\n$$\n且\n$$\n\\begin{aligned}\n3x_2x_3+4x_1x_3\n&=\\frac32(u-v)w\\\\\n&\\quad+2(u+v)w\\\\\n&=\\frac72uw+\\frac12vw.\n\\end{aligned}\n$$\n故\n$$\nf=\\frac12u^2-\\frac12v^2\n+\\frac72uw+\\frac12vw.\n$$\n\n**第二步：配方，消去交叉项。**\n\n分别对含 $u$、$v$ 的项配方：\n$$\n\\begin{aligned}\n\\frac12u^2+\\frac72uw\n&=\\frac12\\left(u+\\frac72w\\right)^2\\\\\n&\\quad-\\frac{49}{8}w^2,\n\\end{aligned}\n$$\n$$\n\\begin{aligned}\n-\\frac12v^2+\\frac12vw\n&=-\\frac12\\left(v-\\frac12w\\right)^2\\\\\n&\\quad+\\frac18w^2.\n\\end{aligned}\n$$\n因此\n$$\n\\begin{aligned}\nf&=\\frac12\\left(u+\\frac72w\\right)^2\\\\\n&\\quad-\\frac12\\left(v-\\frac12w\\right)^2\n-6w^2.\n\\end{aligned}\n$$\n令\n$$\n\\begin{cases}\nz_1=u+\\dfrac72w,\\\\[4pt]\nz_2=v-\\dfrac12w,\\\\[4pt]\nz_3=w,\n\\end{cases}\n$$\n便得到标准形\n$$\n\\boxed{f=\\frac12z_1^2-\\frac12z_2^2-6z_3^2}.\n$$\n\n**第三步：反解出题目要求的变换 $\\mathbf{x}=P\\mathbf{z}$。**\n\n由上面的换元可得\n$$\nu=z_1-\\frac72z_3,\\qquad\nv=z_2+\\frac12z_3.\n$$\n再代回 $x_1,x_2,x_3$，得\n$$\n\\begin{cases}\nx_1=\\dfrac12z_1+\\dfrac12z_2-\\dfrac32z_3,\\\\[5pt]\nx_2=\\dfrac12z_1-\\dfrac12z_2-2z_3,\\\\[5pt]\nx_3=z_3.\n\\end{cases}\n$$\n所以可取\n$$\n\\boxed{\nP=\n\\begin{pmatrix}\n\\dfrac12&\\dfrac12&-\\dfrac32\\\\[4pt]\n\\dfrac12&-\\dfrac12&-2\\\\[4pt]\n0&0&1\n\\end{pmatrix}\n}.\n$$\n由于\n$$\n\\det P=-\\frac12\\ne0,\n$$\n所求线性变换可逆。\n\n**第四步：由标准形确定秩和惯性指数。**\n\n标准形中有 $3$ 个非零平方项系数，其中 $1$ 个为正、$2$ 个为负。因此二次型的秩及正、负惯性指数分别为\n$$\n\\boxed{r=3,\\qquad p=1,\\qquad q=2}.\n$$",
-      "idea": "① 纯交叉项二次型没有平方项：先作可逆的「双曲替换」造出平方项（令 $x_1=\\frac{z_1+z_2}{2}$、$x_2=\\frac{z_1-z_2}{2}$、$x_3=z_3$ 型），代入后按 $z_1^2,z_2^2,z_3^2$ 收集系数；\n② 得标准形 $\\frac12z_1^2-\\frac12z_2^2-6z_3^2$ ⟹ 秩 $3$、正惯性指数 $1$、负惯性指数 $2$。",
+      "idea": "**思想：纯交叉项没有平方项：先作可逆的「双曲替换」造出平方项**。\n① 纯交叉项二次型没有平方项：先作可逆的「双曲替换」造出平方项（令 $x_1=\\frac{z_1+z_2}{2}$、$x_2=\\frac{z_1-z_2}{2}$、$x_3=z_3$ 型），代入后按 $z_1^2,z_2^2,z_3^2$ 收集系数；\n② 得标准形 $\\frac12z_1^2-\\frac12z_2^2-6z_3^2$ ⟹ 秩 $3$、正惯性指数 $1$、负惯性指数 $2$。",
       "source": "0.88k 25版 数二二 次型 拓展 第1题",
       "categoryIds": [
        202
@@ -41040,7 +41040,7 @@
       "type": "calc",
       "stem": "设二次型 $f(x_1,x_2,x_3)=x_1^2+x_2^2+x_3^2+2ax_1x_2+2ax_1x_3+2ax_2x_3$ 经可逆线性变换\n$$\n\\begin{pmatrix}x_1\\\\x_2\\\\x_3\\end{pmatrix}=P\\begin{pmatrix}y_1\\\\y_2\\\\y_3\\end{pmatrix}\n$$\n化为二次型\n$$\ng(y_1,y_2,y_3)=y_1^2+y_2^2+4y_3^2+2y_1y_2.\n$$\n（1）求 $a$ 的值；\n\n（2）求可逆矩阵 $P$。",
       "answer": "$a=-\\dfrac12$。可取\n$$\nP=\\begin{pmatrix} \\frac1{\\sqrt3}&\\frac2{\\sqrt3}&\\frac23\\\\ -\\frac1{\\sqrt3}&0&\\frac23\\\\ 0&\\frac1{\\sqrt3}&-\\frac43 \\end{pmatrix}.\n$$\n\n（1）目标二次型矩阵为 $G=\\begin{pmatrix}1&1&0\\\\1&1&0\\\\0&0&4\\end{pmatrix}$，其惯性指数为 $(2,0,1)$。原二次型矩阵的特征值为 $1+2a,1-a,1-a$，由合同变换保持秩与惯性指数得 $a=-\\dfrac12$，此时特征值为 $0,\\dfrac32,\\dfrac32$。\n\n（2）两边都用正交变换化成标准形，再把系数配平：\n$$\nf=\\frac32(u_1^2+u_2^2),\\quad u=Q_f^{\\mathrm T}x,\\qquad\ng=2v_1^2+4v_3^2,\\quad v=Q_g^{\\mathrm T}y,\n$$\n其中 $Q_f$ 的列取 $\\dfrac{(1,1,1)^{\\mathrm T}}{\\sqrt3}$、$\\dfrac{(1,-1,0)^{\\mathrm T}}{\\sqrt2}$、$\\dfrac{(1,1,-2)^{\\mathrm T}}{\\sqrt6}$，$Q_g$ 的列取 $\\dfrac{(1,1,0)^{\\mathrm T}}{\\sqrt2}$、$\\dfrac{(1,-1,0)^{\\mathrm T}}{\\sqrt2}$、$(0,0,1)^{\\mathrm T}$。\n令 $u_1=v_2$、$u_2=\\sqrt{\\dfrac43}\\,v_1$、$u_3=\\sqrt{\\dfrac83}\\,v_3$（即 $u=Dv$），则 $f=\\dfrac32\\left(\\dfrac43v_1^2+\\dfrac83v_3^2\\right)=2v_1^2+4v_3^2=g$。由 $x=Q_fu=Q_fDv=Q_fDQ_g^{\\mathrm T}y$ 得 $P=Q_fDQ_g^{\\mathrm T}$，乘开即得上式 $P$；代回可验 $P^{\\mathrm T}AP=G$（$|P|=-\\dfrac43\\ne0$）。",
-      "idea": "① 先用惯性指数定 $a$：合同变换不改变正负惯性指数，两边分别求特征值即可；\n② 求 $P$ 的通用套路：把 $f$ 与 $g$ 各用正交变换化标准形，$f$ 的特征值 $\\lambda_i$ 与 $g$ 的 $\\mu_i$ 按顺序配对，缩放取 $\\sqrt{\\mu_i/\\lambda_i}$；\n③ 于是 $P=Q_f\\operatorname{diag}(\\sqrt{\\mu_i/\\lambda_i})Q_g^{\\mathrm T}$，**零特征值对应的那一列只需配对、不必缩放**，最后验 $|P|\\ne0$。",
+      "idea": "**思想：合同不改变惯性指数：先用它定参数，再求 $P$**。\n① 先用惯性指数定 $a$：合同变换不改变正负惯性指数，两边分别求特征值即可；\n② 求 $P$ 的通用套路：把 $f$ 与 $g$ 各用正交变换化标准形，$f$ 的特征值 $\\lambda_i$ 与 $g$ 的 $\\mu_i$ 按顺序配对，缩放取 $\\sqrt{\\mu_i/\\lambda_i}$；\n③ 于是 $P=Q_f\\operatorname{diag}(\\sqrt{\\mu_i/\\lambda_i})Q_g^{\\mathrm T}$，**零特征值对应的那一列只需配对、不必缩放**，最后验 $|P|\\ne0$。",
       "source": "2020数二 第22题",
       "categoryIds": [
        203
@@ -41086,7 +41086,7 @@
       "type": "choice",
       "stem": "二次型 $f(x_1,x_2,x_3)=x_1x_2+x_2x_3$ 的正、负惯性指数分别为（ ）。",
       "answer": "（A）\n\n矩阵为\n$$\nA=\\begin{pmatrix}0&\\frac12&0\\\\\\frac12&0&\\frac12\\\\0&\\frac12&0\\end{pmatrix}.\n$$\n其特征值为 $\\frac1{\\sqrt2},-\\frac1{\\sqrt2},0$，故正、负惯性指数分别为 $1,1$。故选 A。",
-      "idea": "只有交叉项：写矩阵求特征值（或用 $x_1x_2$ 型配方），数正、负惯性指数。",
+      "idea": "**思想：纯交叉项：写矩阵求特征值（或按 $x_1x_2$ 型配方）**。\n只有交叉项：写矩阵求特征值（或用 $x_1x_2$ 型配方），数正、负惯性指数。",
       "source": "0.88k 25版 二次型 综合 选择第1题",
       "categoryIds": [
        208
@@ -41125,7 +41125,7 @@
       "type": "choice",
       "stem": "设 $A=\\begin{pmatrix}1&2\\\\2&1\\end{pmatrix}$，与 $A$ 合同的矩阵是（ ）。",
       "answer": "（D）\n\n$A$ 的特征值为 $3,-1$，惯性指数为 $(1,1)$。四个选项中，只有 D 的特征值也是 $3,-1$，惯性指数为 $(1,1)$；A 为负定，B、C 为正定。故选 D。",
-      "idea": "合同只比惯性指数（正负特征值个数），不比具体特征值——$A$ 的惯性指数是 $(1,1)$。",
+      "idea": "**思想：合同只比正负惯性指数，不比具体特征值**。\n合同只比惯性指数（正负特征值个数），不比具体特征值——$A$ 的惯性指数是 $(1,1)$。",
       "source": "2008数二三（二8、三6）",
       "categoryIds": [
        209
@@ -41173,7 +41173,7 @@
       "type": "choice",
       "stem": "设二次型 $f(x_1,x_2,x_3)=x_1^2+ax_2^2+x_3^2+2bx_1x_3$ 经可逆线性变换 $x=Py$ 可化为二次型 $g(y_1,y_2,y_3)=-y_1^2-3y_2^2+3y_3^2+8y_2y_3$，则参数 $a,b$ 的取值范围为（ ）。",
       "answer": "（D）\n\n目标二次型矩阵为\n$$\nG=\\begin{pmatrix}-1&0&0\\\\0&-3&4\\\\0&4&3\\end{pmatrix}.\n$$\n其中二阶块 $\\begin{pmatrix}-3&4\\\\4&3\\end{pmatrix}$ 的特征值为 $5,-5$，再加上 $-1$，故 $g$ 的惯性指数为正惯性指数 $1$、负惯性指数 $2$。原二次型矩阵为\n$$\nF=\\begin{pmatrix}1&0&b\\\\0&a&0\\\\b&0&1\\end{pmatrix},\n$$\n其 $x_1,x_3$ 块特征值为 $1+b,1-b$。要得到 $1$ 正 $2$ 负，必须 $a\\lt0$ 且 $|b|\\gt1$，即 $b\\gt1$ 或 $b\\lt-1$。故选 D。",
-      "idea": "两个二次型互化 ⟹ 惯性指数相同：分别写出矩阵，令正负惯性指数一致解 $a,b$。",
+      "idea": "**思想：两个二次型能互化 $\\iff$ 惯性指数相同，令两边一致解参数**。\n两个二次型互化 ⟹ 惯性指数相同：分别写出矩阵，令正负惯性指数一致解 $a,b$。",
       "source": "0.9k 数二 第六章 A类 第13题",
       "categoryIds": [
        203
@@ -41212,7 +41212,7 @@
       "type": "calc",
       "stem": "设 $\\mathbf{A}$ 是实对称矩阵，证明：$\\mathbf{A}$ 可逆的充要条件是存在方阵 $\\mathbf{B}$，使得 $\\mathbf{AB} + \\mathbf{B}^T \\mathbf{A}$ 为正定矩阵。",
       "answer": "$A$ 可逆当且仅当存在方阵 $B$，使 $AB+B^TA$ 正定。\n\n若 $A$ 可逆且对称，取 $B=\\frac12A^{-1}$，则\n$$\nAB+B^TA=\\frac12E+\\frac12E=E,\n$$\n正定。反之，若存在 $B$ 使 $AB+B^TA$ 正定，而 $A$ 不可逆，则存在 $x\\ne0$ 使 $Ax=0$。此时\n$$\nx^T(AB+B^TA)x=x^TABx+x^TB^TAx=0,\n$$\n与正定性矛盾。故 $A$ 必可逆。",
-      "idea": "① 充分性：$A$ 可逆且对称 ⟹ 取 $B=\\frac12A^{-1}$（$B^{\\mathrm T}=\\frac12A^{-1}$），则 $AB+B^{\\mathrm T}A=E$ 正定；\n② 必要性（反证）：若 $A$ 不可逆，取 $x\\ne0$ 使 $Ax=0$，则 $x^{\\mathrm T}(AB+B^{\\mathrm T}A)x=0$，与正定矛盾。",
+      "idea": "**思想：$A$ 可逆 $\\iff$ 存在 $B$ 使 $AB$ 正定：正向取 $B=A^{-1}$，反向由 $AB$ 正定得 $|AB|>0$**。\n① 充分性：$A$ 可逆且对称 ⟹ 取 $B=\\frac12A^{-1}$（$B^{\\mathrm T}=\\frac12A^{-1}$），则 $AB+B^{\\mathrm T}A=E$ 正定；\n② 必要性（反证）：若 $A$ 不可逆，取 $x\\ne0$ 使 $Ax=0$，则 $x^{\\mathrm T}(AB+B^{\\mathrm T}A)x=0$，与正定矛盾。",
       "source": "0.88k 25版 二次型 综合 解答第5题",
       "categoryIds": [
        210
@@ -41244,7 +41244,7 @@
       "type": "choice",
       "stem": "二次型 \n$$\nf(x_1,x_2,x_3)=(x_1+x_2)^2+(x_2+x_3)^2-(x_3-x_1)^2\n$$\n 的正惯性指数和负惯性指数依次为（ ）。",
       "answer": "（B）\n\n标准解法：二次型矩阵为 \n$$\nA=\\begin{pmatrix}0&1&1\\\\1&2&1\\\\1&1&0\\end{pmatrix}.\n$$\n 其行列式为 $0$，而存在非零二阶子式，故秩为 $2$。又取 $(0,1,0)$ 得 $f=2\\gt0$，取 $(1,0,-1)$ 得 $f=-2\\lt0$，所以非零特征值中一正一负。故正、负惯性指数均为 $1$，选 B。快速核对：原式是两个平方项减一个平方项，且确能取正、负值；再结合秩为 $2$ 即可锁定答案。",
-      "idea": "三个平方项（含一个差项）：先展开写矩阵，或换元 $l_1,l_2,l_3$ 找出线性关系，再数正负平方项。",
+      "idea": "**思想：三个平方项（含差项）⇒ 换元找独立的个数，再数正负**。\n三个平方项（含一个差项）：先展开写矩阵，或换元 $l_1,l_2,l_3$ 找出线性关系，再数正负平方项。",
       "source": "2021数一二三（一5、二8、三5）",
       "categoryIds": [
        208
@@ -41317,7 +41317,7 @@
       "type": "choice",
       "stem": "二次型 $f(x_1,x_2,x_3)=(x_1+x_2)^2+(x_1+x_3)^2-4(x_2-x_3)^2$ 的规范形为（ ）。",
       "answer": "（B）\n\n令 $l_1=x_1+x_2$，$l_2=x_1+x_3$，$l_3=x_2-x_3$，则 $l_3=l_1-l_2$，故该二次型秩不超过 $2$。其矩阵为\n$$\n\\begin{pmatrix}2&1&1\\\\1&-3&4\\\\1&4&-3\\end{pmatrix},\n$$\n特征值为 $3,-7,0$，故正惯性指数和负惯性指数均为 $1$。规范形为 $y_1^2-y_2^2$，故选 B。",
-      "idea": "三个平方项之间有线性关系：换元 $l_1=x_1+x_2$、$l_2=x_1+x_3$、$l_3=x_2-x_3$，消去相关项后读出规范形。",
+      "idea": "**思想：三个平方项之间有线性关系 ⇒ 换元找出真正独立的个数**。\n三个平方项之间有线性关系：换元 $l_1=x_1+x_2$、$l_2=x_1+x_3$、$l_3=x_2-x_3$，消去相关项后读出规范形。",
       "source": "2023数二三（二9、三6）",
       "categoryIds": [
        204
@@ -41380,7 +41380,7 @@
       "type": "choice",
       "stem": "设 $A,B$ 为 $n$ 阶实对称可逆矩阵，则存在 $n$ 阶可逆矩阵 $P$，使得 ① $PA=B$；② $P^{-1}ABP=BA$；③ $P^{-1}AP=B$；④ $P^TA^2P=B^2$。成立的个数是（ ）。",
       "answer": "（C）\n\n① 取 $P=BA^{-1}$，成立。② 因 $A^{-1}(AB)A=BA$，故成立。③ 要求 $A$ 与 $B$ 相似，任意实对称可逆矩阵不一定相似，故不一定成立。④ $A^2,B^2$ 都是正定矩阵，任意两个同阶正定实对称矩阵合同，故成立。因此共有 $3$ 个成立，选 C。",
-      "idea": "四个命题逐一构造：① 取 $P=BA^{-1}$；\n② 用 $A^{-1}(AB)A=BA$；\n③\n④ 用相似/合同的不变量否定。",
+      "idea": "**思想：四个命题逐一构造 $P$：$PA=B$ 取 $BA^{-1}$，$P^{-1}ABP=BA$ 取 $P=A^{-1}$**。\n四个命题逐一构造：① 取 $P=BA^{-1}$；\n② 用 $A^{-1}(AB)A=BA$；\n③\n④ 用相似/合同的不变量否定。",
       "source": "姜晓千强化例题",
       "categoryIds": [
        209
@@ -41411,7 +41411,7 @@
       "type": "calc",
       "stem": "设二次型 $f(x_1, x_2, x_3) = 2x_1^2 + 5x_2^2 + 5x_3^2 + 4x_1x_2 - 4x_1x_3 - 8x_2x_3$。\n(I) 求一个正交变换 $\\mathbf{x} = \\mathbf{Q}\\mathbf{y}$，将 $f$ 化为标准形；\n(II) 利用配方法，将 $f$ 化为标准形。",
       "answer": "正交变换可取\n$$\nQ=\\begin{pmatrix}\\frac13&\\frac2{\\sqrt5}&\\frac2{3\\sqrt5}\\\\\\frac23&-\\frac1{\\sqrt5}&\\frac4{3\\sqrt5}\\\\-\\frac23&0&\\frac5{3\\sqrt5}\\end{pmatrix},\n$$\n此时\n$$\nQ^TAQ=\\operatorname{diag}(10,1,1),\\quad f=10y_1^2+y_2^2+y_3^2.\n$$\n配方法可得\n$$\nf=2(x_1+x_2-x_3)^2+3\\left(x_2-\\frac23x_3\\right)^2+\\frac53x_3^2.\n$$\n\n（1）二次型矩阵为\n$$\nA=\\begin{pmatrix}2&2&-2\\\\2&5&-4\\\\-2&-4&5\\end{pmatrix}.\n$$\n其特征多项式为\n$$\n|\\lambda E-A|=\\lambda^3-12\\lambda^2+21\\lambda-10=(\\lambda-10)(\\lambda-1)^2.\n$$\n对应单位正交特征向量可取 $\\frac13(1,2,-2)^T,\\frac1{\\sqrt5}(2,-1,0)^T,\\frac1{3\\sqrt5}(2,4,5)^T$，组成 $Q$ 得正交标准形。\n（2）配方法中先取 $z_1=x_1+x_2-x_3$，再对余项 $3x_2^2-4x_2x_3+3x_3^2$ 配方，即得题示结果。",
-      "idea": "① (Ⅰ) 正交变换法：写出矩阵 $A$，解 $|\\lambda E-A|=0$ 得特征值 $10,1,1$；对重根 $1$ 解出两个特征向量后施密特正交化，三个单位向量按列拼成 $Q$，标准形 $10y_1^2+y_2^2+y_3^2$；\n② (Ⅱ) 配方法：依次按 $x_1,x_2,x_3$ 配方，把含当前变量的项配成完全平方，剩余项继续配——同一二次型两种方法结果一致（标准形不唯一，规范形唯一）。",
+      "idea": "**思想：正交变换法三步（特征值 → 单位正交特征向量 → 拼 $Q$）**。\n① (Ⅰ) 正交变换法：写出矩阵 $A$，解 $|\\lambda E-A|=0$ 得特征值 $10,1,1$；对重根 $1$ 解出两个特征向量后施密特正交化，三个单位向量按列拼成 $Q$，标准形 $10y_1^2+y_2^2+y_3^2$；\n② (Ⅱ) 配方法：依次按 $x_1,x_2,x_3$ 配方，把含当前变量的项配成完全平方，剩余项继续配——同一二次型两种方法结果一致（标准形不唯一，规范形唯一）。",
       "source": "0.88k 25版 二次型 基础 解答第1题",
       "categoryIds": [
        202
@@ -41451,7 +41451,7 @@
       "type": "choice",
       "stem": "设 $A$ 为三阶实对称矩阵，$\\alpha_1,\\alpha_2,\\alpha_3$ 为非零三维列向量，且\n\n$$\n\\begin{aligned}\nA(\\alpha_2-\\alpha_1)&=-\\alpha_2,\\\\\nA(\\alpha_1+\\alpha_2+\\alpha_3)&=-\\alpha_2+2\\alpha_3,\\\\\nA(\\alpha_1+\\alpha_2-\\alpha_3)&=-\\alpha_2-2\\alpha_3.\n\\end{aligned}\n$$\n\n则 $A$ 的正、负惯性指数分别为（ ）。",
       "answer": "（B）\n\n第一步：从给定关系中分离特征向量。\n\n后两式相加、相减，分别得到\n\n$$\nA(\\alpha_1+\\alpha_2)=-\\alpha_2,\n$$\n\n$$\nA\\alpha_3=2\\alpha_3.\n$$\n\n再结合第一式，得\n\n$$\nA\\alpha_1=0,\\;A\\alpha_2=-\\alpha_2.\n$$\n\n第二步：利用特征值确定惯性指数。\n\n三个非零向量分别属于不同的特征值\n\n$$\n0,\\;-1,\\;2,\n$$\n\n因而线性无关，它们给出了三阶矩阵的全部特征值。\n\n实对称矩阵的正、负惯性指数分别等于正、负特征值的个数，故均为 $1$，选 B。",
-      "idea": "由 $A(\\alpha_i\\pm\\alpha_j)$ 的已知关系做加减消元，分离出特征向量并读出特征值，再判能否相似对角化。",
+      "idea": "**思想：由 $A(\\alpha_i\\pm\\alpha_j)$ 加减消元，分离出特征向量**。\n由 $A(\\alpha_i\\pm\\alpha_j)$ 的已知关系做加减消元，分离出特征向量并读出特征值，再判能否相似对角化。",
       "source": "李艳芳三套 27 卷三",
       "categoryIds": [
        208
@@ -41482,7 +41482,7 @@
       "type": "calc",
       "stem": "设二次型 $f(\\boldsymbol{x})=\\boldsymbol{x}^{\\mathsf T}A\\boldsymbol{x}$ 的平方项系数均为 $0$。已知\n$$\nA\\boldsymbol{\\alpha}=2\\boldsymbol{\\alpha},\n\\qquad\n\\boldsymbol{\\alpha}=(1,2,-1)^{\\mathsf T}.\n$$\n\n（I）求二次型的表达式；\n\n（II）求在正交变换下二次型的标准形；\n\n（III）若 $A^3+2A^2-4A+kE$ 正定，求 $k$ 的取值范围。",
       "answer": "（I）\n$$\nA=\\begin{pmatrix}\n0&2&2\\\\\n2&0&-2\\\\\n2&-2&0\n\\end{pmatrix},\n\\qquad\nf=4x_1x_2+4x_1x_3-4x_2x_3.\n$$\n\n（II）标准形为\n$$\n2y_1^2+2y_2^2-4y_3^2.\n$$\n\n（III）\n$$\nk>16.\n$$\n\n由于 $A$ 为实对称矩阵且主对角元均为零，设\n$$\nA=\\begin{pmatrix}\n0&p&q\\\\\np&0&r\\\\\nq&r&0\n\\end{pmatrix}.\n$$\n由 $A(1,2,-1)^{\\mathsf T}=2(1,2,-1)^{\\mathsf T}$，得\n$$\n\\begin{cases}\n2p-q=2,\\\\\np-r=4,\\\\\nq+2r=-2.\n\\end{cases}\n$$\n解得\n$$\np=2,\\qquad q=2,\\qquad r=-2.\n$$\n故\n$$\nA=\\begin{pmatrix}\n0&2&2\\\\\n2&0&-2\\\\\n2&-2&0\n\\end{pmatrix},\n$$\n从而\n$$\nf=4x_1x_2+4x_1x_3-4x_2x_3.\n$$\n\n矩阵 $A$ 的特征值为 $2,2,-4$，所以经正交变换可化为标准形\n$$\n2y_1^2+2y_2^2-4y_3^2.\n$$\n\n令\n$$\nh(\\lambda)=\\lambda^3+2\\lambda^2-4\\lambda+k.\n$$\n则矩阵 $h(A)$ 的特征值为\n$$\nh(2)=k+8,\\qquad h(-4)=k-16.\n$$\n因为 $A$ 为实对称矩阵，$h(A)$ 正定当且仅当其全部特征值为正，即\n$$\nk+8>0,\\qquad k-16>0.\n$$\n所以\n$$\nk>16.\n$$",
-      "idea": "① **平方项系数全为 $0$ ⟹ 对角元全为 $0$**，由 $A\\alpha=2\\alpha$ 与对称性反推非对角元，写出 $f$；\n② 求 $A$ 的特征值 $2,2,-4$，正交变换后标准形为 $2y_1^2+2y_2^2-4y_3^2$；\n③ **$A^3+2A^2-4A+kE$ 的特征值是 $\\lambda_i^3+2\\lambda_i^2-4\\lambda_i+k$**，要求全正，解出 $k$ 的范围。",
+      "idea": "**思想：平方项系数全为 $0$ ⇒ 对角元全为 $0$，剩下的由已知特征向量定**。\n① **平方项系数全为 $0$ ⟹ 对角元全为 $0$**，由 $A\\alpha=2\\alpha$ 与对称性反推非对角元，写出 $f$；\n② 求 $A$ 的特征值 $2,2,-4$，正交变换后标准形为 $2y_1^2+2y_2^2-4y_3^2$；\n③ **$A^3+2A^2-4A+kE$ 的特征值是 $\\lambda_i^3+2\\lambda_i^2-4\\lambda_i+k$**，要求全正，解出 $k$ 的范围。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        202
@@ -41508,7 +41508,7 @@
       "type": "choice",
       "stem": "设 $A=\\begin{pmatrix}a&b&b\\\\b&a&b\\\\b&b&a\\end{pmatrix}$，$B=\\begin{pmatrix}b&b&a\\\\b&a&b\\\\a&b&b\\end{pmatrix}$，$C=\\begin{pmatrix}b&a&b\\\\a&b&b\\\\b&b&a\\end{pmatrix}$，$A,B,C$ 均可逆，则（ ）。",
       "answer": "（B）\n\n矩阵 $B$ 与 $C$ 只相差同一个置换对行、列的重排。存在置换矩阵 $P$，使得\n$$\nC=P^TBP=P^{-1}BP.\n$$\n因此 $B$ 与 $C$ 既相似又合同。选 B。",
-      "idea": "两个\"循环矩阵\"只差行/列重排：用置换矩阵 $P$ 表示，验证 $C=P^{\\mathrm T}BP$，故既合同又相似。",
+      "idea": "**思想：两个循环矩阵只差行列重排：写成 $C=P^{\\mathrm T}AP$（$P$ 为置换矩阵）**。\n两个\"循环矩阵\"只差行/列重排：用置换矩阵 $P$ 表示，验证 $C=P^{\\mathrm T}BP$，故既合同又相似。",
       "source": "李艳芳三套 25 数二 第三套",
       "categoryIds": [
        209
@@ -41546,7 +41546,7 @@
       "type": "blank",
       "stem": "设三元二次型 $f(\\boldsymbol{x})=\\boldsymbol{x}^{\\mathsf T}A\\boldsymbol{x}$ 经过正交变换化为标准形\n$$\ny_1^2-y_2^2+2y_3^2,\n$$\n则\n$$\nA^3-2A^2-A+4E=\\underline{\\qquad}.\n$$",
       "answer": "$2E$\n\n由正交变换后的标准形可知，实对称矩阵 $A$ 的三个特征值为\n$$\n1,-1,2.\n$$\n因此 $A$ 满足\n$$\n(A-E)(A+E)(A-2E)=O.\n$$\n展开得\n$$\nA^3-2A^2-A+2E=O.\n$$\n所以\n$$\nA^3-2A^2-A+4E=2E.\n$$",
-      "idea": "① 正交变换后的标准形对角元就是特征值：$A$ 的特征值为 $1,-1,2$ ⟹ $(A-E)(A+E)(A-2E)=O$；\n② 展开得 $A^3-2A^2-A+2E=O$ ⟹ $A^3-2A^2-A+4E=2E$。",
+      "idea": "**思想：标准形的对角元就是特征值，逐个对号入座**。\n① 正交变换后的标准形对角元就是特征值：$A$ 的特征值为 $1,-1,2$ ⟹ $(A-E)(A+E)(A-2E)=O$；\n② 展开得 $A^3-2A^2-A+2E=O$ ⟹ $A^3-2A^2-A+4E=2E$。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        202
@@ -41572,7 +41572,7 @@
       "type": "calc",
       "stem": "设 $3$ 阶实对称矩阵 $A$ 有二重特征值 $1$，且 $(A-4E)\\alpha=0$，其中 $\\alpha=(1,1,1)^{\\mathrm T}$。\n\n（I）求 $A$；\n\n（II）记 $X=(x_1,x_2,x_3)^{\\mathrm T}$，用正交变换将二次型\n$$\nf(X)=\\begin{vmatrix}A&-X\\\\X^{\\mathrm T}&0\\end{vmatrix}\n$$\n化为标准形。",
       "answer": "$$\nA=\\begin{pmatrix}2&1&1\\\\1&2&1\\\\1&1&2\\end{pmatrix},\\qquad f=4y_1^2+4y_2^2+y_3^2.\n$$\n\n**（I）用特征向量求矩阵 $A$。**\n\n由 $(A-4E)\\alpha=0$ 知 $\\alpha=(1,1,1)^{\\mathrm T}$ 是特征值 $4$ 的特征向量。\n\n实对称矩阵的不同特征值对应的特征向量正交。特征值 $1$ 的重数为 $2$，其特征向量恰满足\n$$\nx_1+x_2+x_3=0.\n$$\n从中取两个相互正交的向量\n$$\n\\beta_1=(1,-1,0)^{\\mathrm T},\\qquad\n\\beta_2=(1,1,-2)^{\\mathrm T}.\n$$\n于是 $A\\beta_1=\\beta_1$、$A\\beta_2=\\beta_2$、$A\\alpha=4\\alpha$。\n\n设 $A$ 的三列为 $a_1,a_2,a_3$，上述三个等式给出\n$$\n\\begin{cases}\na_1-a_2=(1,-1,0)^{\\mathrm T},\\\\\na_1+a_2-2a_3=(1,1,-2)^{\\mathrm T},\\\\\na_1+a_2+a_3=(4,4,4)^{\\mathrm T}.\n\\end{cases}\n$$\n后两式相减可得 $3a_3=(3,3,6)^{\\mathrm T}$，再代回前两式，得到\n$$\n\\boxed{A=\\begin{pmatrix}2&1&1\\\\1&2&1\\\\1&1&2\\end{pmatrix}}.\n$$\n\n**（II）先求二次型矩阵，再作正交变换。**\n\n因为 $|A|=1\\cdot1\\cdot4=4\\ne0$，在分块行列式中，用最后一行减去前三行的线性组合 $X^{\\mathrm T}A^{-1}$，得\n$$\n\\begin{aligned}\nf(X)\n&=\\begin{vmatrix}A&-X\\\\0&X^{\\mathrm T}A^{-1}X\\end{vmatrix}\\\\\n&=|A|X^{\\mathrm T}A^{-1}X=X^{\\mathrm T}A^*X.\n\\end{aligned}\n$$\n所以二次型的矩阵是 $A^*$。若 $Av=\\lambda v$，则\n$$\nA^*v=4A^{-1}v=\\frac4\\lambda v.\n$$\n因此 $\\beta_1,\\beta_2,\\alpha$ 也是 $A^*$ 的特征向量，对应的特征值依次为 $4,4,1$。\n\n将这三个两两正交的向量单位化，按列组成\n$$\nQ=\\begin{pmatrix}\n1/\\sqrt2&1/\\sqrt6&1/\\sqrt3\\\\\n-1/\\sqrt2&1/\\sqrt6&1/\\sqrt3\\\\\n0&-2/\\sqrt6&1/\\sqrt3\n\\end{pmatrix}.\n$$\n有 $Q^{\\mathrm T}Q=E$，且\n$$\nQ^{\\mathrm T}A^*Q=\\operatorname{diag}(4,4,1).\n$$\n故在正交变换 $X=QY$ 下，标准形为\n$$\n\\boxed{f=4y_1^2+4y_2^2+y_3^2}.\n$$",
-      "idea": "① 「二重特征值 $1$」配合 $(A-4E)\\alpha=0$ 说明 $\\alpha$ 是特征值 $4$ 的特征向量，故 $A$ 的特征值为 $1,1,4$；\n② 实对称矩阵不同特征值的特征向量正交，取与 $\\alpha$ 正交的平面上的向量作 $\\lambda=1$ 的特征向量，单位化后拼 $P$，再求所需的 $A$。",
+      "idea": "**思想：二重特征值 + 已知的特征向量 ⇒ 再补两个正交特征向量**。\n① 「二重特征值 $1$」配合 $(A-4E)\\alpha=0$ 说明 $\\alpha$ 是特征值 $4$ 的特征向量，故 $A$ 的特征值为 $1,1,4$；\n② 实对称矩阵不同特征值的特征向量正交，取与 $\\alpha$ 正交的平面上的向量作 $\\lambda=1$ 的特征向量，单位化后拼 $P$，再求所需的 $A$。",
       "source": "26押题王六套卷四",
       "categoryIds": [
        202
@@ -41598,7 +41598,7 @@
       "type": "choice",
       "stem": "设 $n$ 阶实矩阵 $A=(a_{ij})$ 满足 $a_{ij}+a_{ji}=0$。下列命题中，正确命题的个数是（　）。\n\n① $A$ 为可逆矩阵；\n\n② $E+A$ 为可逆矩阵；\n\n③ 对任意非零实列向量 $x$，均有 $x^TAx=0$；\n\n④ 若 $A\\ne O$，则 $A$ 不可能合同于非零对角矩阵。",
       "answer": "（D）\n\n题设说明 $A^T=-A$，即 $A$ 为实反对称矩阵。\n\n先证明③。\n\n$x^TAx$ 是一个实数，标量转置等于自身。因此正确的等式链为\n$$\n\\begin{aligned}\nx^TAx\n&=(x^TAx)^T\\\\\n&=x^TA^Tx\\\\\n&=-x^TAx.\n\\end{aligned}\n$$\n故 $2x^TAx=0$，即\n$$\nx^TAx=0.\n$$\n所以③正确。负号来自 $A^T=-A$，而不是来自标量转置。\n\n再证明②。\n\n若 $(E+A)x=0$，左乘 $x^T$，得\n$$\nx^Tx+x^TAx=0.\n$$\n利用刚才证明的 $x^TAx=0$，得到 $x^Tx=0$。因为 $x$ 为实向量，故只能有 $x=0$。\n\n因此齐次方程组 $(E+A)x=0$ 只有零解，$E+A$ 可逆，②正确。\n\n判断④。\n\n假设存在可逆矩阵 $P$，使\n$$\nP^TAP=D,\n$$\n其中 $D$ 为非零对角矩阵。两边转置，利用 $A^T=-A$，得\n$$\nD^T=P^TA^TP=-P^TAP=-D.\n$$\n但对角矩阵满足 $D^T=D$，于是 $D=-D$，只能有 $D=O$，与非零条件矛盾。故④正确。\n\n最后，①不一定正确：取 $A=O$ 即满足题设，但不可逆。\n\n综上，②③④正确，共 $3$ 个，故选 D。",
-      "idea": "实反对称矩阵：先证 $x^{\\mathrm T}Ax=0$、$E+A$ 可逆（特征值为纯虚数），再逐条计数。",
+      "idea": "**思想：反对称 ⇒ $x^{\\mathrm T}Ax=0$，且 $E+A$ 可逆（特征值不为 $-1$）**。\n实反对称矩阵：先证 $x^{\\mathrm T}Ax=0$、$E+A$ 可逆（特征值为纯虚数），再逐条计数。",
       "source": "0.9k 数二 第六章 B类 第6题",
       "categoryIds": [
        209
@@ -41637,7 +41637,7 @@
       "type": "blank",
       "stem": "设矩阵 $A=\\begin{pmatrix}1&b&-1\\\\a+2&3&-3a\\end{pmatrix}$，若二次型 $x^T(AA^T)x$ 的规范形为 $y_1^2$，则 $a+b=\\underline{\\hspace{3em}}$。",
       "answer": "$2$\n\n矩阵 $AA^T$ 为半正定矩阵，且 $\\operatorname{rank}(AA^T)=\\operatorname{rank}A$。二次型 $x^T(AA^T)x$ 的规范形为 $y_1^2$，说明其秩为 $1$，故 $\\operatorname{rank}A=1$。于是 $A$ 的第二行是第一行的倍数，设 \n$$\n(a+2,3,-3a)=k(1,b,-1).\n$$\n 由第三个分量得 $k=3a$，由第一个分量得 $a+2=3a$，所以 $a=1$，$k=3$；再由第二个分量 $3=kb$ 得 $b=1$。因此 $a+b=2$。",
-      "idea": "① $AA^{\\mathrm T}$ 半正定且 $r(AA^{\\mathrm T})=r(A)$；规范形为 $y_1^2$ ⟹ 秩 $1$ ⟹ $r(A)=1$；\n② $r(A)=1$ ⟹ 两行成比例：设 $(a+2,3,-3a)=k(1,b,-1)$，由第三分量得 $k=3a$，代入第一分量得 $a=1$，再得 $b=1$；\n③ 故 $a+b=2$。",
+      "idea": "**思想：矩阵是 $AA^{\\mathrm T}$：半正定，秩决定零特征值个数**。\n① $AA^{\\mathrm T}$ 半正定且 $r(AA^{\\mathrm T})=r(A)$；规范形为 $y_1^2$ ⟹ 秩 $1$ ⟹ $r(A)=1$；\n② $r(A)=1$ ⟹ 两行成比例：设 $(a+2,3,-3a)=k(1,b,-1)$，由第三分量得 $k=3a$，代入第一分量得 $a=1$，再得 $b=1$；\n③ 故 $a+b=2$。",
       "source": "2026数二三（二16、三15）",
       "categoryIds": [
        204
@@ -41684,7 +41684,7 @@
       "type": "choice",
       "stem": "设 $A=\\begin{pmatrix}2&1\\\\-1&0\\end{pmatrix}$，$B=\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}$，$C=\\begin{pmatrix}1&0\\\\1&1\\end{pmatrix}$，$D=\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}$，则正确的是（ ）。",
       "answer": "（A）\n\n先判断相似关系。取\n\n$$\nP=\\begin{pmatrix}1&1\\\\-1&0\\end{pmatrix},\\qquad |P|=1.\n$$\n\n直接计算得 $AP=PB$，故 $P^{-1}AP=B$，即 $A$ 与 $B$ 相似。\n\n再判断合同关系。取\n\n$$\nQ=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}.\n$$\n\n可直接验证 $Q^{\\mathsf T}BQ=C$，故 $B$ 与 $C$ 合同。因此 A 项正确。\n\n单位矩阵 $D=E$ 与矩阵 $M$ 相似，必有 $M=PEP^{-1}=E$，故 $A,B,C$ 均不与 $D$ 相似。若 $P^{\\mathsf T}MP=E$，则 $M=P^{-\\mathsf T}P^{-1}$ 为对称矩阵；而 $A,B,C$ 均非对称，故也不能合同于 $D$。其余选项不成立。",
-      "idea": "相似看特征值、合同看惯性指数：三个 $2$ 阶矩阵逐对比，注意\"相似 ⟹ 合同\"但反之不成立。",
+      "idea": "**思想：相似看特征值、合同看惯性指数；相似必合同，反之不然**。\n相似看特征值、合同看惯性指数：三个 $2$ 阶矩阵逐对比，注意\"相似 ⟹ 合同\"但反之不成立。",
       "source": "0.88k 25版 二次型 综合 选择第4题",
       "categoryIds": [
        209
@@ -41733,7 +41733,7 @@
       "type": "choice",
       "stem": "设 $A$ 是 $n$ 阶方阵，将 $A$ 的第 $i$ 列与第 $j$ 列互换，再交换第 $i$ 行与第 $j$ 行得到 $B$，则（ ）。",
       "answer": "（A）\n\n设 $P$ 为交换第 $i,j$ 个标准基向量的置换矩阵，则 $P^T=P=P^{-1}$。先换列再换行得到\n$$\nB=PAP=P^{-1}AP=P^TAP.\n$$\n因此 $A$ 与 $B$ 相似且合同；同时左、右乘可逆矩阵也说明二者等价。故选 A。",
-      "idea": "先换列再换行相当于 $P^{\\mathrm T}AP$（$P$ 为置换矩阵，$P^{\\mathrm T}=P^{-1}$），故 $B$ 与 $A$ 既相似又合同。",
+      "idea": "**思想：先换列再换行就是 $P^{\\mathrm T}AP$（$P$ 为置换矩阵）**。\n先换列再换行相当于 $P^{\\mathrm T}AP$（$P$ 为置换矩阵，$P^{\\mathrm T}=P^{-1}$），故 $B$ 与 $A$ 既相似又合同。",
       "source": "0.88k 25版 二次型 基础 选择第4题",
       "categoryIds": [
        209
