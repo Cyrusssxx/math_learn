@@ -37072,7 +37072,7 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设 $3$ 阶实对称矩阵 $A$ 的各行元素之和均为 $3$。向量 $\\boldsymbol{\\alpha}_1=(-1,2,-1)^T$、$\\boldsymbol{\\alpha}_2=(0,-1,1)^T$ 是线性方程组 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的两个解。(I) 求 $A$ 的特征值与特征向量；(II) 求正交矩阵 $Q$ 和对角矩阵 $\\Lambda$，使 $Q^TAQ=\\Lambda$；(III) 求 $A$ 及 $\\left(A-\\dfrac32E\\right)^6$，其中 $E$ 为 $3$ 阶单位矩阵。",
-      "answer": "特征值为 $0$（二重）和 $3$，相应的线性无关特征向量可取\n$$\n\\lambda=0:\\ (-1,2,-1)^T,\\ (0,-1,1)^T;\\qquad \\lambda=3:\\ (1,1,1)^T.\n$$\n可取\n$$\nQ=\\begin{pmatrix}-1/\\sqrt6&-1/\\sqrt2&1/\\sqrt3\\\\2/\\sqrt6&0&1/\\sqrt3\\\\-1/\\sqrt6&1/\\sqrt2&1/\\sqrt3\\end{pmatrix},\\quad \\Lambda=\\operatorname{diag}(0,0,3).\n$$\n并且\n$$\nA=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix},\\qquad \\left(A-\\frac32E\\right)^6=\\frac{729}{64}E.\n$$\n\n（1）由各行元素之和为 $3$，$(1,1,1)^T$ 是特征值 $3$ 的特征向量；两个已知解线性无关，构成特征值 $0$ 的特征向量的基础解系。\n（2）正交单位化可得所给 $Q$。\n（3）由谱分解，$A$ 在 $(1,1,1)^T$ 方向上的特征值为 $3$，在与 $(1,1,1)^T$ 垂直的方向上特征值为 $0$，故 $A$ 为全 $1$ 矩阵。$A-\\dfrac32E$ 的三个特征值分别为 $\\dfrac32,-\\dfrac32,-\\dfrac32$，六次幂的三个特征值均为 $(\\dfrac32)^6=\\dfrac{729}{64}$，因此 $\\left(A-\\dfrac32E\\right)^6=\\dfrac{729}{64}E$。",
+      "answer": "特征值为 $0$（二重）和 $3$，相应的线性无关特征向量可取\n$$\n\\lambda=0:\\ (-1,2,-1)^T,\\ (0,-1,1)^T;\\qquad \\lambda=3:\\ (1,1,1)^T.\n$$\n可取\n$$\nQ=\\begin{pmatrix}-1/\\sqrt6&-1/\\sqrt2&1/\\sqrt3\\\\2/\\sqrt6&0&1/\\sqrt3\\\\-1/\\sqrt6&1/\\sqrt2&1/\\sqrt3\\end{pmatrix},\\quad \\Lambda=\\operatorname{diag}(0,0,3).\n$$\n并且\n$$\nA=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix},\\qquad \\left(A-\\frac32E\\right)^6=\\frac{729}{64}E.\n$$\n\n（1）由各行元素之和为 $3$，$(1,1,1)^T$ 是特征值 $3$ 的特征向量；两个已知解线性无关，构成特征值 $0$ 的特征向量的基础解系。\n（2）正交单位化可得所给 $Q$。\n（3）由==谱分解 $A=3\\gamma_1\\gamma_1^{\\mathrm T}$==（$\\gamma_1=\\frac{1}{\\sqrt3}(1,1,1)^{\\mathrm T}$ 是**单位**特征向量；与它垂直的两个方向特征值为 $0$，那两项直接不写），得 ==$A=ee^{\\mathrm T}$（全 $1$ 矩阵）==。$A-\\dfrac32E$ 的三个特征值分别为 $\\dfrac32,-\\dfrac32,-\\dfrac32$，六次幂的三个特征值均为 $(\\dfrac32)^6=\\dfrac{729}{64}$，因此 $\\left(A-\\dfrac32E\\right)^6=\\dfrac{729}{64}E$。",
       "idea": "**思想：行和相等 ⇒ $(1,1,1)^{\\mathrm T}$ 是特征向量；$Ax=0$ 的两个解是零特征值的特征向量**。\n① 各行元素之和为 $3$ ⟹ **$(1,1,1)^{\\mathrm T}$ 是特征值 $3$ 的特征向量**；\n② 题给两个线性无关的解给出二重特征值 $0$（**实对称矩阵几何重数等于代数重数**，可用迹 $=3$ 校验）；\n③ 单位化并正交化三个特征向量（$(-1,0,1)^{\\mathrm T}=\\boldsymbol\\alpha_1+2\\boldsymbol\\alpha_2$ 与单位化后的 $\\boldsymbol\\alpha_1$ 垂直）得 $Q$，$\\Lambda=\\operatorname{diag}(0,0,3)$。",
       "source": "(2006 数一二)",
       "categoryIds": [
@@ -37096,7 +37096,7 @@
        }
       ],
       "tips": {
-       "gs": "求特征值 → 特征向量 → 重根施密特正交化 → 全部单位化 → 按列拼 $Q$。",
+       "gs": "求特征值 → 特征向量 → 重根施密特正交化 → 全部单位化 → 按列拼 $Q$。\n\n**谱分解（实对称专用）**：$A=\\lambda_1\\gamma_1\\gamma_1^{\\mathrm T}+\\lambda_2\\gamma_2\\gamma_2^{\\mathrm T}+\\lambda_3\\gamma_3\\gamma_3^{\\mathrm T}$，其中 $\\gamma_i$ 是**单位正交**的特征向量。每个 $\\gamma_i\\gamma_i^{\\mathrm T}$ 是「往 $\\gamma_i$ 方向投影」的矩阵（平方等于自己、两两相乘为 $O$、全部相加为 $E$），系数 $\\lambda_i$ 就是该方向的伸缩倍数。所以**已知某些方向上的作用时，只写那几项、其余用 $E$ 补齐**。\n\n本题：只有 $\\gamma_1=\\frac{1}{\\sqrt3}(1,1,1)^{\\mathrm T}$ 方向 $\\lambda=3$，另两个方向 $\\lambda=0$（不写）⇒ $A=3\\gamma_1\\gamma_1^{\\mathrm T}=ee^{\\mathrm T}$。",
        "zy": "单根只需单位化，**重根必须正交化**，否则 $Q^{\\mathrm T}Q\\ne E$。"
       }
      },
@@ -37257,7 +37257,7 @@
       "type": "calc",
       "stem": "设 $A$ 为 3 阶实对称矩阵，$A$ 的秩为 $2$，且\n$$\nA\\begin{pmatrix}1&1\\\\0&0\\\\-1&1\\end{pmatrix}=\\begin{pmatrix}-1&1\\\\0&0\\\\1&1\\end{pmatrix}.\n$$\n(I) 求 $A$ 的所有特征值与特征向量；(II) 求矩阵 $A$。",
       "answer": "$A$ 的特征值为 $-1,1,0$。属于 $-1$ 的特征向量为 $k(1,0,-1)^T\\ (k\\ne0)$；属于 $1$ 的特征向量为 $k(1,0,1)^T\\ (k\\ne0)$；属于 $0$ 的特征向量为 $k(0,1,0)^T\\ (k\\ne0)$。\n$$\nA=\\begin{pmatrix}0&0&1\\\\0&0&0\\\\1&0&0\\end{pmatrix}.\n$$\n\n（1）由题设矩阵等式可知\n$$\nA(1,0,-1)^T=(-1,0,1)^T=-(1,0,-1)^T,\n$$\n\n$$\nA(1,0,1)^T=(1,0,1)^T.\n$$\n故 $(1,0,-1)^T$ 与 $(1,0,1)^T$ 分别是属于特征值 $-1$ 与 $1$ 的特征向量。又 $A$ 为实对称矩阵且 $r(A)=2$，所以另一个特征值为 $0$，其特征向量与前两个特征向量正交，可取 $(0,1,0)^T$。\n（2）于是\n$$\nA=-\\frac{(1,0,-1)^T(1,0,-1)}2+\\frac{(1,0,1)^T(1,0,1)}2=\\begin{pmatrix}0&0&1\\\\0&0&0\\\\1&0&0\\end{pmatrix}.\n$$",
-      "idea": "**思想：$AB=3B$ 按列拆 ⇒ 前两列是特征值 $3$ 的特征向量；秩 $2$ 定第三个特征值为 $0$**。\n由 $A$ 作用在两列向量上的结果直接读出特征值与特征向量，秩定第三特征值。\n① $A(1,0,-1)^T=-(1,0,-1)^T$，$A(1,0,1)^T=(1,0,1)^T$，得特征值 $-1$ 与 $1$。\n② $r(A)=2$ ⇒ 第三个特征值为 $0$。\n③ 实对称矩阵不同特征值的特征向量正交，求 $\\lambda=0$ 的特征向量，用谱分解求 $A$。",
+      "idea": "**思想：$AB=3B$ 按列拆 ⇒ 前两列是特征值 $3$ 的特征向量；秩 $2$ 定第三个特征值为 $0$**。\n由 $A$ 作用在两列向量上的结果直接读出特征值与特征向量，秩定第三特征值。\n① $A(1,0,-1)^T=-(1,0,-1)^T$，$A(1,0,1)^T=(1,0,1)^T$，得特征值 $-1$ 与 $1$。\n② $r(A)=2$ ⇒ 第三个特征值为 $0$。\n③ 实对称矩阵不同特征值的特征向量正交，求 $\\lambda=0$ 的特征向量，再用==谱分解 $A=\\sum_i\\lambda_i\\gamma_i\\gamma_i^{\\mathrm T}$== 拼回 $A$。",
       "source": "2011 数一二三",
       "categoryIds": [
        180
@@ -37319,7 +37319,7 @@
        }
       ],
       "tips": {
-       "gs": "实对称 ⟹ $A=Q\\Lambda Q^{\\mathrm T}$；已知部分特征值与特征向量时，其余取与它垂直的方向。",
+       "gs": "实对称 ⟹ $A=Q\\Lambda Q^{\\mathrm T}$；已知部分特征值与特征向量时，其余取与它垂直的方向。\n\n**谱分解（实对称专用）**：$A=\\lambda_1\\gamma_1\\gamma_1^{\\mathrm T}+\\lambda_2\\gamma_2\\gamma_2^{\\mathrm T}+\\lambda_3\\gamma_3\\gamma_3^{\\mathrm T}$，其中 $\\gamma_i$ 是**单位正交**的特征向量。每个 $\\gamma_i\\gamma_i^{\\mathrm T}$ 是「往 $\\gamma_i$ 方向投影」的矩阵（平方等于自己、两两相乘为 $O$、全部相加为 $E$），系数 $\\lambda_i$ 就是该方向的伸缩倍数。所以**已知某些方向上的作用时，只写那几项、其余用 $E$ 补齐**。\n\n本题：$\\lambda=-1,1$ 两个方向已求出，第三个方向 $\\lambda=0$（$r(A)=2$）⇒ $A=-\\gamma_1\\gamma_1^{\\mathrm T}+\\gamma_2\\gamma_2^{\\mathrm T}$。",
        "zy": "不同特征值的特征向量必须正交；拼 $Q$ 之前每一列都要单位化。"
       }
      },
@@ -37536,7 +37536,7 @@
       "type": "calc",
       "stem": "设三阶实对称矩阵 $A$ 满足 $A^2=E$，$A+E$ 的各行元素之和均为零，且 $r(A+E)=2$。(I) 求 $A$ 的特征值与特征向量；(II) 求矩阵 $A$。",
       "answer": "特征值为 $-1,1,1$。$(1,1,1)^T$ 属于特征值 $-1$，与 $(1,1,1)^T$ 垂直的向量都属于特征值 $1$。\n$$\nA=\\begin{pmatrix}1/3&-2/3&-2/3\\\\-2/3&1/3&-2/3\\\\-2/3&-2/3&1/3\\end{pmatrix}.\n$$\n\n（1）由 $A^2=E$，特征值只能为 $\\pm1$；各行和条件给出 $A(1,1,1)^T=-(1,1,1)^T$，$r(A+E)=2$ 表明特征值 $1$ 的重数为 $2$，故特征值为 $-1,1,1$：$(1,1,1)^T$ 属于 $-1$，与它垂直的向量都属于 $1$。\n（2）令 $\\boldsymbol{u}=(1,1,1)^T/\\sqrt3$，则 $A=E-2\\boldsymbol{u}\\boldsymbol{u}^T$，代入即得所求矩阵。",
-      "idea": "**思想：$A^2=E$ ⇒ 特征值只能是 $\\pm1$；$r(A+E)=2$ 定出 $-1$ 的个数**。\n(I) 由 $A^2=E$ 知特征值只能是 $\\pm1$；「$A+E$ 行和为零」给出 $\\lambda=-1$ 的特征向量 $(1,1,1)^{\\mathrm T}$，$r(A+E)=2$ 定出 $\\lambda=1$ 的重数为 $2$，另两个特征向量取与该向量正交的平面；(II) 用谱分解 $A=uu^{\\mathrm T}-vv^{\\mathrm T}$ 拼回 $A$。",
+      "idea": "**思想：$A^2=E$ ⇒ 特征值只能是 $\\pm1$；$r(A+E)=2$ 定出 $-1$ 的个数**。\n(I) 由 $A^2=E$ 知特征值只能是 $\\pm1$；「$A+E$ 行和为零」给出 $\\lambda=-1$ 的特征向量 $(1,1,1)^{\\mathrm T}$，$r(A+E)=2$ 定出 $\\lambda=1$ 的重数为 $2$，另两个特征向量取与该向量正交的平面；(II) 用==谱分解 $A=uu^{\\mathrm T}-vv^{\\mathrm T}$== 拼回 $A$：$\\lambda=1$ 的两个**单位正交**方向贡献 $+uu^{\\mathrm T}+ww^{\\mathrm T}$，$\\lambda=-1$ 的方向贡献 $-vv^{\\mathrm T}$。",
       "source": "姜晓千强化例题",
       "categoryIds": [
        180
@@ -37558,7 +37558,7 @@
        "data/img/zx_site/1152_4.png"
       ],
       "tips": {
-       "gs": "实对称 ⟹ $A=Q\\Lambda Q^{\\mathrm T}$；已知部分特征值与特征向量时，其余取与它垂直的方向。",
+       "gs": "实对称 ⟹ $A=Q\\Lambda Q^{\\mathrm T}$；已知部分特征值与特征向量时，其余取与它垂直的方向。\n\n**谱分解（实对称专用）**：$A=\\lambda_1\\gamma_1\\gamma_1^{\\mathrm T}+\\lambda_2\\gamma_2\\gamma_2^{\\mathrm T}+\\lambda_3\\gamma_3\\gamma_3^{\\mathrm T}$，其中 $\\gamma_i$ 是**单位正交**的特征向量。每个 $\\gamma_i\\gamma_i^{\\mathrm T}$ 是「往 $\\gamma_i$ 方向投影」的矩阵（平方等于自己、两两相乘为 $O$、全部相加为 $E$），系数 $\\lambda_i$ 就是该方向的伸缩倍数。所以**已知某些方向上的作用时，只写那几项、其余用 $E$ 补齐**。\n\n本题：$\\lambda=1$ 是二重（一个平面）、$\\lambda=-1$ 是一重 ⇒ $A=uu^{\\mathrm T}+ww^{\\mathrm T}-vv^{\\mathrm T}$（$u,w,v$ 单位正交）。",
        "zy": "不同特征值的特征向量必须正交；拼 $Q$ 之前每一列都要单位化。"
       }
      },
@@ -38815,7 +38815,7 @@
       "type": "calc",
       "stem": "设 3 阶实对称矩阵 $\\mathbf{A}$ 满足 $\\mathbf{A}^*\\boldsymbol{\\alpha} = \\boldsymbol{\\alpha}$，其中 $\\boldsymbol{\\alpha} = (-1, -1, 1)^T$。若存在正交矩阵 $\\mathbf{Q}$，使得 $\\mathbf{Q}^T \\mathbf{A} \\mathbf{Q} = \\boldsymbol{\\Lambda} = \\begin{pmatrix} -1 & & \\\\ & -1 & \\\\ & & 2 \\end{pmatrix}$。\n(I) 求矩阵 $\\mathbf{A}$；\n(II) 求二次型 $f(\\mathbf{x}) = \\mathbf{x}^T (\\mathbf{A}^*)^{-1} \\mathbf{x}$ 的表达式与规范形。",
       "answer": "$$\nA=\\begin{pmatrix}0&1&-1\\\\1&0&-1\\\\-1&-1&0\\end{pmatrix}.\n$$\n且\n$$\n(A^*)^{-1}=\\begin{pmatrix}0&\\frac12&-\\frac12\\\\\\frac12&0&-\\frac12\\\\-\\frac12&-\\frac12&0\\end{pmatrix},\n$$\n所以\n$$\nf(x)=x_1x_2-x_1x_3-x_2x_3,\n$$\n规范形为\n$$\ny_1^2-y_2^2-y_3^2.\n$$\n\n（1）由 $Q^TAQ=\\operatorname{diag}(-1,-1,2)$ 可知 $A^*$ 的特征值为 $-2,-2,1$。条件 $A^*\\alpha=\\alpha$ 说明 $\\alpha=(-1,-1,1)^T$ 是 $A$ 关于特征值 $2$ 的特征向量。令 $u=\\alpha/\\sqrt3$，则 $A$ 在 $u$ 方向上的特征值为 $2$，在与 $u$ 垂直的方向上特征值为 $-1$，故\n$$\nA=-E+3uu^T=\\begin{pmatrix}0&1&-1\\\\1&0&-1\\\\-1&-1&0\\end{pmatrix}.\n$$\n\n（2）同理 $(A^*)^{-1}$ 在 $u$ 方向特征值为 $1$，在与 $u$ 垂直的方向上特征值为 $-\\frac12$，从而得到题示矩阵和规范形。",
-      "idea": "**思想：由 $Q^{\\mathrm T}AQ=\\operatorname{diag}(\\cdot)$ 反读参数，再看惯性指数**。\n① 由 $Q^{\\mathrm T}AQ=\\operatorname{diag}(-1,-1,2)$ 直接读出 $A$ 的特征值 $-1,-1,2$；\n② 由 $A^*\\boldsymbol\\alpha=\\boldsymbol\\alpha$ 结合 $A$ 实对称，确定 $\\boldsymbol\\alpha$ 对应的（简单）特征值，并单位化得单位向量；\n③ 用谱分解/投影把 $A$ 写成 $A=\\lambda_1E+\\lambda_2\\boldsymbol u\\boldsymbol u^{\\mathrm T}$ 形式，再求 $(A^*)^{-1}$ 与二次型。",
+      "idea": "**思想：由 $Q^{\\mathrm T}AQ=\\operatorname{diag}(\\cdot)$ 反读参数，再看惯性指数**。\n① 由 $Q^{\\mathrm T}AQ=\\operatorname{diag}(-1,-1,2)$ 直接读出 $A$ 的特征值 $-1,-1,2$；\n② 由 $A^*\\boldsymbol\\alpha=\\boldsymbol\\alpha$ 结合 $A$ 实对称，确定 $\\boldsymbol\\alpha$ 对应的（简单）特征值，并单位化得单位向量；\n③ 用==谱分解 $A=\\lambda_1E+\\lambda_2\\boldsymbol u\\boldsymbol u^{\\mathrm T}$==（$\\lambda_1=-1$ 是二重 ⇒ 先把 $-E$ 提出来，多出来的 $3$ 只作用在 $\\boldsymbol u$ 方向）把 $A$ 拼回来，再求 $(A^*)^{-1}$ 与二次型。",
       "source": "姜晓千真题同源 150 (重点)",
       "categoryIds": [
        204
@@ -38834,7 +38834,7 @@
        "data/img/zx_site/741_1.png"
       ],
       "tips": {
-       "gs": "规范形只由惯性指数决定：$p$ 个 $+1$、$q$ 个 $-1$、其余 $0$；合同 ⟺ 惯性指数相同。",
+       "gs": "规范形只由惯性指数决定：$p$ 个 $+1$、$q$ 个 $-1$、其余 $0$；合同 ⟺ 惯性指数相同。\n\n**谱分解（实对称专用）**：$A=\\lambda_1\\gamma_1\\gamma_1^{\\mathrm T}+\\lambda_2\\gamma_2\\gamma_2^{\\mathrm T}+\\lambda_3\\gamma_3\\gamma_3^{\\mathrm T}$，其中 $\\gamma_i$ 是**单位正交**的特征向量。每个 $\\gamma_i\\gamma_i^{\\mathrm T}$ 是「往 $\\gamma_i$ 方向投影」的矩阵（平方等于自己、两两相乘为 $O$、全部相加为 $E$），系数 $\\lambda_i$ 就是该方向的伸缩倍数。所以**已知某些方向上的作用时，只写那几项、其余用 $E$ 补齐**。\n\n本题：$\\lambda=-1,-1,2$ ⇒ 先提 $-E$，多的 $3$ 只在 $\\gamma$ 方向 ⇒ $A=-E+3\\gamma\\gamma^{\\mathrm T}$。",
        "zy": "规范形 ≠ 标准形（标准形系数不归一）；配方法用的变换必须可逆，别把变量丢掉。"
       }
      },
@@ -40123,7 +40123,7 @@
       "type": "calc",
       "stem": "已知二次型 $f(x_1,x_2,x_3)=x^{\\mathrm T}Ax$ 在正交变换 $x=Qy$ 下的标准形为 $4y_1^2+y_2^2+y_3^2$，且 $Q$ 的第一列为 $\\frac1{\\sqrt3}(1,-1,-1)^{\\mathrm T}$。\n\n（I）求二次型矩阵 $A$；（II）求可逆矩阵 $P$，使得 $A=P^{\\mathrm T}P$；（III）记 $g(x_1,x_2,x_3)=x^{\\mathrm T}Ax+2x^{\\mathrm T}b$，其中 $b=(0,0,1)^{\\mathrm T}$，求 $g$ 的最小值，并写出一个最小值点。",
       "answer": "$A=\\begin{pmatrix}2&-1&-1\\\\-1&2&1\\\\-1&1&2\\end{pmatrix}$；可取 $P=\\frac13\\begin{pmatrix}4&-1&-1\\\\-1&4&1\\\\-1&1&4\\end{pmatrix}$；最小值为 $-\\frac34$，在 $x=(-\\frac14,\\frac14,-\\frac34)^{\\mathrm T}$ 处取得。\n\n（1）令 $u=(1,-1,-1)^{\\mathrm T}$。由谱分解，$A=E+uu^{\\mathrm T}$。\n（2）因为 $u^{\\mathrm T}u=3$，取 $P=E+\\frac13uu^{\\mathrm T}$ 就有 $P^{\\mathrm T}P=E+uu^{\\mathrm T}=A$，且 $P$ 正定可逆。\n（3）又 $A^{-1}=E-\\frac14uu^{\\mathrm T}$。配方得 $g=(x+A^{-1}b)^{\\mathrm T}A(x+A^{-1}b)-b^{\\mathrm T}A^{-1}b$，从而最小值为 $-\\frac34$，唯一最小值点为所示 $x$。",
-      "idea": "**思想：标准形系数即特征值，最值直接读**。\n① 由标准形读出特征值 $4,1,1$、$Q$ 首列是对应 $4$ 的特征向量，用**谱分解 $A=E+uu^{\\mathrm T}$** 还原 $A$；\n② 求另两个特征向量，**令 $P$ 的列为 $\\sqrt{\\lambda_i}q_i$**，即得 $A=P^{\\mathrm T}P$；\n③ 用 $A$ 的谱分解把 $g$ 配成平方和，再求最小值。",
+      "idea": "**思想：标准形系数即特征值，最值直接读**。\n① 由标准形读出特征值 $4,1,1$、$Q$ 首列是对应 $4$ 的特征向量，用==谱分解 $A=E+uu^{\\mathrm T}$==（三个方向特征值 $4,1,1$：先把公共的 $1$ 提成 $E$，多出来的 $3$ 只作用在 $u$ 方向）还原 $A$；\n② 求另两个特征向量，**令 $P$ 的列为 $\\sqrt{\\lambda_i}q_i$**，即得 $A=P^{\\mathrm T}P$；\n③ 用 $A$ 的谱分解把 $g$ 配成平方和，再求最小值。",
       "source": "25哈基米德三套数二卷三22",
       "categoryIds": [
        206
@@ -40138,7 +40138,7 @@
       "srcPage": 95,
       "key": false,
       "tips": {
-       "gs": "$\\max\\frac{x^{\\mathrm T}Ax}{x^{\\mathrm T}x}=\\lambda_{\\max}$，$\\min=\\lambda_{\\min}$（$A$ 实对称）。",
+       "gs": "$\\max\\frac{x^{\\mathrm T}Ax}{x^{\\mathrm T}x}=\\lambda_{\\max}$，$\\min=\\lambda_{\\min}$（$A$ 实对称）。\n\n**谱分解（实对称专用）**：$A=\\lambda_1\\gamma_1\\gamma_1^{\\mathrm T}+\\lambda_2\\gamma_2\\gamma_2^{\\mathrm T}+\\lambda_3\\gamma_3\\gamma_3^{\\mathrm T}$，其中 $\\gamma_i$ 是**单位正交**的特征向量。每个 $\\gamma_i\\gamma_i^{\\mathrm T}$ 是「往 $\\gamma_i$ 方向投影」的矩阵（平方等于自己、两两相乘为 $O$、全部相加为 $E$），系数 $\\lambda_i$ 就是该方向的伸缩倍数。所以**已知某些方向上的作用时，只写那几项、其余用 $E$ 补齐**。\n\n本题：$\\lambda=4,1,1$ ⇒ 先提 $E$，多的 $3$ 只作用在 $u$ 方向 ⇒ $A=E+uu^{\\mathrm T}$（$u^{\\mathrm T}u=3$）。",
        "zy": "这是**单位球**上的最值；无约束时二次型无界。"
       },
       "ansImg": [
@@ -40343,7 +40343,7 @@
       "type": "calc",
       "stem": "设实对称矩阵 $A=(a_{ij})_{3\\times3}$ 有二重特征值 $1$，且 $\\sum_{i=1}^{3}a_{ij}=0\\ (j=1,2,3)$。\n\n（I）记 $X=(x_1,x_2,x_3)^{\\mathrm T}$，求方程 $X^{\\mathrm T}AX=0$ 的全部解；\n\n（II）求可逆矩阵 $P$，使得 $X^{\\mathrm T}(2E-A)X=\\lVert PX\\rVert^2$。",
       "answer": "（I）$X=t(1,1,1)^{\\mathrm T}$，$t\\in\\mathbb R$。\n\n（II）可取 $P=E+\\frac{\\sqrt2-1}{3}\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix}$。\n\n令 $e=(1,1,1)^{\\mathrm T}$，$J=ee^{\\mathrm T}$。由于 $A$ 为实对称矩阵且每列元素之和为零，有 $Ae=0$。结合二重特征值 $1$，可知 $A$ 的特征值为 $1,1,0$，故\n$$A=E-\\frac13J.$$\n\n（I）因此\n$$X^{\\mathrm T}AX=\\frac13\\big[(x_1-x_2)^2+(x_2-x_3)^2+(x_3-x_1)^2\\big].$$\n它等于零当且仅当 $x_1=x_2=x_3$，得到所示全部解。\n\n（II）有 $2E-A=E+\\frac13J$。利用 $J^2=3J$，令 $c=(\\sqrt2-1)/3$，则\n$$P^{\\mathrm T}P=(E+cJ)^2=E+(2c+3c^2)J=E+\\frac13J=2E-A.$$\n$P$ 的特征值为 $1,1,\\sqrt2$，所以 $P$ 可逆。于是对任意 $X$，都有\n$$X^{\\mathrm T}(2E-A)X=(PX)^{\\mathrm T}(PX)=\\lVert PX\\rVert^2.$$\n\n原稿第二问右侧范数漏印平方，此处已订正。",
-      "idea": "**思想：列和为零 ⇒ $Ae=0$，先定出特征值 $0$ 与其余两个**。\n① 列和为零 ⟹ $Ae=0$（$e=(1,1,1)^{\\mathrm T}$），即 $0$ 是特征值；配二重特征值 $1$ 得特征值 $1,1,0$，由谱分解得 $A=E-\\frac13J$；\n② 把 $A=E-\\frac13J$ 代入 $X^{\\mathrm T}AX$ 直接展开合并即得。",
+      "idea": "**思想：列和为零 ⇒ $Ae=0$，先定出特征值 $0$ 与其余两个**。\n① 列和为零 ⟹ $Ae=0$（$e=(1,1,1)^{\\mathrm T}$），即 $0$ 是特征值；配二重特征值 $1$ 得特征值 $1,1,0$，由==谱分解 $A=E-\\frac13J$== 得 $A$（$\\lambda=0$ 的方向是 $e=(1,1,1)^{\\mathrm T}$，故从 $E$ 里减掉 $\\frac13ee^{\\mathrm T}$）；\n② 把 $A=E-\\frac13J$ 代入 $X^{\\mathrm T}AX$ 直接展开合并即得。",
       "source": "23押题王四套数二第一套",
       "categoryIds": [
        210
@@ -40358,7 +40358,7 @@
       "srcPage": 103,
       "key": false,
       "tips": {
-       "gs": "正定 $A=C^{\\mathrm T}C$（$C$ 可逆）；一般实对称可合同对角化。",
+       "gs": "正定 $A=C^{\\mathrm T}C$（$C$ 可逆）；一般实对称可合同对角化。\n\n**谱分解（实对称专用）**：$A=\\lambda_1\\gamma_1\\gamma_1^{\\mathrm T}+\\lambda_2\\gamma_2\\gamma_2^{\\mathrm T}+\\lambda_3\\gamma_3\\gamma_3^{\\mathrm T}$，其中 $\\gamma_i$ 是**单位正交**的特征向量。每个 $\\gamma_i\\gamma_i^{\\mathrm T}$ 是「往 $\\gamma_i$ 方向投影」的矩阵（平方等于自己、两两相乘为 $O$、全部相加为 $E$），系数 $\\lambda_i$ 就是该方向的伸缩倍数。所以**已知某些方向上的作用时，只写那几项、其余用 $E$ 补齐**。\n\n本题：$\\lambda=1,1,0$ ⇒ $A=E-\\frac13ee^{\\mathrm T}=E-\\frac13J$。",
        "zy": "分解不唯一；配方法或特征值法都行，但必须保证 $C$ 可逆。"
       },
       "ansImg": [
@@ -40743,7 +40743,7 @@
       "type": "blank",
       "stem": "已知矩阵 $A=\\begin{pmatrix}a&1\\\\1&a\\end{pmatrix}$，正定矩阵 $C$ 满足 $C^2=(a+2)E-A$，则 $C$ 的所有元素之和为 ________。",
       "answer": "$2$\n\n有\n$$\n(a+2)E-A=\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}.\n$$\n该矩阵关于单位向量 $\\frac1{\\sqrt2}(1,1)^T$、$\\frac1{\\sqrt2}(1,-1)^T$ 的特征值分别为 $1,3$。正定矩阵 $C$ 是其正定平方根，故 $C$ 在这两个方向上的特征值分别为 $1,\\sqrt3$，于是\n$$\nC=\\frac12\\begin{pmatrix}1+\\sqrt3&1-\\sqrt3\\\\1-\\sqrt3&1+\\sqrt3\\end{pmatrix}.\n$$\n四个元素之和为 $2$。",
-      "idea": "**思想：$C^2=B$ ⇒ $C$ 与 $B$ 共用特征向量，特征值开方**。\n① $(a+2)E-A=\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}$，在 $\\frac{(1,1)^{\\mathrm T}}{\\sqrt2}$、$\\frac{(1,-1)^{\\mathrm T}}{\\sqrt2}$ 两个方向上的特征值为 $1,3$；\n② $C$ 是它的正定平方根 ⟹ 特征值取算术根 $1,\\sqrt3$，特征向量不变；\n③ 按谱分解写出 $C$，再把四个元素相加，**元素和 $=2$**。",
+      "idea": "**思想：$C^2=B$ ⇒ $C$ 与 $B$ 共用特征向量，特征值开方**。\n① $(a+2)E-A=\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}$，在 $\\frac{(1,1)^{\\mathrm T}}{\\sqrt2}$、$\\frac{(1,-1)^{\\mathrm T}}{\\sqrt2}$ 两个方向上的特征值为 $1,3$；\n② $C$ 是它的正定平方根 ⟹ 特征值取算术根 $1,\\sqrt3$，特征向量不变；\n③ 按==谱分解 $C=Q\\sqrt{\\Lambda}Q^{\\mathrm T}$== 写出 $C$，再把四个元素相加，**元素和 $=2$**。",
       "source": "900题数二第六章B类7",
       "categoryIds": [
        210
@@ -40773,7 +40773,7 @@
        }
       ],
       "tips": {
-       "gs": "正定 $A=Q\\Lambda Q^{\\mathrm T}$，则 $\\sqrt A=Q\\sqrt\\Lambda Q^{\\mathrm T}$；$A=D^{\\mathrm T}D$ 取 $D=\\sqrt\\Lambda Q^{\\mathrm T}$。",
+       "gs": "正定 $A=Q\\Lambda Q^{\\mathrm T}$，则 $\\sqrt A=Q\\sqrt\\Lambda Q^{\\mathrm T}$；$A=D^{\\mathrm T}D$ 取 $D=\\sqrt\\Lambda Q^{\\mathrm T}$。\n\n**谱分解（实对称专用）**：$A=\\lambda_1\\gamma_1\\gamma_1^{\\mathrm T}+\\lambda_2\\gamma_2\\gamma_2^{\\mathrm T}+\\lambda_3\\gamma_3\\gamma_3^{\\mathrm T}$，其中 $\\gamma_i$ 是**单位正交**的特征向量。每个 $\\gamma_i\\gamma_i^{\\mathrm T}$ 是「往 $\\gamma_i$ 方向投影」的矩阵（平方等于自己、两两相乘为 $O$、全部相加为 $E$），系数 $\\lambda_i$ 就是该方向的伸缩倍数。所以**已知某些方向上的作用时，只写那几项、其余用 $E$ 补齐**。\n\n本题：$C$ 的特征值是算术根 $1,\\sqrt3$，方向不变 ⇒ $C=Q\\operatorname{diag}(1,\\sqrt3)Q^{\\mathrm T}$。",
        "zy": "平方根分解**不唯一**（$D$ 可右乘正交阵）；半正定时零特征值要单独处理。"
       }
      },
@@ -40783,7 +40783,7 @@
       "type": "calc",
       "stem": "设 $A = \\begin{pmatrix} a & 1 & -1 \\\\ 1 & a & -1 \\\\ -1 & -1 & a \\end{pmatrix}$。(I) 求正交矩阵 $P$，使得 $P^T A P$ 为对角矩阵；(II) 求正定矩阵 $C$，使得 $C^2 = (a+3)E - A$。",
       "answer": "(I) 可取 \n$$\nP=\\begin{pmatrix}\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\-\\frac1{\\sqrt3}&0&\\frac2{\\sqrt6}\\end{pmatrix},\n$$\n 则 \n$$\nP^TAP=\\operatorname{diag}(a+2,a-1,a-1).\n$$\n (II) \n$$\nC=\\frac13\\begin{pmatrix}5&-1&1\\\\-1&5&1\\\\1&1&5\\end{pmatrix}.\n$$\n\n矩阵 $A$ 的一组标准正交特征向量为 $\\frac1{\\sqrt3}(1,1,-1)^T$、$\\frac1{\\sqrt2}(1,-1,0)^T$、$\\frac1{\\sqrt6}(1,1,2)^T$，对应特征值依次为 $a+2,a-1,a-1$，由此得到 $P$。在同一正交基下，$(a+3)E-A$ 的特征值为 $1,4,4$，故其正定平方根的特征值为 $1,2,2$，还原后得到答案中的 $C$。",
-      "idea": "**思想：正交对角化后对特征值开方，再拼回去**。\n① (Ⅰ) $A$ 每行元素之和均为 $a$ ⟹ $a$ 是特征值、$(1,1,1)^{\\mathrm T}$ 是特征向量；再用迹与行列式定出另两个特征值，逐个解 $(\\lambda E-A)x=0$，重根的施密特正交化后单位化拼成 $P$；\n② (Ⅱ) 与「平方根」题同型：$(a+3)E-A$ 的特征值取算术平方根即得 $C$ 的特征值，谱分解写出 $C$。",
+      "idea": "**思想：正交对角化后对特征值开方，再拼回去**。\n① (Ⅰ) $A$ 每行元素之和均为 $a$ ⟹ $a$ 是特征值、$(1,1,1)^{\\mathrm T}$ 是特征向量；再用迹与行列式定出另两个特征值，逐个解 $(\\lambda E-A)x=0$，重根的施密特正交化后单位化拼成 $P$；\n② (Ⅱ) 与「平方根」题同型：$(a+3)E-A$ 的特征值取算术平方根即得 $C$ 的特征值，按==谱分解 $C=Q\\sqrt{\\Lambda}Q^{\\mathrm T}$== 写出 $C$。",
       "source": "2021数一",
       "categoryIds": [
        210
@@ -40840,7 +40840,7 @@
        }
       ],
       "tips": {
-       "gs": "正定 $A=Q\\Lambda Q^{\\mathrm T}$，则 $\\sqrt A=Q\\sqrt\\Lambda Q^{\\mathrm T}$；$A=D^{\\mathrm T}D$ 取 $D=\\sqrt\\Lambda Q^{\\mathrm T}$。",
+       "gs": "正定 $A=Q\\Lambda Q^{\\mathrm T}$，则 $\\sqrt A=Q\\sqrt\\Lambda Q^{\\mathrm T}$；$A=D^{\\mathrm T}D$ 取 $D=\\sqrt\\Lambda Q^{\\mathrm T}$。\n\n**谱分解（实对称专用）**：$A=\\lambda_1\\gamma_1\\gamma_1^{\\mathrm T}+\\lambda_2\\gamma_2\\gamma_2^{\\mathrm T}+\\lambda_3\\gamma_3\\gamma_3^{\\mathrm T}$，其中 $\\gamma_i$ 是**单位正交**的特征向量。每个 $\\gamma_i\\gamma_i^{\\mathrm T}$ 是「往 $\\gamma_i$ 方向投影」的矩阵（平方等于自己、两两相乘为 $O$、全部相加为 $E$），系数 $\\lambda_i$ 就是该方向的伸缩倍数。所以**已知某些方向上的作用时，只写那几项、其余用 $E$ 补齐**。\n\n本题：$(a+3)E-A$ 的特征值取算术根就是 $C$ 的特征值，方向不变，再按谱分解拼回。",
        "zy": "平方根分解**不唯一**（$D$ 可右乘正交阵）；半正定时零特征值要单独处理。"
       }
      },
