@@ -1185,6 +1185,7 @@ function toggleQSec(btn, act) {
     btn.classList.toggle('on', open);
     if (open) {                 // 展开时内容刚可见，需补调 KaTeX 渲染 $$ 块
         renderMath(sec);
+        if (act === 'answer') preloadAnsImgs(sec);   // 点「查看答案」即预加载原图解析
         if (act === 'note') {
             const ta = sec.querySelector('textarea, .q-note-input[contenteditable]');
             if (ta) {
@@ -1224,6 +1225,11 @@ function toggleAllAnswers(btn) {
     });
     // 批量展开后内容刚可见，需补调 KaTeX 渲染 $$ 块
     renderMath(root);
+    // 原图解析：只给「当前就露在外面」的图挂 src（默认页签=原图的那些题）。
+    // 全部 514 张预加载 ≈ 140MB，绝对不能一次性拉；其余等用户点「原图解析」页签时再挂。
+    if (allAnsOpen) {
+        root.querySelectorAll('.ans-pane-img:not([hidden])').forEach(preloadAnsImgs);
+    }
     root.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
     btn.classList.toggle('on', allAnsOpen);
     btn.textContent = allAnsOpen ? '🔽 收起全部答案' : '🔼 展开全部答案';
@@ -2022,10 +2028,26 @@ function ansTabsHtml(q) {
         + `<div class="q-answer-body">${mdBlock(q.answer || '')}</div></div>`;
     const imgPane = imgs.length
         ? `<div class="ans-pane ans-pane-img"${textOk ? ' hidden' : ''}>`
-          + imgs.map((p, i) => `<img class="q-ans-img" src="${esc(String(p)).replace(/"/g, '&quot;')}" alt="原图解析 ${i + 1}" loading="lazy" onclick="zoomAnsImg(this)">`).join('')
+          + imgs.map((p, i) => `<img class="q-ans-img" data-src="${esc(String(p)).replace(/"/g, '&quot;')}" alt="原图解析 ${i + 1}" onclick="zoomAnsImg(this)">`).join('')
           + `</div>`
         : '';
     return tabs + textPane + imgPane;
+}
+
+/** 挂上原图解析的 src（= 开始下载）。
+ *  <img> 初始只有 data-src：题目卡片渲染时一张图都不拉；
+ *  **点「查看答案」时统一挂 src**，hidden 容器里的 <img src> 浏览器照样会下载，
+ *  等于后台预加载 —— 再点「原图解析」页签是秒开（用户 2026-10-31 要求）。
+ *  ⚠️ 必须顺手把 loading 改成 eager：lazy 图放在 display:none 的祖先里永远不会触发加载。 */
+function preloadAnsImgs(root) {
+    if (!root) return;
+    root.querySelectorAll('img.q-ans-img[data-src]').forEach(img => {
+        const src = img.getAttribute('data-src');
+        if (!src) return;
+        img.removeAttribute('data-src');
+        img.loading = 'eager';
+        img.src = src;
+    });
 }
 
 function switchAnsTab(btn, which) {
@@ -2037,6 +2059,7 @@ function switchAnsTab(btn, which) {
     if (tp) tp.hidden = which !== 'text';
     if (ip) ip.hidden = which !== 'img';
     if (which === 'text' && tp) renderMath(tp);
+    if (which === 'img' && ip) preloadAnsImgs(ip);   // 兜底：没点过「查看答案」也能加载
 }
 
 
