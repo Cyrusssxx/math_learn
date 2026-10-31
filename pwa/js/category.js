@@ -339,7 +339,12 @@ function esc(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 function mdInline(s) {
-    return esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // 行内标记：**加粗**、==半高亮==（用户 2026-10-31：答案里也可以打重点和半高亮）
+    // ⚠️ ==…== 的判定：首尾字符不能是 `=`（避免 `a==b` 这种误伤），中间允许出现单个 `=`
+    //    （要高亮 `$P=SS^{\mathrm T}$` 这类带等号的公式）。数据里本来没有裸 `==`。
+    return esc(s)
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/==([^=\n](?:[\s\S]{0,158}?[^=\n])?)==/g, '<mark class="ans-hl">$1</mark>');
 }
 function balanceDollars(s) {
     const n = (s.match(/\$\$/g) || []).length;

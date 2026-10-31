@@ -1227,3 +1227,15 @@ html.dark .bg-btn:hover { background: #2d3640; }
     .q-answer table, .q-idea table, .q-note-input table { font-size: 13.5px; }
     .q-answer th, .q-answer td, .q-idea th, .q-idea td, .q-note-input th, .q-note-input td { padding: 6px 8px; }
 }
+
+/* 答案 / 思路 / 点睛 里的行内半高亮：==文字== → 只染下半 52% + 下划线
+   （与笔记里手画的荧光笔同款；变量 --mk-y2 / --hl-y-line 由 notes.css 的 :root 提供，深色主题自动跟随） */
+mark.ans-hl {
+    background: linear-gradient(to top, var(--mk-y2, #ffefb8) 0 52%, transparent 52%);
+    text-decoration: underline;
+    text-decoration-color: var(--hl-y-line, #d9b72c);
+    text-underline-offset: 2px;
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
+}
