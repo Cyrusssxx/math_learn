@@ -1509,10 +1509,17 @@ function hideSubFly(delay) {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind); else bind();
 })();
 
-function toggleSrcMode() {
+async function toggleSrcMode() {
     // 两态循环：exam ⇄ core
     const i = SRC_MODES.indexOf(srcMode);
-    srcMode = SRC_MODES[(i + 1) % SRC_MODES.length];
+    const next = SRC_MODES[(i + 1) % SRC_MODES.length];
+    // 真题数据是后台加载的：还没到就先等，避免切过去看到空列表
+    if (next === 'exam' && (!examPapers || !examPapers.length)) {
+        const el = document.getElementById('catMain');
+        if (el) el.innerHTML = '<div class="cat-empty">⏳ 正在加载真题数据…</div>';
+        await loadExamSources();
+    }
+    srcMode = next;
     applySrcMode(true);
     buildEntries();
     buildDeepIndex();   // 题集变了，细分类计数跟着重建
@@ -3075,6 +3082,7 @@ function ppBackfillDraw() {
 /** 拼卷模式初始化：顶栏改文案、隐藏分类专属控件、左栏换成历史拼卷列表 */
 function ppApplyMode() {
     if (!PAPER_MODE) return;
+    loadExamSources();          // 拼卷池要用真题/大观园题，先预热（不阻塞界面）
     ppBackfillDraw();
     document.body.classList.add('paper-mode');
     const t = document.querySelector('.exam-title');
@@ -3611,37 +3619,21 @@ function clearDeepCat() {
 document.addEventListener('click', () => hideDeepFlyNow());
 window.addEventListener('scroll', () => hideDeepFlyNow(), { passive: true });
 
-// ============ 初始化 ============
-async function init() {
-    // ⚠️ 首屏要读 ~6MB 题库（exam 1.2 + core 1.8 + dgy 2.3 + bank 0.8）再渲染，
-    //    此前主区一直空白，复测页（?review=1）尤其明显——左树被隐藏后整页全白，
-    //    用户会误判成「页面坏了」。所以第一件事就是放占位提示。
-    {
-        const el0 = document.getElementById('catMain');
-        if (el0) {
-            el0.innerHTML = REVIEW_MODE
-                ? '<div class="cat-empty">⏳ 正在汇总你的标记题…<br><span style="font-size:13px;opacity:.75">'
-                + '首次打开需读取 ~6MB 题库，请稍候（之后有缓存会快很多）</span></div>'
-                : '<div class="cat-empty">⏳ 正在加载题库…</div>';
-        }
-    }
-    const [er, cr, br, corer, dgyr] = await Promise.all([
-        fetch('data/exam.json'),
-        fetch('data/exam_categories.json'),
-        fetch('data/bank_questions.json').catch(() => null),
-        fetch('data/core_bank.json').catch(() => null),
-        fetch('data/dgy_items.json').catch(() => null),
-    ]);
-    if (!er.ok) throw new Error('加载真题失败: ' + er.status);
-    if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
-    // 数据到位 → 换文案。渲染数百张卡片（复测页可达 366 题）同样要时间，
-    // 让占位文案跟着推进，用户才能区分「慢」和「卡死」。
-    {
-        const el0 = document.getElementById('catMain');
-        if (el0 && el0.querySelector('.cat-empty')) {
-            el0.innerHTML = '<div class="cat-empty">⏳ 正在渲染题目…</div>';
-        }
-    }
+
+/** 真题 / 大观园习题 / 大观园题库：合计约 4.2MB（exam 1.2 + dgy 2.3 + bank 0.7），
+ *  **不参与核心题库首屏渲染**——首屏只等 exam_categories + core_bank 就能出题。
+ *  这三份放到首屏画完之后再拉；切到真题模式、或需要真题池时再 await（2026-10-31）。 */
+let _examSrc = null;
+function loadExamSources() {
+    if (_examSrc) return _examSrc;
+    _examSrc = (async () => {
+        const [er, br, dgyr] = await Promise.all([
+            fetch('data/exam.json').catch(() => null),
+            fetch('data/bank_questions.json').catch(() => null),
+            fetch('data/dgy_items.json').catch(() => null),
+        ]);
+        if (!er || !er.ok) throw new Error('加载真题失败: ' + (er && er.status));
+        const t0 = performance.now();
     examPapers = await er.json();
     // 真题题干归一化集合：必须在 concat 大观园习题卷**之前**构建（否则习题卷也会进集合，
     // 导致下面 bankItems 的精确去重把习题卷当真题、误伤大观园的题）
@@ -3662,28 +3654,6 @@ async function init() {
             const dgy = await dgyr.json();
             examPapers = examPapers.concat(dgy);
         } catch (e) { console.warn('大观园习题库解析失败', e); }
-    }
-    cats = await cr.json();
-    // 核心题库（大观严选题 606 题，categoryIds 已映射到同一分类体系）
-    if (corer && corer.ok) {
-        try {
-            corePapers = await corer.json();
-            coreLink = {};
-            for (const s of (corePapers[0] && corePapers[0].sections) || []) {
-                for (const q of s.questions || []) {
-                    // 带 paperId 前缀，避免与 xd 的同号题互相覆盖（曾导致 qidOf 取到别的题的 qid）
-                    if (q.linkedQid) coreLink['core-' + q.no] = q.linkedQid;
-                }
-            }
-            migrateCoreLegacyKeys();   // 旧 'core-N' 收藏/标记/笔记 → 真题 qid（一次性）
-            migrateXdLegacyKeys();     // 线代重点题并入后 'xd-<原号>' → 'core-<新号>'（一次性）
-            migrateLinkFixKeys();      // 错误 linkedQid 清除后，把冲突主键上的标记复制到真同题（一次性）
-            migrateAliasKeys();        // 跨年同题：把 linkAlias 上另一年份的标记复制到主键（一次性）
-            migrateOrphanNote();       // 孤儿笔记 examNote-undefined 接回 xd-169（core no=844）
-            migrateDropDeadCopies();   // 清理「共享旧键」造成的历史误复制（笔记/收藏）
-        } catch (e) { console.error('核心题库解析失败', e); }
-    } else {
-        console.warn('核心题库 core_bank.json 未加载，仅提供真题源');
     }
     // 大观园真题库（categoryIds 已映射到统一分类体系，与 exam.json 合并一棵树）
     if (br && br.ok) {
@@ -3710,6 +3680,61 @@ async function init() {
             const ns = normStem(e.q.stem);
             return !(ns.length >= 20 && examStemSet.has(ns));
         });
+    }
+        console.info('[真题数据] 后台加载完成 ' + Math.round(performance.now() - t0) + 'ms');
+        return true;
+    })().catch(e => { console.warn('[真题数据] 后台加载失败', e); return false; });
+    return _examSrc;
+}
+
+// ============ 初始化 ============
+async function init() {
+    // ⚠️ 首屏要读 ~6MB 题库（exam 1.2 + core 1.8 + dgy 2.3 + bank 0.8）再渲染，
+    //    此前主区一直空白，复测页（?review=1）尤其明显——左树被隐藏后整页全白，
+    //    用户会误判成「页面坏了」。所以第一件事就是放占位提示。
+    {
+        const el0 = document.getElementById('catMain');
+        if (el0) {
+            el0.innerHTML = REVIEW_MODE
+                ? '<div class="cat-empty">⏳ 正在汇总你的标记题…<br><span style="font-size:13px;opacity:.75">'
+                + '首次打开需读取 ~2.5MB 题库，请稍候（真题/大观园数据随后后台加载）</span></div>'
+                : '<div class="cat-empty">⏳ 正在加载题库…</div>';
+        }
+    }
+    const [cr, corer] = await Promise.all([
+        fetch('data/exam_categories.json'),
+        fetch('data/core_bank.json').catch(() => null),
+    ]);
+    if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
+    // 数据到位 → 换文案。渲染数百张卡片（复测页可达 366 题）同样要时间，
+    // 让占位文案跟着推进，用户才能区分「慢」和「卡死」。
+    {
+        const el0 = document.getElementById('catMain');
+        if (el0 && el0.querySelector('.cat-empty')) {
+            el0.innerHTML = '<div class="cat-empty">⏳ 正在渲染题目…</div>';
+        }
+    }
+    cats = await cr.json();
+    // 核心题库（大观严选题 606 题，categoryIds 已映射到同一分类体系）
+    if (corer && corer.ok) {
+        try {
+            corePapers = await corer.json();
+            coreLink = {};
+            for (const s of (corePapers[0] && corePapers[0].sections) || []) {
+                for (const q of s.questions || []) {
+                    // 带 paperId 前缀，避免与 xd 的同号题互相覆盖（曾导致 qidOf 取到别的题的 qid）
+                    if (q.linkedQid) coreLink['core-' + q.no] = q.linkedQid;
+                }
+            }
+            migrateCoreLegacyKeys();   // 旧 'core-N' 收藏/标记/笔记 → 真题 qid（一次性）
+            migrateXdLegacyKeys();     // 线代重点题并入后 'xd-<原号>' → 'core-<新号>'（一次性）
+            migrateLinkFixKeys();      // 错误 linkedQid 清除后，把冲突主键上的标记复制到真同题（一次性）
+            migrateAliasKeys();        // 跨年同题：把 linkAlias 上另一年份的标记复制到主键（一次性）
+            migrateOrphanNote();       // 孤儿笔记 examNote-undefined 接回 xd-169（core no=844）
+            migrateDropDeadCopies();   // 清理「共享旧键」造成的历史误复制（笔记/收藏）
+        } catch (e) { console.error('核心题库解析失败', e); }
+    } else {
+        console.warn('核心题库 core_bank.json 未加载，仅提供真题源');
     }
     // 线代重点题已物理并入 core_bank.json（2026-10-11），不再单独 fetch xd_bank.json。
     // 三类一次性主键迁移（migrateCoreLegacyKeys / migrateXdLegacyKeys / migrateLinkFixKeys）
@@ -3762,6 +3787,17 @@ async function init() {
     if (!PAPER_MODE) renderTree();       // ⚠️ 必须跳过：否则分类树会覆盖左栏的卷列表
     renderMain();
     renderNav();
+    // 首屏已出 → 后台补真题 / 大观园数据（约 4.2MB）。核心题库模式用不到它们，
+    // 等它回来再按需重画；真题模式（若上次停在这里）等回来立刻重画。
+    loadExamSources().then(ok => {
+        if (!ok) return;
+        if (srcMode !== 'exam') return;
+        buildEntries();
+        if (!PAPER_MODE) buildDeepIndex();
+        if (!PAPER_MODE) renderTree();
+        renderMain();
+        renderNav();
+    });
 }
 
 // 滚动/切题时记忆位置：节流保存（复用 saveCatState 的 search/scrollY 字段）
