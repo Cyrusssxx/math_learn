@@ -4,6 +4,12 @@
  */
 const CACHE_VER = 'mathcards-fc8d636e80';
 
+/* 图片独立缓存（2026-10-31）：图片占 190MB，跟着 CACHE_VER 一起换代会导致「每次发版全部重下」。
+   这里用固定的 cache 名，activate 时**不删**它，发版后图片仍然命中缓存。
+   ⚠️ 代价：同名图片文件被替换后不会自动更新。真的换了图，就把下面的 -v1 改成 -v2
+   （或给路径加 ?v=），旧图缓存才会失效。 */
+const IMG_CACHE = 'mathcards-img-v1';
+
 const PRECACHE = [
     'index.html',
     'exam.html',
@@ -143,7 +149,9 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
     e.waitUntil(
         caches.keys()
-            .then(keys => Promise.all(keys.filter(k => k !== CACHE_VER).map(k => caches.delete(k))))
+            .then(keys => Promise.all(keys
+                .filter(k => k !== CACHE_VER && k !== IMG_CACHE)      // 图片缓存单独保留
+                .map(k => caches.delete(k))))
             .then(() => self.clients.claim())
     );
 });
@@ -175,7 +183,26 @@ self.addEventListener('fetch', (e) => {
         );
         return;
     }
-    // ③ 其它资源：缓存优先
+    // ③ 图片（同源 /data/img/ 或 destination=image）：走独立缓存，不随发版失效
+    if (url.origin === location.origin &&
+        (e.request.destination === 'image' || url.pathname.indexOf('/data/img/') >= 0)) {
+        e.respondWith((async () => {
+            const hit = await caches.match(e.request);      // 含预缓存里的少量图
+            if (hit) return hit;
+            try {
+                const resp = await fetch(e.request);
+                if (resp && resp.ok) {
+                    const cache = await caches.open(IMG_CACHE);
+                    cache.put(e.request, resp.clone());
+                }
+                return resp;
+            } catch (err) {
+                return Response.error();
+            }
+        })());
+        return;
+    }
+    // ④ 其它资源：缓存优先
     e.respondWith(
         caches.match(e.request).then(hit => {
             if (hit) return hit;
