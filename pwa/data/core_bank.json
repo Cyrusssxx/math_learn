@@ -29639,8 +29639,7 @@
        "zy": "含参求秩必须**分类讨论**主元为零的参数值，不能直接约掉含参因子。"
       },
       "ansImg": [
-       "data/img/zx_site/1099_0.jpg",
-       "data/img/zx_site/1099_1.jpg"
+       "data/img/zx_site/1099_0.jpg"
       ]
      },
      {
@@ -30309,8 +30308,7 @@
        "zy": "先算 $A^2$、$A^3$ 找规律，不要硬乘；把 $100$ 这类大指数拆成 $2$ 的幂或周期。"
       },
       "ansImg": [
-       "data/img/zx_site/1194_0.jpg",
-       "data/img/zx_site/1194_1.jpg"
+       "data/img/zx_site/1194_0.jpg"
       ]
      },
      {
@@ -30433,8 +30431,7 @@
        "zy": "「左行右列」别搞反；$(P_1P_2)^{-1}=P_2^{-1}P_1^{-1}$，求逆顺序要倒过来。"
       },
       "ansImg": [
-       "data/img/zx_site/1197_0.jpg",
-       "data/img/zx_site/1197_1.jpg"
+       "data/img/zx_site/1197_0.jpg"
       ]
      },
      {
@@ -34102,8 +34099,7 @@
        "zy": "$Ax=0$ 与 $A^{\\mathrm T}Ax=0$ 同解是恒成立的结论，别再去解方程验证。"
       },
       "ansImg": [
-       "data/img/zx_site/1109_0.jpg",
-       "data/img/zx_site/1109_1.jpg"
+       "data/img/zx_site/1109_0.jpg"
       ]
      },
      {
@@ -34291,8 +34287,7 @@
        "zy": "证同解要**双向包含**，只证一个方向不够；比较秩时用 $\\binom{A}{B}$ 而不是 $A-B$。"
       },
       "ansImg": [
-       "data/img/zx_site/1127_0.jpg",
-       "data/img/zx_site/1127_1.jpg"
+       "data/img/zx_site/1127_0.jpg"
       ]
      },
      {
@@ -34440,8 +34435,7 @@
        "zy": "由 $AB=O$ 推 $A$ 不可逆，必须额外有 $B\\ne O$。"
       },
       "ansImg": [
-       "data/img/zx_site/1141_0.jpg",
-       "data/img/zx_site/1141_1.jpg"
+       "data/img/zx_site/1141_0.jpg"
       ]
      },
      {
@@ -34774,8 +34768,7 @@
        "zy": "证同解要**双向包含**，只证一个方向不够；比较秩时用 $\\binom{A}{B}$ 而不是 $A-B$。"
       },
       "ansImg": [
-       "data/img/zx_site/1253_0.jpg",
-       "data/img/zx_site/1253_1.jpg"
+       "data/img/zx_site/1253_0.jpg"
       ]
      },
      {
@@ -35808,8 +35801,7 @@
        "zy": "重根条件要用「$|E-A|=0$」+「$\\operatorname{tr}A$」两条联立，单用一条定不出 $a$；第二问必须先消 $\\beta$，否则两个未知向量解不动。"
       },
       "ansImg": [
-       "data/img/zx_site/2063_0.jpg",
-       "data/img/zx_site/2063_1.jpg"
+       "data/img/zx_site/2063_0.jpg"
       ]
      }
     ]
@@ -37491,8 +37483,7 @@
        "zy": "迹和行列式只给出「和」与「积」，定不出每个特征值，还要别的条件。"
       },
       "ansImg": [
-       "data/img/zx_site/1147_0.jpg",
-       "data/img/zx_site/1147_1.jpg"
+       "data/img/zx_site/1147_0.jpg"
       ]
      },
      {
@@ -37927,8 +37918,7 @@
       },
       "ansImg": [
        "data/img/zx_site/1242_0.jpg",
-       "data/img/zx_site/1242_1.jpg",
-       "data/img/zx_site/1242_2.jpg"
+       "data/img/zx_site/1242_1.jpg"
       ]
      },
      {
@@ -38564,8 +38554,7 @@
       },
       "ansImg": [
        "data/img/zx_site/2031_0.jpg",
-       "data/img/zx_site/2031_1.jpg",
-       "data/img/zx_site/2031_2.jpg"
+       "data/img/zx_site/2031_1.jpg"
       ]
      },
      {
@@ -39658,8 +39647,7 @@
        "zy": "惯性指数只给符号信息，具体数值还要另找条件。"
       },
       "ansImg": [
-       "data/img/zx_site/1044_0.jpg",
-       "data/img/zx_site/1044_1.jpg"
+       "data/img/zx_site/1044_0.jpg"
       ]
      },
      {
@@ -39908,8 +39896,7 @@
        "zy": "配方必须用**可逆**变换（不能出现某个变量被消掉却仍留在变换里）。"
       },
       "ansImg": [
-       "data/img/zx_site/1133_0.jpg",
-       "data/img/zx_site/1133_1.jpg"
+       "data/img/zx_site/1133_0.jpg"
       ]
      },
      {
@@ -40368,8 +40355,7 @@
        "zy": "分解不唯一；配方法或特征值法都行，但必须保证 $C$ 可逆。"
       },
       "ansImg": [
-       "data/img/zx_site/1171_0.jpg",
-       "data/img/zx_site/1171_1.jpg"
+       "data/img/zx_site/1171_0.jpg"
       ]
      },
      {
@@ -41596,8 +41582,7 @@
       },
       "ansImg": [
        "data/img/zx_site/2070_0.jpg",
-       "data/img/zx_site/2070_1.jpg",
-       "data/img/zx_site/2070_2.jpg"
+       "data/img/zx_site/2070_1.jpg"
       ]
      },
      {
