@@ -688,10 +688,14 @@ function tocJump(ch, h3) {
 /** 滚动高亮：章 + 小节两级联动。小节命中时，其上方的章也保持 active。 */
 function highlightToc() {
     if (!cur) return;
+    // 折叠块（details 收起）里的标题 rect 全是 0 → top=0 恒 "≤90"，会被误判成当前项，
+    // 把小节高亮/自动展开带到别的章去。这里统一跳过「没有盒子」的标题。
     const h2s = document.querySelectorAll('.note-article h2');
     let activeCh = -1;
     for (const h of h2s) {
-        if (h.getBoundingClientRect().top <= 90) activeCh = parseInt(h.id.slice(3), 10);
+        const r = h.getBoundingClientRect();
+        if (!r.height && !r.width) continue;          // 不可见（折叠块内）→ 不参与定位
+        if (r.top <= 90) activeCh = parseInt(h.id.slice(3), 10);
         else break;
     }
     // 小节：只在**当前章**范围内取（否则上一章最后一个 h3 会抢走高亮，导致刚点开的章又被收起）
@@ -699,7 +703,9 @@ function highlightToc() {
     for (const h of document.querySelectorAll('.note-article h2, .note-article h3')) {
         if (h.tagName === 'H2') { h3Ch = parseInt(h.id.slice(3), 10); continue; }
         if (h3Ch !== activeCh) continue;
-        if (h.getBoundingClientRect().top <= 90) activeH3 = h.id.slice(3);
+        const r = h.getBoundingClientRect();
+        if (!r.height && !r.width) continue;
+        if (r.top <= 90) activeH3 = h.id.slice(3);
         else break;
     }
     document.querySelectorAll('.toc-link').forEach(a => {
@@ -713,14 +719,19 @@ function highlightToc() {
     document.querySelectorAll('.toc-sub-link').forEach(a =>
         a.classList.toggle('active', a.dataset.h3 === activeH3));
     updateTocGroups(activeCh);
-    // 只把「有 active 小节的章」自动展开；用户手动点过按钮（expand-all）就尊重其选择
+    // 自动展开：**当前章一律展开**（用户 2026-10-31：滚到某章时它必须自动展开）。
+    // 旧写法是 `hitSub || (hitCh && activeH3 === '')` —— 只要 activeH3 非空、
+    // 而那个小节的链接又没被标成 active（定位抖动 / 点目录后的锁定期），整章就**不展开**，
+    // 表现就是「滚到这儿了，目录里这一章还是收着的」。现在改成「命中章 or 命中章内小节 → 必开」。
+    // 锁定期间（刚点过目录 1s 内）只加不减：既不把刚点开的章收起来，也不耽误新章展开。
     const el = document.getElementById('tocPane');
-    // 手动点目录后 1s 内不改展开状态：等滚动落定，避免"点了又收起来"
-    if (el && !el.classList.contains('expand-all') && Date.now() > tocLockUntil) {
+    if (el && !el.classList.contains('expand-all')) {
+        const locked = Date.now() <= tocLockUntil;
         el.querySelectorAll('.toc-item').forEach(it => {
             const hitSub = !!it.querySelector('.toc-sub-link.active');
             const hitCh = !!it.querySelector('.toc-link.active');
-            it.classList.toggle('open', hitSub || (hitCh && activeH3 === ''));
+            if (hitCh || hitSub) it.classList.add('open');
+            else if (!locked) it.classList.remove('open');
         });
     }
     // 当前项滚进可视区（目录自身溢出时才有必要）
