@@ -35851,8 +35851,8 @@
       "kind": "choice",
       "type": "choice",
       "stem": "设矩阵 $A,C,B$ 为同阶矩阵，且 $A,B$ 可逆，矩阵 $M=\\begin{pmatrix}A&C\\\\O&B\\end{pmatrix}$，$M_1=\\begin{pmatrix}A&A^{-1}C\\\\O&B\\end{pmatrix}$，$M_2=\\begin{pmatrix}A&A^{-1}CB\\\\O&B\\end{pmatrix}$，则（ ）",
-      "answer": "（A）\n\n取分块对角可逆矩阵 $P_1=\\begin{pmatrix}A&O\\\\O&E\\end{pmatrix}$，则\n$$\nP_1^{-1}MP_1=\\begin{pmatrix}A&A^{-1}C\\\\O&B\\end{pmatrix}=M_1.\n$$\n再取 $P_2=\\begin{pmatrix}A&O\\\\O&B\\end{pmatrix}$，则\n$$\nP_2^{-1}MP_2=\\begin{pmatrix}A&A^{-1}CB\\\\O&B\\end{pmatrix}=M_2.\n$$\n故 $M_1,M_2$ 均与 $M$ 相似，选 A。",
-      "idea": "① 证两矩阵相似，只需各找一个可逆矩阵 $P$ 使 $P^{-1}MP$ 化为目标矩阵；\n② 对 $M_1$：取分块对角矩阵 $P_1$，做相似变换把 $C$ 位置化为 $A^{-1}C$；\n③ 对 $M_2$：取另一分块对角矩阵 $P_2$（含 $A,B$），化为 $A^{-1}CB$；两者都与 $M$ 相似。",
+      "answer": "（A）\n\n设 $P=\\begin{pmatrix}X&O\\\\O&Y\\end{pmatrix}$（$X,Y$ 同阶且都可逆），则\n$$\nP^{-1}MP=\\begin{pmatrix}X^{-1}AX&X^{-1}CY\\\\O&Y^{-1}BY\\end{pmatrix}.\n$$\n（1）取 $X=A,\\ Y=E$：此时 $X^{-1}AX=A$、$Y^{-1}BY=B$、$X^{-1}CY=A^{-1}C$，故\n$$\nP_1^{-1}MP_1=\\begin{pmatrix}A&A^{-1}C\\\\O&B\\end{pmatrix}=M_1,\\qquad P_1=\\begin{pmatrix}A&O\\\\O&E\\end{pmatrix}.\n$$\n（2）取 $X=A,\\ Y=B$：此时 $X^{-1}AX=A$、$Y^{-1}BY=B$、$X^{-1}CY=A^{-1}CB$，故\n$$\nP_2^{-1}MP_2=\\begin{pmatrix}A&A^{-1}CB\\\\O&B\\end{pmatrix}=M_2,\\qquad P_2=\\begin{pmatrix}A&O\\\\O&B\\end{pmatrix}.\n$$\n两个 $P$ 都可逆（对角块 $A,B,E$ 都可逆），所以 $M_1,M_2$ 都与 $M$ 相似，选 A。",
+      "idea": "① 证相似就是找可逆 $P$ 使 $P^{-1}MP$ 变成目标矩阵，所以先看「用什么样的 $P$ 能改哪一块」；\n② 取分块对角 $P=\\operatorname{diag}(X,Y)$（$X,Y$ 可逆即可），直接算得 $P^{-1}MP=\\begin{pmatrix}X^{-1}AX&X^{-1}CY\\\\O&Y^{-1}BY\\end{pmatrix}$——**只有右上块能被 $X^{-1}CY$ 改动**；\n③ 对照 $M_1$：左上块仍是 $A$、右下块仍是 $B$，取 $X=A$（$X^{-1}AX=A$）、$Y=E$，右上块就成了 $A^{-1}C$；对照 $M_2$：改取 $Y=B$，右上块成了 $A^{-1}CB$。",
       "source": "25 李艳芳三套数二第二套(重点)",
       "categoryIds": [
        178
@@ -35883,8 +35883,8 @@
        }
       ],
       "tips": {
-       "gs": "相似的必要条件：特征多项式相同（迹、行列式、特征值都相同）；充分条件：都能对角化到同一对角阵。",
-       "zy": "迹、行列式相同只是**必要**条件，不能据此断定相似；要证相似得找出 $P$。"
+       "gs": "分块对角 $P=\\operatorname{diag}(X,Y)$ ⟹ $P^{-1}\\begin{pmatrix}A&C\\\\O&B\\end{pmatrix}P=\\begin{pmatrix}X^{-1}AX&X^{-1}CY\\\\O&Y^{-1}BY\\end{pmatrix}$。",
+       "zy": "想只改右上块，就得让 $X,Y$ 分别与 $A,B$ 交换（取 $X=A$、$Y=E$ 或 $Y=B$ 最省事）；$X,Y$ 可逆是前提，别忘验证。"
       }
      },
      {
@@ -37995,7 +37995,7 @@
       "kind": "calc",
       "type": "calc",
       "stem": "设 $A = \\begin{pmatrix} 2 & -1 & -1 \\\\ 2 & -1 & -2 \\\\ -1 & 1 & 2 \\end{pmatrix}, B = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 1 \\\\ 0 & 0 & 1 \\end{pmatrix}$，求可逆矩阵 $P$，使得 $P^{-1}AP = B$。",
-      "answer": "可取 $P=\\begin{pmatrix}2&-1&1\\\\1&-2&1\\\\1&1&1\\end{pmatrix}$。\n\n（1）由 $AP=PB$ 按列写：$Ap_1=p_1$、$Ap_2=p_2$、$Ap_3=p_2+p_3$，即\n$$\n(A-E)p_1=0,\\quad (A-E)p_2=0,\\quad (A-E)p_3=p_2.\n$$\n（2）$r(A-E)=1$，故 $(A-E)x=0$ 的基础解系含 $3-1=2$ 个向量。取\n$$\np_1=(2,1,1)^{\\mathrm T},\\qquad p_2=(-1,-2,1)^{\\mathrm T}\n$$\n（验算 $Ap_1=p_1$、$Ap_2=p_2$）；再把 $p_2$ 代入 $(A-E)p_3=p_2$，取 $p_3=(1,1,1)^{\\mathrm T}$（验算 $Ap_3=(0,-1,2)^{\\mathrm T}=p_2+p_3$）。\n（3）拼成 $P=(p_1,p_2,p_3)$，$|P|=-3\\ne0$，故 $P$ 可逆且 $AP=PB$，即 $P^{-1}AP=B$。",
+      "answer": "可取 $P=\\begin{pmatrix}2&-1&1\\\\1&-2&1\\\\1&1&1\\end{pmatrix}$。\n\n（1）由 $AP=PB$ 按列写：$Ap_1=p_1$、$Ap_2=p_2$、$Ap_3=p_2+p_3$，即\n$$\n(A-E)p_1=0,\\quad (A-E)p_2=0,\\quad (A-E)p_3=p_2.\n$$\n（2）$r(A-E)=1$，故 $(A-E)x=0$ 的基础解系含 $3-1=2$ 个向量；其通解为 $s(2,1,1)^{\\mathrm T}+t(-1,-2,1)^{\\mathrm T}$，取 $(s,t)=(1,0)$ 与 $(0,1)$ 作前两列：\n$$\np_1=(2,1,1)^{\\mathrm T},\\qquad p_2=(-1,-2,1)^{\\mathrm T}\n$$\n（验算 $Ap_1=p_1$、$Ap_2=p_2$）；再把 $p_2$ 代入 $(A-E)p_3=p_2$，取 $p_3=(1,1,1)^{\\mathrm T}$（验算 $Ap_3=(0,-1,2)^{\\mathrm T}=p_2+p_3$）。\n（3）拼成 $P=(p_1,p_2,p_3)$，$|P|=-3\\ne0$，故 $P$ 可逆且 $AP=PB$，即 $P^{-1}AP=B$。",
       "idea": "① $B$ 不是对角阵，不能直接拿特征向量拼 $P$——按 $AP=PB$ 逐列写：$Ap_1=p_1$、$Ap_2=p_2$、$Ap_3=p_2+p_3$；\n② 前两列是特征值 $1$ 的特征向量（$r(A-E)=1$，基础解系含 $2$ 个），第三列由 $(A-E)p_3=p_2$ 解出；\n③ 拼成 $P$ 后验 $|P|\\ne0$ 即可，$P$ 不唯一。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
