@@ -1231,9 +1231,11 @@ html.dark .bg-btn:hover { background: #2d3640; }
 /* 答案 / 思路 / 点睛 里的行内半高亮：==文字== → 只染下半 52% + 下划线
    （与笔记里手画的荧光笔同款；变量 --mk-y2 / --hl-y-line 由 notes.css 的 :root 提供，深色主题自动跟随） */
 mark.ans-hl {
-    background: linear-gradient(to top, var(--mk-y2, #ffefb8) 0 52%, transparent 52%);
+    /* ⚠️ 这里**故意写死**淡黄，不跟 --mk-y2 / --hl-y-line 走：
+       那两个变量现在是「用户自己的荧光笔」配色（琥珀），答案里的系统强调要和它区分开。 */
+    background: linear-gradient(to top, #ffefb8 0 52%, transparent 52%);
     text-decoration: underline;
-    text-decoration-color: var(--hl-y-line, #d9b72c);
+    text-decoration-color: #d9b72c;
     text-underline-offset: 2px;
     color: inherit;
     border-radius: 2px;
