@@ -40671,7 +40671,7 @@
       "stem": "设二次型 $f(x_1,x_2,x_3)=x^TAx$（$A^T=A$）经正交变换 $x=Qy$ 化为标准形 $y_2^2+2y_3^2$，其中\n$$\nQ=\\frac1{\\sqrt2}\\begin{pmatrix}1&0&a\\\\0&c&0\\\\b&0&1\\end{pmatrix}\n$$\n（$b\\gt0,\\ c\\gt0$）。(I) 求 $a,b,c$ 的值及矩阵 $A$；(II) 求可逆矩阵 $P$，使得 $A=P^TP-E$。",
       "answer": "$a=-1,\\ b=1,\\ c=\\sqrt2$，\n$$\nA=\\begin{pmatrix}1&0&-1\\\\0&1&0\\\\-1&0&1\\end{pmatrix}.\n$$\n可取\n$$\nP=\\begin{pmatrix}\\frac1{\\sqrt2}&0&\\frac1{\\sqrt2}\\\\0&\\sqrt2&0\\\\-\\sqrt{\\frac32}&0&\\sqrt{\\frac32}\\end{pmatrix},\n$$\n则 $A=P^TP-E$。\n\n（1）由 $Q$ 正交得三列长度为 $1$ 且第一、三列正交：\n$$\n1+b^2=2,\\quad c^2=2,\\quad a^2+1=2,\\quad a+b=0.\n$$\n结合 $b\\gt0,c\\gt0$，得 $b=1,c=\\sqrt2,a=-1$。此时 $Q$ 的三列分别对应标准形系数 $0,1,2$，故\n$$\nA=Q\\operatorname{diag}(0,1,2)Q^T=\\begin{pmatrix}1&0&-1\\\\0&1&0\\\\-1&0&1\\end{pmatrix}.\n$$\n\n（2）于是 $A+E=Q\\operatorname{diag}(1,2,3)Q^T$，取 $P=\\operatorname{diag}(1,\\sqrt2,\\sqrt3)Q^T$ 即得题示矩阵。",
       "idea": "**思想：$Q$ 正交 ⇒ 各列单位且两两正交，用这组条件解参数**。\n① $Q$ 正交 ⟹ 各列单位、两两正交，解这组方程得 $a,b,c$；\n② 标准形的对角元就是特征值 $0,1,2$，故 $A=Q\\operatorname{diag}(0,1,2)Q^{\\mathrm T}$，直接乘出 $A$。",
-      "source": "2015数一二三",
+      "source": "23李林四套数二第一套",
       "categoryIds": [
        210
       ],
