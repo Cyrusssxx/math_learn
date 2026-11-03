@@ -17,7 +17,8 @@
 | `exam_categories.json` | 分类树，dict 以 id **字符串**为键，level 0/1/2 | — |
 
 - `practice.json` 是**死数据**（`grep -r practice.json pwa/` 无结果）。
-- **大 JSON 一律紧凑单行**：`exam.json`/`practice.json`/`core_bank.json` 用 `json.dump(..., ensure_ascii=False, separators=(',',':'))`；`exam_categories.json`/`bank_questions.json` 是 pretty-print，改这两个沿用原格式。
+- **大 JSON 紧凑单行**：`exam.json`/`practice.json` 用 `json.dump(..., ensure_ascii=False, separators=(',',':'))`；`exam_categories.json`/`bank_questions.json` 是 pretty-print，改这两个沿用原格式。
+- ⚠️ **`core_bank.json` 例外：仓库里是 pretty-print**（2026-11-03 逐字节核实，至少 4 个提交前就是）。正确写法 `json.dumps(d, indent=1, ensure_ascii=False)` **无尾换行**。用 `tools/_apply_patch.js`（`JSON.stringify` 单行）会把格式压平、制造 4 万行删除的假 diff → 应用补丁后必须按 indent=1 重排再提交。
 - qid = `<卷id>-<题号>`；`qidOf()` 会经 `linkedQid`（`xd-N`/`core-N` → 真题 qid）重定向，统一收藏/笔记键。
 - **四态口径**（mastery.js）：不会 > 不熟 > 已掌握（显式 `mastered` 或已收藏且无薄弱标记）> 未刷。
 - localStorage：`examFav` `{qid:{t:ms}}`、`examStatus` `{qid:'unknown'|'unfamiliar'|'mastered'}`、`examNote-<qid>`、`catSrcMode`、`catUnmarkedFirst`。
