@@ -2681,13 +2681,14 @@ function ppChapterOf(q) {
     return null;
 }
 
-/* ---------- 拼卷：抽题记录（软衰减 + 一周内不重复） ----------
+/* ---------- 拼卷：抽题记录（抽过即不再抽） ----------
  * qDraw[qid] = { d: 被抽中次数, ld: 上次被抽中的时间 }
- *   · 软衰减：权重 × 1/(1 + 0.8d)，同一道题抽得越多越靠后
- *   · 一周不重复：ld 在 7 天内的题不进首选池；凑不满时才按 ld 升序放宽补位
+ *   · 2026-11-03 起：d>0 的题**永久退出抽题池**（旧规则是「7 天内不重复 + 凑不满放宽补位」，
+ *     宽松模式会让同一批题反复出现，用户要求改成「抽过就不再抽」）。
+ *   · 还剩多少由左栏计数器（ppProgHtml）显式展示；要重新开始点「清空抽题记录」把 qDraw 清空。
+ *   · ld 仍然记着（历史卷、排错时要看时间），但不再参与筛选。
  * 只记「被抽中」，与判分无关；删卷不会回滚（题已经抽给你看过了）。 */
 const DRAW_KEY = 'qDraw';
-const PP_NO_REPEAT_MS = 7 * 864e5;
 function drawGet() { try { return JSON.parse(localStorage.getItem(DRAW_KEY) || '{}') || {}; } catch (e) { return {}; } }
 function drawSave(o) { try { localStorage.setItem(DRAW_KEY, JSON.stringify(o)); } catch (e) { } }
 
@@ -2699,47 +2700,72 @@ function ppBranchOf(q) {
     return cids.length ? String(cids[cids.length - 1]) : '';
 }
 
-/** 收集所有源的标记题，按题型分层。⚠️ 收藏横跨 4 个源（真题/核心题库/大观园习题/真题库），
- *  漏掉任何一源都会让部分收藏题永远抽不到。
- *  权重体系（2026-10-24 起，两段式）：
- *    sw = 状态权重（不会 5 / 不熟 3 / 仅收藏 1；已掌握排除）
- *    tf = 收藏时间系数（越早越高，1~3）
- *    「不会/不熟」层：ppSampleTiered 里**先抽完**（层内超配额时按 sw=5/3 加权），不吃时间系数；
- *    「仅收藏」层：剩余名额按 w = 1 × tf 抽（越早收藏越优先）。 */
-function ppBuildPool() {
+/** 遍历所有源，收集「可入池的标记题」并统计抽题进度（同一趟走完，避免两处过滤条件写歪）。
+ *  ⚠️ 收藏横跨 4 个源（真题/核心题库/大观园习题/真题库），漏掉任何一源都会让部分收藏题永远抽不到。
+ *  入池条件：已收藏 && 未掌握（sw>0）；同 qid 多来源只留第一条（先到先得，与历史行为一致）。
+ *  stats 供左栏计数器用：
+ *    unknown / unfamiliar / plain 各自的 all（总数）与 drawn（已抽过）；
+ *    noFav 记录「标了不熟/不会但没收藏」的题数 —— 这些题不进池，
+ *    必须在计数器里如实说明，否则会出现「分类树写着不会 40 题、计数器只剩 3 题」的困惑。 */
+function ppScanPool() {
     const fav = favGet() || {}, st = statusGet() || {}, dr = drawGet();
-    const now = Date.now();
     const seen = new Set();
-    const fresh = { '选择': [], '填空': [], '解答': [] };   // 7 天内没抽过
-    const old = { '选择': [], '填空': [], '解答': [] };     // 7 天内抽过（仅在凑不满时补位）
-    let relaxed = 0;
+    const items = [];
+    const stats = {
+        unknown: { all: 0, drawn: 0 }, unfamiliar: { all: 0, drawn: 0 }, plain: { all: 0, drawn: 0 },
+        noFav: { unknown: 0, unfamiliar: 0 },
+    };
     const push = (paper, secTitle, q) => {
         const qid = qidOf(paper.id, q.no);
         if (!qid || seen.has(qid)) return;          // 同题多来源只留一条
         seen.add(qid);
+        const s0 = st[qid] || null;
+        const rec0 = dr[qid] || {};
         // ⚠️ 严格只抽**收藏**的题（2026-10-14 定：某题型不够就缩水，不放宽到「有状态未收藏」）
-        if (!fav[qid]) return;
-        const zt = isZhentiOf(paper, q);             // 仅用于卷首统计，不参与权重
+        if (!fav[qid]) {
+            if (s0 === 'unknown') stats.noFav.unknown++;
+            else if (s0 === 'unfamiliar') stats.noFav.unfamiliar++;
+            return;
+        }
         const sw = ppWeight(qid, st, true);
         if (sw <= 0) return;                         // 已掌握 → 排除
-        const rec = dr[qid] || {};
-        const d = rec.d || 0, ld = rec.ld || 0;
-        const it = {
+        const d = rec0.d || 0, ld = rec0.ld || 0;
+        const slot = s0 === 'unknown' ? stats.unknown : s0 === 'unfamiliar' ? stats.unfamiliar : stats.plain;
+        slot.all++;
+        if (d > 0) slot.drawn++;
+        items.push({
             paper, secTitle, q, qid, sw, tf: 1, w: sw,
-            state: st[qid] || null, fav: true,
+            state: s0, fav: true,
             t: favTime(qid) || 0,
-            br: ppBranchOf(q), d, ld, zt,
-        };
-        const bucket = (ld && now - ld < PP_NO_REPEAT_MS) ? old : fresh;
-        if (bucket === old) relaxed++;
-        bucket[ppKindOf(secTitle, q)].push(it);
+            br: ppBranchOf(q), d, ld,
+            zt: isZhentiOf(paper, q),                // 仅用于卷首统计，不参与权重
+        });
     };
     for (const p of (examPapers || [])) for (const s2 of (p.sections || [])) for (const q of (s2.questions || [])) push(p, s2.title, q);
     for (const p of (corePapers || [])) for (const s2 of (p.sections || [])) for (const q of (s2.questions || [])) push(p, s2.title, q);
     for (const e of (bankItems || [])) push(e.paper, e.secTitle || '', e.q);
+    return { items, stats };
+}
 
-    // 收藏时间系数：按池内相对排名（最早 tf=3，最近 tf=1）；fresh + old 一起排名，保证稳定
-    const all = fresh['选择'].concat(fresh['填空'], fresh['解答'], old['选择'], old['填空'], old['解答']);
+/** 收集所有源的标记题，按题型分层。
+ *  ⚠️ 抽过的题**永久排除**（2026-11-03 用户改：原来是「7 天内不重复 + 凑不满按最久没抽放宽补位」，
+ *     现在抽过就不再抽，还剩多少由左栏计数器显式展示；要重新开始需点「清空抽题记录」）。
+ *  权重体系（2026-10-24 起，两段式）：
+ *    sw = 状态权重（不会 4 / 不熟 2 / 仅收藏 1；已掌握排除）
+ *    tf = 收藏时间系数（越早越高，1~3）
+ *    「不会/不熟」层：ppSampleTiered 里**先抽完**（层内超配额时按 4:2 加权），不吃时间系数；
+ *    「仅收藏」层：剩余名额按 w = 1 × tf 抽（越早收藏越优先）。 */
+function ppBuildPool() {
+    const { items, stats } = ppScanPool();
+    const fresh = { '选择': [], '填空': [], '解答': [] };   // 还没抽过
+    for (const it of items) {
+        if (it.d > 0) continue;                  // ★ 抽过 → 不再进池（含历史卷回填的记录）
+        it.tf = 1; it.w = it.sw;
+        fresh[ppKindOf(it.secTitle, it.q)].push(it);
+    }
+
+    // 收藏时间系数：按池内相对排名（最早 tf=3，最近 tf=1）
+    const all = fresh['选择'].concat(fresh['填空'], fresh['解答']);
     const ts = all.map(it => it.t).filter(t => t > 0).sort((a, b) => a - b);
     if (ts.length > 1) {
         for (const it of all) {
@@ -2753,7 +2779,7 @@ function ppBuildPool() {
             it.w = it.sw * it.tf;
         }
     }
-    return { fresh, old, relaxed };
+    return { fresh, stats };
 }
 
 /** 加权无放回抽 k 个。权重 = w × 软衰减 × 细分支惩罚
@@ -2785,22 +2811,15 @@ function ppPickWeighted(arr, k, ctx) {
 /** 两段式抽 k 个（题型内）：
  *  ① 首选段：**不会 ∪ 不熟**（不超配额就全部入卷，超出则按 4 : 2 加权随机）；
  *  ② 次选段：**仅收藏（无标记）**——只有在首选段凑不满配额时才轮到它，即「放最后」；
- *  ③ 仍不够 → 从「7 天内抽过」的题里按上次抽中时间升序补位（最久远的先补）。
+ *  ③ 抽过的题不再补位（2026-11-03）：池里没了就缩水，卷首与左栏计数器会说明原因。
  *  真题不参与分层、不加权（与普通题一致）。 */
 function ppSampleTiered(tiers, kind, k, ctx) {
     const arr = tiers.fresh[kind] || [];
-    const oldArr = (tiers.old[kind] || []).slice().sort((a, b) => (a.ld || 0) - (b.ld || 0));
     const isHot = it => it.state === 'unknown' || it.state === 'unfamiliar';
     const hot = arr.filter(isHot), warm = arr.filter(it => !isHot(it));
     const out = ppPickWeighted(hot, Math.min(k, hot.length), ctx);
     const rest = k - out.length;
     if (rest > 0) out.push(...ppPickWeighted(warm, rest, ctx));
-    const need = k - out.length;
-    if (need > 0) {
-        const extra = ppPickWeighted(oldArr, need, ctx);
-        for (const it of extra) it.relaxed = true;   // 标记：这道题是「7 天内抽过、被放宽补进来的」
-        out.push(...extra);
-    }
     return out;
 }
 
@@ -2826,7 +2845,7 @@ function ppAnScores(n, nChoiceFill, nTotal) {
 }
 
 /** 拼一份卷：按配额抽 → 20 次重抽里**取章节覆盖最多的一版**（用户要「知识点覆盖尽量广」，
- *  所以不再满足 5 章就早停）。返回 { items, chapters, pool, short, relaxed } */
+ *  所以不再满足 5 章就早停）。返回 { items, chapters, pool, short, stats } */
 function ppBuild(nTotal) {
     const N = nTotal || 22;
     const tiers = ppBuildPool();
@@ -2851,11 +2870,11 @@ function ppBuild(nTotal) {
         if (!picked.length) break;
         const chs = [];
         for (const it of picked) { const ch2 = ppChapterOf(it.q); if (ch2 && chs.indexOf(ch2) < 0) chs.push(ch2); }
-        const rec = { items: picked, chapters: chs, pool: tiers, short: false, relaxed: tiers.relaxed };
+        const rec = { items: picked, chapters: chs, pool: tiers, short: false, stats: tiers.stats };
         if (!best || chs.length > best.chapters.length) best = rec;
     }
     if (best) { best.short = best.items.length < N; return best; }
-    return { items: [], chapters: [], pool: tiers, short: true, relaxed: tiers.relaxed };
+    return { items: [], chapters: [], pool: tiers, short: true, stats: tiers.stats };
 }
 
 /** 卷面题是否真题：新卷直接带 zt；旧历史卷（存时还没有这个字段）按 qid 反查题目再判 */
@@ -2912,15 +2931,15 @@ function ppDel(id) {
     ppSide();
 }
 
-/** 清空「抽题记录」：软衰减次数与一周去重时间全部归零。
+/** 清空「抽题记录」：抽中次数与时间全部归零，于是所有标记题重新变成可抽。
  *  注意：删历史卷**不会**清这个（题已经抽给你看过了），要重置必须显式点这里。 */
 function ppClearDraw() {
     const n = Object.keys(drawGet()).length;
     if (!n) { alert('目前没有抽题记录。'); return; }
-    if (!confirm('清空抽题记录？\n\n· 共 ' + n + ' 道题的「抽中次数 / 上次抽中时间」会归零\n· 清空后所有收藏题都会重新变成可抽（包括 7 天内抽过的）\n· 历史卷本身、收藏、掌握度都不受影响')) return;
+    if (!confirm('清空抽题记录？\n\n· 共 ' + n + ' 道题的「已抽过」记录会清掉\n· 清空后这些题全部重新变成可抽（左栏计数器会同步归零）\n· 历史卷本身、收藏、掌握度都不受影响')) return;
     drawSave({});
     ppSide();
-    alert('已清空抽题记录（' + n + ' 道题）。');
+    alert('已清空抽题记录（' + n + ' 道题），这些题重新可抽。');
 }
 
 /* ---------- 拼卷：计时器（180 分钟，可暂停/继续/重置；到时只提醒不强制） ---------- */
@@ -2974,11 +2993,40 @@ function ppFmtTs(ts) {
     const p = n => (n < 10 ? '0' : '') + n;
     return p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
 }
+/* ---------- 拼卷：左栏「抽题进度」计数器 ----------
+ * 抽过的题不再重复（2026-11-03），所以「还剩多少」直接决定还能拼几张卷。
+ * 只统计**能入池**的题（已收藏 && 未掌握），与 ppScanPool 同一套过滤条件；
+ * 标了不熟/不会却没收藏的题不进池，单独用小字提示，避免与分类树的数字打架。 */
+function ppProgHtml() {
+    const { stats } = ppScanPool();
+    const rows = [
+        ['不会', stats.unknown],
+        ['不熟', stats.unfamiliar],
+        ['仅收藏', stats.plain],
+    ];
+    const restOf = x => Math.max(0, x.all - x.drawn);
+    const tot = rows.reduce((a, r) => a + r[1].all, 0);
+    const rest = rows.reduce((a, r) => a + restOf(r[1]), 0);
+    const pct = tot ? Math.round((tot - rest) * 100 / tot) : 0;
+    const noFav = (stats.noFav.unknown || 0) + (stats.noFav.unfamiliar || 0);
+    let h = `<div class="pp-prog${rest ? '' : ' empty'}" title="抽过的题不再重复抽取；要重新开始点底部「清空抽题记录」">
+        <div class="pp-pg-top"><span>抽题进度</span><span class="pp-pg-rest">剩 <b>${rest}</b> 题</span></div>
+        <div class="pp-pg-bar"><i style="width:${pct}%"></i></div>
+        <div class="pp-pg-grid pp-pg-head"><span></span><span>已抽</span><span>未抽</span></div>`;
+    for (const [lab, x] of rows) {
+        h += `<div class="pp-pg-grid"><span class="pp-pg-lab">${lab}</span><span class="pp-pg-n">${x.drawn}</span><span class="pp-pg-n rest">${restOf(x)}</span></div>`;
+    }
+    if (noFav) h += `<div class="pp-pg-note">另有 ${noFav} 题标了不熟/不会但未收藏，不参与抽题</div>`;
+    if (!rest) h += `<div class="pp-pg-note warn">标记的题已抽完，点下方「清空抽题记录」可重新开始</div>`;
+    return h + `</div>`;
+}
+
 function ppSide() {
     const box = document.getElementById('paperList');
     if (!box) return;
     const list = ppListGet();
     let html = `<button class="pp-new" onclick="ppAskNew()">🎲 重新拼卷</button>`;
+    html += ppProgHtml();
     if (!list.length) {
         html += `<div class="pp-empty">还没有拼过卷。</div>`;
     } else {
@@ -2988,7 +3036,7 @@ function ppSide() {
         </div>`).join('');
     }
     const nd = Object.keys(drawGet()).length;
-    html += `<button class="pp-clear-draw" onclick="ppClearDraw()" title="清空「哪些题最近被抽过」的记录，让所有收藏题重新可抽">🧹 清空抽题记录${nd ? '（' + nd + ' 题）' : ''}</button>`;
+    html += `<button class="pp-clear-draw" onclick="ppClearDraw()" title="清空「哪些题已经抽过」的记录，让这些题重新变成可抽">🧹 清空抽题记录${nd ? '（' + nd + ' 题）' : ''}</button>`;
     box.innerHTML = html;
 }
 
@@ -3010,6 +3058,17 @@ function ppAfterRender(root) {
         }
     });
     root.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+}
+
+/** 卷子缩水的原因：抽过的题不再重复，所以「不够」往往是「已经抽完了」 */
+function ppShortWhy(cur, wantN) {
+    if (cur && cur.supply != null) {
+        if (cur.supply <= (cur.items || []).length) {
+            return `可抽的标记题只剩 ${cur.supply} 题，已全部入卷（抽过的题不再重复；点左栏底部「清空抽题记录」可重新开始）`;
+        }
+        return `可抽的标记题只剩 ${cur.supply} 题，不够 ${wantN} 题；多收藏一些题就能凑齐`;
+    }
+    return `标记的题不够凑满 ${wantN} 题；多收藏一些题就能凑齐`;
 }
 
 let _ppNeedRepaint = false;
@@ -3049,8 +3108,8 @@ function ppRender() {
             </div>
         </div>
         <div class="pp-banner" id="ppBanner" hidden></div>
-        ${items.length < wantN ? `<div class="pp-short">⚠️ 本卷只有 ${items.length} 题（标记的题不够凑满 ${wantN} 题；多收藏一些题就能凑齐）</div>` : ''}
-        ${(ppCur.relaxed || 0) > 0 ? `<div class="pp-short">⚠️ 其中 ${ppCur.relaxed} 题是 7 天内抽过的（可抽的收藏题不够，已按「最久没抽」放宽补位）</div>` : ''}
+        ${items.length < wantN ? `<div class="pp-short">⚠️ 本卷只有 ${items.length} 题：${ppShortWhy(ppCur, wantN)}</div>` : ''}
+        ${(ppCur.relaxed || 0) > 0 ? `<div class="pp-short">⚠️ 其中 ${ppCur.relaxed} 题是旧规则下「7 天内抽过、放宽补位」进来的（现在抽过就不再重复）</div>` : ''}
         ${items.length ? `<div class="pp-stat">🎯 真题 ${items.filter(it => ppZtOf(it)).length} / ${items.length} 题</div>` : ''}
     </div>`;
     let n = 0;
@@ -3095,7 +3154,8 @@ function ppAskNew() {
         m.innerHTML = `<div class="pp-modal-mask" onclick="ppCloseAsk()"></div>
           <div class="pp-modal-box" role="dialog" aria-modal="true">
             <div class="pp-modal-t">🎲 重新拼卷</div>
-            <div class="pp-modal-sub">从你收藏的题里抽：不会 / 不熟优先，7 天内抽过的不重复，同一细分支尽量不重复。</div>
+            <div class="pp-modal-sub" id="ppModalSub">从你收藏的题里抽：不会 / 不熟优先；**抽过的题不再重复**，同一细分支尽量不重复。</div>
+            <div class="pp-modal-warn" id="ppModalWarn" hidden></div>
             <div class="pp-modal-lab">题量（最少 ${PP_N_MIN} 题）</div>
             <div class="pp-modal-n">
               ${PP_N_PRESETS.map(v => `<button type="button" class="pp-nbtn" data-n="${v}" onclick="ppPickN(${v})">${v} 题</button>`).join('')}
@@ -3113,6 +3173,25 @@ function ppAskNew() {
     const inp = document.getElementById('ppNInput');
     if (inp) inp.value = ppN;
     ppSyncNBtns();
+    ppPaintModalSupply();
+}
+
+/** 悬浮窗里回显「还剩多少可抽」，题量超过存量时当场警告（抽过的题不再重复，很容易抽干） */
+function ppPaintModalSupply() {
+    const sub = document.getElementById('ppModalSub'), warn = document.getElementById('ppModalWarn');
+    if (!sub) return;
+    const { stats } = ppScanPool();
+    const restOf = x => Math.max(0, x.all - x.drawn);
+    const ru = restOf(stats.unknown), rf = restOf(stats.unfamiliar), rp = restOf(stats.plain);
+    const rest = ru + rf + rp;
+    sub.innerHTML = `从你收藏的题里抽：不会 / 不熟优先；<b>抽过的题不再重复</b>，同一细分支尽量不重复。<br>
+        <span class="pp-modal-cnt">当前可抽 <b>${rest}</b> 题（不会剩 ${ru} · 不熟剩 ${rf} · 仅收藏剩 ${rp}）</span>`;
+    if (warn) {
+        warn.hidden = !(ppN > rest);
+        warn.textContent = ppN > rest
+            ? `可抽的题只剩 ${rest} 题，不够 ${ppN} 题——卷子会缩水到 ${rest} 题。想抽更多请先回去收藏 / 标记，或点左栏「清空抽题记录」。`
+            : '';
+    }
 }
 function ppCloseAsk() { const m = document.getElementById('ppModal'); if (m) m.hidden = true; }
 function ppSyncNBtns() {
@@ -3122,6 +3201,7 @@ function ppPickN(v, fromInput) {
     ppN = ppClampN(v);
     if (fromInput) { const inp = document.getElementById('ppNInput'); if (inp && +inp.value !== ppN) inp.value = ppN; }
     ppSyncNBtns();
+    ppPaintModalSupply();      // 题量一变，跟「还剩多少可抽」重新对一次
 }
 async function ppDoNew() {
     ppSetN(ppN); ppCloseAsk();
@@ -3139,14 +3219,20 @@ async function ppDoNew() {
 function ppNew() {
     const rec = ppBuild(ppN);
     const el = document.getElementById('catMain');
+    const s = rec.stats || { unknown: { all: 0, drawn: 0 }, unfamiliar: { all: 0, drawn: 0 }, plain: { all: 0, drawn: 0 } };
+    const totAll = s.unknown.all + s.unfamiliar.all + s.plain.all;
+    const supply = totAll - (s.unknown.drawn + s.unfamiliar.drawn + s.plain.drawn);   // 本卷可用的题量（抽过的不再进池）
     if (!rec.items.length) {
-        if (el) el.innerHTML = `<div class="cat-empty">没有可抽的题。<br>请先到分类页 / 真题页给题目点「☆ 收藏」或标「不熟 / 不会」，再回来拼卷。</div>`;
+        // 区分两种「没得抽」：真没收藏 vs 收藏的都抽过了（后者直接给出清空入口）
+        if (el) el.innerHTML = totAll
+            ? `<div class="cat-empty">可抽的 ${totAll} 道题已经全部抽过了。<br>要重新抽一遍，点左栏底部「🧹 清空抽题记录」；想换新题就先回去收藏 / 标记。</div>`
+            : `<div class="cat-empty">没有可抽的题。<br>请先到分类页 / 真题页给题目点「☆ 收藏」或标「不熟 / 不会」，再回来拼卷。</div>`;
+        ppSide();
         return;
     }
     ppCur = {
         id: String(Date.now()), ts: Date.now(), left: PP_SECS, running: false, done: false,
-        chapters: rec.chapters || [], n: ppN,
-        relaxed: rec.items.filter(it => it.relaxed).length,
+        chapters: rec.chapters || [], n: ppN, supply,
         items: rec.items.map(it => ({ qid: it.qid, kind: it.kind, score: it.score, state: it.state || null, zt: !!it.zt })),
     };
     // 记「被抽中」：次数 +1、时间刷新（供软衰减与一周去重使用）
@@ -3205,7 +3291,9 @@ function ppBackfillDraw() {
 /** 拼卷模式初始化：顶栏改文案、隐藏分类专属控件、左栏换成历史拼卷列表 */
 function ppApplyMode() {
     if (!PAPER_MODE) return;
-    loadExamSources();          // 拼卷池要用真题/大观园题，先预热（不阻塞界面）
+    // 拼卷池要用真题/大观园题，先预热（不阻塞界面）；数据到齐后再刷一次左栏计数器，
+    // 否则首屏算的是「只有核心题库」的存量，数字会偏小。
+    loadExamSources().then(() => { if (PAPER_MODE) ppSide(); });
     ppBackfillDraw();
     document.body.classList.add('paper-mode');
     const t = document.querySelector('.exam-title');
@@ -3213,7 +3301,7 @@ function ppApplyMode() {
     document.title = '🎲 拼卷 · 随机收藏题';
     const sub = document.getElementById('examSub');
     if (sub) {
-        sub.textContent = '从收藏的题里拼一份卷（22 题起，可加量）· 不会 / 不熟优先 · 7 天内抽过的不重复';
+        sub.textContent = '从收藏的题里拼一份卷（22 题起，可加量）· 不会 / 不熟优先 · 抽过的题不再重复（存量见左栏）';
         sub.hidden = false;
     }
     ['srcToggle', 'unmarkedFirst', 'yearSortBtn'].forEach(id => {

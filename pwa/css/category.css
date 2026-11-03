@@ -647,6 +647,39 @@ body.paper-mode #catMain { max-width: 900px; }
     background: rgba(var(--pp-rgb), .12); border: 1px solid rgba(var(--pp-rgb), .30); color: var(--accent);
 }
 .pp-new:hover { background: rgba(var(--pp-rgb), .20); }
+
+/* 左栏「抽题进度」计数器（2026-11-03）：不会 / 不熟 / 仅收藏 各「已抽 / 未抽」
+   抽过的题不再重复，所以这块直接决定还能拼几张卷 —— 放左栏最上，不开卷也能看。 */
+.pp-prog {
+    margin: 0 0 10px; padding: 8px 9px 7px; border-radius: 9px;
+    background: rgba(var(--pp-rgb), .07);
+    border: 1px solid rgba(var(--pp-rgb), .20);
+}
+.pp-prog.empty { background: rgba(234, 88, 12, .08); border-color: rgba(234, 88, 12, .28); }
+.pp-pg-top {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 6px;
+    font-size: 12px; color: var(--text-dim); margin-bottom: 6px;
+}
+.pp-pg-rest { font-size: 11.5px; color: var(--text-faint); white-space: nowrap; }
+.pp-pg-rest b { font-size: 14px; color: var(--accent); font-variant-numeric: tabular-nums; margin: 0 1px; }
+.pp-prog.empty .pp-pg-rest b { color: #b45309; }
+.pp-pg-bar {
+    height: 4px; border-radius: 3px; overflow: hidden; margin-bottom: 6px;
+    background: rgba(var(--pp-rgb), .16);
+}
+.pp-pg-bar i { display: block; height: 100%; border-radius: 3px; background: rgba(var(--pp-rgb), .72); transition: width .2s; }
+.pp-pg-grid {
+    display: grid; grid-template-columns: 1fr 24px 24px; align-items: center; gap: 3px;
+    font-size: 12px; line-height: 1.85;
+}
+.pp-pg-head { font-size: 11px; color: var(--text-faint); line-height: 1.4; margin-bottom: 1px; }
+.pp-pg-grid > span:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.pp-pg-lab { color: var(--text-dim); }
+.pp-pg-n { color: var(--text-faint); }                    /* 已抽：弱化 */
+.pp-pg-n.rest { color: var(--text); font-weight: 600; }   /* 未抽：强调 */
+.pp-pg-note { margin-top: 5px; font-size: 11px; line-height: 1.5; color: var(--text-faint); }
+.pp-pg-note.warn { color: #b45309; }
+.dark .pp-pg-note.warn, .dark .pp-prog.empty .pp-pg-rest b { color: #fab387; }
 .pp-empty { font-size: 12.5px; color: var(--text-faint); padding: 10px 4px; }
 .pp-row {
     display: flex; align-items: center; gap: 4px; margin-bottom: 2px;
@@ -708,7 +741,7 @@ body.paper-mode #catMain { max-width: 900px; }
 }
 .pp-nsel select {
     padding: 4px 6px; border-radius: 7px; font-size: 12.5px; cursor: pointer;
-    border: 1px solid var(--border); background: var(--bg-card, #fff); color: var(--text);
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
 }
 .pp-nsel select:hover { border-color: var(--accent); }
 .pp-clear-draw {
@@ -724,12 +757,23 @@ body.paper-mode #catMain { max-width: 900px; }
 .pp-modal-mask { position: absolute; inset: 0; background: rgba(0, 0, 0, .42); backdrop-filter: blur(1.5px); }
 .pp-modal-box {
     position: relative; width: min(420px, calc(100vw - 40px));
-    background: var(--bg-card, #fff); color: var(--text);
+    background: var(--bg-side); color: var(--text);
     border: 1px solid var(--border); border-radius: 14px;
     padding: 20px 22px 18px; box-shadow: 0 18px 60px rgba(0, 0, 0, .28);
 }
 .pp-modal-t { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
 .pp-modal-sub { font-size: 12.5px; line-height: 1.6; color: var(--text-dim); margin-bottom: 16px; }
+.pp-modal-sub b { color: var(--text); }
+.pp-modal-cnt { display: inline-block; margin-top: 5px; color: var(--text-dim); }
+.pp-modal-cnt b { color: var(--accent); font-variant-numeric: tabular-nums; }
+/* 存量不足的当场警告（抽过的题不再重复 → 很容易抽干） */
+.pp-modal-warn {
+    margin: -8px 0 14px; padding: 7px 10px; border-radius: 8px;
+    font-size: 12px; line-height: 1.55;
+    background: rgba(234, 88, 12, .10); border: 1px solid rgba(234, 88, 12, .28); color: #b45309;
+}
+.pp-modal-warn[hidden] { display: none; }
+.dark .pp-modal-warn { color: #fab387; }
 .pp-modal-lab { font-size: 12.5px; color: var(--text-dim); margin-bottom: 8px; }
 .pp-modal-n { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .pp-nbtn {
@@ -740,7 +784,7 @@ body.paper-mode #catMain { max-width: 900px; }
 .pp-nbtn.on { border-color: var(--accent); background: rgba(var(--pp-rgb, 74, 111, 217), .14); color: var(--accent); font-weight: 700; }
 .pp-ninput {
     width: 76px; padding: 7px 9px; font-size: 13px; border-radius: 9px;
-    border: 1px solid var(--border); background: var(--bg-card, #fff); color: var(--text);
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
 }
 .pp-ninput:focus { outline: none; border-color: var(--accent); }
 .pp-modal-act { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
