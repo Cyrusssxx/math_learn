@@ -7086,7 +7086,7 @@
       "no": 149,
       "kind": "choice",
       "type": "choice",
-      "stem": "5. 设函数 $y=f(x)$ 由 $\\begin{cases} x=2t+|t|,\\\\ y=|t|\\sin t \\end{cases}$ 确定，则（  ）．",
+      "stem": "设函数 $y=f(x)$ 由 $\\begin{cases} x=2t+|t|,\\\\ y=|t|\\sin t \\end{cases}$ 确定，则（  ）．",
       "options": [
        "$f(x)$ 连续，$f'(0)$ 不存在",
        "$f'(0)$ 存在，$f'(x)$ 在 $x=0$ 处不连续",
@@ -7102,7 +7102,7 @@
       "deepCats": [
        "405"
       ],
-      "source": "(a,b,a,d,b,c,a)2023数一二",
+      "source": "2023数一二（数二第5题）",
       "srcPage": 37,
       "srcOrder": 4,
       "status": "transcribed",
