@@ -48,7 +48,7 @@ function makeDoc() {
 }
 
 /** 在 vm 里跑 category.js + 测试片段；seed 会被注入为 __seed（JSON 字符串） */
-function run(testCode, seed) {
+function run(testCode, seed, withDaily) {
     const sandbox = {
         console, setTimeout, clearTimeout, setInterval, clearInterval,
         URLSearchParams, JSON, Math, Date, Set, Map, Array, Object, String, Number, Boolean, RegExp, isNaN, parseInt, parseFloat,
@@ -70,7 +70,11 @@ function run(testCode, seed) {
     sandbox.scrollTo = noop;
     sandbox.addEventListener = noop;
     vm.createContext(sandbox);
-    vm.runInContext(BODY + '\n' + testCode, sandbox, { filename: 'category.js' });
+    // common.js 的 dailyGet：测试环境不加载 common.js，按需注入一份等价实现
+    const DAILY_STUB = withDaily
+        ? "function dailyGet(){try{return JSON.parse(localStorage.getItem('dailyMarks')||'{}');}catch(e){return {};}}\n"
+        : '';
+    vm.runInContext(DAILY_STUB + BODY + '\n' + testCode, sandbox, { filename: 'category.js' });
     return sandbox;
 }
 
@@ -204,6 +208,91 @@ ok('计数器：不会 已抽 1 / 未抽 1',
     /<span class="pp-pg-lab">不会<\/span><span class="pp-pg-n">1<\/span><span class="pp-pg-n rest">1<\/span>/.test(html), html);
 ok('计数器：总计「剩 4 题」', /剩 <b>4<\/b>/.test(html), html);
 ok('计数器：含进度条', /pp-pg-bar"><i style="width:20%"><\/i>/.test(html), html);
+
+
+/* ================= 场景 3：按「多久没做」排序（2026-11-04 新规则） ================= */
+function dayKey(daysAgo) {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() - daysAgo);
+    const p = n => String(n).padStart(2, '0');
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+}
+// 40 道选择题：1-10 号 30 天前动过、11-20 号 10 天前、21-30 号今天、31-40 号从没动过
+const kinds40 = new Array(40).fill('选择');
+const fav40 = {};
+for (let i = 1; i <= 40; i++) fav40['P1-' + i] = { t: 1000 + i };   // 收藏时间：越靠后越晚（旧逻辑会偏爱前面的）
+const seedAge = { papers: [mkPaper('P1', kinds40)], fav: fav40, st: {}, d30: dayKey(30), d10: dayKey(10), d0: dayKey(0) };
+
+const TEST_AGE = `
+;(function () {
+    examPapers = JSON.parse(__seed).papers;
+    corePapers = []; bankItems = [];
+    localStorage.setItem('examFav', JSON.stringify(JSON.parse(__seed).fav));
+    // 只有 1-30 号有「动过」记录，31-40 号从没动过
+    const s = JSON.parse(__seed);
+    const dm = {};
+    dm[s.d30] = {}; dm[s.d10] = {}; dm[s.d0] = {};
+    for (let i = 1; i <= 10; i++) dm[s.d30]['P1-' + i] = 'unfamiliar';
+    for (let i = 11; i <= 20; i++) dm[s.d10]['P1-' + i] = 'unfamiliar';
+    for (let i = 21; i <= 30; i++) dm[s.d0]['P1-' + i] = 'unfamiliar';
+    localStorage.setItem('dailyMarks', JSON.stringify(dm));
+
+    const tiers = ppBuildPool();
+    const picked = ppSampleTiered(tiers, '选择', 22, { br: {} });
+    window.__age1 = {
+        n: picked.length,
+        前10天档: picked.slice(0, 10).map(it => it.ageDays),
+        中10天档: picked.slice(10, 20).map(it => it.ageDays),
+        后2天档: picked.slice(20).map(it => it.ageDays),
+        有没有没动过的: picked.filter(it => it.ageDays < 0).length,
+    };
+    // 全池 40 题里各档的数量
+    window.__age2 = {
+        d30: tiers.fresh['选择'].filter(it => it.ageDays === 30).length,
+        d10: tiers.fresh['选择'].filter(it => it.ageDays === 10).length,
+        d0: tiers.fresh['选择'].filter(it => it.ageDays === 0).length,
+        never: tiers.fresh['选择'].filter(it => it.ageDays < 0).length,
+    };
+    // 旧字段 tf 应已删除
+    window.__age3 = { hasTf: 'tf' in tiers.fresh['选择'][0], w等于sw: tiers.fresh['选择'].every(it => it.w === it.sw) };
+})();
+`;
+const sbAge = run(TEST_AGE, seedAge, true);
+const a1 = sbAge.__age1, a2 = sbAge.__age2, a3 = sbAge.__age3;
+
+eq('时间档：池内 30 天档 10 题', a2.d30, 10);
+eq('时间档：池内 10 天档 10 题', a2.d10, 10);
+eq('时间档：池内 今天档 10 题', a2.d0, 10);
+eq('时间档：池内 无记录 10 题', a2.never, 10);
+eq('时间优先：抽 22 题', a1.n, 22);
+ok('时间优先：前 10 题全是 30 天前的', a1.前10天档.every(d => d === 30), JSON.stringify(a1.前10天档));
+ok('时间优先：接着 10 题是 10 天前的', a1.中10天档.every(d => d === 10), JSON.stringify(a1.中10天档));
+ok('时间优先：最后 2 题才轮到今天的', a1.后2天档.every(d => d === 0), JSON.stringify(a1.后2天档));
+eq('时间优先：从没动过的排最后，一个没抽到', a1.有没有没动过的, 0);
+eq('旧字段 tf 已删除', a3.hasTf, false);
+eq('权重 w = 状态权重 sw', a3.w等于sw, true);
+
+/* ---- 场景 3b：旧题不够时才轮到「从没动过」 ---- */
+const seedMix = { papers: [mkPaper('P1', new Array(10).fill('选择'))], fav: (() => { const f = {}; for (let i = 1; i <= 10; i++) f['P1-' + i] = { t: 1000 + i }; return f; })(), st: {}, d40: dayKey(40) };
+const TEST_MIX = `
+;(function () {
+    examPapers = JSON.parse(__seed).papers;
+    corePapers = []; bankItems = [];
+    localStorage.setItem('examFav', JSON.stringify(JSON.parse(__seed).fav));
+    const s = JSON.parse(__seed);
+    const dm = {}; dm[s.d40] = {};
+    for (let i = 1; i <= 5; i++) dm[s.d40]['P1-' + i] = 'unknown';   // 只有 1-5 号动过
+    localStorage.setItem('dailyMarks', JSON.stringify(dm));
+    const tiers = ppBuildPool();
+    const picked = ppSampleTiered(tiers, '选择', 6, { br: {} });
+    window.__mix = { ages: picked.map(it => it.ageDays), n: picked.length };
+})();
+`;
+const mix = run(TEST_MIX, seedMix, true).__mix;
+eq('混合池：抽 6 题', mix.n, 6);
+ok('混合池：先抽 5 道 40 天前的', mix.ages.slice(0, 5).every(d => d === 40), JSON.stringify(mix.ages));
+ok('混合池：第 6 题才是从没动过的', mix.ages[5] === -1, JSON.stringify(mix.ages));
 
 console.log(`\n通过 ${pass} 项，失败 ${fail} 项`);
 process.exit(fail ? 1 : 0);

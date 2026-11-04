@@ -2700,6 +2700,23 @@ function ppBranchOf(q) {
     return cids.length ? String(cids[cids.length - 1]) : '';
 }
 
+/** qid → 最后一次「动过」那天 0 点的时间戳。
+ *  数据源是 dailyMarks（common.js 的 markDaily：标记 不熟/不会、收藏/取消收藏 都会记一笔），
+ *  精度到「天」，够用来排「多久没做」。只保留最近 120 天，超出窗口的题会变成「无记录」。
+ *  ⚠️ 不做缓存：拼卷页自己也能改标记（题卡上的按钮），缓存会立刻过期。 */
+function ppLastDoMap() {
+    const map = {};
+    let d = {};
+    try { d = (typeof dailyGet === 'function') ? (dailyGet() || {}) : {}; } catch (e) { d = {}; }
+    for (const day of Object.keys(d).sort()) {      // 日期键按字符串排序即时间序，后写的覆盖前面的
+        const t = new Date(day + 'T00:00:00').getTime();
+        if (!(t > 0)) continue;
+        const rec = d[day] || {};
+        for (const qid in rec) map[qid] = t;
+    }
+    return map;
+}
+
 /** 遍历所有源，收集「可入池的标记题」并统计抽题进度（同一趟走完，避免两处过滤条件写歪）。
  *  ⚠️ 收藏横跨 4 个源（真题/核心题库/大观园习题/真题库），漏掉任何一源都会让部分收藏题永远抽不到。
  *  入池条件：已收藏 && 未掌握（sw>0）；同 qid 多来源只留第一条（先到先得，与历史行为一致）。
@@ -2709,6 +2726,8 @@ function ppBranchOf(q) {
  *    必须在计数器里如实说明，否则会出现「分类树写着不会 40 题、计数器只剩 3 题」的困惑。 */
 function ppScanPool() {
     const fav = favGet() || {}, st = statusGet() || {}, dr = drawGet();
+    const lastDo = ppLastDoMap();                     // 上次动过（标记/收藏）的那天
+    const now = Date.now();
     const seen = new Set();
     const items = [];
     const stats = {
@@ -2733,10 +2752,12 @@ function ppScanPool() {
         const slot = s0 === 'unknown' ? stats.unknown : s0 === 'unfamiliar' ? stats.unfamiliar : stats.plain;
         slot.all++;
         if (d > 0) slot.drawn++;
+        const doAt = lastDo[qid] || 0;               // 0 = 从没动过
         items.push({
-            paper, secTitle, q, qid, sw, tf: 1, w: sw,
+            paper, secTitle, q, qid, sw, w: sw,
             state: s0, fav: true,
-            t: favTime(qid) || 0,
+            doAt,                                    // 上次动过的时间戳（0 = 无记录）
+            ageDays: doAt ? Math.max(0, Math.floor((now - doAt) / 864e5)) : -1,
             br: ppBranchOf(q), d, ld,
             zt: isZhentiOf(paper, q),                // 仅用于卷首统计，不参与权重
         });
@@ -2750,34 +2771,19 @@ function ppScanPool() {
 /** 收集所有源的标记题，按题型分层。
  *  ⚠️ 抽过的题**永久排除**（2026-11-03 用户改：原来是「7 天内不重复 + 凑不满按最久没抽放宽补位」，
  *     现在抽过就不再抽，还剩多少由左栏计数器显式展示；要重新开始需点「清空抽题记录」）。
- *  权重体系（2026-10-24 起，两段式）：
- *    sw = 状态权重（不会 4 / 不熟 2 / 仅收藏 1；已掌握排除）
- *    tf = 收藏时间系数（越早越高，1~3）
- *    「不会/不熟」层：ppSampleTiered 里**先抽完**（层内超配额时按 4:2 加权），不吃时间系数；
- *    「仅收藏」层：剩余名额按 w = 1 × tf 抽（越早收藏越优先）。 */
+ *  排序维度（2026-11-04 用户改，只有两个）：
+ *    ① 主序 = **多久没做**：按 ageDays（距上次动过的天数）7 天分档，从最旧档抽起，
+ *       「从没动过」的题（ageDays = -1）垫底 —— 用户明确要求「先做很久之前做过的」；
+ *    ② 次序 = 状态权重 sw（不会 4 / 不熟 2 / 仅收藏 1；已掌握排除），只负责同一档内谁优先。
+ *  旧的「收藏时间系数 tf(1~3)」已删：收藏时间跟复习节奏无关（很早收藏、昨天刚做过的题不该被优先），
+ *  真正该用的是 dailyMarks 里的「上次动过」。 */
 function ppBuildPool() {
     const { items, stats } = ppScanPool();
     const fresh = { '选择': [], '填空': [], '解答': [] };   // 还没抽过
     for (const it of items) {
         if (it.d > 0) continue;                  // ★ 抽过 → 不再进池（含历史卷回填的记录）
-        it.tf = 1; it.w = it.sw;
+        it.w = it.sw;
         fresh[ppKindOf(it.secTitle, it.q)].push(it);
-    }
-
-    // 收藏时间系数：按池内相对排名（最早 tf=3，最近 tf=1）
-    const all = fresh['选择'].concat(fresh['填空'], fresh['解答']);
-    const ts = all.map(it => it.t).filter(t => t > 0).sort((a, b) => a - b);
-    if (ts.length > 1) {
-        for (const it of all) {
-            let rank = 0;
-            if (it.t > 0) {
-                let lo = 0, hi = ts.length - 1;
-                while (lo < hi) { const m = (lo + hi) >> 1; if (ts[m] < it.t) lo = m + 1; else hi = m; }
-                rank = lo / (ts.length - 1);
-            }
-            it.tf = 1 + 2 * (1 - rank);
-            it.w = it.sw * it.tf;
-        }
     }
     return { fresh, stats };
 }
@@ -2808,18 +2814,35 @@ function ppPickWeighted(arr, k, ctx) {
     return out;
 }
 
-/** 两段式抽 k 个（题型内）：
- *  ① 首选段：**不会 ∪ 不熟**（不超配额就全部入卷，超出则按 4 : 2 加权随机）；
- *  ② 次选段：**仅收藏（无标记）**——只有在首选段凑不满配额时才轮到它，即「放最后」；
- *  ③ 抽过的题不再补位（2026-11-03）：池里没了就缩水，卷首与左栏计数器会说明原因。
+/** 时间优先抽样（题型内抽 k 个）：
+ *  ① 先按「距上次动过」7 天分档（AGE_BUCKET_DAYS），**从最旧档开始**逐档抽，抽满 k 为止；
+ *     从没动过的题（ageDays = -1）一律垫底，只在有记录的题都抽完了才轮到；
+ *  ② 同一档内两段式：先「不会 ∪ 不熟」（按 4 : 2 加权），不够才用「仅收藏」补（权重 1）；
+ *  ③ 档内权重随机仍在，所以「20 次重抽取章节覆盖最多」依然有效 —— 只是候选都被锁在同一时间档里。
  *  真题不参与分层、不加权（与普通题一致）。 */
+const AGE_BUCKET_DAYS = 7;      // 时间档宽度（天）：档越粗越稳定，越细越严格「按天排」
 function ppSampleTiered(tiers, kind, k, ctx) {
     const arr = tiers.fresh[kind] || [];
+    if (!arr.length || k <= 0) return [];
+    const buckets = new Map();
+    for (const it of arr) {
+        const b = (it.ageDays == null || it.ageDays < 0) ? -1 : Math.floor(it.ageDays / AGE_BUCKET_DAYS);
+        if (!buckets.has(b)) buckets.set(b, []);
+        buckets.get(b).push(it);
+    }
+    // 档位从旧到新；-1（从没动过）永远最后
+    const keys = [...buckets.keys()].sort((a, b) => (a === -1 ? 1 : b === -1 ? -1 : b - a));
     const isHot = it => it.state === 'unknown' || it.state === 'unfamiliar';
-    const hot = arr.filter(isHot), warm = arr.filter(it => !isHot(it));
-    const out = ppPickWeighted(hot, Math.min(k, hot.length), ctx);
-    const rest = k - out.length;
-    if (rest > 0) out.push(...ppPickWeighted(warm, rest, ctx));
+    const out = [];
+    for (const key of keys) {
+        let left = k - out.length;
+        if (left <= 0) break;
+        const list = buckets.get(key);
+        const hot = list.filter(isHot), warm = list.filter(it => !isHot(it));
+        out.push(...ppPickWeighted(hot, Math.min(left, hot.length), ctx));
+        left = k - out.length;
+        if (left > 0) out.push(...ppPickWeighted(warm, left, ctx));
+    }
     return out;
 }
 
@@ -3096,9 +3119,13 @@ function ppRender() {
     const wantN = ppCur.n || ppN;
     const [wCh, wFi] = ppSplitN(wantN);
     const fillNote = (nChoice < wCh) ? `｜选择题不足，已用填空题补足 ${wCh + wFi} 个选填位` : '';
+    // 本卷的「多久没做」快照（新卷才有；历史卷没有这个字段就不显示）
+    const ageNote = (ppCur.ageAvg != null)
+        ? `｜平均 ${ppCur.ageAvg} 天没做（最久 ${ppCur.ageMax} 天）${ppCur.ageNoRec ? ' · ' + ppCur.ageNoRec + ' 题从没动过' : ''}`
+        : '';
     let html = `<div class="paper-head">
         <h1>🎲 拼卷 · ${ppFmtTs(ppCur.ts)}</h1>
-        <div class="paper-sub">共 ${items.length} 题 · ${total} 分｜${c.unknown} 不会 · ${c.unfamiliar} 不熟 · ${c.plain} 仅收藏${nCh ? '｜覆盖 ' + nCh + ' 章' : ''}${fillNote}</div>
+        <div class="paper-sub">共 ${items.length} 题 · ${total} 分｜${c.unknown} 不会 · ${c.unfamiliar} 不熟 · ${c.plain} 仅收藏${nCh ? '｜覆盖 ' + nCh + ' 章' : ''}${fillNote}${ageNote}</div>
         <div class="pp-bar">
             <button class="exam-btn" onclick="ppAskNew()" title="选题量后重新抽一份">🎲 重新拼卷</button>
             <div class="pp-timer">
@@ -3154,7 +3181,7 @@ function ppAskNew() {
         m.innerHTML = `<div class="pp-modal-mask" onclick="ppCloseAsk()"></div>
           <div class="pp-modal-box" role="dialog" aria-modal="true">
             <div class="pp-modal-t">🎲 重新拼卷</div>
-            <div class="pp-modal-sub" id="ppModalSub">从你收藏的题里抽：不会 / 不熟优先；**抽过的题不再重复**，同一细分支尽量不重复。</div>
+            <div class="pp-modal-sub" id="ppModalSub">从你收藏的题里抽：**最久没做的先抽**（从没动过的垫底），同一档内不会 / 不熟优先；**抽过的题不再重复**。</div>
             <div class="pp-modal-warn" id="ppModalWarn" hidden></div>
             <div class="pp-modal-lab">题量（最少 ${PP_N_MIN} 题）</div>
             <div class="pp-modal-n">
@@ -3184,7 +3211,7 @@ function ppPaintModalSupply() {
     const restOf = x => Math.max(0, x.all - x.drawn);
     const ru = restOf(stats.unknown), rf = restOf(stats.unfamiliar), rp = restOf(stats.plain);
     const rest = ru + rf + rp;
-    sub.innerHTML = `从你收藏的题里抽：不会 / 不熟优先；<b>抽过的题不再重复</b>，同一细分支尽量不重复。<br>
+    sub.innerHTML = `从你收藏的题里抽：<b>最久没做的先抽</b>（从没动过的垫底），同一档内不会 / 不熟优先；<b>抽过的题不再重复</b>。<br>
         <span class="pp-modal-cnt">当前可抽 <b>${rest}</b> 题（不会剩 ${ru} · 不熟剩 ${rf} · 仅收藏剩 ${rp}）</span>`;
     if (warn) {
         warn.hidden = !(ppN > rest);
@@ -3230,9 +3257,15 @@ function ppNew() {
         ppSide();
         return;
     }
+    // 本卷「多久没做」的快照：卷首直接显示，便于核对是不是真的先抽了旧的
+    const ages = rec.items.map(it => it.ageDays).filter(a => a != null && a >= 0);
+    const ageNoRec = rec.items.length - ages.length;
     ppCur = {
         id: String(Date.now()), ts: Date.now(), left: PP_SECS, running: false, done: false,
         chapters: rec.chapters || [], n: ppN, supply,
+        ageAvg: ages.length ? Math.round(ages.reduce((a, b) => a + b, 0) / ages.length) : null,
+        ageMax: ages.length ? Math.max(...ages) : null,
+        ageNoRec,
         items: rec.items.map(it => ({ qid: it.qid, kind: it.kind, score: it.score, state: it.state || null, zt: !!it.zt })),
     };
     // 记「被抽中」：次数 +1、时间刷新（供软衰减与一周去重使用）
@@ -3301,7 +3334,7 @@ function ppApplyMode() {
     document.title = '🎲 拼卷 · 随机收藏题';
     const sub = document.getElementById('examSub');
     if (sub) {
-        sub.textContent = '从收藏的题里拼一份卷（22 题起，可加量）· 不会 / 不熟优先 · 抽过的题不再重复（存量见左栏）';
+        sub.textContent = '从收藏的题里拼一份卷（22 题起，可加量）· 最久没做的先抽 → 不会 / 不熟优先 · 抽过的题不再重复';
         sub.hidden = false;
     }
     ['srcToggle', 'unmarkedFirst', 'yearSortBtn'].forEach(id => {
