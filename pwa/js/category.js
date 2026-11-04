@@ -2953,11 +2953,52 @@ function ppSaveCur() {
     if (i >= 0) list[i] = rec; else list.unshift(rec);
     ppListSave(list);
 }
+/* ---------- 拼卷：刷新后回到原位置（当前是哪份卷 + 滚到第几题） ----------
+ * 分类页早就把 scrollY 存在 catViewState 里，但恢复那段被 `!location.search` 挡掉了，
+ * 而拼卷页 URL 带 ?paper=1，所以一直没生效；而且拼卷还有「打开哪份卷」的问题
+ * （刷新默认跳到最新一份，不是你在看的那份）。
+ * 这里单开一个键 ppViewPos = { id: 卷id, y: 滚动位置 }，滚动时节流写、刷新后按 id 精确还原。 */
+const PP_POS_KEY = 'ppViewPos';
+let _ppPosTimer = null;
+let _ppRestoreY = null;       // 待恢复的滚动位置（null = 没有待办 / 已放弃）
+let _ppRestoreId = null;      // 待打开的卷 id
+let _ppRestoreTries = 0;
+
+function ppPosGet() {
+    try { return JSON.parse(localStorage.getItem(PP_POS_KEY) || '{}') || {}; } catch (e) { return {}; }
+}
+function ppPosSave() {
+    if (!PAPER_MODE || !ppCur) return;
+    try { localStorage.setItem(PP_POS_KEY, JSON.stringify({ id: ppCur.id, y: Math.round(window.scrollY || 0) })); } catch (e) { }
+}
+/** 滚动时节流写盘（与分类页 saveCatPosLazy 同款节流，400ms） */
+function ppPosSaveLazy() {
+    if (_ppPosTimer) return;
+    _ppPosTimer = setTimeout(() => { _ppPosTimer = null; ppPosSave(); }, 400);
+}
+/** 还原滚动位置：公式/图片是异步撑高的，一次 scrollTo 会被后到的内容顶偏，
+ *  所以分几次对齐（120/280/400/500ms），用户一动滚轮/触摸就立刻放弃，绝不跟用户抢。 */
+function ppRestoreScroll(y) {
+    if (!y || y < 0) return;
+    _ppRestoreY = y;
+    _ppRestoreTries = 0;
+    const delay = [120, 280, 400, 500];
+    const step = () => {
+        if (_ppRestoreY == null) return;                       // 用户已操作 → 放弃
+        const maxY = Math.max(0, (document.documentElement.scrollHeight || 0) - window.innerHeight);
+        window.scrollTo(0, Math.min(_ppRestoreY, maxY));
+        if (++_ppRestoreTries < 5) setTimeout(step, delay[_ppRestoreTries - 1] || 500);
+        else _ppRestoreY = null;
+    };
+    requestAnimationFrame(step);
+}
+
 function ppDel(id) {
     const rec = ppListGet().find(x => x.id === id);
     const n = rec ? rec.items.length : 0;
-    if (!confirm('删除这张卷？\n\n· 卷子本身（' + n + ' 题）会被删除，不可恢复\n· 题目的收藏 / 掌握度标记不受影响\n· 这些题的「抽题记录」不会被清空（下次拼卷仍会避开它们）\n\n如需让这些题重新可抽，用左栏底部的「清空抽题记录」。')) return;
+    if (!confirm('删除这张卷？\n\n· 卷子本身（' + n + ' 题）会被删除，不可恢复\n· 这张卷的「📝 备注」也会一起删掉\n· 题目的收藏 / 掌握度标记不受影响\n· 这些题的「抽题记录」不会被清空（下次拼卷仍会避开它们）\n\n如需让这些题重新可抽，用左栏底部的「清空抽题记录」。')) return;
     ppListSave(ppListGet().filter(x => x.id !== id));
+    try { localStorage.removeItem(ppNoteKey(id)); } catch (e) { }   // 备注跟着卷一起删
     if (ppCur && ppCur.id === id) {                 // 删的是当前卷 → 切到最新一份，没有就新拼
         const rest = ppListGet();
         if (rest.length) { ppOpen(rest[0].id); } else { ppCur = null; ppNew(); return; }
@@ -3094,6 +3135,114 @@ function ppAfterRender(root) {
     root.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
 }
 
+/* ---------- 拼卷：本卷备注（点击卷首「📝 备注」弹浮窗，支持字色/高亮/粗斜/标题） ----------
+ * 存 localStorage 'ppNote-<卷id>'，与做题笔记同一套富文本令牌（<b>/<i>/<c:#hex>/<h:#hex>/<h1>/<h2>），
+ * 所以直接复用 editorToNote / noteToEditor / mdBlock 三个原语，渲染出来的样式与题卡笔记一致。
+ * ⚠️ 不要复用 applyNoteFormat / noteInput：它们绑定 dataset.qid 会写到 examNote-<qid> 上
+ *   （qid 为空就会生成 examNote-undefined 脏键，历史数据里已经踩过）。 */
+const PP_NOTE_COLORS = ['#e03131', '#e8590c', '#2f9e44', '#1971c2', '#9c36b5', '#495057'];
+const PP_NOTE_HLS = ['#fff3bf', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4'];
+
+function ppNoteKey(id) { return 'ppNote-' + id; }
+function ppNoteGet(id) { try { return (id && localStorage.getItem(ppNoteKey(id))) || ''; } catch (e) { return ''; } }
+function ppNoteSet(id, v) {
+    try {
+        if (v && v.trim()) localStorage.setItem(ppNoteKey(id), v);
+        else localStorage.removeItem(ppNoteKey(id));
+    } catch (e) { alert('备注保存失败（存储空间可能不足）'); }
+}
+/** 卷首展示（只读，点一下就能回到编辑） */
+function ppNoteViewHtml(id) {
+    const txt = ppNoteGet(id);
+    if (!txt.trim()) return '';
+    return `<div class="pp-note-view" onclick="ppNoteOpen()" title="点击编辑本卷备注">
+        <span class="pp-note-ico">📝</span><div class="pp-note-body">${mdBlock(txt)}</div>
+        <span class="pp-note-edit">编辑</span></div>`;
+}
+let _ppNoteToolbar = '';
+function ppNoteToolbarHtml() {
+    if (_ppNoteToolbar) return _ppNoteToolbar;
+    const B = (cmd, val, label, title, cls) =>
+        `<button type="button" class="${cls}" ${val ? `style="${cmd === 'foreColor' ? 'color:' + val : 'background:' + val}"` : ''}
+            onmousedown="event.preventDefault()" onclick="ppNoteFmt('${cmd}',${val ? `'${val}'` : 'null'})" title="${title}">${label}</button>`;
+    _ppNoteToolbar = `<div class="q-note-toolbar pp-note-toolbar">
+        <span class="q-nt-lab">字色</span>
+        ${PP_NOTE_COLORS.map(c => B('foreColor', c, 'A', '字色 ' + c, 'q-nt-c')).join('')}
+        <span class="q-nt-sep"></span>
+        <span class="q-nt-lab">高亮</span>
+        ${PP_NOTE_HLS.map(c => B('hiliteColor', c, '', '高亮 ' + c, 'q-nt-h')).join('')}
+        <span class="q-nt-sep"></span>
+        ${B('bold', null, '<b>B</b>', '加粗 (Ctrl+B)', 'q-nt-b')}
+        ${B('italic', null, '<i>I</i>', '斜体 (Ctrl+I)', 'q-nt-i')}
+        ${B('h1', null, 'H1', '大标题（独占一行）', 'q-nt-h1')}
+        ${B('h2', null, 'H2', '中标题（独占一行）', 'q-nt-h2')}
+        <span class="q-nt-sep"></span>
+        ${B('plain', null, '正文', '去掉标题 / 字色 / 高亮', 'q-nt-x')}
+    </div>`;
+    return _ppNoteToolbar;
+}
+function ppNoteOpen() {
+    if (!ppCur) return;
+    let m = document.getElementById('ppNoteModal');
+    if (!m) {
+        m = document.createElement('div');
+        m.id = 'ppNoteModal';
+        m.className = 'pp-modal pp-note-modal';
+        m.hidden = true;
+        m.innerHTML = `<div class="pp-modal-mask" onclick="ppNoteSave()"></div>
+          <div class="pp-modal-box pp-note-box" role="dialog" aria-modal="true">
+            <div class="pp-modal-t">📝 本卷备注</div>
+            <div class="pp-modal-sub">写这卷的失分点、时间分配、下次注意什么。可选中文字后设字色 / 高亮 / 粗斜 / 标题。</div>
+            <div class="q-note pp-note-wrap">
+              ${ppNoteToolbarHtml()}
+              <div class="pp-note-input" contenteditable="true" spellcheck="false"></div>
+            </div>
+            <div class="pp-note-foot">存在本机，跟着「⬇️ 导出数据」一起备份</div>
+            <div class="pp-modal-act">
+              <button type="button" class="pp-mbtn" onclick="ppNoteClose()">取消</button>
+              <button type="button" class="pp-mbtn primary" onclick="ppNoteSave()">保存</button>
+            </div>
+          </div>`;
+        document.body.appendChild(m);
+    }
+    const ed = m.querySelector('.pp-note-input');
+    if (ed) { noteToEditor(ed, ppNoteGet(ppCur.id)); ed.dataset.ppId = ppCur.id; }
+    m.hidden = false;
+    if (ed) { ed.focus(); try { const r = document.createRange(); r.selectNodeContents(ed); r.collapse(false); const s = getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) { } }
+}
+function ppNoteClose() { const m = document.getElementById('ppNoteModal'); if (m) m.hidden = true; }
+/** 保存：编辑器 DOM → 令牌文本 → localStorage → 重画卷首 */
+function ppNoteSave() {
+    const m = document.getElementById('ppNoteModal');
+    if (!m) return;
+    const ed = m.querySelector('.pp-note-input');
+    const id = (ed && ed.dataset.ppId) || (ppCur && ppCur.id);
+    if (id && ed) ppNoteSet(id, editorToNote(ed));
+    m.hidden = true;
+    if (ppCur && ppCur.id === id) ppRender();
+}
+/** 工具条命令：与 applyNoteFormat 同逻辑，但只改 DOM、由「保存」统一落盘 */
+function ppNoteFmt(cmd, val) {
+    const ed = document.querySelector('#ppNoteModal .pp-note-input');
+    if (!ed || !ed.isContentEditable) return;
+    const sel = getSelection();
+    const inEd = !!sel.rangeCount && ed.contains(sel.anchorNode);
+    const needSel = cmd !== 'plain' && cmd !== 'h1' && cmd !== 'h2';
+    if (!inEd || (sel.isCollapsed && needSel)) { alert('先选中要设置格式的文字'); return; }
+    ed.focus();
+    if (cmd === 'h1' || cmd === 'h2') {
+        try { document.execCommand('styleWithCSS', false, false); } catch (e) { }
+        document.execCommand('formatBlock', false, cmd === 'h1' ? 'H1' : 'H2');
+    } else if (cmd === 'plain') {
+        try { document.execCommand('styleWithCSS', false, false); } catch (e) { }
+        document.execCommand('formatBlock', false, 'P');
+        document.execCommand('removeFormat');
+    } else {
+        try { document.execCommand('styleWithCSS', false, true); } catch (e) { }
+        document.execCommand(cmd, false, val || null);
+    }
+}
+
 /** 卷子缩水的原因：抽过的题不再重复，所以「不够」往往是「已经抽完了」 */
 function ppShortWhy(cur, wantN) {
     if (cur && cur.supply != null) {
@@ -3144,7 +3293,9 @@ function ppRender() {
                 <button class="pp-tbtn" id="ppTimerBtn" onclick="ppToggleTimer()" title="暂停 / 继续">${ppCur.running ? '⏸' : '▶'}</button>
                 <button class="pp-tbtn" onclick="ppResetTimer()" title="重置为 180 分钟">↺</button>
             </div>
+            <button class="pp-note-btn${ppNoteGet(ppCur.id).trim() ? ' has' : ''}" onclick="ppNoteOpen()" title="写本卷备注：失分点 / 时间分配 / 下次注意什么">📝 备注</button>
         </div>
+        ${ppNoteViewHtml(ppCur.id)}
         <div class="pp-banner" id="ppBanner" hidden></div>
         ${items.length < wantN ? `<div class="pp-short">⚠️ 本卷只有 ${items.length} 题：${ppShortWhy(ppCur, wantN)}</div>` : ''}
         ${(ppCur.relaxed || 0) > 0 ? `<div class="pp-short">⚠️ 其中 ${ppCur.relaxed} 题是旧规则下「7 天内抽过、放宽补位」进来的（现在抽过就不再重复）</div>` : ''}
@@ -3174,13 +3325,92 @@ function ppRender() {
     el.innerHTML = html;
     ppAfterRender(el);
     ppPaintClock();
+    ppRenderNav();                 // 右侧题号导航：按当前卷重画 1..N
     // 拼卷页同样预热：重置一轮（重新拼卷/重画都算新列表），再按显示顺序热前 20 张
     ansWarmReset();
     ansWarmSchedule(el);
+    // 刷新回来：公式/图片还在异步撑高，交给 ppRestoreScroll 分几次对齐
+    if (_ppRestoreY != null) ppRestoreScroll(_ppRestoreY);
     if (_ppNeedRepaint) {
         _ppNeedRepaint = false;
         loadExamSources().then(() => { _ppIdx = null; ppRender(); });
     }
+}
+
+/* ---------- 拼卷：右侧题号导航（外观复用刷题页的 .float-q，只放 1..N 的序号） ----------
+ * 点数字跳到第 N 题；滚动时高亮当前题并把序号回显在圆球上。
+ * ⚠️ 只在拼卷模式挂载，分类页/复测页不受影响。 */
+function ppNavMount() {
+    if (!PAPER_MODE || document.getElementById('ppNav')) return;
+    const d = document.createElement('div');
+    d.className = 'float-q pp-nav';
+    d.id = 'ppNav';
+    d.hidden = true;
+    d.innerHTML = `<div class="float-q-head" onclick="ppToggleNav()">
+        <span class="float-q-no" id="ppNavNo">—</span>
+        <span class="float-q-arrow" id="ppNavArrow">▲</span>
+    </div>
+    <div class="float-q-list" id="ppNavList"></div>`;
+    document.body.appendChild(d);
+}
+function ppToggleNav() {
+    const d = document.getElementById('ppNav');
+    if (d) d.classList.toggle('expanded');
+}
+function ppRenderNav() {
+    ppNavMount();
+    _ppNavAnchor = null;           // 换卷/重画 → 高亮跟随滚动位置
+    const d = document.getElementById('ppNav');
+    if (!d) return;
+    const list = document.getElementById('ppNavList');
+    const n = (ppCur && ppCur.items) ? ppCur.items.length : 0;
+    d.hidden = !n;
+    if (!n || !list) { if (list) list.innerHTML = ''; return; }
+    let html = '';
+    // 只放序号：拼卷的题号就是 1..N（与题卡上的「第 N 题」一致），不带年份/题型标签
+    for (let i = 1; i <= n; i++) html += `<button class="nav-q" data-ppq="${i}" title="第 ${i} 题" onclick="ppJumpQ(${i})">${i}</button>`;
+    list.innerHTML = html;
+    ppHighlightNav();
+}
+/** 题卡按显示顺序排（.pp-item 的 DOM 顺序 = 第 1..N 题） */
+function ppNavCards() { return Array.from(document.querySelectorAll('#catMain .pp-item')); }
+/** 点题号跳转后把高亮「锚」在点的那一题上，直到用户自己滚动为止。
+ *  （否则跳到短题时，45% 线会落进下一题，刚点 18 却显示 19，看着像点错了） */
+let _ppNavAnchor = null;
+function ppJumpQ(i) {
+    const cards = ppNavCards();
+    const el = cards[i - 1];
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    _ppNavAnchor = i;
+    ppHighlightNav();
+    const d = document.getElementById('ppNav');
+    if (d) d.classList.remove('expanded');
+}
+/** 滚动时高亮视口内当前题（取 45% 视高线以上的最后一张） */
+function ppHighlightNav() {
+    const cards = ppNavCards();
+    const btns = document.querySelectorAll('#ppNavList .nav-q');
+    if (!cards.length || !btns.length) return;
+    const half = window.innerHeight * 0.45;
+    let idx = 0;
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].getBoundingClientRect().top <= half) idx = i + 1; else break;
+    }
+    // 停在顶部时也要显示「1」（第一题的卡顶通常还没越过 45% 线，会算出 0）
+    if (!idx && cards.length) idx = 1;
+    if (_ppNavAnchor) idx = _ppNavAnchor;          // 刚点过题号 → 以点击为准
+    btns.forEach(b => b.classList.toggle('on', Number(b.dataset.ppq) === idx));
+    const no = document.getElementById('ppNavNo');
+    if (no) no.textContent = idx ? String(idx) : '—';
+    const d = document.getElementById('ppNav');
+    if (d) d.title = idx ? `第 ${idx} / ${cards.length} 题` : '题号导航';
+}
+/** 滚动高亮节流到每帧一次（60 张卡片逐个量 rect，不节流会有点抖） */
+let _ppHlPending = false;
+function ppHighlightNavLazy() {
+    if (_ppHlPending) return;
+    _ppHlPending = true;
+    requestAnimationFrame(() => { _ppHlPending = false; ppHighlightNav(); });
 }
 
 /** 重新拼卷前的悬浮窗：选题量（只能 ≥22）。点「开始拼卷」才真正抽。 */
@@ -3339,6 +3569,23 @@ function ppApplyMode() {
     // 否则首屏算的是「只有核心题库」的存量，数字会偏小。
     loadExamSources().then(() => { if (PAPER_MODE) ppSide(); });
     ppBackfillDraw();
+    // 刷新回到原位置：记「上次打开的是哪份卷 + 滚到哪」，滚动/关页时落盘
+    const pos = ppPosGet();
+    if (pos && pos.id) {
+        _ppRestoreId = String(pos.id);
+        _ppRestoreY = Math.max(0, Number(pos.y) || 0) || null;
+    }
+    window.addEventListener('scroll', ppPosSaveLazy, { passive: true });
+    window.addEventListener('scroll', ppHighlightNavLazy, { passive: true });
+    window.addEventListener('resize', ppHighlightNavLazy);
+    window.addEventListener('beforeunload', ppPosSave);
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') ppPosSave(); });
+    // 用户一动滚轮/触摸/按键就撤销「还在还原中的位置」，别跟人抢滚动条
+    ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(ev =>
+        window.addEventListener(ev, () => {
+            _ppRestoreY = null;        // 用户已经在滚了 → 放弃还原位置
+            _ppNavAnchor = null;       // 用户自己滚 → 题号高亮交还给滚动位置
+        }, { passive: true }));
     document.body.classList.add('paper-mode');
     const t = document.querySelector('.exam-title');
     if (t) t.textContent = '🎲 拼卷';
@@ -3367,7 +3614,17 @@ function renderMain() {
     if (PAPER_MODE) {                                      // 拼卷模式：拼出的卷
         if (!ppCur) {
             const list = ppListGet();
-            if (list.length) { ppOpen(list[0].id); return; }   // 有历史卷 → 载入最新一份
+            if (list.length) {
+                // 刷新回来优先打开「上次看的那份」，找不到（被删了）就退回最新一份
+                let want = list[0].id;
+                if (_ppRestoreId) {
+                    const hit = list.filter(x => String(x.id) === _ppRestoreId)[0];
+                    if (hit) want = hit.id; else _ppRestoreY = null;   // 卷没了 → 位置也不再还原
+                    _ppRestoreId = null;
+                }
+                ppOpen(want);
+                return;
+            }
             ppNew(); return;                                    // 没有 → 现拼一份
         }
         ppRender(); return;

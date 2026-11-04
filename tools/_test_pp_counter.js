@@ -327,5 +327,30 @@ const td = run(TEST_TODAY, seedToday, true).__td;
 eq('今天刚标记过的老收藏 → age 归零、排到最后', td.ages, [40, 40, 0, 0]);
 eq('先抽 40 天前收藏、没再动过的两道', td.qids.slice(0, 2).sort(), ['P1-3', 'P1-4']);
 
+
+/* ================= 场景 4：备注读写 + 刷新位置读写（2026-11-04） ================= */
+const TEST_MISC = `
+;(function () {
+    // 备注：令牌原样存取；空内容删键
+    ppNoteSet('C1', '<h2>失分点</h2>\\n第 3 题 符号算错');
+    window.__note1 = ppNoteGet('C1');
+    ppNoteSet('C1', '   ');
+    window.__note2 = ppNoteGet('C1');
+    window.__note3 = localStorage.getItem('ppNote-C1');
+
+    // 刷新位置：拼卷模式下写 { id, y }
+    ppCur = { id: 'C9', ts: 1, left: 1, items: [] };
+    window.scrollY = 1234;
+    ppPosSave();
+    window.__pos = ppPosGet();
+})();
+`;
+const sbMisc = run(TEST_MISC, {}, true);
+
+eq('备注：令牌原样存取', sbMisc.__note1, '<h2>失分点</h2>\n第 3 题 符号算错');
+eq('备注：空内容读回空串', sbMisc.__note2, '');
+eq('备注：空内容删键', sbMisc.__note3, null);
+eq('刷新位置：记下卷 id 与滚动值', sbMisc.__pos, { id: 'C9', y: 1234 });
+
 console.log(`\n通过 ${pass} 项，失败 ${fail} 项`);
 process.exit(fail ? 1 : 0);
