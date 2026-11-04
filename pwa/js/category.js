@@ -2752,11 +2752,18 @@ function ppScanPool() {
         const slot = s0 === 'unknown' ? stats.unknown : s0 === 'unfamiliar' ? stats.unfamiliar : stats.plain;
         slot.all++;
         if (d > 0) slot.drawn++;
-        const doAt = lastDo[qid] || 0;               // 0 = 从没动过
+        // 「多久没碰」= max(dailyMarks 里最后一次动过, 收藏时间)。
+        // ⚠️ 必须有收藏时间兜底：markDaily 是 2026-10-14 才加的，之前收藏/标记的题在 dailyMarks 里
+        //    一条记录都没有。只按 dailyMarks 判定的话，9 月初收藏、标了「不会」的老题会被当成
+        //    「从没动过」沉到最后一档 —— 正好和「先做最久没做的」相反（2026-11-04 用户实际踩到）。
+        //    收藏直接读已解析的 fav 对象，不再逐题 favTime()（那是每题一次 JSON.parse，见下）。
+        const fv = fav[qid];
+        const favAt = (fv && typeof fv === 'object') ? (fv.t || 0) : 0;
+        const doAt = Math.max(lastDo[qid] || 0, favAt);   // 0 = 连收藏时间都没有（老格式收藏对象缺失）
         items.push({
             paper, secTitle, q, qid, sw, w: sw,
             state: s0, fav: true,
-            doAt,                                    // 上次动过的时间戳（0 = 无记录）
+            doAt,                                    // 上次「碰过」的时间戳（0 = 完全无据可查）
             ageDays: doAt ? Math.max(0, Math.floor((now - doAt) / 864e5)) : -1,
             br: ppBranchOf(q), d, ld,
             zt: isZhentiOf(paper, q),                // 仅用于卷首统计，不参与权重
@@ -2772,8 +2779,8 @@ function ppScanPool() {
  *  ⚠️ 抽过的题**永久排除**（2026-11-03 用户改：原来是「7 天内不重复 + 凑不满按最久没抽放宽补位」，
  *     现在抽过就不再抽，还剩多少由左栏计数器显式展示；要重新开始需点「清空抽题记录」）。
  *  排序维度（2026-11-04 用户改，只有两个）：
- *    ① 主序 = **多久没做**：按 ageDays（距上次动过的天数）7 天分档，从最旧档抽起，
- *       「从没动过」的题（ageDays = -1）垫底 —— 用户明确要求「先做很久之前做过的」；
+ *    ① 主序 = **多久没碰**：ageDays = 距 max(上次动过, 收藏时间) 的天数，7 天分档，从最旧档抽起；
+ *       ageDays = -1（连收藏时间都没有）才垫底 —— 用户明确要求「先做很久之前做过的」；
  *    ② 次序 = 状态权重 sw（不会 4 / 不熟 2 / 仅收藏 1；已掌握排除），只负责同一档内谁优先。
  *  旧的「收藏时间系数 tf(1~3)」已删：收藏时间跟复习节奏无关（很早收藏、昨天刚做过的题不该被优先），
  *  真正该用的是 dailyMarks 里的「上次动过」。 */
@@ -2814,35 +2821,39 @@ function ppPickWeighted(arr, k, ctx) {
     return out;
 }
 
-/** 时间优先抽样（题型内抽 k 个）：
- *  ① 先按「距上次动过」7 天分档（AGE_BUCKET_DAYS），**从最旧档开始**逐档抽，抽满 k 为止；
- *     从没动过的题（ageDays = -1）一律垫底，只在有记录的题都抽完了才轮到；
- *  ② 同一档内两段式：先「不会 ∪ 不熟」（按 4 : 2 加权），不够才用「仅收藏」补（权重 1）；
- *  ③ 档内权重随机仍在，所以「20 次重抽取章节覆盖最多」依然有效 —— 只是候选都被锁在同一时间档里。
- *  真题不参与分层、不加权（与普通题一致）。 */
+/** 在给定集合内按「多久没碰」抽满 k 个：7 天分档，从最旧档抽起；ageDays = -1（完全无据）垫底。
+ *  同档内用加权随机（保留 ppPickWeighted 的细分支惩罚，20 次重抽取章节覆盖最多仍有效）。 */
 const AGE_BUCKET_DAYS = 7;      // 时间档宽度（天）：档越粗越稳定，越细越严格「按天排」
-function ppSampleTiered(tiers, kind, k, ctx) {
-    const arr = tiers.fresh[kind] || [];
-    if (!arr.length || k <= 0) return [];
+function ppPickByAge(arr, k, ctx) {
+    if (!arr || !arr.length || k <= 0) return [];
     const buckets = new Map();
     for (const it of arr) {
         const b = (it.ageDays == null || it.ageDays < 0) ? -1 : Math.floor(it.ageDays / AGE_BUCKET_DAYS);
         if (!buckets.has(b)) buckets.set(b, []);
         buckets.get(b).push(it);
     }
-    // 档位从旧到新；-1（从没动过）永远最后
     const keys = [...buckets.keys()].sort((a, b) => (a === -1 ? 1 : b === -1 ? -1 : b - a));
-    const isHot = it => it.state === 'unknown' || it.state === 'unfamiliar';
     const out = [];
     for (const key of keys) {
-        let left = k - out.length;
+        const left = k - out.length;
         if (left <= 0) break;
-        const list = buckets.get(key);
-        const hot = list.filter(isHot), warm = list.filter(it => !isHot(it));
-        out.push(...ppPickWeighted(hot, Math.min(left, hot.length), ctx));
-        left = k - out.length;
-        if (left > 0) out.push(...ppPickWeighted(warm, left, ctx));
+        out.push(...ppPickWeighted(buckets.get(key), left, ctx));
     }
+    return out;
+}
+
+/** 抽样（题型内抽 k 个）：
+ *  ① **层级优先**：「不会 ∪ 不熟」整层先抽，抽完还不够才轮到「仅收藏」——
+ *     这一层是用户 2026-10-24 定的，别动；否则最老的那批「仅收藏」会把不会的题挤掉（11-04 已验证踩坑）。
+ *  ② **层内按时间**：层内按 ageDays 7 天分档，从最旧档抽起（ppPickByAge）。
+ *  真题不参与分层、不加权（与普通题一致）。 */
+function ppSampleTiered(tiers, kind, k, ctx) {
+    const arr = tiers.fresh[kind] || [];
+    if (!arr.length || k <= 0) return [];
+    const isHot = it => it.state === 'unknown' || it.state === 'unfamiliar';
+    const out = ppPickByAge(arr.filter(isHot), k, ctx);
+    const left = k - out.length;
+    if (left > 0) out.push(...ppPickByAge(arr.filter(it => !isHot(it)), left, ctx));
     return out;
 }
 

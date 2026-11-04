@@ -210,7 +210,10 @@ ok('计数器：总计「剩 4 题」', /剩 <b>4<\/b>/.test(html), html);
 ok('计数器：含进度条', /pp-pg-bar"><i style="width:20%"><\/i>/.test(html), html);
 
 
-/* ================= 场景 3：按「多久没做」排序（2026-11-04 新规则） ================= */
+/* ================= 场景 3：按「多久没碰」排序（2026-11-04 规则） =================
+ * 口径：ageDays = 距 max(dailyMarks 最后一次动过, 收藏时间) 的天数
+ *   —— 收藏时间必须有兜底，否则 2026-10-14 之前收藏的老题（dailyMarks 里没有记录）
+ *      会被当成「从没动过」沉到最后，正好与「先做最久没做的」相反（用户 11-04 实际踩到）。 */
 function dayKey(daysAgo) {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
@@ -218,81 +221,111 @@ function dayKey(daysAgo) {
     const p = n => String(n).padStart(2, '0');
     return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
 }
-// 40 道选择题：1-10 号 30 天前动过、11-20 号 10 天前、21-30 号今天、31-40 号从没动过
-const kinds40 = new Array(40).fill('选择');
-const fav40 = {};
-for (let i = 1; i <= 40; i++) fav40['P1-' + i] = { t: 1000 + i };   // 收藏时间：越靠后越晚（旧逻辑会偏爱前面的）
-const seedAge = { papers: [mkPaper('P1', kinds40)], fav: fav40, st: {}, d30: dayKey(30), d10: dayKey(10), d0: dayKey(0) };
+const agoMs = days => new Date(dayKey(days) + 'T00:00:00').getTime();
+
+/* ---- 3a：三档时间 + 一支「今天刚收藏、从没标记过」的新题 ---- */
+// 1-10 号：90 天前收藏、30 天前动过 → 30 天档
+// 11-20 号：90 天前收藏、10 天前动过 → 10 天档
+// 21-30 号：90 天前收藏、今天动过 → 0 天档
+// 31-40 号：今天刚收藏、没有 dailyMarks → 也是 0 天档（收藏时间即「碰过」）
+// 41 号：收藏记录没有时间戳（老格式）→ 完全无据 → 垫底
+const kinds41 = new Array(41).fill('选择');
+const fav41 = {};
+for (let i = 1; i <= 40; i++) fav41['P1-' + i] = { t: (i <= 30 ? agoMs(90) : agoMs(0)) };
+fav41['P1-41'] = 1;                    // 老格式收藏（无 t）
+const seedAge = { papers: [mkPaper('P1', kinds41)], fav: fav41, st: {}, d30: dayKey(30), d10: dayKey(10), d0: dayKey(0) };
 
 const TEST_AGE = `
 ;(function () {
     examPapers = JSON.parse(__seed).papers;
     corePapers = []; bankItems = [];
     localStorage.setItem('examFav', JSON.stringify(JSON.parse(__seed).fav));
-    // 只有 1-30 号有「动过」记录，31-40 号从没动过
     const s = JSON.parse(__seed);
-    const dm = {};
-    dm[s.d30] = {}; dm[s.d10] = {}; dm[s.d0] = {};
+    const dm = {}; dm[s.d30] = {}; dm[s.d10] = {}; dm[s.d0] = {};
     for (let i = 1; i <= 10; i++) dm[s.d30]['P1-' + i] = 'unfamiliar';
     for (let i = 11; i <= 20; i++) dm[s.d10]['P1-' + i] = 'unfamiliar';
     for (let i = 21; i <= 30; i++) dm[s.d0]['P1-' + i] = 'unfamiliar';
     localStorage.setItem('dailyMarks', JSON.stringify(dm));
 
     const tiers = ppBuildPool();
-    const picked = ppSampleTiered(tiers, '选择', 22, { br: {} });
+    const all = tiers.fresh['选择'];
     window.__age1 = {
-        n: picked.length,
-        前10天档: picked.slice(0, 10).map(it => it.ageDays),
-        中10天档: picked.slice(10, 20).map(it => it.ageDays),
-        后2天档: picked.slice(20).map(it => it.ageDays),
-        有没有没动过的: picked.filter(it => it.ageDays < 0).length,
+        池大小: all.length,
+        d30: all.filter(it => it.ageDays === 30).length,
+        d10: all.filter(it => it.ageDays === 10).length,
+        d0: all.filter(it => it.ageDays === 0).length,
+        无据: all.filter(it => it.ageDays < 0).length,
     };
-    // 全池 40 题里各档的数量
-    window.__age2 = {
-        d30: tiers.fresh['选择'].filter(it => it.ageDays === 30).length,
-        d10: tiers.fresh['选择'].filter(it => it.ageDays === 10).length,
-        d0: tiers.fresh['选择'].filter(it => it.ageDays === 0).length,
-        never: tiers.fresh['选择'].filter(it => it.ageDays < 0).length,
-    };
-    // 旧字段 tf 应已删除
-    window.__age3 = { hasTf: 'tf' in tiers.fresh['选择'][0], w等于sw: tiers.fresh['选择'].every(it => it.w === it.sw) };
+    const picked = ppSampleTiered(tiers, '选择', 41, { br: {} });
+    window.__age1.order = picked.map(it => it.ageDays);
+    window.__age3 = { hasTf: 'tf' in all[0], w等于sw: all.every(it => it.w === it.sw) };
 })();
 `;
 const sbAge = run(TEST_AGE, seedAge, true);
-const a1 = sbAge.__age1, a2 = sbAge.__age2, a3 = sbAge.__age3;
+const a1 = sbAge.__age1, a3 = sbAge.__age3;
 
-eq('时间档：池内 30 天档 10 题', a2.d30, 10);
-eq('时间档：池内 10 天档 10 题', a2.d10, 10);
-eq('时间档：池内 今天档 10 题', a2.d0, 10);
-eq('时间档：池内 无记录 10 题', a2.never, 10);
-eq('时间优先：抽 22 题', a1.n, 22);
-ok('时间优先：前 10 题全是 30 天前的', a1.前10天档.every(d => d === 30), JSON.stringify(a1.前10天档));
-ok('时间优先：接着 10 题是 10 天前的', a1.中10天档.every(d => d === 10), JSON.stringify(a1.中10天档));
-ok('时间优先：最后 2 题才轮到今天的', a1.后2天档.every(d => d === 0), JSON.stringify(a1.后2天档));
-eq('时间优先：从没动过的排最后，一个没抽到', a1.有没有没动过的, 0);
+eq('时间档：池 41 题', a1.池大小, 41);
+eq('时间档：30 天档 10 题', a1.d30, 10);
+eq('时间档：10 天档 10 题', a1.d10, 10);
+eq('新题按收藏时间入档：今天收藏的 10 题落在 0 天档', a1.d0, 20);
+eq('完全无时间戳的 1 题判为无据', a1.无据, 1);
+ok('时间优先：前 10 题 = 30 天档', a1.order.slice(0, 10).every(d => d === 30), JSON.stringify(a1.order.slice(0, 12)));
+ok('时间优先：接着 10 题 = 10 天档', a1.order.slice(10, 20).every(d => d === 10), JSON.stringify(a1.order.slice(10, 22)));
+ok('时间优先：再往后才是 0 天档', a1.order.slice(20, 40).every(d => d === 0), JSON.stringify(a1.order.slice(20, 25)));
+eq('完全无据的那题垫底', a1.order[40], -1);
 eq('旧字段 tf 已删除', a3.hasTf, false);
 eq('权重 w = 状态权重 sw', a3.w等于sw, true);
 
-/* ---- 场景 3b：旧题不够时才轮到「从没动过」 ---- */
-const seedMix = { papers: [mkPaper('P1', new Array(10).fill('选择'))], fav: (() => { const f = {}; for (let i = 1; i <= 10; i++) f['P1-' + i] = { t: 1000 + i }; return f; })(), st: {}, d40: dayKey(40) };
-const TEST_MIX = `
+/* ---- 3b：用户实际踩到的坑 —— 9 月初收藏、标了「不会」、dailyMarks 里没有记录 ---- */
+// 1-4 号：65 天前收藏、无 dailyMarks、状态 不会   ← 应该最先抽
+// 5-8 号：20 天前收藏、20 天前动过、状态 不会
+const fav65 = {};
+for (let i = 1; i <= 4; i++) fav65['P1-' + i] = { t: agoMs(65) };
+for (let i = 5; i <= 8; i++) fav65['P1-' + i] = { t: agoMs(20) };
+const st65 = {};
+for (let i = 1; i <= 8; i++) st65['P1-' + i] = 'unknown';
+const seed65 = { papers: [mkPaper('P1', new Array(8).fill('选择'))], fav: fav65, st: st65, d20: dayKey(20) };
+
+const TEST_65 = `
+;(function () {
+    examPapers = JSON.parse(__seed).papers;
+    corePapers = []; bankItems = [];
+    localStorage.setItem('examFav', JSON.stringify(JSON.parse(__seed).fav));
+    localStorage.setItem('examStatus', JSON.stringify(JSON.parse(__seed).st));
+    const s = JSON.parse(__seed);
+    const dm = {}; dm[s.d20] = {};
+    for (let i = 5; i <= 8; i++) dm[s.d20]['P1-' + i] = 'unknown';   // 只有 5-8 号有记录
+    localStorage.setItem('dailyMarks', JSON.stringify(dm));
+    const tiers = ppBuildPool();
+    const picked = ppSampleTiered(tiers, '选择', 8, { br: {} });
+    window.__old = { ages: picked.map(it => it.ageDays), qids: picked.map(it => it.qid) };
+})();
+`;
+const oldT = run(TEST_65, seed65, true).__old;
+eq('老收藏：8 题年龄（前 4 题应是 65 天）', oldT.ages.slice(0, 4), [65, 65, 65, 65]);
+eq('老收藏：9 月初那批排在最前（qid 1-4）', oldT.qids.slice(0, 4).sort(), ['P1-1', 'P1-2', 'P1-3', 'P1-4']);
+
+/* ---- 3c：收藏很久但今天刚标记过 → 视为「刚碰过」，不该优先 ---- */
+// 1-2 号：60 天前收藏 + 今天标记过 → age 0
+// 3-4 号：40 天前收藏、无 dailyMarks → age 40
+const favToday = { 'P1-1': { t: agoMs(60) }, 'P1-2': { t: agoMs(60) }, 'P1-3': { t: agoMs(40) }, 'P1-4': { t: agoMs(40) } };
+const seedToday = { papers: [mkPaper('P1', new Array(4).fill('选择'))], fav: favToday, st: {}, d0: dayKey(0) };
+const TEST_TODAY = `
 ;(function () {
     examPapers = JSON.parse(__seed).papers;
     corePapers = []; bankItems = [];
     localStorage.setItem('examFav', JSON.stringify(JSON.parse(__seed).fav));
     const s = JSON.parse(__seed);
-    const dm = {}; dm[s.d40] = {};
-    for (let i = 1; i <= 5; i++) dm[s.d40]['P1-' + i] = 'unknown';   // 只有 1-5 号动过
+    const dm = {}; dm[s.d0] = { 'P1-1': 'unknown', 'P1-2': 'unknown' };
     localStorage.setItem('dailyMarks', JSON.stringify(dm));
     const tiers = ppBuildPool();
-    const picked = ppSampleTiered(tiers, '选择', 6, { br: {} });
-    window.__mix = { ages: picked.map(it => it.ageDays), n: picked.length };
+    const picked = ppSampleTiered(tiers, '选择', 4, { br: {} });
+    window.__td = { ages: picked.map(it => it.ageDays), qids: picked.map(it => it.qid) };
 })();
 `;
-const mix = run(TEST_MIX, seedMix, true).__mix;
-eq('混合池：抽 6 题', mix.n, 6);
-ok('混合池：先抽 5 道 40 天前的', mix.ages.slice(0, 5).every(d => d === 40), JSON.stringify(mix.ages));
-ok('混合池：第 6 题才是从没动过的', mix.ages[5] === -1, JSON.stringify(mix.ages));
+const td = run(TEST_TODAY, seedToday, true).__td;
+eq('今天刚标记过的老收藏 → age 归零、排到最后', td.ages, [40, 40, 0, 0]);
+eq('先抽 40 天前收藏、没再动过的两道', td.qids.slice(0, 2).sort(), ['P1-3', 'P1-4']);
 
 console.log(`\n通过 ${pass} 项，失败 ${fail} 项`);
 process.exit(fail ? 1 : 0);
