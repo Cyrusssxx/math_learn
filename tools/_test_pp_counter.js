@@ -352,5 +352,36 @@ eq('备注：空内容读回空串', sbMisc.__note2, '');
 eq('备注：空内容删键', sbMisc.__note3, null);
 eq('刷新位置：记下卷 id 与滚动值', sbMisc.__pos, { id: 'C9', y: 1234 });
 
+/* ================= 场景 5：复制按钮按 qid 找题，必须覆盖拼卷三源（2026-11-05） =================
+ * 复现：catSrcMode=core 时 allEntries 只装核心题库，而拼卷渲染用 _ppIdx（真题卷+核心+大观园）。
+ * 旧实现只查 allEntries → 真题卷那批题点「📋 LaTeX」静默 return，按钮毫无反应。 */
+const seedCopy = {
+    exPapers: [mkPaper('EX', ['选择', '填空'], '2017')],
+    coPapers: [mkPaper('core', ['选择'], '')],
+};
+const TEST_COPY = `
+;(function () {
+    const s = JSON.parse(__seed);
+    examPapers = s.exPapers;
+    corePapers = s.coPapers;
+    bankItems = [];
+    papers = corePapers; srcMode = 'core';       // 模拟停在「核心题库」数据源
+    buildEntries();
+    _ppIdx = null;
+    const hit = q => { const h = catFindByQid(q); return h ? [h.paper.id, h.q.no] : null; };
+    window.__cp = {
+        legacyMiss: !allEntries.some(e => qidOf(e.paper.id, e.q.no) === 'EX-1'),
+        ex: hit('EX-1'),
+        core: hit('core-1'),
+        none: hit('NOPE-9'),
+    };
+})();
+`;
+const cp = run(TEST_COPY, seedCopy, false).__cp;
+ok('复制查找·反向验证：旧实现确实查不到真题卷的题', cp.legacyMiss === true);
+eq('复制查找：拼卷页能取到真题卷那道题', cp.ex, ['EX', 1]);
+eq('复制查找：拼卷页仍能取到核心题库那道题', cp.core, ['core', 1]);
+eq('复制查找：不存在的 qid 返回 null', cp.none, null);
+
 console.log(`\n通过 ${pass} 项，失败 ${fail} 项`);
 process.exit(fail ? 1 : 0);

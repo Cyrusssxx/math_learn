@@ -2386,18 +2386,42 @@ function copyTextToClipboard(text, btn, okMsg) {
     } else fallback();
 }
 // 复制本题 LaTeX 源文（题干 + 选项 + 答案，保留 $...$ 原始命令）
+/** 按 qid 找回题卡实际渲染的那道题。
+ *  ⚠️ 拼卷 / 复测页的题来自「真题卷 + 核心题库 + 大观园」三源（ppOfQid 用的 _ppIdx），
+ *     而 allEntries 只装当前 srcMode 的那一份源（分类页用）。早期这里只查 allEntries：
+ *     真机实测 catSrcMode=core 的 40 题卷里有 6 题（15%）点「📋 LaTeX」毫无反应。
+ *  · 拼卷/复测：先用 _ppIdx（与页面渲染同源，复制到的就是看到的那道题），再退全源；
+ *  · 分类页：仍先查 allEntries，避免同 qid 多源时改动原有复制内容。
+ */
+function catFindByQid(qid) {
+    const match = e => e && qidOf(e.paper.id, e.q.no) === qid;
+    let multi = false;
+    try { multi = PAPER_MODE || REVIEW_MODE; } catch (e) { multi = false; }
+    if (multi) {
+        try { const hit = ppOfQid(qid); if (hit) return hit; } catch (e) { }
+    }
+    const own = allEntries.find(match);
+    if (own) return own;
+    try { return allEntriesAllSources().find(match) || null; } catch (e) { return null; }
+}
+function catCopyFail(btn) {
+    const old = btn.textContent;
+    btn.textContent = '未找到题源';
+    setTimeout(() => { btn.textContent = old; }, 1500);
+}
 function copyCatQLatex(btn) {
     const card = btn.closest('.q-card');
     if (!card) return;
     const qid = card.id.replace(/^q-/, '');
-    let hit = null, paper = null;
-    for (const e of allEntries) {
-        if (qidOf(e.paper.id, e.q.no) === qid) { hit = e.q; paper = e.paper; break; }
-    }
-    if (!hit) return;
-    let text = (paper && paper.year ? paper.year + '年 题' + hit.no + '\n' : '') + (hit.stem || '');
-    if (hit.options && hit.options.length) text += '\n' + hit.options.join('\n');
-    if (hit.answer) text += '\n' + hit.answer.replace(/^(【答案】)+/, '【答案】');   // 数据自带【答案】前缀，归一防重复
+    const ent = catFindByQid(qid);
+    if (!ent) { catCopyFail(btn); return; }        // 绝不静默 return：至少让用户知道为什么没复制
+    const paper = ent.paper, q = ent.q;
+    // core 模式的 allEntries 会给 paper 补 year；走 _ppIdx 拿到的是原始 paper，
+    // 这里从题源里补一次年份，保证复制内容与旧版一致（不丢「2023年 题5」前缀）。
+    const year = (paper && paper.year) || (/((?:19|20)\d{2})/.exec(q.source || '') || [])[1] || '';
+    let text = (year ? year + '年 题' + q.no + '\n' : '') + (q.stem || '');
+    if (q.options && q.options.length) text += '\n' + q.options.join('\n');
+    if (q.answer) text += '\n' + q.answer.replace(/^(【答案】)+/, '【答案】');   // 数据自带【答案】前缀，归一防重复
     copyTextToClipboard(text, btn, '已复制 ✓');
 }
 
