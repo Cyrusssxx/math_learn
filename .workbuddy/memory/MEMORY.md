@@ -59,6 +59,7 @@
 - 跨库去重 `normStem()` 只去 LaTeX **结构**符号、**保留公式内容** + bigram Jaccard；别放宽 source 正则（会误藏 563 道改写题）。分类器先定父级再在父级内分子级。多级分类做过两版后用户要求退回三级（73 节点）。
 - **拼卷规则**：池 = `ppScanPool()` 三源（真题卷/核心题库/大观园）；入池=已收藏且未掌握；`qDraw[qid].d>0` **永久排除**（`ppClearDraw` 清零）；`doAt=max(dailyMarks 最后动过, 收藏时间)`（markDaily 2026-10-14 才上线，无记录老题必须靠收藏时间兜底，否则 9 月最老题垫底）；层级优先、层内按 `ageDays` 7 天分档从旧到新；左栏 `ppProgHtml()` 显示已抽/未抽；历史卷回填 `qDrawBF`。
 - 拼卷 UI：`ppViewPos={id,y}` 刷新还原（多次对齐 + 用户 wheel/touch/keydown/pointerdown 取消）；右侧 `ppNav` 复用 `.float-q`（`body.paper-mode .float-q{display:none}` 需同级 `.pp-nav` 覆盖 + `[hidden]` 兜底）；`ppNote-<卷id>` 富文本备注，⚠️ 不复用 `applyNoteFormat/noteInput`（会写 `examNote-undefined`），另写 `ppNoteFmt`。
+- **拼卷题号只把「不会」标红**（2026-11-07 用户口径，不熟/掌握/仅收藏暂不显示）：`ppNavStates()` 按 `.pp-item` 的 **DOM 顺序**取 `statusGet()` 实时值（`ppRender` 会按 PP_SEGS 重排，别用 `ppCur.items` 下标硬对）；`ppRefreshNavMarks()` 只 toggle `mark-unk`、不重建 DOM（保住展开态与高亮锚点），由 `toggleQStatus` 触发。CSS 用 `.pp-nav .nav-q.mark-unk(.on)` 高权重压过 exam.css 的选中蓝底，当前题也是实心红。
 - 核心题库与 exam.json 同结构，`categoryIds:[catId]` 挂同一棵树；新格式标准：`answer`=【答案】+空行+【分析】+【解】分步+⚠️易错；`idea`=2~4 句概括。catId 映射 `tools/_map_catid.py`。
 - ⚠️ `pdfNo` 按章节编号 ≠ PDF 按 35 天计划编号，别拿 pdfNo 当 PDF 题号。用户口径**只刷核心题库**，统计/建议只看 core_bank。exam.json 已知缺陷：2003 数二第 11 题选项 D 应为 `$1>I_2>I_1$`。
 - 资料：线代答案册 `D:/cjx/下载/QQ FileRecv/线性代数_真题+重点题_答案册（含目录与页码）.pdf`（正文位图，书末补01—补39）；大观园源库 `assets/questions.json`（5952 题，无科目标记）；严选题 PDF 有文字层，快照 `tools/_yancai_textlayer.json`。
