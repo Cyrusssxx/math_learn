@@ -43,6 +43,7 @@
 - 答案/思路初始 hidden，**展开后补调 `renderMath` + `fillExamNoteImgs`**。
 - `mdBlock` 裸 `$$` 坑：独占一行的 `$$` 要显式放行开块（`(!l.endsWith('$$') || l === '$$')`）。
 - `.q-note` 只有 `/\[图:[a-z0-9]+\]/` 命中才加 `.has-img`；纯文字靠 `:not(.has-img) .q-note-preview` 去框。
+- ⚠️ **题卡 `mdBlock` 不支持 `- ` 列表**（category.js:353 起，exam.js / exam-shared.js 是副本：每行一律包 `<p>`，只认 `**加粗**` / `==高亮==` / `$$` 块 / 笔记令牌）；`- ` 列表只在笔记页 reader.js / mdrender.js 的 `emitList` 里有效。答案里分情况讨论要用 `**① …**` 编号标签，写 `- ` 会留下裸短横线被误读成负号（2026-11-07 题 583 真机实测）。
 - ⚠️ **拼卷/复测复制按钮**：题来自三源 `_ppIdx`（examPapers+corePapers+bankItems），`allEntries` 只装当前 srcMode 一源。`copyCatQLatex` 必须走 `catFindByQid()`（拼卷/复测先 `ppOfQid`，分类页先 `allEntries`，再 `allEntriesAllSources` 兜底，找不到给按钮提示）——只查 allEntries 会让 15% 的题**静默失效**（2026-11-05 实测 6/40）。
 
 ## 5. 笔记编辑器（contenteditable）
