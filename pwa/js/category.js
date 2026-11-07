@@ -2346,6 +2346,7 @@ function toggleQStatus(btn, qid, v) {
         if (markSel.unfamiliar && nv !== 'unfamiliar' && !markSel.unknown) { const cc = card; setTimeout(() => { if (cc && cc.isConnected) renderMain(); }, 50); }
         if (markSel.unknown && nv !== 'unknown' && !markSel.unfamiliar) { const cc = card; setTimeout(() => { if (cc && cc.isConnected) renderMain(); }, 50); }
         renderNav();   // 题号球标记实时同步（🟢掌握/🟡不熟/🔴不会）
+        if (PAPER_MODE) ppRefreshNavMarks();   // 拼卷右侧题号：只把「不会」标红，且随标记实时变化
     }
 }
 /** 状态 chip 实时同步（点标记按钮即刷新头部徽标，不必整卡重渲染） */
@@ -3391,13 +3392,43 @@ function ppRenderNav() {
     d.hidden = !n;
     if (!n || !list) { if (list) list.innerHTML = ''; return; }
     let html = '';
-    // 只放序号：拼卷的题号就是 1..N（与题卡上的「第 N 题」一致），不带年份/题型标签
-    for (let i = 1; i <= n; i++) html += `<button class="nav-q" data-ppq="${i}" title="第 ${i} 题" onclick="ppJumpQ(${i})">${i}</button>`;
+    const states = ppNavStates();
+    // 只放序号 + 「不会」标红：拼卷的题号就是 1..N（与题卡上的「第 N 题」一致）
+    // ⚠️ 用户口径：不熟 / 已掌握 / 仅收藏暂时都不显示，别顺手把其它 mark-* 也加上
+    for (let i = 1; i <= n; i++) {
+        const unk = states[i - 1] && states[i - 1].state === 'unknown';
+        html += `<button class="nav-q${unk ? ' mark-unk' : ''}" data-ppq="${i}" title="第 ${i} 题${unk ? ' · 🔴不会' : ''}" onclick="ppJumpQ(${i})">${i}</button>`;
+    }
     list.innerHTML = html;
     ppHighlightNav();
 }
 /** 题卡按显示顺序排（.pp-item 的 DOM 顺序 = 第 1..N 题） */
 function ppNavCards() { return Array.from(document.querySelectorAll('#catMain .pp-item')); }
+/** 按显示顺序取每题的实时状态。
+ *  ⚠️ 必须用 .pp-item 的 DOM 顺序对齐题号：ppRender() 会按 PP_SEGS 把题目重新分组，
+ *     ppCur.items 的原始下标不一定等于页面上的第 N 题，硬对会张冠李戴。
+ *  状态以 localStorage 实时值为准（做题时点「不会」要立刻反映到题号球）；只有题卡
+ *  还没渲染出来（数据没到位时的占位 .pp-item，取不到 data-qid）才回退拼卷时的快照。 */
+function ppNavStates() {
+    const st = statusGet() || {};
+    const items = (ppCur && ppCur.items) || [];
+    return ppNavCards().map((card, i) => {
+        const rail = card.querySelector('.q-status-rail[data-qid]');
+        const qid = rail ? rail.dataset.qid : '';
+        return { qid, state: qid ? (st[qid] || null) : (items[i] ? items[i].state : null) };
+    });
+}
+/** 只更新「不会」标记，不重建 DOM —— 保住导航的展开态和点击后的高亮锚点。
+ *  ⚠️ 只认 unknown，其它状态一律不加类（用户要求「其他的暂时不显示」）。 */
+function ppRefreshNavMarks() {
+    if (!PAPER_MODE) return;
+    const states = ppNavStates();
+    document.querySelectorAll('#ppNavList .nav-q').forEach((b, i) => {
+        const unk = states[i] && states[i].state === 'unknown';
+        b.classList.toggle('mark-unk', !!unk);
+        b.title = `第 ${i + 1} 题${unk ? ' · 🔴不会' : ''}`;
+    });
+}
 /** 点题号跳转后把高亮「锚」在点的那一题上，直到用户自己滚动为止。
  *  （否则跳到短题时，45% 线会落进下一题，刚点 18 却显示 19，看着像点错了） */
 let _ppNavAnchor = null;

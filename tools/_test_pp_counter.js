@@ -383,5 +383,44 @@ eq('复制查找：拼卷页能取到真题卷那道题', cp.ex, ['EX', 1]);
 eq('复制查找：拼卷页仍能取到核心题库那道题', cp.core, ['core', 1]);
 eq('复制查找：不存在的 qid 返回 null', cp.none, null);
 
+/* ================= 场景 6：拼卷题号只把「不会」标红（2026-11-07） =================
+ * 用户口径：只显示「不会」的红色，不熟 / 已掌握 / 仅收藏暂时都不显示。
+ * 状态取 localStorage 实时值，且题号与题卡按 .pp-item 的 DOM 顺序对齐。 */
+const TEST_NAV = `
+;(function () {
+    ppCur = { id: 'N1', items: [1,2,3,4].map(i => ({ qid: 'A-' + i })) };
+    localStorage.setItem('examStatus', JSON.stringify({'A-1':'unknown','A-2':'unfamiliar','A-3':'unknown','A-4':'mastered'}));
+    const mkCls = () => ({ _s:new Set(), toggle(c,on){on?this._s.add(c):this._s.delete(c)}, contains(c){return this._s.has(c)} });
+    const cards = ['A-1','A-2','A-3','A-4'].map(qid => ({
+        querySelector: sel => sel === '.q-status-rail[data-qid]' ? { dataset:{qid} } : null,
+        getBoundingClientRect: () => ({ top: 100 }),
+    }));
+    const btns = [1,2,3,4].map(i => ({ dataset:{ppq:String(i)}, title:'', classList:mkCls() }));
+    const navEl = { hidden:true, classList:mkCls(), title:'', innerHTML:'' };
+    const listEl = { innerHTML:'' };
+    document.querySelectorAll = sel => sel === '#catMain .pp-item' ? cards
+        : sel === '#ppNavList .nav-q' ? btns : [];
+    document.getElementById = id => id === 'ppNav' ? navEl : id === 'ppNavList' ? listEl : null;
+
+    window.__n1 = ppNavStates().map(x => x.state);
+    ppRenderNav();
+    window.__n2 = listEl.innerHTML;
+    ppRefreshNavMarks();
+    window.__n3 = btns.map(b => [b.classList.contains('mark-unk'), b.title]);
+    const s = JSON.parse(localStorage.getItem('examStatus')); delete s['A-1'];
+    localStorage.setItem('examStatus', JSON.stringify(s));
+    ppRefreshNavMarks();
+    window.__n4 = btns.map(b => b.classList.contains('mark-unk'));
+})();
+`;
+const nv = run(TEST_NAV, {}, false);
+eq('题号状态按 DOM 顺序取实时值', nv.__n1, ['unknown', 'unfamiliar', 'unknown', 'mastered']);
+ok('题号导航：第 1、3 题（不会）标红',
+    (nv.__n2.match(/class="nav-q mark-unk" data-ppq="[13]"/g) || []).length === 2);
+ok('题号导航：不熟 / 已掌握不显示任何标记', (nv.__n2.match(/mark-/g) || []).length === 2);
+eq('刷新标记：只给不会题加类与提示', nv.__n3,
+    [[true, '第 1 题 · 🔴不会'], [false, '第 2 题'], [true, '第 3 题 · 🔴不会'], [false, '第 4 题']]);
+eq('取消「不会」后红色立即消失', nv.__n4, [false, false, true, false]);
+
 console.log(`\n通过 ${pass} 项，失败 ${fail} 项`);
 process.exit(fail ? 1 : 0);

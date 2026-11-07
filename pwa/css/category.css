@@ -813,6 +813,27 @@ body.paper-mode #catMain { max-width: 900px; }
    hidden 的兜底要跟它同级写，不然 (0,2,1) 会压过 (0,2,0) 的 [hidden] 规则。 */
 body.paper-mode .float-q.pp-nav { display: block; }
 body.paper-mode .float-q.pp-nav[hidden] { display: none; }
+/* 题号只把「不会」标红（不熟 / 已掌握 / 仅收藏暂不显示）。
+   exam.css 已有 .nav-q.mark-unk，但选中态 .nav-q.mark-unk.on 会被换成蓝底；
+   这里用更高权重让当前题即使被选中也保持红色，暗色下把红字提亮保证可读。 */
+.pp-nav .nav-q.mark-unk {
+    background: rgba(224, 49, 49, .22);
+    color: #e03131;
+    border-color: rgba(224, 49, 49, .5);
+    font-weight: 700;
+}
+.pp-nav .nav-q.mark-unk.on {
+    background: #e03131;
+    border-color: #e03131;
+    color: #fff;
+    box-shadow: 0 0 0 2px rgba(224, 49, 49, .28), 0 2px 6px rgba(224, 49, 49, .35);
+}
+html.dark .pp-nav .nav-q.mark-unk {
+    background: rgba(224, 49, 49, .26);
+    color: #ff8787;
+    border-color: rgba(255, 135, 135, .55);
+}
+html.dark .pp-nav .nav-q.mark-unk.on { background: #e03131; border-color: #ff8787; color: #fff; }
 .pp-nav .float-q-no {
     display: inline; font-size: 12.5px; font-weight: 700; color: var(--accent);
     min-width: 16px; text-align: center; font-variant-numeric: tabular-nums;
