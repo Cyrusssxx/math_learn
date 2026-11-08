@@ -1414,6 +1414,22 @@ mark.note-hl {
     body.side-collapsed .sidebar.show { transform: none; }
 }
 
+/* 移动端目录展开时给正文加遮罩：点遮罩 / 点正文都会由 reader.js 收起。
+   z-index：遮罩 25 < sidebar 26 < ☰ 30，保证目录与按钮仍可点。 */
+@media (max-width: 900px) {
+    body.nav-open::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 25;
+        background: rgba(0, 0, 0, .32);
+    }
+    body.nav-open .sidebar { z-index: 26; }
+    /* ☰ 固定在 left:12 / top:12，展开后会压住侧栏顶部第一行。
+       用「整行下移」而不是左右让位：左右让位会挤得品牌文字换行。 */
+    body.nav-open .side-head { padding-top: 60px; }
+}
+
 /* 滚动条（暗色下更协调） */
 ::-webkit-scrollbar { width: 9px; height: 9px; }
 ::-webkit-scrollbar-thumb { background: var(--text-faint); border-radius: 5px; opacity: .4; }

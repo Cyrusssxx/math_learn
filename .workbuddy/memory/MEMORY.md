@@ -40,6 +40,8 @@
 
 - **高亮配色（2026-11-08 用户定）**：笔记主页黄色档改为淡杏黄 `#ffe8b8`（`notes.css` 的 `--mk-y` / 六档 `--hl-y-*`、`.ab-y`、`annotate.js` 的 `ANN_HLS[0]`；深色 `--mk-y=#6b5c33`）；含 KaTeX 的 `mark.mk` / `mark.note-hl` 用 `:has(.katex)` **取消下划线**并把半高亮带压到 30%，普通文字下划线 1px / offset 3px。⚠️ `text-decoration` 会传播进 inline 后代，子元素设 none 无效，只能从父元素取消；批注编辑态是内联 style，必须改 JS 才能同步。按 `y` 键存储的旧标注自动变色，无需迁移。题库页 `NOTE_HLS` / 拼卷 `PP_NOTE_HLS` 色板本次**未动**。
 
+- **移动端目录（≤900px，2026-11-08）**：`body.nav-open` + `body.nav-open::before` 遮罩（z25 < sidebar z26 < ☰ z30）；展开时 `.side-head` 用 `padding-top:60px` **整行下移**避让 ☰（左右让位会把品牌挤成两行，实测否决）。收起统一走 `reader.js` 的 `closeMobileNav()`：点正文/遮罩、Esc、`renderDoc()` 切笔记、`resize>900`；document 的 click 监听要放行 `.menu-btn` 与 sidebar 内部，否则刚展开就被关掉。
+
 ## 4. 跨页副本（exam.js ↔ category.js）
 `mdBlockWithImg` / `fillExamNoteImgs` / `zoomAnsImg` / `mdBlock` / `qCard`vs`catCard` / `.q-note` 双框 / `copyTextToClipboard` / `copyQLatex`vs`copyCatQLatex`。
 - 答案/思路初始 hidden，**展开后补调 `renderMath` + `fillExamNoteImgs`**。

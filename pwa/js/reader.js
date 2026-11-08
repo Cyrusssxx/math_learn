@@ -410,6 +410,7 @@ const _docCache = new Map();
 const DOC_CACHE_MAX = 4;
 
 function renderDoc(note) {
+    closeMobileNav();   // 切换笔记（含搜索跳转）后收起移动端目录，避免它一直盖住正文
     const el = document.getElementById('docPane');
     // 正文顶部自动生成「本文目录」（章节 ≥ 2 时）。
     // ⚠️ 右栏 `.toc` 在 ≤1150px 被 `display:none` 隐藏，所以这里是窄屏/移动端**唯一**的目录入口，
@@ -1281,6 +1282,34 @@ document.addEventListener('keydown', e => {
         scrollToTop();
     }
 });
+
+/* ============ 移动端目录（≤900px）开合逻辑 ============
+ * ☰ 以前只做 classList.toggle('show')：展开后点正文、按 Esc、或点目录切到另一篇笔记，
+ * 侧栏都不会收起，一直盖着正文，必须再点一次 ☰。这里补齐收起路径，并同步 body.nav-open
+ * 供 CSS 画遮罩（点遮罩也会落到下面的 document click 里）。
+ * ⚠️ click 监听放在冒泡阶段：☰ 的 inline onclick 先执行，此时 target 命中 .menu-btn →
+ *    直接 return，不会把刚展开的目录又关掉。 */
+function closeMobileNav() {
+    const sb = document.getElementById('sidebar');
+    if (sb) sb.classList.remove('show');
+    document.body.classList.remove('nav-open');
+}
+window.closeMobileNav = closeMobileNav;
+window.toggleMobileNav = function () {
+    const sb = document.getElementById('sidebar');
+    if (!sb) return;
+    const open = !sb.classList.contains('show');
+    sb.classList.toggle('show', open);
+    document.body.classList.toggle('nav-open', open);
+};
+document.addEventListener('click', e => {
+    const sb = document.getElementById('sidebar');
+    if (!sb || !sb.classList.contains('show')) return;
+    if (sb.contains(e.target) || (e.target.closest && e.target.closest('.menu-btn'))) return;
+    closeMobileNav();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileNav(); });
+window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMobileNav(); });
 
 init().catch(e => {
     // ⚠️ 失败时左右两栏都要给出交代：只写 docPane 会让左栏永远停在「加载中...」，
