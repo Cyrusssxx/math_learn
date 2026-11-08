@@ -20,28 +20,29 @@
     --example-border: #5cab5c;
     --star-bg: #fdf9e3;
     --star-border: #d9b64a;
-    --mk-y: #ffe884;
+    /* 黄色档 2026-11-08 换成更淡的杏黄 #ffe8b8：降饱和、提明度，下划线同步淡化 */
+    --mk-y: #ffe8b8;
     --mk-g: #b6efb6;
     --mk-b: #b7dcff;
     --mk-r: #ffb3ba;
     /* 半高亮带的颜色（比 --mk-* 淡一档，只涂下半截时不刺眼） */
-    --mk-y2: #ffc46b;
+    --mk-y2: #ffe2ab;
     --mk-g2: #bfeab0;
     --mk-b2: #b3ddff;
     --mk-r2: #ffbccb;
-    --hl-y: #fff0d8;
+    --hl-y: #fff6e8;
     --hl-g: #e9f8e4;
     --hl-b: #e2f1fd;
     --hl-r: #fde8ec;
     /* 半高亮（半透明底）+ 下划线：底色只用 30~40% 不透明度，压不住字；
        下划线用同色系更深一档，负责"划重点"的辨识度。2026-10-26 用户指定 */
-    --hl-y-soft: rgba(255, 170, 60, .40);
+    --hl-y-soft: rgba(224, 176, 110, .32);
     /* 整块高亮用更淡的一档（行内是 .38，整块铺满整行，同样浓度会压字） */
-    --hl-y-block: rgba(255, 150, 40, .20);
+    --hl-y-block: rgba(224, 176, 110, .15);
     --hl-g-block: rgba(110, 205, 110, .18);
     --hl-b-block: rgba(70, 150, 235, .18);
     --hl-r-block: rgba(235, 85, 115, .16);
-    --hl-y-line: #d97a00;
+    --hl-y-line: #e0a94f;
     --hl-g-soft: rgba(110, 205, 110, .34);
     --hl-g-line: #2f8f3a;
     --hl-b-soft: rgba(70, 150, 235, .34);
@@ -83,20 +84,21 @@ html.dark {
     --example-border: #74b06f;
     --star-bg: #33301e;
     --star-border: #e5c860;
-    --mk-y: #7a6a1f;
+    /* 深色主题同步换成淡杏黄（与浅色 #ffe8b8 同一色相） */
+    --mk-y: #6b5c33;
     --mk-g: #2f5e33;
     --mk-b: #2b4d75;
     --mk-r: #7a3742;
-    --mk-y2: #5f4414;
+    --mk-y2: #5a4a28;
     --mk-g2: #2b4a22;
     --mk-b2: #1d3a55;
     --mk-r2: #552430;
-    --hl-y: #3a2c16;
+    --hl-y: #3a3020;
     --hl-g: #25351f;
     --hl-b: #1d2f45;
     --hl-r: #3a222a;
-    --hl-y-soft: rgba(255, 170, 60, .18);
-    --hl-y-line: #ffb04d;
+    --hl-y-soft: rgba(224, 176, 110, .14);
+    --hl-y-line: #d9ad6b;
     --hl-g-soft: rgba(110, 205, 110, .16);
     --hl-g-line: #6fd07f;
     --hl-b-soft: rgba(80, 160, 240, .18);
@@ -104,7 +106,7 @@ html.dark {
     --hl-r-soft: rgba(235, 85, 115, .16);
     --hl-r-line: #ff8fa3;
     /* 深色主题下整块高亮：比行内更淡一档，避免整行铺满后压字 */
-    --hl-y-block: rgba(255, 170, 60, .14);
+    --hl-y-block: rgba(224, 176, 110, .11);
     --hl-g-block: rgba(110, 205, 110, .13);
     --hl-b-block: rgba(80, 160, 240, .14);
     --hl-r-block: rgba(235, 85, 115, .12);
@@ -845,14 +847,22 @@ body.lb-open { overflow: hidden; }
    box-decoration-break: clone 保证跨行断行时每行都有自己的圆角和下划线。 */
 mark.mk {
     padding: 0 1px; border-radius: 3px; color: inherit; cursor: pointer;
-    text-decoration-line: underline; text-decoration-thickness: 2px;
-    text-underline-offset: 2px;
+    /* 2026-11-08：下划线由 2px/2px 改成 1px/3px（更细、更靠下），整体不抢字 */
+    text-decoration-line: underline; text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
     -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
-mark.mk-y { background: linear-gradient(to top, var(--mk-y2) 0 52%, transparent 52%); text-decoration-color: var(--hl-y-line); }
-mark.mk-g { background: linear-gradient(to top, var(--mk-g2) 0 52%, transparent 52%); text-decoration-color: var(--hl-g-line); }
-mark.mk-b { background: linear-gradient(to top, var(--mk-b2) 0 52%, transparent 52%); text-decoration-color: var(--hl-b-line); }
-mark.mk-r { background: linear-gradient(to top, var(--mk-r2) 0 52%, transparent 52%); text-decoration-color: var(--hl-r-line); }
+mark.mk-y { --mk-band: var(--mk-y2); background: linear-gradient(to top, var(--mk-band) 0 52%, transparent 52%); text-decoration-color: var(--hl-y-line); }
+mark.mk-g { --mk-band: var(--mk-g2); background: linear-gradient(to top, var(--mk-band) 0 52%, transparent 52%); text-decoration-color: var(--hl-g-line); }
+mark.mk-b { --mk-band: var(--mk-b2); background: linear-gradient(to top, var(--mk-band) 0 52%, transparent 52%); text-decoration-color: var(--hl-b-line); }
+mark.mk-r { --mk-band: var(--mk-r2); background: linear-gradient(to top, var(--mk-band) 0 52%, transparent 52%); text-decoration-color: var(--hl-r-line); }
+/* ⚠️ 含 KaTeX 公式时，text-decoration 会横穿分母 / 下标 / 积分下限，公式看不清
+   （且 CSS 的装饰线会传播进 inline 后代，子元素设 none 也挡不住）。
+   对策：整段取消下划线，半高亮带从 52% 压到 30% 只贴最下沿 —— 保留「被划过」的
+   辨识度，又不压公式。:has() 不被支持时只是退回原样式，不会更差。 */
+mark.mk:has(.katex), mark.note-hl:has(.katex) { text-decoration-line: none; }
+mark.mk:has(.katex) { background: linear-gradient(to top, var(--mk-band, var(--mk-y2)) 0 30%, transparent 30%); }
+mark.note-hl:has(.katex) { background: linear-gradient(to top, var(--nhl) 0 30%, transparent 30%); }
 
 /* 整块高亮（li/p），可点击修改：半透明底 + 底部一条实线当"下划线" */
 /* 整块高亮（选中整段/整条）：底色比行内荧光更淡，用「左侧 3px 竖条 + 圆角」表达"这一块"。
@@ -1024,8 +1034,8 @@ mark.note-hl {
     color: inherit; padding: 0 1px; border-radius: 3px;
     /* 半高亮：只涂行高下半 52%，上沿留白不压字 */
     background: linear-gradient(to top, var(--nhl) 0 52%, transparent 52%);
-    text-decoration-line: underline; text-decoration-thickness: 2px;
-    text-decoration-color: var(--nhl-line, var(--nhl)); text-underline-offset: 2px;
+    text-decoration-line: underline; text-decoration-thickness: 1px;
+    text-decoration-color: var(--nhl-line, var(--nhl)); text-underline-offset: 3px;
     -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
 
@@ -1130,7 +1140,7 @@ mark.note-hl {
     padding: 0;
 }
 .ab-dot:hover { transform: scale(1.18); }
-.ab-y { background: #ffd54a; }
+.ab-y { background: #ffe8b8; }   /* 2026-11-08：与高亮主色统一为淡杏黄 */
 .ab-g { background: #7ed87e; }
 .ab-b { background: #6fb7ff; }
 .ab-r { background: #ff8a99; }

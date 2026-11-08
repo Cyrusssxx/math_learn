@@ -1081,7 +1081,7 @@ const Annot = (() => {
     function showFmlBar(rect, target) {
         fmlTarget = target;
         const btns = [
-            '<button class="ab-dot ab-y" data-fact="hl" data-c="y" title="公式高亮·黄"></button>',
+            '<button class="ab-dot ab-y" data-fact="hl" data-c="y" title="公式高亮·杏黄"></button>',
             '<button class="ab-dot ab-g" data-fact="hl" data-c="g" title="公式高亮·绿"></button>',
             '<button class="ab-dot ab-b" data-fact="hl" data-c="b" title="公式高亮·蓝"></button>',
             '<button class="ab-dot ab-r" data-fact="hl" data-c="r" title="公式高亮·红"></button>',
@@ -1167,7 +1167,7 @@ const Annot = (() => {
     const ANN_COLORS = ['#e03131', '#e8590c', '#2f9e44', '#1971c2', '#9c36b5', '#495057'];
     // 高亮色板：必须保持 #rrggbb（rgbToHex 会丢掉 alpha，用 rgba 会被存成饱和色）。
     // 「半高亮 + 下划线 + 更淡」由 CSS 的 mark.note-hl 负责（背景降到 ~42% 不透明度）。
-    const ANN_HLS = ['#fff3bf', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4'];
+    const ANN_HLS = ['#ffe8b8', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4'];  // 2026-11-08 首格改淡杏黄
 
     /** #rrggbb -> rgba(...,0.42)：编辑器里也显示成半高亮。
      *  反向提取（normColor/rgbToHex）只取 RGB，所以 rgba 存回去仍是原来的 hex，不会污染令牌。 */
@@ -1358,7 +1358,7 @@ const Annot = (() => {
                 emitText(text.slice(i, mf.index));
                 const m0 = mf[0];
                 if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</h1>' || m0 === '</h2>') { if (stack.length > 1) stack.pop(); }
-                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:linear-gradient(to top,' + mf[2] + ' 0 52%,transparent 52%);border-bottom:2px solid ' + hlLine(mf[2]) }); stack[stack.length - 1].appendChild(node); stack.push(node); }
+                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:linear-gradient(to top,' + mf[2] + ' 0 30%,transparent 30%);border-bottom:1px solid ' + hlLine(mf[2]) }); stack[stack.length - 1].appendChild(node); stack.push(node); }
                 i = mf.index + mf[0].length;
             } else if (mi >= 0) {
                 emitText(text.slice(i, mi));

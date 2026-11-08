@@ -38,6 +38,8 @@
 - ⚠️ `reader.js` 与 `mdrender.js` 是两份副本，改渲染逻辑**必须同步**；链路 `emitList→breakLines→inline`。
 - `emitList` 跳级缩进会丢整段列表（按实际层级递归接管）；`renderTipsBlock` 四段标签之外的行必须追加渲染；KaTeX auto-render 跨元素配对 `$`，每张卡 `$` 配平、`$$` 独占行当原子块、切句只用 `。；！？`、输出前 `isBalanced()` + `stripLoneDollar()`。
 
+- **高亮配色（2026-11-08 用户定）**：笔记主页黄色档改为淡杏黄 `#ffe8b8`（`notes.css` 的 `--mk-y` / 六档 `--hl-y-*`、`.ab-y`、`annotate.js` 的 `ANN_HLS[0]`；深色 `--mk-y=#6b5c33`）；含 KaTeX 的 `mark.mk` / `mark.note-hl` 用 `:has(.katex)` **取消下划线**并把半高亮带压到 30%，普通文字下划线 1px / offset 3px。⚠️ `text-decoration` 会传播进 inline 后代，子元素设 none 无效，只能从父元素取消；批注编辑态是内联 style，必须改 JS 才能同步。按 `y` 键存储的旧标注自动变色，无需迁移。题库页 `NOTE_HLS` / 拼卷 `PP_NOTE_HLS` 色板本次**未动**。
+
 ## 4. 跨页副本（exam.js ↔ category.js）
 `mdBlockWithImg` / `fillExamNoteImgs` / `zoomAnsImg` / `mdBlock` / `qCard`vs`catCard` / `.q-note` 双框 / `copyTextToClipboard` / `copyQLatex`vs`copyCatQLatex`。
 - 答案/思路初始 hidden，**展开后补调 `renderMath` + `fillExamNoteImgs`**。
