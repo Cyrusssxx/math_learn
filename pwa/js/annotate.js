@@ -1166,16 +1166,26 @@ const Annot = (() => {
     const ANN_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<h1>|<\/h1>|<h2>|<\/h2>/g;
     const ANN_COLORS = ['#e03131', '#e8590c', '#2f9e44', '#1971c2', '#9c36b5', '#495057'];
     // 高亮色板：必须保持 #rrggbb（rgbToHex 会丢掉 alpha，用 rgba 会被存成饱和色）。
-    // 「半高亮 + 下划线 + 更淡」由 CSS 的 mark.note-hl 负责（背景降到 ~42% 不透明度）。
+    // 「半高亮 + 淡下划线 + 更淡」由 CSS 的 mark.note-hl（--nhl-bg 42%）负责；
+    // 编辑器内则由 annSoftenHl / 令牌渲染写成 55% 不透明度的 30% 带，两条链路浓度分别可调。
     const ANN_HLS = ['#ffe8b8', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4'];  // 2026-11-08 首格改淡杏黄
 
-    /** #rrggbb -> rgba(...,0.42)：编辑器里也显示成半高亮。
+    /** #rrggbb -> rgba(...,a)：编辑器里也显示成半高亮（默认 0.42）。
      *  反向提取（normColor/rgbToHex）只取 RGB，所以 rgba 存回去仍是原来的 hex，不会污染令牌。 */
     function annHlRgba(v, a) {
         const m = /^#([0-9a-fA-F]{6})$/.exec(String(v || '').trim());
         if (!m) return v;
         const n = parseInt(m[1], 16);
         return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + (a == null ? 0.42 : a) + ')';
+    }
+
+    /** 编辑态行内下划线淡档：hlLine() 的实色 rgb(...) → 40% 不透明度。
+     *  与 notes.css 的 --mk-*-line / color-mix(...40%) 同口径。CSS 覆盖不到行内 style，
+     *  必须在这里同步生成，否则「下划线存在感比文字还强」会在批注编辑器 / 实时预览里残留。 */
+    function hlLineSoft(hex) {
+        const c = hlLine(hex);
+        const m = /^rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/.exec(String(c));
+        return m ? 'rgba(' + m[1] + ',' + m[2] + ',' + m[3] + ',.4)' : c;
     }
 
     /** 编辑器里已有的实心高亮（老内容 / 浏览器 execCommand 产物）统一压成半透明 */
@@ -1189,8 +1199,11 @@ const Annot = (() => {
             if (!m) return;
             const al = m[4] == null ? 1 : parseFloat(m[4]);
             if (al < 0.9) return;                       // 已经是半透明
-            const hexc = '#' + [m[1], m[2], m[3]].map(v => (+v).toString(16).padStart(2, '0')).join(''); st.background = 'linear-gradient(to top,' + hexc + ' 0 52%,transparent 52%)'; if (n.setAttribute) n.setAttribute('data-hl', hexc);
-            st.borderBottom = '2px solid rgb(' + m[1] + ',' + m[2] + ',' + m[3] + ')';
+            const hexc = '#' + [m[1], m[2], m[3]].map(v => (+v).toString(16).padStart(2, '0')).join('');
+            // 2026-11-10：52% 实心带 → 30% 半透明带，2px 实线 → 1px 淡档线
+            st.background = 'linear-gradient(to top,' + annHlRgba(hexc, .55) + ' 0 30%,transparent 30%)';
+            if (n.setAttribute) n.setAttribute('data-hl', hexc);
+            st.borderBottom = '1px solid ' + hlLineSoft(hexc);
             if (n.getAttribute && n.getAttribute('bgcolor') != null) n.removeAttribute('bgcolor');
         });
     }
@@ -1358,7 +1371,7 @@ const Annot = (() => {
                 emitText(text.slice(i, mf.index));
                 const m0 = mf[0];
                 if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</h1>' || m0 === '</h2>') { if (stack.length > 1) stack.pop(); }
-                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:linear-gradient(to top,' + mf[2] + ' 0 30%,transparent 30%);border-bottom:1px solid ' + hlLine(mf[2]) }); stack[stack.length - 1].appendChild(node); stack.push(node); }
+                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:linear-gradient(to top,' + annHlRgba(mf[2], .55) + ' 0 30%,transparent 30%);border-bottom:1px solid ' + hlLineSoft(mf[2]) }); stack[stack.length - 1].appendChild(node); stack.push(node); }
                 i = mf.index + mf[0].length;
             } else if (mi >= 0) {
                 emitText(text.slice(i, mi));

@@ -38,7 +38,7 @@
 - ⚠️ `reader.js` 与 `mdrender.js` 是两份副本，改渲染逻辑**必须同步**；链路 `emitList→breakLines→inline`。
 - `emitList` 跳级缩进会丢整段列表（按实际层级递归接管）；`renderTipsBlock` 四段标签之外的行必须追加渲染；KaTeX auto-render 跨元素配对 `$`，每张卡 `$` 配平、`$$` 独占行当原子块、切句只用 `。；！？`、输出前 `isBalanced()` + `stripLoneDollar()`。
 
-- **高亮配色（2026-11-08 用户定）**：笔记主页黄色档改为淡杏黄 `#ffe8b8`（`notes.css` 的 `--mk-y` / 六档 `--hl-y-*`、`.ab-y`、`annotate.js` 的 `ANN_HLS[0]`；深色 `--mk-y=#6b5c33`）；含 KaTeX 的 `mark.mk` / `mark.note-hl` 用 `:has(.katex)` **取消下划线**并把半高亮带压到 30%，普通文字下划线 1px / offset 3px。⚠️ `text-decoration` 会传播进 inline 后代，子元素设 none 无效，只能从父元素取消；批注编辑态是内联 style，必须改 JS 才能同步。按 `y` 键存储的旧标注自动变色，无需迁移。题库页 `NOTE_HLS` / 拼卷 `PP_NOTE_HLS` 色板本次**未动**。
+- **高亮配色（11-08 定色 / 11-10 降浓度）**：黄色档淡杏黄 `#ffe8b8`（`--mk-y`、`.ab-y`、`ANN_HLS[0]`；深色 `#6b5c33`），按 `y` 键存储，改配色值即自动变色、无需迁移。11-10 起：`--mk-*2` 由**不透明实色 52% 带**改 `rgba(.52~.55)` 的 **30% 带**；新增 `--mk-*-line` 下划线淡档（浅 .40 / 深 .38）、offset 4px；`mark.note-hl` 改用 JS 早就算好却没引用的 `--nhl-bg`（42%）；公式高亮 `inset 0 -1px`、整块竖条 2px、底浓度全面降一档。⚠️ `text-decoration` 会传播进 inline 后代（含 KaTeX 用 `:has` 从父取消）；`.ann-text mark` 必须显式 `background`，否则落回浏览器 UA 亮黄；编辑态是内联 style，CSS 覆盖不到，必须同步 `annotate.js` 的 `annSoftenHl` + 令牌渲染两处（`annHlRgba` / `hlLineSoft`）。色板 `ANN_HLS` / `NOTE_HLS` / `PP_NOTE_HLS` 的 hex 值不动，只改渲染浓度；`common.js` 的 `hlBg/.42`、`hlLine` 共享函数不动。断言 `tools/_test_notes_hl.js`（116 项，含变异反向验证；CSS 规则体提取正则要**行首锚定**，否则 `p.hl-r` 会误抓组合选择器）。
 
 - **移动端目录（≤900px，2026-11-08）**：`body.nav-open` + `body.nav-open::before` 遮罩（z25 < sidebar z26 < ☰ z30）；展开时 `.side-head` 用 `padding-top:60px` **整行下移**避让 ☰（左右让位会把品牌挤成两行，实测否决）。收起统一走 `reader.js` 的 `closeMobileNav()`：点正文/遮罩、Esc、`renderDoc()` 切笔记、`resize>900`；document 的 click 监听要放行 `.menu-btn` 与 sidebar 内部，否则刚展开就被关掉。
 
