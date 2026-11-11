@@ -1,8 +1,12 @@
-/* 笔记主页个人批注高亮配色断言（2026-11-10）
+/* 笔记主页个人批注高亮配色断言
+ * 2026-11-10 建（整体变淡 / 下划线降档）；2026-11-11 用户反馈「太淡看不见」→ 回调底色可见度。
  * 纯静态源文本断言 + 变异反向验证，不依赖 jsdom（jsdom 不解析 CSS 变量 / color-mix）。
  * 运行：node tools/_test_notes_hl.js
  * 覆盖：notes.css 浅/深两套变量与全部 mark / 公式 / 整块 / 编辑态规则、
- *       annotate.js 两处行内样式、范围边界（题库/拼卷色板、共享 hlBg/hlLine 不动）。
+ *       annotate.js 三处行内样式、范围边界（题库/拼卷色板、共享 hlBg/hlLine 不动）。
+ *
+ * 定档口径（11-11）：只加浓「底色」—— 带高 46%（<52%，上半截不染色）、alpha .86~.90；
+ * 下划线维持 11-10 的淡档（40%/38%、1px、offset 4px），不得回调。
  */
 const fs = require('fs');
 const path = require('path');
@@ -38,102 +42,133 @@ function body(sel, src) {
     const m = re.exec(src || css);
     return m ? m[1] : '';
 }
+/** rgba(...) 的 alpha 数值 */
+function alpha(v) {
+    const m = /rgba\([^)]*?,\s*([\d.]+)\s*\)/.exec(v || '');
+    return m ? parseFloat(m[1]) : NaN;
+}
+/** 渐变带高：linear-gradient(... 0 46%, transparent 46%)（JS 内联串没有空格） */
+function bandPct(src) {
+    const m = /0\s+(\d+)%\s*,\s*transparent\s+(\d+)%/.exec(src || '');
+    return m && m[1] === m[2] ? +m[1] : NaN;
+}
+const visibleBand = p => p >= 45 && p < 52;   // <45 = 过淡回归；>=52 = 回到遮罩文字档
 
-console.log('=== 1. 浅色 / 深色变量：半透明底色 ===');
+console.log('=== 1. 浅色 / 深色变量：回调到可见档（46% 带 + 高 alpha） ===');
 const bandNames = ['mk-y2', 'mk-g2', 'mk-b2', 'mk-r2'];
-const bandAlpha = { 'mk-y2': ['.55', '.62'], 'mk-g2': ['.52', '.60'], 'mk-b2': ['.52', '.60'], 'mk-r2': ['.52', '.60'] };
+const bandAlpha = { 'mk-y2': ['.88', '.90'], 'mk-g2': ['.86', '.88'], 'mk-b2': ['.86', '.88'], 'mk-r2': ['.86', '.88'] };
 bandNames.forEach(n => {
     const v = vals(n);
     ok(n + ' 有浅/深两份', v.length === 2);
-    ok(n + ' 浅色为 rgba 半透明', /^rgba\(/.test(v[0] || ''));
-    ok(n + ' 深色为 rgba 半透明', /^rgba\(/.test(v[1] || ''));
+    ok(n + ' 浅色仍为 rgba 半透明（不是不透明实色）', /^rgba\(/.test(v[0] || ''));
+    ok(n + ' 深色仍为 rgba 半透明', /^rgba\(/.test(v[1] || ''));
     ok(n + ' 浅色 alpha = ' + bandAlpha[n][0], has(v[0] || '', bandAlpha[n][0]));
     ok(n + ' 深色 alpha = ' + bandAlpha[n][1], has(v[1] || '', bandAlpha[n][1]));
+    ok(n + ' 浅色 alpha ≥ .85（可见度下限）', alpha(v[0]) >= .85);
+    ok(n + ' 深色 alpha ≥ .85（可见度下限）', alpha(v[1]) >= .85);
 });
 ok('旧实心 --mk-y2: #ffe2ab 已退场', no(css, '--mk-y2: #ffe2ab'));
 ok('旧实心 --mk-g2: #bfeab0 已退场', no(css, '--mk-g2: #bfeab0'));
 ok('旧实心 --mk-b2: #b3ddff 已退场', no(css, '--mk-b2: #b3ddff'));
 ok('旧实心 --mk-r2: #ffbccb 已退场', no(css, '--mk-r2: #ffbccb'));
+ok('11-10 过淡 --mk-y2 .55 退场', no(css, '--mk-y2: rgba(255, 226, 171, .55)'));
+ok('11-10 过淡 --mk-g2 .52 退场', no(css, '--mk-g2: rgba(191, 234, 176, .52)'));
+ok('11-10 过淡深色 --mk-y2 .62 退场', no(css, '--mk-y2: rgba(90, 74, 40, .62)'));
 
-console.log('=== 2. 下划线淡档变量 --mk-*-line ===');
+console.log('=== 2. 下划线淡档保持不变（用户明确要求弱化，本轮不动） ===');
 const lineNames = ['mk-y-line', 'mk-g-line', 'mk-b-line', 'mk-r-line'];
 lineNames.forEach(n => {
     const v = vals(n);
     ok(n + ' 浅/深两份齐全', v.length === 2);
-    ok(n + ' 浅色 40% 不透明度', has(v[0] || '', '.40'));
-    ok(n + ' 深色 38% 不透明度', has(v[1] || '', '.38'));
+    ok(n + ' 浅色仍是 40% 不透明度', has(v[0] || '', '.40'));
+    ok(n + ' 深色仍是 38% 不透明度', has(v[1] || '', '.38'));
 });
 ok('实色 --hl-*-line 仍保留（fallback / 旧用途）', vals('hl-y-line').length === 2 && has(vals('hl-y-line')[0], '#e0a94f'));
+ok('mark.mk 下划线仍是 1px + offset 4px', has(body('mark.mk {'), 'text-decoration-thickness: 1px') && has(body('mark.mk {'), 'text-underline-offset: 4px'));
+ok('mark.note-hl 仍是 color-mix 40% 淡下划线', has(body('mark.note-hl {'), 'color-mix(in srgb, var(--nhl-line, var(--nhl)) 40%, transparent)'));
 
-console.log('=== 3. 底色浓度：公式高亮 / 整块高亮 ===');
-const soft = { 'hl-y-soft': ['.22', '.12'], 'hl-g-soft': ['.22', '.13'], 'hl-b-soft': ['.22', '.14'], 'hl-r-soft': ['.20', '.12'] };
+console.log('=== 3. 底色浓度：公式高亮 / 整块高亮回调 ===');
+const soft = { 'hl-y-soft': ['.30', '.18'], 'hl-g-soft': ['.30', '.19'], 'hl-b-soft': ['.30', '.20'], 'hl-r-soft': ['.28', '.18'] };
 Object.keys(soft).forEach(n => {
     const v = vals(n);
-    ok(n + ' 浅色降到 ' + soft[n][0], v.length === 2 && has(v[0], soft[n][0]));
-    ok(n + ' 深色降到 ' + soft[n][1], v.length === 2 && has(v[1], soft[n][1]));
+    ok(n + ' 浅色回到 ' + soft[n][0], v.length === 2 && has(v[0], soft[n][0]));
+    ok(n + ' 深色回到 ' + soft[n][1], v.length === 2 && has(v[1], soft[n][1]));
+    ok(n + ' 浅色 ≥ .28（不再是 .2 档）', alpha(v[0]) >= .28);
 });
-const block = { 'hl-y-block': ['.12', '.09'], 'hl-g-block': ['.14', '.10'], 'hl-b-block': ['.14', '.11'], 'hl-r-block': ['.12', '.09'] };
+const block = { 'hl-y-block': ['.16', '.13'], 'hl-g-block': ['.18', '.14'], 'hl-b-block': ['.18', '.15'], 'hl-r-block': ['.16', '.13'] };
 Object.keys(block).forEach(n => {
     const v = vals(n);
-    ok(n + ' 浅色降到 ' + block[n][0], v.length === 2 && has(v[0], block[n][0]));
-    ok(n + ' 深色降到 ' + block[n][1], v.length === 2 && has(v[1], block[n][1]));
+    ok(n + ' 浅色回到 ' + block[n][0], v.length === 2 && has(v[0], block[n][0]));
+    ok(n + ' 深色回到 ' + block[n][1], v.length === 2 && has(v[1], block[n][1]));
+    ok(n + ' 浅色 ≥ .16（不再是 .12 档）', alpha(v[0]) >= .16);
 });
 ok('旧 --hl-y-soft: rgba(224, 176, 110, .32) 退场', no(css, '--hl-y-soft: rgba(224, 176, 110, .32)'));
-ok('旧 --hl-g-soft .34 退场', no(css, '--hl-g-soft: rgba(110, 205, 110, .34)'));
+ok('11-10 过淡 --hl-y-soft .22 退场', no(css, '--hl-y-soft: rgba(224, 176, 110, .22)'));
+ok('11-10 过淡 --hl-y-block .12 退场', no(css, '--hl-y-block: rgba(224, 176, 110, .12)'));
 ok('上一轮用户选定的主色 --mk-y 仍为 #ffe8b8', has(vals('mk-y')[0] || '', '#ffe8b8'));
 
-console.log('=== 4. mark 规则：30% 半透明带 + 淡下划线 ===');
+console.log('=== 4. mark 规则：46% 可见带 + 淡下划线 ===');
 const mk = body('mark.mk {');
 ok('mark.mk 厚度仍为 1px', has(mk, 'text-decoration-thickness: 1px'));
-ok('mark.mk 下划线 offset 3px → 4px', has(mk, 'text-underline-offset: 4px'));
+ok('mark.mk 下划线 offset 仍为 4px', has(mk, 'text-underline-offset: 4px'));
 ok('mark.mk 仍是 underline', has(mk, 'text-decoration-line: underline'));
 const mkMap = { 'mark.mk-y': 'mk-y-line', 'mark.mk-g': 'mk-g-line', 'mark.mk-b': 'mk-b-line', 'mark.mk-r': 'mk-r-line' };
 Object.keys(mkMap).forEach(sel => {
     const b = body(sel + ' {');
-    ok(sel + ' 底色带降到 30%', has(b, '0 30%, transparent 30%'));
+    ok(sel + ' 底色带 = 46%', bandPct(b) === 46);
+    ok(sel + ' 带高在可见档 [45,52)', visibleBand(bandPct(b)));
     ok(sel + ' 不再有 52% 带', no(b, '52%'));
+    ok(sel + ' 不再有 30% 过淡带', no(b, '0 30%, transparent 30%'));
     ok(sel + ' 下划线用 ' + mkMap[sel], has(b, 'text-decoration-color: var(--' + mkMap[sel] + ')'));
 });
 ok('含 KaTeX 仍整段取消下划线', has(css, 'mark.mk:has(.katex), mark.note-hl:has(.katex) { text-decoration-line: none; }'));
-ok('含 KaTeX 的 note-hl 也改用 --nhl-bg', has(css, 'mark.note-hl:has(.katex) { background: linear-gradient(to top, var(--nhl-bg, var(--nhl)) 0 30%, transparent 30%); }'));
+ok('含 KaTeX 的 mark.mk 也是 46% 带', bandPct(body('mark.mk:has(.katex) {')) === 46);
+ok('含 KaTeX 的 note-hl 仍用 --nhl-bg 且 46% 带', has(css, 'mark.note-hl:has(.katex) { background: linear-gradient(to top, var(--nhl-bg, var(--nhl)) 0 46%, transparent 46%); }'));
 ok('全文 mark 规则不再出现 52% 实心带', no(css, '0 52%, transparent 52%'));
+ok('全文 mark 规则不再出现 30% 过淡带', no(css, '0 30%, transparent 30%'));
 
-console.log('=== 5. mark.note-hl：修好 --nhl-bg 定义了却没用 ===');
+console.log('=== 5. mark.note-hl：--nhl-bg 由 JS 提到 85%（不动 common.js） ===');
 const nh = body('mark.note-hl {');
-ok('背景改用 --nhl-bg（半透明）', has(nh, 'var(--nhl-bg, var(--nhl))'));
-ok('带高降到 30%', has(nh, '0 30%, transparent 30%'));
+ok('背景仍用 --nhl-bg（半透明，不是不透明 --nhl）', has(nh, 'var(--nhl-bg, var(--nhl))'));
+ok('带高 = 46%', bandPct(nh) === 46);
 ok('不再用不透明 --nhl 涂 52%', no(nh, '0 52%'));
-ok('color-mix 40% 淡下划线', has(nh, 'color-mix(in srgb, var(--nhl-line, var(--nhl)) 40%, transparent)'));
+ok('color-mix 40% 淡下划线保留', has(nh, 'color-mix(in srgb, var(--nhl-line, var(--nhl)) 40%, transparent)'));
 ok('保留实色 fallback（老浏览器不更差）', has(nh, 'text-decoration-color: var(--nhl-line, var(--nhl));'));
-ok('offset 4px', has(nh, 'text-underline-offset: 4px'));
+ok('offset 仍为 4px', has(nh, 'text-underline-offset: 4px'));
+ok('令牌渲染 --nhl-bg 改用 annHlRgba(c, .85)', has(js, "--nhl-bg:' + annHlRgba(c, .85)"));
+ok('旧 hlBg(c) 传值（.42 太淡）退场', no(js, "--nhl-bg:' + hlBg(c)"));
+ok('common.js 的 hlBg 仍是 .42（6 页共用，未被误改）', has(common, ',.42)'));
 
-console.log('=== 6. 批注编辑态 / 公式高亮 / 整块竖条 ===');
+console.log('=== 6. 批注编辑态 / 公式高亮 / 整块竖条（下划线档不动） ===');
 const ann = body('.ann-text mark, .ann-edit mark {');
 ok('显式 background 覆盖 UA 亮黄', has(ann, 'background: var(--hl-y-soft)'));
-ok('border-bottom 2px 实色 → 1px 淡档', has(ann, 'border-bottom: 1px solid var(--mk-y-line)'));
+ok('border-bottom 仍是 1px 淡档', has(ann, 'border-bottom: 1px solid var(--mk-y-line)'));
 ok('旧 2px solid var(--hl-y-line) 退场', no(css, 'border-bottom: 2px solid var(--hl-y-line)'));
 const fmlMap = { 'katex.fml-hl-y': 'mk-y-line', 'katex.fml-hl-g': 'mk-g-line', 'katex.fml-hl-b': 'mk-b-line', 'katex.fml-hl-r': 'mk-r-line' };
 Object.keys(fmlMap).forEach(sel => {
     const b = body('.' + sel + ' {');
-    ok(sel + ' 底部线 1px 淡档', has(b, 'inset 0 -1px 0 var(--' + fmlMap[sel] + ')'));
+    ok(sel + ' 底部线仍是 1px 淡档', has(b, 'inset 0 -1px 0 var(--' + fmlMap[sel] + ')'));
 });
 ok('旧 inset 0 -2px 实线全部退场', no(css, 'inset 0 -2px 0 var(--hl-y-line)'));
 const pMap = { 'p.hl-y': 'mk-y-line', 'p.hl-g': 'mk-g-line', 'p.hl-b': 'mk-b-line', 'p.hl-r': 'mk-r-line' };
 Object.keys(pMap).forEach(sel => {
     const b = body(sel + ' {');
-    ok(sel + ' 竖条 2px 淡档', has(b, 'inset 2px 0 0 var(--' + pMap[sel] + ')'));
+    ok(sel + ' 竖条仍是 2px 淡档', has(b, 'inset 2px 0 0 var(--' + pMap[sel] + ')'));
 });
 ok('旧 3px 实色竖条退场', no(css, 'inset 3px 0 0 var(--hl-y-line)'));
 
-console.log('=== 7. annotate.js 两处行内样式同步 ===');
+console.log('=== 7. annotate.js 三处行内样式同步（CSS 覆盖不到） ===');
 ok('新增 hlLineSoft 助手', has(js, 'function hlLineSoft(hex)'));
-ok('hlLineSoft 输出 40% 不透明度', has(js, ",.4)'"));
-ok('annSoftenHl 用 annHlRgba(hexc, .55)', has(js, 'annHlRgba(hexc, .55)'));
-ok('annSoftenHl 用 30% 半透明带', has(js, "annHlRgba(hexc, .55) + ' 0 30%,transparent 30%)'"));
+ok('hlLineSoft 输出仍是 40% 不透明度', has(js, ",.4)'"));
+ok('annSoftenHl 用 annHlRgba(hexc, .85)', has(js, 'annHlRgba(hexc, .85)'));
+ok('annSoftenHl 用 46% 带', has(js, "annHlRgba(hexc, .85) + ' 0 46%,transparent 46%)'"));
 ok('annSoftenHl 用 1px 淡线', has(js, "'1px solid ' + hlLineSoft(hexc)"));
-ok('令牌渲染用 annHlRgba(mf[2], .55)', has(js, 'annHlRgba(mf[2], .55)'));
-ok('令牌渲染用 hlLineSoft(mf[2])', has(js, "hlLineSoft(mf[2])"));
+ok('令牌渲染用 annHlRgba(mf[2], .85)', has(js, 'annHlRgba(mf[2], .85)'));
+ok('令牌渲染用 46% 带', has(js, "annHlRgba(mf[2], .85) + ' 0 46%,transparent 46%)"));
+ok('令牌渲染用 hlLineSoft(mf[2])', has(js, 'hlLineSoft(mf[2])'));
 ok('旧 0 52%,transparent 52% 内联串退场', no(js, '0 52%,transparent 52%'));
+ok('11-10 过淡 0 30%,transparent 30% 内联串退场', no(js, '0 30%,transparent 30%'));
+ok('11-10 过淡 .55 内联串退场', no(js, 'annHlRgba(hexc, .55)') && no(js, 'annHlRgba(mf[2], .55)'));
 ok("旧 '2px solid rgb(' 内联串退场", no(js, "'2px solid rgb('"));
 ok('旧 hlLine(mf[2]) 实线退场', no(js, "border-bottom:1px solid ' + hlLine(mf[2])"));
 ok('ANN_HLS 色板值未动（首格淡杏黄）', has(js, "const ANN_HLS = ['#ffe8b8', '#d3f9d8', '#d0ebff', '#ffe3e3', '#ffdcc4']"));
@@ -148,17 +183,23 @@ ok('exam.css 的 note-hl 规则未被波及', has(examcss, '--nhl-line'));
 
 console.log('=== 9. 变异反向验证（证明断言不是恒真） ===');
 const mutCss = css
-    .replace('--mk-y2: rgba(255, 226, 171, .55);', '--mk-y2: #ffe2ab;')
+    .replace('--mk-y2: rgba(255, 226, 171, .88);', '--mk-y2: #ffe2ab;')
     .replace('text-underline-offset: 4px;', 'text-underline-offset: 3px;')
-    .replace('border-bottom: 1px solid var(--mk-y-line);', 'border-bottom: 2px solid var(--hl-y-line);');
+    .replace('border-bottom: 1px solid var(--mk-y-line);', 'border-bottom: 2px solid var(--hl-y-line);')
+    .replace('0 46%, transparent 46%); text-decoration-color: var(--mk-y-line);', '0 30%, transparent 30%); text-decoration-color: var(--mk-y-line);');
 ok('变异①：实心 --mk-y2 会被「rgba 半透明」断言拒绝', !/^rgba\(/.test(vals('mk-y2', mutCss)[0] || ''));
 ok('变异②：offset 3px 会被「4px」断言拒绝', no(body('mark.mk {', mutCss), 'text-underline-offset: 4px'));
 ok('变异③：2px 实线会被「1px 淡档」断言拒绝', no(body('.ann-text mark, .ann-edit mark {', mutCss), '1px solid var(--mk-y-line)'));
+ok('变异④：mk-y 带高改回 30% 会被「可见档」断言拒绝', !visibleBand(bandPct(body('mark.mk-y {', mutCss))));
+const mutCss2 = css.replace('--mk-y2: rgba(255, 226, 171, .88);', '--mk-y2: rgba(255, 226, 171, .55);');
+ok('变异⑤：alpha 改回 .55 会被「≥.85」断言拒绝', alpha(vals('mk-y2', mutCss2)[0]) < .85);
 const mutJs = js
-    .replace('annHlRgba(hexc, .55)', 'hexc')
-    .replace('annHlRgba(mf[2], .55)', 'mf[2]');
-ok('变异④：去掉 annHlRgba(hexc,.55) 会被断言拒绝', no(mutJs, 'annHlRgba(hexc, .55)'));
-ok('变异⑤：去掉 annHlRgba(mf[2],.55) 会被断言拒绝', no(mutJs, 'annHlRgba(mf[2], .55)'));
+    .replace('annHlRgba(hexc, .85)', 'hexc')
+    .replace('annHlRgba(mf[2], .85)', 'mf[2]')
+    .replace("--nhl-bg:' + annHlRgba(c, .85)", "--nhl-bg:' + hlBg(c)");
+ok('变异⑥：去掉 annHlRgba(hexc,.85) 会被断言拒绝', no(mutJs, 'annHlRgba(hexc, .85)'));
+ok('变异⑦：去掉 annHlRgba(mf[2],.85) 会被断言拒绝', no(mutJs, 'annHlRgba(mf[2], .85)'));
+ok('变异⑧：--nhl-bg 换回 hlBg(c) 会被断言拒绝', has(mutJs, "--nhl-bg:' + hlBg(c)"));
 ok('真实源码本身通过前面全部断言', fail === 0);
 
 console.log('\n通过 ' + pass + ' 项，失败 ' + fail + ' 项');
