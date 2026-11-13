@@ -1,0 +1,692 @@
+[
+ {
+  "id": "ys27",
+  "year": "",
+  "title": "27模拟卷精选题",
+  "sections": [
+   {
+    "title": "一、函数极限与连续",
+    "questions": [
+     {
+      "no": 1,
+      "origin": "6",
+      "stem": "设当 $x\\to 0$ 时，$\\alpha(x),\\beta(x)$ 为非零无穷小，则下列选项中正确个数为\n\n① 若 $\\alpha(x)\\sim\\beta(x)$，则 $\\alpha(x)-\\beta(x)=o(\\alpha(x))$；\n\n② 若 $\\alpha(x)\\sim\\beta(x)$，则 $\\alpha^2(x)-\\beta^2(x)=o(\\alpha(x))$；\n\n③ 若 $\\gamma(x)$ 是 $x\\to 0$ 时的无穷小量，则 $\\alpha(x)+\\gamma(x)\\sim\\beta(x)+\\gamma(x)$；\n\n④ 若 $\\alpha(x)=o(\\beta(x))$，则对任意的 $x\\to 0$ 时的非零无穷小量 $\\gamma(x)$，都有 $\\alpha(x)\\gamma(x)=o(\\beta(x)\\gamma(x))$。",
+      "options": [
+       "A. 1.",
+       "B. 2.",
+       "C. 3.",
+       "D. 4."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "ep 数二卷一-6·等价无穷小",
+      "answer": "【答案】C\n\n【解】**① 判断前两条：等价无穷小的差与平方差**\n由 $x\\to0$ 时 $\\alpha\\sim\\beta$，知 $\\frac{\\beta}{\\alpha}\\to1$，故\n$$\\frac{\\alpha-\\beta}{\\alpha}=1-\\frac{\\beta}{\\alpha}\\to0,$$\n所以①正确。又由 $x\\to0$ 时 $\\frac{\\beta}{\\alpha}\\to1$ 及 $\\alpha+\\beta\\to0$，得\n$$\\frac{\\alpha^2-\\beta^2}{\\alpha}=\\frac{(\\alpha-\\beta)(\\alpha+\\beta)}{\\alpha}=\\left(1-\\frac{\\beta}{\\alpha}\\right)(\\alpha+\\beta)\\to0,$$\n所以②正确。\n\n**② 用反例排除第三条**\n取 $\\alpha=x$，$\\beta=x+x^2$，$\\gamma=-x$。当 $x\\to0$ 时，三者均为无穷小，且 $\\frac{\\alpha}{\\beta}\\to1$；但 $\\alpha+\\gamma=0$，$\\beta+\\gamma=x^2$，两者之比为 $0$，不趋于 $1$，故③错误。\n\n**③ 判断第四条并下结论**\n因 $\\gamma$ 非零，得\n$$\\frac{\\alpha\\gamma}{\\beta\\gamma}=\\frac{\\alpha}{\\beta}\\to0\\quad(x\\to0),$$\n所以④正确。综上，正确的有①②④，共 3 个，故选 C。",
+      "idea": "四条命题本质都是比较 $\\frac{\\alpha}{\\beta}$ 或 $1-\\frac{\\beta}{\\alpha}$ 的极限，先做恒等变形把差、平方差拆出 $(1-\\beta/\\alpha)$ 因子，符号立刻可见。第三条专门考\"等价无穷小对加减法不封闭\"，用 $x$、$x+x^2$、$-x$ 这组反例一击即破。第四条只要 $\\gamma\\neq0$ 就能直接约掉，属于送分项。",
+      "categoryIds": [
+       50011
+      ]
+     }
+    ]
+   },
+   {
+    "title": "二、一元函数微分学",
+    "questions": [
+     {
+      "no": 2,
+      "origin": "5",
+      "stem": "设函数 $f(x)$ 在 $(-\\infty,+\\infty)$ 内有定义，且对于任意的 $x,y$，都有 $f(x+y)=f(x)f(y)$，已知 $f(0)\\neq 0$，$f'(0)=a\\neq 0$，则",
+      "options": [
+       "A. $f(x)$ 单调增加.",
+       "B. $f(x)$ 单调减少.",
+       "C. $f(x)$ 为凹函数.",
+       "D. $f(x)$ 为凸函数."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "李艳芳数二卷一-5·凹凸性",
+      "answer": "【答案】C\n\n【解】**① 由函数方程定出 $f(0)$**\n将 $x=0$ 代入 $f(x+y)=f(x)f(y)$ 可得 $f(0)=[f(0)]^2$，解得 $f(0)=0$ 或 $f(0)=1$。又因为 $f(0)\\neq0$，所以 $f(0)=1$。\n\n**② 用导数定义求出 $f'(x)$ 满足的方程**\n根据导数的定义，\n$$f'(x)=\\lim_{\\Delta x\\to0}\\frac{f(x+\\Delta x)-f(x)}{\\Delta x}=\\lim_{\\Delta x\\to0}\\frac{f(x)f(\\Delta x)-f(x)}{\\Delta x}=\\lim_{\\Delta x\\to0}\\frac{f(x)[f(\\Delta x)-1]}{\\Delta x}$$\n$$=f(x)\\lim_{\\Delta x\\to0}\\frac{f(\\Delta x)-f(0)}{\\Delta x}=f(x)f'(0)=af(x).$$\n\n**③ 解微分方程得 $f(x)=e^{ax}$**\n$f(x)$ 满足微分方程 $y'=ay$，分离变量可得 $\\frac{\\mathrm{d}y}{y}=a\\,\\mathrm{d}x$，方程两端积分可得 $\\ln|y|=ax+C_0$，即 $|y|=e^{C_0}e^{ax}$。由 $f(0)=1$ 可得 $C_0=0$，从而 $y=f(x)=e^{ax}$。\n\n**④ 讨论单调性与凹凸性**\n当 $a>0$ 时，$f'(x)=ae^{ax}>0$，$f(x)$ 单调增加；当 $a<0$ 时，$f'(x)=ae^{ax}<0$，$f(x)$ 单调减少。计算 $f''(x)$ 可得 $f''(x)=a^2e^{ax}>0$。由此可得，不论 $a$ 为何值，$f(x)$ 均为凹函数。\n\n因此，应选 C。",
+      "idea": "抽象函数方程配上一点导数，标准路线是先用 $x=0$ 把 $f(0)$ 定出来，再用导数定义把 $f'(x)$ 化成 $f(x)f'(0)$。这就变成一个可直接分离变量的最简微分方程，解出 $f=e^{ax}$ 后题目完全显式化。最后按 $a$ 的符号讨论，发现 $f''>0$ 与 $a$ 无关，凹凸性一次性判定，这正是本题只考凹凸不考单调的原因。",
+      "categoryIds": [
+       50021
+      ]
+     },
+     {
+      "no": 3,
+      "origin": "6",
+      "stem": "下列三个命题：\n\n① 设 $f(x)$ 在 $x=x_0$ 处连续，在 $x=x_0$ 的某去心邻域内可导，若 $\\lim\\limits_{x\\to x_0}f'(x)$ 存在，则 $f(x)$ 在 $x=x_0$ 处可导且 $f'(x_0)=\\lim\\limits_{x\\to x_0}f'(x)$；\n\n② 设 $f(x)$ 在 $x=x_0$ 处连续，在 $x=x_0$ 的某去心邻域内可导，若 $\\lim\\limits_{x\\to x_0^+}f'(x)$ 与 $\\lim\\limits_{x\\to x_0^-}f'(x)$ 均存在但不相等，则 $f'(x_0)$ 不存在；\n\n③ 设 $f(x)$ 在 $x=x_0$ 的某邻域内可导，若 $\\lim\\limits_{x\\to x_0^+}f'(x)$ 与 $\\lim\\limits_{x\\to x_0^-}f'(x)$ 均存在，则必有 $\\lim\\limits_{x\\to x_0}f'(x)$ 存在.\n\n所有真命题的序号为",
+      "options": [
+       "A. ①②.",
+       "B. ②③.",
+       "C. ①③.",
+       "D. ①②③."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "张八数二卷三-6·可导概念判断",
+      "answer": "【答案】D\n\n【解】**① 命题①：用拉格朗日中值定理搭桥**\n考查 $f(x)$ 与 $f'(x)$ 的关系，立即想到用拉格朗日中值定理，因为\n$$f(x)-f(x_0)=f'(\\xi)(x-x_0),$$\n$\\xi$ 介于 $x$ 与 $x_0$ 之间，则\n$$f'(x_0)=\\lim_{x\\to x_0}\\frac{f(x)-f(x_0)}{x-x_0}=\\lim_{x\\to x_0}f'(\\xi)=\\lim_{\\xi\\to x_0}f'(\\xi)=\\lim_{x\\to x_0}f'(x)$$\n存在，故命题①正确。\n\n**② 命题②：分别算左右导数**\n$$f'_+(x_0)=\\lim_{x\\to x_0^+}\\frac{f(x)-f(x_0)}{x-x_0}=\\lim_{x\\to x_0^+}f'(\\xi)=\\lim_{\\xi\\to x_0^+}f'(\\xi)=\\lim_{x\\to x_0^+}f'(x)=A_1;$$\n$$f'_-(x_0)=\\lim_{x\\to x_0^-}\\frac{f(x)-f(x_0)}{x-x_0}=\\lim_{x\\to x_0^-}f'(\\xi)=\\lim_{\\xi\\to x_0^-}f'(\\xi)=\\lim_{x\\to x_0^-}f'(x)=A_2.$$\n因为 $A_1\\neq A_2$，所以 $f'(x_0)$ 不存在，故命题②正确。\n\n**③ 命题③：由双侧可导推出导函数极限存在**\n对任意的 $x\\in(x_0,x_0+\\delta)$，$\\delta>0$，在 $[x_0,x]$ 上对 $f(x)$ 应用拉格朗日中值定理，存在 $\\xi\\in(x_0,x)$，使得\n$$\\frac{f(x)-f(x_0)}{x-x_0}=f'(\\xi).$$\n两边取极限，$\\lim_{x\\to x_0^+}\\frac{f(x)-f(x_0)}{x-x_0}=\\lim_{\\xi\\to x_0^+}f'(\\xi)$，即 $f'_+(x_0)=\\lim_{x\\to x_0^+}f'(x)$。同理，$f'_-(x_0)=\\lim_{x\\to x_0^-}f'(x)$。\n\n又 $f(x)$ 在 $x_0$ 处可导，则 $f'_+(x_0)=f'_-(x_0)$，即 $\\lim_{x\\to x_0^+}f'(x)=\\lim_{x\\to x_0^-}f'(x)$，则 $\\lim_{x\\to x_0}f'(x)$ 存在。所以命题③正确。\n\n应选 D。",
+      "idea": "把\"差商的极限\"换成\"中间点导数的极限\"，靠的就是拉格朗日中值定理，这是处理 $f$ 与 $f'$ 关系的唯一桥梁。①②的区别在于①只给双侧极限存在，②给的是左右极限存在但不相等，于是拆成 $f'_+$、$f'_-$ 两条链各自算。③反过来用：可导给出左右导数相等，中值公式再把左右导数翻译成导函数的左右极限，从而两头夹出双侧极限。",
+      "categoryIds": [
+       50022
+      ]
+     },
+     {
+      "no": 4,
+      "origin": "2",
+      "stem": "若二元函数 $f(x,y)$ 与 $g(x,y)$ 在点 $P_0(x_0,y_0)$ 的某邻域内有定义，$f(x,y)$ 在点 $P_0$ 处可微且 $f(x_0,y_0)=0$，$g(x,y)$ 在点 $P_0$ 处连续但不可微，则对于下列 $4$ 个函数：\n\n$$F_1(x,y)=f(x,y)|f(x,y)|,\\quad F_2(x,y)=f(x,y)g(x,y),$$\n\n$$F_3(x,y)=f(x,y)|g(x,y)|,\\quad F_4(x,y)=|f(x,y)|g(x,y).$$\n\n说法正确的是",
+      "options": [
+       "A. 只有 $F_1(x,y)$ 在点 $P_0$ 处可微.",
+       "B. 只有 $F_1(x,y)$，$F_2(x,y)$ 在点 $P_0$ 处可微.",
+       "C. 只有 $F_1(x,y)$，$F_2(x,y)$，$F_3(x,y)$ 在点 $P_0$ 处可微.",
+       "D. $4$ 个函数均在点 $P_0$ 处可微."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "张八数二卷七-2·微分概念判断",
+      "answer": "【答案】C\n\n【解】**① 写出 $f$ 在 $P_0$ 处的可微展开**\n由 $f(x,y)$ 在点 $P_0$ 处可微且 $f(x_0,y_0)=0$ 知，当 $(\\Delta x,\\Delta y)\\to(0,0)$ 时，\n$$f(x_0+\\Delta x,y_0+\\Delta y)=A\\Delta x+B\\Delta y+o\\left(\\sqrt{(\\Delta x)^2+(\\Delta y)^2}\\right).$$\n由 $g(x,y)$ 在点 $P_0$ 处连续可知，$\\lim_{\\Delta x\\to0,\\Delta y\\to0}g(x_0+\\Delta x,y_0+\\Delta y)=g(x_0,y_0)$。\n\n**② $F_1=f|f|$：先算偏导数，再验证可微**\n对于 $F_1(x,y)$，有 $F_1(x_0,y_0)=f(x_0,y_0)|f(x_0,y_0)|=0$，\n$$\\frac{\\partial F_1}{\\partial x}\\Big|_{(x_0,y_0)}=\\lim_{\\Delta x\\to0}\\frac{F_1(x_0+\\Delta x,y_0)-F_1(x_0,y_0)}{\\Delta x}=\\lim_{\\Delta x\\to0}\\frac{f(x_0+\\Delta x,y_0)|f(x_0+\\Delta x,y_0)|}{\\Delta x}$$\n$$=f'_x(x_0,y_0)\\lim_{\\Delta x\\to0}|f(x_0+\\Delta x,y_0)|=f'_x(x_0,y_0)|f(x_0,y_0)|=0,$$\n同理，$\\frac{\\partial F_1}{\\partial y}\\Big|_{(x_0,y_0)}=0$。于是\n$$\\lim_{\\Delta x\\to0,\\Delta y\\to0}\\frac{F_1(x_0+\\Delta x,y_0+\\Delta y)-F_1(x_0,y_0)-\\frac{\\partial F_1}{\\partial x}\\Big|_{(x_0,y_0)}\\Delta x-\\frac{\\partial F_1}{\\partial y}\\Big|_{(x_0,y_0)}\\Delta y}{\\sqrt{(\\Delta x)^2+(\\Delta y)^2}}$$\n$$=\\lim_{\\Delta x\\to0,\\Delta y\\to0}\\frac{f(x_0+\\Delta x,y_0+\\Delta y)|f(x_0+\\Delta x,y_0+\\Delta y)|}{\\sqrt{(\\Delta x)^2+(\\Delta y)^2}}$$\n$$=\\lim_{\\Delta x\\to0,\\Delta y\\to0}\\frac{\\left[A\\Delta x+B\\Delta y+o\\left(\\sqrt{(\\Delta x)^2+(\\Delta y)^2}\\right)\\right]\\left|A\\Delta x+B\\Delta y+o\\left(\\sqrt{(\\Delta x)^2+(\\Delta y)^2}\\right)\\right|}{\\sqrt{(\\Delta x)^2+(\\Delta y)^2}}$$\n$$=\\lim_{\\Delta x\\to0,\\Delta y\\to0}\\frac{(A\\Delta x+B\\Delta y)|A\\Delta x+B\\Delta y|}{\\sqrt{(\\Delta x)^2+(\\Delta y)^2}}=0.$$\n故 $F_1(x,y)$ 在点 $P_0$ 处可微。\n\n**③ $F_2=fg$：拆成两块各有界**\n对于 $F_2(x,y)$，有 $F_2(x_0,y_0)=f(x_0,y_0)g(x_0,y_0)=0$，\n$$\\frac{\\partial F_2}{\\partial x}\\Big|_{(x_0,y_0)}=\\lim_{\\Delta x\\to0}\\frac{F_2(x_0+\\Delta x,y_0)-F_2(x_0,y_0)}{\\Delta x}=\\lim_{\\Delta x\\to0}\\frac{f(x_0+\\Delta x,y_0)g(x_0+\\Delta x,y_0)}{\\Delta x}$$\n$$=f'_x(x_0,y_0)g(x_0,y_0)=Ag(x_0,y_0),$$\n同理，$\\frac{\\partial F_2}{\\partial y}\\Big|_{(x_0,y_0)}=Bg(x_0,y_0)$。于是\n$$\\lim_{\\Delta x\\to0,\\Delta y\\to0}\\frac{F_2(x_0+\\Delta x,y_0+\\Delta y)-F_2(x_0,y_0)-\\frac{\\partial F_2}{\\partial x}\\Big|_{(x_0,y_0)}\\Delta x-\\frac{\\partial F_2}{\\partial y}\\Big|_{(x_0,y_0)}\\Delta y}{\\sqrt{(\\Delta x)^2+(\\Delta y)^2}}$$\n$$=\\lim_{\\Delta x\\to0,\\Delta y\\to0}\\frac{f(x_0+\\Delta x,y_0+\\Delta y)g(x_0+\\Delta x,y_0+\\Delta y)-Ag(x_0,y_0)\\Delta x-Bg(x_0,y_0)\\Delta y}{\\sqrt{(\\Delta x)^2+(\\Delta y)^2}}$$\n$$=\\lim_{\\Delta x\\to0,\\Delta y\\to0}\\frac{\\left[f(x_0+\\Delta x,y_0+\\Delta y)-A\\Delta x-B\\Delta y\\right]g(x_0+\\Delta x,y_0+\\Delta y)}{\\sqrt{(\\Delta x)^2+(\\Delta y)^2}}$$\n$$+A\\lim_{\\Delta x\\to0,\\Delta y\\to0}\\frac{\\left[g(x_0+\\Delta x,y_0+\\Delta y)-g(x_0,y_0)\\right]\\Delta x}{\\sqrt{(\\Delta x)^2+(\\Delta y)^2}}$$\n$$+B\\lim_{\\Delta x\\to0,\\Delta y\\to0}\\frac{\\left[g(x_0+\\Delta x,y_0+\\Delta y)-g(x_0,y_0)\\right]\\Delta y}{\\sqrt{(\\Delta x)^2+(\\Delta y)^2}}=0,$$\n故 $F_2(x,y)$ 在点 $P_0$ 处可微。\n\n**④ 由 $F_2$ 推 $F_3$，再用绝对值否定 $F_4$**\n同理可得 $F_3(x,y)$ 在点 $P_0$ 处可微。对于 $F_4(x,y)$，有 $F_4(x_0,y_0)=|f(x_0,y_0)|g(x_0,y_0)=0$，\n$$\\frac{\\partial F_4}{\\partial x}\\Big|_{(x_0,y_0)}=\\lim_{\\Delta x\\to0}\\frac{|f(x_0+\\Delta x,y_0)|g(x_0+\\Delta x,y_0)}{\\Delta x}=g(x_0,y_0)\\lim_{\\Delta x\\to0}\\frac{|f(x_0+\\Delta x,y_0)|}{\\Delta x}.$$\n显然，$\\Delta x\\to0^+$ 与 $\\Delta x\\to0^-$ 时，极限不一定相等，故 $F_4(x,y)$ 在点 $P_0$ 处偏导数不一定存在，即 $F_4(x,y)$ 在点 $P_0$ 处不一定可微。\n\n综上，只有 $F_1(x,y)$，$F_2(x,y)$，$F_3(x,y)$ 在点 $P_0$ 处可微，故选 C。",
+      "idea": "四个函数要逐个按可微定义验证：把增量减去线性主部后除以 $\\rho=\\sqrt{(\\Delta x)^2+(\\Delta y)^2}$，看是否为无穷小。$F_1$、$F_2$ 的关键是把分子拆成\"$f$ 的余项乘 $g$\"和\"$g$ 的增量乘 $\\Delta x_i$\"两块，前者是 $o(\\rho)$，后者被 $|\\Delta x_i|/\\rho\\leqslant1$ 与 $g$ 的连续性压成 0。$F_4$ 坏在 $|f|$ 在零点不可导，差商左右极限可以不同，于是偏导数都可能不存在，更谈不上可微。",
+      "categoryIds": [
+       50023
+      ]
+     },
+     {
+      "no": 5,
+      "origin": "3",
+      "stem": "反常积分 ① $\\displaystyle\\int_0^{+\\infty}\\frac{|\\sin x|}{\\sqrt{x^3}}\\,\\mathrm{d}x$，② $\\displaystyle\\int_0^{+\\infty}\\frac{1}{1+\\sqrt{x|\\sin x|}}\\,\\mathrm{d}x$ 的敛散性为",
+      "options": [
+       "A. ①收敛，②收敛.",
+       "B. ①收敛，②发散.",
+       "C. ①发散，②收敛.",
+       "D. ①发散，②发散."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "张八数二卷七-3·凹凸性概念",
+      "answer": "【答案】B\n\n【解】**① 讨论①：拆成两段，分别与 $p$-积分比较**\n对于①，\n$$\\int_0^{+\\infty}\\frac{|\\sin x|}{\\sqrt{x^3}}\\,\\mathrm{d}x=\\int_0^1\\frac{|\\sin x|}{\\sqrt{x^3}}\\,\\mathrm{d}x+\\int_1^{+\\infty}\\frac{|\\sin x|}{\\sqrt{x^3}}\\,\\mathrm{d}x=I_1+I_2.$$\n对于 $I_1$，$0\\leqslant\\frac{|\\sin x|}{\\sqrt{x^3}}\\leqslant\\frac{x}{\\sqrt{x^3}}=\\frac{1}{\\sqrt{x}}$，因 $\\int_0^1\\frac{1}{\\sqrt{x}}\\,\\mathrm{d}x$ 收敛，故 $\\int_0^1\\frac{|\\sin x|}{\\sqrt{x^3}}\\,\\mathrm{d}x$ 收敛。\n\n对于 $I_2$，$0\\leqslant\\frac{|\\sin x|}{\\sqrt{x^3}}\\leqslant\\frac{1}{\\sqrt{x^3}}$，而 $\\int_1^{+\\infty}\\frac{1}{\\sqrt{x^3}}\\,\\mathrm{d}x$ 收敛，故 $\\int_1^{+\\infty}\\frac{|\\sin x|}{\\sqrt{x^3}}\\,\\mathrm{d}x$ 收敛。\n\n故 $\\int_0^{+\\infty}\\frac{|\\sin x|}{\\sqrt{x^3}}\\,\\mathrm{d}x$ 收敛。\n\n**② 讨论②：找发散的下界**\n对于②，$\\frac{1}{1+\\sqrt{x}|\\sin x|}\\geqslant\\frac{1}{1+\\sqrt{x}}>0$，又 $\\int_0^{+\\infty}\\frac{1}{1+\\sqrt{x}}\\,\\mathrm{d}x$ 发散，故 $\\int_0^{+\\infty}\\frac{1}{1+\\sqrt{x}|\\sin x|}\\,\\mathrm{d}x$ 发散。\n\n**③ 结论**\n①收敛，②发散，故选 B。",
+      "idea": "两个积分都不必精确计算，只需和 $p$-积分比阶。①的隐患只在 $x\\to0$ 与 $x\\to+\\infty$ 两端，靠近 0 用 $|\\sin x|\\leqslant x$ 把阶数抬高到 $x^{-1/2}$，靠近无穷用 $|\\sin x|\\leqslant1$ 压到 $x^{-3/2}$，两段都收敛。②反过来要找发散的下界，$|\\sin x|\\leqslant1$ 给出 $\\frac{1}{1+\\sqrt{x}}$ 这个发散的比较对象，振荡完全帮不上忙。",
+      "categoryIds": [
+       50024
+      ]
+     },
+     {
+      "no": 6,
+      "origin": "4",
+      "stem": "设函数 $f(x)$ 在区间 $(0,1)$ 上可导，则下列说法中正确的是",
+      "options": [
+       "A. 若存在常数 $M>0$，使得 $|f^{\\prime}(x)|<\\frac{M}{\\sqrt{x}}$，则 $f(x)$ 在 $(0,1)$ 上有界.",
+       "B. 若 $f(x)+f^{\\prime}(x)$ 在 $(0,1)$ 上无界，则 $f(x)f^{\\prime}(x)$ 也在 $(0,1)$ 上无界.",
+       "C. 若 $f(x)$ 在 $(0,1)$ 上有界，则存在常数 $M>0$，使得 $|f^{\\prime}(x)|<\\frac{M}{\\sqrt{x}}$.",
+       "D. 若 $f^{\\prime}(x)$ 在 $(0,1)$ 上无界，则 $f(x)$ 也在 $(0,1)$ 上无界."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "ep 数二卷一-4·有界性与导数",
+      "answer": "【答案】A\n\n【解】**① 用柯西中值定理把导数上界转成函数增量上界（判定 A）**\n对于 A，固定 $x_0\\in(0,1)$，为利用 $|f'(x)|<\\frac{M}{\\sqrt{x}}$，对 $f(t)$ 与 $\\sqrt{t}$ 在 $x$ 与 $x_0$ 之间用柯西中值定理：\n$$\\left|\\frac{f(x)-f(x_0)}{\\sqrt{x}-\\sqrt{x_0}}\\right|=2\\sqrt{\\xi}|f'(\\xi)|<2M,$$\n其中 $\\xi$ 介于 $x$ 与 $x_0$ 之间。于是 $|f(x)-f(x_0)|\\leqslant2M|\\sqrt{x}-\\sqrt{x_0}|\\leqslant2M$，且 $x=x_0$ 时此式也成立。由三角不等式，$|f(x)|\\leqslant|f(x_0)|+2M$ 对所有 $x\\in(0,1)$ 成立，所以 $f(x)$ 有界，选 A。\n\n**② 用 $f(x)=\\sqrt{x}$ 否定 B**\n取 $f(x)=\\sqrt{x}$，则 $f(x)+f'(x)=\\sqrt{x}+\\frac{1}{2\\sqrt{x}}$ 在 $(0,1)$ 上无界，而 $f(x)f'(x)=\\frac{1}{2}$ 有界，故 B 错误。\n\n**③ 用 $f(x)=x^{1/3}$ 否定 C 和 D**\n对于 C 和 D，取 $f(x)=x^{\\frac{1}{3}}$，则 $f'(x)=\\frac{1}{3}x^{-\\frac{2}{3}}$。在 $(0,1)$ 上，$f(x)$ 有界而 $f'(x)$ 无界，故 D 错误。又当 $x\\to0^+$ 时，\n$$|f'(x)|\\sqrt{x}=\\frac{1}{3}x^{-\\frac{1}{6}}\\to+\\infty,$$\n故不可能存在常数 $M>0$ 使 $|f'(x)|<\\frac{M}{\\sqrt{x}}$ 恒成立，故 C 错误。",
+      "idea": "A 的直觉是\"导数的增长被 $x^{-1/2}$ 限住，积分后函数就跳不起来\"，但直接积分不合法，于是改用柯西中值定理：让分母的 $\\sqrt{t}$ 去抵消 $1/\\sqrt{x}$，得到 $|f(x)-f(x_0)|\\leqslant2M$，再用三角不等式统一控制。其余三项各取一个幂函数反例即可，$\\sqrt{x}$ 与 $x^{1/3}$ 分别击穿\"无界推无界\"和\"有界推导数受控\"两个方向。",
+      "categoryIds": [
+       50025
+      ]
+     },
+     {
+      "no": 7,
+      "origin": "3",
+      "stem": "设函数 $y=f(x)$ 具有二阶导数，$f^{\\prime}(x)\\le 0$，$f^{\\prime\\prime}(x)\\le 0$，$\\Delta x$ 为自变量 $x$ 在 $x_0$ 处的增量，$\\Delta y$ 与 $\\mathrm{d}y$ 分别是 $f(x)$ 在点 $x_0$ 处的增量与微分，若 $\\Delta x<0$，则",
+      "options": [
+       "A. $0\\le \\mathrm{d}y\\le \\Delta y$.",
+       "B. $0\\le \\Delta y\\le \\mathrm{d}y$.",
+       "C. $\\Delta y\\le \\mathrm{d}y\\le 0$.",
+       "D. $\\mathrm{d}y\\le \\Delta y\\le 0$."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "ep 数二卷三-3·微分与增量",
+      "answer": "【答案】B\n\n【解】**① 先定 $\\Delta y$ 与 $dy$ 的符号**\n由 $f'(x)\\leqslant0$ 及 $\\Delta x<0$，知 $x_0+\\Delta x<x_0$，故\n$$\\Delta y=f(x_0+\\Delta x)-f(x_0)\\geqslant0;\\qquad dy=f'(x_0)\\Delta x\\geqslant0.$$\n\n**② 用二阶泰勒展开比较二者大小**\n再比较 $\\Delta y$ 与 $dy$。由 $f''(x)\\leqslant0$，曲线在其切线下方。（原解析此处为示意图）\n\n用泰勒公式可写为\n$$\\Delta y=f'(x_0)\\Delta x+\\frac{1}{2}f''(\\xi)(\\Delta x)^2\\leqslant dy,$$\n其中 $\\xi$ 介于 $x_0+\\Delta x$ 与 $x_0$ 之间。因此 $0\\leqslant\\Delta y\\leqslant dy$，故选 B。",
+      "idea": "只比较增量与微分的大小，先看符号：$f'\\leqslant0$ 配 $\\Delta x<0$ 使两者都非负，这就砍掉一半选项。再用二阶泰勒把 $\\Delta y-dy$ 精确写成 $\\frac12f''(\\xi)(\\Delta x)^2$，符号由 $f''\\leqslant0$ 决定，一步到位。几何上等价于\"$f''\\leqslant0$ 时曲线在切线下方\"。",
+      "categoryIds": [
+       50023
+      ]
+     },
+     {
+      "no": 8,
+      "origin": "5",
+      "stem": "设函数 $f(x)$ 在 $[0,+\\infty)$ 上二阶可导，且 $f(0)=0$. 下列命题中，正确的个数为\n\n① 若在 $(0,+\\infty)$ 上恒有 $f^{\\prime\\prime}(x)<0$，则 $\\frac{f(x)}{x}$ 在 $(0,+\\infty)$ 上单调减少；\n\n② 若 $\\frac{f(x)}{x}$ 在 $(0,1]$ 上单调减少，则在 $(0,1]$ 上恒有 $f^{\\prime\\prime}(x)\\le 0$；\n\n③ 若 $\\lim\\limits_{x\\to+\\infty}\\frac{f(x)}{x}$ 存在，则 $\\lim\\limits_{x\\to+\\infty}f^{\\prime}(x)$ 存在；\n\n④ 若在 $(0,+\\infty)$ 上恒有 $f^{\\prime\\prime}(x)<0$，且 $\\lim\\limits_{x\\to+\\infty}\\frac{f(x)}{x}$ 存在，则 $\\lim\\limits_{x\\to+\\infty}f^{\\prime}(x)$ 存在.",
+      "options": [
+       "A. 1.",
+       "B. 2.",
+       "C. 3.",
+       "D. 4."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "ep 数二卷三-5·凹凸性",
+      "answer": "【答案】B\n\n【解】**① 命题①：把 $f(x)/x$ 的单调性化为 $h(x)=xf'(x)-f(x)$ 的符号**\n记 $g(x)=\\frac{f(x)}{x}$，$h(x)=xf'(x)-f(x)$，则 $g'(x)=\\frac{h(x)}{x^2}$。由 $f(0)=0$ 知 $h(0)=0$，而 $x>0$ 时 $h'(x)=xf''(x)<0$，故 $h(x)<0$，从而 $g'(x)<0$，①正确。\n\n**② 命题②：用 $f(x)=x^3-2x^2$ 反例**\n取 $f(x)=x^3-2x^2$，则 $g(x)=\\frac{f(x)}{x}=x^2-2x$ 在 $(0,1]$ 上单调减少，但 $f''(x)=6x-4$ 在 $\\frac{2}{3}<x\\leqslant1$ 时为正，所以②错误。\n\n**③ 命题③：用 $f(x)=\\sin x$ 反例**\n取 $f(x)=\\sin x$，则 $\\lim_{x\\to+\\infty}\\frac{f(x)}{x}=0$，但 $f'(x)=\\cos x$ 在 $x\\to+\\infty$ 时没有极限，故③错误。\n\n**④ 命题④：反证法加洛必达法则**\n由 $f''(x)<0$ 知 $f'(x)$ 单调减少。假设当 $x\\to+\\infty$ 时 $f'(x)$ 没有有限极限，则它必无下界，因而 $f'(x)\\to-\\infty\\ (x\\to+\\infty)$。于是对充分大的 $x$ 有 $f'(x)\\leqslant-1$，故 $f(x)\\to-\\infty$。此时可用洛必达法则，得到\n$$\\lim_{x\\to+\\infty}\\frac{f(x)}{x}=\\lim_{x\\to+\\infty}f'(x)=-\\infty,$$\n与题设 $\\lim_{x\\to+\\infty}\\frac{f(x)}{x}$ 存在矛盾。所以 $f'(x)$ 必有有限极限，④正确。\n\n因此正确的为①④，故选 B。",
+      "idea": "四个命题都绕着 $\\frac{f(x)}{x}$ 的单调性打转，而它的导数正好是 $\\frac{xf'(x)-f(x)}{x^2}$，于是问题转成考察 $h(x)=xf'(x)-f(x)$ 的符号。①用 $h(0)=0$ 加 $h'<0$ 直接判定，属于正向推导。②③是反例题，一个说明\"$f/x$ 减\"比\"$f''\\leqslant0$\"弱，一个说明商的极限存在推不出导数极限存在。④则靠反证：导数无下界会使 $f\\to-\\infty$，再用洛必达得到商趋于 $-\\infty$ 与题设冲突。",
+      "categoryIds": [
+       50021
+      ]
+     },
+     {
+      "no": 9,
+      "origin": "6",
+      "stem": "已知 $f(x)$ 在 $x=0$ 的某邻域内有定义，在 $x=0$ 的去心邻域内可导，极限 $\\lim\\limits_{x\\to 0}f^{\\prime}(x)$ 存在，下列说法正确的为",
+      "options": [
+       "A. 若极限 $\\lim\\limits_{x\\to 0}\\frac{f^{\\prime}(x)+f(x)}{x}$ 存在，则 $f(x)$ 在 $x=0$ 处可导.",
+       "B. 若 $\\int_0^x f(t)\\,\\mathrm{d}t$ 在 $x=0$ 处可导，则 $f(x)$ 在 $x=0$ 处可导.",
+       "C. 若 $f^{\\prime}(0)$ 存在，则 $f^{\\prime}(0)$ 不一定等于 $\\lim\\limits_{x\\to 0}f^{\\prime}(x)$.",
+       "D. 若 $f^{\\prime}(0)$ 存在，则极限 $\\lim\\limits_{x\\to 0}\\frac{f(x)-f(0)}{x^{1/3}}=0$."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "小侯七数二卷三-6·导数概念",
+      "answer": "【答案】D\n\n【解析】**① A 错误：连续性未知**\n由极限 $\\lim_{x\\to0}\\frac{f'(x)+f(x)}{x}$ 存在，则 $\\lim_{x\\to0}[f'(x)+f(x)]=0$，得 $\\lim_{x\\to0}f(x)=-\\lim_{x\\to0}f'(x)$。由于 $f(x)$ 在 $x=0$ 处的连续性未知，故可导性未知。\n\n**② B 错误：变上限积分可导只排除不了可去间断**\n若 $\\int_0^x f(t)\\,\\mathrm{d}t$ 在 $x=0$ 处可导，则 $x=0$ 有可能是 $f(x)$ 的可去间断点，此时 $f(x)$ 在 $x=0$ 处不可导。\n\n**③ C 错误：由导数定义得 $f'(0)=\\lim_{x\\to0}f'(x)$**\n若 $f'(0)$ 存在，由导数定义，得\n$$f'(0)=\\lim_{x\\to0}\\frac{f(x)-f(0)}{x}=\\lim_{x\\to0}f'(x),$$\n可得 $f'(0)=\\lim_{x\\to0}f'(x)$。\n\n**④ D 正确：把待求极限拆成两个因子**\n由 C 可得 $f'(0)=\\lim_{x\\to0}f'(x)$，则\n$$\\lim_{x\\to0}\\frac{f(x)-f(0)}{x^{1/3}}=\\lim_{x\\to0}\\frac{f(x)-f(0)}{x}\\cdot x^{2/3}=f'(0)\\lim_{x\\to0}x^{2/3}=0,$$\n故选用 D。",
+      "idea": "题设只给了\"去心邻域内可导 + 导函数极限存在\"，唯独没有 $f$ 在 $0$ 点的连续性，所以任何用到 $f$ 连续或 $f(0)$ 的选项都要警惕。A、B 正是栽在这里：一个由和的极限存在只能反推 $f$ 的极限存在，另一个把变上限积分可导误当成被积函数连续。C 用导数定义（本质是中值定理）说明 $f'(0)$ 其实就等于导函数的极限，于是 D 把差商乘上 $x^{2/3}$ 即得 0。",
+      "categoryIds": [
+       50022
+      ]
+     }
+    ]
+   },
+   {
+    "title": "三、一元函数积分学",
+    "questions": [
+     {
+      "no": 10,
+      "origin": "4",
+      "stem": "设动点 $P$ 从原点出发以匀速 $v_0$ 沿 $x$ 轴正向运动，点 $A$ 为 $y$ 轴正半轴上的定点，坐标为 $(0,a)$，记 $\\angle APO=\\alpha$，$AP$ 的长为 $l$，则 $\\alpha$ 关于时间的变化率为（　　）",
+      "options": [
+       "A. $\\frac{av_0}{l}$",
+       "B. $\\frac{l}{av_0}$",
+       "C. $\\frac{av_0}{l^2}$",
+       "D. $\\frac{l^2}{av_0}$"
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "李艳芳数二卷二-4·积分物理应用（仅数二）",
+      "answer": "【答案】C\n\n【解】**① 写出 $\\tan\\alpha$ 关于 $t$ 的表达式。** $\\alpha$ 是一个关于 $t$ 的函数，\n\n$$\\tan\\alpha=\\frac{|OA|}{|OP|}=\\frac{a}{v_0t}.$$\n\n**② 两端对 $t$ 求导并化简。** 对该式两端关于 $t$ 求导可得\n\n$$\\sec^2\\alpha\\cdot\\frac{\\mathrm{d}\\alpha}{\\mathrm{d}t}=\\frac{a}{v_0}\\left(-\\frac{1}{t^2}\\right),$$\n\n等式两端同时乘以 $\\cos^2\\alpha$ 可得\n\n$$\\frac{\\mathrm{d}\\alpha}{\\mathrm{d}t}=-\\frac{a\\cos^2\\alpha}{v_0t^2}=-av_0\\frac{\\cos^2\\alpha}{(v_0t)^2}.$$\n\n由于 $\\cos\\alpha=\\dfrac{|OP|}{|AP|}=\\dfrac{v_0t}{l}$，故 $\\dfrac{\\cos\\alpha}{v_0t}=\\dfrac{1}{l}$，从而\n\n$$\\frac{\\mathrm{d}\\alpha}{\\mathrm{d}t}=-\\frac{av_0}{l^2}.$$\n\n**③ 解释符号并作答。** 这里的负号表示角度 $\\alpha$ 随着时间推移而变小。于是，$\\alpha$ 关于时间的变化率为 $\\dfrac{av_0}{l^2}$。因此，应选 C。",
+      "idea": "$P$ 在 $x$ 轴上匀速运动，$A$ 是 $y$ 轴定点，于是 $\\tan\\alpha$ 直接就是 $t$ 的函数 $a/(v_0t)$，把几何关系化成显式函数是第一步。对 $t$ 隐式求导得到 $\\sec^2\\alpha\\cdot\\alpha'$，再乘 $\\cos^2\\alpha$ 化成 $\\alpha'$。容易卡住的地方是代 $\\cos\\alpha=v_0t/l$ 之后不要展开，而是把 $\\cos\\alpha$ 与分母中的 $v_0t$ 整体配成 $(\\cos\\alpha/(v_0t))=1/l$，一步消掉 $t$。负号只表示 $\\alpha$ 随时间递减，题目问\"变化率\"取绝对值即 $av_0/l^2$。",
+      "categoryIds": [
+       50032
+      ]
+     },
+     {
+      "no": 11,
+      "origin": "3",
+      "stem": "设可导函数 $y=f(x)$ 在 $[a,b]$ 上严格单调递增，$g(y)$ 是 $f(x)$ 的反函数，则\n\n$$\\int_a^b f(x)\\,\\mathrm{d}x+\\int_{f(a)}^{f(b)}g(y)\\,\\mathrm{d}y=(\\quad)$$",
+      "options": [
+       "A. $f(b)-f(a)$",
+       "B. $bf(b)-af(a)$",
+       "C. $af(b)-bf(a)$",
+       "D. $af(a)-bf(b)$"
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "李林数二卷五-3·反函数积分",
+      "answer": "【答案】B\n\n【解】**① 对第一个积分分部积分。** 先用分部积分法，再用换元法，有\n\n$$\\int_a^b f(x)\\,\\mathrm{d}x=xf(x)\\Big|_a^b-\\int_a^b x\\,\\mathrm{d}f(x)=bf(b)-af(a)-\\int_a^b x\\,\\mathrm{d}f(x).$$\n\n**② 在第二个积分中令 $y=f(x)$（即 $x=g(y)$）换元。** 因 $f$ 在 $[a,b]$ 上严格单调递增，$g$ 是其反函数，故\n\n$$\\int_a^b x\\,\\mathrm{d}f(x)=\\int_{f(a)}^{f(b)}g(y)\\,\\mathrm{d}y,$$\n\n于是\n\n$$\\int_a^b f(x)\\,\\mathrm{d}x=bf(b)-af(a)-\\int_{f(a)}^{f(b)}g(y)\\,\\mathrm{d}y.$$\n\n**③ 移项得结论。**\n\n$$\\int_a^b f(x)\\,\\mathrm{d}x+\\int_{f(a)}^{f(b)}g(y)\\,\\mathrm{d}y=bf(b)-af(a).$$\n\n选项 B 正确。",
+      "idea": "原式两个积分一个在 $x$ 上、一个在 $y$ 上且积分限互为 $f$ 的像，提示把 $x$ 换成 $f$。对 $\\int_a^b f(x)\\mathrm{d}x$ 分部积分，得到边界项减 $\\int_a^b x\\,\\mathrm{d}f(x)$，再用 $y=f(x)$、$x=g(y)$ 换元，这一项正好是待求第二个积分（限也自动对上 $\\int_{f(a)}^{f(b)}$）。两项一正一负抵消，只剩 $bf(b)-af(a)$，这也正是\"矩形面积 $bf(b)$ 减 $af(a)$ 再挖去两块曲边区域\"的几何解释。",
+      "categoryIds": [
+       50031
+      ]
+     }
+    ]
+   },
+   {
+    "title": "四、矩阵及行列式",
+    "questions": [
+     {
+      "no": 12,
+      "origin": "10",
+      "stem": "设 $\\alpha,\\beta$ 为相互正交的 $3$ 维非零列向量，则下列命题中，正确的是（　　）\n\n① $\\alpha\\beta^{\\mathrm{T}}$ 不能相似对角化.\n\n② $\\alpha\\beta^{\\mathrm{T}}$ 能相似对角化.\n\n③ $\\alpha\\beta^{\\mathrm{T}}$ 与 $\\alpha\\beta^{\\mathrm{T}}+\\beta\\alpha^{\\mathrm{T}}$ 没有公共的特征向量.\n\n④ $\\alpha\\beta^{\\mathrm{T}}$ 与 $\\alpha\\beta^{\\mathrm{T}}+\\beta\\alpha^{\\mathrm{T}}$ 有公共的特征向量.",
+      "options": [
+       "A. ①③.",
+       "B. ①④.",
+       "C. ②③.",
+       "D. ②④."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "李艳芳数二卷一-10·相似对角化",
+      "answer": "【答案】B\n\n【解】**① 记 $A=\\alpha\\beta^{\\mathrm{T}}$，算出 $A^2$。** 记 $A=\\alpha\\beta^{\\mathrm{T}}$。由于 $\\alpha,\\beta$ 相互正交，即 $\\alpha^{\\mathrm{T}}\\beta=\\beta^{\\mathrm{T}}\\alpha=0$，故\n\n$$A^2=\\alpha\\beta^{\\mathrm{T}}\\alpha\\beta^{\\mathrm{T}}=\\alpha\\cdot0\\cdot\\beta^{\\mathrm{T}}=O.$$\n\n**② 求 $A$ 的特征值。** 设 $\\lambda$ 是 $A$ 的一个特征值，$\\xi$ 是属于 $\\lambda$ 的一个特征向量，则 $A^2\\xi=\\lambda^2\\xi$，结合 $A^2\\xi=0$ 可得 $\\lambda^2\\xi=0$。由此可得 $\\lambda^2=0$。于是，$A$ 的特征值均为 0，即 0 是 $A$ 的三重特征值。\n\n**③ 判断 $A$ 能否相似对角化。** 由于 $A=\\alpha\\beta^{\\mathrm{T}}$ 的每一行均是 $\\beta$ 的倍数，且 $\\alpha,\\beta$ 均为非零向量，故 $r(A)=1$，从而方程组 $Ax=0$ 有 $3-1=2$ 个线性无关的解。于是，$A$ 只有两个线性无关的属于 0 的特征向量。进一步可得，$A$ 不能相似对角化。① 正确，② 错误。\n\n**④ 寻找公共特征向量。** 取 $\\gamma$ 为与 $\\alpha,\\beta$ 均正交的向量，即方程组\n\n$$\\begin{cases}\\alpha^{\\mathrm{T}}x=0\\\\ \\beta^{\\mathrm{T}}x=0\\end{cases}$$\n\n的解，则 $\\alpha\\beta^{\\mathrm{T}}\\gamma=0$，$\\beta\\alpha^{\\mathrm{T}}\\gamma=0$，\n\n$$(\\alpha\\beta^{\\mathrm{T}}+\\beta\\alpha^{\\mathrm{T}})\\gamma=\\alpha\\beta^{\\mathrm{T}}\\gamma+\\beta\\alpha^{\\mathrm{T}}\\gamma=0+0=0.$$\n\n由此可得，$\\gamma$ 既是 $\\alpha\\beta^{\\mathrm{T}}$ 的特征向量，又是 $\\alpha\\beta^{\\mathrm{T}}+\\beta\\alpha^{\\mathrm{T}}$ 的特征向量，从而 $\\alpha\\beta^{\\mathrm{T}}$ 与 $\\alpha\\beta^{\\mathrm{T}}+\\beta\\alpha^{\\mathrm{T}}$ 有公共的特征向量。④ 正确，③ 错误。\n\n**⑤ 结论。** 因此，正确的命题为 ①④，应选 B。",
+      "idea": "先抓秩与幂零性：$\\alpha,\\beta$ 非零且正交，使 $A=\\alpha\\beta^{\\mathrm{T}}$ 满足 $A^2=O$ 且 $r(A)=1$。由 $A^2=O$ 知特征值全为 0，但 $Ax=0$ 的解空间只有 $3-1=2$ 维，三重特征值只配两个线性无关特征向量，故不能对角化——这一条同时定掉 ① 与 ②。关于公共特征向量，看 $A=\\alpha\\beta^{\\mathrm{T}}$ 与 $\\beta\\alpha^{\\mathrm{T}}$ 的\"零化\"性质：任何与 $\\alpha,\\beta$ 都正交的 $\\gamma$ 都被二者同时映为零，于是它是公共的特征向量（特征值 0）。两问合起来即 ①④ 成立。",
+      "categoryIds": [
+       50041
+      ]
+     },
+     {
+      "no": 13,
+      "origin": "10",
+      "stem": "设 $A,B,C$ 是三个 $n$ 阶方阵，且 $BA=O$，$A+CB=E$，则下列结论正确的是\n\n① $r(A)+r(B)=n$；　② $r(A)+r(A-E)=n$；　③ $r(B)+r(B-E)=n$；　④ $r\\begin{pmatrix}A\\\\B\\end{pmatrix}=n$.",
+      "options": [
+       "A. ①②④.",
+       "B. ②③④.",
+       "C. ①②③.",
+       "D. ①②③④."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "ep 数二卷二-10·矩阵秩的关系",
+      "answer": "【答案】A\n\n【解】**① 判断 $r(A)+r(B)=n$。** 由 $BA=O$，矩阵 $A$ 的各列都是 $Bx=0$ 的解，故 $r(A)\\le n-r(B)$。另一方面，由 $A+CB=E$，得\n\n$$n=r(A+CB)\\le r(A)+r(CB)\\le r(A)+r(B).$$\n\n即 $r(A)+r(B)=n$，① 正确。\n\n**② 判断 $r(A)+r(A-E)=n$。** 将 $A+CB=E$ 右乘 $A$，由 $BA=O$ 得 $A^2=A$，于是 $A(A-E)=O$。同理有 $r(A)+r(A-E)\\le n$。又\n\n$$n=r[A+(E-A)]\\le r(A)+r(E-A)=r(A)+r(A-E),$$\n\n故 $r(A)+r(A-E)=n$，② 正确。\n\n**③ 判断 $r(B)+r(B-E)=n$。** 取 $A=O$，$B=2E$，$C=\\dfrac{1}{2}E$，满足 $BA=O$ 及 $A+CB=E$，但 $r(B)+r(B-E)=n+n=2n$，③ 错误。\n\n**④ 判断 $r\\begin{pmatrix}A\\\\B\\end{pmatrix}=n$。** 设 $x$ 为 $Ax=0$ 与 $Bx=0$ 的公共解，则 $x=(A+CB)x=Ax+C(Bx)=0$。因此合并后的齐次方程组只有零解，其系数矩阵有 $n$ 列，故 $r\\begin{pmatrix}A\\\\B\\end{pmatrix}=n$，④ 正确。所以正确的是 ①②④，选 A。",
+      "idea": "全题只有两条\"母不等式\"：$BA=O$ 给出 $r(A)\\le n-r(B)$，$A+CB=E$ 用秩的次可加性给出 $n=r(A+CB)\\le r(A)+r(B)$，两边夹逼即得 ①。把 $A+CB=E$ 再右乘 $A$ 并用 $BA=O$ 得 $A^2=A$，同样的夹逼套路立刻复制到 $A$ 与 $A-E$ 上得到 ②。③ 说明\"$r(B)+r(B-E)$\"这类式子不能由条件推出，举 $A=O,B=2E$ 的反例即可。④ 是竖排矩阵列满秩的等价刻画：$Ax=0$ 与 $Bx=0$ 的公共解只有零解。",
+      "categoryIds": [
+       50042
+      ]
+     },
+     {
+      "no": 14,
+      "origin": "9",
+      "stem": "已知三阶矩阵 $A,B$ 满足 $AB=O$，其中矩阵 $A=\\begin{pmatrix}1&3&-4\\\\3&a&0\\\\-4&0&c\\end{pmatrix}$，实对称矩阵 $B$ 每行元素之和均为 $3$，则当列向量 $x=(1,-1,2)^{\\mathrm{T}}$ 时，二次型 $x^{\\mathrm{T}}Bx=$",
+      "options": [
+       "A. 1",
+       "B. 2",
+       "C. 3",
+       "D. 4"
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "小侯七数二卷一-9·矩阵概念",
+      "answer": "【答案】D\n\n【解】**① 由 $AB=O$ 估计秩。** 由 $AB=O$，得 $r(A)+r(B)\\le3$。\n\n**② 确定 $r(B)=1$。** 矩阵 $A$ 存在非零的二阶子式 $\\begin{vmatrix}1&3\\\\-4&0\\end{vmatrix}$，有 $r(A)\\ge2$，得 $r(B)\\le1$。由矩阵 $B$ 非零，得 $r(B)\\ge1$，故 $r(B)=1$，即矩阵 $B$ 的各行（列）成比例。\n\n**③ 用行和为 3 与对称性求出 $B$。** 由 $B$ 每行元素之和为 3，可得\n\n$$B\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}=3\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix},$$\n\n即矩阵 $B$ 有特征值 3，其对应特征向量为 $\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$，可设\n\n$$B=\\begin{pmatrix}k\\\\k\\\\k\\end{pmatrix}(a_1,a_2,a_3)=\\begin{pmatrix}ka_1&ka_2&ka_3\\\\ka_1&ka_2&ka_3\\\\ka_1&ka_2&ka_3\\end{pmatrix},$$\n\n则矩阵 $B$ 每行元素之和 $k(a_1+a_2+a_3)=3$。又矩阵 $B$ 为实对称矩阵，有 $a_1=a_2=a_3$，故\n\n$$B=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix}=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}(1,1,1).$$\n\n**④ 计算二次型。** 当 $x=(1,-1,2)^{\\mathrm{T}}$ 时，\n\n$$x^{\\mathrm{T}}Bx=(1,-1,2)\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}(1,1,1)\\begin{pmatrix}1\\\\-1\\\\2\\end{pmatrix}=4,$$\n\n故选 D。",
+      "idea": "$AB=O$ 在这里只承担\"定秩\"的任务：$A$ 有非零二阶子式故 $r(A)\\ge2$，配合 $r(A)+r(B)\\le3$ 及 $B\\ne O$ 得 $r(B)=1$，于是 $B$ 的各列成比例，可写成 $kB$ 型列向量乘行向量的形式。真正的数值信息来自\"每行元素和为 3\"，它等价于 $B(1,1,1)^{\\mathrm{T}}=3(1,1,1)^{\\mathrm{T}}$，即 $(1,1,1)^{\\mathrm{T}}$ 是特征向量；再用实对称性把列向量取成 $(1,1,1)^{\\mathrm{T}}$，得 $B=J$。最后按 $x^{\\mathrm{T}}Bx=(\\sum x_i)^2$ 直接算，$(1-1+2)^2=4$。",
+      "categoryIds": [
+       50043
+      ]
+     },
+     {
+      "no": 15,
+      "origin": "8",
+      "stem": "下列说法中，\n\n① 已知矩阵 $E-BA$ 可逆，其中 $A,B$ 均为 $n$ 阶矩阵，则 $E+A(E-BA)^{-1}B$ 的逆矩阵为 $E-AB$；\n\n② 已知 $A$ 为 $n$ 阶反对称矩阵，$B$ 为 $n$ 阶实对称矩阵，且 $A,B$ 乘积可交换，$B+A$ 可逆，则矩阵 $(B-A)(B+A)^{-1}$ 为正交矩阵；\n\n③ 已知 $A,B$ 为 $n$ 阶实对称矩阵，其中矩阵 $A$ 和 $E+AB$ 均可逆，则 $(E+AB)^{-1}A$ 为实对称矩阵；\n\n④ $n$ 阶矩阵 $A,B$ 满足 $AB+A+B=O$，其中可逆矩阵 $A$ 为实对称矩阵，则 $B^{-1}A^2B^{\\mathrm{T}}=A^2$.\n\n正确的个数为",
+      "options": [
+       "A. 1 个.",
+       "B. 2 个.",
+       "C. 3 个.",
+       "D. 4 个."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "小侯七数二卷三-8·矩阵关系与对称性",
+      "answer": "【答案】D\n\n【解】**① 正确。** 由可逆矩阵的定义，得\n\n$$\\begin{aligned}[E+A(E-BA)^{-1}B](E-AB)&=E-AB+A(E-BA)^{-1}B-A(E-BA)^{-1}BAB\\\\&=E-A\\left[E-(E-BA)^{-1}\\right]B-A(E-BA)^{-1}BAB\\\\&=E-A\\left[(E-BA)^{-1}(E-BA)-(E-BA)^{-1}\\right]B-A(E-BA)^{-1}BAB\\\\&=E+A(E-BA)^{-1}BAB-A(E-BA)^{-1}BAB=E\\end{aligned}$$\n\n故 $E+A(E-BA)^{-1}B$ 的逆矩阵为 $E-AB$。\n\n**② 正确。** 由正交矩阵的定义，得\n\n$$\\begin{aligned}(B-A)(B+A)^{-1}\\left[(B-A)(B+A)^{-1}\\right]^{\\mathrm{T}}&=(B-A)(B+A)^{-1}\\left[(B+A)^{\\mathrm{T}}\\right]^{-1}(B-A)^{\\mathrm{T}}\\\\&=(B-A)(B+A)^{-1}(B-A)^{-1}(B+A)\\\\&=(B-A)\\left[(B-A)(B+A)\\right]^{-1}(B+A)\\\\&=(B-A)\\left[(B+A)(B-A)\\right]^{-1}(B+A)\\\\&=(B-A)(B-A)^{-1}(B+A)^{-1}(B+A)=E\\end{aligned}$$\n\n故 $(B-A)(B+A)^{-1}$ 为正交矩阵。\n\n**③ 正确。** 由对称矩阵的定义，得\n\n$$\\begin{aligned}\\left[(E+AB)^{-1}A\\right]^{\\mathrm{T}}&=\\left[(AA^{-1}+AB)^{-1}A\\right]^{\\mathrm{T}}=\\left[(A^{-1}+B)^{-1}A^{-1}A\\right]^{\\mathrm{T}}\\\\&=\\left[(A^{-1}+BAA^{-1})^{-1}\\right]^{\\mathrm{T}}=\\left[A(E+BA)^{-1}\\right]^{\\mathrm{T}}=\\left[(E+BA)^{-1}\\right]^{\\mathrm{T}}A^{\\mathrm{T}}\\\\&=\\left[(E+BA)^{\\mathrm{T}}\\right]^{-1}A=\\left[(E+AB)\\right]^{-1}A\\end{aligned}$$\n\n故 $(E+AB)^{-1}A$ 为实对称矩阵。\n\n**④ 正确。** 由 $(A+E)(B+E)=E$，可得 $B+E=(A+E)^{-1}$，有\n\n$$B=(A+E)^{-1}-E=(A+E)^{-1}-(A+E)(A+E)^{-1}=-A(A+E)^{-1}.$$\n\n$$\\begin{aligned}B^{-1}A^2B^{\\mathrm{T}}&=\\left[-A(A+E)^{-1}\\right]^{-1}A^2\\left[-A(A+E)^{-1}\\right]^{\\mathrm{T}}\\\\&=(A+E)A^{-1}A^2(A+E)^{-1}A\\\\&=(A+E)A(A+E)^{-1}A=A(A+E)(A+E)^{-1}A=A^2\\end{aligned}$$\n\n**⑤ 结论。** 综上，四个均正确，故选 D。",
+      "idea": "四问都归结为\"按定义验证\"：证逆就乘出来看是否为 $E$，证正交就看 $M M^{\\mathrm{T}}=E$，证对称就看转置是否等于自身。① 的技巧是把 $A(E-BA)^{-1}BAB$ 与前面项合并，凑出 $E-(E-BA)^{-1}$ 再通分成 $(E-BA)^{-1}(E-BA)-(E-BA)^{-1}$，最后两项相互抵消。② 依赖 $A$ 反对称、$A$ 与 $B$ 可交换，因此 $B\\pm A$ 都对称，$(B+A)^{\\mathrm{T}}=B-A$，转置后 $(B+A)$、$(B-A)$ 可交换即可逐项相消。③ 把 $E+AB$ 左提 $A$ 写成 $A(A^{-1}+B)$，转置后再用 $AB$ 与 $BA$ 的特征多项式关系凑回 $(E+AB)^{-1}A$。④ 由 $(A+E)(B+E)=E$ 把 $B$ 显式解成 $-A(A+E)^{-1}$，代入后 $A$ 与 $(A+E)^{-1}$ 交换即得 $A^2$。",
+      "categoryIds": [
+       50042
+      ]
+     }
+    ]
+   },
+   {
+    "title": "五、向量与线性方程组",
+    "questions": [
+     {
+      "no": 16,
+      "origin": "8",
+      "stem": "设 $A$ 是 $n$ 阶可逆矩阵，$\\alpha_1,\\alpha_2,\\cdots,\\alpha_s\\,(2\\le s\\le n)$ 都是 $n$ 维非零列向量，则 $\\alpha_i^{\\mathrm{T}}A^{\\mathrm{T}}A\\alpha_j=0\\ (i,j=1,2,\\cdots,s,\\ i\\neq j)$ 是向量组 $\\alpha_1,\\alpha_2,\\cdots,\\alpha_s$ 线性无关的",
+      "options": [
+       "A. 充要条件.",
+       "B. 必要非充分条件.",
+       "C. 充分非必要条件.",
+       "D. 既不充分也不必要条件."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "李永乐数二卷三-8·向量组线性相关与无关",
+      "answer": "【答案】C\n\n【解】**① 说明 $A^{\\mathrm{T}}A$ 正定，并写出充分性的待证命题。** 由于 $A$ 是 $n$ 阶可逆矩阵，所以 $A^{\\mathrm{T}}A$ 是正定矩阵。充分性：若 $\\alpha_i^{\\mathrm{T}}A^{\\mathrm{T}}A\\alpha_j=0\\,(i\\ne j)$，设\n\n$$k_1\\alpha_1+k_2\\alpha_2+\\cdots+k_s\\alpha_s=0.$$\n\n等式两边左乘 $\\alpha_i^{\\mathrm{T}}A^{\\mathrm{T}}A\\,(i=1,2,\\cdots,s)$，得\n\n$$k_1\\alpha_i^{\\mathrm{T}}A^{\\mathrm{T}}A\\alpha_1+\\cdots+k_s\\alpha_i^{\\mathrm{T}}A^{\\mathrm{T}}A\\alpha_s=0.$$\n\n根据已知条件，当 $j\\ne i$ 时，$\\alpha_i^{\\mathrm{T}}A^{\\mathrm{T}}A\\alpha_j=0$，上式化简为\n\n$$k_i\\alpha_i^{\\mathrm{T}}A^{\\mathrm{T}}A\\alpha_i=k_i(A\\alpha_i)^{\\mathrm{T}}(A\\alpha_i)=0.$$\n\n**② 由正定性得 $k_i=0$。** 因为 $\\alpha_i$ 为非零向量且 $A$ 可逆，所以 $A\\alpha_i\\ne0$，从而 $(A\\alpha_i)^{\\mathrm{T}}(A\\alpha_i)>0$。因此 $k_i=0\\,(i=1,2,\\cdots,s)$，即向量组 $\\alpha_1,\\alpha_2,\\cdots,\\alpha_s$ 线性无关。故为充分条件。\n\n**③ 必要性不成立，举反例。** 若向量组 $\\alpha_1,\\alpha_2,\\cdots,\\alpha_s$ 线性无关，不一定能推出 $\\alpha_i^{\\mathrm{T}}A^{\\mathrm{T}}A\\alpha_j=0$。反例：取 $n=2$，$s=2$，$A=E$，$\\alpha_1=(1,0)^{\\mathrm{T}}$，$\\alpha_2=(1,1)^{\\mathrm{T}}$。显然 $\\alpha_1,\\alpha_2$ 线性无关，但 $\\alpha_1^{\\mathrm{T}}A^{\\mathrm{T}}A\\alpha_2=\\alpha_1^{\\mathrm{T}}\\alpha_2=1\\ne0$。所以该条件不是必要条件。\n\n**④ 结论。** 综上所述，该条件是充分非必要条件，选 C。",
+      "idea": "条件说的是这组向量两两\"$A^{\\mathrm{T}}A$-正交\"，而 $A$ 可逆保证 $A^{\\mathrm{T}}A$ 正定，所以它是比普通正交更弱但仍有正定性的条件。充分性走标准套路：设线性组合为零，左乘 $\\alpha_i^{\\mathrm{T}}A^{\\mathrm{T}}A$ 把所有交叉项一次打掉，只剩 $k_i\\|A\\alpha_i\\|^2=0$，由 $A\\alpha_i\\ne0$ 得 $k_i=0$。必要性只需一个反例：$A=E$ 时条件退化为普通两两正交，随便取两个线性无关但内积非零的向量即可否定。所以是\"充分非必要\"。",
+      "categoryIds": [
+       50051
+      ]
+     },
+     {
+      "no": 17,
+      "origin": "8",
+      "stem": "下列说法\n\n① 已知 $n$ 阶方阵 $A,B,C$ 满足 $BC=O$，且 $r(A)<r(C)$，则存在 $n$ 维非零列向量 $\\alpha$，使得 $A\\alpha=B\\alpha$.\n\n② 已知矩阵方程 $AXB=C$ 有解，其中 $A,B,C$ 分别为 $m\\times n,\\ l\\times s,\\ m\\times s$ 阶矩阵，$X$ 为 $n\\times l$ 阶矩阵，若 $r(A)=r(A,C)=n$，$r(B)=r\\begin{pmatrix}B\\\\C\\end{pmatrix}=l$，则方程组 $AXB=C$ 有唯一解.\n\n③ 非齐次方程组 $\\begin{pmatrix}A&O\\\\O&B\\end{pmatrix}\\begin{pmatrix}x\\\\y\\end{pmatrix}=\\begin{pmatrix}0\\\\\\beta\\end{pmatrix}$ 有解的充要条件是 $r(B)>0$，$r(A)=r(A,\\beta)$.\n\n④ 非齐次方程组 $Ax=\\beta$ 有解的充要条件是向量 $\\beta$ 与齐次方程组 $A^{\\mathrm{T}}x=0$ 的所有解向量正交.\n\n正确的个数为",
+      "options": [
+       "A. 0.",
+       "B. 1.",
+       "C. 2.",
+       "D. 3."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "小侯七数二卷四-8·方程组同解与公共解",
+      "answer": "【答案】D\n\n【解】**① 正确。** 因 $BC=O$，有 $r(B)+r(C)\\le n$，由 $r(A)<r(C)$，得 $r(A)+r(B)<n$，故 $r(A-B)\\le r(A)+r(B)<n$，得齐次方程组 $(A-B)x=0$ 有非零解，即存在非零列向量 $\\alpha$，使得 $A\\alpha=B\\alpha$ 成立。\n\n**② 正确。** 由 $r(A)=r(A,C)=n$，则 $AX_1=C$ 有唯一解，设矩阵 $D$ 满足 $AD=C$，有 $D=XB$ 成立。设 $A_1,A_2$ 均为矩阵方程 $D=XB$ 的解，有 $(A_1-A_2)B=O$，即 $B^{\\mathrm{T}}(A_1-A_2)^{\\mathrm{T}}=O$，由矩阵 $B^{\\mathrm{T}}$ 列满秩，则 $B^{\\mathrm{T}}X=O$ 仅有零解，有 $A_1=A_2$ 成立。故原矩阵方程 $AXB=C$ 有唯一解。\n\n**③ 错误。** 由\n\n$$\\begin{pmatrix}A&O\\\\O&B\\end{pmatrix}\\begin{pmatrix}x\\\\y\\end{pmatrix}=\\begin{pmatrix}0\\\\\\beta\\end{pmatrix},$$\n\n则 $\\begin{cases}Ax=0\\\\ By=\\beta\\end{cases}$ 有解，故 $r(A)\\ge0$，$r(B)=r(B,\\beta)$。\n\n**④ 正确。** 充分性：设 $\\alpha$ 是 $A^{\\mathrm{T}}x=0$ 的解，有 $A^{\\mathrm{T}}\\alpha=0$，由 $\\beta$ 与 $A^{\\mathrm{T}}x=0$ 的所有解向量正交，即 $\\beta^{\\mathrm{T}}\\alpha=0$，故 $A^{\\mathrm{T}}x=0$ 的解均是 $\\beta^{\\mathrm{T}}x=0$ 的解，则齐次方程组 $A^{\\mathrm{T}}x=0$ 与\n\n$$\\begin{cases}A^{\\mathrm{T}}x=0\\\\ \\beta^{\\mathrm{T}}x=0\\end{cases}$$\n\n同解，有 $r(A^{\\mathrm{T}})=r\\begin{pmatrix}A^{\\mathrm{T}}\\\\\\beta^{\\mathrm{T}}\\end{pmatrix}$，取转置得 $r(A)=r(A,\\beta)$，故非齐次方程组 $Ax=\\beta$ 有解。必要性：设 $\\gamma$ 是 $Ax=\\beta$ 的解，有 $A\\gamma=\\beta$，设 $\\alpha$ 是 $A^{\\mathrm{T}}x=0$ 的解，有 $A^{\\mathrm{T}}\\alpha=0$，取转置得 $\\alpha^{\\mathrm{T}}A=0$，有 $\\alpha^{\\mathrm{T}}A\\gamma=0$，故 $\\alpha^{\\mathrm{T}}\\beta=0$，则 $\\beta$ 与 $A^{\\mathrm{T}}x=0$ 的所有解向量正交。\n\n**⑤ 结论。** 综上，①②④ 正确，故选 D。",
+      "idea": "四个命题是四条常用\"套路\"的检验。① 是\"秩不够就必有非零解\"：$BC=O$ 给 $r(B)+r(C)\\le n$，与 $r(A)<r(C)$ 拼起来得 $r(A-B)<n$，于是 $(A-B)x=0$ 有非零解。② 把矩阵方程拆成两步：先由 $r(A)=r(A,C)=n$ 得 $AX=C$ 唯一解，再证 $XB=D$ 唯一（列满秩的左零空间只有零）。③ 分块方程组等价于 $Ax=0$ 与 $By=\\beta$ 各自有解，$r(A)\\ge0$ 恒成立、$r(B)>0$ 却是多余要求，故错误。④ 就是 Fredholm 二择一的正面表述：$\\beta$ 与 $A^{\\mathrm{T}}x=0$ 的解空间正交 $\\Leftrightarrow$ $A^{\\mathrm{T}}x=0$ 与 $\\{\\,A^{\\mathrm{T}}x=0,\\ \\beta^{\\mathrm{T}}x=0\\,\\}$ 同解 $\\Leftrightarrow r(A)=r(A,\\beta)$。",
+      "categoryIds": [
+       50052
+      ]
+     }
+    ]
+   },
+   {
+    "title": "六、二次型",
+    "questions": [
+     {
+      "no": 18,
+      "origin": "10",
+      "stem": "设 $A=(a_{ij})=\\begin{pmatrix}1&1\\\\1&1\\\\0&a\\end{pmatrix}$，定义二次型 $f(x_1,x_2)=\\sum\\limits_{i=1}^{3}\\left(\\sum\\limits_{j=1}^{2}a_{ij}x_j\\right)^2$，若 $f$ 为正定二次型，则实数 $a$ 应满足",
+      "options": [
+       "A. $a=0$.",
+       "B. $a\neq 0$.",
+       "C. $a>0$.",
+       "D. $a<0$."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "李永乐数二卷五-10·二次型定义",
+      "answer": "【答案】B\n\n【分析】把二次型写成 $f=x^TA^TAx$，则 $f$ 正定等价于 $A^TA$ 正定，等价于 $A$ 列满秩，于是只需判断 $A$ 的两列是否线性无关。\n\n【解】**① 化为矩阵形式** 由题设\n$$f=(a_{11}x_1+a_{12}x_2)^2+(a_{21}x_1+a_{22}x_2)^2+(a_{31}x_1+a_{32}x_2)^2=x^TA^TAx,$$\n其中\n$$A^TA=\\begin{pmatrix}1&1&0\\\\1&1&a\\end{pmatrix}\\begin{pmatrix}1&1\\\\1&1\\\\0&a\\end{pmatrix}=\\begin{pmatrix}2&2\\\\2&2+a^2\\end{pmatrix}.$$\n\n**② 判定正定** $f$ 正定 $\\Leftrightarrow A^TA$ 正定 $\\Leftrightarrow A$ 列满秩。$A$ 的两列分别为 $\\alpha_1=(1,1,0)^T$，$\\alpha_2=(1,1,a)^T$，它们线性无关的充要条件是 $a\\neq0$。故选 B。\n\n**【评注】** 这里 $A^TA$ 的一阶顺序主子式为 $2>0$，二阶顺序主子式\n$$\\begin{vmatrix}2&2\\\\2&2+a^2\\end{vmatrix}=2(2+a^2)-4=2a^2>0,$$\n所以 $a\\neq0$ 时二阶顺序主子式也大于 0，与上述判断一致。",
+      "idea": "关键是识别 $f$ 是 $Ax$ 各分量的平方和，即 $f=x^TA^TAx$，从而把二次型正定转化为 $A^TA$ 正定，再转化为 $A$ 列满秩；这比直接算顺序主子式更省事，两种做法结论一致。",
+      "categoryIds": [
+       50061
+      ]
+     },
+     {
+      "no": 19,
+      "origin": "22",
+      "stem": "（本题满分 $12$ 分）已知数列 $\\{x_n\\},\\{y_n\\}$ 满足 $x_0=y_0=1$，且对任意正整数 $n$，有\n\n$$\\begin{cases}x_n=y_{n-1}+\\lambda^{\\,n-1},\\\\ y_n=-2x_{n-1}+3y_{n-1}+2\\lambda^{\\,n-1},\\end{cases}$$\n\n记 $\\alpha_n=\\begin{pmatrix}x_n\\\\y_n\\\\\\lambda^{\\,n}\\end{pmatrix}$.\n\n(1) 写出满足 $\\alpha_n=A\\alpha_{n-1}$ 的矩阵 $A$；\n\n(2) 若 $A$ 仅有两个不同的特征值且可相似对角化，求 $\\lambda$ 的值；\n\n(3) 在 (2) 的条件下，求 $x_n,y_n$ 的通项公式.",
+      "options": [],
+      "kind": "calc",
+      "type": "calc",
+      "source": "ep 数二卷一-22·二次型与正交变换",
+      "answer": "【答案】(1) $A=\\begin{pmatrix}0&1&1\\\\-2&3&2\\\\0&0&\\lambda\\end{pmatrix}$；(2) $\\lambda=1$；(3) $x_n=2^n$，$y_n=2^{n+1}-1$，$n=0,1,\\cdots$\n\n【分析】把含 $\\lambda^{n-1}$ 的两个递推凑成三维向量的线性递推，得 $\\alpha_n=A\\alpha_{n-1}$；再由“只有两个不同特征值且可对角化”定出 $\\lambda$；最后用特征向量组表出初始向量，借 $A^n$ 求通项。\n\n【解】**① 写出矩阵 $A$** 由题设递推关系知\n$$\\begin{pmatrix}x_n\\\\y_n\\\\\\lambda^n\\end{pmatrix}=\\begin{pmatrix}0&1&1\\\\-2&3&2\\\\0&0&\\lambda\\end{pmatrix}\\begin{pmatrix}x_{n-1}\\\\y_{n-1}\\\\\\lambda^{n-1}\\end{pmatrix},$$\n则 $A=\\begin{pmatrix}0&1&1\\\\-2&3&2\\\\0&0&\\lambda\\end{pmatrix}$。（3 分）\n\n**② 由特征值条件确定 $\\lambda$** 矩阵 $A$ 的特征多项式为\n$$|\\mu E-A|=(\\mu-\\lambda)[\\mu(\\mu-3)+2]=(\\mu-\\lambda)(\\mu-1)(\\mu-2),$$\n特征值为 $1,2,\\lambda$。由 $A$ 只有两个不同的特征值，知 $\\lambda=1$ 或 $\\lambda=2$。（5 分）\n\n当 $\\lambda=1$ 时，$A-E=\\begin{pmatrix}-1&1&1\\\\-2&2&2\\\\0&0&0\\end{pmatrix}$ 的秩为 1，故对应二重特征值 1 有 $3-1=2$ 个线性无关的特征向量，加上特征值 2 的一个特征向量，$A$ 可以相似对角化。\n\n当 $\\lambda=2$ 时，$A-2E=\\begin{pmatrix}-2&1&1\\\\-2&1&2\\\\0&0&0\\end{pmatrix}$ 的秩为 2，对应二重特征值 2 只有 $3-2=1$ 个线性无关的特征向量，不能相似对角化。因此 $\\lambda=1$。（7 分）\n\n**③ 求通项公式** 取 $\\lambda=1$。由 $(A-E)v=0$，得 $-v_1+v_2+v_3=0$，故可取两个线性无关的特征向量 $v_1=(1,1,0)^T$，$v_2=(1,0,1)^T$。由 $(A-2E)v=0$，两式相减得 $v_3=0$，再得 $v_2=2v_1$，故可取特征向量 $v_3=(1,2,0)^T$。（8 分）\n\n将初始向量 $\\alpha_0=(1,1,1)^T$ 写成 $c_1v_1+c_2v_2+c_3v_3$，比较分量，得 $c_1+c_2+c_3=1$，$c_1+2c_3=1$，$c_2=1$，解得 $c_1=-1$，$c_2=c_3=1$。由 $\\alpha_n=A^n\\alpha_0$ 及特征向量的性质，得\n$$\\alpha_n=-v_1+v_2+2^nv_3=\\begin{pmatrix}2^n\\\\2^{n+1}-1\\\\1\\end{pmatrix}.$$\n比较分量，得到 $x_n=2^n$，$y_n=2^{n+1}-1$，$n=0,1,\\cdots$。（12 分）",
+      "idea": "用 $\\lambda^n$ 作为第三个分量把两个一阶递推升维成三阶矩阵递推；先由特征多项式得特征值 $1,2,\\lambda$，再用“二重特征值对应的线性无关特征向量个数”排除 $\\lambda=2$；最后把初值按特征向量分解，$A^n$ 作用于各分量即得通项。",
+      "categoryIds": [
+       50062
+      ]
+     }
+    ]
+   },
+   {
+    "title": "七、级数与曲线积分",
+    "questions": [
+     {
+      "no": 20,
+      "origin": "4",
+      "stem": "设封闭曲线 $L$ 的方程为 $\\frac{x^2}{4}+y^2=1$，函数 $f(x,y)$ 满足 $\\oint_L\\frac{\\partial f}{\\partial n}\\,\\mathrm{d}s$ 等于由 $L$ 所围成区域 $D$ 的面积，其中 $n$ 是曲线 $L$ 的单位外法线向量，则 $f(x,y)$ 可以是下列函数中的（　　）",
+      "options": [
+       "A. $e^x\\sin y+\\frac{y^2}{2}$.",
+       "B. $e^x\\sin y+y^2$.",
+       "C. $\\frac{x^2}{4}+y^2$.",
+       "D. $\\frac{x^2}{2}+\\frac{y^2}{4}$."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "李艳芳数一第三套第4题（原书列在「级数」章）",
+      "answer": "【答案】A\n\n【分析】先把 $\\oint_L\\frac{\\partial f}{\\partial n}ds$ 借曲线 $L$ 的切向量改写成第二型曲线积分，再用格林公式化为 $\\iint_D\\left(\\frac{\\partial^2f}{\\partial x^2}+\\frac{\\partial^2f}{\\partial y^2}\\right)dxdy$；要它等于 $D$ 的面积，只需被积函数恒为 1，逐项算拉普拉斯值即可。\n\n【解】**① 参数化曲线并求单位外法向量** 设曲线 $L$ 沿逆时针方向，则曲线 $L$ 的参数方程为\n$$\\begin{cases}x=2\\cos t,\\\\y=\\sin t,\\end{cases}\\quad 0\\leqslant t\\leqslant2\\pi.$$\n此时点 $(x,y)$ 处的切向量为 $\\gamma=(-2\\sin t,\\cos t)$，单位切向量为 $\\left(\\frac{-2\\sin t}{|\\gamma|},\\frac{\\cos t}{|\\gamma|}\\right)$。\n\n设点 $(x,y)$ 处的单位外法线向量为 $n=(a,b)$，则 $n$ 与 $\\gamma$ 相互垂直，模长为 1，且指向外侧。由 $n$ 与 $\\gamma$ 相互垂直可得 $n\\cdot\\gamma=0$，即 $-2a\\sin t+b\\cos t=0$，从而 $\\frac{b}{2a}=\\tan t$。取 $a=\\frac{\\cos t}{|\\gamma|}$，$b=\\frac{2\\sin t}{|\\gamma|}$，则 $\\frac{b}{2a}=\\tan t$，且 $a^2+b^2=1$。并且 $(a,b)$ 指向曲线的外侧。由此可得\n$$n=\\left(\\frac{\\cos t}{|\\gamma|},\\frac{2\\sin t}{|\\gamma|}\\right).$$\n\n**② 化为第二型曲线积分** 根据方向导数的计算公式，\n$$\\frac{\\partial f}{\\partial n}=\\left(\\frac{\\partial f}{\\partial x},\\frac{\\partial f}{\\partial y}\\right)\\cdot\\left(\\frac{\\cos t}{|\\gamma|},\\frac{2\\sin t}{|\\gamma|}\\right)=\\frac{\\partial f}{\\partial x}\\frac{\\cos t}{|\\gamma|}+\\frac{\\partial f}{\\partial y}\\frac{2\\sin t}{|\\gamma|}.$$\n当 $\\frac{\\partial f}{\\partial x}$，$\\frac{\\partial f}{\\partial y}$ 具有一阶连续偏导数时，代入 $\\oint_L\\frac{\\partial f}{\\partial n}ds$，并由\n$$(dx,dy)=\\frac{\\gamma}{|\\gamma|}ds=\\left(\\frac{-2\\sin t}{|\\gamma|},\\frac{\\cos t}{|\\gamma|}\\right)ds$$\n可得\n$$\\oint_L\\frac{\\partial f}{\\partial n}ds=\\oint_L\\left(\\frac{\\partial f}{\\partial x}\\frac{\\cos t}{|\\gamma|}+\\frac{\\partial f}{\\partial y}\\frac{2\\sin t}{|\\gamma|}\\right)ds=\\oint_L\\frac{\\partial f}{\\partial x}dy-\\frac{\\partial f}{\\partial y}dx.$$\n\n**③ 用格林公式化为二重积分** 由格林公式，\n$$\\oint_L\\frac{\\partial f}{\\partial x}dy-\\frac{\\partial f}{\\partial y}dx=\\iint_D\\left(\\frac{\\partial^2f}{\\partial x^2}+\\frac{\\partial^2f}{\\partial y^2}\\right)dxdy.$$\n\n**④ 逐项验证** 若 $\\frac{\\partial^2f}{\\partial x^2}+\\frac{\\partial^2f}{\\partial y^2}=1$，则由二重积分的几何意义可知 $\\oint_L\\frac{\\partial f}{\\partial n}ds$ 等于由 $L$ 所围成区域 $D$ 的面积。\n\n对选项 A，$\\frac{\\partial^2f}{\\partial x^2}=e^x\\sin y$，$\\frac{\\partial^2f}{\\partial y^2}=-e^x\\sin y+1$，$\\frac{\\partial^2f}{\\partial x^2}+\\frac{\\partial^2f}{\\partial y^2}=1$，符合要求。对选项 B，$\\frac{\\partial^2f}{\\partial x^2}=e^x\\sin y$，$\\frac{\\partial^2f}{\\partial y^2}=-e^x\\sin y+2$，$\\frac{\\partial^2f}{\\partial x^2}+\\frac{\\partial^2f}{\\partial y^2}=2$，不符合要求。对选项 C，$\\frac{\\partial^2f}{\\partial x^2}=\\frac{1}{2}$，$\\frac{\\partial^2f}{\\partial y^2}=2$，$\\frac{\\partial^2f}{\\partial x^2}+\\frac{\\partial^2f}{\\partial y^2}=\\frac{5}{2}$，不符合要求。对选项 D，$\\frac{\\partial^2f}{\\partial x^2}=1$，$\\frac{\\partial^2f}{\\partial y^2}=\\frac{1}{2}$，$\\frac{\\partial^2f}{\\partial x^2}+\\frac{\\partial^2f}{\\partial y^2}=\\frac{3}{2}$，不符合要求。因此，应选 A。\n\n**【注】** 一般地，若封闭曲线 $L$ 上点 $(x,y)$ 处的沿正向的单位切向量为 $(x'_t,y'_t)$，则区域 $D$ 始终位于曲线的左侧，此时该点处的单位外法线向量由单位切向量顺时针旋转 $\\frac{\\pi}{2}$ 得到，为 $(y'_t,-x'_t)$。",
+      "idea": "核心是把散度 $f_{xx}+f_{yy}$ 与外法向导数沿闭曲线的积分联系起来：先参数化定出单位外法向量，再把外法向导数积分转成 $\\oint f_xdy-f_ydx$，格林公式一步得到 $\\iint_D(f_{xx}+f_{yy})$。于是“等于面积”等价于 $f_{xx}+f_{yy}\\equiv1$，只需算各选项的拉普拉斯。",
+      "categoryIds": [
+       50071
+      ]
+     }
+    ]
+   },
+   {
+    "title": "八、概率论",
+    "questions": [
+     {
+      "no": 21,
+      "origin": "22",
+      "stem": "已知 $X_1,X_2,\\cdots,X_n\\,(n\\ge 2)$ 为来自正态总体 $N(\\mu,\\sigma^2)$ 的简单随机样本，参数 $\\mu$ 与 $\\sigma^2$ 未知.\n\n(1) 已知 $\\int_{-\\infty}^{A}f(x,\\mu,\\sigma^2)\\,\\mathrm{d}x=0.975$，求参数 $A$ 的最大似然估计量，其中 $f(x,\\mu,\\sigma^2)$ 为总体随机变量 $X$ 的概率密度；($\\Phi(1.96)=0.975$)\n\n(2) 若 $\\hat\\mu$ 与 $\\hat\\sigma^2$ 分别为 $\\mu$ 与 $\\sigma^2$ 的最大似然估计量，计算期望 $E\\left[(\\hat\\mu-\\mu)^4\\hat\\sigma^4\\right]$.",
+      "options": [],
+      "kind": "calc",
+      "type": "calc",
+      "source": "小侯七数一第一套第22题",
+      "answer": "【答案】(1) $\\hat A=\\bar X+1.96\\sqrt{\\frac{1}{n}\\sum_{i=1}^n(X_i-\\bar X)^2}$；(2) $E[(\\hat\\mu-\\mu)^4\\hat\\sigma^4]=\\frac{3(n+1)(n-1)\\sigma^8}{n^4}$\n\n【分析】第一问走常规极大似然路线，求出 $\\hat\\mu$、$\\hat\\sigma^2$ 后由 $A=\\mu+1.96\\sigma$ 用替换法得 $\\hat A$；第二问利用 $\\hat\\mu$ 与 $\\hat\\sigma^2$ 独立拆开期望，再用 $\\chi^2$ 分布的一、二阶矩算出 $\\bar X$ 与样本二阶中心矩的四阶矩。\n\n【解】**① 求最大似然估计量** 似然函数\n$$L(\\mu,\\sigma^2)=\\frac{1}{(\\sqrt{2\\pi\\sigma^2})^n}e^{-\\frac{\\sum_{i=1}^n(x_i-\\mu)^2}{2\\sigma^2}},$$\n取对数\n$$\\ln L(\\mu,\\sigma^2)=-\\frac{n}{2}\\ln(2\\pi)-\\frac{n}{2}\\ln\\sigma^2-\\frac{\\sum_{i=1}^n(x_i-\\mu)^2}{2\\sigma^2}.$$\n令\n$$\\begin{cases}\\frac{\\partial\\ln L}{\\partial\\mu}=\\frac{1}{\\sigma^2}\\sum_{i=1}^n(x_i-\\mu)=0,\\\\\\frac{\\partial\\ln L}{\\partial(\\sigma^2)}=-\\frac{n}{2\\sigma^2}+\\frac{\\sum_{i=1}^n(x_i-\\mu)^2}{2(\\sigma^2)^2}=0,\\end{cases}$$\n得最大似然估计量为 $\\hat\\mu=\\bar X$，$\\hat\\sigma^2=\\frac{1}{n}\\sum_{i=1}^n(X_i-\\bar X)^2$。（5 分）\n\n**② 求参数 $A$ 的最大似然估计量** 由 $X\\sim N(\\mu,\\sigma^2)$，有 $\\frac{X-\\mu}{\\sigma}\\sim N(0,1)$，则\n$$\\int_{-\\infty}^A f(x,\\mu,\\sigma^2)dx=P\\{X\\leqslant A\\}=P\\left\\{\\frac{X-\\mu}{\\sigma}\\leqslant\\frac{A-\\mu}{\\sigma}\\right\\}=\\Phi\\left(\\frac{A-\\mu}{\\sigma}\\right).$$\n由 $\\Phi\\left(\\frac{A-\\mu}{\\sigma}\\right)=0.975$，得 $\\frac{A-\\mu}{\\sigma}=1.96$，$A=\\mu+1.96\\sigma$，故参数 $A$ 的最大似然估计量\n$$\\hat A=\\hat\\mu+1.96\\hat\\sigma=\\bar X+1.96\\sqrt{\\frac{1}{n}\\sum_{i=1}^n(X_i-\\bar X)^2}.$$（7 分）\n\n**③ 利用独立性拆开期望** 由①得 $\\hat\\mu=\\bar X$，$\\hat\\sigma^2=\\frac{1}{n}\\sum_{i=1}^n(X_i-\\bar X)^2$，且 $\\hat\\mu$ 与 $\\hat\\sigma^2$ 相互独立，故\n$$E[(\\hat\\mu-\\mu)^4\\hat\\sigma^4]=E[(\\hat\\mu-\\mu)^4]E[(\\hat\\sigma^2)^2].$$（8 分）\n\n**④ 计算 $\\hat\\mu$ 的四阶中心矩** 由于\n$$E[(\\hat\\mu-\\mu)^4]=E[(\\bar X-\\mu)^4]=\\left\\{E[(\\bar X-\\mu)^2]\\right\\}^2+D[(\\bar X-\\mu)^2].$$\n由于 $\\frac{\\sqrt{n}(\\bar X-\\mu)}{\\sigma}\\sim N(0,1)$，因此 $\\frac{n(\\bar X-\\mu)^2}{\\sigma^2}\\sim\\chi^2(1)$，则\n$$E\\left[\\frac{n(\\bar X-\\mu)^2}{\\sigma^2}\\right]=1, D\\left[\\frac{n(\\bar X-\\mu)^2}{\\sigma^2}\\right]=2.$$（9 分）\n\n得到 $E[(\\bar X-\\mu)^2]=\\frac{\\sigma^2}{n}$，$D[(\\bar X-\\mu)^2]=\\frac{2\\sigma^4}{n^2}$，故\n$$E[(\\hat\\mu-\\mu)^4]=\\frac{\\sigma^4}{n^2}+\\frac{2\\sigma^4}{n^2}=\\frac{3\\sigma^4}{n^2}.$$（10 分）\n\n**⑤ 计算 $E[(\\hat\\sigma^2)^2]$ 并得结果** 由于 $\\frac{\\sum_{i=1}^n(X_i-\\bar X)^2}{\\sigma^2}\\sim\\chi^2(n-1)$，故\n$$E\\left[\\sum_{i=1}^n(X_i-\\bar X)^2\\right]=(n-1)\\sigma^2, D\\left[\\sum_{i=1}^n(X_i-\\bar X)^2\\right]=2(n-1)\\sigma^4.$$\n得\n$$E\\left[\\left(\\sum_{i=1}^n(X_i-\\bar X)^2\\right)^2\\right]=[(n-1)\\sigma^2]^2+2(n-1)\\sigma^4=(n+1)(n-1)\\sigma^4,$$\n$$E[(\\hat\\sigma^2)^2]=\\frac{1}{n^2}E\\left[\\left(\\sum_{i=1}^n(X_i-\\bar X)^2\\right)^2\\right]=\\frac{(n+1)(n-1)\\sigma^4}{n^2}.$$（11 分）\n\n故\n$$E[(\\hat\\mu-\\mu)^4\\hat\\sigma^4]=\\frac{3\\sigma^4}{n^2}\\cdot\\frac{(n+1)(n-1)\\sigma^4}{n^2}=\\frac{3(n+1)(n-1)\\sigma^8}{n^4}.$$（12 分）",
+      "idea": "先用似然方程得 $\\hat\\mu=\\bar X$、$\\hat\\sigma^2$ 为样本二阶中心矩，$A=\\mu+1.96\\sigma$ 的估计用替换法（即 $\\sigma$ 用 $\\hat\\sigma$ 代）。第二问的关键是 $\\bar X$ 与中心矩独立，把四阶矩与 $\\hat\\sigma^4$ 的期望拆成两个因子，各自用 $\\chi^2$ 分布的一、二阶矩求得。",
+      "categoryIds": [
+       50082
+      ]
+     },
+     {
+      "no": 22,
+      "origin": "22",
+      "stem": "已知 $X_1,X_2,\\cdots,X_{50}$ 为来自正态总体 $N(\\mu,\\sigma^2)$ 的简单随机样本，参数 $\\mu$ 与 $\\sigma^2$ 未知.\n\n(1) 求参数 $\\mu$ 与 $\\sigma^2$ 的最大似然估计量；\n\n(2) 若样本均值 $\\bar x=14.75$，样本方差 $S^2=\\frac{1}{49}\\sum\\limits_{i=1}^{50}(X_i-\\bar X)^2=66.90$，求参数 $\\mu$ 的置信度为 $0.95$ 的置信区间，其中 $\\sqrt{S^2}\\approx 8.18$，$t_{0.025}(49)=2.010$；\n\n(3) 以 (2) 中样本数据考虑零假设 $H_0:\\mu=12$ 与备择假设 $H_1:\\mu\\neq 12$，则在显著性水平 $\\alpha=5\\%$ 时，判断是否拒绝 $H_0$.",
+      "options": [],
+      "kind": "calc",
+      "type": "calc",
+      "source": "小侯七数一第三套第22题",
+      "answer": "【答案】(1) $\\hat\\mu=\\bar X$，$\\hat\\sigma^2=\\frac{1}{50}\\sum_{i=1}^{50}(X_i-\\bar X)^2$；(2) $(12.42,17.08)$；(3) 拒绝 $H_0$\n\n【分析】正态总体、方差未知，全部用 $t$ 统计量作枢轴量：由 $\\frac{\\bar X-\\mu}{S/\\sqrt{n}}\\sim t(n-1)$ 得置信区间，同一统计量代入样本值得 $t$ 值，与 $t_{0.025}(49)$ 比较作检验。\n\n【解】**① 最大似然估计** $X$ 的概率密度为\n$$f(x;\\mu,\\sigma^2)=\\frac{1}{\\sqrt{2\\pi}\\sigma}e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}.$$\n似然函数为\n$$L(\\mu,\\sigma^2)=\\frac{1}{(\\sqrt{2\\pi\\sigma^2})^{50}}e^{-\\frac{\\sum_{i=1}^{50}(x_i-\\mu)^2}{2\\sigma^2}}.$$\n取对数，得\n$$\\ln L(\\mu,\\sigma^2)=-25\\ln(2\\pi)-25\\ln\\sigma^2-\\frac{\\sum_{i=1}^{50}(x_i-\\mu)^2}{2\\sigma^2}.$$\n令\n$$\\begin{cases}\\frac{\\partial\\ln L}{\\partial\\mu}=\\frac{1}{\\sigma^2}\\sum_{i=1}^{50}(x_i-\\mu)=0,\\\\\\frac{\\partial\\ln L}{\\partial(\\sigma^2)}=-\\frac{25}{\\sigma^2}+\\frac{\\sum_{i=1}^{50}(x_i-\\mu)^2}{2(\\sigma^2)^2}=0,\\end{cases}$$\n得最大似然估计量为\n$$\\hat\\mu=\\frac{1}{50}\\sum_{i=1}^{50}X_i=\\bar X,\\quad \\hat\\sigma^2=\\frac{1}{50}\\sum_{i=1}^{50}(X_i-\\bar X)^2.$$（6 分）\n\n**② 求置信区间** 因 $\\sigma^2$ 未知，由 $\\frac{\\bar X-\\mu}{S/\\sqrt{n}}\\sim t(n-1)$，故 $\\mu$ 的置信度为 0.95 的置信区间为\n$$\\left(\\bar X-\\frac{S}{\\sqrt{n}}t_{0.025}(49), \\bar X+\\frac{S}{\\sqrt{n}}t_{0.025}(49)\\right).$$（8 分）\n\n由 $\\bar x=14.75$，$\\frac{S}{\\sqrt{50}}t_{0.025}(49)\\approx2.33$，有\n$$\\bar X-\\frac{S}{\\sqrt{50}}t_{0.025}(49)\\approx12.42,\\quad \\bar X+\\frac{S}{\\sqrt{50}}t_{0.025}(49)\\approx17.08.$$\n即置信区间为 $(12.42,17.08)$。（10 分）\n\n**③ 假设检验** 由\n$$|t|=\\frac{|\\bar X-\\mu|}{S/\\sqrt{n}}=\\frac{|14.75-12|}{8.18/\\sqrt{50}}\\approx2.38>t_{0.025}(49)=2.010,$$\n故拒绝 $H_0$。（12 分）",
+      "idea": "三类问题共用同一个枢轴量 $\\frac{\\bar X-\\mu}{S/\\sqrt{n}}\\sim t(n-1)$：区间估计取分位数构造端点，检验则把样本值代入算 $t$ 值再与临界值比较。注意 $S^2$ 的分母是 $n-1=49$，分位数也取 $t_{0.025}(49)$。",
+      "categoryIds": [
+       50082
+      ]
+     },
+     {
+      "no": 23,
+      "origin": "9",
+      "stem": "设随机变量 $X$ 的分布函数为 $F(x)$，概率密度为 $f(x)$，则下列说法中，错误的是（　　）",
+      "options": [
+       "A. $\\frac{1}{2}[f(x)+f(-x)]$ 必为某随机变量的概率密度.",
+       "B. $f(x)f(-x)$ 必为某随机变量的概率密度.",
+       "C. $2f(x)F(x)$ 必为某随机变量的概率密度.",
+       "D. $2f(x)[1-F(x)]$ 必为某随机变量的概率密度."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "李艳芳数一第二套第9题",
+      "answer": "【答案】B\n\n【分析】概率密度只需两条：非负且全积分为 1。四个选项的非负性都成立，所以逐一检查 $\\int_{-\\infty}^{+\\infty}$ 是否必为 1，对 B 用 $(0,1)$ 上的均匀分布举反例即可。\n\n【解】**① 选项 A** 由概率密度的定义可得 $f(x)\\geqslant0$，且 $\\int_{-\\infty}^{+\\infty}f(x)dx=1$。于是 $f(-x)\\geqslant0$，从而 $\\frac{1}{2}[f(x)+f(-x)]\\geqslant0$。并且\n$$\\int_{-\\infty}^{+\\infty}\\frac{1}{2}[f(x)+f(-x)]dx=\\frac{1}{2}\\int_{-\\infty}^{+\\infty}f(x)dx+\\frac{1}{2}\\int_{-\\infty}^{+\\infty}f(-x)dx,$$\n在第二个积分中令 $t=-x$，得\n$$\\frac{1}{2}\\int_{-\\infty}^{+\\infty}f(x)dx+\\frac{1}{2}\\int_{-\\infty}^{+\\infty}f(t)dt=\\frac{1}{2}+\\frac{1}{2}=1.$$\n因此，$\\frac{1}{2}[f(x)+f(-x)]$ 符合概率密度的要求，是某个随机变量的概率密度。\n\n**② 选项 B** 由概率密度的非负性可得 $f(x)f(-x)\\geqslant0$。但是，$f(x)f(-x)$ 不一定满足 $\\int_{-\\infty}^{+\\infty}f(x)f(-x)dx=1$。例如，取 $X$ 服从 $(0,1)$ 上的均匀分布，则\n$$f(x)=\\begin{cases}1,&x\\in(0,1),\\\\0,&其他,\\end{cases}\\quad f(-x)=\\begin{cases}1,&x\\in(-1,0),\\\\0,&其他.\\end{cases}$$\n$f(x)f(-x)\\equiv0$，于是 $\\int_{-\\infty}^{+\\infty}f(x)f(-x)dx=0$。因此，$f(x)f(-x)$ 不一定是某个随机变量的概率密度。\n\n**③ 选项 C** 由概率密度与分布函数的非负性可得 $2f(x)F(x)\\geqslant0$。并且\n$$\\int_{-\\infty}^{+\\infty}2f(x)F(x)dx=2\\int_{-\\infty}^{+\\infty}F(x)d[F(x)]=\\left.[F(x)]^2\\right|_{-\\infty}^{+\\infty}=1-0=1.$$\n因此，$2f(x)F(x)$ 符合概率密度的要求，是某个随机变量的概率密度。\n\n**④ 选项 D** 由分布函数的性质可得 $F(x)\\leqslant1$，故 $2f(x)[1-F(x)]\\geqslant0$。并且\n$$\\int_{-\\infty}^{+\\infty}2f(x)[1-F(x)]dx=2\\int_{-\\infty}^{+\\infty}[1-F(x)]d[F(x)]=\\left.[2F(x)-[F(x)]^2]\\right|_{-\\infty}^{+\\infty}=2-1=1.$$\n因此，$2f(x)[1-F(x)]$ 符合概率密度的要求，是某个随机变量的概率密度。综上所述，应选 B。",
+      "idea": "判断“是否为概率密度”只需检查非负性与积分为 1；A、C、D 的积分都能凑成 $\\int d[F(x)]$ 型而恒等于 1，B 的两个因子支撑集可以完全不重叠，用均匀分布即得反例 $f(x)f(-x)\\equiv0$。",
+      "categoryIds": [
+       50081
+      ]
+     },
+     {
+      "no": 24,
+      "origin": "10",
+      "stem": "设总体 $X$ 服从均匀分布 $U(\\theta_1,\\theta_2)$。$X_1,X_2,\\cdots,X_{96}$ 为来自总体 $X$ 的一个简单随机样本。利用样本的一阶原点矩和二阶中心矩估计 $\\theta_1,\\theta_2$，矩估计值分别为 $\\hat\\theta_1,\\hat\\theta_2$。已知样本方差 $S^2=\\frac{1}{10}$，则 $\\hat\\theta_2-\\hat\\theta_1=$（　　）",
+      "options": [
+       "A. $\\frac{\\sqrt{19}}{5}$.",
+       "B. $\\frac{\\sqrt{19}}{4}$.",
+       "C. $\\frac{\\sqrt{30}}{5}$.",
+       "D. $\\frac{\\sqrt{30}}{4}$."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "李艳芳数一第二套第10题",
+      "answer": "【答案】B\n\n【分析】只求 $\\hat\\theta_2-\\hat\\theta_1$ 而不分别求两个参数，把均匀分布的方差 $\\frac{(\\theta_2-\\theta_1)^2}{12}$ 反解出 $(\\theta_2-\\theta_1)^2$，再用样本二阶中心矩代总体方差即可。\n\n【解】**① 建立关系** 记 $\\alpha=D(X)$，则由均匀分布的性质可知，$\\alpha=\\frac{(\\theta_2-\\theta_1)^2}{12}$，进一步可得 $(\\theta_2-\\theta_1)^2=12\\alpha$。用样本的二阶中心矩 $\\frac{1}{n}\\sum_{i=1}^n(X_i-\\bar X)^2=\\frac{n-1}{n}S^2$ 代替 $\\alpha$，可得\n$$(\\hat\\theta_2-\\hat\\theta_1)^2=12\\cdot\\frac{n-1}{n}S^2.$$\n\n**② 代入数据求值** 由已知条件可知 $n=96$，$S^2=\\frac{1}{10}$。于是\n$$(\\hat\\theta_2-\\hat\\theta_1)^2=12\\cdot\\frac{n-1}{n}S^2=12\\cdot\\frac{95}{96}\\cdot\\frac{1}{10}=\\frac{19}{16}.$$\n由于 $\\theta_2>\\theta_1$，故 $\\hat\\theta_2-\\hat\\theta_1=\\sqrt{\\frac{19}{16}}=\\frac{\\sqrt{19}}{4}$。因此，应选 B。\n\n**【注】** 得到 $\\hat\\theta_1$ 和 $\\hat\\theta_2$ 还需要用到样本的一阶原点矩 $\\bar X$，但得到 $\\hat\\theta_2-\\hat\\theta_1$ 只需要样本的二阶中心矩。",
+      "idea": "矩估计里 $(\\theta_2-\\theta_1)^2=12D(X)$ 是关键桥梁，比值恰好消去一阶矩的信息；用 $\\frac{n-1}{n}S^2$ 代总体方差、注意开方取正（因 $\\theta_2>\\theta_1$）即得结果。",
+      "categoryIds": [
+       50082
+      ]
+     },
+     {
+      "no": 25,
+      "origin": "22",
+      "stem": "设随机变量 $X$ 服从 $(0,2)$ 上的均匀分布，当 $0<X\\le 1$ 时，在 $X=x$ 的条件下，随机变量 $Y\\sim N(x,1)$；当 $1<X<2$ 时，在 $X=x$ 的条件下，随机变量 $Y$ 服从 $(0,x)$ 上的均匀分布。令 $Z=\\min\\{X,Y\\}$.\n\n(Ⅰ) 求 $(X,Y)$ 的联合概率密度 $f(x,y)$；\n\n(Ⅱ) 求 $Z$ 的概率密度 $f_Z(z)$，结果用标准正态分布的分布函数 $\\Phi(z)$ 表示.",
+      "options": [],
+      "kind": "calc",
+      "type": "calc",
+      "source": "李艳芳数一第三套第22题",
+      "answer": "【答案】(1) $f(x,y)=\\begin{cases}\\frac{1}{2\\sqrt{2\\pi}}e^{-\\frac{(y-x)^2}{2}},&0<x\\leqslant1, -\\infty<y<+\\infty,\\\\\\frac{1}{2x},&0<y<x, 1<x<2,\\\\0,&其他;\\end{cases}$ (2) $f_Z(z)=\\begin{cases}\\frac{1}{2}[\\Phi(1-z)-\\Phi(-z)],&z<0,\\\\\\frac{1}{2}\\Phi(1-z)+\\frac{\\ln2}{2},&0\\leqslant z<1,\\\\\\frac{1}{2}\\ln\\frac{2}{z},&1\\leqslant z<2,\\\\0,&z\\geqslant2.\\end{cases}$\n\n【分析】联合密度由 $f_X$ 乘条件密度得到，按 $X$ 的两段分别写出。求 $Z=\\min\\{X,Y\\}$ 用 $P\\{Z>z\\}=P\\{X>z,Y>z\\}$，把二重积分拆成 $D_1,D_2$ 两块，按 $z$ 与分段边界的四种位置关系分别算出 $F_1,F_2$，再求导得 $f_Z$。\n\n【解】**① 求联合概率密度** 由于 $X$ 服从 $(0,2)$ 上的均匀分布，故 $X$ 的概率密度\n$$f_X(x)=\\begin{cases}\\frac{1}{2},&x\\in(0,2),\\\\0,&其他.\\end{cases}$$\n\n由正态分布的概率密度可得，当 $0<x\\leqslant1$，$-\\infty<y<+\\infty$ 时，$f_{Y|X}(y|x)=\\frac{1}{\\sqrt{2\\pi}}e^{-\\frac{(y-x)^2}{2}}$。此时\n$$f(x,y)=f_{Y|X}(y|x)f_X(x)=\\frac{1}{2\\sqrt{2\\pi}}e^{-\\frac{(y-x)^2}{2}},\\quad 0<x\\leqslant1, -\\infty<y<+\\infty.$$\n\n由均匀分布的概率密度可得，当 $0<y<x$，$1<x<2$ 时，$f_{Y|X}(y|x)=\\frac{1}{x}$。此时\n$$f(x,y)=f_{Y|X}(y|x)f_X(x)=\\frac{1}{2x},\\quad 0<y<x, 1<x<2.$$\n\n记 $D_1=\\{(x,y)\\mid 0<x\\leqslant1, -\\infty<y<+\\infty\\}$，$D_2=\\{(x,y)\\mid 0<y<x, 1<x<2\\}$。由于\n$$\\iint_{D_1\\cup D_2}f(x,y)dxdy=\\int_0^1 dx\\int_{-\\infty}^{+\\infty}\\frac{1}{2\\sqrt{2\\pi}}e^{-\\frac{(y-x)^2}{2}}dy+\\int_1^2\\frac{1}{2x}dx\\int_0^x dy$$\n$$=\\frac{1}{2}\\int_0^1 dx+\\frac{1}{2}\\int_1^2\\frac{1}{x}\\cdot x dx=\\frac{1}{2}+\\frac{1}{2}=1,$$\n故可以认为 $f(x,y)$ 在平面其他区域上几乎处处为零。因此\n$$f(x,y)=\\begin{cases}\\frac{1}{2\\sqrt{2\\pi}}e^{-\\frac{(y-x)^2}{2}},&0<x\\leqslant1, -\\infty<y<+\\infty,\\\\\\frac{1}{2x},&0<y<x, 1<x<2,\\\\0,&其他.\\end{cases}$$\n\n**② 写出 $Z$ 的分布函数** 记 $Z$ 的分布函数为 $F_Z(z)$。根据分布函数的定义，\n$$F_Z(z)=P\\{Z\\leqslant z\\}=1-P\\{Z>z\\}=1-P\\{\\min\\{X,Y\\}>z\\}=1-P\\{X>z,Y>z\\}.$$\n记 $D_z=\\{(x,y)\\mid x>z, y>z\\}$，则\n$$F_Z(z)=1-\\iint_{D_z}f(x,y)dxdy=1-\\iint_{D_z\\cap D_1}\\frac{1}{2\\sqrt{2\\pi}}e^{-\\frac{(y-x)^2}{2}}dxdy-\\iint_{D_z\\cap D_2}\\frac{1}{2x}dxdy.$$\n记\n$$F_1(z)=\\iint_{D_z\\cap D_1}\\frac{1}{2\\sqrt{2\\pi}}e^{-\\frac{(y-x)^2}{2}}dxdy,\\quad F_2(z)=\\iint_{D_z\\cap D_2}\\frac{1}{2x}dxdy,$$\n则 $F_Z(z)=1-F_1(z)-F_2(z)$，从而 $Z$ 的概率密度\n$$f_Z(z)=F_Z'(z)=-F_1'(z)-F_2'(z).$$\n下面根据 $z$ 的取值分情况讨论。\n\n**③ 当 $z<0$ 时** $D_1\\cap D_z=\\{(x,y)\\mid z<y<+\\infty, 0<x\\leqslant1\\}$，$D_2\\cap D_z=D_2$。于是\n$$F_1(z)=\\int_0^1 dx\\int_z^{+\\infty}\\frac{1}{2\\sqrt{2\\pi}}e^{-\\frac{(y-x)^2}{2}}dy,$$\n令 $t=y-x$，得\n$$F_1(z)=\\frac{1}{2}\\int_0^1 dx\\int_{z-x}^{+\\infty}\\frac{1}{\\sqrt{2\\pi}}e^{-\\frac{t^2}{2}}dt=\\frac{1}{2}\\int_0^1[1-\\Phi(z-x)]dx,$$\n再令 $u=x-z$，得\n$$F_1(z)=\\frac{1}{2}\\int_{-z}^{1-z}[1-\\Phi(-u)]du=\\frac{1}{2}\\int_{-z}^{1-z}\\Phi(u)du,$$\n$$F_2(z)=\\int_1^2\\frac{1}{2x}dx\\int_0^x dy=\\frac{1}{2}\\int_1^2\\frac{1}{x}\\cdot x dx=\\frac{1}{2}.$$\n其中 $\\Phi(u)$ 是标准正态分布的分布函数。此时\n$$F_1'(z)=\\left[\\frac{1}{2}\\int_{-z}^{1-z}\\Phi(u)du\\right]'=\\frac{1}{2}[-\\Phi(1-z)+\\Phi(-z)],\\quad F_2'(z)=0.$$\n\n**④ 当 $0\\leqslant z<1$ 时** $D_1\\cap D_z=\\{(x,y)\\mid z<y<+\\infty, z<x\\leqslant1\\}$，$D_2\\cap D_z=\\{(x,y)\\mid z<y<x, 1<x<2\\}$。于是\n$$F_1(z)=\\int_z^1 dx\\int_z^{+\\infty}\\frac{1}{2\\sqrt{2\\pi}}e^{-\\frac{(y-x)^2}{2}}dy,$$\n令 $t=y-x$，得\n$$F_1(z)=\\frac{1}{2}\\int_z^1 dx\\int_{z-x}^{+\\infty}\\frac{1}{\\sqrt{2\\pi}}e^{-\\frac{t^2}{2}}dt=\\frac{1}{2}\\int_z^1[1-\\Phi(z-x)]dx,$$\n再令 $u=x-z$，得\n$$F_1(z)=\\frac{1}{2}\\int_0^{1-z}[1-\\Phi(-u)]du=\\frac{1}{2}\\int_0^{1-z}\\Phi(u)du,$$\n$$F_2(z)=\\int_1^2\\frac{1}{2x}dx\\int_z^x dy=\\frac{1}{2}\\int_1^2\\left(1-\\frac{z}{x}\\right)dx=\\left.\\frac{1}{2}(x-z\\ln x)\\right|_1^2=\\frac{1}{2}(1-z\\ln2).$$\n此时\n$$F_1'(z)=\\left[\\frac{1}{2}\\int_0^{1-z}\\Phi(u)du\\right]'=-\\frac{1}{2}\\Phi(1-z),\\quad F_2'(z)=-\\frac{\\ln2}{2}.$$\n\n**⑤ 当 $1\\leqslant z<2$ 时** $D_1\\cap D_z=\\varnothing$，$D_2\\cap D_z=\\{(x,y)\\mid z<y<x, z<x<2\\}$。于是 $F_1(z)=0$，\n$$F_2(z)=\\int_z^2\\frac{1}{2x}dx\\int_z^x dy=\\frac{1}{2}\\int_z^2\\left(1-\\frac{z}{x}\\right)dx=\\left.\\frac{1}{2}(x-z\\ln x)\\right|_z^2=\\frac{1}{2}\\left(2-z-z\\ln\\frac{2}{z}\\right).$$\n此时 $F_1'(z)=0$，\n$$F_2'(z)=\\frac{1}{2}\\left(2-z-z\\ln\\frac{2}{z}\\right)'=\\frac{1}{2}\\left[-1-\\ln\\frac{2}{z}-z\\cdot\\left(-\\frac{1}{z}\\right)\\right]=-\\frac{1}{2}\\ln\\frac{2}{z}.$$\n\n**⑥ 当 $z\\geqslant2$ 时** $D_1\\cap D_z=\\varnothing$，$D_2\\cap D_z=\\varnothing$。于是 $F_1(z)=0$，$F_2(z)=0$。此时 $F_1'(z)=0$，$F_2'(z)=0$。因此 $Z$ 的概率密度\n$$f_Z(z)=-F_1'(z)-F_2'(z)=\\begin{cases}\\frac{1}{2}[\\Phi(1-z)-\\Phi(-z)],&z<0,\\\\\\frac{1}{2}\\Phi(1-z)+\\frac{\\ln2}{2},&0\\leqslant z<1,\\\\\\frac{1}{2}\\ln\\frac{2}{z},&1\\leqslant z<2,\\\\0,&z\\geqslant2,\\end{cases}$$\n其中 $\\Phi(z)$ 是标准正态分布的分布函数。",
+      "idea": "两段条件分布决定联合密度只在 $D_1\\cup D_2$ 上非零。求 $\\min$ 的分布用“大于”事件处理最方便，把 $P\\{X>z,Y>z\\}$ 化成两个区域上的二重积分，随 $z$ 落在哪个区间 $D_z$ 与 $D_1,D_2$ 的交会变形，四次分情况积分后统一求导，注意 $1-\\Phi(-u)=\\Phi(u)$ 的化简。",
+      "categoryIds": [
+       50081
+      ]
+     },
+     {
+      "no": 26,
+      "origin": "9",
+      "stem": "设 $X$ 与 $Y$ 为具有二阶矩的随机变量，且 $DX\\neq 0$，若记 $G(a,b)=E\\left\\{[Y-(a+bX)]^2\\right\\}$，则 $G(a,b)$ 在驻点处的值为",
+      "options": [
+       "A. $(1-\\rho_{XY}^2)DY$.",
+       "B. $(1+\\rho_{XY}^2)DY$.",
+       "C. $(1-\\rho_{XY}^2)\\mathrm{Cov}(X,Y)$.",
+       "D. $(1+\\rho_{XY}^2)\\mathrm{Cov}(X,Y)$."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "张八数一第一套第9题",
+      "answer": "【答案】A\n\n【解】$G(a,b)$ 是 $a,b$ 的二次型，先展开期望，再由驻点条件 $\\frac{\\partial G}{\\partial a}=\\frac{\\partial G}{\\partial b}=0$ 解出 $a,b$，最后代回求值。\n\n**① 展开 $G(a,b)$**\n\n$$G(a,b)=E(Y^{2}-2aY-2bXY+a^{2}+2abX+b^{2}X^{2})$$\n\n$$=E(Y^{2})-2aEY-2bE(XY)+a^{2}+2abEX+b^{2}E(X^{2}).$$\n\n**② 由驻点条件列方程**\n\n令\n\n$$\\begin{cases}\\frac{\\partial G}{\\partial a}=-2EY+2a+2bEX=0,\\\\ \\frac{\\partial G}{\\partial b}=-2E(XY)+2aEX+2bE(X^{2})=0,\\end{cases}$$\n\n即\n\n$$\\begin{cases}a+bEX=EY,\\\\ aEX+bE(X^{2})=E(XY),\\end{cases}$$\n\n解得\n\n$$b=\\frac{\\mathrm{Cov}(X,Y)}{DX},\\qquad a=EY-\\frac{\\mathrm{Cov}(X,Y)}{DX}EX.$$\n\n**③ 代回驻点处求值**\n\n此时 $G(a,b)$ 的值为\n\n$$E\\left\\{\\left[Y-EY+\\frac{\\mathrm{Cov}(X,Y)}{DX}EX-\\frac{\\mathrm{Cov}(X,Y)}{DX}X\\right]^{2}\\right\\}$$\n\n$$=E\\left\\{\\left[(Y-EY)-\\frac{\\mathrm{Cov}(X,Y)}{DX}(X-EX)\\right]^{2}\\right\\}$$\n\n$$=E[(Y-EY)^{2}]-2\\frac{\\mathrm{Cov}(X,Y)}{DX}E[(Y-EY)(X-EX)]+\\frac{\\mathrm{Cov}^{2}(X,Y)}{(DX)^{2}}E[(X-EX)^{2}]$$\n\n$$=DY-\\frac{\\mathrm{Cov}^{2}(X,Y)}{DX}=(1-\\rho_{XY}^{2})DY.$$\n\n所以驻点处 $G(a,b)$ 的值为 $(1-\\rho_{XY}^{2})DY$，选 A。",
+      "idea": "把 G(a,b) 看成 a、b 的二次函数，写出正规方程（即驻点条件）解出 a、b，实质就是一元线性回归的最小二乘系数。代回后交叉项化为协方差、二次项化为方差，最后用相关系数平方写成 (1-ρ²)DY。",
+      "categoryIds": [
+       50081
+      ]
+     },
+     {
+      "no": 27,
+      "origin": "10",
+      "stem": "设两组数据分别来自两个方差相同且相互独立的正态总体 $X\\sim N(\\mu_1,\\sigma^2)$ 与 $Y\\sim N(\\mu_2,\\sigma^2)$。现检验两组数据的均值有无显著差异，且犯第一类错误的概率为 $\\alpha$，则应",
+      "options": [
+       "A. 在置信度为 $1-\\alpha$ 下，检验 $H_0:\\mu_1\\neq\\mu_2$；$H_1:\\mu_1=\\mu_2$.",
+       "B. 在置信度为 $1-\\frac{\\alpha}{2}$ 下，检验 $H_0:\\mu_1\\neq\\mu_2$；$H_1:\\mu_1=\\mu_2$.",
+       "C. 在置信度为 $1-\\alpha$ 下，检验 $H_0:\\mu_1=\\mu_2$；$H_1:\\mu_1\\neq\\mu_2$.",
+       "D. 在置信度为 $1-\\frac{\\alpha}{2}$ 下，检验 $H_0:\\mu_1=\\mu_2$；$H_1:\\mu_1\\neq\\mu_2$."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "张八数一第三套第10题",
+      "answer": "【答案】C\n\n【解】犯第一类错误的概率 $\\alpha$ 即为显著性水平，故置信度为 $1-\\alpha$；关键是认清本题检验的结论是什么，并把它的否定作为原假设。\n\n**① 确定置信度**\n\n犯第一类错误的概率 $\\alpha$ 即为显著性水平，故置信度为 $1-\\alpha$，选项只能在 A、C 中选。\n\n**② 确定原假设与备择假设**\n\n本假设检验是对“均值有显著差异”这一结论进行检验，则应将这一结论的否定作为原假设\n\n$$H_0:\\mu_1=\\mu_2,$$\n\n而将该结论作为备择假设\n\n$$H_1:\\mu_1\\neq\\mu_2.$$\n\n若检验出否定 $H_0$，则给 $H_1$ 一个强有力的支持。故选 C。\n\n注：假设检验一般要求 $H_0$ 中含等号，这是确定统计量的前提，可作为做选择题的一个辅助技巧。",
+      "idea": "先由“犯第一类错误概率为 α”锁定置信度 1-α，再把待验证的结论“均值有显著差异”放备择假设、其否定放原假设。辅助判断技巧是原假设必须含等号，从而迅速排除 A、B、D。",
+      "categoryIds": [
+       50083
+      ]
+     },
+     {
+      "no": 28,
+      "origin": "16",
+      "stem": "设随机变量 $X$ 服从 $[-1,a]$ 上的均匀分布，如果由切比雪夫不等式得 $P\\{|X-1|<\\varepsilon\\}\\ge\\frac{2}{3}$，则 $(a,\\varepsilon)=$ ______.",
+      "options": [],
+      "kind": "blank",
+      "type": "blank",
+      "source": "张八数一第三套第16题",
+      "answer": "【答案】(3,2)\n\n【解】均匀分布的数字特征已知，题设概率中的 $1$ 恰为 $EX$，故可用切比雪夫不等式把概率条件转化为关于 $a,\\varepsilon$ 的方程组。\n\n**① 写出数字特征**\n\n依题设\n\n$$EX=\\frac{a-1}{2},\\qquad DX=\\frac{(a+1)^{2}}{12}.$$\n\n**② 用切比雪夫不等式列方程**\n\n由切比雪夫不等式 $P\\{|X-EX|<\\varepsilon\\}\\ge 1-\\frac{DX}{\\varepsilon^{2}}$，题设 $P\\{|X-1|<\\varepsilon\\}\\ge \\frac{2}{3}$，可见 $EX=1$，得\n\n$$\\begin{cases}\\frac{a-1}{2}=1,\\\\ 1-\\frac{(a+1)^{2}}{12\\varepsilon^{2}}=\\frac{2}{3},\\end{cases}$$\n\n**③ 解方程组**\n\n解得\n\n$$a=3,\\qquad \\varepsilon=2.$$",
+      "idea": "识别出题设的 |X-1| 就是 |X-EX|，于是 EX=1 直接给出 a；再用切比雪夫不等式 1-DX/ε² 等于 2/3 反解 ε。属于“数字特征 + 不等式”套公式的送分题。",
+      "categoryIds": [
+       50081
+      ]
+     },
+     {
+      "no": 29,
+      "origin": "22",
+      "stem": "快递驿站有 $2$ 个打包台，同时来了 $3$ 位寄件人：$A$ 和 $B$ 先在两个打包台打包快递，$C$ 需要等其中一个打包台空闲后，再开始打包。已知每个人的打包时间相互独立，且都服从参数为 $\\lambda\\,(\\lambda>0)$ 的指数分布。求寄件人 $C$ 从进入驿站到打包完成离开的总时间 $T$ 的概率密度.",
+      "options": [],
+      "kind": "calc",
+      "type": "calc",
+      "source": "张八数一第三套第22题",
+      "answer": "【答案】$f(t)=\\begin{cases}2\\lambda e^{-\\lambda t}(1-e^{-\\lambda t}),& t>0,\\\\ 0,& t\\le 0.\\end{cases}$\n\n【解】$C$ 的等待时间等于“两个打包时间的最小值”再加上第三人自己的打包时间，即 $T=\\min\\{X_1,X_2\\}+X_3$。先求最小值变量的分布与密度，再用卷积求两个独立变量之和的密度。\n\n**① 写出单个打包时间的密度**\n\n假设第 $i$ 个寄件人的打包时间为 $X_i\\ (i=1,2,3)$，则 $X_i$ 相互独立且有相同的概率密度\n\n$$f_i(x)=\\begin{cases}\\lambda e^{-\\lambda x},& x>0,\\\\ 0,& x\\le 0.\\end{cases}$$\n\n**② 求 $\\min\\{X_1,X_2\\}$ 的分布函数**\n\n由题知 $T=\\min\\{X_1,X_2\\}+X_3$，记 $\\min\\{X_1,X_2\\}$ 的分布函数为 $G(t)$，则\n\n$$G(t)=P\\{\\min\\{X_1,X_2\\}\\le t\\}=1-P\\{\\min\\{X_1,X_2\\}>t\\}$$\n\n$$=1-P\\{X_1>t\\}P\\{X_2>t\\}$$\n\n$$=\\begin{cases}1-\\left(\\int_{t}^{+\\infty}\\lambda e^{-\\lambda x}\\,\\mathrm{d}x\\right)^{2}=1-e^{-2\\lambda t},& t>0,\\\\ 0,& t\\le 0,\\end{cases}$$\n\n**③ 求 $\\min\\{X_1,X_2\\}$ 的概率密度**\n\n所以 $\\min\\{X_1,X_2\\}$ 的概率密度为\n\n$$g(t)=\\begin{cases}2\\lambda e^{-2\\lambda t},& t>0,\\\\ 0,& t\\le 0.\\end{cases}$$\n\n**④ 用卷积公式求 $T$ 的概率密度**\n\n由于 $\\min\\{X_1,X_2\\}$ 与 $X_3$ 独立，由卷积公式得 $T$ 的概率密度为\n\n$$f(t)=\\int_{-\\infty}^{+\\infty}g(x)f_3(t-x)\\,\\mathrm{d}x$$\n\n$$=\\begin{cases}\\int_{0}^{t}2\\lambda e^{-2\\lambda x}\\cdot\\lambda e^{-\\lambda(t-x)}\\,\\mathrm{d}x,& t>0,\\\\ 0,& t\\le 0,\\end{cases}$$\n\n$$=\\begin{cases}2\\lambda e^{-\\lambda t}\\int_{0}^{t}\\lambda e^{-\\lambda x}\\,\\mathrm{d}x,& t>0,\\\\ 0,& t\\le 0,\\end{cases}$$\n\n$$=\\begin{cases}2\\lambda e^{-\\lambda t}(1-e^{-\\lambda t}),& t>0,\\\\ 0,& t\\le 0.\\end{cases}$$",
+      "idea": "把“等待空闲的台子”翻译成 min{X1,X2}：用 1-P{X1>t}P{X2>t} 求分布（指数分布的无记忆性使积分直接化简）。再对 min 与 X3 做卷积，指数被积函数提出公因子 e^{-λt} 后化为一次积分。",
+      "categoryIds": [
+       50081
+      ]
+     },
+     {
+      "no": 30,
+      "origin": "22",
+      "stem": "设商场某日的顾客总数 $N$ 服从泊松分布 $P(\\lambda)$，单个顾客每次的消费额为 $1$（单位：元），令 $X_j$ 表示第 $j$ 个顾客 $n$ 次试验消费的次数，$X_j$ 与 $N$ 独立且服从二项分布 $B(n,p)$.\n\n(1) 已知 $N=m\\,(m>0)$ 的条件下，求全天营业额 $S$ 的概率分布；\n\n(2) 计算 $E(S\\mid N)$；\n\n(3) 计算 $ES$.",
+      "options": [],
+      "kind": "calc",
+      "type": "calc",
+      "source": "张八数一第六套第22题",
+      "answer": "【答案】当 $N=m$ 时 $P\\{S=k\\}=\\mathrm{C}_{mn}^{k}p^{k}(1-p)^{mn-k}$，即 $S\\mid(N=m)\\sim B(mn,p)$；$E(S\\mid N)=nNp$；$ES=np\\lambda$。\n\n【解】把每位顾客 $n$ 次试验是否消费拆成 $0$-$1$ 变量，则 $S$ 在 $N=m$ 的条件下是 $mn$ 个独立同分布 $B(1,p)$ 之和，进而用条件期望（亚当公式）求 $ES$。\n\n**① 引入 $0$-$1$ 变量**\n\n(1) 由题设知 $X_1,X_2,\\cdots$ 独立同分布，前 $m$ 个顾客的消费额为\n\n$$S_m=X_1+X_2+\\cdots+X_m,$$\n\n故\n\n$$P\\{S=k\\mid N=m\\}=P\\{S_m=k\\}.$$\n\n记 $Y_{ji}$ 表示第 $j$ 个顾客第 $i$ 次试验是否消费（消费取 $1$，不消费取 $0$），其中 $i=1,2,\\cdots,n;\\ j=1,2,\\cdots,m$，则 $Y_{ji}\\sim B(1,p)$。\n\n**② 把 $S_m$ 写成双重和**\n\n由 $X_j$ 表示第 $j$ 个顾客 $n$ 次试验消费的次数，知 $X_j=Y_{j1}+Y_{j2}+\\cdots+Y_{jn}$。由题设，有 $m$ 个顾客，则\n\n$$\\begin{aligned}S_m&=X_1+X_2+\\cdots+X_m\\\\&=Y_{11}+Y_{12}+\\cdots+Y_{1n}+\\\\&\\quad\\ Y_{21}+Y_{22}+\\cdots+Y_{2n}+\\\\&\\quad\\ \\cdots\\cdots+\\\\&\\quad\\ Y_{m1}+Y_{m2}+\\cdots+Y_{mn}\\\\&=\\sum_{j=1}^{m}\\sum_{i=1}^{n}Y_{ji}.\\end{aligned}$$\n\n**③ 得 $S$ 的分布**\n\n故\n\n$$P\\{S_m=k\\}=\\mathrm{C}_{mn}^{k}p^{k}(1-p)^{mn-k},$$\n\n于是 $S\\mid(N=m)\\sim B(mn,p)$。\n\n**④ 求条件期望**\n\n(2) 由 (1) 知 $S\\mid N\\sim B(nN,p)$，故\n\n$$E(S\\mid N)=nNp.$$\n\n**⑤ 求 $ES$**\n\n(3) 法一：用亚当公式\n\n$$ES=E[E(S\\mid N)]=E(nNp).$$\n\n由 $N\\sim P(\\lambda)$，知 $EN=\\lambda$，则\n\n$$ES=np\\lambda.$$\n\n法二：先求 $S$ 的分布列\n\n$$P\\{S=s\\}=P\\{S=s\\mid N=m\\}P\\{N=m\\}$$\n\n$$=\\mathrm{C}_{mn}^{s}p^{s}(1-p)^{mn-s}\\frac{\\lambda^{m}}{m!}e^{-\\lambda},$$\n\n故\n\n$$\\begin{aligned}ES&=\\sum_{m=0}^{\\infty}\\sum_{s=0}^{mn}s\\,\\mathrm{C}_{mn}^{s}p^{s}(1-p)^{mn-s}\\frac{\\lambda^{m}}{m!}e^{-\\lambda}\\\\&=\\sum_{m=0}^{\\infty}\\frac{\\lambda^{m}}{m!}e^{-\\lambda}\\sum_{s=0}^{mn}s\\,\\mathrm{C}_{mn}^{s}p^{s}(1-p)^{mn-s}\\\\&=np\\sum_{m=0}^{\\infty}\\frac{m\\lambda^{m}}{m!}e^{-\\lambda}\\\\&=np\\lambda.\\end{aligned}$$\n\n注：亚当公式：设 $(X,Y)$ 是二维随机变量，且 $EX$ 存在，则 $EX=E[E(X\\mid Y)]$。",
+      "idea": "核心是把“每位顾客消费额”进一步细化到“每次试验是否消费”的 0-1 变量，从而在 N=m 时把 S 化为 mn 个同分布变量之和，分布立得。第二、三问分别用条件期望与全期望公式（亚当公式），法二则直接由边缘分布列求和验证。",
+      "categoryIds": [
+       50081
+      ]
+     },
+     {
+      "no": 31,
+      "origin": "22",
+      "stem": "设总体 $X\\sim U[0,\\theta]$，$X_1,X_2,\\cdots,X_n$ 为来自总体 $X$ 的简单随机样本。\n\n(Ⅰ) 求 $\\theta$ 的最大似然估计量 $\\hat\\theta$，并说明 $\\hat\\theta$ 是否为 $\\theta$ 的无偏估计量；\n\n(Ⅱ) 记 $X_{(n)}=\\max(X_1,X_2,\\cdots,X_n)$，若选取 $T=\\frac{X_{(n)}}{\\theta}$ 为统计量，判断 $\\theta$ 的 $1-\\alpha\\,(0<\\alpha<1)$ 的置信区间是否为\n\n$$\\left(\\frac{X_{(n)}}{\\sqrt[n]{1-\\alpha/2}},\\ \\frac{X_{(n)}}{\\sqrt[n]{\\alpha/2}}\\right).$$",
+      "options": [],
+      "kind": "calc",
+      "type": "calc",
+      "source": "李六数一第六套第22题",
+      "answer": "【答案】$\\hat{\\theta}=X_{(n)}$，且 $\\hat{\\theta}$ 不是 $\\theta$ 的无偏估计量；题中所给的置信区间是正确的。\n\n【解】均匀分布 $U[0,\\theta]$ 的似然函数在 $\\theta<\\max x_i$ 时为零，因此最大值点落在参数空间的边界上，最大似然估计取顺序统计量 $X_{(n)}$；再由 $T=X_{(n)}/\\theta$ 的分布不含未知参数构造枢轴量。\n\n**① 写出似然函数**\n\n(1) 设 $x_1,x_2,\\cdots,x_n$ 为样本观测值，则似然函数为\n\n$$L(\\theta)=\\prod_{i=1}^{n}f(x_i;\\theta)=\\begin{cases}\\frac{1}{\\theta^{n}},& 0\\le x_i\\le\\theta\\ (i=1,2,\\cdots,n),\\\\ 0,& \\text{其他}.\\end{cases}$$\n\n**② 求最大似然估计**\n\n要使 $L(\\theta)>0$，必须满足 $\\theta\\ge x_i$ 对所有 $i=1,2,\\cdots,n$ 成立，即\n\n$$\\theta\\ge\\max\\{x_1,x_2,\\cdots,x_n\\}=x_{(n)}.$$\n\n因为 $L(\\theta)=\\theta^{-n}$ 在 $\\theta>0$ 时是关于 $\\theta$ 的单调递减函数，所以当 $\\theta$ 取可能范围内的最小值时，$L(\\theta)$ 达到最大。因此 $\\theta$ 的最大似然估计值为 $\\hat{\\theta}=x_{(n)}$，对应的最大似然估计量为 $\\hat{\\theta}=X_{(n)}$。\n\n**③ 判断无偏性**\n\n下面判断 $\\hat{\\theta}$ 是否为无偏估计量：总体 $X\\sim U[0,\\theta]$，其分布函数为\n\n$$F(x)=\\frac{x}{\\theta}\\quad(0\\le x\\le\\theta),$$\n\n概率密度为\n\n$$f(x)=\\frac{1}{\\theta}\\quad(0\\le x\\le\\theta).$$\n\n$X_{(n)}$ 的分布函数为\n\n$$F_{X_{(n)}}(x)=[F(x)]^{n}=\\left(\\frac{x}{\\theta}\\right)^{n},\\quad 0\\le x\\le\\theta.$$\n\n求导得到 $X_{(n)}$ 的概率密度为\n\n$$f_{X_{(n)}}(x)=n[F(x)]^{n-1}f(x)=\\frac{nx^{n-1}}{\\theta^{n}},\\quad 0\\le x\\le\\theta.$$\n\n于是，$X_{(n)}$ 的数学期望为\n\n$$E(X_{(n)})=\\int_{0}^{\\theta}x\\cdot\\frac{nx^{n-1}}{\\theta^{n}}\\,\\mathrm{d}x=\\frac{n}{\\theta^{n}}\\int_{0}^{\\theta}x^{n}\\,\\mathrm{d}x=\\frac{n}{\\theta^{n}}\\cdot\\frac{\\theta^{n+1}}{n+1}=\\frac{n}{n+1}\\theta.$$\n\n由于 $E(\\hat{\\theta})=\\frac{n}{n+1}\\theta\\neq\\theta$，所以 $\\hat{\\theta}$ 不是 $\\theta$ 的无偏估计量。\n\n**④ 求 $T$ 的分布函数**\n\n(2) 记 $T=\\frac{X_{(n)}}{\\theta}$，由 $F_{X_{(n)}}(x)=\\left(\\frac{x}{\\theta}\\right)^{n}\\ (0\\le x\\le\\theta)$，可得 $T$ 的分布函数为\n\n$$F_T(t)=P\\{T\\le t\\}=P\\left\\{\\frac{X_{(n)}}{\\theta}\\le t\\right\\}=P\\{X_{(n)}\\le\\theta t\\}=F_{X_{(n)}}(\\theta t).$$\n\n当 $0\\le t\\le 1$ 时，$F_T(t)=\\left(\\frac{\\theta t}{\\theta}\\right)^{n}=t^{n}$；当 $t<0$ 时，$F_T(t)=0$；当 $t>1$ 时，$F_T(t)=1$。即 $T$ 的分布函数为\n\n$$F_T(t)=\\begin{cases}0,& t<0,\\\\ t^{n},& 0\\le t<1,\\\\ 1,& t\\ge 1.\\end{cases}$$\n\n**⑤ 由枢轴量构造置信区间**\n\n显然 $F_T(t)$ 中不包含未知参数 $\\theta$，所以 $T$ 是枢轴量。因为总体 $X\\sim U[0,\\theta]$，所以 $X_i\\ge 0$，从而 $X_{(n)}\\ge 0$，即 $T\\ge 0$。对于给定的置信度 $1-\\alpha\\ (0<\\alpha<1)$，需要寻找 $t_1,t_2$，使得\n\n$$P\\{t_1\\le T\\le t_2\\}=1-\\alpha.$$\n\n为了得到形如题设的置信区间，令\n\n$$P\\{T>t_2\\}=\\frac{\\alpha}{2},\\qquad P\\{T>t_1\\}=1-\\frac{\\alpha}{2}.$$\n\n即\n\n$$1-F_T(t_2)=\\frac{\\alpha}{2},\\quad 1-t_2^{n}=\\frac{\\alpha}{2},\\quad t_2=\\sqrt[n]{1-\\frac{\\alpha}{2}};$$\n\n$$1-F_T(t_1)=1-\\frac{\\alpha}{2},\\quad 1-t_1^{n}=1-\\frac{\\alpha}{2},\\quad t_1=\\sqrt[n]{\\frac{\\alpha}{2}}.$$\n\n于是有\n\n$$P\\left\\{\\sqrt[n]{\\frac{\\alpha}{2}}\\le\\frac{X_{(n)}}{\\theta}\\le\\sqrt[n]{1-\\frac{\\alpha}{2}}\\right\\}=1-\\alpha.$$\n\n解不等式组，得\n\n$$\\frac{X_{(n)}}{\\sqrt[n]{1-\\frac{\\alpha}{2}}}\\le\\theta\\le\\frac{X_{(n)}}{\\sqrt[n]{\\frac{\\alpha}{2}}}.$$\n\n所以 $\\theta$ 的置信度为 $1-\\alpha$ 的置信区间为\n\n$$\\left(\\frac{X_{(n)}}{\\sqrt[n]{1-\\frac{\\alpha}{2}}},\\ \\frac{X_{(n)}}{\\sqrt[n]{\\frac{\\alpha}{2}}}\\right).$$\n\n故题中所给的置信区间是正确的。",
+      "idea": "均匀分布的似然函数是带指示条件的阶梯函数，最大值在参数空间边界 θ=x(n) 取到，这是本题最大似然的关键。无偏性靠推导最大顺序统计量的密度和期望来判断（期望为 n/(n+1)·θ）。第二问把 X(n)/θ 化成分布已知的枢轴量，用分位数 t^n 反解出 θ 的区间，再与题给区间比对。",
+      "categoryIds": [
+       50082
+      ]
+     }
+    ]
+   },
+   {
+    "title": "九、数一专项",
+    "questions": [
+     {
+      "no": 32,
+      "origin": "19",
+      "stem": "计算曲面积分\n\n$$I=\\iint_\\Sigma\\left[x\\left(1+\\frac{1}{|x|+|y|}\\right)\\mathrm{d}y\\mathrm{d}z+y\\left(1+\\frac{1}{|x|+|y|}\\right)\\mathrm{d}z\\mathrm{d}x+z\\left(1+\\frac{|x|}{|x|+|y|}\\right)\\mathrm{d}x\\mathrm{d}y\\right]$$\n\n其中 $\\Sigma$ 是圆柱面 $x^2+y^2=1$ 与平面 $z=1,\\ z=-1$ 所围立体表面的外侧.",
+      "options": [],
+      "kind": "calc",
+      "type": "calc",
+      "source": "李艳芳数一第一套第19题",
+      "answer": "【答案】$I=7\\pi+8\\sqrt2\\ln(\\sqrt2+1)$.\n\n【解】**① 裂项.**\n将 $I$ 分为两部分 $I_1$ 和 $I_2$，其中\n$$I_1=\\iint_\\Sigma x\\,\\mathrm{d}y\\mathrm{d}z+y\\,\\mathrm{d}z\\mathrm{d}x+z\\,\\mathrm{d}x\\mathrm{d}y,\\quad I_2=\\iint_\\Sigma\\frac{x\\,\\mathrm{d}y\\mathrm{d}z+y\\,\\mathrm{d}z\\mathrm{d}x+z|x|\\,\\mathrm{d}x\\mathrm{d}y}{|x|+|y|}.$$\n\n**② 用高斯公式算 $I_1$.**\n记 $\\Sigma$ 所围空间立体为 $\\Omega$，则 $\\Omega$ 是底面半径为 $1$、高为 $2$ 的圆柱体. 根据高斯公式，\n$$I_1=\\iint_\\Sigma x\\,\\mathrm{d}y\\mathrm{d}z+y\\,\\mathrm{d}z\\mathrm{d}x+z\\,\\mathrm{d}x\\mathrm{d}y=\\iiint_\\Omega(1+1+1)\\,\\mathrm{d}v=3\\iiint_\\Omega\\mathrm{d}v=3\\cdot\\pi\\cdot1^2\\cdot2=6\\pi.$$\n\n**③ 把 $I_2$ 分到三片曲面上.**\n记 $\\Sigma_0$ 为圆柱体 $\\Omega$ 的侧面，取外侧；$\\Sigma_1$ 为平面 $z=1$ 被 $x^2+y^2=1$ 所截得的有限部分，取上侧；$\\Sigma_2$ 为平面 $z=-1$ 被 $x^2+y^2=1$ 所截得的有限部分，取下侧. $\\Sigma_0$ 的方程为 $x^2+y^2=1$. 令 $F(x,y,z)=x^2+y^2-1$，则 $(F'_x,F'_y,F'_z)=(2x,2y,0)$，且 $(2x,2y,0)$ 指向外侧. 结合 $x^2+y^2=1$ 可得 $\\Sigma_0$ 指向外侧的单位法向量为 $(x,y,0)$. 在 $\\Sigma_0$ 上，$\\mathrm{d}y\\mathrm{d}z=x\\,\\mathrm{d}S$，$\\mathrm{d}z\\mathrm{d}x=y\\,\\mathrm{d}S$，$\\mathrm{d}x\\mathrm{d}y=0$. 于是\n$$\\iint_{\\Sigma_0}\\frac{x\\,\\mathrm{d}y\\mathrm{d}z+y\\,\\mathrm{d}z\\mathrm{d}x+z|x|\\,\\mathrm{d}x\\mathrm{d}y}{|x|+|y|}=\\iint_{\\Sigma_0}\\frac{x^2+y^2}{|x|+|y|}\\,\\mathrm{d}S=\\iint_{\\Sigma_0}\\frac{1}{|x|+|y|}\\,\\mathrm{d}S.$$\n\n**④ 化为 $yOz$ 面上的二重积分并算出结果.**\n将 $\\Sigma_0$ 分为两片 $\\Sigma_0'$ 与 $\\Sigma_0''$，$\\Sigma_0'$ 的方程为 $x=\\sqrt{1-y^2}$，$\\Sigma_0''$ 的方程为 $x=-\\sqrt{1-y^2}$. 计算可得\n$$\\mathrm{d}S=\\sqrt{1+(x'_y)^2+(x'_z)^2}\\,\\mathrm{d}y\\mathrm{d}z=\\sqrt{1+\\frac{y^2}{1-y^2}+0}\\,\\mathrm{d}y\\mathrm{d}z=\\frac{1}{\\sqrt{1-y^2}}\\,\\mathrm{d}y\\mathrm{d}z.$$\n$\\Sigma_0'$ 与 $\\Sigma_0''$ 在 $yOz$ 面的投影区域均为 $D_{yz}=\\{(y,z)\\mid -1\\leqslant y\\leqslant1,\\ -1\\leqslant z\\leqslant1\\}$. 于是\n$$\\iint_{\\Sigma_0}\\frac{1}{|x|+|y|}\\,\\mathrm{d}S=\\iint_{\\Sigma_0'}\\frac{1}{|x|+|y|}\\,\\mathrm{d}S+\\iint_{\\Sigma_0''}\\frac{1}{|x|+|y|}\\,\\mathrm{d}S=2\\iint_{D_{yz}}\\frac{1}{\\sqrt{1-y^2}+|y|}\\cdot\\frac{1}{\\sqrt{1-y^2}}\\,\\mathrm{d}y\\mathrm{d}z$$\n$$=2\\int_{-1}^{1}\\frac{1}{(\\sqrt{1-y^2}+|y|)\\sqrt{1-y^2}}\\,\\mathrm{d}y\\int_{-1}^{1}\\mathrm{d}z=4\\int_{-1}^{1}\\frac{\\mathrm{d}y}{(\\sqrt{1-y^2}+|y|)\\sqrt{1-y^2}}$$\n$$=8\\int_0^1\\frac{\\mathrm{d}y}{(\\sqrt{1-y^2}+y)\\sqrt{1-y^2}}\\quad(\\text{由对称性})$$\n$$=8\\int_0^{\\frac{\\pi}{2}}\\frac{\\cos t}{(\\cos t+\\sin t)\\cos t}\\,\\mathrm{d}t\\quad(\\text{令 }y=\\sin t)$$\n$$=8\\int_0^{\\frac{\\pi}{2}}\\frac{\\mathrm{d}t}{\\sin t+\\cos t}=8\\int_0^{\\frac{\\pi}{2}}\\frac{\\mathrm{d}t}{\\sqrt2\\cos\\left(t-\\frac{\\pi}{4}\\right)}=4\\sqrt2\\int_{-\\frac{\\pi}{4}}^{\\frac{\\pi}{4}}\\sec u\\,\\mathrm{d}u\\quad\\left(\\text{令 }u=t-\\frac{\\pi}{4}\\right)$$\n$$=8\\sqrt2\\int_0^{\\frac{\\pi}{4}}\\sec u\\,\\mathrm{d}u=8\\sqrt2\\left.\\ln|\\sec u+\\tan u|\\right|_0^{\\frac{\\pi}{4}}=8\\sqrt2\\ln(\\sqrt2+1).$$\n\n**⑤ 算两个底面上的积分.**\n由于 $\\Sigma_1,\\Sigma_2$ 均垂直于 $yOz$ 面、$zOx$ 面，在 $xOy$ 面的投影区域均为 $D_{xy}=\\{(x,y)\\mid x^2+y^2\\leqslant1\\}$，故\n$$\\iint_{\\Sigma_1}\\frac{x\\,\\mathrm{d}y\\mathrm{d}z+y\\,\\mathrm{d}z\\mathrm{d}x+z|x|\\,\\mathrm{d}x\\mathrm{d}y}{|x|+|y|}\\Big|_{z=1}=0+\\iint_{\\Sigma_1}\\frac{|x|}{|x|+|y|}\\,\\mathrm{d}x\\mathrm{d}y=\\iint_{D_{xy}}\\frac{|x|}{|x|+|y|}\\,\\mathrm{d}x\\mathrm{d}y,$$\n$$\\iint_{\\Sigma_2}\\frac{x\\,\\mathrm{d}y\\mathrm{d}z+y\\,\\mathrm{d}z\\mathrm{d}x+z|x|\\,\\mathrm{d}x\\mathrm{d}y}{|x|+|y|}\\Big|_{z=-1}=0+\\iint_{\\Sigma_2}\\frac{-|x|}{|x|+|y|}\\,\\mathrm{d}x\\mathrm{d}y=\\iint_{D_{xy}}\\frac{|x|}{|x|+|y|}\\,\\mathrm{d}x\\mathrm{d}y.$$\n\n**⑥ 用轮换对称性合并.**\n又因为 $D_{xy}$ 关于变量 $x,y$ 具有轮换对称性，所以由轮换对称性的结论可得\n$$\\iint_{\\Sigma_1+\\Sigma_2}\\frac{x\\,\\mathrm{d}y\\mathrm{d}z+y\\,\\mathrm{d}z\\mathrm{d}x+z|x|\\,\\mathrm{d}x\\mathrm{d}y}{|x|+|y|}=2\\iint_{D_{xy}}\\frac{|x|}{|x|+|y|}\\,\\mathrm{d}x\\mathrm{d}y=\\iint_{D_{xy}}\\frac{|x|}{|x|+|y|}\\,\\mathrm{d}x\\mathrm{d}y+\\iint_{D_{xy}}\\frac{|y|}{|x|+|y|}\\,\\mathrm{d}x\\mathrm{d}y=\\iint_{D_{xy}}\\mathrm{d}x\\mathrm{d}y=\\pi.$$\n\n**⑦ 合并两部分.**\n由此可得 $I_2=8\\sqrt2\\ln(\\sqrt2+1)+\\pi$. 因此\n$$I=I_1+I_2=7\\pi+8\\sqrt2\\ln(\\sqrt2+1).$$",
+      "idea": "被积函数是「整式 + 分母为 |x|+|y| 的分式」两种结构，先裂项：整式部分直接用高斯公式得体积，分式部分在侧面上用单位法向量化为第一型曲面积分，再把柱面展开成 yOz 面上的定积分（三角换元后凑出 sec u）；两个底面的贡献用轮换对称性合成圆盘面积 π。",
+      "categoryIds": [
+       50091
+      ]
+     },
+     {
+      "no": 33,
+      "origin": "4",
+      "stem": "设 $b_n\\neq 0\\,(n=0,1,\\cdots)$，幂级数 $\\sum\\limits_{n=0}^{\\infty}a_nx^n$ 与 $\\sum\\limits_{n=0}^{\\infty}b_nx^n$ 的收敛半径分别为 $R$ 与 $2R$，$0<R<+\\infty$。记幂级数 $\\sum\\limits_{n=0}^{\\infty}(a_n-b_n)x^n$ 的收敛半径为 $r_1$，$\\sum\\limits_{n=0}^{\\infty}\\frac{a_n}{b_n}x^n$ 的收敛半径为 $r_2$，则（　　）",
+      "options": [
+       "A. $r_1\\le R,\\ r_2=\\frac{1}{2}$.",
+       "B. $r_1\\le R,\\ r_2\\le\\frac{1}{2}$.",
+       "C. $r_1=R,\\ r_2=\\frac{1}{2}$.",
+       "D. $r_1=R,\\ r_2\\le\\frac{1}{2}$."
+      ],
+      "kind": "choice",
+      "type": "choice",
+      "source": "李艳芳数一第二套第4题",
+      "answer": "【答案】D.\n\n【解】**① 由收敛半径说明 $r_1=R$.**\n由收敛半径的性质可知，当 $|x|<R$ 时，$\\sum_{n=0}^\\infty a_nx^n$ 与 $\\sum_{n=0}^\\infty b_nx^n$ 绝对收敛，从而这两个级数均收敛. 再由收敛级数的性质可得，此时\n$$\\sum_{n=0}^\\infty(a_n-b_n)x^n=\\sum_{n=0}^\\infty a_nx^n-\\sum_{n=0}^\\infty b_nx^n$$\n收敛. 当 $R<|x|<2R$ 时，$\\sum_{n=0}^\\infty a_nx^n$ 发散，$\\sum_{n=0}^\\infty b_nx^n$ 绝对收敛，从而 $\\sum_{n=0}^\\infty b_nx^n$ 收敛. 假设此时 $\\sum_{n=0}^\\infty(a_n-b_n)x^n$ 收敛，则由收敛级数的性质可得，$\\sum_{n=0}^\\infty a_nx^n=\\sum_{n=0}^\\infty(a_n-b_n)x^n+\\sum_{n=0}^\\infty b_nx^n$ 收敛. 这与已知条件矛盾. 于是 $\\sum_{n=0}^\\infty(a_n-b_n)x^n$ 发散. 由此可得，$\\sum_{n=0}^\\infty(a_n-b_n)x^n$ 的收敛半径 $r_1=R$.\n\n**② 证明 $r_2\\leqslant\\frac12$.**\n假设 $r_2>\\frac12$，则存在数 $\\frac12<r\\leqslant r_2$ 使得 $\\sum_{n=0}^\\infty a_nr^n$ 收敛. 由级数收敛的必要条件可知，$\\lim\\limits_{n\\to\\infty}a_nr^n=0$. 由极限的定义可得，存在正整数 $N$，当 $n>N$ 时，$\\left|\\frac{a_n}{b_n}\\right|r^n<1$，即 $|a_n|<|b_n|r^{-n}$.\n\n由 $\\sum_{n=0}^\\infty b_nx^n$ 的收敛半径为 $2R$ 可得，当 $\\left|\\frac{x}{r}\\right|<2R$，即 $|x|<2rR$ 时，$\\sum_{n=0}^\\infty|b_n|\\left|\\frac{x}{r}\\right|^n$ 收敛，从而 $\\sum_{n=N+1}^\\infty|b_n|\\left|\\frac{x}{r}\\right|^n$ 收敛. 又由 $|a_n|<|b_n|r^{-n}$ 可得 $|a_nx^n|<|b_n|\\left|\\frac{x}{r}\\right|^n$. 由比较审敛法可知，当 $|x|<2rR$ 时，$\\sum_{n=N+1}^\\infty|a_nx^n|$ 收敛，进一步可得 $\\sum_{n=0}^\\infty|a_nx^n|$ 收敛，从而 $\\sum_{n=0}^\\infty a_nx^n$ 收敛. 结合 $\\sum_{n=0}^\\infty a_nx^n$ 的收敛半径为 $R$ 可得 $2rR\\leqslant R$，解得 $r\\leqslant\\frac12$. 这与 $r>\\frac12$ 矛盾！由此可得，假设不正确，$r_2\\leqslant\\frac12$.\n\n**③ 说明 $r_2$ 的值不能唯一确定.**\n若 $\\lim\\limits_{n\\to\\infty}\\left|\\frac{a_{n+1}}{a_n}\\right|$ 和 $\\lim\\limits_{n\\to\\infty}\\left|\\frac{b_{n+1}}{b_n}\\right|$ 均存在，则由已知条件可得 $\\lim\\limits_{n\\to\\infty}\\left|\\frac{a_{n+1}}{a_n}\\right|=\\frac{1}{R}$，$\\lim\\limits_{n\\to\\infty}\\left|\\frac{b_{n+1}}{b_n}\\right|=\\frac{1}{2R}$，从而\n$$\\lim_{n\\to\\infty}\\left|\\frac{a_{n+1}/a_n}{b_{n+1}/b_n}\\right|=\\lim_{n\\to\\infty}\\left|\\frac{a_{n+1}}{a_n}\\right|\\cdot\\lim_{n\\to\\infty}\\left|\\frac{b_n}{b_{n+1}}\\right|=\\frac{2R}{R}=2,$$\n此时 $\\sum_{n=0}^\\infty\\frac{a_n}{b_n}x^n$ 的收敛半径 $r_2=\\frac12$.\n\n我们可以构造 $|a_n|,|b_n|$，使得 $\\lim\\limits_{n\\to\\infty}\\left|\\frac{b_{n+1}}{b_n}\\right|$ 不存在，且 $r_2<\\frac12$. 一个比较自然的思路是让 $|b_n|$ 的奇数项子级数与偶数项子级数的收敛半径不同，从而使得 $\\left\\{\\frac{a_n}{b_n}\\right\\}$ 的奇数项子级数与偶数项子级数的收敛半径不同，并且最终导致 $r_2<\\frac12$.\n\n取 $a_n=1\\ (n=0,1,\\cdots)$，\n$$b_n=\\begin{cases}\\dfrac{1}{4^n},&n=2k,\\\\ \\dfrac{1}{2^n},&n=2k+1,\\end{cases}\\quad\\text{则}\\quad\\frac{a_n}{b_n}=\\begin{cases}4^n,&n=2k,\\\\ 2^n,&n=2k+1.\\end{cases}$$\n可以验证 $\\sum_{n=0}^\\infty a_nx^n$ 的收敛半径为 $1$，$\\sum_{n=0}^\\infty b_nx^n$ 的收敛半径为 $2$，而 $\\sum_{n=0}^\\infty\\frac{a_n}{b_n}x^n$ 的收敛半径 $r_2=\\frac14<\\frac12$.\n\n**注** 下面说明当 $b_n=\\begin{cases}\\dfrac{1}{4^n},&n=2k,\\\\ \\dfrac{1}{2^n},&n=2k+1\\end{cases}$ 时，$\\sum_{n=0}^\\infty b_nx^n$ 的收敛半径为 $2$. 当 $|x|<2$ 时，由于 $0<b_n\\leqslant\\frac{1}{2^n}$，$|b_nx^n|\\leqslant\\left|\\frac{x}{2}\\right|^n$，而 $\\sum_{n=0}^\\infty\\left|\\frac{x}{2}\\right|^n$ 收敛，故由比较审敛法可得 $\\sum_{n=0}^\\infty b_n|x|^n$ 收敛，进一步可得 $\\sum_{n=0}^\\infty b_nx^n$ 收敛. 当 $x=2$ 时，$\\sum_{k=0}^\\infty\\frac{1}{2^{2k+1}}\\cdot2^{2k+1}=\\sum_{k=0}^\\infty1$ 发散，从而 $\\sum_{n=0}^\\infty b_n2^n$ 发散. 由此可得 $\\sum_{n=0}^\\infty b_nx^n$ 的收敛半径为 $2$. 同理可说明 $\\sum_{n=0}^\\infty\\frac{a_n}{b_n}x^n$ 的收敛半径为 $\\frac14$.",
+      "idea": "关键在于两个半径之差：在 R<|x|<2R 上大半径级数仍收敛，于是差级数必须发散，得 r₁=R；对小半径用反证法，由 a_n r^n→0 得 |a_n|<|b_n|r^{-n}，把 a_n 的级数控制成 2rR 内收敛，与半径为 R 冲突，压出 r₂≤1/2。再用一组奇偶项半径不同的 b_n 说明 1/2 取不到下界。",
+      "categoryIds": [
+       50092
+      ]
+     },
+     {
+      "no": 34,
+      "origin": "14",
+      "stem": "设 $f(x)$ 是周期为 $2\\pi$ 的函数，且当 $x\\in(-\\pi,\\pi)$ 时，$f(x)=|x\\cos x|$。若 $f(x)=\\frac{a_0}{2}+\\sum\\limits_{n=1}^{\\infty}a_n\\cos(nx)$，则 $\\sum\\limits_{n=1}^{\\infty}a_{2n}=$ ______.",
+      "options": [],
+      "kind": "blank",
+      "type": "blank",
+      "source": "李艳芳数一第二套第14题",
+      "answer": "【答案】$\\dfrac{\\pi}{2}-1$.\n\n【解】**① 在端点处取傅里叶级数的值.**\n由于 $x=0$ 和 $x=\\pi$ 均为 $f(x)$ 的连续点，故由狄利克雷收敛定理可知\n$$0=f(0)=\\frac{a_0}{2}+\\sum_{n=1}^\\infty a_n\\cos(n\\cdot0)=\\frac{a_0}{2}+\\sum_{n=1}^\\infty a_n,$$\n$$\\pi=f(\\pi)=\\frac{a_0}{2}+\\sum_{n=1}^\\infty a_n\\cos(n\\cdot\\pi)=\\frac{a_0}{2}+\\sum_{n=1}^\\infty(-1)^na_n.$$\n\n**② 两式相加，消去奇数项.**\n由收敛级数的性质可得\n$$\\pi=a_0+\\sum_{n=1}^\\infty a_n+\\sum_{n=1}^\\infty(-1)^na_n=a_0+\\sum_{n=1}^\\infty\\left[1+(-1)^n\\right]a_n=a_0+2\\sum_{n=1}^\\infty a_{2n}.$$\n于是\n$$\\sum_{n=1}^\\infty a_{2n}=\\frac{\\pi-a_0}{2}.$$\n\n**③ 计算 $a_0$.**\n$$a_0=\\frac{2}{\\pi}\\int_0^\\pi f(x)\\,\\mathrm{d}x=\\frac{2}{\\pi}\\int_0^\\pi|x\\cos x|\\,\\mathrm{d}x=\\frac{2}{\\pi}\\left(\\int_0^{\\frac{\\pi}{2}}x\\cos x\\,\\mathrm{d}x-\\int_{\\frac{\\pi}{2}}^{\\pi}x\\cos x\\,\\mathrm{d}x\\right)$$\n$$=\\frac{2}{\\pi}\\left[\\int_0^{\\frac{\\pi}{2}}x\\cos x\\,\\mathrm{d}x-\\int_0^{\\frac{\\pi}{2}}(\\pi-t)\\cos(\\pi-t)\\,\\mathrm{d}t\\right]\\quad(\\text{第二个积分中令 }x=\\pi-t)$$\n$$=\\frac{2}{\\pi}\\left[\\int_0^{\\frac{\\pi}{2}}x\\cos x\\,\\mathrm{d}x+\\int_0^{\\frac{\\pi}{2}}(\\pi-x)\\cos x\\,\\mathrm{d}x\\right]=\\frac{2}{\\pi}\\int_0^{\\frac{\\pi}{2}}\\pi\\cos x\\,\\mathrm{d}x=2\\int_0^{\\frac{\\pi}{2}}\\cos x\\,\\mathrm{d}x=2\\left.\\sin x\\right|_0^{\\frac{\\pi}{2}}=2.$$\n\n**④ 代入得结果.**\n因此\n$$\\sum_{n=1}^\\infty a_{2n}=\\frac{\\pi-a_0}{2}=\\frac{\\pi-2}{2}=\\frac{\\pi}{2}-1.$$",
+      "idea": "利用连续点 x=0、x=π 处的傅里叶级数取值给出两个等式，相加后因子 1+(-1)^n 把奇数项全部消掉、偶数项加倍，目标级数就只依赖 a₀；再按系数公式去绝对值分段积分，第二段换元平移后与第一段合并。",
+      "categoryIds": [
+       50092
+      ]
+     },
+     {
+      "no": 35,
+      "origin": "19",
+      "stem": "设直线 $L$ 过点 $A(1,0,0)$、点 $B(1,1,1)$，将 $L$ 绕 $z$ 轴旋转一周得到曲面 $S$，$S$ 与平面 $x=2z$ 的交线为 $\\Gamma$，从 $z$ 轴正向看去，$\\Gamma$ 沿逆时针方向.\n\n(Ⅰ) 求 $S$ 的曲面方程，并判断其形状；\n\n(Ⅱ) 求曲线积分 $I=\\int_\\Gamma \\sin(xy)\\,\\mathrm{d}x+(x^3+xz-z^2)\\,\\mathrm{d}y+(y+x^2z)\\,\\mathrm{d}z$.",
+      "options": [],
+      "kind": "calc",
+      "type": "calc",
+      "source": "李艳芳数一第二套第19题",
+      "answer": "【答案】(I) $S$ 的方程为 $x^2+y^2-z^2=1$，$S$ 是旋转单叶双曲面；(II) $I=\\dfrac{\\sqrt3}{3}\\pi$.\n\n【解】**① (I) 写出母线 $L$ 的方程并建立旋转条件.**\n由于直线 $L$ 过点 $A(1,0,0)$、点 $B(1,1,1)$，故 $L$ 的方向向量可取为 $(1-1,1-0,1-0)=(0,1,1)$，直线 $L$ 的方程可写为\n$$\\begin{cases}x=1,\\\\ y=z.\\end{cases}$$\n\n设 $M(x,y,z)$ 为 $S$ 上任意一点，那么能在直线 $L$ 上找到一点 $M_0(x_0,y_0,z_0)$，使得点 $M$ 到旋转轴的距离等于点 $M_0$ 到旋转轴的距离. 点 $M_0$ 绕旋转轴旋转一周所得轨迹实际上是一个圆，旋转轴垂直于该圆所在的平面，从而也垂直于 $\\overrightarrow{M_0M}$. 由于旋转轴是 $z$ 轴，方向向量为 $(0,0,1)$，故可得方程组（依次记为 $(1)(2)(3)(4)$）\n$$\\begin{cases}x_0=1,\\\\ y_0=z_0,\\\\ x^2+y^2=x_0^2+y_0^2,\\\\ (x-x_0)\\cdot0+(y-y_0)\\cdot0+(z-z_0)\\cdot1=0.\\end{cases}$$\n\n**② (I) 消去 $x_0,y_0,z_0$ 得曲面方程.**\n由 $(4)$ 式可得 $z=z_0$，将 $x_0=1$ 与 $z=z_0=y_0$ 代入 $(3)$ 式可得 $x^2+y^2=1+z^2$，即 $S$ 的方程为\n$$x^2+y^2-z^2=1,$$\n$S$ 是旋转单叶双曲面.\n\n**③ (II) 写出交线 $\\Gamma$ 并化曲线积分为曲面积分.**\n联立 $\\begin{cases}x^2+y^2-z^2=1,\\\\ x=2z\\end{cases}$ 可得 $y^2+3z^2=1$. 于是 $\\Gamma$ 的方程为 $\\begin{cases}x=2z,\\\\ y^2+3z^2=1,\\end{cases}$ $\\Gamma$ 是平面 $x=2z$ 上的封闭曲线.\n\n记 $\\Gamma$ 截得平面 $x=2z$ 上的有界部分为 $\\Sigma$，取上侧. 由于曲线的定向与曲面的侧符合右手法则，故根据斯托克斯公式，\n$$I=\\oint_\\Gamma\\sin(xy)\\,\\mathrm{d}x+(x^3+xz-z^2)\\,\\mathrm{d}y+(y+x^2z)\\,\\mathrm{d}z=\\iint_\\Sigma\\begin{vmatrix}\\mathrm{d}y\\mathrm{d}z&\\mathrm{d}z\\mathrm{d}x&\\mathrm{d}x\\mathrm{d}y\\\\ \\dfrac{\\partial}{\\partial x}&\\dfrac{\\partial}{\\partial y}&\\dfrac{\\partial}{\\partial z}\\\\ \\sin(xy)&x^3+xz-z^2&y+x^2z\\end{vmatrix}$$\n$$=\\iint_\\Sigma\\left[1-(x-2z)\\right]\\mathrm{d}y\\mathrm{d}z+(-2xz)\\,\\mathrm{d}z\\mathrm{d}x+\\left[3x^2+z-x\\cos(xy)\\right]\\mathrm{d}x\\mathrm{d}y$$\n$$=\\iint_\\Sigma\\mathrm{d}y\\mathrm{d}z-4z^2\\,\\mathrm{d}z\\mathrm{d}x+\\left[12z^2+z-2z\\cos(2yz)\\right]\\mathrm{d}x\\mathrm{d}y\\quad(\\text{将 }x=2z\\text{ 代入}).$$\n\n**④ (II) 用两类曲面积分的关系化为 $yOz$ 面上的二重积分.**\n利用两类曲面积分之间的联系，将上式转化为关于坐标 $y,z$ 的积分再计算. 令 $F(x,y,z)=2z-x$，则 $\\Sigma$ 的方程为 $F(x,y,z)=0$，法向量 $\\boldsymbol{n}$ 可取为 $(F'_x,F'_y,F'_z)=(-1,0,2)$. 于是 $\\Sigma$ 的法向量 $\\boldsymbol{n}$ 的方向余弦为\n$$\\cos\\alpha=\\frac{-1}{\\sqrt5},\\quad\\cos\\beta=0,\\quad\\cos\\gamma=\\frac{2}{\\sqrt5}.$$\n由此可得\n$$\\mathrm{d}x\\mathrm{d}y=\\frac{\\cos\\gamma}{\\cos\\alpha}\\,\\mathrm{d}y\\mathrm{d}z=-2\\,\\mathrm{d}y\\mathrm{d}z,\\quad\\mathrm{d}z\\mathrm{d}x=\\frac{\\cos\\beta}{\\cos\\alpha}\\,\\mathrm{d}y\\mathrm{d}z=0.$$\n进一步可得\n$$I=\\iint_\\Sigma\\left[1-24z^2-2z+4z\\cos(2yz)\\right]\\mathrm{d}y\\mathrm{d}z=-\\iint_D\\left[1-24z^2-2z+4z\\cos(2yz)\\right]\\mathrm{d}y\\mathrm{d}z=\\iint_D\\left[-1+24z^2+2z-4z\\cos(2yz)\\right]\\mathrm{d}y\\mathrm{d}z,$$\n其中 $D$ 为 $\\Sigma$ 在 $yOz$ 面上的投影区域. 注意，在这里 $\\boldsymbol{n}$ 的方向指向 $yOz$ 面的后侧，在转化为 $D$ 上的二重积分时，需要添加一个负号.\n\n**⑤ (II) 用对称性化简被积函数.**\n区域 $D=\\{(y,z)\\mid y^2+3z^2\\leqslant1\\}$. 这是 $yOz$ 面上的椭圆盘，关于 $y$ 轴、$z$ 轴均对称，而 $2z$、$4z\\cos(2yz)$ 均为关于 $z$ 的奇函数，故\n$$\\iint_D\\left[2z-4z\\cos(2yz)\\right]\\mathrm{d}y\\mathrm{d}z=0,$$\n从而\n$$I=\\iint_D(24z^2-1)\\,\\mathrm{d}y\\mathrm{d}z.$$\n由于 $D$ 的长半轴长为 $1$，短半轴长为 $\\frac{\\sqrt3}{3}$，故 $D$ 的面积为 $\\frac{\\sqrt3}{3}\\pi$，从而 $\\iint_D\\mathrm{d}y\\mathrm{d}z=\\frac{\\sqrt3}{3}\\pi$.\n\n**⑥ (II) 计算 $\\iint_Dz^2\\,\\mathrm{d}y\\mathrm{d}z$.**\n由于 $z^2$ 既是关于 $y$ 的偶函数，又是关于 $z$ 的偶函数，故 $\\iint_Dz^2\\,\\mathrm{d}y\\mathrm{d}z=4\\iint_{D_1}z^2\\,\\mathrm{d}y\\mathrm{d}z$，其中 $D_1$ 是 $D$ 位于第一象限的部分，\n$$D_1=\\left\\{(y,z)\\mid0\\leqslant y\\leqslant\\sqrt{1-3z^2},\\ 0\\leqslant z\\leqslant\\frac{\\sqrt3}{3}\\right\\}.$$\n于是\n$$\\iint_{D_1}z^2\\,\\mathrm{d}y\\mathrm{d}z=\\int_0^{\\frac{\\sqrt3}{3}}\\mathrm{d}z\\int_0^{\\sqrt{1-3z^2}}z^2\\,\\mathrm{d}y=\\int_0^{\\frac{\\sqrt3}{3}}z^2\\sqrt{1-3z^2}\\,\\mathrm{d}z$$\n$$=\\int_0^{\\frac{\\pi}{2}}\\frac13\\sin^2t\\cdot\\cos t\\cdot\\frac{1}{\\sqrt3}\\cos t\\,\\mathrm{d}t=\\frac{1}{3\\sqrt3}\\int_0^{\\frac{\\pi}{2}}\\sin^2t\\cos^2t\\,\\mathrm{d}t\\quad\\left(\\text{令 }z=\\frac{1}{\\sqrt3}\\sin t\\right)$$\n$$=\\frac{1}{3\\sqrt3}\\int_0^{\\frac{\\pi}{2}}\\sin^2t(1-\\sin^2t)\\,\\mathrm{d}t=\\frac{1}{3\\sqrt3}\\int_0^{\\frac{\\pi}{2}}(\\sin^2t-\\sin^4t)\\,\\mathrm{d}t$$\n$$=\\frac{1}{3\\sqrt3}\\cdot\\frac{\\pi}{2}\\left(\\frac12-\\frac34\\cdot\\frac12\\right)=\\frac{1}{3\\sqrt3}\\cdot\\frac{\\pi}{16}=\\frac{\\pi}{48\\sqrt3}.$$\n进一步可得\n$$\\iint_D24z^2\\,\\mathrm{d}y\\mathrm{d}z=96\\iint_{D_1}z^2\\,\\mathrm{d}y\\mathrm{d}z=96\\cdot\\frac{\\pi}{48\\sqrt3}=\\frac{2\\sqrt3\\pi}{3}.$$\n\n**⑦ (II) 汇总.**\n因此\n$$I=\\frac{2\\sqrt3\\pi}{3}-\\frac{\\sqrt3\\pi}{3}=\\frac{\\sqrt3\\pi}{3}.$$\n\n**注** $\\Gamma$ 实际上是平面 $x=2z$ 上的一个椭圆. 由于 $\\Sigma$ 的法向量指向 $xOy$ 面的上侧，故将 $I$ 转化为关于坐标 $x,y$ 的积分、再进一步转化为 $xOy$ 面上的二重积分时，不需要添加负号，此种计算过程留给大家作为练习.",
+      "idea": "旋转曲面用「同一点到轴的距离相等 + 旋转轴垂直于对应点连线」两条条件列方程组，消参即得 x²+y²-z²=1；曲线积分用斯托克斯公式落到平面 x=2z 上的椭圆盘，再用两类曲面积分的关系（由法向量方向余弦之比 dxdy=-2dydz）投影到 yOz 面，最后用对称性把被积函数简化为 24z²-1 并算椭圆上的二重积分。",
+      "categoryIds": [
+       50093
+      ]
+     },
+     {
+      "no": 36,
+      "origin": "7",
+      "stem": "线性方程组 $\\begin{cases}x_1+x_2+ax_3=4,\\\\ x_1-x_2+2x_3=-4,\\\\ -x_1+ax_2+x_3=a^2\\end{cases}$ 所代表的三个平面不可能的位置关系为（　　）\n\n![四个选项均为三平面位置关系示意图](data/img/ys27/ys27_q36.png)",
+      "options": [],
+      "kind": "choice",
+      "type": "choice",
+      "source": "张八数一第五套第7题",
+      "answer": "【答案】C（原解析以图形示意四个选项：A 为三个平面交于一点；B 为三个平面交于同一条直线；C 为三个平面两两相交、三条交线互相平行但无公共点；D 为两个平面平行、第三个平面与它们相交）\n\n【解】分析增广矩阵\n$$(A\\mid\\boldsymbol\\beta)=\\begin{pmatrix}1&1&a&4\\\\1&-1&2&-4\\\\-1&a&1&a^2\\end{pmatrix}\\to\\begin{pmatrix}1&1&a&4\\\\0&2&a-2&8\\\\0&0&(a+1)(4-a)&2a(a-4)\\end{pmatrix}.$$\n\n**① $a\\neq-1$ 且 $a\\neq4$ 时.** 方程组有唯一解，三个平面交于一点，故 (A) 可能成立.\n\n**② $a=4$ 时.** $r(A)=r(A\\mid\\boldsymbol\\beta)=2<3$，方程组有无穷多解，三个平面交于一条直线，故 (B) 可能成立.\n\n**③ $a=-1$ 时.** $r(A)=2$，$r(A\\mid\\boldsymbol\\beta)=3$，方程组无解，且 $x_1+x_2-x_3=4$ 与 $-x_1-x_2+x_3=1$ 这两个平面平行，故 (D) 可能成立.\n\n**④ 结论.** 由以上三种情形可见，三个平面「两两相交、交线互相平行且无公共点」这种位置关系不可能出现，故不可能的位置关系为 (C)，选 C.",
+      "idea": "把「三个平面的位置关系」翻译成含参方程组解的情形：对增广矩阵作初等行变换，底行元素 (a+1)(4-a) 与 2a(a-4) 决定秩，只有 a≠-1,4（唯一解、交于一点）、a=4（秩 2 相容、交于一线）、a=-1（秩 2 不相容且两平面平行）三种情形，剩下的「两两相交但无公共点」不会发生。",
+      "categoryIds": [
+       50093
+      ]
+     },
+     {
+      "no": 37,
+      "origin": "14",
+      "stem": "设 $S(x)=\\sum\\limits_{n=1}^{\\infty}b_n\\sin\\frac{n\\pi x}{2}$，其中 $b_n=\\int_0^1 x^2\\sin\\frac{n\\pi x}{2}\\,\\mathrm{d}x+\\int_1^2 e^x\\sin\\frac{n\\pi x}{2}\\,\\mathrm{d}x$，$n\\in\\mathbb{N}_+$，则 $S(-9)=$ ______.",
+      "options": [],
+      "kind": "blank",
+      "type": "blank",
+      "source": "张八数一第八套第14题",
+      "answer": "【答案】$-\\dfrac{e+1}{2}$.\n\n【分析】\n$$b_n=\\int_0^1x^2\\sin\\frac{n\\pi x}{2}\\,\\mathrm{d}x+\\int_1^2e^x\\sin\\frac{n\\pi x}{2}\\,\\mathrm{d}x=\\frac{2}{l}\\int_0^lf(x)\\sin\\frac{n\\pi x}{l}\\,\\mathrm{d}x.$$\n故 $l=\\frac{T}{2}=2$，$T=4$. $S(x)$ 是以 $4$ 为周期的奇函数 $f(x)$ 的傅里叶展开式，其中 $f(x)$ 在 $[0,2]$ 上的表达式为\n$$f(x)=\\begin{cases}x^2,&0\\leqslant x\\leqslant1,\\\\ e^x,&1<x\\leqslant2.\\end{cases}$$\n\n【解】**① 用周期性与奇偶性化简 $S(-9)$.**\n由周期 $T=4$ 得 $S(-9)=S(-9+8)=S(-1)$；由 $S(x)$ 为奇函数得 $S(-1)=-S(1)$.\n\n**② 在间断点 $x=1$ 处取值.**\n$x=1$ 是 $f(x)$ 的跳跃间断点，由狄利克雷收敛定理，\n$$S(-9)=S(-1)=-S(1)=-\\frac{f(1+0)+f(1-0)}{2}=-\\frac{e+1}{2}.$$",
+      "idea": "把两个分段的被积函数看成一个函数 f(x) 在 [0,2] 上的正弦系数，认出这是周期 4 的奇函数的傅里叶级数；于是用周期 4 把 x=-9 平移到 x=-1，用奇性变成 -S(1)，再在跳跃点 x=1 处取左右极限的平均值即可。",
+      "categoryIds": [
+       50092
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

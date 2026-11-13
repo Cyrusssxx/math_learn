@@ -331,6 +331,10 @@ function toggleMark(m) {
 
 // ============ 合并数据：现有数二真题 + 大观园数二真题（统一一棵分类树） ============
 let bankItems = [];      // 大观园数二真题（categoryIds 已映射到统一分类体系：知识点 L2 或 年份节点）
+// 27 模拟卷精选题（亚瑟爱数学 2026.11，37 题，qid = ys27-<内部序号>）：
+// 独立题源、独立分类子树（exam_categories.json 的 50000 段），**两种数据源模式下都并入**，
+// 因为它跟真题/核心题库没有交集（题面归一化后也不重复），不会造成同题两遍。
+let ysItems = [];        // [{ paper, secTitle, q, catIds }]
 // 线代重点题（原 xd_bank.json）已于 2026-10-11 物理并入 core_bank.json，
 // 题上带 fromX=true / xdNo=原号；并入后不再有独立的 xdItems 容器。
 
@@ -1390,6 +1394,13 @@ function buildEntries() {
             }
         }
     }
+    // 27 模拟卷精选题：**不受 srcMode 影响**，真题/核心题库两种模式下都出现在树里
+    // （它挂在独立的大分类 50000 下，与其他学科的题不重号、不重题）
+    for (const e of ysItems) {
+        for (const cid of e.catIds) {
+            allEntries.push({ paper: e.paper, secTitle: e.secTitle || '', q: e.q, catId: cid });
+        }
+    }
 }
 
 /** 线代重点题（并入 core_bank 后带 fromX 标记的题）。
@@ -1910,7 +1921,7 @@ function catCard(paper, secTitle, q) {
         : `<button class="q-op" data-act="note" onclick="toggleQSec(this,'note')">笔记</button>`;
     const paperLink = 'exam.html?paper=' + encodeURIComponent(paper.id);
     // 核心题库/线代补充题：不显示「年份链接」（非套卷），改显示原真题题源标签
-    const yearHtml = paper.id === 'core' || paper.id === 'xd' || paper.id === 'DG900JXB'
+    const yearHtml = paper.id === 'core' || paper.id === 'xd' || paper.id === 'DG900JXB' || paper.id === 'ys27'
         ? (q.source ? `<span class="q-year"><span class="q-year-tag" title="原书题源">${mdInline(q.source)}</span></span>` : '')
         : paper.id === 'bank'
         ? (paper.year ? `<span class="q-year"><span class="q-year-tag">${paper.year}年</span></span>` : '')
@@ -2480,7 +2491,7 @@ function allEntriesAllSources() {
     };
     pushPapers(examPapers);
     pushPapers(corePapers);          // 已含并入的线代重点题（fromX）与线代臻选题（替代原 346 题线代）
-    for (const list of [bankItems]) {
+    for (const list of [bankItems, ysItems]) {
         for (const e of (list || [])) out.push({ paper: e.paper, secTitle: e.secTitle || '', q: e.q });
     }
     return out;
@@ -2797,6 +2808,7 @@ function ppScanPool() {
     for (const p of (examPapers || [])) for (const s2 of (p.sections || [])) for (const q of (s2.questions || [])) push(p, s2.title, q);
     for (const p of (corePapers || [])) for (const s2 of (p.sections || [])) for (const q of (s2.questions || [])) push(p, s2.title, q);
     for (const e of (bankItems || [])) push(e.paper, e.secTitle || '', e.q);
+    for (const e of (ysItems || [])) push(e.paper, e.secTitle || '', e.q);
     return { items, stats };
 }
 
@@ -2955,6 +2967,7 @@ function ppOfQid(qid) {
         for (const p of (examPapers || [])) for (const s of (p.sections || [])) for (const q of (s.questions || [])) add(p, s.title, q);
         for (const p of (corePapers || [])) for (const s of (p.sections || [])) for (const q of (s.questions || [])) add(p, s.title, q);
         for (const e of (bankItems || [])) add(e.paper, e.secTitle || '', e.q);
+        for (const e of (ysItems || [])) add(e.paper, e.secTitle || '', e.q);
     }
     return _ppIdx[qid] || null;
 }
@@ -4271,9 +4284,10 @@ async function init() {
                 : '<div class="cat-empty">⏳ 正在加载题库…</div>';
         }
     }
-    const [cr, corer] = await Promise.all([
+    const [cr, corer, ysr] = await Promise.all([
         fetch('data/exam_categories.json'),
         fetch('data/core_bank.json').catch(() => null),
+        fetch('data/ys27_items.json').catch(() => null),   // 27 模拟卷精选题（37 题，~100KB）
     ]);
     if (!cr.ok) throw new Error('加载分类失败: ' + cr.status);
     // 数据到位 → 换文案。渲染数百张卡片（复测页可达 366 题）同样要时间，
@@ -4305,6 +4319,23 @@ async function init() {
         } catch (e) { console.error('核心题库解析失败', e); }
     } else {
         console.warn('核心题库 core_bank.json 未加载，仅提供真题源');
+    }
+    // 27 模拟卷精选题：独立大分类（50000），与上面两个数据源并列、不受 srcMode 影响。
+    // 结构同 exam.json：[{ id, year, title, sections:[{title, questions:[...]}] }]
+    if (ysr && ysr.ok) {
+        try {
+            const yarr = await ysr.json();
+            ysItems = [];
+            for (const p of (yarr || [])) {
+                for (const s of (p.sections || [])) {
+                    for (const q of (s.questions || [])) {
+                        ysItems.push({ paper: p, secTitle: s.title || '', q, catIds: q.categoryIds || [] });
+                    }
+                }
+            }
+        } catch (e) { console.warn('27 模拟卷精选题解析失败', e); }
+    } else {
+        console.warn('27 模拟卷精选题 ys27_items.json 未加载');
     }
     // 线代重点题已物理并入 core_bank.json（2026-10-11），不再单独 fetch xd_bank.json。
     // 三类一次性主键迁移（migrateCoreLegacyKeys / migrateXdLegacyKeys / migrateLinkFixKeys）
