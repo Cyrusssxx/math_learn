@@ -270,7 +270,7 @@ const Annot = (() => {
         }
         // 富文本令牌还原（与真题页 exam.js mdBlock 同源）：字色 <c:>、高亮底 <h:>、粗 <b>、斜 <i>、标题 <h1>/<h2>
         h = h
-            .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, ((m, c, t) => '<mark class="note-hl" style="--nhl:' + c + ';--nhl-bg:' + annHlRgba(c, .85) + ';--nhl-line:' + hlLine(c) + '">' + t + '</mark>'))
+            .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, ((m, c, t) => '<mark class="note-hl" style="--nhl:' + c + ';--nhl-bg:' + annHlRgba(c, .72) + ';--nhl-line:' + hlLine(c) + '">' + t + '</mark>'))
             .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
             .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
             .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
@@ -1202,7 +1202,7 @@ const Annot = (() => {
             if (al < 0.9) return;                       // 已经是半透明
             const hexc = '#' + [m[1], m[2], m[3]].map(v => (+v).toString(16).padStart(2, '0')).join('');
             // 2026-11-11：30% 带 → 46% 带、alpha .55 → .85（回调可见度），淡档线保持不变
-            st.background = 'linear-gradient(to top,' + annHlRgba(hexc, .85) + ' 0 46%,transparent 46%)';
+            st.background = 'linear-gradient(to top,' + annHlRgba(hexc, .72) + ' 0 46%,transparent 46%)';
             if (n.setAttribute) n.setAttribute('data-hl', hexc);
             st.borderBottom = '1px solid ' + hlLineSoft(hexc);
             if (n.getAttribute && n.getAttribute('bgcolor') != null) n.removeAttribute('bgcolor');
@@ -1372,7 +1372,7 @@ const Annot = (() => {
                 emitText(text.slice(i, mf.index));
                 const m0 = mf[0];
                 if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</h1>' || m0 === '</h2>') { if (stack.length > 1) stack.pop(); }
-                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:linear-gradient(to top,' + annHlRgba(mf[2], .85) + ' 0 46%,transparent 46%);border-bottom:1px solid ' + hlLineSoft(mf[2]) }); stack[stack.length - 1].appendChild(node); stack.push(node); }
+                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:linear-gradient(to top,' + annHlRgba(mf[2], .72) + ' 0 46%,transparent 46%);border-bottom:1px solid ' + hlLineSoft(mf[2]) }); stack[stack.length - 1].appendChild(node); stack.push(node); }
                 i = mf.index + mf[0].length;
             } else if (mi >= 0) {
                 emitText(text.slice(i, mi));

@@ -25,13 +25,13 @@
     --mk-g: #b6efb6;
     --mk-b: #b7dcff;
     --mk-r: #ffb3ba;
-    /* 半高亮带的颜色：2026-11-11 回调到「看得见」档。
-       上一轮把带高 52%→30% 且颜色改 .52~.55 alpha，有效浓度只剩约 1/3，实机看不见；
-       现在带高 46%（仍只涂下半截，上半截不染色 → 不遮字）+ alpha .86~.88。 */
-    --mk-y2: rgba(255, 226, 171, .88);
-    --mk-g2: rgba(191, 234, 176, .86);
-    --mk-b2: rgba(179, 221, 255, .86);
-    --mk-r2: rgba(255, 188, 203, .86);
+    /* 半高亮带的颜色：2026-11-11 带高维持 46%，只把 alpha 从 .86~.88 降到 .72~.74。
+       上一轮 30% 带 + .52 alpha 乘积过冲看不见；.88 又压字（色带盖住字的下半截）。
+       结论：带高定 46% 不动，用 alpha 单一维度调控可见度，避免两个维度一起过冲。 */
+    --mk-y2: rgba(255, 226, 171, .74);
+    --mk-g2: rgba(191, 234, 176, .72);
+    --mk-b2: rgba(179, 221, 255, .72);
+    --mk-r2: rgba(255, 188, 203, .72);
     --hl-y: #fff6e8;
     --hl-g: #e9f8e4;
     --hl-b: #e2f1fd;
@@ -98,10 +98,10 @@ html.dark {
     --mk-b: #2b4d75;
     --mk-r: #7a3742;
     /* 深色同步回调（2026-11-11）：底色加深到可见，文字仍是浅色不被压住 */
-    --mk-y2: rgba(90, 74, 40, .90);
-    --mk-g2: rgba(43, 74, 34, .88);
-    --mk-b2: rgba(29, 58, 85, .88);
-    --mk-r2: rgba(85, 36, 48, .88);
+    --mk-y2: rgba(90, 74, 40, .76);
+    --mk-g2: rgba(43, 74, 34, .74);
+    --mk-b2: rgba(29, 58, 85, .74);
+    --mk-r2: rgba(85, 36, 48, .74);
     --hl-y: #3a3020;
     --hl-g: #25351f;
     --hl-b: #1d2f45;
@@ -856,9 +856,10 @@ body.lb-open { overflow: hidden; }
 
 /* ============ 用户标注：荧光 / 批注 / 浮动工具条 ============ */
 /* 选中文字荧光：半高亮（只涂下半截，上沿留白）+ 下划线（2026-10-27 用户指定）。
-   「半高亮」= 高亮带只贴行高最下沿 46% 且为半透明，字的上半截完全不染色；
+   「半高亮」= 高亮带贴行高最下沿 46% 且为半透明，字的上半截完全不染色；
    2026-11-10 起下划线改用 40% 不透明度的淡档色，只负责"划过重点"的辨识度，不抢字；
-   2026-11-11 底色回调（30%→46%、alpha .52→.86）：只加浓底色，下划线保持淡档。
+   2026-11-11 两轮调参：先 alpha .52→.86 解决「看不见」，再 .86→.74 解决「压字」。
+   **带高固定 46%，只调 alpha 一个维度**，避免两个维度同向乘积过冲。
    box-decoration-break: clone 保证跨行断行时每行都有自己的圆角和下划线。 */
 mark.mk {
     padding: 0 1px; border-radius: 3px; color: inherit; cursor: pointer;
@@ -868,7 +869,7 @@ mark.mk {
     text-underline-offset: 4px;
     -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
-/* 2026-11-11：底色回调到「46% + .86~.88 alpha」—— 上半截依旧不染色，但下方色带看得见 */
+/* 2026-11-11：带高保持 46%，仅把 --mk-*2 的 alpha 从 .86~.88 降到 .72~.74（解决压字） */
 mark.mk-y { --mk-band: var(--mk-y2); background: linear-gradient(to top, var(--mk-band) 0 46%, transparent 46%); text-decoration-color: var(--mk-y-line); }
 mark.mk-g { --mk-band: var(--mk-g2); background: linear-gradient(to top, var(--mk-band) 0 46%, transparent 46%); text-decoration-color: var(--mk-g-line); }
 mark.mk-b { --mk-band: var(--mk-b2); background: linear-gradient(to top, var(--mk-band) 0 46%, transparent 46%); text-decoration-color: var(--mk-b-line); }
@@ -1053,7 +1054,7 @@ mark.note-hl {
     color: inherit; padding: 0 1px; border-radius: 3px;
     /* 2026-11-10：改用 JS 算好的 --nhl-bg（原为 42% 不透明度），带高 52%→30%。
        之前 --nhl-bg 计算了却没被引用，实际拿不透明 --nhl 涂满 52%，正是「遮罩文字」的根因。
-       2026-11-11：--nhl-bg 由 annotate.js 本地提到 85% + 带高 46%，只加浓底色不动淡下划线 */
+       2026-11-11：--nhl-bg 由 annotate.js 本地定档，带高始终 46%，只调 alpha（.85→.72） */
     background: linear-gradient(to top, var(--nhl-bg, var(--nhl)) 0 46%, transparent 46%);
     text-decoration-line: underline; text-decoration-thickness: 1px;
     text-decoration-color: var(--nhl-line, var(--nhl));
@@ -1116,10 +1117,13 @@ mark.note-hl {
 /* 批注里的高亮（编辑器 execCommand 写入的 mark[style*=background]）：
    2026-11-10：显式给底色，覆盖浏览器 <mark> 默认的亮黄 yellow（原先没写 background，
    实际落回 UA 亮黄 + 2px 实线，是「下划线比文字还强 / 遮罩文字」最明显的一处）。
-   行内 style 优先级更高，由 annotate.js 的 annSoftenHl / 令牌渲染同步为半透明。 */
-.ann-text mark, .ann-edit mark {
+   行内 style 优先级更高，由 annotate.js 的 annSoftenHl / 令牌渲染同步为半透明。
+   兜底同样走「46% 半高带」而非整块铺满，避免行内样式丢失时又压字。
+   ⚠️ 必须排除 .note-hl：两者特异性相同且这条排在后面，会盖掉
+   mark.note-hl 的 var(--nhl-bg)（批注自定义色高亮曾因此恒显示固定黄色 .30）。 */
+.ann-text mark:not(.note-hl), .ann-edit mark:not(.note-hl) {
     color: inherit;
-    background: var(--hl-y-soft);
+    background: linear-gradient(to top, var(--hl-y-soft) 0 46%, transparent 46%);
     border-bottom: 1px solid var(--mk-y-line);
     border-radius: 3px;
     padding: 0 1px;
