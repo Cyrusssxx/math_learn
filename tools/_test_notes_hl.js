@@ -5,8 +5,11 @@
  * 覆盖：notes.css 浅/深两套变量与全部 mark / 公式 / 整块 / 编辑态规则、
  *       annotate.js 三处行内样式、范围边界（题库/拼卷色板、共享 hlBg/hlLine 不动）。
  *
- * 定档口径（11-11 终版）：带高**固定 46%**（不动），只调 alpha —— .74 浅 / .76 深；
- * 下划线维持 11-10 的淡档（40%/38%、1px、offset 4px），不得回调。
+ * 定档口径（11-13 终版）：
+ *   行内荧光 —— 带高**固定 46%**（不动），只调 alpha：浅 .72~.74 / 深 .74~.76；
+ *   公式整块底 —— `--hl-*-soft` 浅 .21~.22 / 深 .13~.15，且 `.katex.fml-hl-*` 必须有
+ *                 `padding: 2px 4px`（背景原本紧贴字形，积分号溢出盒子 → 「范围小」）；
+ *   下划线维持 11-10 的淡档（40%/38%、1px、offset 4px），不得回调。
  * 双向护栏：alpha ≥ .85 = 压字回归；alpha < .65 = 过淡看不见。
  *           带高改动（≠46%）= 越界，必须回到「只调一个维度」的方法论。
  */
@@ -95,13 +98,16 @@ ok('实色 --hl-*-line 仍保留（fallback / 旧用途）', vals('hl-y-line').l
 ok('mark.mk 下划线仍是 1px + offset 4px', has(body('mark.mk {'), 'text-decoration-thickness: 1px') && has(body('mark.mk {'), 'text-underline-offset: 4px'));
 ok('mark.note-hl 仍是 color-mix 40% 淡下划线', has(body('mark.note-hl {'), 'color-mix(in srgb, var(--nhl-line, var(--nhl)) 40%, transparent)'));
 
-console.log('=== 3. 底色浓度：公式高亮 / 整块高亮回调 ===');
-const soft = { 'hl-y-soft': ['.30', '.18'], 'hl-g-soft': ['.30', '.19'], 'hl-b-soft': ['.30', '.20'], 'hl-r-soft': ['.28', '.18'] };
+console.log('=== 3. 公式整块底 / 整块高亮：两套浓度各自定档 ===');
+/* 公式底（.katex.fml-hl-* 整块铺满，笔画细 → 比行内带更显压）：浅 .21~.22 / 深 .13~.15 */
+const soft = { 'hl-y-soft': ['.22', '.13'], 'hl-g-soft': ['.22', '.14'], 'hl-b-soft': ['.22', '.15'], 'hl-r-soft': ['.21', '.13'] };
+const softOk = a => a >= .18 && a <= .26;
 Object.keys(soft).forEach(n => {
     const v = vals(n);
-    ok(n + ' 浅色回到 ' + soft[n][0], v.length === 2 && has(v[0], soft[n][0]));
-    ok(n + ' 深色回到 ' + soft[n][1], v.length === 2 && has(v[1], soft[n][1]));
-    ok(n + ' 浅色 ≥ .28（不再是 .2 档）', alpha(v[0]) >= .28);
+    ok(n + ' 浅色 = ' + soft[n][0], v.length === 2 && has(v[0], soft[n][0]));
+    ok(n + ' 深色 = ' + soft[n][1], v.length === 2 && has(v[1], soft[n][1]));
+    ok(n + ' 浅色在 [.18,.26]（不压字也不消失）', softOk(alpha(v[0])));
+    ok(n + ' 深色 < .18（暗底不需那么浓）', alpha(v[1]) < .18);
 });
 const block = { 'hl-y-block': ['.16', '.13'], 'hl-g-block': ['.18', '.14'], 'hl-b-block': ['.18', '.15'], 'hl-r-block': ['.16', '.13'] };
 Object.keys(block).forEach(n => {
@@ -111,7 +117,8 @@ Object.keys(block).forEach(n => {
     ok(n + ' 浅色 ≥ .16（不再是 .12 档）', alpha(v[0]) >= .16);
 });
 ok('旧 --hl-y-soft: rgba(224, 176, 110, .32) 退场', no(css, '--hl-y-soft: rgba(224, 176, 110, .32)'));
-ok('11-10 过淡 --hl-y-soft .22 退场', no(css, '--hl-y-soft: rgba(224, 176, 110, .22)'));
+ok('11-11 回调档 --hl-y-soft .30 已退场（公式压字）', no(css, '--hl-y-soft: rgba(224, 176, 110, .30)'));
+ok('11-11 回调档深色 --hl-y-soft .18 已退场', no(css, '--hl-y-soft: rgba(224, 176, 110, .18)'));
 ok('11-10 过淡 --hl-y-block .12 退场', no(css, '--hl-y-block: rgba(224, 176, 110, .12)'));
 ok('上一轮用户选定的主色 --mk-y 仍为 #ffe8b8', has(vals('mk-y')[0] || '', '#ffe8b8'));
 
@@ -151,15 +158,21 @@ ok('common.js 的 hlBg 仍是 .42（6 页共用，未被误改）', has(common, 
 
 console.log('=== 6. 批注编辑态 / 公式高亮 / 整块竖条（下划线档不动） ===');
 const ann = body('.ann-text mark:not(.note-hl), .ann-edit mark:not(.note-hl) {');
-ok('兜底显式 background 覆盖 UA 亮黄', has(ann, 'linear-gradient(to top, var(--hl-y-soft)'));
+ok('兜底显式 background 覆盖 UA 亮黄', has(ann, 'linear-gradient(to top, var(--mk-y2)'));
 ok('兜底也是 46% 半高带（不是整块铺满）', bandPct(ann) === BAND);
+ok('兜底改用 --mk-y2（--hl-y-soft 已专供公式 .22）', no(ann, 'var(--hl-y-soft)'));
 ok('兜底排除 .note-hl，不抢 --nhl-bg（既有覆盖 bug 已修）', has(css, '.ann-text mark:not(.note-hl), .ann-edit mark:not(.note-hl) {'));
 ok('border-bottom 仍是 1px 淡档', has(ann, 'border-bottom: 1px solid var(--mk-y-line)'));
 ok('旧 2px solid var(--hl-y-line) 退场', no(css, 'border-bottom: 2px solid var(--hl-y-line)'));
+const fmlBase = body('.katex.fml-hl-y, .katex.fml-hl-g, .katex.fml-hl-b, .katex.fml-hl-r {');
+ok('公式高亮有内边距（解决「范围小」）', has(fmlBase, 'padding: 2px 4px'));
+ok('公式高亮圆角 6px（配合更大底色块）', has(fmlBase, 'border-radius: 6px'));
+ok('公式高亮跨行不断角', has(fmlBase, 'box-decoration-break: clone;'));
 const fmlMap = { 'katex.fml-hl-y': 'mk-y-line', 'katex.fml-hl-g': 'mk-g-line', 'katex.fml-hl-b': 'mk-b-line', 'katex.fml-hl-r': 'mk-r-line' };
 Object.keys(fmlMap).forEach(sel => {
     const b = body('.' + sel + ' {');
     ok(sel + ' 底部线仍是 1px 淡档', has(b, 'inset 0 -1px 0 var(--' + fmlMap[sel] + ')'));
+    ok(sel + ' 不再各自写死 4px 圆角', no(b, 'border-radius: 4px'));
 });
 ok('旧 inset 0 -2px 实线全部退场', no(css, 'inset 0 -2px 0 var(--hl-y-line)'));
 const pMap = { 'p.hl-y': 'mk-y-line', 'p.hl-g': 'mk-g-line', 'p.hl-b': 'mk-b-line', 'p.hl-r': 'mk-r-line' };
@@ -218,6 +231,10 @@ const mutJs = js
 ok('变异⑥：去掉 annHlRgba(hexc,.72) 会被断言拒绝', no(mutJs, 'annHlRgba(hexc, .72)'));
 ok('变异⑦：去掉 annHlRgba(mf[2],.72) 会被断言拒绝', no(mutJs, 'annHlRgba(mf[2], .72)'));
 ok('变异⑧：--nhl-bg 换回 hlBg(c) 会被断言拒绝', has(mutJs, "--nhl-bg:' + hlBg(c)"));
+const mutFml = css.replace('padding: 2px 4px; border-radius: 6px;', 'border-radius: 6px;');
+ok('变异⑨：删掉公式内边距会被「范围小」断言拒绝', no(body('.katex.fml-hl-y, .katex.fml-hl-g, .katex.fml-hl-b, .katex.fml-hl-r {', mutFml), 'padding: 2px 4px'));
+const mutSoft = css.replace('--hl-y-soft: rgba(224, 176, 110, .22);', '--hl-y-soft: rgba(224, 176, 110, .30);');
+ok('变异⑩：公式底回 .30 会被窗口断言拒绝', !softOk(alpha(vals('hl-y-soft', mutSoft)[0])));
 ok('真实源码本身通过前面全部断言', fail === 0);
 
 console.log('\n通过 ' + pass + ' 项，失败 ' + fail + ' 项');

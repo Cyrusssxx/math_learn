@@ -36,20 +36,19 @@
     --hl-g: #e9f8e4;
     --hl-b: #e2f1fd;
     --hl-r: #fde8ec;
-    /* 公式/批注内高亮底：2026-11-11 从 .20~.22 回调到 .28~.30
-       （上一轮降过头，跟行内荧光一起变得看不见；仍低于最初的 .32/.34） */
-    --hl-y-soft: rgba(224, 176, 110, .30);
+    /* 公式整块底：2026-11-13 再压一档（.30 → .22）—— 公式笔画细，整块铺底比行内带更显压 */
+    --hl-y-soft: rgba(224, 176, 110, .22);
     /* 整块高亮用更淡的一档（整块铺满整行，同样浓度会压字） */
     --hl-y-block: rgba(224, 176, 110, .16);
     --hl-g-block: rgba(110, 205, 110, .18);
     --hl-b-block: rgba(70, 150, 235, .18);
     --hl-r-block: rgba(235, 85, 115, .16);
     --hl-y-line: #e0a94f;
-    --hl-g-soft: rgba(110, 205, 110, .30);
+    --hl-g-soft: rgba(110, 205, 110, .22);
     --hl-g-line: #2f8f3a;
-    --hl-b-soft: rgba(70, 150, 235, .30);
+    --hl-b-soft: rgba(70, 150, 235, .22);
     --hl-b-line: #1a6fd0;
-    --hl-r-soft: rgba(235, 85, 115, .28);
+    --hl-r-soft: rgba(235, 85, 115, .21);
     --hl-r-line: #d62b52;
     /* 下划线专用「淡档」：同色相 40% 不透明度（2026-11-10）。
        原先用 --hl-*-line 不透明实色，1px 线也比正文更抢眼；竖条/圆点边框仍用实色 */
@@ -106,13 +105,13 @@ html.dark {
     --hl-g: #25351f;
     --hl-b: #1d2f45;
     --hl-r: #3a222a;
-    --hl-y-soft: rgba(224, 176, 110, .18);
+    --hl-y-soft: rgba(224, 176, 110, .13);
     --hl-y-line: #d9ad6b;
-    --hl-g-soft: rgba(110, 205, 110, .19);
+    --hl-g-soft: rgba(110, 205, 110, .14);
     --hl-g-line: #6fd07f;
-    --hl-b-soft: rgba(80, 160, 240, .20);
+    --hl-b-soft: rgba(80, 160, 240, .15);
     --hl-b-line: #6cb0ff;
-    --hl-r-soft: rgba(235, 85, 115, .18);
+    --hl-r-soft: rgba(235, 85, 115, .13);
     --hl-r-line: #ff8fa3;
     /* 深色主题下整块高亮：比行内更淡一档，避免整行铺满后压字 */
     --hl-y-block: rgba(224, 176, 110, .13);
@@ -1119,11 +1118,13 @@ mark.note-hl {
    实际落回 UA 亮黄 + 2px 实线，是「下划线比文字还强 / 遮罩文字」最明显的一处）。
    行内 style 优先级更高，由 annotate.js 的 annSoftenHl / 令牌渲染同步为半透明。
    兜底同样走「46% 半高带」而非整块铺满，避免行内样式丢失时又压字。
+   底色取 --mk-y2（与行内荧光同档）而不是 --hl-y-soft —— 后者已专供公式整块底（.22），
+   拿来当兜底带会只剩 ~10% 有效浓度，几乎看不见。
    ⚠️ 必须排除 .note-hl：两者特异性相同且这条排在后面，会盖掉
    mark.note-hl 的 var(--nhl-bg)（批注自定义色高亮曾因此恒显示固定黄色 .30）。 */
 .ann-text mark:not(.note-hl), .ann-edit mark:not(.note-hl) {
     color: inherit;
-    background: linear-gradient(to top, var(--hl-y-soft) 0 46%, transparent 46%);
+    background: linear-gradient(to top, var(--mk-y2) 0 46%, transparent 46%);
     border-bottom: 1px solid var(--mk-y-line);
     border-radius: 3px;
     padding: 0 1px;
@@ -1487,13 +1488,19 @@ mark.note-hl {
 .ann-rec-empty { color: var(--text-faint); font-size: 13px; }
 
 /* ============ 公式识别 / 标注（方案 C 混合层） ============ */
-/* 公式级高亮（作用于 .katex 本身） */
 /* 公式级高亮（作用于 .katex 本身）
-   2026-11-10：底色浓度降一档，底部线 2px 实色 → 1px 淡档色 */
-.katex.fml-hl-y { background: var(--hl-y-soft); border-radius: 4px; box-shadow: inset 0 -1px 0 var(--mk-y-line); }
-.katex.fml-hl-g { background: var(--hl-g-soft); border-radius: 4px; box-shadow: inset 0 -1px 0 var(--mk-g-line); }
-.katex.fml-hl-b { background: var(--hl-b-soft); border-radius: 4px; box-shadow: inset 0 -1px 0 var(--mk-b-line); }
-.katex.fml-hl-r { background: var(--hl-r-soft); border-radius: 4px; box-shadow: inset 0 -1px 0 var(--mk-r-line); }
+   2026-11-10：底色浓度降一档，底部线 2px 实色 → 1px 淡档色。
+   2026-11-13：① 底色 alpha 再压一档（公式笔画比正文细，同浓度更显压字）；
+               ② 补内边距 —— 原先背景紧贴字形，积分号、上下标溢出盒子，视觉上「范围小」；
+                  垂直 2px 只吃行距余量（正文 line-height 1.9），不会压到相邻行。 */
+.katex.fml-hl-y, .katex.fml-hl-g, .katex.fml-hl-b, .katex.fml-hl-r {
+    padding: 2px 4px; border-radius: 6px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.katex.fml-hl-y { background: var(--hl-y-soft); box-shadow: inset 0 -1px 0 var(--mk-y-line); }
+.katex.fml-hl-g { background: var(--hl-g-soft); box-shadow: inset 0 -1px 0 var(--mk-g-line); }
+.katex.fml-hl-b { background: var(--hl-b-soft); box-shadow: inset 0 -1px 0 var(--mk-b-line); }
+.katex.fml-hl-r { background: var(--hl-r-soft); box-shadow: inset 0 -1px 0 var(--mk-r-line); }
 
 /* 批注 / 标签指示标记（作为 .katex 的兄弟节点插入） */
 sup.fml-note-mark { cursor: pointer; color: var(--accent); font-size: .7em; margin-left: 2px; user-select: none; }
