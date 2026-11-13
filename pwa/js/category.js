@@ -1827,7 +1827,7 @@ function selectCat(id) {
     // 点知识点（分类树 / 掌握地图跳转）时清掉搜索词：否则 renderMain 被搜索视图挡住，
     // 出现「搜索态下点分类树/掌握地图色块无响应」。
     if (catSearchKw) {
-        catSearchKw = '';
+        setCatSearchKw('');
         const inp = document.getElementById('catSearch');
         if (inp) inp.value = '';
         const clr = document.getElementById('catSearchClear');
@@ -3733,8 +3733,51 @@ function renderMain() {
     renderNav();   // 刷新悬浮题号导航
 }
 // ============ 顶栏搜索：题干文字 / 年份 / 题号 / 知识点路径 ============
-let catSearchKw = '';                 // 当前搜索词（空 = 分类浏览模式）
+let catSearchKw = '';                 // 当前搜索词（原文，用于回显）
+let catSearchToks = [];               // 归一化后的分词（AND 语义：每个词都要命中）
 let catSearchTimer = null;
+
+/* ===== 搜索归一化（2026-11-14）=====
+   痛点：输入带空格 / 全角 / 大小写不同 / 含公式符号就搜不到。
+   策略：
+     ① 全角 ASCII、全角空格、零宽字符统一成半角；
+     ② 关键词按空白切词，**全部命中**才算命中（搜「极限 计算」= 两词都在题干里）；
+     ③ 题干/答案里的 LaTeX 不再整块删掉，改成「可搜索纯文本」——
+        `\sin x` → `sinx`、`\int_0^{x^2}` → `int0x2`，所以搜 `sinx`、`int`、`x2` 都能中。 */
+function normFont(s) {
+    return String(s == null ? '' : s)
+        .replace(/[\uFF01-\uFF5E]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+        .replace(/\u3000/g, ' ')
+        .replace(/[\u200B-\u200D\uFEFF]/g, '');
+}
+function searchTokens(kw) {
+    return normFont(kw).toLowerCase().split(/\s+/)
+        .map(t => t.replace(/[${}^_&\\`*]/g, ''))
+        .filter(Boolean);
+}
+/** 把 markdown+LaTeX 变成可搜索串：LaTeX 命令去反斜杠、结构符号去空格，公式内容保留 */
+function searchBlob(md) {
+    const t = normFont(md)
+        .replace(/\\begin\{[^}]*\}|\\end\{[^}]*\}/g, ' ')
+        .replace(/\\([a-zA-Z]+)/g, ' $1 ')          // \sin → sin，\int → int
+        .replace(/[${}^_&\\`*]/g, ' ');             // 结构符号一律当分隔
+    return t.toLowerCase().replace(/\s+/g, '');
+}
+/** 每题只算一次（allEntries 里的对象在切源 / 改标记前不会重建） */
+function entrySearchBlob(e) {
+    if (e._sb != null) return e._sb;
+    const q = e.q || {}, p = e.paper || {};
+    const c = cats[String(e.catId)];
+    const path = c ? (c.path || c.name || c.display || '') : '';
+    e._sb = searchBlob([p.year, p.title, q.no, q.source, q.stem, q.idea, q.answer,
+                        q.tips ? JSON.stringify(q.tips) : '', path, e.secTitle].join(' '));
+    return e._sb;
+}
+/** 统一入口：改搜索词必须走这里，保证原文与分词同步 */
+function setCatSearchKw(kw) {
+    catSearchKw = String(kw == null ? '' : kw).trim();
+    catSearchToks = searchTokens(catSearchKw);
+}
 
 // 输入中：只更新「清除按钮」显隐，不触发搜索（搜索须按回车确认）
 function onCatSearchInput(v) {
@@ -3744,37 +3787,30 @@ function onCatSearchInput(v) {
 // 按回车（Enter）确认搜索
 function onCatSearch(v) {
     clearTimeout(catSearchTimer);
-    const kw = (v || '').trim();
-    catSearchKw = kw;
+    setCatSearchKw(v);
     const clr = document.getElementById('catSearchClear');
-    if (clr) clr.style.display = kw ? '' : 'none';
+    if (clr) clr.style.display = catSearchKw ? '' : 'none';
     renderMain();
 }
 
 function clearCatSearch() {
     const inp = document.getElementById('catSearch');
     if (inp) inp.value = '';
-    catSearchKw = '';
+    setCatSearchKw('');
     const clr = document.getElementById('catSearchClear');
     if (clr) clr.style.display = 'none';
     renderTree();   // 退出搜索模式，恢复分类树题数
     renderMain();
 }
 
-// 搜索匹配：题干（去 LaTeX 后）、年份、题号、知识点路径 任一命中即算
+// 搜索匹配：题干 / 答案 / 思路 / 易错 / 年份 / 题号 / 知识点路径 —— 所有分词全部命中才算
 function catSearchMatch(e) {
-    const kw = catSearchKw.toLowerCase();
-    if (!kw) return true;
-    const q = e.q; const p = e.paper;
-    if (String(p.year).toLowerCase().includes(kw)) return true;          // 年份
-    if (String(q.no).toLowerCase().includes(kw)) return true;            // 题号
-    const stem = (q.stem || '').replace(/\$[^$]*\$/g, ' ').replace(/\s+/g, ' ');
-    if (stem.toLowerCase().includes(kw)) return true;                    // 题干文字
-    const c = cats[String(e.catId)];
-    const path = (c ? (c.path || c.name || c.display || '') : '') ;
-    if (path.toLowerCase().includes(kw)) return true;                    // 知识点路径
-    if ((q.answer || '').replace(/\$[^$]*\$/g, ' ').toLowerCase().includes(kw)) return true; // 答案文字
-    return false;
+    if (!catSearchToks.length) return true;
+    const blob = entrySearchBlob(e);
+    for (let i = 0; i < catSearchToks.length; i++) {
+        if (blob.indexOf(catSearchToks[i]) < 0) return false;
+    }
+    return true;
 }
 
 // 搜索模式：主区横跨全分类列出命中题；空关键词回到分类浏览
@@ -4362,7 +4398,7 @@ async function init() {
     try {
         const st = JSON.parse(localStorage.getItem(CAT_STATE_KEY) || '{}');
         if (st.search && !location.search) {   // 有 ?cid 跳转时优先跳转，不回填搜索
-            catSearchKw = st.search;
+            setCatSearchKw(st.search);
             const inp = document.getElementById('catSearch');
             if (inp) { inp.value = st.search; const clr = document.getElementById('catSearchClear'); if (clr) clr.style.display = ''; }
         }
