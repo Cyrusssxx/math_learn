@@ -14,7 +14,10 @@ exam_ids = {p['id'] for p in exam}
 exam_qids = {p['id'] + '-' + str(q['no'])
              for p in exam for s in p.get('sections', []) for q in s.get('questions', [])}
 
-assert len(d) == 5, f'卷数应为 5，实际 {len(d)}'
+# 卷数不锁死快照：以草稿目录里的题干份数为准（每套一份）
+SRC = os.path.join(HERE, 'mn27_ans')
+expect = len([f for f in os.listdir(SRC) if re.fullmatch(r'q\d\d_stem\.md', f)])
+assert len(d) == expect, f'卷数应为 {expect}（草稿份数），实际 {len(d)}'
 seen_qid = set()
 seen_pid = set()
 

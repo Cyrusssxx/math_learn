@@ -4,7 +4,7 @@ import re, os, sys, glob
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mn27_ans')
 SEP = re.compile(r'(?====Q(\d+)===)')
-TAGS = ('03', '04', '05', '06', '07')
+TAGS = ('01', '02', '03', '04', '05', '06', '07')
 errs = []
 
 
@@ -97,4 +97,4 @@ if errs:
     for e in errs[:80]:
         print(' -', e)
     sys.exit(1)
-print('✓ mn27 草稿审计通过（5 套 × 22 题，题干与答案题号一一对应）')
+print(f'✓ mn27 草稿审计通过（{len(TAGS)} 套 × 22 题，题干与答案题号一一对应）')
