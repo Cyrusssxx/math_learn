@@ -2525,5 +2525,1088 @@
     ]
    }
   ]
+ },
+ {
+  "id": "mn27-08",
+  "year": "27模拟",
+  "title": "27 李艳芳三套卷·第一套",
+  "group": "mock",
+  "source": "08_27李艳芳三套卷数二第一套答案",
+  "pages": "p31–p34",
+  "sections": [
+   {
+    "title": "一、选择题（1—10）",
+    "questions": [
+     {
+      "no": 1,
+      "kind": "choice",
+      "stem": "若 $\\lim\\limits_{x\\to\\infty}x^2\\left(2a-ax\\sin\\frac{1}{x}-b\\cos\\frac{1}{x}\\right)=\\frac{1}{2}$，则（　）",
+      "options": [
+       "(A) $a=\\frac{3}{4},b=\\frac{3}{4}$",
+       "(B) $a=\\frac{3}{4},b=\\frac{4}{3}$",
+       "(C) $a=\\frac{4}{3},b=\\frac{3}{4}$",
+       "(D) $a=\\frac{4}{3},b=\\frac{4}{3}$"
+      ],
+      "answer": "【答案】选 (A)。\n\n**【解】**\n**① 换元。** 令 $t=\\dfrac1x$，则 $x\\to\\infty$ 时 $t\\to0$，且 $ax\\sin\\dfrac1x=\\dfrac{a\\sin t}{t}$，故\n$$\\lim_{x\\to\\infty}x^2\\left(2a-ax\\sin\\frac1x-b\\cos\\frac1x\\right)=\\lim_{t\\to0}\\frac{2a-\\frac{a\\sin t}{t}-b\\cos t}{t^2}=\\lim_{t\\to0}\\frac{2at-a\\sin t-bt\\cos t}{t^3}.$$\n**② 泰勒展开。** 代入 $\\sin t=t-\\dfrac{t^3}{6}+o(t^3)$，$\\cos t=1-\\dfrac{t^2}{2}+o(t^2)$：\n$$\\frac{2at-a\\left[t-\\frac{t^3}{6}+o(t^3)\\right]-bt\\left[1-\\frac{t^2}{2}+o(t^2)\\right]}{t^3}=\\frac{(a-b)t+\\left(\\frac a6+\\frac b2\\right)t^3+o(t^3)}{t^3}.$$\n**③ 定参数。** 极限存在且为 $\\dfrac12$ 当且仅当 $\\begin{cases}a-b=0,\\\\ \\dfrac a6+\\dfrac b2=\\dfrac12,\\end{cases}$ 解得 $a=b=\\dfrac34$，故选 A。",
+      "idea": "「思路」：令 $t=1/x$ 化为 $\\frac00$ 型，用泰勒展开按 $t$ 的幂次配平：一次项系数须为零，三次项系数即为极限值。",
+      "tips": {
+       "yc": "$ax\\sin\\dfrac1x$ 换元后是 $\\dfrac{a\\sin t}{t}$，分子分母须同乘 $t$ 才化成分母 $t^3$；$\\cos t$ 的 $-\\dfrac{t^2}{2}$ 项与前面的 $t$ 相乘凑出 $t^3$，系数是 $\\dfrac b2$ 而非 $\\dfrac b6$。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q1"
+     },
+     {
+      "no": 2,
+      "kind": "choice",
+      "stem": "若曲线 $y=\\frac{x^5}{20}-\\frac{x^4}{4}+\\frac{x^3}{3}+C_1x+C_2$ 的三个拐点位于同一条直线上，则（　）",
+      "options": [
+       "(A) 必有 $C_1=-\\frac{2}{15},C_2=0$",
+       "(B) 必有 $C_1=\\frac{13}{15},C_2=1$",
+       "(C) 不存在这样的 $C_1,C_2$",
+       "(D) 任意的 $C_1,C_2$ 均满足要求"
+      ],
+      "answer": "【答案】选 (D)。\n\n**【解】**\n**① 求拐点。** $y'=\\dfrac{x^4}{4}-x^3+x^2+C_1$，$y''=x^3-3x^2+2x=x(x-1)(x-2)$。$y''$ 在 $x=0,1,2$ 两侧均变号，故 $(0,y(0)),(1,y(1)),(2,y(2))$ 都是拐点，其中\n$$y(0)=C_2,\\quad y(1)=\\frac{2}{15}+C_1+C_2,\\quad y(2)=\\frac{4}{15}+2C_1+C_2.$$\n**② 判共线。** 三点共线要求\n$$\\frac{y(1)-y(0)}{1-0}=\\frac{y(2)-y(1)}{2-1}=\\frac{y(2)-y(0)}{2-0},$$\n而这三个差商都等于 $\\dfrac{2}{15}+C_1$，与 $C_1,C_2$ 的取值无关。\n**③ 结论。** 任意 $C_1,C_2$ 下三个拐点恒共线，故选 D。",
+      "idea": "「思路」：先由 $y''$ 的变号零点定出三个拐点，再验证三点之间的两个斜率与整体斜率恒相等。",
+      "tips": {
+       "yc": "三个拐点横坐标是 $0,1,2$，须逐个验证 $y''$ 变号；选项 A 对应三点落在直线 $y=0$ 上、选项 B 对应落在 $y=x+1$ 上，都只是特例，不能误认为必须成立。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q2"
+     },
+     {
+      "no": 3,
+      "kind": "choice",
+      "stem": "记 $I_1=\\int_0^{\\frac{1}{2}}\\frac{1}{\\sqrt{4-x+x^2}}\\,dx,\\ I_2=\\int_0^1\\frac{x}{\\sqrt{4-x^2+x^3}}\\,dx,\\ I_3=\\int_0^1\\frac{e^x-1}{\\sqrt{4-x^2+x^4}}\\,dx$，则 $I_1,I_2,I_3$ 的大小关系是（　）",
+      "options": [
+       "(A) $I_1<I_2<I_3$",
+       "(B) $I_2<I_1<I_3$",
+       "(C) $I_1<I_3<I_2$",
+       "(D) $I_2<I_3<I_1$"
+      ],
+      "answer": "【答案】选 (B)。\n\n**【解】**\n**① 化简 $I_1$。** 由 $x^2-x+4=\\left(x-\\dfrac12\\right)^2+\\dfrac{15}{4}$ 知 $\\dfrac{1}{\\sqrt{4-x+x^2}}$ 关于 $x=\\dfrac12$ 对称，故\n$$\\int_{\\frac12}^1\\frac{1}{\\sqrt{4-x+x^2}}dx=\\int_0^{\\frac12}\\frac{1}{\\sqrt{4-x+x^2}}dx,\\quad \\int_0^1\\frac{1}{\\sqrt{4-x+x^2}}dx=2I_1.$$\n**② 换元统一分母。** 令 $u=\\sqrt x$，则\n$$\\int_0^1\\frac{1}{\\sqrt{4-x+x^2}}dx=\\int_0^1\\frac{2u\\,du}{\\sqrt{4-u^2+u^4}}=\\int_0^1\\frac{2x}{\\sqrt{4-x^2+x^4}}dx,$$\n$$I_1=\\frac12\\int_0^1\\frac{2x}{\\sqrt{4-x^2+x^4}}dx=\\int_0^1\\frac{x}{\\sqrt{4-x^2+x^4}}dx.$$\n**③ 比较 $I_1$ 与 $I_3$。** 当 $x\\in(0,1)$ 时 $e^x-1>x$，故 $\\dfrac{e^x-1}{\\sqrt{4-x^2+x^4}}>\\dfrac{x}{\\sqrt{4-x^2+x^4}}$，得 $I_1<I_3$。\n**④ 比较 $I_1$ 与 $I_2$。** 当 $x\\in(0,1)$ 时 $x^3>x^4$，故 $4-x^2+x^3>4-x^2+x^4$，从而 $\\dfrac{x}{\\sqrt{4-x^2+x^3}}<\\dfrac{x}{\\sqrt{4-x^2+x^4}}$，得 $I_2<I_1$。\n**⑤ 结论。** $I_2<I_1<I_3$，选 B。",
+      "idea": "「思路」：用对称性与 $u=\\sqrt x$ 把 $I_1$ 化到与 $I_2,I_3$ 同型的分母，再逐对比较被积函数。",
+      "tips": {
+       "yc": "三个被积式的分母分别是 $4-x+x^2$、$4-x^2+x^3$、$4-x^2+x^4$，须逐一对应；$I_1$ 的积分上限是 $\\dfrac12$ 而非 $1$；比较只能在 $x\\in(0,1)$ 上使用 $x^3>x^4$ 与 $e^x-1>x$。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q3"
+     },
+     {
+      "no": 4,
+      "kind": "choice",
+      "stem": "设 $ab>0$，若数 $k$ 满足对任意的 $x$，$a^2\\sec^2x+b^2\\csc^2x\\geqslant k$ 均成立，则 $k$ 的最大值为（　）",
+      "options": [
+       "(A) $(a+b)^2$",
+       "(B) $(a-b)^2$",
+       "(C) $a^2+b^2$",
+       "(D) $a^2-b^2$"
+      ],
+      "answer": "【答案】选 (A)。\n\n**【解】**\n**① 转化。** 记 $f(x)=a^2\\sec^2x+b^2\\csc^2x$，在定义域 $D=\\left(0,\\frac\\pi2\\right)\\cup\\left(\\frac\\pi2,\\pi\\right)\\cup\\left(\\pi,\\frac{3\\pi}2\\right)\\cup\\left(\\frac{3\\pi}2,2\\pi\\right)$ 上以 $2\\pi$ 为周期；$k$ 的最大值即 $\\min f(x)$。\n**② 恒等变形。** 由 $\\sec^2x=1+\\tan^2x$、$\\csc^2x=1+\\cot^2x$，\n$$f(x)=a^2+b^2+a^2\\tan^2x+\\frac{b^2}{\\tan^2x}.$$\n**③ 基本不等式。** 令 $u=\\tan^2x>0$，由 $ab>0$ 得\n$$a^2u+\\frac{b^2}{u}\\ge2\\sqrt{a^2u\\cdot\\frac{b^2}{u}}=2ab,$$\n等号当且仅当 $a^2u=\\dfrac{b^2}{u}$ 即 $u=\\dfrac ba>0$ 时取得；$D$ 上 $\\tan x$ 可取遍 $\\mathbb{R}\\setminus\\{0\\}$，故 $u=\\dfrac ba$ 可达。\n**④ 结论。** $\\min f(x)=a^2+b^2+2ab=(a+b)^2$，即 $k$ 的最大值为 $(a+b)^2$，选 A。",
+      "idea": "「思路」：用 $\\sec^2=1+\\tan^2$、$\\csc^2=1+\\cot^2$ 把 $f$ 配成 $a^2u+\\dfrac{b^2}{u}$，由均值不等式一次读出最小值。",
+      "tips": {
+       "yc": "$\\cot^2x=\\dfrac{1}{\\tan^2x}$ 与 $\\tan^2x$ 互为倒数；条件 $ab>0$ 同时保证 $\\sqrt{a^2b^2}=ab$ 且 $u=\\dfrac ba>0$ 可取；由该变形还可知 $\\pi$ 也是 $f(x)$ 的一个周期；题干「对任意的 $x$」须理解为定义域 $D$ 内，$x=0,\\frac\\pi2,\\pi,\\frac{3\\pi}2$ 处 $\\sec x,\\csc x$ 无意义。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q4"
+     },
+     {
+      "no": 5,
+      "kind": "choice",
+      "stem": "设函数 $f(x)$ 在 $(-\\infty,+\\infty)$ 内有定义，且对于任意的 $x,y$，都有 $f(x+y)=f(x)f(y)$，已知 $f(0)\\ne0,\\ f'(0)=a\\ne0$，则（　）",
+      "options": [
+       "(A) $f(x)$ 单调增加",
+       "(B) $f(x)$ 单调减少",
+       "(C) $f(x)$ 为凹函数",
+       "(D) $f(x)$ 为凸函数"
+      ],
+      "answer": "【答案】选 (C)。\n\n**【解】**\n**① 定 $f(0)$。** 令 $x=0$ 代入 $f(x+y)=f(x)f(y)$ 得 $f(0)=[f(0)]^2$，由 $f(0)\\ne0$ 得 $f(0)=1$。\n**② 导数定义。** \n$$f'(x)=\\lim_{\\Delta x\\to0}\\frac{f(x+\\Delta x)-f(x)}{\\Delta x}=\\lim_{\\Delta x\\to0}\\frac{f(x)\\left[f(\\Delta x)-1\\right]}{\\Delta x}=f(x)\\lim_{\\Delta x\\to0}\\frac{f(\\Delta x)-f(0)}{\\Delta x}=af(x).$$\n**③ 解微分方程。** $y'=ay$ 分离变量得 $\\ln|y|=ax+C_0$，由 $f(0)=1$ 定出 $f(x)=e^{ax}$。\n**④ 判凹凸。** $f''(x)=a^2e^{ax}>0$ 对任意 $a\\ne0$ 恒成立，故 $f(x)$ 为凹函数；而 $f'(x)=ae^{ax}$ 的符号随 $a$ 变，不恒增也不恒减，选 C。",
+      "idea": "「思路」：由函数方程配合导数定义导出 $f'=af$，解出 $f=e^{ax}$，再用 $f''>0$ 判定凹凸。",
+      "tips": {
+       "yc": "$f(0)=1$ 需由 $f(0)\\ne0$ 排除 $0$ 得到；$a$ 可正可负，故单调性不确定，唯一与 $a$ 符号无关的结论是 $f''=a^2e^{ax}>0$；本题沿用 $f''>0$ 称「凹函数」的约定。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q5"
+     },
+     {
+      "no": 6,
+      "kind": "choice",
+      "stem": "设函数 $f(x,y)=\\begin{cases}\\left(\\frac{1}{x^2+y^2}\\right)^{|x|+|y|}, & (x,y)\\ne(0,0),\\\\1, & (x,y)=(0,0),\\end{cases}$，则下列说法中，正确的是（　）",
+      "options": [
+       "(A) $f(x,y)$ 在点 $(0,0)$ 处的二重极限不存在",
+       "(B) $f(x,y)$ 在点 $(0,0)$ 处的二重极限存在，但在该点处不连续",
+       "(C) $f(x,y)$ 在点 $(0,0)$ 处连续但不可微",
+       "(D) $f(x,y)$ 在点 $(0,0)$ 处可微"
+      ],
+      "answer": "【答案】选 (C)。\n\n**【解】**\n**① 判连续。** 当 $(x,y)\\ne(0,0)$ 时 $\\ln f(x,y)=-(|x|+|y|)\\ln(x^2+y^2)$，故\n$$|\\ln f(x,y)|\\le\\sqrt{2(x^2+y^2)}\\,\\left|\\ln(x^2+y^2)\\right|.$$\n令 $t=\\sqrt{x^2+y^2}$，右端等于 $2\\sqrt2\\,t\\,|\\ln t|$，而\n$$\\lim_{t\\to0^+}t\\ln t=\\lim_{t\\to0^+}\\frac{\\ln t}{\\frac1t}\\xlongequal{\\text{洛必达}}\\lim_{t\\to0^+}\\frac{\\frac1t}{-\\frac1{t^2}}=0,$$\n由夹逼得 $\\lim\\limits_{(x,y)\\to(0,0)}\\ln f(x,y)=0$，即 $\\lim\\limits_{(x,y)\\to(0,0)}f(x,y)=1=f(0,0)$，二重极限存在且连续。\n**② 判可微。** 沿 $y=0$ 有 $f(x,0)=\\left(\\dfrac1{x^2}\\right)^{|x|}$，\n$$\\left.\\frac{\\partial f}{\\partial x}\\right|_{(0,0)}=\\lim_{x\\to0}\\frac{\\left(\\frac1{x^2}\\right)^{|x|}-1}{x}=\\lim_{x\\to0}\\frac{e^{-|x|\\ln x^2}-1}{x}=\\lim_{x\\to0}\\frac{-|x|\\ln x^2}{x},$$\n$x\\to0^+$ 时该极限为 $+\\infty$，$x\\to0^-$ 时为 $-\\infty$，故 $\\left.\\dfrac{\\partial f}{\\partial x}\\right|_{(0,0)}$ 不存在。\n**③ 结论。** 偏导不存在即不可微，故 $f$ 在 $(0,0)$ 处连续但不可微，选 C。",
+      "idea": "「思路」：取对数把幂指函数化为乘积，用 $t\\ln t\\to0$ 夹逼出连续性；再用偏导定义算 $x$ 方向的极限证明不可微。",
+      "tips": {
+       "yc": "$f(x,0)=\\left(\\dfrac1{x^2}\\right)^{|x|}$ 的指数含 $|x|$，$\\dfrac{-|x|\\ln x^2}{x}$ 左右极限反号发散；二重极限存在且等于 $f(0,0)=1$，故 (A)(B) 皆错。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q6"
+     },
+     {
+      "no": 7,
+      "kind": "choice",
+      "stem": "设区域 $D=\\{(x,y)\\mid 0\\leqslant x\\leqslant\\pi,\\ 0\\leqslant y\\leqslant\\pi\\}$，则 $\\iint_D(\\sin^2x+\\cos^2y)(x+y)\\,dxdy=$（　）",
+      "options": [
+       "(A) $\\pi^3\\lim\\limits_{n\\to\\infty}\\sum\\limits_{i=1}^{n}\\frac{i}{n^2}$",
+       "(B) $\\pi^3\\lim\\limits_{n\\to\\infty}\\sum\\limits_{i=1}^{2n}\\frac{i}{n^2}$",
+       "(C) $\\frac{\\pi^3}{2}\\lim\\limits_{n\\to\\infty}\\sum\\limits_{i=1}^{2n}\\sum\\limits_{j=1}^{i}\\frac{i+j}{n^3}$",
+       "(D) $\\frac{\\pi^3}{4}\\lim\\limits_{n\\to\\infty}\\sum\\limits_{i=1}^{2n}\\sum\\limits_{j=1}^{i}\\frac{i+j}{n^3}$"
+      ],
+      "answer": "【答案】选 (D)。\n\n**【解】**\n**① 轮换对称性。** 记 $f(x,y)=(\\sin^2x+\\cos^2y)(x+y)$，则 $f(y,x)=(\\sin^2y+\\cos^2x)(y+x)$，二者相加为 $2(x+y)$。区域 $D=[0,\\pi]^2$ 关于 $y=x$ 对称，故\n$$\\iint_Df(x,y)dxdy=\\frac12\\iint_D\\left[f(x,y)+f(y,x)\\right]dxdy=\\iint_D(x+y)dxdy=2\\iint_Dx\\,dxdy.$$\n**② 写和式极限。** 把 $[0,\\pi]$ 分 $2n$ 等份，$\\Delta\\sigma_{ij}$ 面积为 $\\dfrac{\\pi^2}{4n^2}$，取点 $\\left(\\dfrac{i\\pi}{2n},\\dfrac{j\\pi}{2n}\\right)$：\n$$\\iint_Dx\\,dxdy=\\lim_{n\\to\\infty}\\sum_{i=1}^{2n}\\sum_{j=1}^{2n}\\frac{i\\pi}{2n}\\cdot\\frac{\\pi^2}{4n^2}=\\frac{\\pi^3}{4}\\lim_{n\\to\\infty}\\sum_{i=1}^{2n}\\frac{i}{n^2}.$$\n**③ 用 $D_1$ 改写。** 记 $D_1=\\{0\\le y\\le x\\le\\pi\\}$，由轮换对称性 $\\iint_D(x+y)dxdy=2\\iint_{D_1}(x+y)dxdy$，而\n$$\\iint_{D_1}(x+y)dxdy=\\lim_{n\\to\\infty}\\sum_{i=1}^{2n}\\sum_{j=1}^{i}\\left(\\frac{i\\pi}{2n}+\\frac{j\\pi}{2n}\\right)\\frac{\\pi^2}{4n^2}=\\frac{\\pi^3}{8}\\lim_{n\\to\\infty}\\sum_{i=1}^{2n}\\sum_{j=1}^{i}\\frac{i+j}{n^3}.$$\n**④ 结论。** \n$$\\iint_Df(x,y)dxdy=\\frac{\\pi^3}{2}\\lim_{n\\to\\infty}\\sum_{i=1}^{2n}\\frac{i}{n^2}=\\frac{\\pi^3}{4}\\lim_{n\\to\\infty}\\sum_{i=1}^{2n}\\sum_{j=1}^{i}\\frac{i+j}{n^3},$$\n只有 (D) 与之相符，选 D。",
+      "idea": "「思路」：先用轮换对称性把被积函数降为 $x+y$，再按 $2n$ 等分直接写出二重积分的定义式与四个选项比对。",
+      "tips": {
+       "yc": "选项 (C)(D) 内层求和上限是 $i$（三角形 $y\\le x$），不是 $n$；由 ② 得系数 $\\dfrac{\\pi^3}{2}$，而 (A) 的求和上限为 $n$、(B) 的系数为 $\\pi^3$，均不符；选项 A 对应的极限值恰为 $\\iint_Dx\\,dxdy$，少了因子 2。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q7"
+     },
+     {
+      "no": 8,
+      "kind": "choice",
+      "stem": "设向量 $\\beta$ 可由向量组 $\\alpha_1,\\alpha_2,\\cdots,\\alpha_t\\ (t\\geqslant2)$ 线性表示，但不能由向量组 $\\alpha_1,\\alpha_2,\\cdots,\\alpha_{t-1}$ 线性表示，则下列说法中，正确的是（　）",
+      "options": [
+       "(A) $r(\\alpha_1,\\alpha_2,\\cdots,\\alpha_{t-1},\\alpha_t)=t$",
+       "(B) $r(\\alpha_1,\\alpha_2,\\cdots,\\alpha_{t-1},\\alpha_t,\\beta)=t$",
+       "(C) $r(\\alpha_1,\\alpha_2,\\cdots,\\alpha_t)=r(\\alpha_1,\\alpha_2,\\cdots,\\alpha_{t-1})$",
+       "(D) $r(\\alpha_1,\\alpha_2,\\cdots,\\alpha_t,\\beta)=r(\\alpha_1,\\alpha_2,\\cdots,\\alpha_{t-1},\\beta)$"
+      ],
+      "answer": "【答案】选 (D)。\n\n**【解】**\n**① 一个方向的秩不等式。** 显然 $r(\\alpha_1,\\alpha_2,\\cdots,\\alpha_{t-1},\\beta)\\le r(\\alpha_1,\\alpha_2,\\cdots,\\alpha_t,\\beta)$。\n**② 反向表出。** 由 $\\beta$ 可由 $\\alpha_1,\\alpha_2,\\cdots,\\alpha_t$ 线性表示，设\n$$\\beta=k_1\\alpha_1+k_2\\alpha_2+\\cdots+k_t\\alpha_t. \\quad (1)$$\n因 $\\beta$ 不能由 $\\alpha_1,\\alpha_2,\\cdots,\\alpha_{t-1}$ 线性表示，故 $k_t\\ne0$，于是\n$$\\alpha_t=\\frac1{k_t}\\beta-\\frac{k_1}{k_t}\\alpha_1-\\cdots-\\frac{k_{t-1}}{k_t}\\alpha_{t-1},$$\n即 $\\alpha_t$ 可由 $\\alpha_1,\\cdots,\\alpha_{t-1},\\beta$ 表出，从而 $r(\\alpha_1,\\cdots,\\alpha_t,\\beta)\\le r(\\alpha_1,\\cdots,\\alpha_{t-1},\\beta)$。\n**③ 结论。** 两边夹得 $r(\\alpha_1,\\cdots,\\alpha_t,\\beta)=r(\\alpha_1,\\cdots,\\alpha_{t-1},\\beta)$，选 D。",
+      "idea": "「思路」：把「$\\beta$ 可由全组表出、不可由前 $t-1$ 个表出」翻译成 (1) 中末项系数 $k_t\\ne0$，从而可反解出 $\\alpha_t$。",
+      "tips": {
+       "yc": "取 $\\alpha_1=(1,0,0)^T,\\alpha_2=(2,0,0)^T,\\alpha_3=(0,1,0)^T,\\beta=(0,1,1)^T$，满足题设但 $r(\\alpha_1,\\alpha_2,\\alpha_3)=2<t=3$，故 (A)(B) 错；若 $\\alpha_t$ 可由前 $t-1$ 个表出，代回 (1) 会推出 $\\beta$ 可由前 $t-1$ 个表出而矛盾，故 $r(\\alpha_1,\\cdots,\\alpha_{t-1})<r(\\alpha_1,\\cdots,\\alpha_t)$，(C) 错。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q8"
+     },
+     {
+      "no": 9,
+      "kind": "choice",
+      "stem": "设 $a,b,c$ 均为非零常数，矩阵 $A=\\begin{pmatrix}1&a&a^2\\\\1&b&b^2\\\\1&c&c^2\\end{pmatrix}$，向量 $\\begin{pmatrix}1\\\\2\\\\1\\end{pmatrix}$ 是方程组 $Ax=\\begin{pmatrix}0\\\\0\\\\1\\end{pmatrix}$ 的一个解，则（　）",
+      "options": [
+       "(A) 方程组 $Ax=(1,0,0)^T$ 有解",
+       "(B) 方程组 $Ax=(0,1,0)^T$ 有解",
+       "(C) 方程组 $Ax=(1,1,0)^T$ 有解",
+       "(D) 方程组 $Ax=0$ 的基础解系中包含两个向量"
+      ],
+      "answer": "【答案】选 (C)。\n\n**【解】**\n**① 由解定参数。** 由 $A(1,2,1)^T=(0,0,1)^T$ 逐行代入得\n$$\\begin{cases}a^2+2a+1=0,\\\\ b^2+2b+1=0,\\\\ c^2+2c+1=1,\\end{cases}$$\n解得 $a=b=-1$，$c=-2$ 或 $c=0$；由 $c\\ne0$ 取 $c=-2$，故\n$$A=\\begin{pmatrix}1&-1&1\\\\1&-1&1\\\\1&-2&4\\end{pmatrix}.$$\n**② 定秩。** $A$ 的前两行相同，故 $|A|=0$，$r(A)\\le2$；第三行与第一行线性无关，$r(A)\\ge2$，故 $r(A)=2$，$Ax=0$ 的基础解系只含 $3-2=1$ 个向量，(D) 错。\n**③ 判各非齐次方程。** 增广矩阵\n$$\\overline{A}_1=\\begin{pmatrix}1&-1&1&1\\\\1&-1&1&0\\\\1&-2&4&0\\end{pmatrix},\\quad \\overline{A}_2=\\begin{pmatrix}1&-1&1&1\\\\1&-1&1&1\\\\1&-2&4&0\\end{pmatrix},$$\n$r(\\overline{A}_1)=3\\ne r(A)$，故 $Ax=(1,0,0)^T$ 无解，同理 $Ax=(0,1,0)^T$ 无解；而 $r(\\overline{A}_2)=2=r(A)$，故 $Ax=(1,1,0)^T$ 有解，选 C。",
+      "idea": "「思路」：把「$(1,2,1)^T$ 是 $Ax=(0,0,1)^T$ 的解」逐行代入定出 $a,b,c$，再用 $r(A)$ 与各增广矩阵的秩判别三个方程组。",
+      "tips": {
+       "yc": "解向量是 $(1,2,1)^T$，不带系数 $\\dfrac12$；第三行对应 $(c+1)^2=1$ 即 $c^2+2c+1=1$，$c=0$ 须由 $c\\ne0$ 舍去；$A$ 前两行相同是 $r(A)=2$ 的关键；$\\overline{A}_2$ 的前两行也相同，故秩仍为 2。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q9"
+     },
+     {
+      "no": 10,
+      "kind": "choice",
+      "stem": "设 $\\alpha,\\beta$ 为相互正交的 3 维非零列向量，则下列命题中，正确的是（　）\n① $\\alpha\\beta^T$ 不能相似对角化；② $\\alpha\\beta^T$ 能相似对角化；\n③ $\\alpha\\beta^T$ 与 $\\alpha\\beta^T+\\beta\\alpha^T$ 没有公共的特征向量；④ $\\alpha\\beta^T$ 与 $\\alpha\\beta^T+\\beta\\alpha^T$ 有公共的特征向量。",
+      "options": [
+       "(A) ①③",
+       "(B) ①④",
+       "(C) ②③",
+       "(D) ②④"
+      ],
+      "answer": "【答案】选 (B)。\n\n**【解】**\n**① 判相似对角化。** 记 $A=\\alpha\\beta^T$，由 $\\alpha^T\\beta=\\beta^T\\alpha=0$ 得\n$$A^2=\\alpha\\beta^T\\alpha\\beta^T=O.$$\n若 $A\\xi=\\lambda\\xi$，则 $A^2\\xi=\\lambda^2\\xi=0$，故 $\\lambda=0$ 是三重特征值。又 $A$ 各行都是 $\\beta$ 的倍数且 $\\alpha,\\beta\\ne0$，故 $r(A)=1$，$Ax=0$ 只有 $3-1=2$ 个线性无关解，即属于 $0$ 的线性无关特征向量只有 2 个，$A$ 不能相似对角化：① 正确、② 错。\n**② 找公共特征向量。** 取 $\\gamma$ 为方程组 $\\begin{cases}\\alpha^Tx=0,\\\\ \\beta^Tx=0\\end{cases}$ 的非零解，则 $\\alpha\\beta^T\\gamma=0$、$\\beta\\alpha^T\\gamma=0$，从而\n$$(\\alpha\\beta^T+\\beta\\alpha^T)\\gamma=0+0=0,$$\n即 $\\gamma$ 同时是 $\\alpha\\beta^T$ 与 $\\alpha\\beta^T+\\beta\\alpha^T$ 的属于 $0$ 的特征向量，④ 正确、③ 错。\n**③ 结论。** 正确命题为 ①④，选 B。",
+      "idea": "「思路」：用 $A^2=O$ 与 $r(A)=1$ 判定不可对角化，再取同时正交于 $\\alpha,\\beta$ 的 $\\gamma$ 构造公共特征向量。",
+      "tips": {
+       "yc": "$\\alpha^T\\beta=0$ 使 $A^2=O$，但 $A\\ne O$（$\\alpha,\\beta$ 均非零），三重零特征值只有 2 个线性无关特征向量；$\\gamma$ 满足 $\\alpha^T\\gamma=\\beta^T\\gamma=0$，两个矩阵作用于 $\\gamma$ 都给出 $0$，故 $0$ 是公共特征值。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q10"
+     }
+    ]
+   },
+   {
+    "title": "二、填空题（11—16）",
+    "questions": [
+     {
+      "no": 11,
+      "kind": "blank",
+      "stem": "设函数 $f(x)$ 可导，已知曲线 $y=\\arccos\\frac{1}{x}-\\frac{2\\pi}{3}$ 与曲线 $y=f(x)$ 在点 $(-2,0)$ 处相切，且 $f(x)$ 满足 $f(x)+f(-x)=-\\frac{\\pi}{3}$，则曲线 $y=f(x)$ 在点 $(2,f(2))$ 处的切线方程为 $y=$ ______。",
+      "options": [],
+      "answer": "【答案】$\\dfrac{\\sqrt3}{6}x-\\dfrac\\pi3-\\dfrac{\\sqrt3}{3}$\n\n**【解】**\n**① 由相切定 $f(-2),f'(-2)$。** $f(-2)=0$，且当 $x\\ne0$ 时\n$$\\left(\\arccos\\frac1x-\\frac{2\\pi}{3}\\right)'=-\\frac{1}{\\sqrt{1-\\frac1{x^2}}}\\cdot\\left(-\\frac1{x^2}\\right)=\\frac{1}{|x|\\sqrt{x^2-1}},$$\n代入 $x=-2$ 得 $f'(-2)=\\dfrac{1}{2\\sqrt3}$。\n**② 由对称关系定 $f(2),f'(2)$。** 对 $f(x)+f(-x)=-\\dfrac\\pi3$ 两端求导得 $f'(x)-f'(-x)=0$，即 $f'(x)=f'(-x)$，故 $f'(2)=f'(-2)=\\dfrac{1}{2\\sqrt3}$；又 $f(2)+f(-2)=-\\dfrac\\pi3$，故 $f(2)=-\\dfrac\\pi3$。\n**③ 写切线。** $y-\\left(-\\dfrac\\pi3\\right)=\\dfrac{1}{2\\sqrt3}(x-2)$，整理得 $y=\\dfrac{\\sqrt3}{6}x-\\dfrac\\pi3-\\dfrac{\\sqrt3}{3}$。",
+      "idea": "「思路」：由相切读出 $x=-2$ 处的函数值与导数值，再用 $f(x)+f(-x)$ 为常数把信息搬到 $x=2$ 处。",
+      "tips": {
+       "yc": "$\\sqrt{1-\\frac1{x^2}}=\\dfrac{\\sqrt{x^2-1}}{|x|}$，故导数含 $|x|$，$x=-2$ 时 $|x|=2$；对 $f(x)+f(-x)=-\\dfrac\\pi3$ 求导时复合出 $-f'(-x)$，得 $f'$ 为偶函数而非奇函数。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q11"
+     },
+     {
+      "no": 12,
+      "kind": "blank",
+      "stem": "设可导函数 $f(x)$ 满足 $f(x)=x+\\int_0^x f'(t)\\sin t\\,dt$，则 $f(x)=$ ______。",
+      "options": [],
+      "answer": "【答案】$\\tan x+\\sec x-1$\n\n**【解】**\n**① 求导解出 $f'$。** 令 $x=0$ 得 $f(0)=0$；两端对 $x$ 求导：\n$$f'(x)=1+f'(x)\\sin x\\quad\\Rightarrow\\quad f'(x)=\\frac{1}{1-\\sin x}.$$\n**② 积分还原。** 由牛顿–莱布尼茨公式\n$$f(x)=f(x)-f(0)=\\int_0^x\\frac{dt}{1-\\sin t}=\\int_0^x\\frac{1+\\sin t}{\\cos^2t}dt=\\int_0^x\\left(\\sec^2t+\\tan t\\sec t\\right)dt$$\n$$=(\\tan t+\\sec t)\\Big|_0^x=\\tan x+\\sec x-1.$$",
+      "idea": "「思路」：对含变限积分的等式求导解出 $f'(x)$，再有理化 $\\dfrac1{1-\\sin t}$ 后积分。",
+      "tips": {
+       "yc": "$f'(x)$ 出现在积分核里，求导后是 $f'(x)=1+f'(x)\\sin x$，须移项解出；$\\dfrac{1+\\sin t}{\\cos^2t}=\\sec^2t+\\tan t\\sec t$；勿漏由 $f(0)=0$ 定出的常数 $-1$。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q12"
+     },
+     {
+      "no": 13,
+      "kind": "blank",
+      "stem": "曲线 $|\\ln x|+|\\ln y|=1$ 所围成图形绕 $x$ 轴旋转一周所得旋转体的体积 $V=$ ______。",
+      "options": [],
+      "answer": "【答案】$\\dfrac{4\\pi}{3}\\left(e^2+\\dfrac1{e^2}-e-\\dfrac1e\\right)$\n\n**【解】**\n**① 去绝对值定边界。** $|\\ln x|+|\\ln y|=1$ 在四种符号组合下分别化为 $xy=e$、$y=\\dfrac{x}{e}$、$y=ex$、$xy=\\dfrac1e$，围成曲边四边形，四顶点为 $\\left(\\dfrac1e,1\\right),(1,e),\\left(1,\\dfrac1e\\right),(e,1)$。\n**② 分两段算体积。** 以 $x=1$ 为界：$V_1$ 由 $y=ex$ 与 $xy=\\dfrac1e$ 围成，$V_2$ 由 $xy=e$ 与 $y=\\dfrac{x}{e}$ 围成，\n$$V_1=\\pi\\int_{\\frac1e}^1\\left(e^2x^2-\\frac{1}{e^2x^2}\\right)dx=\\pi\\left(\\frac{e^2}{3}+\\frac1{e^2}-\\frac1{3e}-\\frac1e\\right),$$\n$$V_2=\\pi\\int_1^e\\left(\\frac{e^2}{x^2}-\\frac{x^2}{e^2}\\right)dx=\\pi\\left(e^2+\\frac1{3e^2}-e-\\frac e3\\right).$$\n**③ 合并。** \n$$V=V_1+V_2=\\frac{4\\pi}{3}\\left(e^2+\\frac1{e^2}-e-\\frac1e\\right).$$",
+      "idea": "「思路」：按 $\\ln x,\\ln y$ 的符号拆出四条边界曲线，定出四个交点后分片用圆盘法求旋转体体积。",
+      "tips": {
+       "yc": "四条边界中 $y=ex$ 与 $y=\\dfrac{x}{e}$ 是过原点的直线、$xy=e$ 与 $xy=\\dfrac1e$ 是双曲线，勿张冠李戴；$V_1$ 的积分限是 $\\left[\\dfrac1e,1\\right]$、$V_2$ 是 $[1,e]$，外半径平方减内半径平方的次序不能反。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q13"
+     },
+     {
+      "no": 14,
+      "kind": "blank",
+      "stem": "设 $p$ 为常数，若反常积分 $\\int_0^{\\frac{\\pi}{2}}\\frac{\\tan x}{(1-\\sin x)^{1-p}\\sin^p x}\\,dx$ 收敛，则 $p$ 的取值范围是 ______。",
+      "options": [],
+      "answer": "【答案】$(1,2)$\n\n**【解】**\n**① 拆积分。** 被积函数可能的瑕点为 $x=0$ 与 $x=\\dfrac\\pi2$，以 $\\dfrac\\pi4$ 拆成两段分别讨论。\n**② $x\\to0^+$ 端。** 此时 $(1-\\sin x)^{1-p}\\to1$，$\\dfrac{\\tan x}{(1-\\sin x)^{1-p}\\sin^p x}\\sim\\dfrac{1}{x^{p-1}}$，该段收敛要求 $p-1<1$，即 $p<2$（$p\\le1$ 时 $x=0$ 不是瑕点，自动收敛）。\n**③ $x\\to\\frac\\pi2^-$ 端。** 令 $t=\\dfrac\\pi2-x$，则 $\\sin x=\\cos t$、$1-\\sin x=1-\\cos t\\sim\\dfrac{t^2}{2}$、$\\cos x=\\sin t\\sim t$，于是\n$$\\frac{\\tan x}{(1-\\sin x)^{1-p}\\sin^p x}=\\frac{\\sin x}{\\cos x(1-\\sin x)^{1-p}\\sin^p x}\\sim\\frac{2^{1-p}}{t^{3-2p}},$$\n该段收敛要求 $3-2p<1$，即 $p>1$。\n**④ 结论。** 两段同时收敛得 $1<p<2$。",
+      "idea": "「思路」：两个瑕点分别作等价无穷小替换，把敛散性化为 $\\int_0\\dfrac{dx}{x^{p-1}}$ 与 $\\int_0\\dfrac{dt}{t^{3-2p}}$ 的 $p$ 判别。",
+      "tips": {
+       "yc": "$x\\to0^+$ 时 $\\tan x\\sim x$、$\\sin^p x\\sim x^p$，故只需 $\\dfrac1{x^{p-1}}$；$x\\to\\dfrac\\pi2^-$ 时 $1-\\sin x\\sim\\dfrac{t^2}{2}$ 贡献 $t^{2(1-p)}$，$\\cos x\\sim t$ 贡献 $t^{-1}$，合起来是 $t^{3-2p}$ 而非 $t^{1-p}$。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q14"
+     },
+     {
+      "no": 15,
+      "kind": "blank",
+      "stem": "设函数 $z=z(x,y)$ 由方程 $z^3-3xy\\sin z=1$ 所确定，则 $\\frac{\\partial^2 z}{\\partial x\\partial y}\\Big|_{(0,0)}=$ ______。",
+      "options": [],
+      "answer": "【答案】$\\sin 1$\n\n**【解】**\n**① 定 $z(0,0)$。** 在 $z^3-3xy\\sin z=1$ 中令 $x=0,y=0$ 得 $z^3=1$，故 $z(0,0)=1$。\n**② 一次偏导。** 方程两端对 $x$ 求偏导：\n$$3z^2\\frac{\\partial z}{\\partial x}-3y\\sin z-3xy\\cos z\\frac{\\partial z}{\\partial x}=0, \\quad (1)$$\n代入 $x=y=0,z=1$ 得 $\\left.\\dfrac{\\partial z}{\\partial x}\\right|_{(0,0)}=0$。\n**③ 混合偏导。** 将 (1) 两端再对 $y$ 求偏导，代入 $x=y=0,\\ z=1,\\ \\left.\\dfrac{\\partial z}{\\partial x}\\right|_{(0,0)}=0$，所有含 $x,y$ 或 $\\dfrac{\\partial z}{\\partial x}$ 的项均为零，只剩\n$$3\\left.\\frac{\\partial^2z}{\\partial x\\partial y}\\right|_{(0,0)}-3\\sin1=0\\quad\\Rightarrow\\quad\\left.\\frac{\\partial^2z}{\\partial x\\partial y}\\right|_{(0,0)}=\\sin1.$$",
+      "idea": "「思路」：先由原方程定出 $z(0,0)=1$，一次求偏导得 $z_x(0,0)=0$，再对 (1) 关于 $y$ 求偏导并代入特殊点直接解出混合偏导。",
+      "tips": {
+       "yc": "$\\sin z$ 对 $x$ 求偏导要产生 $\\cos z\\dfrac{\\partial z}{\\partial x}$；在 $(0,0,1)$ 处 $\\sin z=\\sin1$ 而非常数 $0$，它正是混合偏导的唯一非零驱动项；混合偏导项的系数是 $3z^2=3$。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q15"
+     },
+     {
+      "no": 16,
+      "kind": "blank",
+      "stem": "已知二次型 $f(x_1,x_2,x_3)=x_1^2-2x_2^2+bx_3^2-4x_1x_2+4x_1x_3+2ax_2x_3$ 可经正交变换化为标准形 $-7y_1^2-by_2^2-by_3^2$，记二次型 $f$ 对应的对称矩阵为 $(a_{ij})_{3\\times3}$，$a_{11}$ 的代数余子式 $A_{11}$ 等于 $-12$，则 $ab=$ ______。",
+      "options": [],
+      "answer": "【答案】$-8$\n\n**【解】**\n**① 写矩阵、由迹定 $b$。** 二次型矩阵\n$$A=\\begin{pmatrix}1&-2&2\\\\-2&-2&a\\\\2&a&b\\end{pmatrix},$$\n正交变换下标准形的系数即 $A$ 的特征值，故特征值为 $-7,-b,-b$。由 $\\operatorname{tr}(A)=b-1=-7-2b$ 得 $b=-2$；再由 $|A|=(-7)(-b)^2=-28$。\n**② 算行列式定 $a$ 的候选。** 作 $c_2+2c_1,\\ c_3-2c_1$ 后按第一行展开：\n$$|A|=\\begin{vmatrix}1&0&0\\\\-2&-6&a+4\\\\2&a+4&-6\\end{vmatrix}=36-(a+4)^2=20-a^2-8a,$$\n令 $-28=20-a^2-8a$ 得 $(a-4)(a+12)=0$，即 $a=4$ 或 $a=-12$。\n**③ 用余子式定 $a$。** $A_{11}=\\begin{vmatrix}-2&a\\\\a&-2\\end{vmatrix}=4-a^2=-12$，得 $a=\\pm4$；与 ② 取交集得 $a=4$，故 $ab=4\\times(-2)=-8$。",
+      "idea": "「思路」：标准形系数即特征值，用迹与行列式两条不变量锁定 $b$ 与 $|A|$，再由 $A_{11}$ 从两个候选 $a$ 中定出唯一解。",
+      "tips": {
+       "yc": "交叉项系数要折半进矩阵（$-4x_1x_2\\Rightarrow a_{12}=-2$，$2ax_2x_3\\Rightarrow a_{23}=a$）；$b=-2$ 后 $|A|=-7b^2=-28$、$A_{11}=4-a^2$；两组 $a$ 必须取交集，不能只用行列式结果。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q16"
+     }
+    ]
+   },
+   {
+    "title": "三、解答题（17—22）",
+    "questions": [
+     {
+      "no": 17,
+      "kind": "calc",
+      "stem": "（本题满分 10 分）\n设函数 $f(x)$ 满足当 $0<x\\leqslant1$ 时，$f(x)=(1-\\cos x)^{\\sin\\pi x}$，而对其他 $x$，满足 $f(x)+k=\\frac{1}{2}f(x-1)$。已知 $f(x)$ 在 $x=1$ 处连续。\n(I) 求常数 $k$；\n(II) $f(x)$ 在 $x=0$ 处是否连续？",
+      "options": [],
+      "answer": "【答案】（I）$k=-\\dfrac12$；（II）$f(x)$ 在 $x=0$ 处连续\n\n**【解】**\n**（I）求 $k$。** $\\lim\\limits_{x\\to1^-}f(x)=\\lim\\limits_{x\\to1^-}(1-\\cos x)^{\\sin\\pi x}=(1-\\cos1)^0=1$。当 $1<x\\le2$ 时 $0<x-1\\le1$，由 $f(x)+k=\\dfrac12f(x-1)$ 得\n$$f(x)=\\frac12\\left[1-\\cos(x-1)\\right]^{\\sin\\pi(x-1)}-k.$$\n令 $t=x-1\\to0^+$，先算\n$$\\lim_{t\\to0^+}\\ln(1-\\cos t)^{\\sin\\pi t}=\\lim_{t\\to0^+}\\pi t\\ln(1-\\cos t)=\\pi\\lim_{t\\to0^+}\\frac{\\ln(1-\\cos t)}{\\frac1t}\\xlongequal{\\text{洛必达}}-\\pi\\lim_{t\\to0^+}\\frac{t^2\\sin t}{1-\\cos t}=0,$$\n最后一步用 $1-\\cos t\\sim\\dfrac{t^2}{2}$，故 $\\lim\\limits_{t\\to0^+}(1-\\cos t)^{\\sin\\pi t}=e^0=1$，从而 $\\lim\\limits_{x\\to1^+}f(x)=\\dfrac12-k$。由 $f$ 在 $x=1$ 处连续得 $1=\\dfrac12-k$，即 $k=-\\dfrac12$。\n**（II）判 $x=0$ 处连续性。** 由 $k=-\\dfrac12$ 得 $f(x)-\\dfrac12=\\dfrac12f(x-1)$；令 $x\\to x+1$ 得 $f(x)=2f(x+1)-1$（$-1<x\\le0$）。于是\n$$f(0)=2f(1)-1=1,\\quad \\lim_{x\\to0^-}f(x)=2\\lim_{x\\to0^-}f(x+1)-1\\xlongequal{t=x+1}2\\lim_{t\\to1^-}f(t)-1=1,$$\n而 $\\lim\\limits_{x\\to0^+}f(x)=\\lim\\limits_{x\\to0^+}(1-\\cos x)^{\\sin\\pi x}=1$。三者相等，故 $f(x)$ 在 $x=0$ 处连续。",
+      "idea": "「思路」：(I) 用 $x=1$ 处左右极限相等定 $k$，关键是把 $0^0$ 型极限取对数化为 $t\\ln(1-\\cos t)\\to0$；(II) 把递推式反解成 $f(x)=2f(x+1)-1$，将 $x=0$ 的信息搬到 $x=1$。",
+      "tips": {
+       "yc": "递推关系是 $f(x)+k=\\dfrac12f(x-1)$，右端为 $f(x-1)$ 而非导数；$\\lim\\limits_{t\\to0^+}(1-\\cos t)^{\\sin\\pi t}$ 是 $0^0$ 型，须取对数用洛必达，不能当作「非零数的 0 次幂」；$\\sin\\pi(x-1)$ 在 $x\\to1^+$ 时趋于 $0$ 但底数也趋于 $0$。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q17"
+     },
+     {
+      "no": 18,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n设区域 $D$ 是由抛物线 $x=y^2$ 与折线 $x=|y|$ 围成的平面有界区域，函数 $f(x,y)=x+[y]\\cos y\\iint_D f(x,y)\\,dxdy$，其中 $[y]$ 表示不超过 $y$ 的最大整数，求 $f(x,y)$ 的表达式。",
+      "options": [],
+      "answer": "【答案】$f(x,y)=x+\\dfrac{2}{15(2\\sin1-\\cos1)}[y]\\cos y$\n\n**【解】**\n**① 设常数。** 记 $A=\\iint_D f(x,y)dxdy$，则 $f(x,y)=x+A[y]\\cos y$。\n**② 定区域与 $[y]$。** 解 $\\begin{cases}x=y^2\\\\ x=|y|\\end{cases}$ 得交点 $(0,0),(1,1),(1,-1)$；$D$ 关于 $x$ 轴对称，上半 $D_1=\\{y^2\\le x\\le y,\\ 0\\le y\\le1\\}$ 上 $[y]=0$，下半 $D_2=\\{y^2\\le x\\le-y,\\ -1\\le y\\le0\\}$（除原点）上 $[y]=-1$。\n**③ 两端积分。** \n$$A=\\iint_Dx\\,dxdy+A\\iint_D[y]\\cos y\\,dxdy\\xlongequal{\\text{对称性}}2\\iint_{D_1}x\\,dxdy-A\\iint_{D_2}\\cos y\\,dxdy,$$\n其中\n$$2\\iint_{D_1}x\\,dxdy=2\\int_0^1dy\\int_{y^2}^yx\\,dx=\\int_0^1(y^2-y^4)dy=\\frac2{15},$$\n$$\\iint_{D_2}\\cos y\\,dxdy=\\int_{-1}^0(-y-y^2)\\cos y\\,dy\\xlongequal{t=-y}\\int_0^1(t-t^2)\\cos t\\,dt=2\\sin1-\\cos1-1.$$\n**④ 解出 $A$。** 代入得 $A=\\dfrac2{15}-(2\\sin1-\\cos1-1)A$，故 $A(2\\sin1-\\cos1)=\\dfrac2{15}$，即\n$$A=\\frac{2}{15(2\\sin1-\\cos1)},\\quad f(x,y)=x+\\frac{2}{15(2\\sin1-\\cos1)}[y]\\cos y.$$",
+      "idea": "「思路」：把含未知积分的项记为常数 $A$，对等式两端在 $D$ 上积分，得到关于 $A$ 的一次方程。",
+      "tips": {
+       "yc": "$[y]$ 在 $D_1$ 上为 $0$、在 $D_2$ 上为 $-1$（个别点不影响积分）；$\\int_0^1(t-t^2)\\cos t\\,dt$ 需两次分部积分得 $2\\sin1-\\cos1-1$，该量加 $1$ 后恰与 $A$ 的分母 $2\\sin1-\\cos1$ 相配。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q18"
+     },
+     {
+      "no": 19,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n设函数 $f(x)$ 满足微分方程 $y''+2y'-2y=e^x\\cos x$，且 $f(0)=0,\\ f'(0)=\\frac{1}{4}$，求 $\\int_0^{2\\pi}\\max\\{f(x),0\\}\\,dx$。",
+      "options": [],
+      "answer": "【答案】$\\dfrac18(e^\\pi+1)$\n\n**【解】**\n**① 解微分方程。** 特征方程 $r^2+2r-2=0$ 的根为 $r_{1,2}=-1\\pm\\sqrt3$，齐次通解 $C_1e^{(-1+\\sqrt3)x}+C_2e^{(-1-\\sqrt3)x}$。$1+i$ 不是特征根，设特解 $y^*=e^x(A\\cos x+B\\sin x)$，代入方程得 $e^x(4B\\cos x-4A\\sin x)=e^x\\cos x$，故 $A=0,\\ B=\\dfrac14$，\n$$y=C_1e^{(-1+\\sqrt3)x}+C_2e^{(-1-\\sqrt3)x}+\\frac14e^x\\sin x.$$\n**② 定常数。** 由 $f(0)=0$ 得 $C_2=-C_1$；由 $f'(0)=\\dfrac14$ 得 $C_1(-1+\\sqrt3)+C_2(-1-\\sqrt3)+\\dfrac14=\\dfrac14$，联立得 $2\\sqrt3C_1=0$，故 $C_1=C_2=0$，$f(x)=\\dfrac14e^x\\sin x$。\n**③ 去 $\\max$ 后积分。** $[0,\\pi]$ 上 $\\sin x\\ge0$，$[\\pi,2\\pi]$ 上 $\\sin x\\le0$，故\n$$\\int_0^{2\\pi}\\max\\{f(x),0\\}dx=\\int_0^\\pi\\frac14e^x\\sin x\\,dx.$$\n记 $I=\\int_0^\\pi e^x\\sin x\\,dx$，两次分部积分得 $I=e^\\pi+1-I$，即 $I=\\dfrac{e^\\pi+1}{2}$，故原积分 $=\\dfrac14I=\\dfrac18(e^\\pi+1)$。",
+      "idea": "「思路」：先解二阶常系数方程并用初值把齐次部分全部消去，再按 $\\sin x$ 的符号去掉 $\\max$，最后用分部积分算 $\\int e^x\\sin x$。",
+      "tips": {
+       "yc": "特征根是 $-1\\pm\\sqrt3$；特解系数由 $4B=1,\\ 4A=0$ 定出；$\\max\\{f,0\\}$ 只在 $[0,\\pi]$ 上取 $f$，积分上限应改为 $\\pi$ 而非 $2\\pi$；$\\int_0^\\pi e^x\\sin x\\,dx=\\dfrac{e^\\pi+1}{2}$，结果还要乘 $\\dfrac14$。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q19"
+     },
+     {
+      "no": 20,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n求函数 $f(x,y)=x(y+1)e^{xy-x^2}$ 的极值。",
+      "options": [],
+      "answer": "【答案】极小值 $-e^{-\\frac34}$（在 $\\left(-\\dfrac12,1\\right)$ 处取得），无极大值\n\n**【解】**\n**① 求驻点。** \n$$f'_x=(y+1)(1+xy-2x^2)e^{xy-x^2},\\quad f'_y=x(1+x+xy)e^{xy-x^2}.$$\n因 $e^{xy-x^2}>0$，解 $\\begin{cases}(y+1)(1+xy-2x^2)=0,\\\\ x(1+x+xy)=0\\end{cases}$：$x=0$ 代入第一式得 $y=-1$；另一支 $1+x+xy=0$ 与 $1+xy-2x^2=0$ 相减得 $x(2x+1)=0$，取 $x=-\\dfrac12$ 得 $y=1$。故驻点为 $(0,-1)$ 与 $\\left(-\\dfrac12,1\\right)$。\n**② 判 $(0,-1)$。** $A=f''_{xx}(0,-1)=0,\\ B=f''_{xy}(0,-1)=1,\\ C=f''_{yy}(0,-1)=0$，$AC-B^2=-1<0$，非极值点。\n**③ 判 $\\left(-\\dfrac12,1\\right)$。** \n$$A=6e^{-\\frac34},\\quad B=-e^{-\\frac34},\\quad C=\\frac14e^{-\\frac34},$$\n$$AC-B^2=\\frac12e^{-\\frac32}>0,\\quad A>0,$$\n故为极小值点，极小值 $f\\left(-\\dfrac12,1\\right)=-\\dfrac12\\cdot2\\cdot e^{-\\frac12-\\frac14}=-e^{-\\frac34}$。",
+      "idea": "「思路」：由指数因子恒正把驻点方程降为多项式组，再用 $AC-B^2$ 的符号逐个判别两个驻点。",
+      "tips": {
+       "yc": "$f''_{xy}$ 中含 $x(y+1)+(1+x+xy)(1+xy-2x^2)$，在 $\\left(-\\dfrac12,1\\right)$ 处第二项为 $0$ 而第一项为 $-1$；$e^{xy-x^2}$ 在该点为 $e^{-3/4}$，故 $A,B,C$ 含 $e^{-3/4}$ 而 $AC-B^2=\\dfrac12e^{-3/2}$，两者指数不同；极小值 $f\\left(-\\dfrac12,1\\right)=-e^{-3/4}$。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q20"
+     },
+     {
+      "no": 21,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n设函数 $f(x)$ 在 $[0,1]$ 上连续，$\\int_0^1 xf(x)\\,dx=0,\\ \\int_0^1 x^2f(x)\\,dx=-1$。\n(I) 求 $\\int_0^1 x(1-x)f(x)\\,dx$。\n(II) 证明：$\\max\\limits_{0\\leqslant x\\leqslant1}f(x)>6$。",
+      "options": [],
+      "answer": "【答案】（I）$1$；（II）$\\max\\limits_{0\\le x\\le1}f(x)>6$\n\n**【解】**\n**（I）** \n$$\\int_0^1x(1-x)f(x)dx=\\int_0^1xf(x)dx-\\int_0^1x^2f(x)dx=0-(-1)=1.$$\n**（II）** 记 $M=\\max\\limits_{0\\le x\\le1}f(x)$，令 $g(x)=M-f(x)\\ge0$。则\n$$\\int_0^1xg(x)dx=\\frac M2-\\int_0^1xf(x)dx=\\frac M2,\\quad \\int_0^1x^2g(x)dx=\\frac M3-\\int_0^1x^2f(x)dx=\\frac M3+1,$$\n故\n$$\\int_0^1x(1-x)g(x)dx=\\frac M2-\\left(\\frac M3+1\\right)=\\frac M6-1.$$\n另一方面 $x(1-x)g(x)$ 在 $[0,1]$ 上连续非负，故该积分 $\\ge0$，得 $M\\ge6$。\n再证 $M\\ne6$：若 $M=6$，则 $\\int_0^1x(1-x)g(x)dx=0$，由被积函数连续非负得 $x(1-x)g(x)\\equiv0$，从而在 $(0,1)$ 内 $g(x)\\equiv0$，即 $f(x)\\equiv6$，于是 $\\int_0^1xf(x)dx=\\int_0^16x\\,dx=3$，与 $\\int_0^1xf(x)dx=0$ 矛盾。故 $M>6$。",
+      "idea": "「思路」：(I) 把 $x(1-x)$ 拆成 $x-x^2$ 直接代入已知积分；(II) 构造非负函数 $g=M-f$，用 $\\int x(1-x)g\\ge0$ 得 $M\\ge6$，再由等号成立时的恒等性导出矛盾排除 $M=6$。",
+      "tips": {
+       "yc": "已知条件是 $\\int_0^1xf(x)dx=0$（被积含因子 $x$）与 $\\int_0^1x^2f(x)dx=-1$，不是 $\\int_0^1f(x)dx=0$；$M\\ge6$ 只是必要条件，必须补证 $M\\ne6$ 才能得到严格大于；由 $g\\equiv0$ 反推 $f\\equiv6$ 时要用 $\\int_0^1xf(x)dx=3\\ne0$ 才构成矛盾。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q21"
+     },
+     {
+      "no": 22,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n设可相似对角化的 3 阶矩阵 $A$ 的特征值为 $2,-1,-1$。已知 $\\alpha=(1,1,0)^T$ 是 $A^T$ 的属于特征值 2 的一个特征向量，且 $\\alpha$ 也是 $A$ 的一个特征向量。\n(I) 求矩阵 $A$；\n(II) 求可逆线性变换 $x=Py$，将二次型 $f(x)=x^T(A+A^T)x$ 化为规范形。",
+      "options": [],
+      "answer": "【答案】（I）$A=\\begin{pmatrix}\\frac12&\\frac32&0\\\\\\frac32&\\frac12&0\\\\0&0&-1\\end{pmatrix}$；（II）$P=\\begin{pmatrix}\\frac{\\sqrt2}{4}&-\\frac12&0\\\\\\frac{\\sqrt2}{4}&\\frac12&0\\\\0&0&\\frac{\\sqrt2}{2}\\end{pmatrix}$（$P$ 不唯一），规范形 $z_1^2-z_2^2-z_3^2$\n\n**【解】**\n**（I）求 $A$。** 设 $\\beta$ 是 $A$ 属于 $-1$ 的特征向量，由 $A^T\\alpha=2\\alpha$ 得 $\\alpha^TA=2\\alpha^T$，于是\n$$\\alpha^TA\\beta=2\\alpha^T\\beta,\\quad \\alpha^TA\\beta=\\alpha^T(-\\beta)=-\\alpha^T\\beta\\ \\Rightarrow\\ \\alpha^T\\beta=0,$$\n即 $\\alpha$ 与属于 $-1$ 的特征向量都正交，故 $\\alpha$ 只能属于特征值 $2$。单位化 $\\varepsilon_1=\\dfrac1{\\sqrt2}(1,1,0)^T$，把属于 $-1$ 的两个线性无关特征向量单位正交化为 $\\varepsilon_2,\\varepsilon_3$，令 $Q=(\\varepsilon_1,\\varepsilon_2,\\varepsilon_3)$，则 $Q^TAQ=\\operatorname{diag}(2,-1,-1)$，故 $Q^T(A+E)Q=\\operatorname{diag}(3,0,0)$，\n$$A+E=3\\varepsilon_1\\varepsilon_1^T=\\frac32\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix}(1,1,0)=\\begin{pmatrix}\\frac32&\\frac32&0\\\\\\frac32&\\frac32&0\\\\0&0&0\\end{pmatrix},$$\n减去 $E$ 即得 (I) 中的 $A$。\n**（II）化规范形。** 由 (I) 知 $A$ 实对称，故 $A+A^T=2A$，$f(x)=2x^TAx$。正交变换 $x=Qy$ 把 $f$ 化为 $4y_1^2-2y_2^2-2y_3^2$，再令 $P_1=\\operatorname{diag}\\left(\\dfrac12,\\dfrac{\\sqrt2}{2},\\dfrac{\\sqrt2}{2}\\right)$ 即得规范形 $z_1^2-z_2^2-z_3^2$，其中 $P=QP_1$。\n由 $\\alpha^Tx=0$ 即 $x_1+x_2=0$ 取 $\\beta_1=(-1,1,0)^T,\\ \\beta_2=(0,0,1)^T$，单位化得 $\\varepsilon_2=\\dfrac1{\\sqrt2}(-1,1,0)^T,\\ \\varepsilon_3=(0,0,1)^T$，于是\n$$Q=\\begin{pmatrix}\\frac{\\sqrt2}{2}&-\\frac{\\sqrt2}{2}&0\\\\\\frac{\\sqrt2}{2}&\\frac{\\sqrt2}{2}&0\\\\0&0&1\\end{pmatrix},\\quad P=QP_1=\\begin{pmatrix}\\frac{\\sqrt2}{4}&-\\frac12&0\\\\\\frac{\\sqrt2}{4}&\\frac12&0\\\\0&0&\\frac{\\sqrt2}{2}\\end{pmatrix}.$$\n亦可用配方法：$f(x)=x_1^2+x_2^2-2x_3^2+6x_1x_2=(x_1+3x_2)^2-8x_2^2-2x_3^2$，得另一可逆变换 $x=Py$ 与同一规范形，$P$ 不唯一。",
+      "idea": "「思路」：(I) 由 $A^T\\alpha=2\\alpha$ 推出 $\\alpha$ 与 $-1$ 特征向量正交，从而写出谱分解 $A+E=3\\varepsilon_1\\varepsilon_1^T$；(II) 借 $A$ 实对称把 $A+A^T$ 化为 $2A$，正交对角化后再缩放得规范形。",
+      "tips": {
+       "yc": "$\\alpha$ 是 $A^T$ 属于 $2$ 的特征向量，只能推出 $\\alpha^TA=2\\alpha^T$，须借 $\\alpha^T\\beta=0$ 才能断定 $\\alpha$ 也是 $A$ 属于 $2$ 的特征向量；$A+E$ 的特征值是 $3,0,0$，故 $A+E$ 是秩 1 阵 $3\\varepsilon_1\\varepsilon_1^T$；规范形系数为 $\\pm1$，$P$ 不唯一。"
+      },
+      "categoryIds": [],
+      "origin": "08 / Q22"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "mn27-09",
+  "year": "27模拟",
+  "title": "27 EP3+1 套卷·第一套",
+  "group": "mock",
+  "source": "09_27EP3+1数二第一套答案",
+  "pages": "p35–p38",
+  "sections": [
+   {
+    "title": "一、选择题（1—10）",
+    "questions": [
+     {
+      "no": 1,
+      "kind": "choice",
+      "stem": "已知 $f(x)=\\int_0^x\\dfrac{\\ln(1+t^2)}{1+\\int_0^t e^{-s^2}ds}dt$，则（　）",
+      "options": [
+       "(A) $f(x)$ 在 $x=0$ 处可导，$f'(0)\\ne0$",
+       "(B) $f(x)$ 在 $x=0$ 处不可导",
+       "(C) $x=0$ 是 $f(x)$ 的极小值点",
+       "(D) $x=0$ 不是 $f(x)$ 的极值点"
+      ],
+      "answer": "【答案】选 (D)。\n\n**【解】**\n**① 求 $f'(0)$。** 记 $g(t)=\\dfrac{\\ln(1+t^2)}{1+\\int_0^te^{-s^2}ds}$，它在 $t=0$ 处连续，故 $f(x)=\\int_0^xg(t)dt$ 在 $x=0$ 处可导，且\n$$f'(0)=\\left.\\frac{\\ln(1+x^2)}{1+\\int_0^xe^{-s^2}ds}\\right|_{x=0}=0,$$\n由此排除 (A)、(B)。\n**② 判 $f'(x)$ 的符号。** 当 $x\\in(0,\\delta)$ 或 $x\\in(-\\delta,0)$ 时分子 $\\ln(1+x^2)>0$、分母 $1+\\int_0^xe^{-s^2}ds>0$，故 $f'(x)=\\dfrac{\\ln(1+x^2)}{1+\\int_0^xe^{-s^2}ds}>0$，即 $f$ 在 $0$ 两侧均单调递增。\n**③ 结论。** 于是 $x\\in(0,\\delta)$ 时 $f(x)>0=f(0)$，$x\\in(-\\delta,0)$ 时 $f(x)<0=f(0)$，故 $x=0$ 不是 $f(x)$ 的极值点，选 (D)。",
+      "idea": "「思路」：用变限积分求导得 $f'(0)=0$ 排除 (A)(B)，再由两侧 $f'>0$ 判定 $x=0$ 非极值点。",
+      "tips": {
+       "yc": "$f'(0)=0$ 只说明是驻点，极值要看两侧 $f(x)$ 与 $f(0)$ 的大小；$f'(x)>0$ 在 $x=0$ 两侧同时成立时函数单调递增穿过零点，不是极值。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q1"
+     },
+     {
+      "no": 2,
+      "kind": "choice",
+      "stem": "已知当 $xy\\ne0$ 时，$f(x,y)=(x^2+y^2)\\sin\\dfrac{1}{xy}$；当 $xy=0$ 时，$f(x,y)=0$。以下命题中，正确的个数为：\n① $f(x,y)$ 在 $(0,0)$ 处可微；\n② $f'_x(0,0)=0$；\n③ 当 $xy\\ne0$ 时，$\\dfrac{\\partial f}{\\partial x}=2x\\sin\\dfrac{1}{xy}-\\dfrac{x^2+y^2}{x^2y}\\cos\\dfrac{1}{xy}$，当 $xy=0$ 时，$\\dfrac{\\partial f}{\\partial x}=0$；\n④ $\\dfrac{\\partial f}{\\partial x}$ 在 $(0,0)$ 处连续。（　）",
+      "options": [
+       "(A) $1$",
+       "(B) $2$",
+       "(C) $3$",
+       "(D) $4$"
+      ],
+      "answer": "【答案】选 (B)。\n\n**【解】**\n**① 求原点处偏导数。** 由 $f(x,0)=f(0,y)=0$，按定义\n$$f'_x(0,0)=\\lim_{h\\to0}\\frac{f(h,0)-f(0,0)}{h}=0,\\qquad f'_y(0,0)=0,$$\n故命题 ② 正确。\n**② 验证可微性。** \n$$\\lim_{\\substack{x\\to0\\\\y\\to0}}\\frac{f(x,y)-f'_x(0,0)x-f'_y(0,0)y-f(0,0)}{\\sqrt{x^2+y^2}}=\\lim_{\\substack{x\\to0\\\\y\\to0}}\\frac{(x^2+y^2)\\sin\\frac1{xy}}{\\sqrt{x^2+y^2}}=\\lim_{\\substack{x\\to0\\\\y\\to0}}\\sqrt{x^2+y^2}\\sin\\frac1{xy}=0,$$\n故 $f$ 在 $(0,0)$ 可微，命题 ① 正确。\n**③ 排除 ③。** 当 $xy\\ne0$ 时 $f'_x(x,y)=2x\\sin\\dfrac1{xy}-\\dfrac{x^2+y^2}{x^2y}\\cos\\dfrac1{xy}$；在 $x=0,\\ y\\ne0$ 处按定义的差商 $\\dfrac{f(h,y)-f(0,y)}h=\\dfrac{h^2+y^2}{h}\\sin\\dfrac1{hy}$，取 $h=\\dfrac1{2k\\pi y}$ 时为 0，取 $h=\\dfrac{1}{\\left(2k\\pi+\\frac\\pi2\\right)y}$ 时绝对值趋于无穷大，故 $f'_x(0,y)$ 不存在，③ 错。\n**④ 排除 ④。** 沿 $y=x\\ne0$ 有 $f'_x(x,x)=2x\\sin\\dfrac1{x^2}-\\dfrac2x\\cos\\dfrac1{x^2}$；取 $x_k=(2k\\pi)^{-\\frac12}$，则 $(x_k,x_k)\\to(0,0)$ 而 $f'_x(x_k,x_k)=-2\\sqrt{2k\\pi}\\to-\\infty$，故 $f'_x$ 在原点不连续，④ 错。\n**⑤ 结论。** 正确的只有 ①②，选 (B)。",
+      "idea": "「思路」：按定义算偏导、用可微定义验证 ①，再分别构造差商与路径反例否定 ③、④。",
+      "tips": {
+       "yc": "$f(x,y)=(x^2+y^2)\\sin\\frac1{xy}$ 在坐标轴上补定义为 0，可微但偏导数并非处处存在；振荡因子 $\\sin\\frac1{xy}$ 使 $f'_x$ 在原点附近无界、不连续。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q2"
+     },
+     {
+      "no": 3,
+      "kind": "choice",
+      "stem": "设 $a$ 为实数。若微分方程 $y''+ay'+(a-1)y=x$ 的任一解对应的曲线 $y=y(x)$ 均存在斜渐近线，且斜渐近线的斜率为 $k,k\\in(0,1)$，则参数 $a$ 的取值范围是（　）",
+      "options": [
+       "(A) $[1,2)$",
+       "(B) $[2,+\\infty)$",
+       "(C) $(2,+\\infty)$",
+       "(D) $(1,+\\infty)$"
+      ],
+      "answer": "【答案】选 (C)。\n\n**【解】**\n**① 特征根与通解。** 对应齐次方程特征方程 $(r+1)(r+a-1)=0$，根 $r_1=-1,\\ r_2=1-a$。当 $a\\ne1,2$ 时设特解 $y_p=Ax+B$，代入 $y''+ay'+(a-1)y=x$ 得 $aA+(a-1)(Ax+B)=x$，比较系数得 $(a-1)A=1,\\ aA+(a-1)B=0$，即 $A=\\dfrac1{a-1},\\ B=-\\dfrac{a}{(a-1)^2}$，故\n$$y=C_1e^{-x}+C_2e^{(1-a)x}+\\frac{x}{a-1}-\\frac{a}{(a-1)^2}.$$\n**② 由斜渐近线定范围。** $x\\to+\\infty$ 时 $e^{-x}\\to0$；要使任一解都有斜渐近线还须 $e^{(1-a)x}\\to0$，即 $a>1$。此时渐近线 $y=\\dfrac{x}{a-1}-\\dfrac{a}{(a-1)^2}$，斜率 $k=\\dfrac1{a-1}$，由 $0<k<1$ 得 $a>2$。\n**③ 讨论退化情形 $a=1,2$。** $a=1$ 时方程为 $y''+y'=x$，令 $u=y'$ 得 $(e^xu)'=xe^x$，积分两次得 $y=\\dfrac12x^2-x+C_1e^{-x}+C_2$，无斜渐近线；$a=2$ 时特征方程有二重根 $-1$，通解 $y=(C_1+C_2x)e^{-x}+x-2$，渐近线 $y=x-2$ 斜率等于 1，也不合题意。\n**④ 排除法验证。** 取 $a=1$ 时 $y=\\dfrac12x^2-x$ 满足 $y''+y'=1+(x-1)=x$ 是解但无斜渐近线，排除 (A)；取 $a=2$ 时 $y=x-2$ 满足 $y''+2y'+y=0+2+(x-2)=x$ 是解但斜率为 1，排除 (B)、(D)。综上 $a\\in(2,+\\infty)$，选 (C)。",
+      "idea": "「思路」：按特征根是否与 $-1$ 重合分类求通解，用 $x\\to+\\infty$ 的渐近线斜率 $0<k<1$ 定出 $a>2$。",
+      "tips": {
+       "yc": "$a=1,2$ 时特解形式退化，必须单独讨论；「任一解都有斜渐近线」要求齐次部分 $e^{(1-a)x}\\to0$，不能只看一个特解。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q3"
+     },
+     {
+      "no": 4,
+      "kind": "choice",
+      "stem": "设函数 $f(x)$ 在区间 $(0,1)$ 上可导，则下列说法中正确的是（　）",
+      "options": [
+       "(A) 若存在常数 $M>0$，使得 $|f'(x)|<\\dfrac{M}{\\sqrt{x}}$，则 $f(x)$ 在 $(0,1)$ 上有界",
+       "(B) 若 $f(x)+f'(x)$ 在 $(0,1)$ 上无界，则 $f(x)f'(x)$ 也在 $(0,1)$ 上无界",
+       "(C) 若 $f(x)$ 在 $(0,1)$ 上有界，则存在常数 $M>0$，使得 $|f'(x)|<\\dfrac{M}{\\sqrt{x}}$",
+       "(D) 若 $f'(x)$ 在 $(0,1)$ 上无界，则 $f(x)$ 也在 $(0,1)$ 上无界"
+      ],
+      "answer": "【答案】选 (A)。\n\n**【解】**\n**① 用柯西中值定理证 (A)。** 固定 $x_0\\in(0,1)$，为利用 $|f'(x)|<\\dfrac M{\\sqrt x}$，对 $f(t)$ 与 $\\sqrt t$ 在 $x$ 与 $x_0$ 之间用柯西中值定理：\n$$\\left|\\frac{f(x)-f(x_0)}{\\sqrt x-\\sqrt{x_0}}\\right|=\\left|2\\sqrt\\xi\\,f'(\\xi)\\right|<2M,$$\n其中 $\\xi$ 介于 $x$ 与 $x_0$ 之间。于是 $|f(x)-f(x_0)|\\le2M\\left|\\sqrt x-\\sqrt{x_0}\\right|\\le2M$（$x=x_0$ 时亦成立），由三角不等式 $|f(x)|\\le|f(x_0)|+2M$ 对一切 $x\\in(0,1)$ 成立，故 $f$ 有界，(A) 正确。\n**② 取 $f(x)=\\sqrt x$ 排除 (B)。** 此时 $f(x)+f'(x)=\\sqrt x+\\dfrac1{2\\sqrt x}$ 在 $(0,1)$ 上无界，而 $f(x)f'(x)=\\dfrac12$ 有界。\n**③ 取 $f(x)=x^{\\frac13}$ 排除 (C)、(D)。** 此时 $f'(x)=\\dfrac13x^{-\\frac23}$，$f$ 在 $(0,1)$ 有界而 $f'$ 无界，故 (D) 错；又 $|f'(x)|\\sqrt x=\\dfrac13x^{-\\frac16}\\to+\\infty\\ (x\\to0^+)$，不可能存在常数 $M>0$ 使 $|f'(x)|<\\dfrac M{\\sqrt x}$ 恒成立，故 (C) 错。选 (A)。",
+      "idea": "「思路」：柯西中值定理把 $|f'|$ 的界转化为 $f$ 的界，再用两个幂函数反例排除其余命题。",
+      "tips": {
+       "yc": "柯西中值定理给出 $\\dfrac{f(x)-f(x_0)}{\\sqrt x-\\sqrt{x_0}}=2\\sqrt\\xi f'(\\xi)$，因子 $2\\sqrt\\xi$ 恰好抵消 $\\dfrac1{\\sqrt\\xi}$；$x=x_0$ 时差商为 0 需单独补上。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q4"
+     },
+     {
+      "no": 5,
+      "kind": "choice",
+      "stem": "有一椭圆形的薄板，长轴长为 4，短轴长为 2，水的密度为 $\\rho$，薄板垂直于水中且短轴与水面齐平，则水对薄板一侧的压力为（　）",
+      "options": [
+       "(A) $\\dfrac{2}{3}\\rho g$",
+       "(B) $\\dfrac{4}{3}\\rho g$",
+       "(C) $\\dfrac{8}{3}\\rho g$",
+       "(D) $\\dfrac{16}{3}\\rho g$"
+      ],
+      "answer": "【答案】选 (C)。\n\n**【解】**\n**① 写压力微元。** 椭圆 $\\dfrac{x^2}{4}+y^2=1$ 在深度 $x$ 处的水平弦宽为 $2\\sqrt{1-\\dfrac{x^2}{4}}$，压强 $p=\\rho gx$，故\n$$dF=p\\,dS=\\rho gx\\cdot2\\sqrt{1-\\frac{x^2}{4}}\\,dx=2\\rho gx\\sqrt{1-\\frac{x^2}{4}}\\,dx.$$\n**② 三角换元。** 令 $\\dfrac x2=\\sin\\theta\\ (0\\le\\theta\\le\\dfrac\\pi2)$，则 $x=2\\sin\\theta,\\ dx=2\\cos\\theta d\\theta$：\n$$F=\\int_0^22\\rho gx\\sqrt{1-\\frac{x^2}{4}}dx=\\int_0^{\\frac\\pi2}8\\rho g\\sin\\theta\\cos^2\\theta\\,d\\theta=-8\\rho g\\int_0^{\\frac\\pi2}\\cos^2\\theta\\,d\\cos\\theta.$$\n**③ 结果。** $F=-8\\rho g\\cdot\\dfrac13\\left.\\cos^3\\theta\\right|_0^{\\frac\\pi2}=\\dfrac83\\rho g$，选 (C)。",
+      "idea": "「思路」：用微元法把静水总压力写成定积分，再以 $\\frac x2=\\sin\\theta$ 换元化为三角积分。",
+      "tips": {
+       "yc": "水平弦宽是 $2\\sqrt{1-\\frac{x^2}{4}}$（整条弦），不是 $\\sqrt{1-\\frac{x^2}{4}}$；换元后 $x=2\\sin\\theta$ 与 $dx=2\\cos\\theta d\\theta$ 使系数成为 $8\\rho g$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q5"
+     },
+     {
+      "no": 6,
+      "kind": "choice",
+      "stem": "设当 $x\\to0$ 时，$\\alpha(x)$、$\\beta(x)$ 为非零无穷小，则下列选项中正确个数为（　）\n① 若 $\\alpha(x)\\sim\\beta(x)$，则 $\\alpha(x)-\\beta(x)=o(\\alpha(x))$；\n② 若 $\\alpha(x)\\sim\\beta(x)$，则 $\\alpha^2(x)-\\beta^2(x)=o(\\alpha(x))$；\n③ 若 $\\gamma(x)$ 是 $x\\to0$ 时的无穷小量，则 $\\alpha(x)+\\gamma(x)\\sim\\beta(x)+\\gamma(x)$；\n④ 若 $\\alpha(x)=o(\\beta(x))$，则对任意 $x\\to0$ 时的非零无穷小量 $\\gamma(x)$，都有 $\\alpha(x)\\gamma(x)=o(\\beta(x)\\gamma(x))$。",
+      "options": [
+       "(A) $1$",
+       "(B) $2$",
+       "(C) $3$",
+       "(D) $4$"
+      ],
+      "answer": "【答案】选 (C)。\n\n**【解】**\n**① 判 ①。** 由 $x\\to0$ 时 $\\alpha\\sim\\beta$ 知 $\\dfrac\\beta\\alpha\\to1$，故 $\\dfrac{\\alpha-\\beta}\\alpha=1-\\dfrac\\beta\\alpha\\to0$，① 正确。\n**② 判 ②。** 由 $\\dfrac\\beta\\alpha\\to1$ 及 $\\alpha+\\beta\\to0$：\n$$\\frac{\\alpha^2-\\beta^2}\\alpha=\\frac{(\\alpha-\\beta)(\\alpha+\\beta)}\\alpha=\\left(1-\\frac\\beta\\alpha\\right)(\\alpha+\\beta)\\to0,$$\n② 正确。\n**③ 判 ③。** 取 $\\alpha=x,\\ \\beta=x+x^2,\\ \\gamma=-x$，三者均为无穷小且 $\\dfrac\\alpha\\beta\\to1$；但 $\\alpha+\\gamma=0,\\ \\beta+\\gamma=x^2$，两者之比为 0 不趋于 1，③ 错。\n**④ 判 ④。** 因 $\\gamma\\ne0$，$\\dfrac{\\alpha\\gamma}{\\beta\\gamma}=\\dfrac\\alpha\\beta\\to1$，即 $\\alpha\\gamma\\sim\\beta\\gamma$，④ 正确。\n**⑤ 结论。** 正确的有 ①②④，共 3 个，选 (C)。",
+      "idea": "「思路」：把 $\\alpha\\sim\\beta$ 即 $\\frac\\beta\\alpha\\to1$ 代入各命题，用反例 $\\alpha+\\gamma\\equiv0$ 否定 ③。",
+      "tips": {
+       "yc": "$\\alpha\\sim\\beta$ 不保证 $\\alpha+\\gamma\\sim\\beta+\\gamma$（和可为 0 而失去意义）；原册 ④ 行把 $\\dfrac{\\alpha\\gamma}{\\beta\\gamma}=\\dfrac\\alpha\\beta$ 的极限印成 $0$，与 $\\alpha\\sim\\beta$ 矛盾，应为 $1$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q6"
+     },
+     {
+      "no": 7,
+      "kind": "choice",
+      "stem": "计算 $\\int_0^1\\left(\\int_y^{1+\\sqrt{1-y^2}}\\dfrac{x}{\\sqrt{x^2+y^2}}dx\\right)dy=$（　）",
+      "options": [
+       "(A) $\\dfrac{5\\sqrt{2}}{6}$",
+       "(B) $\\dfrac{5\\sqrt{2}}{3}$",
+       "(C) $\\dfrac{5\\sqrt{3}}{6}$",
+       "(D) $\\dfrac{5\\sqrt{3}}{3}$"
+      ],
+      "answer": "【答案】选 (A)。\n\n**【解】**\n**① 定积分区域。** 区域由 $y=0,\\ x=y$ 及圆 $(x-1)^2+y^2=1$ 在第一象限内的圆弧围成。取极坐标 $x=r\\cos\\theta,\\ y=r\\sin\\theta$，直线 $x=y$ 对应 $\\theta=\\dfrac\\pi4$，圆化为 $r=2\\cos\\theta$，故\n$$0\\le\\theta\\le\\frac\\pi4,\\qquad 0\\le r\\le2\\cos\\theta.$$\n**② 化被积函数。** $\\dfrac{x}{\\sqrt{x^2+y^2}}=\\cos\\theta$，面积微元 $d\\sigma=r\\,dr\\,d\\theta$，故\n$$I=\\int_0^{\\frac\\pi4}d\\theta\\int_0^{2\\cos\\theta}r\\cos\\theta\\,dr=2\\int_0^{\\frac\\pi4}\\cos^3\\theta\\,d\\theta.$$\n**③ 计算。** \n$$2\\int_0^{\\frac\\pi4}(1-\\sin^2\\theta)\\,d\\sin\\theta=2\\left(\\sin\\theta-\\frac13\\sin^3\\theta\\right)\\Big|_0^{\\frac\\pi4}=2\\left(\\frac{\\sqrt2}{2}-\\frac13\\cdot\\frac12\\cdot\\frac{\\sqrt2}{2}\\right)=\\frac{5\\sqrt2}{6},$$\n选 (A)。",
+      "idea": "「思路」：极坐标下用 $r=2\\cos\\theta$ 定限，把二重积分化为 $\\int\\cos^3\\theta\\,d\\theta$。",
+      "tips": {
+       "yc": "圆 $(x-1)^2+y^2=1$ 的极坐标方程是 $r=2\\cos\\theta$（不是 $r=1$）；面积元中的因子 $r$ 不能漏，积 $r$ 后得 $\\cos^3\\theta$ 而非 $\\cos^2\\theta$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q7"
+     },
+     {
+      "no": 8,
+      "kind": "choice",
+      "stem": "二次型 $f(x_1,x_2,x_3)=x_1^2+ax_2^2+bx_3^2+4x_1x_2$ 的正惯性指数为 1，负惯性指数为 2，则（　）",
+      "options": [
+       "(A) $a>4,\\ b>0$",
+       "(B) $a<4,\\ b<0$",
+       "(C) $a>4,\\ b<0$",
+       "(D) $a<4,\\ b>0$"
+      ],
+      "answer": "【答案】选 (B)。\n\n**【解】**\n**① 特征多项式。** 二次型矩阵 $A=\\begin{pmatrix}1&2&0\\\\2&a&0\\\\0&0&b\\end{pmatrix}$，\n$$|\\lambda E-A|=(\\lambda-b)\\left[(\\lambda-1)(\\lambda-a)-4\\right]=(\\lambda-b)\\left[\\lambda^2-(a+1)\\lambda+a-4\\right].$$\n故 $\\lambda_1=b$，另两根满足 $\\lambda_2+\\lambda_3=a+1,\\ \\lambda_2\\lambda_3=a-4$。\n**② 由惯性指数得必要条件。** 正惯性指数为 1、负惯性指数为 2 说明三个特征值一正两负，故 $|A|=\\lambda_1\\lambda_2\\lambda_3=b(a-4)>0$，只有 $a>4,\\ b>0$ 或 $a<4,\\ b<0$ 两种可能。\n**③ 排除一种并定结论。** 若 $a>4,\\ b>0$，则 $\\lambda_2+\\lambda_3>0$ 且 $\\lambda_2\\lambda_3>0$，$\\lambda_2,\\lambda_3$ 均为正，加上 $\\lambda_1=b>0$ 与正惯性指数 1 矛盾；若 $a<4,\\ b<0$，则 $\\lambda_1<0$ 而 $\\lambda_2\\lambda_3<0$，另两根一正一负，恰合题意。故 $a<4,\\ b<0$，选 (B)。",
+      "idea": "「思路」：由特征多项式读出 $\\lambda_2+\\lambda_3$ 与 $\\lambda_2\\lambda_3$，用「一正两负」的惯性指数定出 $a<4,\\ b<0$。",
+      "tips": {
+       "yc": "正惯性指数是正特征值个数，须结合 $|A|=b(a-4)>0$ 与 $\\lambda_2\\lambda_3=a-4$ 的符号；$a>4,b>0$ 会使三个特征值全为正，与题设矛盾。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q8"
+     },
+     {
+      "no": 9,
+      "kind": "choice",
+      "stem": "设向量组 $I:\\alpha_1=(1,1,2)^T,\\ \\alpha_2=(2,2,a)^T$；向量组 $II:\\beta_1=(1,0,b)^T,\\ \\beta_2=(0,1,c)^T,\\ \\beta_3=(1,1,1)^T$。且向量组 $I$ 可由向量组 $II$ 线性表示，但向量组 $II$ 不能由向量组 $I$ 线性表示，则参数 $a,b,c$ 满足关系（　）",
+      "options": [
+       "(A) $a=4;\\ b+c=1$",
+       "(B) $a\\ne4;\\ b+c=1$",
+       "(C) $a=4;\\ b+c\\ne1$",
+       "(D) $a\\in R;\\ b+c\\ne1$"
+      ],
+      "answer": "【答案】选 (D)。\n\n**【解】**\n**① 把条件翻译为秩。** I 可由 II 线性表示而 II 不能由 I 线性表示，等价于 $r(\\mathrm{I})<r(\\mathrm{II})$。\n**② 求两组的秩。** 对 I 作列变换 $\\alpha_2-2\\alpha_1=(0,0,a-4)^T$，故 $a=4$ 时 $r(\\mathrm{I})=1$，$a\\ne4$ 时 $r(\\mathrm{I})=2$；对 II 组成的矩阵作行变换：\n$$(\\beta_1,\\beta_2,\\beta_3)=\\begin{pmatrix}1&0&1\\\\0&1&1\\\\b&c&1\\end{pmatrix}\\to\\begin{pmatrix}1&0&1\\\\0&1&1\\\\0&0&1-b-c\\end{pmatrix},$$\n故 $b+c=1$ 时 $r(\\mathrm{II})=2$，$b+c\\ne1$ 时 $r(\\mathrm{II})=3$。\n**③ 检查 I 能否由 II 表示。** 对 $(\\beta_1,\\beta_2,\\beta_3,\\alpha_1,\\alpha_2)$ 作同样行变换：\n$$\\begin{pmatrix}1&0&1&\\vdots&1&2\\\\0&1&1&\\vdots&1&2\\\\b&c&1&\\vdots&2&a\\end{pmatrix}\\to\\begin{pmatrix}1&0&1&\\vdots&1&2\\\\0&1&1&\\vdots&1&2\\\\0&0&1-b-c&\\vdots&2-b-c&a-2b-2c\\end{pmatrix}.$$\n若 $b+c=1$，表示 $\\alpha_1$ 的方程组末行成为 $0=1$ 无解，与题意矛盾，故 $b+c\\ne1$。\n**④ 结论。** 此时 $r(\\mathrm{II})=3$，可表示任意三维向量，故对任意 $a\\in\\mathbb R$ 都有 II 可表示 I；而 $r(\\mathrm{I})\\le2$，I 不能表示 II。因此 $a\\in\\mathbb R,\\ b+c\\ne1$，选 (D)。选项 (C) 只给出 $a=4$ 时的特例，未包含全部可能取值，故不正确。",
+      "idea": "「思路」：把「可／不可线性表出」翻译成秩的不等式，用初等变换求秩并回代增广矩阵验证。",
+      "tips": {
+       "yc": "必须回代 $b+c\\ne1$ 验证 $\\alpha_1$ 可解，否则只得到必要条件；$b+c=1$ 时末行 $0=1$ 才是矛盾根源，而 $a$ 可取任意实数。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q9"
+     },
+     {
+      "no": 10,
+      "kind": "choice",
+      "stem": "设 $A$ 为 $n(n\\ge2)$ 阶实矩阵，$A^*$ 为 $A$ 的伴随矩阵，$B$ 为 $n$ 阶正定矩阵。齐次线性方程组 $A^Tx=0$、$A^*Bx=0$ 有非零公共解的充要条件是（　）",
+      "options": [
+       "(A) $r(A)\\ge1$",
+       "(B) $r(A)+r(A^*)\\le n$",
+       "(C) $r(A)\\le n$",
+       "(D) $r(A)\\le n-2$"
+      ],
+      "answer": "【答案】选 (D)。\n\n**【解】**\n**① 伴随矩阵的秩关系。** $r(A)=n$ 时 $r(A^*)=n$；$r(A)=n-1$ 时 $r(A^*)=1$；$r(A)\\le n-2$ 时 $A^*=O$。\n**② 证必要性。** 若 $r(A)=n$，则 $A^T$ 可逆，$A^Tx=0$ 只有零解，不可能有非零公共解。若 $r(A)=n-1$，则 $r(A^*)=1$，可写 $A^*=\\alpha\\beta^T$（$\\alpha,\\beta\\ne0$）；由 $A^*A=O$ 得 $A\\alpha=0,\\ A^T\\beta=0$，而 $r(A^T)=n-1$ 故 $A^Tx=0$ 的基础解系可取为 $\\beta$。设 $x=\\lambda\\beta\\ (\\lambda\\ne0)$ 为非零公共解，则\n$$A^*Bx=\\alpha\\beta^TB(\\lambda\\beta)=\\lambda(\\beta^TB\\beta)\\alpha\\ne0$$\n（$B$ 正定给 $\\beta^TB\\beta>0$，且 $\\lambda\\ne0,\\ \\alpha\\ne0$），与 $A^*Bx=0$ 矛盾，故 $r(A)\\le n-2$。\n**③ 证充分性。** 若 $r(A)\\le n-2$，则 $A^*=O$，$A^*Bx=0$ 对任意 $x$ 成立；又 $r(A^T)=r(A)<n$，$A^Tx=0$ 有非零解，取其中任一非零解即为非零公共解。故充要条件为 $r(A)\\le n-2$。\n**④ 排除其余选项。** 取 $A=O$ 有非零公共解而 $r(A)=0$，故 (A) 不是必要条件；$r(A)=n-1$ 时虽有 $r(A)+r(A^*)=n$ 却不存在非零公共解，故 (B) 不充分；$r(A)\\le n$ 对任意 $n$ 阶矩阵恒成立，而 $A$ 可逆时无非零公共解，故 (C) 不充分。选 (D)。",
+      "idea": "「思路」：按 $A^*$ 的秩分三种情形讨论，再用 $B$ 正定与 $A^*=\\alpha\\beta^T$ 排除 $r(A)=n-1$。",
+      "tips": {
+       "yc": "$r(A)=n-1$ 时由 $A^*=\\alpha\\beta^T$ 与 $A^*A=O$ 可得 $A^T\\beta=0$，这是把公共解写成 $\\lambda\\beta$ 的关键；正定性只用于 $\\beta^TB\\beta>0$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q10"
+     }
+    ]
+   },
+   {
+    "title": "二、填空题（11—16）",
+    "questions": [
+     {
+      "no": 11,
+      "kind": "blank",
+      "stem": "反常积分 $\\int_0^{+\\infty}\\dfrac{\\arctan^2 x}{x^\\alpha\\ln(x+2)}dx$ 收敛，则 $\\alpha$ 的取值范围为 ______。",
+      "options": [],
+      "answer": "【答案】$1<a<3$\n\n**【解】**\n**① 考查 0 端。** $x\\to0^+$ 时 $\\arctan x\\sim x,\\ \\ln(x+2)\\to\\ln2$，\n$$\\frac{\\arctan^2x}{x^a\\ln(x+2)}\\sim\\frac1{\\ln2}\\cdot\\frac1{x^{a-2}},$$\n由幂函数反常积分的敛散性，收敛当且仅当 $a-2<1$，即 $a<3$。\n**② 考查 $+\\infty$ 端。** $x\\to+\\infty$ 时 $\\arctan x\\to\\dfrac\\pi2,\\ \\ln(x+2)\\sim\\ln x$，被积函数与 $\\dfrac{\\pi^2}{4x^a\\ln x}$ 等价，只需考查 $\\int_2^{+\\infty}\\dfrac{dx}{x^a\\ln x}$。若 $a>1$，$\\dfrac1{x^a\\ln x}\\le\\dfrac1{x^a}$ 收敛；若 $a=1$，$\\int\\dfrac{dx}{x\\ln x}=\\ln\\ln x+C$ 发散；若 $a<1$，对充分大的 $x$ 有 $\\ln x\\le x^{\\frac{1-a}2}$，从而 $\\dfrac1{x^a\\ln x}\\ge\\dfrac1{x^{\\frac{a+1}2}}$，而 $\\dfrac{a+1}2<1$ 仍发散。故无穷端收敛等价于 $a>1$。\n**③ 合并两端。** $a>1$ 且 $a<3$，即 $1<a<3$。",
+      "idea": "「思路」：分别在 0 与 $+\\infty$ 两端取等价量，化为 $p$-积分与 $\\int\\frac{dx}{x^a\\ln x}$ 的敛散性。",
+      "tips": {
+       "yc": "0 端等价于 $\\dfrac1{x^{a-2}}$，条件是 $a-2<1$ 即 $a<3$；$a=1$ 时 $\\int\\frac{dx}{x\\ln x}$ 发散，不能因分母多一个 $\\ln x$ 就认为收敛。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q11"
+     },
+     {
+      "no": 12,
+      "kind": "blank",
+      "stem": "曲线 $y=\\dfrac{(x+1)^{x+1}}{x^x e}+\\ln\\left(1+\\dfrac{1}{x}\\right)(x>0)$ 的斜渐近线为 ______。",
+      "options": [],
+      "answer": "【答案】$y=x+\\dfrac12$\n\n**【解】**\n**① 求斜率。** 定义域 $x>0$，只需求 $x\\to+\\infty$ 时的斜渐近线：\n$$k=\\lim_{x\\to+\\infty}\\frac yx=\\lim_{x\\to+\\infty}\\left[\\frac1e\\left(1+\\frac1x\\right)^{x+1}+\\frac1x\\ln\\left(1+\\frac1x\\right)\\right]=1.$$\n**② 求截距。** 因 $\\ln\\left(1+\\frac1x\\right)\\to0$，\n$$b=\\lim_{x\\to+\\infty}(y-x)=\\lim_{x\\to+\\infty}\\left[\\frac{(x+1)^{x+1}}{x^xe}-x\\right]=\\lim_{x\\to+\\infty}\\frac xe\\left[\\left(1+\\frac1x\\right)^{x+1}-e\\right].$$\n令 $\\dfrac1x=u\\to0^+$，用 $e^t-1\\sim t$ 及 $\\ln(1+u)=u-\\dfrac12u^2+o(u^2)$：\n$$b=\\lim_{u\\to0^+}\\frac{e^{\\left(1+\\frac1u\\right)\\ln(1+u)-1}-1}{eu}=\\lim_{u\\to0^+}\\frac{(u+1)\\ln(u+1)-u}{u^2}=\\lim_{u\\to0^+}\\frac{\\frac12u^2+o(u^2)}{u^2}=\\frac12.$$\n**③ 结论。** 斜渐近线方程为 $y=x+\\dfrac12$。",
+      "idea": "「思路」：先由 $\\frac yx$ 得 $k=1$，再令 $u=\\frac1x$ 并用泰勒展开算 $b=\\lim(y-x)$。",
+      "tips": {
+       "yc": "$\\left(1+\\frac1x\\right)^{x+1}\\to e$ 但须展开到 $u^2$ 阶才得出 $\\frac12$；$\\ln\\left(1+\\frac1x\\right)$ 项极限为 0，不影响 $b$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q12"
+     },
+     {
+      "no": 13,
+      "kind": "blank",
+      "stem": "$\\lim\\limits_{n\\to+\\infty}\\dfrac{1}{n(n+1)}\\sum\\limits_{k=1}^{n}\\sqrt{n^2-k^2}=$ ______。",
+      "options": [],
+      "answer": "【答案】$\\dfrac\\pi4$\n\n**【解】**\n**① 凑成定积分定义。** 把根号中的 $n^2$ 提出：\n$$\\frac1{n(n+1)}\\sum_{k=1}^n\\sqrt{n^2-k^2}=\\frac n{n+1}\\cdot\\frac1n\\sum_{k=1}^n\\sqrt{1-\\left(\\frac kn\\right)^2}.$$\n**② 取极限。** 因 $\\sqrt{1-t^2}$ 在 $[0,1]$ 上连续且 $\\dfrac n{n+1}\\to1$，所求极限为\n$$\\int_0^1\\sqrt{1-t^2}\\,dt=\\frac\\pi4$$\n（单位圆在第一象限内的面积）。",
+      "idea": "「思路」：把和式写成 $\\frac1n\\sum f\\left(\\frac kn\\right)$ 的黎曼和，极限即 $\\int_0^1\\sqrt{1-t^2}dt$。",
+      "tips": {
+       "yc": "系数 $\\dfrac n{n+1}\\to1$ 不可漏掉；$\\int_0^1\\sqrt{1-t^2}dt$ 是四分之一单位圆面积 $\\dfrac\\pi4$，不是 $\\dfrac\\pi2$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q13"
+     },
+     {
+      "no": 14,
+      "kind": "blank",
+      "stem": "设 $y=y(x)$ 由 $x=t^2+2t+3$、$e^y\\sin t-y+3=0$ 确定，则 $\\left.\\dfrac{d^2y}{dx^2}\\right|_{t=0}=$ ______。",
+      "options": [],
+      "answer": "【答案】$\\dfrac12e^6-\\dfrac14e^3$\n\n**【解】**\n**① 参数方程的二阶导公式。** \n$$\\frac{d^2y}{dx^2}=\\frac1{x'}\\frac d{dt}\\left(\\frac{y'}{x'}\\right)=\\frac{y''x'-y'x''}{(x')^3}.$$\n**② 求 $x',x''$ 与 $y'(0)$。** 由 $x=t^2+2t+3$ 得 $x'(0)=2,\\ x''(0)=2$；$t=0$ 时 $y=3$。对 $e^y\\sin t-y+3=0$ 两边关于 $t$ 求导得 $e^y(y'\\sin t+\\cos t)-y'=0$，代入 $t=0,\\ y=3$ 得 $y'(0)=e^3$。\n**③ 求 $y''(0)$。** 再求导一次并整理得\n$$e^y\\left[\\left((y')^2+y''-1\\right)\\sin t+2y'\\cos t\\right]-y''=0,$$\n代入 $t=0,\\ y=3,\\ y'(0)=e^3$ 得 $2e^3\\cdot e^3-y''(0)=0$，即 $y''(0)=2e^6$。\n**④ 代入公式。** \n$$\\left.\\frac{d^2y}{dx^2}\\right|_{t=0}=\\frac{2e^6\\cdot2-e^3\\cdot2}{2^3}=\\frac12e^6-\\frac14e^3.$$",
+      "idea": "「思路」：$y$ 由隐式方程确定、$x$ 由参数方程给出，用 $\\frac{y''x'-y'x''}{(x')^3}$ 把二阶导化为对 $t$ 的导数。",
+      "tips": {
+       "yc": "求 $y''$ 时指数因子是 $e^y$（在 $y=3$ 处取值 $e^3$）且要用乘积求导；$x'=2t+2$ 在 $t=0$ 为 2，$(x')^3=8$ 勿误写成 $x^3$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q14"
+     },
+     {
+      "no": 15,
+      "kind": "blank",
+      "stem": "设 $f(x)=\\lim\\limits_{t\\to+\\infty}t^2\\ln\\left(1+\\dfrac{x}{t}\\right)\\left[g\\left(2x+\\dfrac{1}{t}\\right)-g(2x)\\right]$，且 $g(x)$ 的一个原函数为 $\\sin x^2$，则 $\\int_0^1 f(x)dx=$ ______。",
+      "options": [],
+      "answer": "【答案】$2\\cos4-\\dfrac14\\sin4$\n\n**【解】**\n**① 求 $g$ 与 $f$。** 由 $\\sin x^2$ 是 $g(x)$ 的一个原函数得 $g(x)=(\\sin x^2)'=2x\\cos x^2$。当 $x\\ne0$ 时把极限凑成导数定义：\n$$f(x)=\\lim_{t\\to\\infty}\\frac{\\ln\\left(1+\\frac xt\\right)}{\\frac xt}\\cdot x\\cdot\\frac{g\\left(2x+\\frac1t\\right)-g(2x)}{\\frac1t}=xg'(2x),$$\n其中第一个因子趋于 1、最后一个因子趋于 $g'(2x)$；$x=0$ 时原式直接给出 $f(0)=0$，故上式对一切 $x$ 成立。\n**② 换元并分部积分。** 令 $u=2x$：\n$$\\int_0^1f(x)dx=\\int_0^1xg'(2x)dx=\\frac14\\int_0^2ug'(u)du=\\left.\\frac14ug(u)\\right|_0^2-\\frac14\\int_0^2g(u)du.$$\n**③ 结果。** 由 $g(2)=4\\cos4$ 及 $\\int_0^2g(u)du=\\left.\\sin u^2\\right|_0^2=\\sin4$ 得\n$$\\int_0^1f(x)dx=\\frac12\\cdot4\\cos4-\\frac14(\\sin4-\\sin0)=2\\cos4-\\frac14\\sin4.$$",
+      "idea": "「思路」：先把极限识别为 $xg'(2x)$，再令 $u=2x$ 分部积分，利用 $\\int g=\\sin x^2$ 收尾。",
+      "tips": {
+       "yc": "$\\dfrac{\\ln(1+x/t)}{x/t}\\to1$ 与差商 $\\to g'(2x)$ 都要求 $t\\to\\infty$；换元 $u=2x$ 带来系数 $\\dfrac14$，分部积分后 $\\int_0^2g(u)du=\\sin4$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q15"
+     },
+     {
+      "no": 16,
+      "kind": "blank",
+      "stem": "设 $A$ 为 3 阶矩阵，$\\alpha_1,\\alpha_2,\\alpha_3$ 是线性无关的 3 维列向量，满足 $A\\alpha_1=\\alpha_2,\\ A\\alpha_2=\\alpha_3,\\ A\\alpha_3=2\\alpha_2-\\alpha_3$，则非齐次线性方程组 $Ax=2\\alpha_2+\\alpha_3$ 的通解为 ______。",
+      "options": [],
+      "answer": "【答案】$x=2\\alpha_1+\\alpha_2+k(-2\\alpha_1+\\alpha_2+\\alpha_3),\\ k\\in\\mathbb R$\n\n**【解】**\n**① 写出 $AP$ 定秩。** 令 $P=(\\alpha_1,\\alpha_2,\\alpha_3)$，三向量线性无关故 $P$ 可逆。按题设逐列写出\n$$AP=(\\alpha_2,\\alpha_3,2\\alpha_2-\\alpha_3)=P\\begin{pmatrix}0&0&0\\\\1&0&2\\\\0&1&-1\\end{pmatrix}=PB,$$\n故 $A$ 与 $B$ 相似，$r(A)=r(B)=2$，齐次方程组 $Ax=0$ 的基础解系含一个向量。\n**② 求基础解系。** 设 $x=c_1\\alpha_1+c_2\\alpha_2+c_3\\alpha_3$，则 $Ax=(c_1+2c_3)\\alpha_2+(c_2-c_3)\\alpha_3$。由 $\\alpha_2,\\alpha_3$ 线性无关，$Ax=0$ 等价于 $c_1+2c_3=0,\\ c_2-c_3=0$；令 $c_3=k$ 得齐次通解 $x=k(-2\\alpha_1+\\alpha_2+\\alpha_3)$。\n**③ 求特解并合成。** 由 $A\\alpha_1=\\alpha_2,\\ A\\alpha_2=\\alpha_3$ 得 $A(2\\alpha_1+\\alpha_2)=2\\alpha_2+\\alpha_3$，故原方程的一个特解为 $2\\alpha_1+\\alpha_2$；全部解\n$$x=2\\alpha_1+\\alpha_2+k(-2\\alpha_1+\\alpha_2+\\alpha_3),\\qquad k\\in\\mathbb R.$$",
+      "idea": "「思路」：用 $P$ 把 $A$ 相似到具体矩阵 $B$ 定秩，再解 $Ax=0$ 并配一个特解。",
+      "tips": {
+       "yc": "$B$ 由 $\\alpha_1,\\alpha_2,\\alpha_3$ 的像逐列拼出，第三列是 $2\\alpha_2-\\alpha_3$；$r(A)=2$ 时基础解系只有 1 个向量，勿漏任意常数 $k$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q16"
+     }
+    ]
+   },
+   {
+    "title": "三、解答题（17—22）",
+    "questions": [
+     {
+      "no": 17,
+      "kind": "calc",
+      "stem": "（本题满分 10 分）\n求不定积分 $I=\\int\\dfrac{x^2-1}{(x^2+x+1)^2}dx$。",
+      "options": [],
+      "answer": "【答案】$-\\dfrac{x}{x^2+x+1}+C$\n\n**【解】**\n**① 换元法（$x\\ne0$）。** 分子分母同除以 $x^2$：\n$$I=\\int\\frac{x^2-1}{(x^2+x+1)^2}dx=\\int\\frac{1-\\frac1{x^2}}{\\left(x+\\frac1x+1\\right)^2}dx.$$\n令 $u=x+\\dfrac1x$，则 $du=\\left(1-\\dfrac1{x^2}\\right)dx$，故\n$$I=\\int\\frac{du}{(u+1)^2}=-\\frac1{u+1}+C=-\\frac{x}{x^2+x+1}+C.$$\n**② 补 $x=0$ 并验算。** 因 $x^2+x+1=\\left(x+\\dfrac12\\right)^2+\\dfrac34>0$，所得函数在 $\\mathbb R$ 上可导，且 $\\left(-\\dfrac{x}{x^2+x+1}\\right)'=\\dfrac{x^2-1}{(x^2+x+1)^2}$，故结果对 $x=0$ 也成立。\n**③ 分部积分另解。** 由 $I=\\int\\dfrac1{x^2+x+1}dx-\\int\\dfrac{x+2}{(x^2+x+1)^2}dx$，而\n$$\\int\\frac1{x^2+x+1}dx=\\frac{x}{x^2+x+1}+\\int\\frac{2x^2+x}{(x^2+x+1)^2}dx,$$\n代回得 $I=\\dfrac{x}{x^2+x+1}+\\int\\dfrac{2(x^2-1)}{(x^2+x+1)^2}dx=\\dfrac{x}{x^2+x+1}+2I$，解得 $I=\\dfrac{-x}{x^2+x+1}+C$。",
+      "idea": "「思路」：把被积函数凑成 $u=x+\\frac1x$ 的微分，或分部积分得到 $I=\\frac{x}{x^2+x+1}+2I$ 反解。",
+      "tips": {
+       "yc": "换元 $u=x+\\frac1x$ 要求 $x\\ne0$，必须补证 $x^2+x+1>0$ 使原函数在全体实数可导；分部积分法解出的 $I$ 要移项除以 2 并补 $+C$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q17"
+     },
+     {
+      "no": 18,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n为了研究某曲面 $z=f(x,y)$ 在不同位置处的升降变化，已知该曲面在点 $(x,y)$ 处沿 $x$ 方向与 $y$ 方向的变化率分别为 $f'_x(x,y)=4x^2-5x+y$、$f'_y(x,y)=4y^2-5y+x$。又知该曲面经过点 $(1,1,0)$，即 $f(1,1)=0$。\n(I) 求函数 $f(x,y)$ 的表达式；\n(II) 求函数 $f(x,y)$ 的全部驻点，并判断它们是否为无条件极值点；若是极值点，求出相应极值。",
+      "options": [],
+      "answer": "【答案】（I）$f(x,y)=\\dfrac43(x^3+y^3)-\\dfrac52(x^2+y^2)+xy+\\dfrac43$；（II）极大值 $f(0,0)=\\dfrac43$，极小值 $f(1,1)=0$\n\n**【解】**\n**（I）由 $f'_x$ 积分还原 $f$。** 将 $f'_x=4x^2-5x+y$ 对 $x$ 积分得 $f(x,y)=\\dfrac43x^3-\\dfrac52x^2+xy+\\varphi(y)$；再对 $y$ 求偏导与 $f'_y=4y^2-5y+x$ 比较得 $\\varphi'(y)=4y^2-5y$，从而 $\\varphi(y)=\\dfrac43y^3-\\dfrac52y^2+C$。由 $f(1,1)=0$ 得 $\\dfrac83-5+1+C=0$，即 $C=\\dfrac43$，所以\n$$f(x,y)=\\frac43(x^3+y^3)-\\frac52(x^2+y^2)+xy+\\frac43.$$\n**（II）求驻点并判别极值。** 驻点满足 $4x^2-5x+y=0$ 与 $4y^2-5y+x=0$，两式相减得 $(x-y)(4x+4y-6)=0$，故 $x=y$ 或 $x+y=\\dfrac32$。当 $x=y$ 时代入得 $4x^2-4x=0$，驻点为 $(0,0),(1,1)$；当 $x+y=\\dfrac32$ 时令 $y=\\dfrac32-x$ 得 $8x^2-12x+3=0$，另两驻点为\n$$\\left(\\frac{3+\\sqrt3}{4},\\frac{3-\\sqrt3}{4}\\right),\\qquad\\left(\\frac{3-\\sqrt3}{4},\\frac{3+\\sqrt3}{4}\\right).$$\n由 $f''_{xx}=8x-5,\\ f''_{yy}=8y-5,\\ f''_{xy}=1$，判别式 $D=f''_{xx}f''_{yy}-(f''_{xy})^2=(8x-5)(8y-5)-1$。在 $(0,0)$ 处 $D=24>0$ 且 $f''_{xx}=-5<0$，为极大值点，极大值 $f(0,0)=\\dfrac43$；在 $(1,1)$ 处 $D=8>0$ 且 $f''_{xx}=3>0$，为极小值点，极小值 $f(1,1)=0$。对另两驻点有 $x+y=\\dfrac32,\\ xy=\\dfrac38$，故 $D=64xy-40(x+y)+24=64\\cdot\\dfrac38-40\\cdot\\dfrac32+24=-12<0$，均不是极值点。",
+      "idea": "「思路」：先由偏导积分还原 $f$，再解驻点方程组并用二阶判别式 $D$ 分类。",
+      "tips": {
+       "yc": "两驻点方程相减须因式分解为 $(x-y)(4x+4y-6)=0$，否则会漏掉 $x+y=\\frac32$ 这一支；最后两驻点可整体代入 $xy=\\frac38,\\ x+y=\\frac32$ 算 $D$，无需硬代坐标。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q18"
+     },
+     {
+      "no": 19,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n设极坐标区域 $D=\\{(r,\\theta)\\mid 0\\le\\theta\\le\\dfrac{\\pi}{2},\\ 0\\le r\\le2\\cos\\theta\\}$，计算二重积分 $I=\\iint_D\\left[\\sqrt{x^2+y^2}\\right]\\max(x,y)dxdy$，$[\\ ]$ 表示为取整符号。",
+      "options": [],
+      "answer": "【答案】$I=\\dfrac\\pi4+\\dfrac{23}{24}-\\dfrac{\\sqrt2}{3}$\n\n**【解】**\n**① 化简取整并定区域。** 极坐标下 $\\sqrt{x^2+y^2}=r$；当 $0\\le r<1$ 时被积函数为 0，当 $1\\le r<2$ 时 $[r]=1$。边界取值不影响积分，只需算 $r\\ge1$ 的部分；由圆 $r=2\\cos\\theta$ 与 $1\\le2\\cos\\theta$ 得 $0\\le\\theta\\le\\dfrac\\pi3$。\n**② 按 $y=x$ 分区。** 区域 A 对应 $\\dfrac\\pi4\\le\\theta\\le\\dfrac\\pi3$，此时 $\\max\\{x,y\\}=y=r\\sin\\theta$；区域 B 对应 $0\\le\\theta\\le\\dfrac\\pi4$，此时 $\\max\\{x,y\\}=x=r\\cos\\theta$；两区均有 $1\\le r\\le2\\cos\\theta$，故 $I=I_A+I_B$。\n**③ 算 $I_A$。** \n$$I_A=\\int_{\\frac\\pi4}^{\\frac\\pi3}d\\theta\\int_1^{2\\cos\\theta}r^2\\sin\\theta\\,dr=\\frac13\\int_{\\frac\\pi4}^{\\frac\\pi3}\\sin\\theta(8\\cos^3\\theta-1)d\\theta=\\left(-\\frac23\\cos^4\\theta+\\frac13\\cos\\theta\\right)\\Big|_{\\frac\\pi4}^{\\frac\\pi3}=\\frac7{24}-\\frac{\\sqrt2}{6}.$$\n**④ 算 $I_B$。** \n$$I_B=\\int_0^{\\frac\\pi4}d\\theta\\int_1^{2\\cos\\theta}r^2\\cos\\theta\\,dr=\\frac83\\int_0^{\\frac\\pi4}\\cos^4\\theta\\,d\\theta-\\frac13\\int_0^{\\frac\\pi4}\\cos\\theta\\,d\\theta,$$\n由降幂公式 $\\cos^4\\theta=\\dfrac{3+4\\cos2\\theta+\\cos4\\theta}{8}$ 得 $\\int_0^{\\frac\\pi4}\\cos^4\\theta\\,d\\theta=\\dfrac{3\\pi}{32}+\\dfrac14$，又 $\\int_0^{\\frac\\pi4}\\cos\\theta\\,d\\theta=\\dfrac{\\sqrt2}{2}$，故 $I_B=\\dfrac\\pi4+\\dfrac23-\\dfrac{\\sqrt2}{6}$。\n**⑤ 结论。** $I=I_A+I_B=\\dfrac\\pi4+\\dfrac{23}{24}-\\dfrac{\\sqrt2}{3}$。",
+      "idea": "「思路」：用 $[r]$ 把积分限制在 $r\\ge1$，再按 $y=x$ 拆分 $\\max\\{x,y\\}$，极坐标化为两区累次积分。",
+      "tips": {
+       "yc": "$I_A$ 的原函数是 $-\\dfrac23\\cos^4\\theta+\\dfrac13\\cos\\theta$（四次幂）；$I_B$ 中 $-\\dfrac13\\int\\cos\\theta=-\\dfrac{\\sqrt2}{6}$ 不能漏，两块相加时 $\\dfrac{\\sqrt2}{6}$ 合并为 $\\dfrac{\\sqrt2}{3}$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q19"
+     },
+     {
+      "no": 20,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n设曲线 $L$ 的参数方程为 $x=a\\cos^3 t$、$y=a\\sin^3 t\\ \\left(0\\le t\\le\\dfrac{\\pi}{2}\\right)$，曲线 $\\Gamma$ 为 $y=\\sqrt{a^2-x^2}\\ (0\\le x\\le a)$。\n(I) 设曲线 $L$ 与坐标轴围成的区域为 $D_1$，求区域 $D_1$ 绕 $y$ 轴旋转一圈形成的旋转体体积；\n(II) 设曲线 $L$ 与曲线 $\\Gamma$ 围成的区域为 $D_2$，求区域 $D_2$ 绕 $x$ 轴旋转形成的旋转体表面积。",
+      "options": [],
+      "answer": "【答案】（I）$V=\\dfrac{16}{105}\\pi a^3$；（II）$S=\\dfrac{16}{5}\\pi a^2$\n\n**【解】**\n**（I）旋转体体积。** 曲线为星形线 $x=a\\cos^3t,\\ y=a\\sin^3t$。区域 $D_1$ 绕 $y$ 轴旋转时垂直于 $y$ 轴的截面为半径 $x$ 的圆，由 $y=a\\sin^3t$ 得 $dy=3a\\sin^2t\\cos t\\,dt$，故\n$$V=\\pi\\int_0^{\\frac\\pi2}x^2(t)y'(t)\\,dt=3\\pi a^3\\int_0^{\\frac\\pi2}(\\cos^7t-\\cos^9t)\\,dt=3\\pi a^3\\left(\\frac{16}{35}-\\frac{128}{315}\\right)=\\frac{16}{105}\\pi a^3.$$\n**（II）旋转体表面积。** 边界由 L 与 $\\Gamma$ 分别旋转所得的内、外两部分曲面组成，两曲线端点重合，无须另加端面面积。由 $x'=-3a\\cos^2t\\sin t,\\ y'=3a\\sin^2t\\cos t$ 得 $\\sqrt{(x')^2+(y')^2}=3a\\sin t\\cos t$，故\n$$S_L=2\\pi\\int_0^{\\frac\\pi2}y(t)\\sqrt{(x')^2+(y')^2}\\,dt=6\\pi a^2\\int_0^{\\frac\\pi2}\\sin^4t\\cos t\\,dt=\\frac65\\pi a^2.$$\n对 $\\Gamma$：在 $0<x<a$ 时 $y'=-\\dfrac{x}{\\sqrt{a^2-x^2}}$，故 $y\\sqrt{1+(y')^2}=\\sqrt{a^2-x^2}\\sqrt{1+\\dfrac{x^2}{a^2-x^2}}=a$，于是 $S_\\Gamma=2\\pi\\int_0^a a\\,dx=2\\pi a^2$。总表面积\n$$S=S_L+S_\\Gamma=\\frac65\\pi a^2+2\\pi a^2=\\frac{16}{5}\\pi a^2.$$",
+      "idea": "「思路」：体积用圆盘法 $V=\\pi\\int x^2dy$，表面积分 L（弧长旋转）与 $\\Gamma$（球面带）两部分相加。",
+      "tips": {
+       "yc": "$V$ 中 $y'=3a\\sin^2t\\cos t$ 使被积为 $3\\pi a^3(\\cos^7t-\\cos^9t)$，由点火公式得 $\\dfrac{16}{35}-\\dfrac{128}{315}$；$\\Gamma$ 旋转时 $y\\sqrt{1+(y')^2}=a$ 为常数，故 $S_\\Gamma=2\\pi a^2$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q20"
+     },
+     {
+      "no": 21,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n设数列 $\\{x_n\\}$ 满足 $x_1=3$，且 $x_{n+1}=\\dfrac{x_n^2+2}{2x_n-1}\\ (n=1,2,\\cdots)$。\n(I) 证明 $\\{x_n\\}$ 收敛，并求 $\\lim\\limits_{n\\to+\\infty}x_n$；\n(II) 令 $a_n=\\dfrac{x_n-2}{x_n+1}$，数列 $\\{\\log_2 a_n\\}$ 的前 $n$ 项和为 $S_n$，计算 $\\lim\\limits_{n\\to+\\infty}\\dfrac{S_n}{2^n}$。",
+      "options": [],
+      "answer": "【答案】（I）$\\lim\\limits_{n\\to\\infty}x_n=2$；（II）$\\lim\\limits_{n\\to\\infty}\\dfrac{S_n}{2^n}=-2$\n\n**【解】**\n**（I）单调有界收敛。** 由 $x_1=3>2$ 且\n$$x_{n+1}-2=\\frac{x_n^2+2}{2x_n-1}-2=\\frac{(x_n-2)^2}{2x_n-1},$$\n若 $x_n>2$ 则分子、分母皆正，故 $x_{n+1}>2$，归纳得 $x_n>2\\ (n\\ge1)$。又\n$$x_n-x_{n+1}=x_n-\\frac{x_n^2+2}{2x_n-1}=\\frac{(x_n-2)(x_n+1)}{2x_n-1}>0,$$\n故 $\\{x_n\\}$ 单调递减且有下界，由单调有界准则知其收敛。设 $\\lim\\limits_{n\\to\\infty}x_n=A\\ge2$，在递推式两边取极限得 $A=\\dfrac{A^2+2}{2A-1}$，即 $(A-2)(A+1)=0$，结合 $A\\ge2$ 得 $\\lim\\limits_{n\\to\\infty}x_n=2$。\n**（II）求 $\\lim\\frac{S_n}{2^n}$。** 由 $x_{n+1}+1=\\dfrac{(x_n+1)^2}{2x_n-1}$ 与 (I) 中的差式相除：\n$$a_{n+1}=\\frac{x_{n+1}-2}{x_{n+1}+1}=\\left(\\frac{x_n-2}{x_n+1}\\right)^2=a_n^2.$$\n由 $a_1=\\dfrac14$ 得 $a_n=a_1^{2^{n-1}}=2^{-2^n}>0$，故 $\\log_2a_n=-2^n$；由等比求和\n$$S_n=\\sum_{k=1}^n\\log_2a_k=-\\sum_{k=1}^n2^k=-2^{n+1}+2,$$\n于是 $\\lim\\limits_{n\\to\\infty}\\dfrac{S_n}{2^n}=\\lim\\limits_{n\\to\\infty}\\left(-2+\\dfrac2{2^n}\\right)=-2$。",
+      "idea": "「思路」：(I) 用单调有界准则求极限；(II) 把 $a_n$ 化为迭代 $a_{n+1}=a_n^2$，取对数后等比求和。",
+      "tips": {
+       "yc": "$x_n>2$ 保证 $2x_n-1>0$，否则差商符号无法判定；$a_n=2^{-2^n}$ 才使 $\\log_2a_n=-2^n$，求和 $-\\sum2^k$ 后除以 $2^n$ 得 $-2$，不是直接消去 $2^{n+1}$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q21"
+     },
+     {
+      "no": 22,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n已知数列 $\\{x_n\\}$、$\\{y_n\\}$ 满足 $x_0=y_0=1$，且对任意正整数 $n$，有 $x_n=y_{n-1}+\\lambda^{n-1}$、$y_n=-2x_{n-1}+3y_{n-1}+2\\lambda^{n-1}$。记 $\\alpha_n=(x_n,y_n,\\lambda^n)^T$。\n(I) 写出满足 $\\alpha_n=A\\alpha_{n-1}$ 的矩阵 $A$；\n(II) 若 $A$ 仅有两个不同的特征值且可相似对角化，求 $\\lambda$ 的值；\n(III) 在 (II) 的条件下，求 $x_n,y_n$ 的通项公式。",
+      "options": [],
+      "answer": "【答案】（I）$A=\\begin{pmatrix}0&1&1\\\\-2&3&2\\\\0&0&\\lambda\\end{pmatrix}$；（II）$\\lambda=1$；（III）$x_n=2^n,\\ y_n=2^{n+1}-1\\ (n=0,1,\\cdots)$\n\n**【解】**\n**（I）写出递推矩阵。** 由题设递推关系\n$$\\begin{pmatrix}x_n\\\\y_n\\\\\\lambda^n\\end{pmatrix}=\\begin{pmatrix}0&1&1\\\\-2&3&2\\\\0&0&\\lambda\\end{pmatrix}\\begin{pmatrix}x_{n-1}\\\\y_{n-1}\\\\\\lambda^{n-1}\\end{pmatrix},\\qquad A=\\begin{pmatrix}0&1&1\\\\-2&3&2\\\\0&0&\\lambda\\end{pmatrix}.$$\n**（II）由相似对角化定 $\\lambda$。** \n$$|\\mu E-A|=(\\mu-\\lambda)\\left[\\mu(\\mu-3)+2\\right]=(\\mu-\\lambda)(\\mu-1)(\\mu-2),$$\n特征值为 $1,2,\\lambda$；由 $A$ 只有两个不同的特征值知 $\\lambda=1$ 或 $\\lambda=2$。当 $\\lambda=1$ 时 $A-E=\\begin{pmatrix}-1&1&1\\\\-2&2&2\\\\0&0&0\\end{pmatrix}$ 的秩为 1，二重特征值 1 有 $3-1=2$ 个线性无关的特征向量，加上特征值 2 的一个特征向量，$A$ 可相似对角化；当 $\\lambda=2$ 时 $A-2E=\\begin{pmatrix}-2&1&1\\\\-2&1&2\\\\0&0&0\\end{pmatrix}$ 的秩为 2，二重特征值 2 只有 $3-2=1$ 个线性无关的特征向量，不能相似对角化。故 $\\lambda=1$。\n**（III）求 $x_n,y_n$。** 取 $\\lambda=1$。由 $(A-E)v=0$ 得 $-v_1+v_2+v_3=0$，可取 $v_1=(1,1,0)^T,\\ v_2=(1,0,1)^T$；由 $(A-2E)v=0$ 两式相减得 $v_3=0$、再得 $v_2=2v_1$，可取 $v_3=(1,2,0)^T$。将 $\\alpha_0=(1,1,1)^T$ 写成 $c_1v_1+c_2v_2+c_3v_3$，比较分量得 $c_1+c_2+c_3=1,\\ c_1+2c_3=1,\\ c_2=1$，解得 $c_1=-1,\\ c_2=c_3=1$。由 $\\alpha_n=A^n\\alpha_0$ 及 $Av_1=v_1,\\ Av_2=v_2,\\ Av_3=2v_3$ 得\n$$\\alpha_n=-v_1+v_2+2^nv_3=\\begin{pmatrix}2^n\\\\2^{n+1}-1\\\\1\\end{pmatrix},$$\n比较分量得 $x_n=2^n,\\ y_n=2^{n+1}-1,\\ n=0,1,\\cdots$。",
+      "idea": "「思路」：把递推写成 $\\alpha_n=A\\alpha_{n-1}$，用相似对角化条件定 $\\lambda$，再把初值按特征向量展开求 $A^n\\alpha_0$。",
+      "tips": {
+       "yc": "递推向量第三分量是 $\\lambda^n$（不是 $z_n$），故 $A$ 的右下角为 $\\lambda$；$\\lambda=2$ 时二重特征值只有 1 个无关特征向量，不可对角化；$A^n\\alpha_0$ 中 $v_1,v_2$ 对应特征值 1、$v_3$ 对应 2，系数依次为 $-1,1,2^n$。"
+      },
+      "categoryIds": [],
+      "origin": "09 / Q22"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "mn27-10",
+  "year": "27模拟",
+  "title": "27 小侯七四套卷·第一套",
+  "group": "mock",
+  "source": "10_27小侯七四套卷数二第一套答案",
+  "pages": "p39–p42",
+  "sections": [
+   {
+    "title": "一、选择题（1—10）",
+    "questions": [
+     {
+      "no": 1,
+      "kind": "choice",
+      "stem": "当 $x\\to0$ 时，下列无穷小阶数最高的是（　）",
+      "options": [
+       "(A) $\\int_x^{\\sin x}\\frac{\\sin t}{1+t^2}dt$",
+       "(B) $\\int_{x^2}^{x^{\\frac{4}{3}}}(1-\\sqrt{\\cos 2t})dt$",
+       "(C) $\\int_0^x tf(x-t)dt$，其中连续函数 $f(x)$ 满足 $f(0)=0,\\ f'(0)=1$",
+       "(D) $(1+x^2)^{\\tan x^3}-1$"
+      ],
+      "answer": "【答案】选 (D)。\n\n**【解】**\n**① 选项 (A)。** 由积分中值定理，$\\int_x^{\\sin x}\\frac{\\sin t}{1+t^2}dt=\\frac{\\sin\\xi}{1+\\xi^2}(\\sin x-x)$，其中 $\\xi$ 介于 $x$ 与 $\\sin x$ 之间。$x\\to0$ 时 $\\xi\\to0$，故 $\\frac{\\sin\\xi}{1+\\xi^2}\\sim\\xi$；又 $\\sin x\\sim x$ 得 $\\xi\\sim x$，且 $\\sin x-x\\sim-\\frac{x^3}{6}$，于是\n$$\\int_x^{\\sin x}\\frac{\\sin t}{1+t^2}dt\\sim x\\cdot\\left(-\\frac{x^3}{6}\\right)=-\\frac{x^4}{6},$$\n为 $x$ 的 4 阶无穷小。\n**② 选项 (B)。** $1-\\sqrt{\\cos 2t}=1-(1+\\cos2t-1)^{\\frac12}\\sim-\\frac12(\\cos2t-1)\\sim-\\frac12\\left(-\\frac12\\right)(2t)^2=t^2$，故\n$$\\int_{x^2}^{x^{\\frac43}}(1-\\sqrt{\\cos2t})dt\\sim\\int_{x^2}^{x^{\\frac43}}t^2dt=\\frac13t^3\\Big|_{x^2}^{x^{\\frac43}}=\\frac13(x^4-x^6)\\sim\\frac13x^4,$$\n亦为 4 阶。\n**③ 选项 (C)。** 由泰勒公式 $f(t)=f(0)+f'(0)t+o(t)\\sim t$，故\n$$\\int_0^xtf(x-t)dt\\sim\\int_0^xt(x-t)dt=\\frac{x^3}{6},$$\n为 3 阶。\n**④ 选项 (D)。** $(1+x^2)^{\\tan x^3}-1=e^{\\tan x^3\\ln(1+x^2)}-1\\sim\\tan x^3\\ln(1+x^2)\\sim x^5$，为 5 阶。\n**⑤ 结论。** 四者中阶数最高的是 $x^5$，故选 (D)。",
+      "idea": "「思路」：用积分中值定理、等价无穷小与泰勒公式分别定出四个无穷小的阶，比较得最高阶为 (D)。",
+      "tips": {
+       "yc": "(B) 的积分上限是 $x^{\\frac43}$（印得形似 $\\frac{x^4}{3}$），下限 $x^2$ 代入 $\\frac13t^3$ 得 $\\frac13x^6$，故结果为 $\\frac13x^4$ 而非 $\\frac13x^3$；(D) 的指数是 $\\tan x^3$，由 $e^u-1\\sim u$ 得 $\\tan x^3\\ln(1+x^2)\\sim x^5$，与 $\\sin x^3$ 同阶。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q1"
+     },
+     {
+      "no": 2,
+      "kind": "choice",
+      "stem": "函数 $f(x)$ 在 $(-1,1)$ 内连续，有 $f''(x)<0$，且满足 $\\lim\\limits_{x\\to0}\\frac{f(x)+e^x-1}{\\sin x}=-1$，则下列说法正确的是（　）",
+      "options": [
+       "(A) 当 $x\\in(-1,1)$ 时，有 $f(x)\\le -2x$",
+       "(B) 当 $x\\in(-1,1)$ 时，有 $f(x)\\ge -2x$",
+       "(C) 当 $x\\in(-1,0)$ 时，有 $f(x)<-2x$；当 $x\\in(0,1)$ 时，有 $f(x)>-2x$",
+       "(D) 当 $x\\in(-1,0)$ 时，有 $f(x)>-2x$；当 $x\\in(0,1)$ 时，有 $f(x)<-2x$"
+      ],
+      "answer": "【答案】选 (A)。\n\n**【解】**\n**① 读出 $f(0)$ 与 $f'(0)$。** 由\n$$\\lim_{x\\to0}\\frac{f(x)+e^x-1}{\\sin x}=\\lim_{x\\to0}\\frac{f(x)}x+\\lim_{x\\to0}\\frac{e^x-1}x=-1,$$\n得 $f(0)=0,\\ f'(0)=-2$。\n**② 用泰勒公式作估计。** $f(x)=f(0)+f'(0)x+\\frac12f''(\\xi)x^2\\ (x\\in(-1,1),\\ \\xi$ 介于 $0$ 与 $x$ 之间$)$；由 $f''(x)<0$ 得 $f(x)\\le f'(0)x=-2x$，对任意 $x\\in(-1,1)$ 成立，故选 (A)。",
+      "idea": "「思路」：由极限等于 $-1$ 拆出 $f'(0)=-2$，再用带拉格朗日余项的泰勒公式与 $f''<0$ 得到线性上界。",
+      "tips": {
+       "yc": "$\\frac{f(x)+e^x-1}{\\sin x}$ 要拆成 $\\frac{f(x)}x+\\frac{e^x-1}x$ 两项，第二项极限为 $1$，故 $\\lim\\frac{f(x)}x=-2$ 而不是 $-1$；余项 $\\frac12f''(\\xi)x^2\\le0$ 是不等号方向的关键。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q2"
+     },
+     {
+      "no": 3,
+      "kind": "choice",
+      "stem": "设函数 $f(x)$ 满足 $f(x)=\\int_0^{1-x}e^{t(2-t)}dt$，则 $\\int_0^1 f(x)dx=$（　）",
+      "options": [
+       "(A) $e-1$",
+       "(B) $\\frac{1}{2}(e-1)$",
+       "(C) $2e$",
+       "(D) $e$"
+      ],
+      "answer": "【答案】选 (B)。\n\n**【解】**\n**① 求 $f'(x)$。** 由 $f(x)=\\int_0^{1-x}e^{t(2-t)}dt$，变上限求导得\n$$f'(x)=-e^{(1-x)[2-(1-x)]}=-e^{(1-x)(1+x)}=-e^{1-x^2}.$$\n**② 分部积分。** 注意 $f(1)=0$，故\n$$\\int_0^1f(x)dx=\\left.xf(x)\\right|_0^1-\\int_0^1xf'(x)dx=\\int_0^1xe^{1-x^2}dx=-\\frac12\\int_0^1e^{1-x^2}d(1-x^2).$$\n**③ 定值。** $-\\frac12e^{1-x^2}\\big|_0^1=\\frac12(e-1)$，故选 (B)。",
+      "idea": "「思路」：先对变上限积分求导得 $f'(x)=-e^{1-x^2}$，再用分部积分把 $\\int_0^1f$ 化成可积的 $\\int_0^1xe^{1-x^2}dx$。",
+      "tips": {
+       "yc": "上限是 $1-x$、被积指数是 $t(2-t)$，代入 $t=1-x$ 才得 $(1-x)(1+x)=1-x^2$；$f(1)=0$ 保证分部积分边界项 $\\left.xf(x)\\right|_0^1$ 为零，不能凭空丢掉。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q3"
+     },
+     {
+      "no": 4,
+      "kind": "choice",
+      "stem": "已知函数 $y=y(x)$ 由方程 $\\arctan y+\\int_0^{xy}e^{t^2}dt=x$ 确定，则 $d\\left[y'(x)\\right]\\big|_{x=0}=$（　）",
+      "options": [
+       "(A) $dx$",
+       "(B) $-dx$",
+       "(C) $2dx$",
+       "(D) $-2dx$"
+      ],
+      "answer": "【答案】选 (D)。\n\n**【解】**\n**① 定 $y(0)$ 与 $y'(0)$。** 将 $x=0$ 代入题干方程得 $\\arctan y=0$，故 $y(0)=0$；两边对 $x$ 求导：\n$$\\frac{y'}{1+y^2}+e^{(xy)^2}\\cdot(y+xy')=1,$$\n代入 $x=0,\\ y(0)=0$ 得 $y'(0)=1$。\n**② 再求导得 $y''(0)$。** 继续对 $x$ 求导：\n$$\\frac{y''(1+y^2)-2y(y')^2}{(1+y^2)^2}+e^{(xy)^2}\\cdot2xy(y+xy')^2+e^{(xy)^2}\\cdot(2y'+xy'')=0,$$\n代入 $x=0,\\ y(0)=0,\\ y'(0)=1$ 得 $y''(0)=-2$。\n**③ 结论。** $\\left.d[y'(x)]\\right|_{x=0}=y''(0)dx=-2dx$，故选 (D)。若改为对 $y$ 求导，则\n$$\\left.\\frac{d[y'(x)]}{d[y(x)]}\\right|_{x=0}=\\frac{y''(0)dx}{y'(0)dx}=\\frac{y''(0)}{y'(0)}=-2.$$",
+      "idea": "「思路」：对隐函数方程连续求两次导，依次定出 $y(0),\\ y'(0),\\ y''(0)$，再写出所求微分。",
+      "tips": {
+       "yc": "指数因子是 $e^{(xy)^2}$，求导时多出 $2xy(y+xy')$，在 $x=0$ 处该项为 $0$；$y'(0)=1$ 使 $\\frac{y''(0)}{y'(0)}$ 与 $y''(0)$ 数值相同，但两个导数含义不同。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q4"
+     },
+     {
+      "no": 5,
+      "kind": "choice",
+      "stem": "下列说法正确的是（　）",
+      "options": [
+       "(A) $f(x)=\\begin{cases}\\dfrac{e^x-1}{x},&x\\ne0,\\\\ a,&x=0,\\end{cases}$ 其中 $a>0$，则 $f(x)$ 在 $[-1,2]$ 上可积且存在原函数",
+       "(B) $f(x)=\\begin{cases}\\dfrac{\\ln(1+2x)}{x},&x>0,\\\\ \\dfrac{\\sin x-x}{x^2},&x<0,\\end{cases}$ 则 $F(x)=\\int_0^x f(t)dt$ 在 $x=0$ 处可导",
+       "(C) $F(x)=\\dfrac{\\int_0^x f(t^2)dt}{x}$ 为奇函数",
+       "(D) 若 $f(x)$ 的周期为 $T$，则 $\\int_0^x[f(t)-f(-t)]dt$ 也是周期为 $T$ 的函数"
+      ],
+      "answer": "【答案】选 (D)。\n\n**【解】**\n**① 判 (A)。** $\\lim\\limits_{x\\to0}f(x)=\\lim\\limits_{x\\to0}\\frac{e^x-1}x=1$，$f$ 在 $[-1,2]$ 上有界且只有有限个间断点，故可积。当 $\\lim f(x)=f(0)$ 即 $a=1$ 时 $f$ 连续、存在原函数；当 $a\\ne1$ 时 $x=0$ 为可去间断点，$f$ 在 $[-1,2]$ 上不存在原函数，故 (A) 错。\n**② 判 (B)。** $\\lim\\limits_{x\\to0^-}f(x)=\\lim\\limits_{x\\to0^-}\\frac{\\sin x-x}{x^2}=\\lim\\limits_{x\\to0^-}\\frac{-\\frac16x^3}{x^2}=0$，$\\lim\\limits_{x\\to0^+}f(x)=\\lim\\limits_{x\\to0^+}\\frac{\\ln(1+2x)}x=2$；左右极限不等，故 $F(x)=\\int_0^xf(t)dt$ 在 $x=0$ 处不可导，(B) 错。\n**③ 判 (C)。** $f(t^2)$ 为偶函数，$\\int_0^xf(t^2)dt$ 为奇函数，于是 $F(x)=\\dfrac{\\int_0^xf(t^2)dt}{x}$ 为偶函数，(C) 错。\n**④ 判 (D)。** $f(t)-f(-t)$ 为奇函数且以 $T$ 为周期，故\n$$\\int_0^T[f(t)-f(-t)]dt=\\int_{-\\frac T2}^{\\frac T2}[f(t)-f(-t)]dt=0,$$\n从而 $F(x)=\\int_0^x[f(t)-f(-t)]dt$ 也是周期为 $T$ 的周期函数，(D) 正确。",
+      "idea": "「思路」：用「可去间断点无原函数」「跳跃间断点使变限积分不可导」「奇偶函数的变限积分」及「一周期积分为零」逐项排除。",
+      "tips": {
+       "yc": "(A) 与 (B) 分别对应不同的 $f$（$\\frac{e^x-1}x$ 与 $\\frac{\\sin x-x}{x^2},\\frac{\\ln(1+2x)}x$），不可混用；奇函数在对称区间上一周期积分为 $0$ 是 (D) 仍为周期函数的关键。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q5"
+     },
+     {
+      "no": 6,
+      "kind": "choice",
+      "stem": "已知 $f(x,y)=\\begin{cases}x^2+y^2-\\dfrac{6x^2y^2}{x^2+y^2},&(x,y)\\ne(0,0),\\\\ 0,&(x,y)=(0,0),\\end{cases}$ 下列说法正确的是（　）",
+      "options": [
+       "(A) $f(x,y)$ 在点 $(0,0)$ 处不连续",
+       "(B) 点 $(0,0)$ 是函数 $f(x,y)$ 的驻点，但不是极值点",
+       "(C) $f(x,y)$ 在点 $(0,0)$ 处不可微",
+       "(D) $f''_{xy}(0,0)=1$"
+      ],
+      "answer": "【答案】选 (B)。\n\n**【解】**\n**① 连续性。** $f(x,y)=x^2+y^2-\\dfrac{6x^2y^2}{x^2+y^2}$，因 $\\dfrac{x^2}{x^2+y^2}$ 有界、$y^2\\to0$，故 $\\lim\\limits_{\\substack{x\\to0\\\\y\\to0}}f(x,y)=0=f(0,0)$，$f$ 在 $(0,0)$ 连续。\n**② 偏导数与驻点。** $f'_x(0,0)=\\lim\\limits_{x\\to0}\\frac{f(x,0)-f(0,0)}x=\\lim\\limits_{x\\to0}\\frac{x^2}x=0$，同理 $f'_y(0,0)=0$，故 $(0,0)$ 是驻点。\n**③ 非极值点。** 沿 $y=\\pm x$ 有 $f(x,\\pm x)=-x^2<0=f(0,0)$；沿 $y=0$ 有 $f(x,0)=x^2>0=f(0,0)$。或令 $x=r\\cos\\theta,\\ y=r\\sin\\theta$：\n$$f(x,y)=r^2-6r^2\\cos^2\\theta\\sin^2\\theta=r^2\\left[1-\\frac32(\\sin2\\theta)^2\\right]=\\frac14r^2(1+3\\cos4\\theta),$$\n在 $\\theta\\in[0,2\\pi)$ 上可正可负，故 $(0,0)$ 不是极值点。\n**④ 可微性。** \n$$\\lim_{\\substack{x\\to0\\\\y\\to0}}\\frac{f(x,y)-f(0,0)-f'_x(0,0)x-f'_y(0,0)y}{\\sqrt{x^2+y^2}}=\\lim_{\\substack{x\\to0\\\\y\\to0}}\\left(\\sqrt{x^2+y^2}-\\frac{6x^2y^2}{(x^2+y^2)^{\\frac32}}\\right)=0,$$\n因 $\\frac{6x^2y^2}{(x^2+y^2)^{3/2}}=6\\cdot\\frac{x^2}{x^2+y^2}\\cdot\\frac{y}{\\sqrt{x^2+y^2}}\\cdot y\\to0$，故 $f$ 在 $(0,0)$ 可微。\n**⑤ 混合偏导。** 当 $(x,y)\\ne(0,0)$ 时 $f'_x(x,y)=2x-\\dfrac{12xy^4}{(x^2+y^2)^2}$，于是\n$$f''_{xy}(0,0)=\\lim_{y\\to0}\\frac{f'_x(0,y)-f'_x(0,0)}y=\\lim_{y\\to0}\\frac{0-0}y=0.$$\n综上选 (B)。",
+      "idea": "「思路」：按连续、偏导、极值、可微、混合偏导五个层次逐一验证，用两条路径或极坐标判非极值。",
+      "tips": {
+       "yc": "$\\frac{x^2y^2}{(x^2+y^2)^{3/2}}$ 是「有界量乘无穷小」而非发散，可微性由此成立；$f'_x(0,y)=0$ 使 $f''_{xy}(0,0)=0$，不必对一般点表达式再取极限。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q6"
+     },
+     {
+      "no": 7,
+      "kind": "choice",
+      "stem": "已知连续函数 $f(x)$ 满足 $\\lim\\limits_{x\\to0}\\frac{f(x)}{x}=1$，积分区域 $D=\\{(x,y)\\mid x^2+y^2\\le t^2\\}\\ (t>0)$，则极限 $\\lim\\limits_{t\\to0^+}\\dfrac{\\iint_D f(x^2+y^2)dxdy}{\\int_0^{t^2}dx\\int_x^{t^2}e^{(x-y)^2}dy}=$（　）\n[本本注：原卷该题题号前标有「/」]",
+      "options": [
+       "(A) $\\pi$",
+       "(B) $-\\pi$",
+       "(C) $\\frac{\\pi}{2}$",
+       "(D) $-\\frac{\\pi}{2}$"
+      ],
+      "answer": "【答案】选 (A)。\n\n**【解】**\n**① 由极限读 $f'(0)$。** $\\lim\\limits_{x\\to0}\\frac{f(x)}x=1$ 给出 $f(0)=0,\\ f'(0)=1$。\n**② 分子化极坐标。** 设 $D:x^2+y^2\\le t^2$，\n$$\\iint_Df(x^2+y^2)dxdy=\\int_0^{2\\pi}d\\theta\\int_0^tf(r^2)rdr=2\\pi\\int_0^tf(r^2)rdr.$$\n**③ 分母交换积分次序。**\n$$\\int_0^{t^2}dx\\int_x^{t^2}e^{(x-y)^2}dy=\\int_0^{t^2}dy\\int_0^{y}e^{(x-y)^2}dx\\xlongequal{x-y=u}\\int_0^{t^2}dy\\int_{-y}^{0}e^{u^2}du.$$\n**④ 洛必达。**\n$$\\lim_{t\\to0^+}\\frac{2\\pi\\int_0^tf(r^2)rdr}{\\int_0^{t^2}\\left(\\int_{-y}^{0}e^{u^2}du\\right)dy}=\\lim_{t\\to0^+}\\frac{2\\pi f(t^2)\\cdot t}{2t\\cdot\\int_{-t^2}^{0}e^{u^2}du}=\\pi\\lim_{t\\to0^+}\\frac{f(t^2)}{\\int_{-t^2}^{0}e^{u^2}du}.$$\n**⑤ 积分中值。** $\\int_{-t^2}^{0}e^{u^2}du=t^2e^{\\xi^2}\\ (\\xi$ 介于 $0$ 与 $-t^2$ 之间$)$，故\n$$\\pi\\lim_{t\\to0^+}\\frac{f(t^2)}{t^2e^{\\xi^2}}=\\pi\\frac{f'(0)}1=\\pi,$$\n故选 (A)。",
+      "idea": "「思路」：分子用极坐标化为变上限积分，分母交换次序后凑成 $\\int e^{u^2}du$，再洛必达配合积分中值定理把极限化为 $\\pi f'(0)$。",
+      "tips": {
+       "yc": "分子积分域半径为 $t$、分母外层上限为 $t^2$，求导后因子分别为 $2\\pi f(t^2)t$ 与 $2t\\int_{-t^2}^0e^{u^2}du$；$\\frac{f(t^2)}{t^2}\\to f'(0)=1$、$e^{\\xi^2}\\to1$，结果是 $\\pi$ 而非 $2\\pi$。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q7"
+     },
+     {
+      "no": 8,
+      "kind": "choice",
+      "stem": "设 $A,B$ 为 $n$ 阶矩阵，齐次线性方程组 $Ax=0$ 与 $Bx=0$ 分别有 $l,m$ 个线性无关的解向量，其中 $l\\ge0,\\ m\\ge0$，下列说法正确的个数有（　）\n① 方程组 $(BA)x=0$ 至多有 $\\max\\{l,m\\}$ 个线性无关的解向量；\n② 若 $l+m>n$，则 $(A-B)x=0$ 必有非零解；\n③ 若方程组 $Ax=0$ 与 $Bx=0$ 无非零公共解，则 $r\\begin{pmatrix}A\\\\B\\end{pmatrix}=n$。",
+      "options": [
+       "(A) $0$ 个",
+       "(B) $1$ 个",
+       "(C) $2$ 个",
+       "(D) $3$ 个"
+      ],
+      "answer": "【答案】选 (C)。\n\n**【解】**\n**① 判 ①。** 由题意 $r(A)=n-l,\\ r(B)=n-m$。因 $r(BA)\\le\\min\\{r(A),r(B)\\}=\\min(n-l,n-m)$，故 $(BA)x=0$ 的基础解系含向量个数\n$$n-r(BA)\\ge n-\\min(n-l,n-m)=\\max(l,m),$$\n所以「恰有 $l$ 个」不成立，① 错。\n**② 判 ②。** 由 $l+m>n$ 得\n$$r(A\\pm B)\\le r(A)+r(B)=2n-(l+m)<n,$$\n即 $r(A-B)<n$，故 $(A-B)x=0$ 必有非零解，② 正确。\n**③ 判 ③。** 由 $Ax=0$ 与 $Bx=0$ 无非零公共解，即 $\\begin{pmatrix}A\\\\B\\end{pmatrix}x=0$ 仅有零解，故 $r\\begin{pmatrix}A\\\\B\\end{pmatrix}=n$，③ 正确。\n**④ 结论。** 正确的有 2 个，故选 (C)。",
+      "idea": "「思路」：用 $r(BA)\\le\\min\\{r(A),r(B)\\}$、$r(A\\pm B)\\le r(A)+r(B)$ 与堆叠矩阵满秩三个工具逐一判断。",
+      "tips": {
+       "yc": "$r(BA)$ 只能给上界，故基础解系向量个数是「至少 $\\max(l,m)$」而不是等于；堆叠矩阵 $\\begin{pmatrix}A\\\\B\\end{pmatrix}$ 满秩等价于两方程组无非零公共解。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q8"
+     },
+     {
+      "no": 9,
+      "kind": "choice",
+      "stem": "已知三阶矩阵 $A,B$ 满足 $AB=O$，其中矩阵 $A=\\begin{pmatrix}1&3&-4\\\\3&a&0\\\\-4&0&c\\end{pmatrix}$，实对称矩阵 $B$ 每行元素之和均为 $3$，则当列向量 $x=(1,-1,2)^T$ 时，二次型 $x^TBx=$（　）",
+      "options": [
+       "(A) $1$",
+       "(B) $2$",
+       "(C) $3$",
+       "(D) $4$"
+      ],
+      "answer": "【答案】选 (D)。\n\n**【解】**\n**① 定 $r(B)$。** 由 $AB=O$ 得 $r(A)+r(B)\\le3$；$A$ 含非零二阶子式 $\\begin{vmatrix}1&3\\\\-4&0\\end{vmatrix}$，故 $r(A)\\ge2$，从而 $r(B)\\le1$。又 $B\\ne O$ 得 $r(B)=1$，即 $B$ 各行（列）成比例。\n**② 写出 $B$ 的形式。** 由 $B$ 每行元素之和为 $3$ 有 $B\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}=3\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$，即 $3$ 是 $B$ 的特征值、$\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$ 为对应特征向量。设\n$$B=\\begin{pmatrix}k\\\\k\\\\k\\end{pmatrix}(a_1,a_2,a_3)=\\begin{pmatrix}ka_1&ka_2&ka_3\\\\ka_1&ka_2&ka_3\\\\ka_1&ka_2&ka_3\\end{pmatrix},\\quad k(a_1+a_2+a_3)=3.$$\n**③ 用实对称性定出 $B$。** $B$ 实对称得 $a_1=a_2=a_3$，结合 $k(a_1+a_2+a_3)=3$ 得 $ka_1=1$，故\n$$B=\\begin{pmatrix}1&1&1\\\\1&1&1\\\\1&1&1\\end{pmatrix}=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}(1,1,1).$$\n**④ 计算二次型。** 当 $x=(1,-1,2)^T$ 时，\n$$x^TBx=(1,-1,2)\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}(1,1,1)\\begin{pmatrix}1\\\\-1\\\\2\\end{pmatrix}=2\\times2=4,$$\n故选 (D)。",
+      "idea": "「思路」：由 $AB=O$ 与 $A$ 的二阶子式锁定 $r(B)=1$，再用「行和为 3」与实对称性把 $B$ 写成秩 1 矩阵 $\\mathbf{1}\\mathbf{1}^T$。",
+      "tips": {
+       "yc": "$B$ 的每行和为 $3$ 给出的是特征值 $3$ 与特征向量 $(1,1,1)^T$，不是 $B=3E$；$x^TBx=(\\mathbf{1}^Tx)^2$，其中 $\\mathbf{1}^Tx=1-1+2=2$，故为 $4$。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q9"
+     },
+     {
+      "no": 10,
+      "kind": "choice",
+      "stem": "已知三阶矩阵 $A$ 的行列式 $|A|=4$，三阶矩阵 $B$ 满足 $AB=2B$，伴随矩阵 $B^*\\ne O$，则 $|A^{-1}+2E|=$（　）",
+      "options": [
+       "(A) $\\frac{75}{4}$",
+       "(B) $19$",
+       "(C) $-19$",
+       "(D) $18$"
+      ],
+      "answer": "【答案】选 (A)。\n\n**【解】**\n**① 由 $AB=2B$ 定秩。** $(A-2E)B=O$ 给出 $r(A-2E)+r(B)\\le3$；由 $B^*\\ne O$ 得 $r(B^*)\\ge1$，即 $r(B)\\ge2$，故 $r(A-2E)\\le1$。\n**② 排除 $A=2E$。** 若 $r(A-2E)=0$ 则 $A=2E$，此时 $|A|=8\\ne4$，舍去；故 $r(A-2E)=1$。\n**③ 定 $A$ 的特征值。** $(A-2E)x=0$ 的基础解系含 2 个线性无关解，故 $\\lambda=2$ 至少是 $A$ 的二重特征值；由 $|A|=4$ 得第三个特征值 $\\lambda_3=\\frac{4}{2\\times2}=1$。\n**④ 算行列式。** $A^{-1}$ 的特征值为 $\\frac12,\\frac12,1$，$A^{-1}+2E$ 的特征值为 $\\frac52,\\frac52,3$，故\n$$|A^{-1}+2E|=\\frac52\\cdot\\frac52\\cdot3=\\frac{75}{4},$$\n故选 (A)。",
+      "idea": "「思路」：把矩阵方程转成秩不等式定出 $\\lambda=2$ 的重数，再由行列式补出第三个特征值，最后用特征值的平移与取倒数算行列式。",
+      "tips": {
+       "yc": "$B^*\\ne O$ 只保证 $r(B)\\ge n-1=2$，故只能得 $r(A-2E)\\le1$；必须回代 $|A|=4$ 排除 $A=2E$，否则 $\\lambda_3$ 无从确定。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q10"
+     }
+    ]
+   },
+   {
+    "title": "二、填空题（11—16）",
+    "questions": [
+     {
+      "no": 11,
+      "kind": "blank",
+      "stem": "记点 $A$ 在曲线 $y=\\sin x$ 上，$x\\in[0,\\pi]$，$S$ 是直线 $OA$（$O$ 为原点）与 $y=\\sin x$ 所围图形的面积，则 $\\lim\\limits_{x\\to0^+}\\frac{S(x)}{x^4}=$ ______。",
+      "options": [],
+      "answer": "【答案】$\\frac{1}{24}$\n\n**【解】**\n**① 建面积函数。** 设 $A(x_0,\\sin x_0)$，直线 $OA:y=\\frac{\\sin x_0}{x_0}x$，所围面积\n$$S=\\int_0^{x_0}\\left(\\sin x-\\frac{\\sin x_0}{x_0}x\\right)dx=1-\\cos x_0-\\frac12x_0\\sin x_0,$$\n记 $S(x)=1-\\cos x-\\frac12x\\sin x$。\n**② 泰勒展开。** $1-\\cos x=\\frac12x^2-\\frac1{24}x^4+o(x^4)$，$\\frac12x\\sin x=\\frac12x\\left(x-\\frac16x^3+o(x^3)\\right)=\\frac12x^2-\\frac1{12}x^4+o(x^4)$。\n**③ 求极限。**\n$$\\lim_{x\\to0^+}\\frac{S(x)}{x^4}=\\lim_{x\\to0^+}\\frac{\\left(\\frac12x^2-\\frac1{24}x^4\\right)-\\left(\\frac12x^2-\\frac1{12}x^4\\right)+o(x^4)}{x^4}=\\frac1{24}.$$",
+      "idea": "「思路」：先把面积写成 $x_0$ 的函数，再用 $\\sin x,\\cos x$ 的四阶泰勒展开消去 $x^2$ 项，读出 $x^4$ 系数。",
+      "tips": {
+       "yc": "$\\cos x$ 与 $x\\sin x$ 都必须展到 $x^4$（只到 $x^2$ 会得到 $0$）；$\\frac1{12}-\\frac1{24}=\\frac1{24}$，符号别反。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q11"
+     },
+     {
+      "no": 12,
+      "kind": "blank",
+      "stem": "已知 $z=u+2v$，$u,v$ 由方程 $xy-u+v=0$ 与 $x^2+3y+uv=1$ 确定为 $x,y$ 的函数，则 $\\frac{\\partial z}{\\partial x}=$ ______。",
+      "options": [],
+      "answer": "【答案】$\\dfrac{y(u-2v)-6x}{u+v}$\n\n**【解】**\n**① 建立目标。** 由 $z=u+2v$ 得 $\\frac{\\partial z}{\\partial x}=\\frac{\\partial u}{\\partial x}+2\\frac{\\partial v}{\\partial x}$。\n**② 方程组对 $x$ 求偏导。** 对 $\\begin{cases}xy-u+v=0,\\\\x^2+3y+uv=1\\end{cases}$ 求偏导：\n$$\\begin{cases}y-\\dfrac{\\partial u}{\\partial x}+\\dfrac{\\partial v}{\\partial x}=0,\\\\[4pt]2x+v\\dfrac{\\partial u}{\\partial x}+u\\dfrac{\\partial v}{\\partial x}=0.\\end{cases}$$\n**③ 解线性方程组。** 由第一式 $\\frac{\\partial v}{\\partial x}=\\frac{\\partial u}{\\partial x}-y$ 代入第二式，解得\n$$\\frac{\\partial u}{\\partial x}=\\frac{yu-2x}{u+v},\\qquad\\frac{\\partial v}{\\partial x}=-\\frac{2x+yv}{u+v}.$$\n**④ 合并。**\n$$\\frac{\\partial z}{\\partial x}=\\frac{yu-2x}{u+v}-2\\cdot\\frac{2x+yv}{u+v}=\\frac{y(u-2v)-6x}{u+v}.$$",
+      "idea": "「思路」：把 $u,v$ 视为 $x,y$ 的隐函数，对方程组求偏导解出两个偏导，再按 $z=u+2v$ 线性组合。",
+      "tips": {
+       "yc": "$y$ 为自变量、求偏导时视为常数，第一式是 $y-\\frac{\\partial u}{\\partial x}+\\frac{\\partial v}{\\partial x}=0$；分母 $u+v\\ne0$ 是方程组可解的条件。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q12"
+     },
+     {
+      "no": 13,
+      "kind": "blank",
+      "stem": "曲线 $f(x)=\\frac{(x^2+3x+1)\\ln x}{x\\ln(x+1)}$ 的斜渐近线方程为 ______。",
+      "options": [],
+      "answer": "【答案】$y=x+3$\n\n**【解】**\n**① 求 $k$。**\n$$k=\\lim_{x\\to+\\infty}\\frac{f(x)}x=\\lim_{x\\to+\\infty}\\frac{(x^2+3x+1)\\ln x}{x^2\\ln(x+1)}=\\lim_{x\\to+\\infty}\\frac{x^2+3x+1}{x^2}\\cdot\\lim_{x\\to+\\infty}\\frac{\\ln x}{\\ln(x+1)}=1.$$\n**② 求 $b$。**\n$$b=\\lim_{x\\to+\\infty}[f(x)-kx]=\\lim_{x\\to+\\infty}\\frac{(x^2+3x+1)\\ln x-x^2\\ln(x+1)}{x\\ln(x+1)}$$\n$$=\\lim_{x\\to+\\infty}\\frac{x^2\\ln\\frac{x}{x+1}+(3x+1)\\ln x}{x\\ln(x+1)}=\\lim_{x\\to+\\infty}\\frac{x\\ln\\frac{x}{x+1}}{\\ln(x+1)}+\\lim_{x\\to+\\infty}\\frac{3x+1}{x}\\cdot\\lim_{x\\to+\\infty}\\frac{\\ln x}{\\ln(x+1)}.$$\n**③ 定值。** $\\ln\\frac{x}{x+1}\\sim-\\frac1{x+1}$ 使第一项分子 $\\to-1$、分母 $\\to+\\infty$，故第一项为 $0$；第二项 $=3\\times1=3$，得 $b=3$。\n**④ 结论。** 斜渐近线为 $y=x+3$。",
+      "idea": "「思路」：按 $k=\\lim\\frac{f(x)}x,\\ b=\\lim[f(x)-kx]$ 两步求斜渐近线，分子拆成 $x^2\\ln\\frac{x}{x+1}$ 与 $(3x+1)\\ln x$ 两部分。",
+      "tips": {
+       "yc": "$\\frac{x\\ln\\frac{x}{x+1}}{\\ln(x+1)}\\to0$（分子有界、分母发散），不能把 $\\ln\\frac{x}{x+1}\\sim-\\frac1{x+1}$ 代入后误算成 $-1$ 与 $3$ 相加得 $2$。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q13"
+     },
+     {
+      "no": 14,
+      "kind": "blank",
+      "stem": "已知二阶可导函数 $f(x)$ 满足 $\\lim\\limits_{x\\to0}\\frac{xf(x)-\\ln(1+x^3)}{x-\\tan x}=0$，$f(x+y)=f(x)+f(y)+\\frac{1}{2}yf'(x)+\\frac{1}{2}xf'(y)$，则 $f(x)=$ ______。",
+      "options": [],
+      "answer": "【答案】$f(x)=x^2$\n\n**【解】**\n**① 由已知极限读出 $f(0),f'(0),f''(0)$。** 因 $x-\\tan x\\sim-\\frac{x^3}3$，\n$$0=\\lim_{x\\to0}\\frac{xf(x)-\\ln(1+x^3)}{x-\\tan x}=-3\\lim_{x\\to0}\\frac{xf(x)-\\ln(1+x^3)}{x^3}=-3\\lim_{x\\to0}\\frac{f(x)}{x^2}+3,$$\n故 $\\lim\\limits_{x\\to0}\\frac{f(x)}{x^2}=1$。由泰勒公式 $f(x)=f(0)+f'(0)x+\\frac12f''(0)x^2+o(x^2)$ 得 $f(0)=f'(0)=0,\\ f''(0)=2$。\n**② 用题干条件求导。** 由 $f(x+y)=f(x)+f(y)+\\frac12yf'(x)+\\frac12xf'(y)$ 得\n$$f'(x)=\\lim_{y\\to0}\\frac{f(x+y)-f(x)}y=\\lim_{y\\to0}\\frac{f(y)+\\frac12yf'(x)+\\frac12xf'(y)}y=f'(0)+\\frac12f'(x)+\\frac12xf''(0).$$\n**③ 解出 $f$。** 代入 $f'(0)=0,\\ f''(0)=2$ 得 $f'(x)=\\frac12f'(x)+x$，即 $f'(x)=2x$，$f(x)=x^2+C$；由 $f(0)=0$ 得 $C=0$，故 $f(x)=x^2$。",
+      "idea": "「思路」：先用等价无穷小与泰勒展开从极限读出 $f(0),f'(0),f''(0)$，再把函数方程对 $y$ 取极限凑出 $f'(x)$ 的代数方程。",
+      "tips": {
+       "yc": "$x-\\tan x\\sim-\\frac{x^3}3$ 与 $\\ln(1+x^3)\\sim x^3$ 配套，若分母误作 $x^3$ 会把 $\\lim\\frac{f}{x^2}$ 算成 $0$；$\\frac{f'(y)-f'(0)}y\\to f''(0)=2$ 是得到 $f'(x)=2x$ 的关键。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q14"
+     },
+     {
+      "no": 15,
+      "kind": "blank",
+      "stem": "一容器形状由抛物线 $y=\\frac{1}{2}x^2$、$y$ 轴与直线 $y=2$ 所围图形绕 $y$ 轴旋转一周所得，现将容器装满水，将水从容器顶部全部抽出，所做的功 $W$ 至少为 ______（假定水的比重 $\\rho g=1$）。",
+      "options": [],
+      "answer": "【答案】$\\frac83\\pi$\n\n**【解】**\n**① 取微元。** 任取 $y\\in[0,2]$，薄层体积 $dV=\\pi x^2dy=2\\pi ydy$（容器由 $y=\\frac{x^2}2$ 旋转而成），取 $\\rho g=1$ 得 $dG=2\\pi ydy$。\n**② 微元功。** 把该薄层从顶部 $y=2$ 抽出需提升 $2-y$，故\n$$dW=(2-y)dG=2\\pi y(2-y)dy.$$\n**③ 积分。**\n$$W=\\int_0^22\\pi y(2-y)dy=2\\pi\\left[y^2-\\frac{y^3}3\\right]_0^2=\\frac83\\pi.$$",
+      "idea": "「思路」：用柱壳微元写出体积与重力，乘提升高度 $2-y$ 后对 $y$ 从 $0$ 到 $2$ 积分。",
+      "tips": {
+       "yc": "提升距离是 $2-y$（容器高为 $2$）而不是 $y$；$x^2=2y$ 使 $dV=\\pi x^2dy=2\\pi ydy$，别漏 $\\pi$。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q15"
+     },
+     {
+      "no": 16,
+      "kind": "blank",
+      "stem": "已知矩阵 $A=\\begin{pmatrix}-\\frac{1}{2}&0&0\\\\0&-\\frac{1}{2}&0\\\\0&0&2\\end{pmatrix}$，矩阵 $A,B$ 满足 $B-2E=2A^*-BA^{-1}$，则 $2BA-AB-2A=$ ______。",
+      "options": [],
+      "answer": "【答案】$\\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&-\\frac23\\end{pmatrix}$\n\n**【解】**\n**① 化简题干方程。** 两边右乘 $A$ 得 $BA-2A=2|A|E-B$；由 $|A|=\\frac12$ 得 $BA-2A=E-B$，恒等变形为\n$$(2E-B)(A+E)=E.$$\n由可逆阵定义还有 $(A+E)(2E-B)=E$，故 $BA=AB$，且 $2E-B=(A+E)^{-1}$。\n**② 表达待求矩阵。** 待求矩阵 $=2BA-BA-2A=BA-2A=(B-2E)A=-(2E-B)A=-(A+E)^{-1}A$。\n**③ 代入对角阵。** 由 $(A+E)^{-1}=\\begin{pmatrix}\\frac12&0&0\\\\0&\\frac12&0\\\\0&0&3\\end{pmatrix}^{-1}=\\begin{pmatrix}2&0&0\\\\0&2&0\\\\0&0&\\frac13\\end{pmatrix}$，且 $A=(A+E)-E=\\begin{pmatrix}-\\frac12&0&0\\\\0&-\\frac12&0\\\\0&0&2\\end{pmatrix}$，得\n$$-(A+E)^{-1}A=-\\begin{pmatrix}2&0&0\\\\0&2&0\\\\0&0&\\frac13\\end{pmatrix}\\begin{pmatrix}-\\frac12&0&0\\\\0&-\\frac12&0\\\\0&0&2\\end{pmatrix}=\\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&-\\frac23\\end{pmatrix}.$$",
+      "idea": "「思路」：先把矩阵方程凑成 $(2E-B)(A+E)=E$ 得到 $2E-B=(A+E)^{-1}$，再利用对角阵直接相乘。",
+      "tips": {
+       "yc": "$-(A+E)^{-1}A=(A+E)^{-1}-E$，若把减号后的 $A$ 误作 $E$ 之外的量会算错对角元；$A$ 的第三个对角元是 $2$，与 $(A+E)^{-1}$ 的 $\\frac13$ 相乘才得 $-\\frac23$。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q16"
+     }
+    ]
+   },
+   {
+    "title": "三、解答题（17—22）",
+    "questions": [
+     {
+      "no": 17,
+      "kind": "calc",
+      "stem": "（本题满分 10 分）\n已知函数 $f(x)=\\begin{cases}(a-6)\\sin x+x^a\\cos\\frac{1}{x},&x>0,\\\\ a\\ln(1-ax),&x\\le0\\end{cases}$ 在 $x=0$ 处可导。\n(I) 求参数 $a$；\n(II) 令 $\\varphi(x)=f(x)(e^x-1)$，求 $\\varphi'(0)$ 并判断 $\\varphi'(x)$ 在 $x=0$ 处是否连续。",
+      "options": [],
+      "answer": "【答案】（I）$a=2$；（II）$\\varphi'(x)$ 在 $x=0$ 处连续\n\n**【解】**\n**（I）由可导定 $a$。** $f$ 在 $x=0$ 可导必连续，$f(0)=\\lim\\limits_{x\\to0^-}a\\ln(1-ax)=0$，且\n$$\\lim_{x\\to0^+}f(x)=\\lim_{x\\to0^+}(a-6)\\sin x+\\lim_{x\\to0^+}x^a\\cos\\frac1x,$$\n当 $a>0$ 时后项 $\\to0$，故 $f$ 在 $x=0$ 连续。由左右导数：\n$$f'_-(0)=\\lim_{x\\to0^-}\\frac{a\\ln(1-ax)}x=-a^2,$$\n$$f'_+(0)=\\lim_{x\\to0^+}\\frac{(a-6)\\sin x}x+\\lim_{x\\to0^+}\\frac{x^a\\cos\\frac1x}x=a-6+\\lim_{x\\to0^+}x^{a-1}\\cos\\frac1x,$$\n当 $a-1>0$ 时末项 $\\to0$，得 $f'_+(0)=a-6$。令 $-a^2=a-6$ 解得 $a=2$（$a=-3$ 不满足 $a>1$，舍去）。\n**（II）证 $\\varphi'$ 在 $0$ 连续。** $\\varphi(x)=f(x)(e^x-1)$，$\\varphi(0)=0$，由导数定义\n$$\\varphi'(0)=\\lim_{x\\to0}\\frac{f(x)(e^x-1)}x=\\lim_{x\\to0}f(x)=f(0)=0.$$\n当 $x\\ne0$ 时 $\\varphi'(x)=f'(x)(e^x-1)+f(x)e^x$。取 $a=2$：$x>0$ 时 $f(x)=-4\\sin x+x^2\\cos\\frac1x$，$f'(x)=-4\\cos x+2x\\cos\\frac1x+\\sin\\frac1x$ 有界，故\n$$\\lim_{x\\to0^+}\\varphi'(x)=\\lim_{x\\to0^+}f'(x)(e^x-1)+f(0)=0;$$\n$x<0$ 时 $f(x)=2\\ln(1-2x),\\ f'(x)=\\frac{-4}{1-2x}\\to-4$，\n$$\\lim_{x\\to0^-}\\varphi'(x)=\\lim_{x\\to0^-}\\left[\\frac{-4}{1-2x}(e^x-1)+2\\ln(1-2x)e^x\\right]=0.$$\n左右极限均等于 $\\varphi'(0)=0$，故 $\\varphi'$ 在 $x=0$ 处连续。",
+      "idea": "「思路」：(I) 用连续性与左右导数相等解出 $a$；(II) 先由导数定义算 $\\varphi'(0)$，再用 $f'$ 有界与 $e^x-1\\sim x$ 证 $\\lim\\varphi'=\\varphi'(0)$。",
+      "tips": {
+       "yc": "$f'_+(0)$ 存在需要 $a>1$（使 $x^{a-1}\\cos\\frac1x\\to0$），这正是舍去 $a=-3$ 的理由；$\\varphi'(0)$ 必须单独用定义求，不能把 $\\varphi'(x)$ 的表达式直接代入 $x=0$。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q17"
+     },
+     {
+      "no": 18,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n已知连续函数 $f(x)$ 满足 $f(x)=e^{-x}-1-\\int_0^x t[3f'(x-t)+2f(x-t)]dt$，且 $x\\to0$ 时，$f(x)$ 是 $x$ 的高阶无穷小。\n(I) 求 $f(x)$ 的表达式；\n(II) 求曲线 $y=\\frac{f(x)}{x^{3/2}}$ 与 $y$ 轴，及 $x$ 轴正半轴所围图形绕 $y$ 轴旋转所得旋转体的体积。",
+      "options": [],
+      "answer": "【答案】（I）$f(x)=e^{-2x}+(x-1)e^{-x}$；（II）$V=(\\sqrt2-1)\\pi^{\\frac32}$\n\n**【解】**\n**（I）化积分方程为微分方程。** 令 $x-t=u$：\n$$\\int_0^x[3f'(x-t)+2f(x-t)]dt=x\\int_0^x[3f'(u)+2f(u)]du-\\int_0^xu[3f'(u)+2f(u)]du.$$\n题干方程两边对 $x$ 求导得 $f'(x)=-e^{-x}-\\int_0^x[3f'(u)+2f(u)]du$，再求导得\n$$f''(x)=e^{-x}-[3f'(x)+2f(x)],\\quad\\text{即}\\quad f''+3f'+2f=e^{-x}.$$\n特征方程 $r^2+3r+2=0$ 有根 $-2,-1$，齐次通解 $C_1e^{-2x}+C_2e^{-x}$；因 $-1$ 是单根设特解 $Axe^{-x}$，代入得 $A=1$，故\n$$f(x)=C_1e^{-2x}+C_2e^{-x}+xe^{-x}.$$\n由 $\\lim\\limits_{x\\to0}\\frac{f(x)}x=0$ 展开 $f(x)=C_1(1-2x)+C_2(1-x)+x(1-x)+o(x)$，得\n$$\\begin{cases}C_1+C_2=0,\\\\1-2C_1-C_2=0,\\end{cases}\\Rightarrow\\begin{cases}C_1=1,\\\\C_2=-1,\\end{cases}$$\n即 $f(x)=e^{-2x}+(x-1)e^{-x}$。\n**（II）算旋转体体积。** $f(x)=e^{-x}(e^{-x}+x-1)$，由 $e^{-x}>1-x\\ (x>0)$ 得 $f(x)>0$，故\n$$V=\\int_0^{+\\infty}2\\pi x\\cdot\\frac{f(x)}{x^{\\frac32}}dx=2\\pi\\int_0^{+\\infty}\\frac{e^{-2x}+(x-1)e^{-x}}{\\sqrt x}dx.$$\n其中\n$$\\int_0^{+\\infty}\\frac{e^{-2x}}{\\sqrt x}dx\\xlongequal{2x=t}\\frac1{\\sqrt2}\\int_0^{+\\infty}\\frac{e^{-t}}{\\sqrt t}dt=\\frac1{\\sqrt2}\\Gamma\\left(\\frac12\\right)=\\sqrt{\\frac\\pi2},$$\n$$\\int_0^{+\\infty}\\sqrt x e^{-x}dx=\\Gamma\\left(\\frac32\\right)=\\frac12\\Gamma\\left(\\frac12\\right)=\\frac{\\sqrt\\pi}2,\\qquad\\int_0^{+\\infty}\\frac{e^{-x}}{\\sqrt x}dx=\\Gamma\\left(\\frac12\\right)=\\sqrt\\pi.$$\n故\n$$V=2\\pi\\left(\\sqrt{\\frac\\pi2}+\\frac{\\sqrt\\pi}2-\\sqrt\\pi\\right)=(\\sqrt2-1)\\pi^{\\frac32}.$$",
+      "idea": "「思路」：(I) 把含 $x-t$ 的积分方程两次求导化为二阶常系数方程，用特征根法与 $\\lim\\frac{f(x)}x=0$ 定常数；(II) 用柱壳法列出反常积分，拆成三个 $\\Gamma$ 函数值。",
+      "tips": {
+       "yc": "$-1$ 是特征单根，特解须设 $Axe^{-x}$ 而非 $Ae^{-x}$；$\\Gamma(\\frac12)=\\sqrt\\pi,\\ \\Gamma(\\frac32)=\\frac{\\sqrt\\pi}2$，合并 $\\sqrt{\\frac\\pi2}+\\frac{\\sqrt\\pi}2-\\sqrt\\pi$ 时整体因子 $2\\pi$ 别漏。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q18"
+     },
+     {
+      "no": 19,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n已知 $|a|<\\frac{1}{3}$，求 $u(x,y,z)=ax^3-yz$ 在约束条件 $x^2+y^2+z^2=1$ 下的最值。",
+      "options": [],
+      "answer": "【答案】最大值为 $\\frac12$，最小值为 $-\\frac12$\n\n**【解】**\n**① 拉格朗日函数与驻点方程。** 设 $L=ax^3-yz+\\lambda(x^2+y^2+z^2-1)$，\n$$\\begin{cases}L'_x=3ax^2+2\\lambda x=0 & ①\\\\L'_y=-z+2\\lambda y=0 & ②\\\\L'_z=-y+2\\lambda z=0 & ③\\\\L'_\\lambda=x^2+y^2+z^2-1=0 & ④\\end{cases}$$\n由 ②$-$③ 得 $(y-z)(1+2\\lambda)=0$，故 $z=y$ 或 $\\lambda=-\\frac12$。\n**② 分支 $\\lambda=-\\frac12$。** 代入 ② 得 $z=-y$，代入 ① 得 $x(3ax-1)=0$。当 $a=0$ 时 $x=0$，由 ④ 得 $y=\\pm\\frac{\\sqrt2}2$，驻点 $\\left(0,\\pm\\frac{\\sqrt2}2,\\mp\\frac{\\sqrt2}2\\right)$；当 $a\\ne0$ 时 $x=\\frac1{3a}$，由 $|a|<\\frac13$ 得 $|x|>1$，不满足 ④，舍去。\n**③ 分支 $z=y$。** 代入 ③ 得 $z=0$ 或 $\\lambda=\\frac12$。$z=y=0$ 时由 ④ 得 $x=\\pm1$，驻点 $(\\pm1,0,0)$；$\\lambda=\\frac12$ 时 ① 给出 $x(3ax+1)=0$，$a=0$ 得驻点 $\\left(0,\\pm\\frac{\\sqrt2}2,\\pm\\frac{\\sqrt2}2\\right)$，$a\\ne0$ 时 $x=-\\frac1{3a}$ 同样因 $|x|>1$ 舍去。\n**④ 比较函数值。**\n$$u\\left(0,\\pm\\frac{\\sqrt2}2,\\mp\\frac{\\sqrt2}2\\right)=\\frac12,\\quad u(1,0,0)=a,\\quad u(-1,0,0)=-a,\\quad u\\left(0,\\pm\\frac{\\sqrt2}2,\\pm\\frac{\\sqrt2}2\\right)=-\\frac12.$$\n由 $|a|<\\frac13$ 知 $\\pm a\\in\\left(-\\frac13,\\frac13\\right)$，故最大值为 $\\frac12$，最小值为 $-\\frac12$。",
+      "idea": "「思路」：用拉格朗日乘数法按 $z=y$ 与 $\\lambda=-\\frac12$ 分支列出全部驻点，逐一算 $u=ax^3-yz$ 比较。",
+      "tips": {
+       "yc": "两组驻点 $\\left(0,\\pm\\frac{\\sqrt2}2,\\mp\\frac{\\sqrt2}2\\right)$ 与 $\\left(0,\\pm\\frac{\\sqrt2}2,\\pm\\frac{\\sqrt2}2\\right)$ 的第三分量符号相反，分别对应 $u=\\frac12$ 与 $u=-\\frac12$；$|a|<\\frac13$ 保证 $u=\\pm a$ 不是最值。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q19"
+     },
+     {
+      "no": 20,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n已知 $f(x,y)=\\begin{cases}\\dfrac{x}{\\sqrt{4x-x^2}},&2x^2-4x>y^2,\\\\ x(y+1),&2x^2-4x<y^2,\\end{cases}$ 求二重积分 $\\iint_D f(x,y)dxdy$，其中区域 $D$ 由直线 $x=4$ 与曲线 $x=4-\\sqrt{16-y^2}$ 围成。",
+      "options": [],
+      "answer": "【答案】$I=7\\sqrt2\\pi+32\\pi+2\\sqrt2\\ln(1+\\sqrt2)-76$\n\n**【解】**\n**① 分域写出被积函数。** 曲线 $C_1:2x^2-4x=y^2$，$C_2:x=4-\\sqrt{16-y^2}$；$D_1$ 为 $C_1$ 与 $x=4$ 所围区域，$D_2$ 为 $C_1,C_2$ 所围区域，$D=D_1+D_2$，\n$$f(x,y)=\\begin{cases}\\dfrac{x}{\\sqrt{4x-x^2}}, & (x,y)\\in D_1,\\\\[6pt] x(y+1), & (x,y)\\in D_2.\\end{cases}$$\n**② 算 $D_1$ 上的积分。**\n$$\\iint_{D_1}\\frac{x}{\\sqrt{4x-x^2}}dxdy=2\\int_2^4dx\\int_0^{\\sqrt{2x^2-4x}}\\frac{x}{\\sqrt{4x-x^2}}dy=2\\sqrt2\\int_2^4x\\sqrt{\\frac{x-2}{4-x}}dx.$$\n令 $u=x-2$、再令 $u=2-v^2$、最后 $v=\\sqrt2\\sin\\theta$，得\n$$2\\sqrt2\\int_0^2(u+2)\\sqrt{\\frac{u}{2-u}}du=4\\sqrt2\\int_0^{\\sqrt2}(4-v^2)\\sqrt{2-v^2}dv=16\\sqrt2\\int_0^{\\frac\\pi2}(1+\\cos^2\\theta)\\cos^2\\theta\\,d\\theta=7\\sqrt2\\pi.$$\n**③ 算 $D_2$ 上的积分。** 由对称性 $\\iint_{D_2}x(y+1)dxdy=\\iint_{D_2}x\\,dxdy$，且\n$$\\iint_{D_2}x\\,dxdy=2\\left(\\int_0^4dx\\int_0^{\\sqrt{8x-x^2}}xdy-\\int_2^4dx\\int_0^{\\sqrt{2x^2-4x}}xdy\\right).$$\n其中 $\\int_0^4x\\sqrt{8x-x^2}dx\\xlongequal{x-4=u}\\int_{-4}^0(u+4)\\sqrt{16-u^2}du=16\\pi-\\frac{64}{3}$；$\\int_2^4x\\sqrt{2x^2-4x}dx=\\sqrt2\\int_2^4x\\sqrt{(x-1)^2-1}dx=\\frac{50}{3}-\\sqrt2\\ln(1+\\sqrt2)$。\n故该部分 $=32\\pi-76+2\\sqrt2\\ln(1+\\sqrt2)$。\n**④ 合并。** $I=7\\sqrt2\\pi+32\\pi+2\\sqrt2\\ln(1+\\sqrt2)-76$。",
+      "idea": "「思路」：按 $D_1,D_2$ 拆分被积函数，$D_1$ 用三角换元算无理积分，$D_2$ 用奇偶对称消去 $y$ 后化为两个二次积分之差。",
+      "tips": {
+       "yc": "$D_1$ 的 $y$ 上限是 $\\sqrt{2x^2-4x}$（$C_1$），$D_2$ 中圆弧对应上限是 $\\sqrt{8x-x^2}$（$C_2$），两者不可互换；$\\int_0^{\\frac\\pi2}(1+\\cos^2\\theta)\\cos^2\\theta d\\theta=\\frac{7\\pi}{16}$，别漏 $\\cos^4\\theta$ 的 $\\frac{3\\pi}{16}$。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q20"
+     },
+     {
+      "no": 21,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n已知函数 $g(x)$ 在 $[0,a]$ 上连续，其中 $g(x)<0,\\ a>1$。\n(I) 证明：存在唯一的 $c\\in(0,a)$，使得 $\\int_0^c\\frac{1}{g(x)}dx=\\int_c^a g(x)dx$；\n(II) 记数列 $\\{x_n\\}$ 满足 $\\int_{\\frac{1}{n}}^{x_n}\\frac{1}{g(t)}dt=\\int_{x_n}^a g(t)dt$，证明：$\\lim\\limits_{n\\to\\infty}x_n=c$。",
+      "options": [],
+      "answer": "【答案】（I）存在唯一 $c\\in(0,a)$ 使 $\\int_0^c\\frac{1}{g(x)}dx=\\int_c^ag(x)dx$；（II）$\\lim\\limits_{n\\to\\infty}x_n=c$\n\n**【解】**\n**（I）构造 $G$ 用零点定理与单调性。** 设 $g(x)<0$（由题设）。令 $G(x)=\\int_0^x\\frac1{g(t)}dt-\\int_x^ag(t)dt$，则 $G$ 在 $[0,a]$ 可导，且\n$$G(0)=-\\int_0^ag(t)dt>0,\\qquad G(a)=\\int_0^a\\frac1{g(t)}dt<0.$$\n由零点定理存在 $c\\in(0,a)$ 使 $G(c)=0$；又 $G'(x)=\\frac1{g(x)}+g(x)<0$，$G$ 严格单调递减，故零点唯一，即 $\\int_0^c\\frac1{g(x)}dx=\\int_c^ag(x)dx$。\n**（II）证数列收敛于 $c$。** 记 $H_n(x)=\\int_{\\frac1n}^x\\frac1{g(t)}dt-\\int_x^ag(t)dt$，$x_n$ 为其零点。因\n$$H_n\\left(\\frac1n\\right)=-\\int_{\\frac1n}^ag(t)dt>0,\\quad H_n(a)=\\int_{\\frac1n}^a\\frac1{g(t)}dt<0,\\quad H'_n(x)=\\frac1{g(x)}+g(x)<0,$$\n故 $H_n$ 在 $\\left(\\frac1n,a\\right)$ 内恰有一个零点，即 $0<\\frac1n<x_n<a$，$\\{x_n\\}$ 有界。又\n$$H_n(x)-H_{n+1}(x)=\\int_{\\frac1n}^{\\frac1{n+1}}\\frac1{g(t)}dt>0\\Rightarrow H_{n+1}(x_n)<H_n(x_n)=0=H_{n+1}(x_{n+1}),$$\n由 $H_{n+1}$ 单调递减得 $x_{n+1}<x_n$，故 $\\{x_n\\}$ 单调递减有下界，从而收敛。设 $\\lim x_n=b$，对 $H_n(x_n)=0$ 两边取极限：\n$$\\lim_{n\\to\\infty}\\int_{\\frac1n}^{x_n}\\frac1{g(t)}dt=\\lim_{n\\to\\infty}\\int_{x_n}^ag(t)dt\\Rightarrow\\int_0^b\\frac1{g(t)}dt=\\int_b^ag(t)dt,$$\n即 $G(b)=0$；由 (I) 零点唯一得 $b=c$，故 $\\lim\\limits_{n\\to\\infty}x_n=c$。",
+      "idea": "「思路」：(I) 用零点定理加严格单调性证存在唯一 $c$；(II) 用 $H_n$ 的零点给出 $x_n$ 的有界与单调，再对积分等式取极限并借唯一性定出极限为 $c$。",
+      "tips": {
+       "yc": "$g<0$ 时 $\\frac1g+g<0$ 是单调性的来源，且 $\\int_{1/n}^{1/(n+1)}\\frac1g\\,dt>0$（负函数、上限小于下限）；取极限须同时让下限 $\\frac1n\\to0$ 与 $x_n\\to b$，二者不可分开处理。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q21"
+     },
+     {
+      "no": 22,
+      "kind": "calc",
+      "stem": "（本题满分 12 分）\n已知二次型 $f(x_1,x_2,x_3)=\\begin{vmatrix}0&-x_1&-x_2&-x_3\\\\ x_1&a_{11}&a_{12}&a_{13}\\\\ x_2&a_{21}&a_{22}&a_{23}\\\\ x_3&a_{31}&a_{32}&a_{33}\\end{vmatrix}$，实对称矩阵 $A=\\begin{pmatrix}a_{11}&a_{12}&a_{13}\\\\ a_{21}&a_{22}&a_{23}\\\\ a_{31}&a_{32}&a_{33}\\end{pmatrix}$。\n(I) 求二次型 $f(x_1,x_2,x_3)$ 的矩阵；\n(II) 已知二次型 $f(x_1,x_2,x_3)$ 经正交变换化为标准形 $y_1^2+4y_2^2+y_3^2$，其中 $|A|>0$，矩阵 $A$ 各行元素之和为 $a(a<1)$，矩阵 $B$ 满足 $\\left[\\left(\\frac{1}{2}A\\right)^*\\right]^{-1}BA=6AB+12E$，求可逆矩阵 $P$ 和对角阵 $\\Lambda$，使得 $P^TBP=\\Lambda$。",
+      "options": [],
+      "answer": "【答案】（I）二次型矩阵为 $A^*=\\begin{pmatrix}A_{11}&A_{21}&A_{31}\\\\A_{12}&A_{22}&A_{32}\\\\A_{13}&A_{23}&A_{33}\\end{pmatrix}$；（II）$P=\\begin{pmatrix}\\frac1{\\sqrt2}&\\frac1{\\sqrt6}&\\frac1{\\sqrt3}\\\\0&-\\frac2{\\sqrt6}&\\frac1{\\sqrt3}\\\\-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}&\\frac1{\\sqrt3}\\end{pmatrix}$，$\\Lambda=\\begin{pmatrix}-3&0&0\\\\0&-3&0\\\\0&0&-\\frac{24}{5}\\end{pmatrix}$\n\n**【解】**\n**（I）按第一行展开并写成二次型。**\n$$f(x_1,x_2,x_3)=x_1\\begin{vmatrix}x_1&a_{12}&a_{13}\\\\x_2&a_{22}&a_{23}\\\\x_3&a_{32}&a_{33}\\end{vmatrix}-x_2\\begin{vmatrix}x_1&a_{11}&a_{13}\\\\x_2&a_{21}&a_{23}\\\\x_3&a_{31}&a_{33}\\end{vmatrix}+x_3\\begin{vmatrix}x_1&a_{11}&a_{12}\\\\x_2&a_{21}&a_{22}\\\\x_3&a_{31}&a_{32}\\end{vmatrix}$$\n$$=x_1(x_1A_{11}+x_2A_{21}+x_3A_{31})+x_2(x_1A_{12}+x_2A_{22}+x_3A_{32})+x_3(x_1A_{13}+x_2A_{23}+x_3A_{33})$$\n$$=(x_1,x_2,x_3)\\begin{pmatrix}A_{11}&A_{21}&A_{31}\\\\A_{12}&A_{22}&A_{32}\\\\A_{13}&A_{23}&A_{33}\\end{pmatrix}\\begin{pmatrix}x_1\\\\x_2\\\\x_3\\end{pmatrix}=x^TA^*x,$$\n故二次型矩阵为 $A^*$（即 $A$ 的伴随矩阵）。\n**（II）求 $A,B$ 的特征值与正交矩阵。** 由 $A^*$ 的特征值 $1,1,4$ 及 $|A^*|=|A|^2=4,\\ |A|>0$ 得 $|A|=2$，$A$ 的特征值 $\\lambda_1=\\lambda_2=2,\\ \\lambda_3=\\frac12$。由 $A$ 各行元素之和为 $a<1$ 得 $A\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}=a\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$，故 $a=\\lambda_3=\\frac12$，对应特征向量 $\\gamma=\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$。\n由 $\\left[\\left(\\frac12A\\right)^*\\right]^{-1}=\\frac{\\frac12A}{\\left|\\frac12A\\right|}=2A$，题干方程化为 $ABA=3AB+6E$，解得\n$$B=6A^{-1}(A-3E)^{-1}=6(A^2-3A)^{-1},$$\n故 $B$ 的特征值 $\\mu=\\frac{6}{\\lambda^2-3\\lambda}$：$\\mu_1=\\mu_2=-3,\\ \\mu_3=-\\frac{24}{5}$。\n$\\lambda=2$ 的特征向量满足 $x_1+x_2+x_3=0$，取已正交的 $\\gamma_1=\\begin{pmatrix}1\\\\0\\\\-1\\end{pmatrix},\\ \\gamma_2=\\begin{pmatrix}1\\\\-2\\\\1\\end{pmatrix}$；单位化得\n$$\\beta_1=\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\0\\\\-1\\end{pmatrix},\\quad\\beta_2=\\frac1{\\sqrt6}\\begin{pmatrix}1\\\\-2\\\\1\\end{pmatrix},\\quad\\beta_3=\\frac1{\\sqrt3}\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}.$$\n令 $P=(\\beta_1,\\beta_2,\\beta_3)$，则 $P$ 为正交矩阵且 $P^TBP=\\Lambda=\\mathrm{diag}\\left(-3,-3,-\\frac{24}{5}\\right)$。",
+      "idea": "「思路」：(I) 用代数余子式把行列式写成 $x^TA^*x$；(II) 由伴随矩阵与特征值关系定出 $A$ 的谱，借 $\\left[(kA)^*\\right]^{-1}$ 化简方程求 $B$ 的谱，最后把特征向量正交单位化。",
+      "tips": {
+       "yc": "$A^*$ 的元素是 $(A^*)_{ij}=A_{ji}$（代数余子式转置），二次型矩阵别写成余子式矩阵本身；$B$ 的特征值须用 $\\frac{6}{\\lambda^2-3\\lambda}$ 逐一代入，$P$ 的列顺序须与 $\\Lambda$ 的 $-3,-3,-\\frac{24}{5}$ 对应。"
+      },
+      "categoryIds": [],
+      "origin": "10 / Q22"
+     }
+    ]
+   }
+  ]
  }
 ]

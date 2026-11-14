@@ -4,7 +4,7 @@ import re, os, sys, glob
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mn27_ans')
 SEP = re.compile(r'(?====Q(\d+)===)')
-TAGS = ('01', '02', '03', '04', '05', '06', '07')
+TAGS = ('01', '02', '03', '04', '05', '06', '07', '08', '09', '10')
 errs = []
 
 
