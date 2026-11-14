@@ -1181,15 +1181,61 @@ function mdBlock(s) {
                 : '');
 }
 
+/* ===== 套卷分组：数二真题 / 模拟卷（各自可折叠，状态持久化） ===== */
+const PAPER_GROUP_KEY = 'examGroupOpen';   // { real:'0'|'1', mock:'0'|'1' }
+
+function paperGroupState() {
+    try { return JSON.parse(localStorage.getItem(PAPER_GROUP_KEY)) || {}; } catch (e) { return {}; }
+}
+function paperGroupSave(st) {
+    try { localStorage.setItem(PAPER_GROUP_KEY, JSON.stringify(st)); } catch (e) { }
+}
+function paperGroups() {
+    const real = papers.filter(p => p.group !== 'mock');
+    const mock = papers.filter(p => p.group === 'mock');
+    const g = [];
+    if (real.length) g.push({ id: 'real', label: '数二真题', list: real });
+    if (mock.length) g.push({ id: 'mock', label: '模拟卷', list: mock });
+    return g;
+}
+
 function renderPaperList() {
     const el = document.getElementById('paperList');
-    el.innerHTML = papers.map(p =>
-        `<button class="paper-item${curPaper && curPaper.id === p.id ? ' on' : ''}" data-pid="${p.id}" onclick="openPaper('${p.id}')">
-            <span class="paper-year">${p.year}</span>
-            <span class="paper-name">${p.title.replace('年数学（二）真题', '年数二')}</span>
-            <span class="review-dot${reviewHas(p.id) ? ' on' : ''}" title="有试卷点评"></span>
-        </button>`
-    ).join('');
+    const st = paperGroupState();
+    el.innerHTML = paperGroups().map(g => {
+        // 首次访问两个分组都展开，让用户直接看到「模拟卷」大分支；之后按用户手动折叠状态
+        const open = st[g.id] === undefined ? true : st[g.id] === '1';
+        const items = g.list.map(p => {
+            const label = p.group === 'mock'
+                ? `<span class="paper-name paper-name-mock">${p.title}</span>`
+                : `<span class="paper-year">${p.year}</span><span class="paper-name">${p.title.replace('年数学（二）真题', '年数二')}</span>`;
+            return `<button class="paper-item${curPaper && curPaper.id === p.id ? ' on' : ''}" data-pid="${p.id}" onclick="openPaper('${p.id}')">
+                ${label}
+                <span class="review-dot${reviewHas(p.id) ? ' on' : ''}" title="有试卷点评"></span>
+            </button>`;
+        }).join('');
+        return `<div class="paper-group" data-g="${g.id}">
+            <button class="paper-group-head" onclick="togglePaperGroup('${g.id}')" title="展开/收起「${g.label}」">
+                <span class="pg-arrow">${open ? '▾' : '▸'}</span>
+                <span class="pg-label">${g.label}</span>
+                <span class="pg-count">${g.list.length}</span>
+            </button>
+            <div class="paper-group-body${open ? '' : ' collapsed'}">${items}</div>
+        </div>`;
+    }).join('');
+}
+
+function togglePaperGroup(id) {
+    const box = document.querySelector(`.paper-group[data-g="${id}"]`);
+    const body = box && box.querySelector('.paper-group-body');
+    if (!body) return;
+    const wasOpen = !body.classList.contains('collapsed');
+    const st = paperGroupState();
+    st[id] = wasOpen ? '0' : '1';
+    paperGroupSave(st);
+    body.classList.toggle('collapsed', wasOpen);
+    const arrow = box.querySelector('.pg-arrow');
+    if (arrow) arrow.textContent = wasOpen ? '▸' : '▾';
 }
 
 function qCard(p, sec, q, secIdx) {
@@ -1554,9 +1600,19 @@ function openPaper(id) {
 }
 
 async function init() {
-    const resp = await fetch('data/exam.json');
+    const [resp, mockResp] = await Promise.all([
+        fetch('data/exam.json'),
+        fetch('data/mn27_papers.json').catch(() => null)
+    ]);
     if (!resp.ok) throw new Error('加载真题失败: ' + resp.status);
     papers = await resp.json();
+    // 模拟卷是独立题源，加载失败不影响真题页可用（老缓存/离线时优雅降级）
+    if (mockResp && mockResp.ok) {
+        try {
+            const mocks = await mockResp.json();
+            if (Array.isArray(mocks) && mocks.length) papers = papers.concat(mocks);
+        } catch (e) { console.warn('模拟卷数据解析失败', e); }
+    }
     const favBtn = document.getElementById('favOnly');
     if (favBtn) favBtn.classList.toggle('on', favOnly);
     // 悬浮导航初始状态
