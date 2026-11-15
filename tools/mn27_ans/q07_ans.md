@@ -52,13 +52,14 @@ $$\frac{x^2}{\ln^2(1+x)}>\frac{x}{\ln(1+x)}>\frac{x^2}{\ln(1+x^2)},$$
 ===Q5===
 【答案】C
 【解】
-**① 质心公式。** 摆线 $\begin{cases} x=t-\sin t,\\ y=1-\cos t, \end{cases}\ (0\le t\le2\pi)$ 的质心纵坐标 $\bar y=\dfrac{\int_L y\,ds}{\int_L ds}$。
+**① 质心公式（化为参数 $t$ 的定积分）。** 摆线 $\begin{cases} x=t-\sin t,\\ y=1-\cos t, \end{cases}\ (0\le t\le2\pi)$ 的弧长微元为 $\mathrm ds=\sqrt{x'^2(t)+y'^2(t)}\,\mathrm dt$，线密度为 $1$ 时质心纵坐标为
+$$\bar y=\frac{\int_0^{2\pi}y(t)\sqrt{x'^2(t)+y'^2(t)}\,\mathrm dt}{\int_0^{2\pi}\sqrt{x'^2(t)+y'^2(t)}\,\mathrm dt}.$$
 **② 算弧长。**
-$$\int_L ds=\int_0^{2\pi}\sqrt{x'^2(t)+y'^2(t)}\,dt=\int_0^{2\pi}\sqrt{(1-\cos t)^2+\sin^2t}\,dt=\int_0^{2\pi}\sqrt{2-2\cos t}\,dt=2\int_0^{2\pi}\left|\sin\frac t2\right|dt=8.$$
+$$\int_0^{2\pi}\sqrt{x'^2(t)+y'^2(t)}\,\mathrm dt=\int_0^{2\pi}\sqrt{(1-\cos t)^2+\sin^2t}\,dt=\int_0^{2\pi}\sqrt{2-2\cos t}\,dt=2\int_0^{2\pi}\left|\sin\frac t2\right|dt=8.$$
 **③ 算分子。**
-$$\int_L y\,ds=\int_0^{2\pi}(1-\cos t)\cdot2\left|\sin\frac t2\right|dt=4\int_0^{2\pi}\sin^3\frac t2\,dt=8\int_0^{\pi}\sin^3x\,dx=16\int_0^{\frac\pi2}\sin^3x\,dx=\frac{32}{3}.$$
+$$\int_0^{2\pi}y(t)\sqrt{x'^2(t)+y'^2(t)}\,\mathrm dt=\int_0^{2\pi}(1-\cos t)\cdot2\left|\sin\frac t2\right|dt=4\int_0^{2\pi}\sin^3\frac t2\,dt=8\int_0^{\pi}\sin^3x\,dx=16\int_0^{\frac\pi2}\sin^3x\,dx=\frac{32}{3}.$$
 **④ 结果。** $\bar y=\dfrac{32/3}{8}=\dfrac43$，选 (C)。
-【思路】摆线一拱的质心用第一类曲线积分 $\bar y=\int_L y\,ds\big/\int_L ds$ 计算。
+【思路】摆线一拱的质心用弧长微元 $\mathrm ds=\sqrt{x'^2+y'^2}\,\mathrm dt$ 化为参数 $t$ 的定积分计算。
 【易错】$\sqrt{2-2\cos t}=2\left|\sin\frac t2\right|$ 在 $[0,2\pi]$ 上非负可直接去绝对值；点火公式 $\int_0^{\pi/2}\sin^3x\,dx=\frac23$ 不要记错。
 ===Q6===
 【答案】B

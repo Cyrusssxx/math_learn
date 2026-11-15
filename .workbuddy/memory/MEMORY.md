@@ -17,11 +17,11 @@
 | `exam.json` | 数二真题 27 卷 607 题 | exam.js / category.js |
 | `core_bank.json` | 核心题库 741 题 | category.js（core） |
 | `dgy_items.json` / `xd_bank.json` / `bank_questions.json` | 大观园习题 1346 / 线代重点 333 / 大观园真题 827 | category.js |
-| `ys27_items.json` | 27 模拟卷精选题 37 题（qid `ys27-N`，L0=50000） | category.js（不分 srcMode，始终并入） |
+| `ys27_items.json` | 27 模拟卷精选题 37 题（qid `ys27-N`，L0=50000）⚠️ 后 18 题（Q20–Q37）为数一/数三整题，待决策 | category.js（不分 srcMode，始终并入） |
 | `mn27_papers.json` | 27 精选十套卷（数二）10 套 220 题，`group='mock'`，qid `mn27-XX-N` | exam.js |
 | `notes.json` / `exam_categories.json` | 讲义笔记 33 篇 / 三级分类树 129 节点 | notes.html·cards.html / — |
 
-- `practice.json` 死数据。`exam.json` 紧凑单行；**`core_bank.json` = `json.dumps(d, indent=1, ensure_ascii=False)` 无尾换行**；`notes.json` = indent=2 无尾换行。⚠️ 单行紧凑 JSON 必须 `json.loads`→改 dict→`json.dumps`；禁止 inline `python -c` 改反斜杠/正则/JSON，必须写 .py 脚本 + 独立 .py 全量验证。
+- `practice.json` 死数据。`exam.json` 紧凑单行，**写回必须 `json.dumps(d, ensure_ascii=False)`（默认分隔符，与原始字节完全一致）+ `newline=''`**；**`core_bank.json` = `json.dumps(d, indent=1, ensure_ascii=False)` 无尾换行**；`notes.json` = indent=2 无尾换行。⚠️ 单行紧凑 JSON 必须 `json.loads`→改 dict→`json.dumps`；禁止 inline `python -c` 改反斜杠/正则/JSON，必须写 .py 脚本 + 独立 .py 全量验证。⚠️ JSON 里 LaTeX 单反斜杠会被吃掉：`\frac` → U+000C（2021 卷 13 处已修，护栏 `_audit_syllabus.py` 扫 C0 控制字符）。
 - 修复字段遍历 `q.keys()` 全覆盖（含 `tips` 的 gs/jq/yc/zy）。填空统一 `\underline{\hspace{2cm}}`；别误伤 `\int_0`。
 - 校验套件：`_deep_validate.py` / `_audit_latex.py` / `_scan_unpaired.py` / `_audit_ys27.py` / `_audit_mn27.py` / `_mn27_check.py`；JS 回归 `_test_pp_counter.js`(51) / `_test_notes_hl.js`(182) / `_test_cat_search.js`(44)。
 - qid = `<卷id>-<题号>`；`qidOf()` 经 `linkedQid` 重定向。⚠️ **双份数据不保证内容一致**，改一处要互核。四态：不会 > 不熟 > 已掌握 > 未刷。localStorage：`examFav`、`examStatus`、`examNote-<qid>`、`catSrcMode`、`catUnmarkedFirst`、`qDraw`、`qDrawBF`、`paperList`、`dailyMarks`、`ppViewPos`、`ppNote-<卷id>`、`examReview-<卷id>`、`examGroupOpen`、`examLastPos`。
@@ -72,5 +72,6 @@
 - ⚠️ 该套资料：题本文字层公式破损必须渲染 PNG 看图转写；答案 **01/02 有文字层**（Unicode 数学字母 + 上下标压平 + 分式拆散行，**仍须以渲染图裁定公式**，如 01-Q1 分子是 $2x^{2n}-1$），**03–10 共 86 页零文字层**。多套并行用 subagent 最省时。⚠️ **题干与答案必须交叉核对**：曾出现题干把分子写成 $2^{2n}-1$（漏 x）而答案草稿正确；答案草稿【易错】易混入「任务示例/按图还原」等流程措辞，交付前要扫掉。
 - `fav.html` / `analysis.js` 只读 `exam.json`，模拟卷收藏**不会**出现在收藏汇总与分析建议；拼卷池/分类树也不纳入（按套卷刷题定位）。
 - ⚠️ `_build_mn27.py` 的 `field()` 用 `re.search(r'【'+tag+'】…')` 定位字段：**草稿正文（含答案头、【易错】）里绝不能出现 `【答案】/【解】/【思路】/【易错】` 字面**，否则解析段被截断（2026-11-15 q02 Q4 事故）。护栏：`_mn27_check.py` 字段标记计数 + `_audit_mn27_consistency.py` 解析正文长度 ≥60。
-- 审校工具：`_audit_mn27_consistency.py`（一致性/残留措辞/答案头字母）、`_katex_mn27.js`（全字段 KaTeX，7332 公式）、`_fix_mn27_audit.py`（一次性显式修复记录）。`node` 用系统 PATH（v22.22.2）；`E:/workbuddy-data/...` 与全套 runner `_run_all.js` 路径已失效。
+- 审校工具：`_audit_mn27_consistency.py`（一致性/残留措辞/答案头字母）、`_katex_mn27.js`（7332 公式）、`_fix_mn27_audit.py`（一次性显式修复记录）；大纲合规 `_audit_syllabus.py`（`--selftest` 反向验证）、`_katex_exam.js`（exam 全库 24312 公式）、`_fix_syllabus.py` + `_verify_syllabus.py`（字段级 diff）。`node` 用系统 PATH（v22.22.2）；`E:/workbuddy-data/...` 与全套 runner `_run_all.js` 路径已失效。
+- ⚠️ **数二大纲合规判据**：不考概率统计、无穷级数/幂级数/傅里叶、三重积分与线面积分/场论、空间解析几何、方向导数梯度、差分方程、伯努利/全微分/欧拉方程（考点名称）、「数一/数三/考纲/超纲」元话语。超纲名称与解法要**换成数二等价写法**：倒数换元、凑全微分、按题设换元、带佩亚诺余项的有限阶麦克劳林公式、弧长微元定积分、等比有限和 + 数列极限；别把 $\lim\sum_{k=1}^n$ 黎曼和误判为级数。⚠️ `ys27_items.json` 后 18 题、`core_bank.json` 约 6 题、`dgy_items.json` 3 题仍为整题超纲，**待用户确认后再删**（会动 qid/分类树/刷题进度）。
 - 十套卷**原卷固有瑕疵**（已核 PDF，别当转写错反复改）：02-Q4 条件矛盾（题本注明可跳过、答案只给形式估计 A）；05-Q1 在 $f(0)=0$ 下 (B)(D) 同真；06-Q6 第二式代 $x=1$ 不自洽；04-Q22 答案册末页缺 (II)，已补 $B=2E-J/3$。48 行「原册/扫描件/页码」溯源措辞已改为纯数学提醒。
