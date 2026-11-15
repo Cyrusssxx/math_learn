@@ -38,8 +38,11 @@ def leaves(d):
 
 
 def main():
-    base = subprocess.check_output(['git', 'show', 'HEAD:pwa/data/exam.json'],
+    # 固定基线：本轮改动前的 HEAD，避免脚本随后续提交推进而失效
+    base_ref = os.environ.get('SYLLABUS_BASE', 'c369048')
+    base = subprocess.check_output(['git', 'show', f'{base_ref}:pwa/data/exam.json'],
                                    cwd=ROOT).decode('utf-8')
+    print(f'基线: git show {base_ref}:pwa/data/exam.json')
     old_d = json.loads(base)
     new_d = json.loads(open(EXAM, encoding='utf-8').read())
     o, n = leaves(old_d), leaves(new_d)
