@@ -60,10 +60,10 @@ $$F=\int_0^22\rho gx\sqrt{1-\frac{x^2}{4}}dx=\int_0^{\frac\pi2}8\rho g\sin\theta
 $$\frac{\alpha^2-\beta^2}\alpha=\frac{(\alpha-\beta)(\alpha+\beta)}\alpha=\left(1-\frac\beta\alpha\right)(\alpha+\beta)\to0,$$
 ② 正确。
 **③ 判 ③。** 取 $\alpha=x,\ \beta=x+x^2,\ \gamma=-x$，三者均为无穷小且 $\dfrac\alpha\beta\to1$；但 $\alpha+\gamma=0,\ \beta+\gamma=x^2$，两者之比为 0 不趋于 1，③ 错。
-**④ 判 ④。** 因 $\gamma\ne0$，$\dfrac{\alpha\gamma}{\beta\gamma}=\dfrac\alpha\beta\to1$，即 $\alpha\gamma\sim\beta\gamma$，④ 正确。
+**④ 判 ④。** 题设 $\alpha=o(\beta)$ 即 $\dfrac\alpha\beta\to0$；因 $\gamma\ne0$ 可约去，$\dfrac{\alpha\gamma}{\beta\gamma}=\dfrac\alpha\beta\to0$，即 $\alpha\gamma=o(\beta\gamma)$，④ 正确。
 **⑤ 结论。** 正确的有 ①②④，共 3 个，选 (C)。
 【思路】把 $\alpha\sim\beta$ 即 $\frac\beta\alpha\to1$ 代入各命题，用反例 $\alpha+\gamma\equiv0$ 否定 ③。
-【易错】$\alpha\sim\beta$ 不保证 $\alpha+\gamma\sim\beta+\gamma$（和可为 0 而失去意义）；原册 ④ 行把 $\dfrac{\alpha\gamma}{\beta\gamma}=\dfrac\alpha\beta$ 的极限印成 $0$，与 $\alpha\sim\beta$ 矛盾，应为 $1$。
+【易错】$\alpha\sim\beta$ 不保证 $\alpha+\gamma\sim\beta+\gamma$（和可为 0 而失去意义）；④ 中 $\gamma\ne0$ 才能约去，$\alpha=o(\beta)$ 时 $\frac{\alpha\gamma}{\beta\gamma}=\frac\alpha\beta\to0$，结论是 $\alpha\gamma=o(\beta\gamma)$。
 ===Q7===
 【答案】A
 【解】
@@ -111,15 +111,15 @@ $$A^*Bx=\alpha\beta^TB(\lambda\beta)=\lambda(\beta^TB\beta)\alpha\ne0$$
 【思路】按 $A^*$ 的秩分三种情形讨论，再用 $B$ 正定与 $A^*=\alpha\beta^T$ 排除 $r(A)=n-1$。
 【易错】$r(A)=n-1$ 时由 $A^*=\alpha\beta^T$ 与 $A^*A=O$ 可得 $A^T\beta=0$，这是把公共解写成 $\lambda\beta$ 的关键；正定性只用于 $\beta^TB\beta>0$。
 ===Q11===
-【答案】$1<a<3$
+【答案】$1<\alpha<3$
 【解】
 **① 考查 0 端。** $x\to0^+$ 时 $\arctan x\sim x,\ \ln(x+2)\to\ln2$，
-$$\frac{\arctan^2x}{x^a\ln(x+2)}\sim\frac1{\ln2}\cdot\frac1{x^{a-2}},$$
-由幂函数反常积分的敛散性，收敛当且仅当 $a-2<1$，即 $a<3$。
-**② 考查 $+\infty$ 端。** $x\to+\infty$ 时 $\arctan x\to\dfrac\pi2,\ \ln(x+2)\sim\ln x$，被积函数与 $\dfrac{\pi^2}{4x^a\ln x}$ 等价，只需考查 $\int_2^{+\infty}\dfrac{dx}{x^a\ln x}$。若 $a>1$，$\dfrac1{x^a\ln x}\le\dfrac1{x^a}$ 收敛；若 $a=1$，$\int\dfrac{dx}{x\ln x}=\ln\ln x+C$ 发散；若 $a<1$，对充分大的 $x$ 有 $\ln x\le x^{\frac{1-a}2}$，从而 $\dfrac1{x^a\ln x}\ge\dfrac1{x^{\frac{a+1}2}}$，而 $\dfrac{a+1}2<1$ 仍发散。故无穷端收敛等价于 $a>1$。
-**③ 合并两端。** $a>1$ 且 $a<3$，即 $1<a<3$。
-【思路】分别在 0 与 $+\infty$ 两端取等价量，化为 $p$-积分与 $\int\frac{dx}{x^a\ln x}$ 的敛散性。
-【易错】0 端等价于 $\dfrac1{x^{a-2}}$，条件是 $a-2<1$ 即 $a<3$；$a=1$ 时 $\int\frac{dx}{x\ln x}$ 发散，不能因分母多一个 $\ln x$ 就认为收敛。
+$$\frac{\arctan^2x}{x^\alpha\ln(x+2)}\sim\frac1{\ln2}\cdot\frac1{x^{\alpha-2}},$$
+由幂函数反常积分的敛散性，收敛当且仅当 $\alpha-2<1$，即 $\alpha<3$。
+**② 考查 $+\infty$ 端。** $x\to+\infty$ 时 $\arctan x\to\dfrac\pi2,\ \ln(x+2)\sim\ln x$，被积函数与 $\dfrac{\pi^2}{4x^\alpha\ln x}$ 等价，只需考查 $\int_2^{+\infty}\dfrac{dx}{x^\alpha\ln x}$。若 $\alpha>1$，$\dfrac1{x^\alpha\ln x}\le\dfrac1{x^\alpha}$ 收敛；若 $\alpha=1$，$\int\dfrac{dx}{x\ln x}=\ln\ln x+C$ 发散；若 $\alpha<1$，对充分大的 $x$ 有 $\ln x\le x^{\frac{1-\alpha}2}$，从而 $\dfrac1{x^\alpha\ln x}\ge\dfrac1{x^{\frac{\alpha+1}2}}$，而 $\dfrac{\alpha+1}2<1$ 仍发散。故无穷端收敛等价于 $\alpha>1$。
+**③ 合并两端。** $\alpha>1$ 且 $\alpha<3$，即 $1<\alpha<3$。
+【思路】分别在 0 与 $+\infty$ 两端取等价量，化为 $p$-积分与 $\int\frac{dx}{x^\alpha\ln x}$ 的敛散性。
+【易错】0 端等价于 $\dfrac1{x^{\alpha-2}}$，条件是 $\alpha-2<1$ 即 $\alpha<3$；$\alpha=1$ 时 $\int\frac{dx}{x\ln x}$ 发散，不能因分母多一个 $\ln x$ 就认为收敛。
 ===Q12===
 【答案】$y=x+\dfrac12$
 【解】
@@ -128,7 +128,7 @@ $$k=\lim_{x\to+\infty}\frac yx=\lim_{x\to+\infty}\left[\frac1e\left(1+\frac1x\ri
 **② 求截距。** 因 $\ln\left(1+\frac1x\right)\to0$，
 $$b=\lim_{x\to+\infty}(y-x)=\lim_{x\to+\infty}\left[\frac{(x+1)^{x+1}}{x^xe}-x\right]=\lim_{x\to+\infty}\frac xe\left[\left(1+\frac1x\right)^{x+1}-e\right].$$
 令 $\dfrac1x=u\to0^+$，用 $e^t-1\sim t$ 及 $\ln(1+u)=u-\dfrac12u^2+o(u^2)$：
-$$b=\lim_{u\to0^+}\frac{e^{\left(1+\frac1u\right)\ln(1+u)-1}-1}{eu}=\lim_{u\to0^+}\frac{(u+1)\ln(u+1)-u}{u^2}=\lim_{u\to0^+}\frac{\frac12u^2+o(u^2)}{u^2}=\frac12.$$
+$$b=\lim_{u\to0^+}\frac{e^{\left(1+\frac1u\right)\ln(1+u)-1}-1}{u}=\lim_{u\to0^+}\frac{(u+1)\ln(u+1)-u}{u^2}=\lim_{u\to0^+}\frac{\frac12u^2+o(u^2)}{u^2}=\frac12.$$
 **③ 结论。** 斜渐近线方程为 $y=x+\dfrac12$。
 【思路】先由 $\frac yx$ 得 $k=1$，再令 $u=\frac1x$ 并用泰勒展开算 $b=\lim(y-x)$。
 【易错】$\left(1+\frac1x\right)^{x+1}\to e$ 但须展开到 $u^2$ 阶才得出 $\frac12$；$\ln\left(1+\frac1x\right)$ 项极限为 0，不影响 $b$。
@@ -192,7 +192,7 @@ $$\int\frac1{x^2+x+1}dx=\frac{x}{x^2+x+1}+\int\frac{2x^2+x}{(x^2+x+1)^2}dx,$$
 【思路】把被积函数凑成 $u=x+\frac1x$ 的微分，或分部积分得到 $I=\frac{x}{x^2+x+1}+2I$ 反解。
 【易错】换元 $u=x+\frac1x$ 要求 $x\ne0$，必须补证 $x^2+x+1>0$ 使原函数在全体实数可导；分部积分法解出的 $I$ 要移项除以 2 并补 $+C$。
 ===Q18===
-【答案】（I）$f(x,y)=\dfrac43(x^3+y^3)-\dfrac52(x^2+y^2)+xy+\dfrac43$；（II）极大值 $f(0,0)=\dfrac43$，极小值 $f(1,1)=0$
+【答案】（I）$f(x,y)=\dfrac43(x^3+y^3)-\dfrac52(x^2+y^2)+xy+\dfrac43$；（II）四个驻点 $(0,0)$、$(1,1)$、$\left(\frac{3+\sqrt3}{4},\frac{3-\sqrt3}{4}\right)$、$\left(\frac{3-\sqrt3}{4},\frac{3+\sqrt3}{4}\right)$，其中只有 $(0,0)$ 为极大值点（极大值 $f(0,0)=\dfrac43$）、$(1,1)$ 为极小值点（极小值 $f(1,1)=0$），另两驻点非极值点
 【解】
 **（I）由 $f'_x$ 积分还原 $f$。** 将 $f'_x=4x^2-5x+y$ 对 $x$ 积分得 $f(x,y)=\dfrac43x^3-\dfrac52x^2+xy+\varphi(y)$；再对 $y$ 求偏导与 $f'_y=4y^2-5y+x$ 比较得 $\varphi'(y)=4y^2-5y$，从而 $\varphi(y)=\dfrac43y^3-\dfrac52y^2+C$。由 $f(1,1)=0$ 得 $\dfrac83-5+1+C=0$，即 $C=\dfrac43$，所以
 $$f(x,y)=\frac43(x^3+y^3)-\frac52(x^2+y^2)+xy+\frac43.$$

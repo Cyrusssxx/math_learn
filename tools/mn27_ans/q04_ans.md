@@ -20,17 +20,17 @@ $$\lim_{x\to0}\frac{F(x)}{x^2}=\lim_{x\to0}\frac{F'(x)}{2x}=\frac12\lim_{x\to0}F
 $$\lim_{x\to0}\frac{\int_0^{x^3}f(t)\,dt}{\left[\int_0^x f(t)\,dt\right]^3}=\lim_{x\to0}\frac{\frac{F(x^3)}{x^6}}{\left[\frac{F(x)}{x^2}\right]^3}=\frac{3}{3^3}=\frac19$$
 B 正确。
 【思路】用变限积分 $F(x)$ 把原式改写成 $\frac{F(x^3)}{x^6}\big/\left[\frac{F(x)}{x^2}\right]^3$，核心是洛必达求出 $\lim\frac{F(x)}{x^2}=3$。
-【易错】分子分母须同除以 $x^6$ 才能凑出 $\left[\frac{F(x)}{x^2}\right]^3$；勿把 $f'(0)=6$ 直接当作 $\lim\frac{F(x)}{x^2}$（相差因子 $\frac12$）。原册小注：作为选择题可取特殊值 $f(x)=6x$，此时
+【易错】分子分母须同除以 $x^6$ 才能凑出 $\left[\frac{F(x)}{x^2}\right]^3$；勿把 $f'(0)=6$ 直接当作 $\lim\frac{F(x)}{x^2}$（相差因子 $\frac12$）。另：作为选择题可取特殊值 $f(x)=6x$，此时
 $$\lim_{x\to0}\frac{\int_0^{x^3}f(t)\,dt}{\left[\int_0^x f(t)\,dt\right]^3}=\lim_{x\to0}\frac{3x^6}{(3x^2)^3}=\frac19$$
 
 ===Q3===
 【答案】C
 【解】
-**① 排除 $l_1$。** 若 $l_1$ 是 $f(x)$ 的图形，则 $f(x)$ 在 $[0,1]$ 上单调增加且 $f(x)>0\ (x\in(0,1])$，故 $f'(x)\ge0,\ \int_0^x f(t)\,dt>0$；但 $l_3$ 中 $x$ 轴下方有图形，故 $l_1$ 不是 $y=f(x)$ 的图形，排除 A、B。
-**② 判定 $l_2$。** 若 $l_2$ 是 $y=f(x)$ 的图形，则 $f(x)$ 有唯一最大值点 $x_0\in(0,1)$，在 $[0,x_0]$ 上单调增加、在 $[x_0,1]$ 上单调减少，且 $f(x)>0\ (x\in(0,1))$，从而 $\int_0^x f(t)\,dt>0$ 且单调增加，$l_1$ 满足要求；当 $x\in(0,x_0)$ 时 $f'(x)\ge0$，当 $x\in(x_0,1)$ 时 $f'(x_0)\le0,\ f'(x_0)=0$，$l_3$ 满足要求，故 C 正确。
-**③ 排除 $l_3$。** 若 $l_3$ 是 $y=f(x)$ 的图形，则 $f(x)$ 在 $[0,1]$ 上单调减少，从而 $f'(x)\le0$，故 D 不正确。
+**① 排除 $l_1$。** 若 $l_1$ 是 $f(x)$ 的图形，则 $f(x)$ 在 $[0,1]$ 上单调增加且 $f(x)>0\ (x\in(0,1])$，故 $f'(x)\ge0$ 恒非负、$\int_0^x f(t)\,dt$ 单调增加且恒正；三条曲线中只有 $l_1$ 同时满足「单调增、恒正」，而 $l_2$ 在 $x=1$ 回到 $x$ 轴、$l_3$ 穿过 $x$ 轴进入负值，均不能充当 $\int_0^x f$ 或 $f'$，排除 A、B。
+**② 判定 $l_2$。** 若 $l_2$ 是 $y=f(x)$ 的图形，则 $f(x)$ 有唯一最大值点 $x_0\in(0,1)$，在 $[0,x_0]$ 上单调增加、在 $[x_0,1]$ 上单调减少，且 $f(x)>0\ (x\in(0,1))$，从而 $\int_0^x f(t)\,dt>0$ 且单调增加，$l_1$ 满足要求；当 $x\in(0,x_0)$ 时 $f'(x)>0$，当 $x\in(x_0,1)$ 时 $f'(x)<0$，且 $f'(x_0)=0$，$l_3$ 满足要求，故 C 正确。
+**③ 排除 $l_3$。** 若 $l_3$ 是 $y=f(x)$ 的图形，则 $f(x)$ 在 $[0,1]$ 上单调减少且由正变负，从而 $f'(x)\le0$、$\int_0^x f(t)\,dt$ 先增后减，与 D 中 $l_1$（单调增）、$l_2$（恒非负）都不符，故 D 不正确。
 【思路】利用 $f>0$ 时 $\int_0^x f$ 恒正且单调增加，以及 $f$ 的升降与 $f'$ 符号的对应关系，逐一排除三条候选曲线。
-【易错】原册此解析中 $l_1$ 与 $l_3$ 编号多处混用（先写「$l_1$ 满足要求」，紧接又写「$l_3$ 满足要求」），且「当 $x\in(x_0,1)$ 时 $f'(x_0)\le0$」疑应为「$f'(x)\le0$」，属明显排印疑点，以上按原册照录。
+【易错】三条曲线中 $l_1$ 单调增加且恒在 $x$ 轴上方，$l_2$ 先增后减并在 $x=1$ 回到 $x$ 轴，$l_3$ 单调减少且穿过 $x$ 轴；判定 $f'$ 的图形时注意在极大值点 $x_0$ 左侧 $f'>0$、右侧 $f'<0$，且 $f'(x_0)=0$。
 
 ===Q4===
 【答案】A
@@ -47,15 +47,15 @@ $$I=\int_0^1\frac{dx}{x^{p-1}(1-x)^{p+q}}+\int_1^{+\infty}\frac{dx}{x^{p-1}(x-1)
 ===Q5===
 【答案】D
 【解】
-**① 命题①。** 由图(a)，弦 $\overline{AB}$ 的斜率不小于弦 $\overline{AC}$ 的斜率：$\frac{f(t)-f(0)}{t-0}\ge\frac{f(x)-f(0)}{x-0}\ (t\in[0,x])$，结合 $f(0)=1$ 得 $f(t)\ge\frac{f(x)-1}{x}t+1$，命题①正确。
-**② 命题②。** 由图(b)同理 $\frac{f(t)-f(0)}{t-0}\le\frac{f(x)-f(0)}{x-0}$，即 $f(t)\le\frac{f(x)-1}{x}t+1$，命题②正确。
+**① 命题①。** 由 $f''(x)<0$ 知割线斜率 $\frac{f(t)-f(0)}{t}$ 随 $t$ 增大而不增，故对 $0\le t\le x$ 有 $\frac{f(t)-f(0)}{t-0}\ge\frac{f(x)-f(0)}{x-0}\ (t\in[0,x])$，结合 $f(0)=1$ 得 $f(t)\ge\frac{f(x)-1}{x}t+1$，命题①正确。
+**② 命题②。** 由 $f''(x)>0$ 知割线斜率随 $t$ 增大而不减，同理 $\frac{f(t)-f(0)}{t-0}\le\frac{f(x)-f(0)}{x-0}$，即 $f(t)\le\frac{f(x)-1}{x}t+1$，命题②正确。
 **③ 命题③。** 若 $f(x)\le0$ 不成立，则存在 $x_0\in(0,1)$ 使 $f(x_0)>0$；由 $f(0)=f(1)=0$ 知 $f$ 在 $(0,1)$ 内必有正的极大值，设极大值点 $\xi\in(0,1)$，则 $f(\xi)>0,\ f''(\xi)\le0$，从而 $\left.[f''(x)-f(x)]\right|_{x=\xi}<0$，与已知条件矛盾，故命题③正确。
 **④ 命题④。** 由已知
 $$\left[e^{-2x}f(x)\right]''=\left[f''(x)-4f'(x)+4f(x)\right]e^{-2x}\ge0$$
 记 $F(x)=e^{-2x}f(x)$，则 $F$ 在 $(0,1)$ 内是凹函数，故 $F(x)\le\max\{F(0),F(1)\}=0$，从而 $f(x)\le0$，命题④正确。
 **⑤ 结论。** 四个命题全都正确，正确的个数是 $4$，D 正确。
 【思路】①②用割线斜率比较凹凸性，③用反证加极大值点处 $f''\le0$，④构造 $e^{-2x}f(x)$ 用二阶导数符号判定。
-【易错】原册称 $F''\ge0$ 时 $F$ 为「凹函数」并按「端点为零则 $F\le0$」使用，中文教材凹凸术语定义不一，勿因名称混淆不等号方向。原册小注：若 $f''(x)\ge0\ (x\in[a,b])$ 且 $f(a)=f(b)=0$，则 $f(x)\le0$（图像为开口向上、位于 $x$ 轴下方的曲线），此即④的依据。
+【易错】$F''\ge0$ 时曲线开口向上，两端点为 0 则 $F(x)\le0$；中文教材「凹/凸」术语定义不一，勿因名称混淆不等号方向。若 $f''(x)\ge0\ (x\in[a,b])$ 且 $f(a)=f(b)=0$，则 $f(x)\le0$，此即④的依据。
 
 ===Q6===
 【答案】C
@@ -83,7 +83,7 @@ $$\left|\frac{x(x+y)^n\cos\frac{1}{\sqrt{x^2+y^2}}}{(x^2+y^2)^{\frac32}}\right|\
 而 $\lim\limits_{(x,y)\to(0,0)}2^{\frac n2}(x^2+y^2)^{\frac n2-1}=0$，故该极限存在且为 $0$，即 $n\ge3$ 时 $f'_x(x,y)$ 在 $(0,0)$ 处连续；同理 $f'_y(x,y)$ 也连续，选项 C 正确，故排除。
 **④ 结论。** 综上所述，应选 B。
 【思路】先用定义求 $(0,0)$ 处偏导存在的条件（$n\ge2$），再写出偏导函数，用夹逼定理讨论其在 $(0,0)$ 的连续性（$n\ge3$ 连续、$n=2$ 不连续）。
-【易错】原册首行把 $f$ 误排为 $(x+y)^n\cdot\frac{1}{\sin\sqrt{x^2+y^2}}$（该式在 $n=1$ 时并不趋于 $0$，与「对任何正整数 $n$ 都连续」矛盾），由后文导数式可知应为 $(x+y)^n\sin\frac{1}{\sqrt{x^2+y^2}}$，属明显排印错误，此处按正确形式转写。$n=2$ 时振荡项极限不存在是区分 B、C 的关键。
+【易错】题面 $f=(x+y)^n\sin\frac{1}{\sqrt{x^2+y^2}}$（不是 $(x+y)^n\cdot\frac{1}{\sin\sqrt{x^2+y^2}}$；后者在 $n=1$ 时并不趋于 $0$）。$n=2$ 时振荡项极限不存在是区分 B、C 的关键。
 
 ===Q8===
 【答案】A
@@ -119,7 +119,7 @@ $$(A+B,A-B)=\left(\begin{pmatrix}2&0\\0&1\end{pmatrix},\begin{pmatrix}0&0\\0&-1\
 **④ 命题④。** $(ABA)^T=A^TB^TA^T=-ABA$，④ 中矩阵是反对称矩阵，故 $ABA$ 不能正交相似于对角矩阵。
 **⑤ 结论。** 矩阵中可以正交相似于对角矩阵的个数为 $3$，C 正确。
 【思路】实矩阵可正交相似对角化当且仅当它是实对称矩阵，逐个取转置判断四个矩阵是否对称。
-【易错】原册 ① 行作「$A^T(B+B^T)A=O$，故 $A^T(B+B^T)A$，故 ① 中矩阵是实对称矩阵」，「故」后文字疑有重复脱漏，按原意照录。原册小注：实矩阵 $A$ 可正交相似于对角矩阵的充分必要条件是 $A$ 有 $n$ 个相互正交的特征向量（即 $A$ 为实对称矩阵）。④ 中反对称矩阵（非零时）不能正交相似对角化。
+【易错】① 中矩阵 $A^T(B+B^T)A$ 是实对称矩阵，故①成立。实矩阵 $A$ 可正交相似于对角矩阵的充分必要条件是 $A$ 有 $n$ 个相互正交的特征向量（即 $A$ 为实对称矩阵）；④ 中反对称矩阵（非零时）不能正交相似对角化。
 
 ===Q11===
 【答案】$y=2x+\frac14+\frac2e$
@@ -188,8 +188,8 @@ $$\lim_{n\to\infty}\frac{V_n}{(n+1)^2}=\frac12\pi^3$$
 ===Q16===
 【答案】$-5$
 【解】
-**① 由 $AB=BA$ 读出 $A$ 的相似形。** 由已知，有
-$$AB=\begin{pmatrix}2b_{11}&3b_{12}&-b_{13}\\2b_{21}&3b_{22}&-b_{23}\\2b_{31}&3b_{32}&-b_{33}\end{pmatrix}=\begin{pmatrix}b_{11}&b_{12}&b_{13}\\b_{21}&b_{22}&b_{23}\\b_{31}&b_{32}&b_{33}\end{pmatrix}\begin{pmatrix}2&0&0\\0&3&0\\0&0&-1\end{pmatrix}=BA$$
+**① 由 $AB=B\Lambda$ 读出 $A$ 的相似形。** 由已知，有
+$$AB=\begin{pmatrix}2b_{11}&3b_{12}&-b_{13}\\2b_{21}&3b_{22}&-b_{23}\\2b_{31}&3b_{32}&-b_{33}\end{pmatrix}=\begin{pmatrix}b_{11}&b_{12}&b_{13}\\b_{21}&b_{22}&b_{23}\\b_{31}&b_{32}&b_{33}\end{pmatrix}\begin{pmatrix}2&0&0\\0&3&0\\0&0&-1\end{pmatrix}=B\Lambda\ (\Lambda=\mathrm{diag}(2,3,-1))$$
 又 $B$ 可逆，故
 $$B^{-1}AB=\begin{pmatrix}2&0&0\\0&3&0\\0&0&-1\end{pmatrix}$$
 即 $A$ 相似于该对角阵，且 $|A|=-6$。
@@ -197,7 +197,7 @@ $$B^{-1}AB=\begin{pmatrix}2&0&0\\0&3&0\\0&0&-1\end{pmatrix}$$
 **③ 计算 $|A+A^*|$。**
 $$B^{-1}(A+A^*)B=B^{-1}AB+B^{-1}A^*B=\begin{pmatrix}2&0&0\\0&3&0\\0&0&-1\end{pmatrix}+\begin{pmatrix}-3&0&0\\0&-2&0\\0&0&6\end{pmatrix}=\begin{pmatrix}-1&0&0\\0&1&0\\0&0&5\end{pmatrix}$$
 $$|A+A^*|=(-1)\times1\times5=-5$$
-【思路】由 $AB=BA$ 且 $B$ 可逆得 $A\sim\mathrm{diag}(2,3,-1)$，再用 $A^*$ 的特征值 $\frac{|A|}{\lambda}$ 将 $A+A^*$ 相似对角化求行列式。
+【思路】由 $AB=B\Lambda$ 且 $B$ 可逆得 $A\sim\mathrm{diag}(2,3,-1)$，再用 $A^*$ 的特征值 $\frac{|A|}{\lambda}$ 将 $A+A^*$ 相似对角化求行列式。
 【易错】$A^*$ 的特征值是 $\frac{|A|}{\lambda}$ 而非 $\lambda$；$A+A^*$ 与 $B^{-1}(A+A^*)B$ 有相同特征值，行列式等于特征值之积。
 
 ===Q17===
@@ -301,10 +301,10 @@ $$\left(1+\frac kn-\frac{k}{n^2}\right)^n<(1+x_n)^n<\left(1+\frac kn\right)^n$$
 $$\lim_{n\to\infty}\left(1+\frac kn-\frac{k}{n^2}\right)^n=\lim_{n\to\infty}\left(1+\frac kn-\frac{k}{n^2}\right)^{\frac{1}{\frac kn-\frac k{n^2}}\cdot\left(\frac kn-\frac k{n^2}\right)n}=e^k$$
 故由夹逼准则，得 $\lim\limits_{n\to\infty}(1+x_n)^n=e^k$。
 【思路】（I）解一阶线性微分方程；（II）用零点定理定位唯一根 $x_n\in\left(\frac kn-\frac{k}{n^2},\frac kn\right)$，再由 $(1+\frac kn)^n\to e^k$ 夹逼。
-【易错】原册在「由 $F_n(x)$ 严格单调增加，$F_n(x_n)=0$，知」之后一行印作 $\frac kn+\frac{k}{n^2}<x_n<\frac kn$，加号应为减号（否则左端大于右端，且与上一行 $F_n(\frac kn-\frac{k}{n^2})<0$ 矛盾），属明显排印错误，此处按正确形式转写。另 $(1+\frac kn-\frac{k}{n^2})^n\to e^k$ 需验证 $\left(\frac kn-\frac k{n^2}\right)n\to k$。
+【易错】由 $F_n(x)$ 严格单调增加、$F_n(x_n)=0$ 及 $F_n(\frac kn-\frac{k}{n^2})<0$ 得 $\frac kn-\frac{k}{n^2}<x_n<\frac kn$（左端是减号，否则左端大于右端）。另 $(1+\frac kn-\frac{k}{n^2})^n\to e^k$ 需验证 $\left(\frac kn-\frac k{n^2}\right)n\to k$。
 
 ===Q22===
-【答案】（I）$k=3$，且 $A^2+A=2E$；（II）$\alpha=(3,3,3)^T$，$A=\begin{pmatrix}0&-1&-1\\-1&0&-1\\-1&-1&0\end{pmatrix}$，特征值 $\lambda_1=\lambda_2=1,\lambda_3=-2$，单位特征向量 $\gamma_1=\frac1{\sqrt2}(-1,1,0)^T,\gamma_2=\frac1{\sqrt6}(1,1,-2)^T,\gamma_3=\frac1{\sqrt3}(1,1,1)^T$
+【答案】（I）$k=3$，且 $A^2+A=2E$；（II）$\alpha=(3,3,3)^T$，$A=\begin{pmatrix}0&-1&-1\\-1&0&-1\\-1&-1&0\end{pmatrix}$，特征值 $\lambda_1=\lambda_2=1,\lambda_3=-2$，单位特征向量 $\gamma_1=\frac1{\sqrt2}(-1,1,0)^T,\gamma_2=\frac1{\sqrt6}(1,1,-2)^T,\gamma_3=\frac1{\sqrt3}(1,1,1)^T$；$B=\dfrac13\begin{pmatrix}5&-1&-1\\-1&5&-1\\-1&-1&5\end{pmatrix}$（正定，且 $B^2=A+3E$）
 【解】
 **（I）**
 **① 展开 $A^2$。**
@@ -328,5 +328,10 @@ $$|\lambda E-A|=\begin{vmatrix}\lambda&1&1\\1&\lambda&1\\1&1&\lambda\end{vmatrix
 知 $A$ 的特征值为 $\lambda_1=\lambda_2=1,\ \lambda_3=-2$。由 $(E-A)X=0$ 得 $A$ 的特征向量为 $\alpha_1=(-1,1,0)^T,\ \alpha_2=(1,1,-2)^T$（已正交）；由 $(-2E-A)X=0$ 得 $A$ 的特征向量为 $\alpha_3=(1,1,1)^T$。
 **③ 单位化。** 将 $\alpha_1,\alpha_2,\alpha_3$ 单位化，得
 $$\gamma_1=\frac1{\sqrt2}(-1,1,0)^T,\qquad\gamma_2=\frac1{\sqrt6}(1,1,-2)^T,\qquad\gamma_3=\frac1{\sqrt3}(1,1,1)^T$$
+**④ 构造正定矩阵 $B$。** 令 $Q=(\gamma_1,\gamma_2,\gamma_3)$，则 $Q$ 正交且
+$$Q^TAQ=\mathrm{diag}(1,1,-2),\qquad Q^T(A+3E)Q=\mathrm{diag}(4,4,1).$$
+取
+$$B=Q\,\mathrm{diag}(2,2,1)Q^T=2E-\frac13\begin{pmatrix}1&1&1\\1&1&1\\1&1&1\end{pmatrix}=\frac13\begin{pmatrix}5&-1&-1\\-1&5&-1\\-1&-1&5\end{pmatrix},$$
+其特征值为 $2,2,1>0$，故 $B$ 正定；又 $B^2=Q\,\mathrm{diag}(4,4,1)Q^T=A+3E=A+kE$，满足题意。
 【思路】（I）利用 $\alpha^T\alpha$ 是数量把 $(\alpha\alpha^T)^2$ 化简，结合 $\frac{k}{\alpha^T\alpha}\alpha\alpha^T=E-A$ 得矩阵方程，再把已知特征值代入定出 $k$；（II）定量算出 $A$ 后求特征值、特征向量并单位化。
-【易错】$\alpha\alpha^T\alpha\alpha^T=\alpha(\alpha^T\alpha)\alpha^T$，其中 $\alpha^T\alpha$ 是数可提到前面；$\lambda=-2$ 要代入 $\lambda^2-(2-k)\lambda+(1-k)=0$。本页（第 54 页）为所给扫描的末页，（II）在写出 $\gamma_1,\gamma_2,\gamma_3$ 后即止，通常应有的「令 $Q=(\gamma_1,\gamma_2,\gamma_3)$，则 $Q^TAQ=\mathrm{diag}(1,1,-2)$」未见后续页，疑原册后续内容缺失。
+【易错】$\alpha\alpha^T\alpha\alpha^T=\alpha(\alpha^T\alpha)\alpha^T$，其中 $\alpha^T\alpha$ 是数可提到前面；$\lambda=-2$ 要代入 $\lambda^2-(2-k)\lambda+(1-k)=0$。（II）须由单位特征向量继续构造 $Q$ 并给出 $B$，仅写出 $\gamma_1,\gamma_2,\gamma_3$ 不算完成。

@@ -6,7 +6,7 @@
 $$\mathrm{e}\lim_{x\to0}\frac{\frac{\ln(1+x)}{x}-1}{x}=\mathrm{e}\lim_{x\to0}\frac{\ln(1+x)-x}{x^2}=-\frac{\mathrm{e}}{2}.$$
 **③ 合并第二项。** $\mathrm{e}\lim\limits_{x\to0}\dfrac{\ln(1+x)}{x}=\mathrm{e}$，故原式 $=-\dfrac{\mathrm{e}}{2}+\mathrm{e}=\dfrac{\mathrm{e}}{2}$，选 B。
 【思路】把幂指函数写成 $\mathrm{e}^{\frac1x\ln(1+x)}$，拆分后分别用等价无穷小与 $\ln(1+x)$ 的泰勒展开求极限。
-【易错】用 $\mathrm{e}^u-1\sim u$ 前须确认指数 $u=\frac{\ln(1+x)}{x}-1\to0$。原册解析第 2、3 行把 $\mathrm{e}\lim\frac{\frac1x\ln(1+x)-1}{x}$ 与 $\mathrm{e}\lim\frac{\ln(1+x)-x}{x^2}$ 并列相加，按字面计算和为 $-\frac{\mathrm e}{2}-\frac{\mathrm e}{2}+\mathrm e=0$，与最终结论 $\frac{\mathrm e}{2}$ 不自洽，疑中间项分母多印一个 $x$，属排印疑点；正确拆项见上文分步。
+【易错】用 $\mathrm{e}^u-1\sim u$ 前须确认指数 $u=\frac{\ln(1+x)}{x}-1\to0$。拆分后第一项化为 $\mathrm e\lim\frac{\ln(1+x)-x}{x^2}=-\frac{\mathrm e}{2}$，第二项为 $\mathrm e$，两者相加得 $\frac{\mathrm e}{2}$；不要把两项并列重复计算。
 
 ===Q2===
 【答案】A
@@ -95,7 +95,7 @@ $$|B|=\begin{vmatrix}1&1&a\\1&a&1\\a&1&1\end{vmatrix}=-(a-1)^2(a+2)=0,$$
 得 $a=1$ 或 $a=-2$。
 **③ 取交集。** 公共解为 $a=-2$，选 A。
 【思路】分别由齐次方程有非零解、矩阵方程无解得到 $a$ 的候选集合，取交集。
-【易错】原册【注】：当 $a=-2$ 时对 $(B,A)$ 作初等行变换（竖虚线分隔 $B$ 与 $A$ 的列）
+【易错】当 $a=-2$ 时对 $(B,A)$ 作初等行变换（竖虚线分隔 $B$ 与 $A$ 的列）
 $$(B,A)=\begin{pmatrix}1&1&-2&\vdots&1&-2&-2\\1&-2&1&\vdots&1&-2&-2\\-2&1&1&\vdots&-2&4&-2\end{pmatrix}\to\begin{pmatrix}1&0&-1&\vdots&1&-2&0\\0&1&-1&\vdots&0&0&0\\0&0&0&\vdots&0&0&1\end{pmatrix},$$
 末行出现 $0=1$，故 $(0,0,1)^{\mathrm{T}}$ 不能由 $B$ 的列向量组线性表示，验证 $BX=A$ 无解；$a=4$ 不满足 $|B|=0$ 须舍去。
 
@@ -116,7 +116,7 @@ $$(B,A)=\begin{pmatrix}1&1&-2&\vdots&1&-2&-2\\1&-2&1&\vdots&1&-2&-2\\-2&1&1&\vdo
 **③ 排除 C。** 若 $AX=b$ 有无穷多解，则 $|A|=0$，$A^{*}b=A^{*}AX=|A|EX=0$，即 $b$ 是 $A^{*}X=0$ 的解，C 成立。
 **④ 排除 D。** 由 $A^{*}b=0\ (b\ne0)$ 知 $A^{*}X=0$ 有非零解，$r(A^{*})<n$；由 $A_{11}\ne0$ 得 $r(A^{*})=1$，故 $r(A)=n-1$。由 $A^{*}A=|A|E=0$ 知 $A$ 的第 $2,3,\cdots,n$ 列是 $A^{*}X=0$ 的基础解系，故 $b=C_2\alpha_2+C_3\alpha_3+\cdots+C_n\alpha_n$，$(0,C_2,C_3,\cdots,C_n)^{\mathrm{T}}$ 是 $AX=b$ 的解，且 $r(A)=n-1$ 故有无穷多解，D 成立。
 【思路】把「解集包含」转成秩条件 $r(A)=r(A,b)$，再逐个检验四个选项。
-【易错】原册【注】：结论「$A$ 为 $n$ 阶实矩阵时 $A^{\mathrm{T}}AX=0$ 与 $AX=0$ 同解」，证法是设 $A^{\mathrm{T}}Aa=0$ 则 $(Aa)^{\mathrm{T}}(Aa)=|Aa|^2=0\Rightarrow Aa=0$；并由 $A_{11}=(-1)^{1+1}\begin{vmatrix}a_{22}&\cdots&a_{2n}\\\vdots&&\vdots\\a_{n2}&\cdots&a_{nn}\end{vmatrix}\ne0$ 得删去首行首列后的列向量组线性无关、增加分量后仍无关，故 $(\alpha_2,\cdots,\alpha_n)$ 线性无关，$(0,C_2,\cdots,C_n)^{\mathrm{T}}$ 为 $AX=b$ 的解。另：原册 p35 该两处下标印作 $b=C_2\alpha_2+C_1\alpha_1+\cdots$ 与 $(0,C_2,C_2,\cdots,C_n)^{\mathrm{T}}$，与 p36 注不一致，疑下标排印衍误，以后者 $b=C_2\alpha_2+\cdots+C_n\alpha_n$、$(0,C_2,\cdots,C_n)^{\mathrm{T}}$ 为准。
+【易错】$A^{\mathrm{T}}AX=0$ 与 $AX=0$ 同解：设 $A^{\mathrm{T}}Aa=0$，则 $(Aa)^{\mathrm{T}}(Aa)=|Aa|^2=0\Rightarrow Aa=0$。由 $A_{11}\ne0$ 得 $(\alpha_2,\cdots,\alpha_n)$ 线性无关，故 $b=C_2\alpha_2+\cdots+C_n\alpha_n$ 时 $(0,C_2,\cdots,C_n)^{\mathrm{T}}$ 是 $AX=b$ 的解；注意下标从 $C_2$ 起，不要写成 $C_1$ 或重复 $C_2$。
 
 ===Q11===
 【答案】$\dfrac{2\sqrt2}{3}$
@@ -243,7 +243,7 @@ $$\xlongequal{x-1=\sin t}2\int_{-\frac\pi2}^{\frac\pi2}\sin^2t\cos^2t\,\mathrm{d
 **③ 合并结果。** 同理可得 $\iint_D(y-1)^2\,\mathrm{d}x\mathrm{d}y=\dfrac\pi4$，故
 $$I=\frac\pi4+\frac\pi4-2\pi=-\frac{3\pi}{2}.$$
 【思路】用轮换对称性把 $-4x$ 配成 $-2x-2y$，平移后化为圆盘上的标准积分。
-【易错】原册【注】：也可用二重积分一般换元 $x-1=u,\ y-1=v$ 一次算出
+【易错】也可用二重积分一般换元 $x-1=u,\ y-1=v$ 一次算出
 $$\iint_D\left[(x-1)^2+(y-1)^2\right]\mathrm{d}x\mathrm{d}y=\iint_{u^2+v^2<1}(u^2+v^2)\,\mathrm{d}u\mathrm{d}v=\int_0^{2\pi}\mathrm{d}\theta\int_0^1 r^2\cdot r\,\mathrm{d}r=2\pi\cdot\frac14=\frac\pi2,$$
 故 $I=\dfrac\pi2-2\pi=-\dfrac{3\pi}{2}$；勿忘减去 $2\iint_D\mathrm{d}x\mathrm{d}y=2\pi$。
 

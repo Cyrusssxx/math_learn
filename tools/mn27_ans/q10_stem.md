@@ -43,7 +43,7 @@
 ===Q7===
 【题型】choice
 【题干】已知连续函数 $f(x)$ 满足 $\lim\limits_{x\to0}\frac{f(x)}{x}=1$，积分区域 $D=\{(x,y)\mid x^2+y^2\le t^2\}\ (t>0)$，则极限 $\lim\limits_{t\to0^+}\dfrac{\iint_D f(x^2+y^2)dxdy}{\int_0^{t^2}dx\int_x^{t^2}e^{(x-y)^2}dy}=$（　）
-[本本注：原卷该题题号前标有「/」]
+
 【A】$\pi$
 【B】$-\pi$
 【C】$\frac{\pi}{2}$

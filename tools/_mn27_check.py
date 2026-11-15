@@ -82,6 +82,11 @@ def check_ans(tag):
         for key in ('【答案】', '【解】', '【思路】'):
             if key not in b:
                 errs.append(f'{tag} ans Q{n}: 缺 {key}')
+        # 构建脚本用 re.search 找字段标记：正文里复用这些字面会把解析截断
+        for key in ('【答案】', '【解】', '【思路】', '【易错】'):
+            c = b.count(key)
+            if c > 1:
+                errs.append(f'{tag} ans Q{n}: 字段标记 {key} 出现 {c} 次（正文内不得复用）')
         latex_check(b, tag, 'ans', n)
     return nos
 

@@ -17,7 +17,7 @@ $$\lim_{x\to0}\frac{\int_1^{e^{x^2}}f(t)\,dt}{\ln(1+x^4)}=\lim_{x\to0}\frac{2xe^
 $$\frac12\lim_{x\to0}\frac{f(1+e^{x^2}-1)-f(1)}{e^{x^2}-1}=\frac12f'(1)=\frac12.$$
 比值为非零非 1 的常数 $\frac12$，故两无穷小同阶而非等价，选 (D)。
 【思路】由增量关系读出 $f'(1)=1$，再用洛必达与导数定义算出比值 $\frac12$，判定同阶非等价。
-【易错】题干积分上限为 $e^{x^2}$、分母为 $\ln(1+x^4)$（低清扫描极易误读为 $e^x$、$\ln(1+x^2)$），上限求导会多出因子 $2x$；常把「同阶但不等价」误选为「等价无穷小」。
+【易错】题干积分上限为 $e^{x^2}$、分母为 $\ln(1+x^4)$，勿读作 $e^x$、$\ln(1+x^2)$；上限求导会多出因子 $2x$；常把「同阶但不等价」误选为「等价无穷小」。
 ===Q3===
 【答案】D
 【解】
@@ -63,14 +63,14 @@ $$\int_L y\,ds=\int_0^{2\pi}(1-\cos t)\cdot2\left|\sin\frac t2\right|dt=4\int_0^
 ===Q6===
 【答案】B
 【解】
-**① 写出主部。** 由 $\lim\limits_{\substack{x\to0\\y\to0}}\frac{f(x,y)}{(x^2+y^2)^a}=1$ 得 $f(0,0)=0$ 且
-$$f(x,y)=(x^2+y^2)^a+o\!\left((x^2+y^2)^a\right).$$
-**② 由 $f'_x(0,0)$ 存在定范围。** 取 $y=0$ 得 $f(x,0)=|x|^{2a}+o(|x|^{2a})$，于是
-$$f'_x(0,0)=\lim_{x\to0}\frac{f(x,0)-f(0,0)}x=\lim_{x\to0}\frac{|x|^{2a}+o(|x|^{2a})}{x}$$
-存在必须 $2a>1$，即 $a>\frac12$。
-**③ 对 $y$ 同理。** $f'_y(0,0)$ 存在同样要求 $2a>1$，即 $a>\frac12$，故选 (B)。
-【思路】把偏导数存在转化为 $\frac{|x|^{2a}}{x}$ 在 $x\to0$ 极限存在，从而要求 $2a>1$。
-【易错】$a=\frac12$ 时 $\frac{|x|}{x}$ 左右极限为 $\pm1$ 不存在，必须取严格不等号；$|x|^{2a}$ 的绝对值不能丢。
+**① 写出主部。** 由 $\lim\limits_{\substack{x\to0\\y\to0}}\frac{f(x,y)}{(x^2+y^2)^\alpha}=1$ 得 $f(0,0)=0$ 且
+$$f(x,y)=(x^2+y^2)^\alpha+o\!\left((x^2+y^2)^\alpha\right).$$
+**② 由 $f'_x(0,0)$ 存在定范围。** 取 $y=0$ 得 $f(x,0)=|x|^{2\alpha}+o(|x|^{2\alpha})$，于是
+$$f'_x(0,0)=\lim_{x\to0}\frac{f(x,0)-f(0,0)}x=\lim_{x\to0}\frac{|x|^{2\alpha}+o(|x|^{2\alpha})}{x}$$
+存在必须 $2\alpha>1$，即 $\alpha>\frac12$。
+**③ 对 $y$ 同理。** $f'_y(0,0)$ 存在同样要求 $2\alpha>1$，即 $\alpha>\frac12$，故选 (B)。
+【思路】把偏导数存在转化为 $\frac{|x|^{2\alpha}}{x}$ 在 $x\to0$ 极限存在，从而要求 $2\alpha>1$。
+【易错】$\alpha=\frac12$ 时 $\frac{|x|}{x}$ 左右极限为 $\pm1$ 不存在，必须取严格不等号；$|x|^{2\alpha}$ 的绝对值不能丢。
 ===Q7===
 【答案】D
 【解】
@@ -99,7 +99,7 @@ $$|A-\lambda E|=\begin{vmatrix}1-\lambda&a\\b&1-\lambda\end{vmatrix}=\lambda^2-2
 **③ 判合同。** 当 $a=b$ 时 $|A-\lambda E|=\lambda^2-2\lambda+1-a^2$，$\lambda_{1,2}=1\pm a$；当 $a=b>1$ 时 $A$ 与 $B$ 的特征值均为一正一负，且都是实对称阵，正负惯性指数相同，故 $A$ 与 $B$ 合同，命题 ③ 正确。
 **④ 结论。** ②③ 正确，选 (C)。
 【思路】相似对角化看判别式 $\Delta=4ab$，合同看实对称阵的正负惯性指数（特征值符号）。
-【易错】原册「当 $a=b$ 时」的行列式左下角仍印作 $b$，应改为 $a$（排印疏漏，不影响 $\lambda_{1,2}=1\pm a$）；相似与合同是两种不同等价关系，不可混用。
+【易错】「当 $a=b$ 时」的行列式左下角应为 $a$ 而非 $b$（不影响 $\lambda_{1,2}=1\pm a$）；相似与合同是两种不同等价关系，不可混用。
 ===Q10===
 【答案】D
 【解】
@@ -125,7 +125,7 @@ $$\frac n{\sqrt{n^2+n}}\le\frac n{\sqrt\xi}\le\frac n{\sqrt{n^2}},\quad \lim_{n\
 **③ 结论。**
 $$\lim_{n\to\infty}\int_{n^2}^{n^2+n}\frac{\arctan x}{\sqrt x}\,dx=\frac\pi2.$$
 【思路】用积分中值定理把变限积分写成 $\frac{\arctan\xi}{\sqrt\xi}\cdot n$，再夹逼得 $\frac n{\sqrt\xi}\to1$。
-【易错】积分上下限是 $[n^2,n^2+n]$（低清扫描极易误读为 $[n,n^2]$，那样积分发散），区间长度为 $n$ 而非 $n^2-n$；本题不能先算原函数。
+【易错】积分上下限是 $[n^2,n^2+n]$（勿读作 $[n,n^2]$，那样积分发散），区间长度为 $n$ 而非 $n^2-n$；本题不能先算原函数。
 ===Q12===
 【答案】$\left(\dfrac{1}{2^{2026}}-2\right)\cdot2025!$
 【解】
@@ -136,7 +136,7 @@ $$f^{(n+2)}(x)=\left[f''(x)\right]^{(n)}=\left(\frac2x-\frac1{1+x}\right)^{(n)}=
 **③ 代入 $n=2025,\ x=1$。**
 $$f^{(2027)}(1)=(-1)^{2025}2025!\left[2-\frac1{2^{2026}}\right]=\left(\frac1{2^{2026}}-2\right)\cdot2025!.$$
 【思路】先换元把 $f$ 写成可求导的形式，求两次导后套 $\left(\frac1x\right)^{(n)}$ 公式得高阶导通项。
-【易错】题目求的是 $f^{(2027)}(1)$（扫描小字易误看作 2025 阶），故通项中取 $n=2025$；$(-1)^{2025}=-1$ 决定整体符号，别漏。
+【易错】题目求的是 $f^{(2027)}(1)$，故通项中取 $n=2025$；$(-1)^{2025}=-1$ 决定整体符号，别漏。
 ===Q13===
 【答案】$1$
 【解】
@@ -147,7 +147,7 @@ $$-a\frac{\partial z}{\partial y}=\varphi'\cdot\left(1-b\frac{\partial z}{\parti
 **③ 线性组合。**
 $$a\frac{\partial z}{\partial x}+b\frac{\partial z}{\partial y}=\frac{a-b\varphi'}{a-b\varphi'}=1.$$
 【思路】方程两边分别对 $x,y$ 求偏导解出两个偏导，再按待求式组合。
-【易错】括号内是 $\varphi(y-bz)$（含 $bz$，扫描易误读为 $bx$）；条件 $a-b\varphi'\ne0$ 正是公分母非零的保证，$\varphi'$ 不能当常数处理。
+【易错】括号内是 $\varphi(y-bz)$（含 $bz$，勿读作 $bx$）；条件 $a-b\varphi'\ne0$ 正是公分母非零的保证，$\varphi'$ 不能当常数处理。
 ===Q14===
 【答案】$\dfrac12\left(\dfrac\pi2-1\right)$
 【解】
@@ -169,7 +169,7 @@ $$f''(x)-f'(x)-2f(x)=x^2.$$
 $$f(x)=C_1e^{-x}+C_2e^{2x}-\frac12x^2+\frac12x-\frac34.$$
 **④ 定常数。** 由 $f(0)=2,\ f'(0)=0$ 得 $C_1=2,\ C_2=\frac34$，即得答案式。
 【思路】把含 $(x-t)$ 的积分方程两次求导化为二阶常系数非齐次微分方程，用特征根法加初始条件定解。
-【易错】积分括号内是 $f'(t)$ 而非 $f''(t)$（低清扫描易混，若写成 $f''$ 会得到矛盾式）；初始条件 $f'(0)=0$ 需由原方程求导后令 $x=0$ 得到。
+【易错】积分括号内是 $f'(t)$ 而非 $f''(t)$（写成 $f''$ 会得到矛盾式）；初始条件 $f'(0)=0$ 需由原方程求导后令 $x=0$ 得到。
 ===Q16===
 【答案】$-2$
 【解】
@@ -181,7 +181,7 @@ $$f(x)=\begin{vmatrix}x+1&-2&1&-3\\x&x&2x+2&3x-1\\-1&2&-2&4\\0&1&-2&2\end{vmatri
 $$f(x)=\begin{vmatrix}x+1&2x-1&1\\x&6x+2&x-1\\-1&0&0\end{vmatrix}=-\begin{vmatrix}2x-1&1\\6x+2&x-1\end{vmatrix}=-2x^2+9x+1.$$
 **③ 取系数。** $x^2$ 的系数为 $-2$。
 【思路】用行、列初等变换把四阶行列式降到二阶，展开成多项式后读出 $x^2$ 系数。
-【易错】题目求的是 $x^2$ 的系数（低清扫描易误读为 $x^3$）；按 $(-1,0,0)$ 行展开时前面的负号别丢，即 $-\begin{vmatrix}2x-1&1\\6x+2&x-1\end{vmatrix}$。
+【易错】题目求的是 $x^2$ 的系数（勿读作 $x^3$）；按 $(-1,0,0)$ 行展开时前面的负号别丢，即 $-\begin{vmatrix}2x-1&1\\6x+2&x-1\end{vmatrix}$。
 ===Q17===
 【答案】$\dfrac{\tan x}{\sqrt{\cos x}}+C$
 【解】
@@ -193,7 +193,7 @@ $$\left(\frac1{\sqrt{\cos x}}\right)'=\frac{\sin x}{2\cos x\sqrt{\cos x}}.$$
 $$\text{原式}=\int\left[\sec^2x\cdot\frac1{\sqrt{\cos x}}+\frac{\sin x}{\cos x}\left(\frac1{\sqrt{\cos x}}\right)'\right]dx=\int\left[(\tan x)'\cdot\frac1{\sqrt{\cos x}}+\tan x\left(\frac1{\sqrt{\cos x}}\right)'\right]dx$$
 $$=\int\left(\frac{\tan x}{\sqrt{\cos x}}\right)'dx=\frac{\tan x}{\sqrt{\cos x}}+C.$$
 【思路】把被积函数凑成 $(\tan x)'\cdot\frac1{\sqrt{\cos x}}+\tan x\cdot\left(\frac1{\sqrt{\cos x}}\right)'$，即乘积的导数。
-【易错】分母是 $\cos^{\frac52}x$（扫描易误读为 $\cos^{\frac32}x$）；$\sec^2x=(\tan x)'$ 与 $\left(\frac1{\sqrt{\cos x}}\right)'$ 中的系数 $\frac12$ 必须对齐，最后勿漏 $+C$。
+【易错】分母是 $\cos^{\frac52}x$（勿读作 $\cos^{\frac32}x$）；$\sec^2x=(\tan x)'$ 与 $\left(\frac1{\sqrt{\cos x}}\right)'$ 中的系数 $\frac12$ 必须对齐，最后勿漏 $+C$。
 ===Q18===
 【答案】（I）$y''\left[y^2-x^2(y')^2\right]=0$；（II）$f(x)=\dfrac{k}{x}\ (k>0\text{ 为常数},\ x>0)$
 【解】
@@ -221,7 +221,7 @@ $$\begin{cases}L'_a=2a-\dfrac{\lambda}{a^2}=0,\\[4pt]L'_b=2b-\dfrac{3\lambda}{b^
 **③ 结果。**
 $$d=\sqrt{\left(1+\sqrt[3]{9}\right)^2+\left(3+\sqrt[3]{3}\right)^2}=\sqrt{10+3\sqrt[3]{9}+9\sqrt[3]{3}}.$$
 【思路】由切线过定点得约束 $\frac1a+\frac3b=1$，再用拉格朗日乘数法求 $\sqrt{a^2+b^2}$ 的条件极值。
-【易错】$b=3+\sqrt[3]{3}$ 而非 $3+\sqrt[3]{9}$（扫描小字易混）；化简根式要用 $\sqrt[3]{81}=3\sqrt[3]{3}$，两个立方根不能合并。
+【易错】$b=3+\sqrt[3]{3}$ 而非 $3+\sqrt[3]{9}$；化简根式要用 $\sqrt[3]{81}=3\sqrt[3]{3}$，两个立方根不能合并。
 ===Q20===
 【答案】$I=1-\dfrac\pi2+\ln2$
 【解】
@@ -265,4 +265,4 @@ $$\beta_2=(-2,1,0)^T,\quad\beta_3=(-2,0,1)^T,\quad P=(\beta_1,\beta_2,\beta_3)=\
 $A+E$ 的特征值为 $\lambda_1'=10,\ \lambda_2'=\lambda_3'=1$，故伴随矩阵 $(A+E)^*$ 的特征值为 $\frac{\det(A+E)}{\lambda_i'}=1,10,10$，于是
 $$P^{-1}(A+E)^*P=\begin{pmatrix}1&0&0\\0&10&0\\0&0&10\end{pmatrix}.$$
 【思路】用秩 1 实对称阵的谱分解写出 $A=k\alpha\alpha^T$，借特征向量正交性构造 $P$，最后由伴随矩阵特征值 $\det(A+E)/\lambda_i'$ 得对角阵。
-【易错】$(A+E)^*$ 是 $A+E$ 的伴随矩阵（不是 $A+E$ 本身），其特征值须用 $\det(A+E)/\lambda_i'$；对角元顺序要与 $P$ 的列 $\beta_1,\beta_2,\beta_3$ 对应为 $1,10,10$；原册第 (III) 问中的对角矩阵记作 $\Lambda$，勿与矩阵 $A$ 混淆。
+【易错】$(A+E)^*$ 是 $A+E$ 的伴随矩阵（不是 $A+E$ 本身），其特征值须用 $\det(A+E)/\lambda_i'$；对角元顺序要与 $P$ 的列 $\beta_1,\beta_2,\beta_3$ 对应为 $1,10,10$；第 (III) 问中的对角矩阵记作 $\Lambda$，勿与矩阵 $A$ 混淆。

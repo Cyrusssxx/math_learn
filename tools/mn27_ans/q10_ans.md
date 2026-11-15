@@ -93,7 +93,7 @@ $$\pi\lim_{t\to0^+}\frac{f(t^2)}{t^2e^{\xi^2}}=\pi\frac{f'(0)}1=\pi,$$
 【解】
 **① 判 ①。** 由题意 $r(A)=n-l,\ r(B)=n-m$。因 $r(BA)\le\min\{r(A),r(B)\}=\min(n-l,n-m)$，故 $(BA)x=0$ 的基础解系含向量个数
 $$n-r(BA)\ge n-\min(n-l,n-m)=\max(l,m),$$
-所以「恰有 $l$ 个」不成立，① 错。
+所以解向量个数至少为 $\max(l,m)$，① 的「至多」没有保证；例如 $n=2$ 时取 $A=\mathrm{diag}(1,0)$、$B=\mathrm{diag}(0,1)$，则 $l=m=1$ 而 $BA=O$，$(BA)x=0$ 有 $2>1$ 个线性无关解，① 错。
 **② 判 ②。** 由 $l+m>n$ 得
 $$r(A\pm B)\le r(A)+r(B)=2n-(l+m)<n,$$
 即 $r(A-B)<n$，故 $(A-B)x=0$ 必有非零解，② 正确。
@@ -193,7 +193,7 @@ $$-(A+E)^{-1}A=-\begin{pmatrix}2&0&0\\0&2&0\\0&0&\frac13\end{pmatrix}\begin{pmat
 【思路】先把矩阵方程凑成 $(2E-B)(A+E)=E$ 得到 $2E-B=(A+E)^{-1}$，再利用对角阵直接相乘。
 【易错】$-(A+E)^{-1}A=(A+E)^{-1}-E$，若把减号后的 $A$ 误作 $E$ 之外的量会算错对角元；$A$ 的第三个对角元是 $2$，与 $(A+E)^{-1}$ 的 $\frac13$ 相乘才得 $-\frac23$。
 ===Q17===
-【答案】（I）$a=2$；（II）$\varphi'(x)$ 在 $x=0$ 处连续
+【答案】（I）$a=2$；（II）$\varphi'(0)=0$，且 $\varphi'(x)$ 在 $x=0$ 处连续
 【解】
 **（I）由可导定 $a$。** $f$ 在 $x=0$ 可导必连续，$f(0)=\lim\limits_{x\to0^-}a\ln(1-ax)=0$，且
 $$\lim_{x\to0^+}f(x)=\lim_{x\to0^+}(a-6)\sin x+\lim_{x\to0^+}x^a\cos\frac1x,$$
@@ -237,8 +237,8 @@ $$V=2\pi\left(\sqrt{\frac\pi2}+\frac{\sqrt\pi}2-\sqrt\pi\right)=(\sqrt2-1)\pi^{\
 **① 拉格朗日函数与驻点方程。** 设 $L=ax^3-yz+\lambda(x^2+y^2+z^2-1)$，
 $$\begin{cases}L'_x=3ax^2+2\lambda x=0 & ①\\L'_y=-z+2\lambda y=0 & ②\\L'_z=-y+2\lambda z=0 & ③\\L'_\lambda=x^2+y^2+z^2-1=0 & ④\end{cases}$$
 由 ②$-$③ 得 $(y-z)(1+2\lambda)=0$，故 $z=y$ 或 $\lambda=-\frac12$。
-**② 分支 $\lambda=-\frac12$。** 代入 ② 得 $z=-y$，代入 ① 得 $x(3ax-1)=0$。当 $a=0$ 时 $x=0$，由 ④ 得 $y=\pm\frac{\sqrt2}2$，驻点 $\left(0,\pm\frac{\sqrt2}2,\mp\frac{\sqrt2}2\right)$；当 $a\ne0$ 时 $x=\frac1{3a}$，由 $|a|<\frac13$ 得 $|x|>1$，不满足 ④，舍去。
-**③ 分支 $z=y$。** 代入 ③ 得 $z=0$ 或 $\lambda=\frac12$。$z=y=0$ 时由 ④ 得 $x=\pm1$，驻点 $(\pm1,0,0)$；$\lambda=\frac12$ 时 ① 给出 $x(3ax+1)=0$，$a=0$ 得驻点 $\left(0,\pm\frac{\sqrt2}2,\pm\frac{\sqrt2}2\right)$，$a\ne0$ 时 $x=-\frac1{3a}$ 同样因 $|x|>1$ 舍去。
+**② 分支 $\lambda=-\frac12$。** 代入 ② 得 $z=-y$，代入 ① 得 $x(3ax-1)=0$。$x=0$ 时（对任意 $a$ 都成立）由 ④ 得 $y=\pm\frac{\sqrt2}2$，驻点 $\left(0,\pm\frac{\sqrt2}2,\mp\frac{\sqrt2}2\right)$；另一支 $x=\frac1{3a}$（$a\ne0$）由 $|a|<\frac13$ 得 $|x|>1$，不满足 ④，舍去。
+**③ 分支 $z=y$。** 代入 ③ 得 $z=0$ 或 $\lambda=\frac12$。$z=y=0$ 时由 ④ 得 $x=\pm1$，驻点 $(\pm1,0,0)$；$\lambda=\frac12$ 时 ① 给出 $x(3ax+1)=0$，$x=0$（任意 $a$）得驻点 $\left(0,\pm\frac{\sqrt2}2,\pm\frac{\sqrt2}2\right)$；另一支 $x=-\frac1{3a}$（$a\ne0$）同样因 $|x|>1$ 舍去。
 **④ 比较函数值。**
 $$u\left(0,\pm\frac{\sqrt2}2,\mp\frac{\sqrt2}2\right)=\frac12,\quad u(1,0,0)=a,\quad u(-1,0,0)=-a,\quad u\left(0,\pm\frac{\sqrt2}2,\pm\frac{\sqrt2}2\right)=-\frac12.$$
 由 $|a|<\frac13$ 知 $\pm a\in\left(-\frac13,\frac13\right)$，故最大值为 $\frac12$，最小值为 $-\frac12$。
