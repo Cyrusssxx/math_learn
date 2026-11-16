@@ -2975,7 +2975,9 @@ function ppScanPool() {
  *       ageDays = -1（连收藏时间都没有）才垫底 —— 用户明确要求「先做很久之前做过的」；
  *    ② 次序 = 状态权重 sw（不会 4 / 不熟 2 / 仅收藏 1；已掌握排除），只负责同一档内谁优先。
  *  旧的「收藏时间系数 tf(1~3)」已删：收藏时间跟复习节奏无关（很早收藏、昨天刚做过的题不该被优先），
- *  真正该用的是 dailyMarks 里的「上次动过」。 */
+ *  真正该用的是 dailyMarks 里的「上次动过」。
+ *  ★ 2026-11-16 起：上面两条只是**状态层内**的排序；更外层由 ppPickGlobal 先做
+ *    「不会/不熟(hot) 全部抽完 → 才抽仅收藏(plain)」的硬分层，ageDays 不再跨状态比较。 */
 function ppBuildPool() {
     const { items, stats } = ppScanPool();
     const fresh = { '选择': [], '填空': [], '解答': [] };   // 还没抽过
@@ -3049,6 +3051,59 @@ function ppSampleTiered(tiers, kind, k, ctx) {
     return out;
 }
 
+/** 全局「状态硬优先」抽题（2026-11-16 用户定，替代 ppSampleTiered 的分题型调用）：
+ *  ★ 不会 / 不熟（hot）**全部抽完之前，绝不抽仅收藏（plain）** —— 不管题型、不管 ageDays。
+ *    后来新标记的不/不熟同理：一进 hot 层就压过所有 plain。
+ *  题型配额只作软约束：先按配额从各题型 hot 抽；某题型 hot 不够时缺口优先调剂给
+ *  「还有 hot 剩余」的题型（存量多的优先），hot 全部耗尽后才动用 plain。
+ *  层内仍走 ppPickByAge（ageDays 7 天分档，最旧先抽）+ ppPickWeighted 细分支惩罚。 */
+function ppPickGlobal(tiers, N, quota, ctx) {
+    const KINDS = ['选择', '填空', '解答'];
+    const isHot = it => it.state === 'unknown' || it.state === 'unfamiliar';
+    const hot = {}, plain = {};
+    for (const k of KINDS) {
+        const arr = tiers.fresh[k] || [];
+        hot[k] = arr.filter(isHot);
+        plain[k] = arr.filter(x => !isHot(x));
+    }
+    const out = [];
+    let remain = N;
+    const takeFrom = (bucket, k, n) => {
+        if (n <= 0) return 0;
+        const chosen = ppPickByAge(bucket, n, ctx);
+        if (!chosen.length) return 0;
+        const set = new Set(chosen);
+        for (let i = bucket.length - 1; i >= 0; i--) if (set.has(bucket[i])) bucket.splice(i, 1);
+        chosen.forEach(it => out.push(Object.assign({}, it, { kind: k })));
+        return chosen.length;
+    };
+    // ① 按题型配额抽 hot
+    for (const k of KINDS) {
+        if (remain <= 0) break;
+        remain -= takeFrom(hot[k], k, Math.min(quota[k] || 0, remain));
+    }
+    // ② 配额没满但还有 hot → 调剂给 hot 存量最多的题型，保证 hot 先抽光
+    while (remain > 0) {
+        const avail = KINDS.filter(k => hot[k].length > 0).sort((a, b) => hot[b].length - hot[a].length);
+        if (!avail.length) break;
+        const k = avail[0];
+        remain -= takeFrom(hot[k], k, Math.min(hot[k].length, remain));
+    }
+    // ③ hot 全部抽完还不够 → 才用 plain 按配额补齐
+    for (const k of KINDS) {
+        if (remain <= 0) break;
+        remain -= takeFrom(plain[k], k, Math.min(quota[k] || 0, remain));
+    }
+    // ④ plain 配额也不够 → 跨题型调剂尽量凑满
+    while (remain > 0) {
+        const avail = KINDS.filter(k => plain[k].length > 0).sort((a, b) => plain[b].length - plain[a].length);
+        if (!avail.length) break;
+        const k = avail[0];
+        remain -= takeFrom(plain[k], k, Math.min(plain[k].length, remain));
+    }
+    return out;
+}
+
 /** 拼一份卷：按配额抽 → 20 次重抽里**取章节覆盖最多的一版**（用户要「知识点覆盖尽量广」，
  *  所以不再满足 5 章就早停）。返回 { items, chapters, pool, short } */
 /** 按总题数 N 分配「选择 / 填空 / 解答」配额（保持 10:6:6 的比例，余数给选择） */
@@ -3076,24 +3131,21 @@ function ppBuild(nTotal) {
     const N = nTotal || 22;
     const tiers = ppBuildPool();
     const [N_CH, N_FI, N_AN] = ppSplitN(N);
-    const TIANXUAN_N = N_CH + N_FI;
-    const AN_SCORES = ppAnScores(N_AN, TIANXUAN_N, N);
+    const quota = { '选择': N_CH, '填空': N_FI, '解答': N_AN };
     let best = null;
     for (let t = 0; t < PP_RETRY; t++) {
         const ctx = { br: {} };
-        const picked = [];
-        // ① 选填：先抽选择（≤N_CH），差额用填空补齐（都按 5 分计）；两段式：不会/不熟先抽完
-        const ch = ppSampleTiered(tiers, '选择', N_CH, ctx);
-        ch.forEach(it => picked.push(Object.assign({}, it, { kind: '选择', score: 5 })));
-        const needFill = TIANXUAN_N - ch.length;
-        if (needFill > 0) {
-            ppSampleTiered(tiers, '填空', needFill, ctx).forEach(it =>
-                picked.push(Object.assign({}, it, { kind: '填空', score: 5 })));
-        }
-        // ② 解答
-        ppSampleTiered(tiers, '解答', N_AN, ctx).forEach((it, i) =>
-            picked.push(Object.assign({}, it, { kind: '解答', score: AN_SCORES[i] || 12 })));
+        // 全局状态硬优先：hot（不会/不熟）抽光前绝不碰 plain（仅收藏）；题型配额作软约束调剂
+        const picked = ppPickGlobal(tiers, N, quota, ctx);
         if (!picked.length) break;
+        // 分值：选填各 5 分；解答按实际抽到的解答题数量分摊剩余分（调剂后数量可能 ≠ N_AN）
+        const nAns = picked.filter(it => it.kind === '解答').length;
+        const nCF = picked.length - nAns;
+        const ansScores = ppAnScores(nAns, nCF, N);
+        let ai = 0;
+        for (const it of picked) {
+            it.score = it.kind === '解答' ? (ansScores[ai++] || 12) : 5;
+        }
         const chs = [];
         for (const it of picked) { const ch2 = ppChapterOf(it.q); if (ch2 && chs.indexOf(ch2) < 0) chs.push(ch2); }
         const rec = { items: picked, chapters: chs, pool: tiers, short: false, stats: tiers.stats };
@@ -3645,7 +3697,7 @@ function ppAskNew() {
         m.innerHTML = `<div class="pp-modal-mask" onclick="ppCloseAsk()"></div>
           <div class="pp-modal-box" role="dialog" aria-modal="true">
             <div class="pp-modal-t">🎲 重新拼卷</div>
-            <div class="pp-modal-sub" id="ppModalSub">从你收藏的题里抽：**最久没做的先抽**（从没动过的垫底），同一档内不会 / 不熟优先；**抽过的题不再重复**。</div>
+            <div class="pp-modal-sub" id="ppModalSub">从你收藏的题里抽：**不会 / 不熟抽完才抽仅收藏**（后来新标的也优先）；同一状态内最久没做的先抽；**抽过的题不再重复**。</div>
             <div class="pp-modal-warn" id="ppModalWarn" hidden></div>
             <div class="pp-modal-lab">题量（最少 ${PP_N_MIN} 题）</div>
             <div class="pp-modal-n">
@@ -3675,7 +3727,7 @@ function ppPaintModalSupply() {
     const restOf = x => Math.max(0, x.all - x.drawn);
     const ru = restOf(stats.unknown), rf = restOf(stats.unfamiliar), rp = restOf(stats.plain);
     const rest = ru + rf + rp;
-    sub.innerHTML = `从你收藏的题里抽：<b>最久没做的先抽</b>（从没动过的垫底），同一档内不会 / 不熟优先；<b>抽过的题不再重复</b>。<br>
+    sub.innerHTML = `从你收藏的题里抽：<b>不会 / 不熟全部抽完才抽仅收藏</b>（后来新标的也优先）；同一状态内最久没做的先抽；<b>抽过的题不再重复</b>。<br>
         <span class="pp-modal-cnt">当前可抽 <b>${rest}</b> 题（不会剩 ${ru} · 不熟剩 ${rf} · 仅收藏剩 ${rp}）</span>`;
     if (warn) {
         warn.hidden = !(ppN > rest);
@@ -3815,7 +3867,7 @@ function ppApplyMode() {
     document.title = '🎲 拼卷 · 随机收藏题';
     const sub = document.getElementById('examSub');
     if (sub) {
-        sub.textContent = '从收藏的题里拼一份卷（22 题起，可加量）· 最久没做的先抽 → 不会 / 不熟优先 · 抽过的题不再重复';
+        sub.textContent = '从收藏的题里拼一份卷（22 题起，可加量）· 不会 / 不熟抽完才抽仅收藏 · 同一状态内最久没做的先抽 · 抽过的题不再重复';
         sub.hidden = false;
     }
     ['srcToggle', 'unmarkedFirst', 'yearSortBtn'].forEach(id => {
