@@ -2376,7 +2376,9 @@ function toggleQStatus(btn, qid, v) {
     const nv = toggleStatus(qid, v);
     const card = btn.closest('.q-card');
     if (card) {
-        card.querySelectorAll('.q-st-btn').forEach(b => b.classList.remove('on'));
+        // ⚠️ 排除 .q-st-heart：♥ 是独立标记，不能被状态切换抹掉高亮
+        // （否则用户看到 ♥ 变灰 → 再点一次想恢复 → toggleHeart 读存储发现还在，反而真删了）
+        card.querySelectorAll('.q-st-btn:not(.q-st-heart)').forEach(b => b.classList.remove('on'));
         if (nv) {
             const sel = nv === 'unknown' ? '.q-st-unk' : nv === 'mastered' ? '.q-st-mst' : '.q-st-unfam';
             const b = card.querySelector(sel);

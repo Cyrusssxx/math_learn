@@ -154,5 +154,40 @@ const ppScanPoolEnd = JS.indexOf('function ppBuildPool()');
 const poolSrc = JS.slice(ppScanPoolStart, ppScanPoolEnd);
 ok('抽题池不引用 ♥（反向）', !/heart/i.test(poolSrc));
 
+/* ---------- D. 冲突回归：点状态按钮不得抹掉 ♥ 高亮 ---------- */
+console.log('D. 状态切换与 ♥ 不冲突');
+// 静态：清除 on 时必须排除 ♥ 按钮
+ok('状态清除排除 ♥（源码）', /querySelectorAll\('\.q-st-btn:not\(\.q-st-heart\)'\)/.test(JS));
+// 行为：构造真实 DOM，注入桩跑 toggleQStatus，♥ 的 on 必须保留
+const toggleQStatus = new Function('toggleStatus', 'statusOf', 'syncStatusChip', 'renderNav',
+    'markSel', 'renderMain', 'PAPER_MODE', 'ppRefreshNavMarks',
+    extractFn(JS, 'toggleQStatus') + '\nreturn toggleQStatus;'
+)(() => 'unknown', () => 'unknown', () => {}, () => {}, {}, () => {}, false, () => {});
+const domD = new JSDOM(`<div class="q-card">
+  <div class="q-status-rail">
+    <button class="q-st-btn q-st-mst"></button>
+    <button class="q-st-btn q-st-unfam"></button>
+    <button class="q-st-btn q-st-unk"></button>
+    <button class="q-st-btn q-st-heart on">♥</button>
+  </div></div>`).window.document;
+const cardD = domD.querySelector('.q-card');
+const heartD = cardD.querySelector('.q-st-heart');
+const unkD = cardD.querySelector('.q-st-unk');
+domD.querySelector('.q-st-mst').classList.add('on');   // 先假设有个旧状态 on
+toggleQStatus(unkD, '2000-1', 'unknown');
+ok('点「不会」后 ♥ 的 on 保留', heartD.classList.contains('on'));
+ok('点「不会」后 ♥ 文字不变', heartD.textContent === '♥');
+ok('点「不会」后「不会」按钮 on', unkD.classList.contains('on'));
+ok('点「不会」后旧状态按钮 on 被清除（排除♥的前提下生效）', !domD.querySelector('.q-st-mst').classList.contains('on'));
+// 反向验证：变异回旧选择器（含 ♥）时，行为测试应失败
+const mutant = new Function('toggleStatus', 'statusOf', 'syncStatusChip', 'renderNav',
+    'markSel', 'renderMain', 'PAPER_MODE', 'ppRefreshNavMarks',
+    extractFn(JS, 'toggleQStatus').replace("'.q-st-btn:not(.q-st-heart)'", "'.q-st-btn'") + '\nreturn toggleQStatus;'
+)(() => 'unknown', () => 'unknown', () => {}, () => {}, {}, () => {}, false, () => {});
+const heartM = cardD.querySelector('.q-st-heart');
+heartM.classList.add('on');
+mutant(domD.querySelector('.q-st-unk'), '2000-1', 'unknown');
+ok('反向验证：旧选择器会抹掉 ♥（证明测试有效）', !heartM.classList.contains('on'));
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败`);
 process.exit(fail ? 1 : 0);
