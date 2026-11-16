@@ -133,10 +133,15 @@ ok('HEART_MODE 由 ?heart=1 定义', /const\s+HEART_MODE\s*=\s*new URLSearchPara
 ok('renderMain 分派 renderHeart', /if \(HEART_MODE\)\s*\{\s*renderHeart\(\);\s*return;\s*\}/.test(JS));
 ok('init 调 applyHeartMode', /applyHeartMode\(\);\s*\/\/[^\n]*heart=1/.test(JS));
 ok('storage 事件含 HEART_KEY', /k === HEART_KEY/.test(JS));
-ok('storage 分派 renderHeart', /else if \(HEART_MODE\) renderHeart\(\)/.test(JS));
+ok('storage 分派 renderHeart', /else if \(HEART_MODE\) \{ renderHeart\(\); renderNav\(\); \}/.test(JS));
 ok('♥ 页不选分类树', /!REVIEW_MODE && !HEART_MODE && !PAPER_MODE/.test(JS));
-ok('two-page 顶栏入口：exam.html', /href="category\.html\?heart=1"[^>]*>\s*♥ 喜欢/.test(EXAM_HTML));
-ok('two-page 顶栏入口：category.html', /href="category\.html\?heart=1"[^>]*>\s*♥ 喜欢/.test(CAT_HTML));
+ok('two-page 顶栏入口：exam.html', /href="category\.html\?heart=1"[^>]*>\s*♥\s*</.test(EXAM_HTML));
+ok('two-page 顶栏入口：category.html', /href="category\.html\?heart=1"[^>]*>\s*♥\s*</.test(CAT_HTML));
+ok('全站无「我喜欢」文字（JS）', !/我喜欢/.test(JS));
+ok('全站无「我喜欢」文字（HTML）', !/我喜欢/.test(EXAM_HTML) && !/我喜欢/.test(CAT_HTML));
+ok('汇总页等真题数据到位', /if \(REVIEW_MODE \|\| HEART_MODE\) await loadExamSources\(\)/.test(JS));
+ok('题号球支持汇总页', /HEART_MODE \? heartList\.map/.test(JS) && /REVIEW_MODE \? rvList\.map/.test(JS));
+ok('题号球红标 mark-unk', /st === 'unknown' \? ' mark-unk'/.test(JS));
 ok('♥ 页隐藏自身入口', /body\.heart-mode \.hf-entry \{ display: none/.test(CSS));
 ok('♥ 页显示返回分类', /body\.heart-mode \.hf-back \{ display: inline-flex/.test(CSS));
 ok('♥ 按钮 hover 色', /\.q-st-btn\.q-st-heart:hover/.test(CSS));

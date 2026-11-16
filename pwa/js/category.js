@@ -286,7 +286,7 @@ function toggleHeart(qid, btn) {
     }
     if (HEART_MODE && !on) {
         const card = btn && btn.closest('.q-card');
-        setTimeout(() => { if (!card || !card.isConnected) return; renderHeart(); }, 30);
+        setTimeout(() => { if (!card || !card.isConnected) return; renderHeart(); renderNav(); }, 30);
     }
     return on;
 }
@@ -2641,8 +2641,8 @@ function applyHeartMode() {
     if (!HEART_MODE) return;
     document.body.classList.add('heart-mode');
     const t = document.querySelector('.exam-title');
-    if (t) t.textContent = '♥ 我喜欢';
-    document.title = '♥ 我喜欢 · 拼卷标记题';
+    if (t) t.textContent = '♥';
+    document.title = '♥ · 拼卷标记题';
     const sub = document.getElementById('examSub');
     if (sub) {
         sub.textContent = '拼卷时标记「♥」的题目汇总 · 跨全部历史卷 · 可在此取消标记 · 与真题/分类页实时同步';
@@ -2663,6 +2663,7 @@ function setHeartFilter(f) {
     heartFilter = f;
     document.querySelectorAll('.hf-filter .cat-mark').forEach(b => b.classList.toggle('on', b.dataset.hf === f));
     renderHeart();
+    renderNav();
 }
 
 function heartAfterRender(batch) {
@@ -2731,7 +2732,7 @@ function renderHeart() {
                   ['mastered', `🟢 掌握 ${counts.mastered}`], ['fav', `📥 收藏 ${counts.fav}`]]
         .map(([k, label]) => `<button class="cat-mark${heartFilter === k ? ' on' : ''}" data-hf="${k}" onclick="setHeartFilter('${k}')">${label}</button>`).join('');
     let html = `<div class="paper-head">
-        <h1>♥ 我喜欢 · ${counts.all} 题</h1>
+        <h1>♥ · ${counts.all} 题</h1>
         <div class="paper-sub">拼卷题卡上点 ♥ 的题都会汇总到这里（跨所有历史卷、所有题库）· 标记不进抽题池 · 状态/笔记实时同步</div>
         <div class="hf-filter">${btns}</div>
     </div>`;
@@ -2759,8 +2760,8 @@ function renderHeart() {
 window.addEventListener('storage', (e) => {
     const k = e.key || '';
     if (k === FAV_KEY || k === EXAM_STATUS_KEY || k === HEART_KEY || k.indexOf('examNote-') === 0) {
-        if (REVIEW_MODE) renderReview();
-        else if (HEART_MODE) renderHeart();
+        if (REVIEW_MODE) { renderReview(); renderNav(); }
+        else if (HEART_MODE) { renderHeart(); renderNav(); }
         else { renderTree(); renderMain(); }
     }
 });
@@ -4470,7 +4471,7 @@ async function init() {
         const el0 = document.getElementById('catMain');
         if (el0) {
             el0.innerHTML = (REVIEW_MODE || HEART_MODE)
-                ? '<div class="cat-empty">⏳ 正在汇总' + (HEART_MODE ? '♥ 喜欢的题' : '你的标记题') + '…<br><span style="font-size:13px;opacity:.75">'
+                ? '<div class="cat-empty">⏳ 正在汇总' + (HEART_MODE ? '♥ 标记的题' : '你的标记题') + '…<br><span style="font-size:13px;opacity:.75">'
                 + '首次打开需读取 ~2.5MB 题库，请稍候（真题/大观园数据随后后台加载）</span></div>'
                 : '<div class="cat-empty">⏳ 正在加载题库…</div>';
         }
@@ -4568,6 +4569,10 @@ async function init() {
     // 其余步骤（buildEntries / buildDeepIndex / renderTree / renderNav）保持不变 ——
     // activeEntries() 等依赖它们，跳过会引入不可预知的副作用。
     if (!REVIEW_MODE && !HEART_MODE && !PAPER_MODE) await loadCatDeep();
+    // ⚠️ 复测/♥ 页必须等真题数据到位再渲染：首屏只有 core 时，core 题靠 linkedQid 命中真题 qid，
+    // 但 q.no 是核心题库的编号（如 109/524），且只存在于真题里的题（q3/q5）直接漏掉。
+    // 之前靠后台 loadExamSources().then() 补画，又被 `srcMode !== 'exam'` 拦截 → 题号一直错。
+    if (REVIEW_MODE || HEART_MODE) await loadExamSources();
     // 本地「收到核心题库」增补层：把用户手动收进来的题并进 corePapers（需 catDeep 解析章节）
     try {
         if (window.CoreExtra && corePapers && corePapers.length) {
@@ -4628,15 +4633,19 @@ function renderNav() {
         return;
     }
     const list = document.getElementById('floatQList');
-    const ents = catSearchKw ? activeEntries().filter(catSearchMatch) : (curCat != null ? activeEntries().filter(e => curCatSet().has(String(e.catId))) : []);
-    const nos = ents.map(e => e.q.no);
+    // 汇总页（复测 / ♥）用当前列表的题号，而不是分类选择（这些页没选分类）；
+    // 并按真实状态着色：🔴不会加 mark-unk（红）、🟡不熟 mark-unf、🟢掌握 mark-mst。
+    const rows = HEART_MODE ? heartList.map(e => ({ paper: e.paper, q: e.q, st: e.st }))
+        : REVIEW_MODE ? rvList.map(e => ({ paper: e.paper, q: e.q, st: e.st }))
+        : (catSearchKw ? activeEntries().filter(catSearchMatch) : (curCat != null ? activeEntries().filter(e => curCatSet().has(String(e.catId))) : []));
+    const nos = rows.map(e => e.q.no);
     const uniq = [...new Set(nos)].sort((a, b) => a - b);
     if (!uniq.length) { el.textContent = '—'; if (list) list.innerHTML = ''; return; }
-    // 题号 → 掌握状态（不熟/不会），同一 no 多分类重复取任一 entry 状态即可（同题同状态）
+    // 题号 → 掌握状态；汇总页行自带 st，分类页按 qid 查。同一 no 多分类重复取任一即可。
     const stMap = {};
-    for (const e of ents) {
+    for (const e of rows) {
         if (stMap[e.q.no]) continue;
-        const st = statusOf(qidOf(e.paper.id, e.q.no));
+        const st = (HEART_MODE || REVIEW_MODE) ? (e.st || statusOf(qidOf(e.paper.id, e.q.no))) : statusOf(qidOf(e.paper.id, e.q.no));
         if (st) stMap[e.q.no] = st;
     }
     el.textContent = uniq.length + '题';
