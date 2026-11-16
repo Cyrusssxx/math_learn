@@ -5,6 +5,7 @@
 const FAV_KEY = 'examFav';            // { qid: 1 }，qid = 套卷id-题no
 const FAV_ONLY_KEY = 'examFavOnly';   // 是否只看收藏（常量保留，界面已由三选筛选替代）
 const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'unfamiliar' | 'unknown' }：不熟/不会掌握度标记（互斥）
+const HEART_KEY = 'ppHeart';          // { qid: 1 }：拼卷♥喜欢标记（独立于收藏/掌握，只服务 ♥ 页筛选，不进抽题池）
 
 // ============ 每日做题数据 ============
 // markDaily / dailyRecent / dailyStreak 定义在 js/common.js（所有页面都加载，
@@ -263,6 +264,33 @@ function toggleStatus(qid, v) {
     markDaily(qid, s[qid] || 'cleared');   // 记入「每日做题」（取消标记也算动过这道题）
     return s[qid] || null;
 }
+// ============ ♥ 喜欢标记（拼卷题卡专属，独立于收藏/掌握；只服务 ?heart=1 汇总页） ============
+function heartGet() {
+    try { return JSON.parse(localStorage.getItem(HEART_KEY)) || {}; } catch (e) { return {}; }
+}
+function heartSave(obj) {
+    try { localStorage.setItem(HEART_KEY, JSON.stringify(obj)); }
+    catch (e) { console.error('♥ 标记保存失败:', e); }
+}
+function isHeart(qid) { return !!heartGet()[qid]; }
+/** 切换 ♥：返回切换后是否 marked。就地更新按钮，不重渲染整卡（♥ 页里取消则让宿主重画）。 */
+function toggleHeart(qid, btn) {
+    const h = heartGet();
+    const on = !h[qid];
+    if (on) h[qid] = { t: Date.now() }; else delete h[qid];
+    heartSave(h);
+    if (btn) {
+        btn.classList.toggle('on', on);
+        btn.textContent = on ? '♥' : '♡';
+        btn.title = on ? '已标记喜欢（再点取消）' : '标记喜欢（♥ 页汇总）';
+    }
+    if (HEART_MODE && !on) {
+        const card = btn && btn.closest('.q-card');
+        setTimeout(() => { if (!card || !card.isConnected) return; renderHeart(); }, 30);
+    }
+    return on;
+}
+
 function isFav(qid) { return !!favGet()[qid]; }
 function favTime(qid) {
     const v = favGet()[qid];
@@ -1853,6 +1881,7 @@ function catCard(paper, secTitle, q) {
     const qid = qidOf(paper.id, q.no);
     const fav = isFav(qid);
     const st = statusOf(qid);
+    const heart = (PAPER_MODE || HEART_MODE) && isHeart(qid);
     const kindLabel = (q.options && q.options.length) || q.type === 'choice' ? '选择'
         : q.type === 'blank' ? '填空' : q.type === 'calc' ? '解答'
         : q.type === 'proof' ? '证明' : secKindLabel(secTitle);
@@ -1954,6 +1983,7 @@ function catCard(paper, secTitle, q) {
             <button class="q-st-btn q-st-mst${st === 'mastered' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','mastered')" title="标记为「掌握」（绿色；再点取消）">掌握</button>
             <button class="q-st-btn q-st-unfam${st === 'unfamiliar' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unfamiliar')" title="标记为「不熟」（黄色；再点取消）">不熟</button>
             <button class="q-st-btn q-st-unk${st === 'unknown' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unknown')" title="标记为「不会」（红色；再点取消）">不会</button>
+            ${(PAPER_MODE || HEART_MODE) ? `<button class="q-st-btn q-st-heart${heart ? ' on' : ''}" onclick="toggleHeart('${qid}',this)" title="${heart ? '已标记喜欢（再点取消）' : '标记喜欢（♥ 页汇总）'}">${heart ? '♥' : '♡'}</button>` : ''}
         </div>
         <div class="q-body">${stem}${figHtml}${options}</div>
         <div class="q-ops">
@@ -2604,11 +2634,133 @@ function renderReview() {
     rvSetupAutoMore();
 }
 
-// 跨标签页实时同步：别处（真题页 / 分类页）改动收藏、标记或笔记 → 复测页自动刷新
+// ============ ♥ 喜欢页（category.html?heart=1）：拼卷里标过 ♥ 的题汇总 ============
+/** 独立视图：只显示 localStorage.ppHeart 里的题，跨全部题库来源；在拼卷题卡上点 ♥ 即加入。
+ *  不与抽题池互通（不改 qDraw / 不占名额），收藏/状态/笔记仍走原 qid，自动同步。 */
+function applyHeartMode() {
+    if (!HEART_MODE) return;
+    document.body.classList.add('heart-mode');
+    const t = document.querySelector('.exam-title');
+    if (t) t.textContent = '♥ 我喜欢';
+    document.title = '♥ 我喜欢 · 拼卷标记题';
+    const sub = document.getElementById('examSub');
+    if (sub) {
+        sub.textContent = '拼卷时标记「♥」的题目汇总 · 跨全部历史卷 · 可在此取消标记 · 与真题/分类页实时同步';
+        sub.hidden = false;
+    }
+    ['srcToggle', 'unmarkedFirst', 'yearSortBtn'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) b.style.display = 'none';
+    });
+    const marks = document.querySelector('.cat-marks');
+    if (marks) marks.style.display = 'none';
+}
+
+const HEART_PAGE = 40;
+let heartShown = HEART_PAGE, heartList = [], heartFilter = 'all';
+
+function setHeartFilter(f) {
+    heartFilter = f;
+    document.querySelectorAll('.hf-filter .cat-mark').forEach(b => b.classList.toggle('on', b.dataset.hf === f));
+    renderHeart();
+}
+
+function heartAfterRender(batch) {
+    renderMath(batch);
+    batch.querySelectorAll('.q-card').forEach(card => {
+        const qid = card.id.replace(/^q-/, '');
+        if ((noteGet(qid) || '').trim()) {
+            const nb = card.querySelector('[data-act="note"]');
+            if (nb && !nb.classList.contains('on')) nb.click();
+        }
+    });
+    batch.querySelectorAll('.q-note-preview:not([hidden])').forEach(pv => fillExamNoteImgs(pv));
+}
+
+function heartUpdateMore() {
+    const btn = document.getElementById('hfMoreBtn');
+    const tip = document.getElementById('hfMoreTip');
+    const rest = heartList.length - heartShown;
+    if (btn) {
+        btn.style.display = rest > 0 ? '' : 'none';
+        btn.textContent = '⬇️ 加载更多题（还剩 ' + rest + ' 题）';
+    }
+    if (tip) tip.textContent = rest > 0 ? ('已显示 ' + heartShown + ' / ' + heartList.length + ' 题') : ('已全部加载 ' + heartList.length + ' 题');
+}
+
+function heartAppendMore() {
+    const wrap = document.getElementById('hfList');
+    if (!wrap) return;
+    const rest = heartList.slice(heartShown, heartShown + HEART_PAGE);
+    if (!rest.length) { heartUpdateMore(); return; }
+    const batch = document.createElement('div');
+    batch.className = 'rv-batch';
+    batch.innerHTML = rest.map(e => catCard(e.paper, e.secTitle, e.q)).join('');
+    wrap.appendChild(batch);
+    heartShown += rest.length;
+    heartAfterRender(batch);
+    heartUpdateMore();
+}
+
+function renderHeart() {
+    const el = document.getElementById('catMain');
+    if (!el) return;
+    const h = heartGet(), st = statusGet() || {}, fav = favGet() || {};
+    const seen = new Set();
+    const rows = [];
+    for (const e of allEntriesAllSources()) {
+        const qid = qidOf(e.paper.id, e.q.no);
+        if (!h[qid] || seen.has(qid)) continue;
+        seen.add(qid);
+        rows.push({ paper: e.paper, secTitle: e.secTitle, q: e.q, qid, st: st[qid] || null, fav: !!fav[qid], t: (h[qid] && h[qid].t) || 0 });
+    }
+    // 标记时间倒序（最新 ♥ 的在前），时间相同按年份倒序
+    rows.sort((a, b) => (b.t - a.t) || (Number(b.paper.year || 0) - Number(a.paper.year || 0)));
+    const counts = {
+        all: rows.length,
+        unknown: rows.filter(r => r.st === 'unknown').length,
+        unfamiliar: rows.filter(r => r.st === 'unfamiliar').length,
+        mastered: rows.filter(r => r.st === 'mastered').length,
+        fav: rows.filter(r => r.fav).length,
+    };
+    let list = heartFilter === 'all' ? rows
+        : (heartFilter === 'fav' ? rows.filter(r => r.fav) : rows.filter(r => r.st === heartFilter));
+    heartList = list;
+    heartShown = Math.min(HEART_PAGE, list.length);
+    const btns = [['all', `全部 ${counts.all}`], ['unknown', `🔴 不会 ${counts.unknown}`], ['unfamiliar', `🟡 不熟 ${counts.unfamiliar}`],
+                  ['mastered', `🟢 掌握 ${counts.mastered}`], ['fav', `📥 收藏 ${counts.fav}`]]
+        .map(([k, label]) => `<button class="cat-mark${heartFilter === k ? ' on' : ''}" data-hf="${k}" onclick="setHeartFilter('${k}')">${label}</button>`).join('');
+    let html = `<div class="paper-head">
+        <h1>♥ 我喜欢 · ${counts.all} 题</h1>
+        <div class="paper-sub">拼卷题卡上点 ♥ 的题都会汇总到这里（跨所有历史卷、所有题库）· 标记不进抽题池 · 状态/笔记实时同步</div>
+        <div class="hf-filter">${btns}</div>
+    </div>`;
+    if (!list.length) {
+        html += `<div class="empty-tip">${counts.all ? '当前筛选下没有题目。' : '还没有标记过 ♥。到拼卷页做题时，在题卡右侧状态栏点一下 ♡ 即可。'}</div>`;
+        el.innerHTML = html;
+        return;
+    }
+    html += `<div id="hfList"></div>
+      <div class="rv-bottom" id="hfBottom">
+        <button class="exam-btn" id="hfMoreBtn" onclick="heartAppendMore()">⬇️ 加载更多题</button>
+        <span class="rv-more-tip" id="hfMoreTip"></span>
+      </div>`;
+    el.innerHTML = html;
+    const wrap = document.getElementById('hfList');
+    const batch = document.createElement('div');
+    batch.className = 'rv-batch';
+    batch.innerHTML = heartList.slice(0, heartShown).map(e => catCard(e.paper, e.secTitle, e.q)).join('');
+    wrap.appendChild(batch);
+    heartAfterRender(batch);
+    heartUpdateMore();
+}
+
+// 跨标签页实时同步：♥ / 收藏 / 标记 / 笔记改动 → 对应页面自动刷新
 window.addEventListener('storage', (e) => {
     const k = e.key || '';
-    if (k === FAV_KEY || k === EXAM_STATUS_KEY || k.indexOf('examNote-') === 0) {
+    if (k === FAV_KEY || k === EXAM_STATUS_KEY || k === HEART_KEY || k.indexOf('examNote-') === 0) {
         if (REVIEW_MODE) renderReview();
+        else if (HEART_MODE) renderHeart();
         else { renderTree(); renderMain(); }
     }
 });
@@ -2622,6 +2774,8 @@ window.addEventListener('storage', (e) => {
 //   · 章节：轻约束「至少覆盖 5 章」，不满足重抽（上限 20 次，试不出取覆盖最多的一版）
 //   · 卷面：exam 式左栏（历史拼卷）+ 主区（按题型三段）+ 计时器（180 分钟可暂停重置）
 const PAPER_MODE = new URLSearchParams(location.search).get('paper') === '1';
+/** ♥ 喜欢页（category.html?heart=1）：汇总所有在拼卷里标过 ♥ 的题（跨全部历史卷/题库来源） */
+const HEART_MODE = new URLSearchParams(location.search).get('heart') === '1';
 
 /** 卷面结构 + 分值（解答题 4×12 + 2×11 = 70，与选择 50 + 填空 30 合计 150） */
 const PP_SHAPE = [
@@ -3679,6 +3833,7 @@ function ppApplyMode() {
 function renderMain() {
     const el = document.getElementById('catMain');
     if (REVIEW_MODE) { renderReview(); return; }           // 复测模式：标记题汇总
+    if (HEART_MODE) { renderHeart(); return; }             // ♥ 喜欢页：拼卷标过 ♥ 的题汇总
     if (PAPER_MODE) {                                      // 拼卷模式：拼出的卷
         if (!ppCur) {
             const list = ppListGet();
@@ -4314,8 +4469,8 @@ async function init() {
     {
         const el0 = document.getElementById('catMain');
         if (el0) {
-            el0.innerHTML = REVIEW_MODE
-                ? '<div class="cat-empty">⏳ 正在汇总你的标记题…<br><span style="font-size:13px;opacity:.75">'
+            el0.innerHTML = (REVIEW_MODE || HEART_MODE)
+                ? '<div class="cat-empty">⏳ 正在汇总' + (HEART_MODE ? '♥ 喜欢的题' : '你的标记题') + '…<br><span style="font-size:13px;opacity:.75">'
                 + '首次打开需读取 ~2.5MB 题库，请稍候（真题/大观园数据随后后台加载）</span></div>'
                 : '<div class="cat-empty">⏳ 正在加载题库…</div>';
         }
@@ -4407,11 +4562,12 @@ async function init() {
     } catch (e) { }
     applySrcMode(false);   // 先应用上次数据源（exam / core）→ 决定 papers，再建索引
     applyReviewMode();     // 复测模式（?review=1）：隐藏分类树、改标题
+    applyHeartMode();      // ♥ 喜欢页（?heart=1）：隐藏分类树、改标题
     ppApplyMode();         // 拼卷模式（?paper=1）：左栏换历史拼卷、改标题
     // 复测页 / 拼卷页都用不到「细分类树」数据（它只服务分类树的悬停浮层）→ 省一次往返。
     // 其余步骤（buildEntries / buildDeepIndex / renderTree / renderNav）保持不变 ——
     // activeEntries() 等依赖它们，跳过会引入不可预知的副作用。
-    if (!REVIEW_MODE && !PAPER_MODE) await loadCatDeep();
+    if (!REVIEW_MODE && !HEART_MODE && !PAPER_MODE) await loadCatDeep();
     // 本地「收到核心题库」增补层：把用户手动收进来的题并进 corePapers（需 catDeep 解析章节）
     try {
         if (window.CoreExtra && corePapers && corePapers.length) {
@@ -4421,7 +4577,7 @@ async function init() {
     } catch (e) { console.warn('核心增补并入失败', e); }
     buildEntries();
     if (!PAPER_MODE) buildDeepIndex();   // 拼卷左栏是历史卷列表，不需要细分类索引
-    if (!PAPER_MODE) renderTree();       // ⚠️ 必须跳过：否则分类树会覆盖左栏的卷列表
+    if (!PAPER_MODE && !HEART_MODE) renderTree();   // ⚠️ 拼卷/♥页左栏不是分类树，重建会覆盖其列表
     renderMain();
     renderNav();
     // 首屏已出 → 后台补真题 / 大观园数据（约 4.2MB）。核心题库模式用不到它们，
@@ -4430,8 +4586,8 @@ async function init() {
         if (!ok) return;
         if (srcMode !== 'exam') return;
         buildEntries();
-        if (!PAPER_MODE) buildDeepIndex();
-        if (!PAPER_MODE) renderTree();
+        if (!PAPER_MODE && !HEART_MODE) buildDeepIndex();
+        if (!PAPER_MODE && !HEART_MODE) renderTree();
         renderMain();
         renderNav();
     });
