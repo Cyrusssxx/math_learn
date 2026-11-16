@@ -1938,7 +1938,14 @@ html.dark .toc-filter input:focus-visible {
 
 /* ============ 收藏薄弱点重点标记（fav_focus，2026-11-16） ============
    很重点 ff-hot = 加粗 + ⭐ + 强调色；重点 ff-warm = 加粗 + 主色。
-   作用于章链接；选中态 .active 特异性更高，必须写在这些规则之后并由 active 覆盖。 */
+   三处章链接：左栏 #navTree .tree-ch（无 .toc-name 容器，直接上色）、
+   右栏 .toc-link、正文 doc-toc。selected 态由后面的 active 规则覆盖。 */
+/* 左栏章节树：基准色 text-faint / hover text，重点色须同级且靠后覆盖 */
+.tree-ch.ff-warm { color: var(--accent); font-weight: 600; }
+.tree-ch.ff-hot { color: var(--strong); font-weight: 700; }
+.tree-ch.ff-warm:hover { color: var(--accent); }
+.tree-ch.ff-hot:hover { color: var(--strong); }
+
 .toc-link.ff-warm .toc-name { color: var(--accent); font-weight: 600; }
 .toc-link.ff-hot .toc-name { color: var(--strong); font-weight: 700; }
 .ff-star { color: var(--strong); margin-right: 3px; font-size: .95em; }

@@ -77,28 +77,31 @@ function computeFocusLevels() {
     return byCh;
 }
 
-/** 给两处目录（右栏 #tocPane + 正文 doc-toc）的章链接加重点标记 */
+/** 给三处目录（左栏 #navTree + 右栏 #tocPane + 正文 doc-toc）的章链接加重点标记。
+ *  ⚠️ 左栏 tree-ch 是跨笔记的纯文本锚点：用 data-note 组 key（不能用 cur.id），
+ *     且没有 .toc-name 容器，⭐ 直接插到 link 首位。右栏/doc-toc 仍用当前笔记 id。 */
 function applyFavFocus() {
     const levels = computeFocusLevels();
-    const noteId = cur && cur.id;
-    if (!noteId) return;
-    const sel = '#tocPane .toc-item, .doc-toc .doc-toc-item';
+    const sel = '#navTree .tree-ch, #tocPane .toc-item, .doc-toc .doc-toc-item';
     document.querySelectorAll(sel).forEach(item => {
-        const link = item.querySelector(':scope > .toc-link');
+        const isTree = item.classList && item.classList.contains('tree-ch');
+        const link = isTree ? item : item.querySelector(':scope > .toc-link');
         if (!link || link.dataset.ch == null) return;
-        const lv = levels[noteId + '|' + link.dataset.ch];
+        const note = link.dataset.note || (cur && cur.id);
+        if (!note) return;
+        const lv = levels[note + '|' + link.dataset.ch];
         link.classList.remove('ff-hot', 'ff-warm');
-        const name = link.querySelector('.toc-name');
-        if (!name) return;
-        // 先清掉旧标记（避免重复路由叠加）
-        name.querySelectorAll('.ff-star').forEach(s => s.remove());
+        // ⭐ 宿主：右栏/doc-toc 是 .toc-name；左栏 tree-ch 是纯文本锚点，宿主就是 link 自身
+        const host = link.querySelector('.toc-name') || link;
+        // 先清掉旧标记（避免重复路由/重建树后叠加）
+        host.querySelectorAll('.ff-star').forEach(s => s.remove());
         if (lv === 'hot' || lv === 'warm') {
             link.classList.add(lv === 'hot' ? 'ff-hot' : 'ff-warm');
-            if (lv === 'hot' && !name.querySelector('.ff-star')) {
+            if (lv === 'hot' && !host.querySelector('.ff-star')) {
                 const star = document.createElement('span');
                 star.className = 'ff-star';
                 star.textContent = FOCUS_HOT_LABEL;
-                name.insertBefore(star, name.firstChild);
+                host.insertBefore(star, host.firstChild);
             }
         }
     });
@@ -618,6 +621,7 @@ function renderTree() {
     el.innerHTML = html;
     el.scrollTop = keep;
     _treeBuilt = true;
+    applyFavFocus();   // 树重建后重打重点标记（class + ⭐ 不会随 innerHTML 保留）
 }
 
 // ============ 右侧「本页目录」+ scrollspy ============
