@@ -19,7 +19,8 @@
 | `dgy_items.json` / `xd_bank.json` / `bank_questions.json` | 大观园习题 1346 / 线代重点 333 / 大观园真题 827 | category.js |
 | `ys27_items.json` | 27 模拟卷精选题 37 题（qid `ys27-N`，L0=50000）⚠️ 后 18 题（Q20–Q37）为数一/数三整题，待决策 | category.js（不分 srcMode，始终并入） |
 | `mn27_papers.json` | 27 精选十套卷（数二）10 套 220 题，`group='mock'`，qid `mn27-XX-N` | exam.js |
-| `notes.json` / `exam_categories.json` | 讲义笔记 33 篇 / 三级分类树 129 节点 | notes.html·cards.html / — |
+| `notes.json` / `exam_categories.json` | 讲义笔记 33 篇（主站隐藏 21记 后 32 篇） / 三级分类树 129 节点 | notes.html·cards.html / — |
+| `fav_focus.json` | 收藏薄弱点→笔记目录重点标记：55 知识点 / 88 章锚点 / 3042 qid 索引（68KB） | reader.js（index.html） |
 
 - `practice.json` 死数据。`exam.json` 紧凑单行，**写回必须 `json.dumps(d, ensure_ascii=False)`（默认分隔符，与原始字节完全一致）+ `newline=''`**；**`core_bank.json` = `json.dumps(d, indent=1, ensure_ascii=False)` 无尾换行**；`notes.json` = indent=2 无尾换行。⚠️ 单行紧凑 JSON 必须 `json.loads`→改 dict→`json.dumps`；禁止 inline `python -c` 改反斜杠/正则/JSON，必须写 .py 脚本 + 独立 .py 全量验证。⚠️ JSON 里 LaTeX 单反斜杠会被吃掉：`\frac` → U+000C（2021 卷 13 处已修，护栏 `_audit_syllabus.py` 扫 C0 控制字符）。
 - 修复字段遍历 `q.keys()` 全覆盖（含 `tips` 的 gs/jq/yc/zy）。填空统一 `\underline{\hspace{2cm}}`；别误伤 `\int_0`。
@@ -35,6 +36,7 @@
 - ⚠️ `reader.js` 与 `mdrender.js` 是两份副本，改渲染逻辑**必须同步**；链路 `emitList→breakLines→inline`。`emitList` 跳级缩进会丢整段列表；KaTeX auto-render 跨元素配对 `$`，输出前 `isBalanced()` + `stripLoneDollar()`。
 - **高亮配色**：黄淡杏 `#ffe8b8`（`--mk-y`/`.ab-y`/`ANN_HLS[0]`；深色 `#6b5c33`），按 `y` 键。带高固定 46%、只用 alpha 调浓度（浅 .72~.74）；`--nhl-bg` 由 `annHlRgba(c,.72)` 提供，两处内联同步。⚠️ `.ann-text mark` 与 `mark.note-hl` 特异性相同且靠后会盖掉 `var(--nhl-bg)`，选择器必须写 `:not(.note-hl)`。`.katex.fml-hl-*` 要 `padding:2px 4px` + 圆角 6px；`text-decoration` 会传播进 inline 后代（用 `:has` 从父取消）。断言 `_test_notes_hl.js`（CSS 规则体提取正则要行首锚定）。
 - **移动端目录（≤900px）**：`body.nav-open` + `::before` 遮罩（z25 < sidebar z26 < ☰ z30）；展开时 `.side-head` 用 `padding-top:60px`。收起统一 `closeMobileNav()`。`stripChNum()` 只剥显示编号，绝不动 `data-ch`/id。
+- **收藏薄弱点重点标记（fav_focus，2026-11-16）**：`reader.js` 读 `fav_focus.json` + localStorage `examFav`/`examStatus`，按「已收藏 ∩ (不会∪不熟)」题数分级（很重点≥10→`ff-hot`+⭐，重点4–9→`ff-warm`），`applyFavFocus()` 给两处目录章链接加 class；`storage` 事件跨标签页刷新。构建 `tools/_build_fav_focus.py`（显式 RULES，章标题精确匹配优先，跳过 21记隐藏笔记，q2cat 索引供运行时算分）。⚠️ 判定不含纯收藏/mastered；锚点用 note+ch 序号不碰 md；active 覆盖规则写 CSS 后面；不用 `:has`。测试 `_test_fav_focus.js`(7)/`_test_fav_focus_dom.js`(8，用 408-quiz 的 jsdom)。
 
 ## 4. 跨页副本（exam.js ↔ category.js）
 `mdBlockWithImg` / `fillExamNoteImgs` / `zoomAnsImg` / `mdBlock` / `qCard`vs`catCard` / `.q-note` 双框 / `copyQLatex`vs`copyCatQLatex`。

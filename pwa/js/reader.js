@@ -22,8 +22,91 @@ if (subjFilter === 'zy') {
 const POS_KEY = 'readerLastPos';   // 刷新恢复上次浏览位置：{id, ch, y}
 let firstRoute = true;             // 首次路由标记（刷新恢复只做一次）
 
+// ============ 收藏薄弱点 → 目录重点标记（fav_focus） ============
+// 数据：pwa/data/fav_focus.json { v, levels:{hot,warm}, catNotes:{cid:[{note,ch,h3}]}, q2cat:{qid:cid} }
+// 规则：某 L2 知识点的「已收藏 且 标为不会/不熟」题数 ≥hot → 很重点(⭐+加粗)；≥warm → 重点(加粗+主色)。
+// 动态：每次路由/收藏变化都实时重算，无需重跑构建脚本（只要知识点已覆盖）。
+let favFocus = null;               // null = 未加载/加载失败（静默降级，不显示任何标记）
+const FOCUS_HOT_LABEL = '⭐';      // 很重点前缀（与笔记既有 ⭐ 语义一致）
+
+/** 加载 fav_focus.json（失败静默降级） */
+async function loadFavFocus() {
+    try {
+        const resp = await fetch('data/fav_focus.json');
+        if (resp.ok) {
+            favFocus = await resp.json();
+            applyFavFocus();   // 数据可能晚于首屏 route 到达：补刷一次当前笔记的目录
+        }
+    } catch (e) { /* 离线/文件缺失：保持 null，功能停用不影响主站 */ }
+}
+
+/** 读 localStorage 里「已收藏 且 不会/不熟」的 qid 集合（与 exam-shared.js 的键/格式一致） */
+function weakFavQids() {
+    let fav, st;
+    try { fav = JSON.parse(localStorage.getItem('examFav')) || {}; } catch (e) { fav = {}; }
+    try { st = JSON.parse(localStorage.getItem('examStatus')) || {}; } catch (e) { st = {}; }
+    const out = [];
+    for (const qid in fav) {
+        const v = st[qid];
+        if (v === 'unknown' || v === 'unfamiliar') out.push(qid);
+    }
+    return out;
+}
+
+/** 计算 { "note|ch" : 'hot'|'warm' }，同一题命中多个知识点/多章时按题去重取最高级 */
+function computeFocusLevels() {
+    if (!favFocus || !favFocus.q2cat || !favFocus.catNotes) return {};
+    const { hot, warm } = favFocus.levels || {};
+    if (!hot || !warm) return {};
+    const q2cat = favFocus.q2cat, catNotes = favFocus.catNotes;
+    const cnt = {};                       // cid → 薄弱题数
+    for (const qid of weakFavQids()) {
+        const cid = q2cat[qid];
+        if (cid) cnt[cid] = (cnt[cid] || 0) + 1;
+    }
+    const rank = { hot: 2, warm: 1 };
+    const byCh = {};
+    for (const cid in cnt) {
+        const lv = cnt[cid] >= hot ? 'hot' : (cnt[cid] >= warm ? 'warm' : null);
+        if (!lv || !catNotes[cid]) continue;
+        for (const a of catNotes[cid]) {
+            const key = a.note + '|' + a.ch;
+            if (!byCh[key] || rank[lv] > rank[byCh[key]]) byCh[key] = lv;
+        }
+    }
+    return byCh;
+}
+
+/** 给两处目录（右栏 #tocPane + 正文 doc-toc）的章链接加重点标记 */
+function applyFavFocus() {
+    const levels = computeFocusLevels();
+    const noteId = cur && cur.id;
+    if (!noteId) return;
+    const sel = '#tocPane .toc-item, .doc-toc .doc-toc-item';
+    document.querySelectorAll(sel).forEach(item => {
+        const link = item.querySelector(':scope > .toc-link');
+        if (!link || link.dataset.ch == null) return;
+        const lv = levels[noteId + '|' + link.dataset.ch];
+        link.classList.remove('ff-hot', 'ff-warm');
+        const name = link.querySelector('.toc-name');
+        if (!name) return;
+        // 先清掉旧标记（避免重复路由叠加）
+        name.querySelectorAll('.ff-star').forEach(s => s.remove());
+        if (lv === 'hot' || lv === 'warm') {
+            link.classList.add(lv === 'hot' ? 'ff-hot' : 'ff-warm');
+            if (lv === 'hot' && !name.querySelector('.ff-star')) {
+                const star = document.createElement('span');
+                star.className = 'ff-star';
+                star.textContent = FOCUS_HOT_LABEL;
+                name.insertBefore(star, name.firstChild);
+            }
+        }
+    });
+}
+
 // ============ 初始化与路由 ============
 async function init() {
+    loadFavFocus();   // 并行加载重点标记数据，不阻塞笔记首屏
     const resp = await fetch('data/notes.json');
     if (!resp.ok) throw new Error('加载笔记数据失败: ' + resp.status);
     // 隐藏「考前21记」系列（id 以 21记 开头）：数据保留，仅主站不展示、不参与搜索
@@ -58,6 +141,10 @@ async function init() {
         el.classList.add('locate-flash');
         setTimeout(() => el.classList.remove('locate-flash'), 1800);
     });
+    // 跨标签页收藏/标记变化：同域 storage 事件实时刷新目录重点（用户要求动态更新）
+    window.addEventListener('storage', e => {
+        if (e.key === 'examFav' || e.key === 'examStatus') applyFavFocus();
+    });
     route();
 }
 
@@ -72,6 +159,7 @@ function route() {
         openFiles[note.id] = true;
         renderDoc(note);
         renderToc(note);
+        applyFavFocus();   // 收藏薄弱点重点标记（两处目录）；数据未加载时为空操作
         // ⚠️ 左侧树有 32 篇 × 全部章节（约 330 个节点），整棵重建实测 ~240ms，是切笔记卡顿的主因。
         //    这里只做「展开 + 高亮」的增量更新，并放到空闲时段，先让正文上屏。
         syncTreeActive();

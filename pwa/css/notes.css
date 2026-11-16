@@ -1935,3 +1935,22 @@ html.dark .toc-filter input:focus-visible {
     background: var(--ann-bg);
     box-shadow: none;
 }
+
+/* ============ 收藏薄弱点重点标记（fav_focus，2026-11-16） ============
+   很重点 ff-hot = 加粗 + ⭐ + 强调色；重点 ff-warm = 加粗 + 主色。
+   作用于章链接；选中态 .active 特异性更高，必须写在这些规则之后并由 active 覆盖。 */
+.toc-link.ff-warm .toc-name { color: var(--accent); font-weight: 600; }
+.toc-link.ff-hot .toc-name { color: var(--strong); font-weight: 700; }
+.ff-star { color: var(--strong); margin-right: 3px; font-size: .95em; }
+/* 右栏导轨同步染色：用 .toc-item > 前缀对齐 .done 的 (0,2,1) 特异性，写在后面胜出 */
+.toc-item > .toc-link.ff-warm { border-left-color: var(--accent); }
+.toc-item > .toc-link.ff-hot { border-left-color: var(--strong); }
+.toc-item > .toc-link.ff-hot.active { border-left-color: var(--accent); }
+/* 正文顶部 doc-toc：同样逻辑（里面的 .toc-link 有自带覆盖，需同等特异性） */
+.note-article .doc-toc .toc-link.ff-warm .toc-name { color: var(--accent); font-weight: 600; }
+.note-article .doc-toc .toc-link.ff-hot .toc-name { color: var(--strong); font-weight: 700; }
+/* 选中态优先：active 时必须回到选中样式，不能被重点标记盖住 */
+.toc-link.ff-warm.active .toc-name,
+.toc-link.ff-hot.active .toc-name { color: inherit; }
+.note-article .doc-toc .toc-link.ff-warm.active .toc-name,
+.note-article .doc-toc .toc-link.ff-hot.active .toc-name { color: inherit; }
