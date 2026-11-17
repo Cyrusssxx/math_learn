@@ -6499,8 +6499,8 @@
        "当 $\\lim_{x\\to 0}f'(x)=m$ 时，$f'(0)=m$.",
        "当 $f'(0)=m$ 时，$\\lim_{x\\to 0}f'(x)=m$."
       ],
-      "answer": "C\n\n根据可导的定义， $ f(x) $ 在 $ x = 0 $ 处可导等价于 $ \\lim_{x \\to 0} \\frac{f(x) - f(0)}{x - 0} $ 存在。若 $ f(x) $ 在 $ x = 0 $ 处可导，则 $ f(x) $ 在 $ x = 0 $ 处连续。\n\n由 $ \\lim_{x \\to 0} f(x) = 0 $ 可得 $ f(0) = 0 $。并且，由 $ f(x) $ 在 $ x = 0 $ 处可导可得 $ f^{\\prime}(0)=\\lim_{x\\to0}\\frac{f(x)-f(0)}{x-0}\\xlongequal{f(0)=0}\\lim_{x\\to0}\\frac{f(x)}{x}. $ 计算 $ \\lim_{x\\to0}\\frac{f(x)}{\\sqrt{|x|}} $： $ \\lim_{x\\to0^{+}}\\frac{f(x)}{\\sqrt{\\left|x\\right|}}=\\lim_{x\\to0^{+}}\\frac{f(x)}{\\sqrt{x}}=\\lim_{x\\to0^{+}}\\frac{f(x)}{x}\\cdot\\sqrt{x}=\\lim_{x\\to0^{+}}\\frac{f(x)}{x}\\cdot\\lim_{x\\to0^{+}}\\sqrt{x}=0. $ $ \\lim_{x\\to0^{-}}\\frac{f(x)}{\\sqrt{\\left|x\\right|}}=\\lim_{x\\to0^{-}}\\frac{f(x)}{\\sqrt{-x}}=\\lim_{x\\to0^{-}}\\frac{f(x)}{-x}\\cdot\\sqrt{-x}=-\\lim_{x\\to0^{-}}\\frac{f(x)}{x}\\cdot\\lim_{x\\to0^{-}}\\sqrt{-x}=0. $ $ \\lim_{x\\to0^{+}}\\frac{f(x)}{\\sqrt{|x|}}=\\lim_{x\\to0^{-}}\\frac{f(x)}{\\sqrt{|x|}}=0 $，即 $ \\lim_{x\\to0}\\frac{f(x)}{\\sqrt{|x|}}=0 $。选项C正确。选项 A、B: 取 $ f(x) = \\begin{cases} x^{3}, & x \\neq 0, \\\\ 1, & x = 0, \\end{cases} $ 则 $ \\lim_{x \\to 0} \\frac{f(x)}{\\sqrt{|x|}} = 0, \\lim_{x \\to 0} \\frac{f(x)}{x^{2}} = 0 $，但 $ f(x) $ 在 $ x = 0 $ 处不连续，当然也不可导。选项D: 取 $ f(x)=x $，则 $ f(x) $在$x=0$处可导，但 $ \\lim_{x\\to0}\\frac{f(x)}{x^{2}} $不存在。",
-      "idea": "① 若 $f$ 在 $x=0$ 可导，由 $\\lim_{x\\to0}f(x)=0$ 得 $f(0)=0$，$f'(0)=\\lim_{x\\to0}\\frac{f(x)}x$ 存在。② 从而 $\\frac{f(x)}{\\sqrt{|x|}}=\\frac{f(x)}x\\sqrt{|x|}\\to0$，该结论成立。③ 反例 $f(x)=\\sqrt{|x|}$ 使 $\\frac{f(x)}x,\\frac{f(x)}{x^2}$ 均不存在，排除另两项；取 $f(x)=x$ 排除剩余项。",
+      "answer": "B\n\n题目只给出 $\\lim\\limits_{x\\to0}f(x)=0$，**未给出** $f(0)=0$，这是本题的关键陷阱。逐项判断：\n\n**选项 A（错）**：取 $f(x)=\\begin{cases}x,&x\\ne0,\\\\1,&x=0.\\end{cases}$ 则 $\\lim\\limits_{x\\to0}f(x)=0$，且 $\\lim\\limits_{x\\to0}\\dfrac{f(x)}x=1=m$，但 $f$ 在 $x=0$ 处不连续，故 $f'(0)$ 不存在。反例排除 A。\n\n**选项 B（对）**：若 $f'(0)=m$ 存在，则 $f$ 在 $x=0$ 处连续，于是 $f(0)=\\lim\\limits_{x\\to0}f(x)=0$。由导数定义\n$$f'(0)=\\lim_{x\\to0}\\frac{f(x)-f(0)}{x-0}\\xlongequal{f(0)=0}\\lim_{x\\to0}\\frac{f(x)}x=m,$$\n即 $\\lim\\limits_{x\\to0}\\dfrac{f(x)}x=m$，B 成立。\n\n**选项 C（错）**：取 $f(x)=\\begin{cases}x^2,&x\\ne0,\\\\1,&x=0.\\end{cases}$ 当 $x\\ne0$ 时 $f'(x)=2x$，故 $\\lim\\limits_{x\\to0}f'(x)=0=m$，但 $f$ 在 $x=0$ 处不连续，$f'(0)$ 不存在。反例排除 C。\n\n**选项 D（错）**：取 $f(x)=\\begin{cases}x^2\\sin\\frac1x,&x\\ne0,\\\\0,&x=0.\\end{cases}$ 则 $f'(0)=\\lim\\limits_{x\\to0}\\dfrac{x^2\\sin\\frac1x}{x}=0=m$；但当 $x\\ne0$ 时 $f'(x)=2x\\sin\\frac1x-\\cos\\frac1x$，因 $\\cos\\frac1x$ 振荡，$\\lim\\limits_{x\\to0}f'(x)$ 不存在。反例排除 D。\n\n综上，正确选项为 **B**。",
+      "idea": "① 先识别题设只给了 $\\lim_{x\\to0}f(x)=0$，没给 $f(0)=0$；因此凡是由\"极限存在\"直接推\"该点可导\"的选项都要用\"函数值可被单独改动\"的分段反例去检验。② 反向成立才可靠：若 $f'(0)$ 存在，则 $f$ 在 $0$ 连续，从而 $f(0)=\\lim_{x\\to0}f(x)=0$，导定义中的 $f(0)$ 才能替换成 $0$，得 $\\lim_{x\\to0}\\frac{f(x)}x=f'(0)$，即 B 正确。③ 三个反例分工：$f(0)=1$ 型分段函数（跳点）排除 A、C；$x^2\\sin\\frac1x$ 排除 D（可导但导函数极限不存在）。④ 注意 C 与 D 是一对互否命题，都错在混淆\"导函数在该点附近的行为\"与\"该点导数本身\"。",
       "categoryIds": [
        367
       ],
@@ -6516,17 +6516,17 @@
       "videos": [
        {
         "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=61&t=634",
-        "label": "2020 数一 第2题 · 导入视频",
+        "label": "2024 数一 · 极限与导数互推 · 导入视频",
         "status": "unreviewed"
        },
        {
         "url": "https://www.bilibili.com/video/BV1z9H4z2EyY/?p=1&t=4885",
-        "label": "帕拉迪宇 · 帕拉迪宇 2020年数学一（2） · 极限与导数互推",
+        "label": "极限与导数互推 · 由 f'(0) 存在推 f(0)=0",
         "status": "unreviewed"
        },
        {
         "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=62&t=144",
-        "label": "汤家凤 · 汤家凤 2020年数学一（2） · 极限与导数互推",
+        "label": "极限与导数互推 · 反例辨析",
         "status": "unreviewed"
        }
       ]
