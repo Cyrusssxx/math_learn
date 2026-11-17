@@ -1698,6 +1698,8 @@ function applySideState() {
     const btn = document.getElementById('sideToggle');
     if (wrap) wrap.classList.toggle('side-closed', sideClosed);
     if (btn) btn.textContent = sideClosed ? '▶' : '◀';
+    // 左栏宽度变了 → 拼卷页题号球要重新贴内容区右缘（非拼卷页无 #ppNav，函数内部自行 return）
+    ppNavAlign();
 }
 
 function syncUnmarkedFirstBtn() {
@@ -3635,7 +3637,27 @@ function ppRenderNav() {
         html += `<button class="nav-q${unk ? ' mark-unk' : ''}" data-ppq="${i}" title="第 ${i} 题${unk ? ' · 🔴不会' : ''}" onclick="ppJumpQ(${i})">${i}</button>`;
     }
     list.innerHTML = html;
+    ppNavAlign();
     ppHighlightNav();
+}
+/** 题号球贴着内容区右缘，而不是钉在视口最右侧。
+ *  ⚠️ 拼卷页主区有 max-width，宽屏下内容右缘离视口右边缘还有几百 px；fixed right:16px 会把
+ *  题号球孤零零挂在屏幕角落，与内容完全脱节（2026-11-17 用户反馈「看不到右下角的题号栏」）。
+ *  这里按主区实际右缘 + 卡片右侧状态竖条（.q-status-rail，right:-58px）+ 16px 间隙反算 right：
+ *  左栏收起/展开、改窗口大小都会重算；视口太窄算不出正数就退回默认 16px。
+ *  ⚠️ 只调 right，不动 bottom（bottom:82px 是与 🎨 背景按钮互让的位置）。 */
+function ppNavAlign() {
+    const d = document.getElementById('ppNav');
+    const main = document.getElementById('catMain');
+    if (!d || !main) return;
+    const r = main.getBoundingClientRect();
+    if (!r.width) return;
+    const padR = parseFloat(getComputedStyle(main).paddingRight) || 0;
+    const contentRight = r.right - padR;    // 题卡右缘
+    const railW = 58 + 16;                  // 状态竖条外挂宽度 + 与题号球的间隙
+    const navW = 48;                        // 题号球收起态宽度
+    const right = Math.round(innerWidth - contentRight - railW - navW);
+    d.style.right = Math.max(16, right) + 'px';
 }
 /** 题卡按显示顺序排（.pp-item 的 DOM 顺序 = 第 1..N 题） */
 function ppNavCards() { return Array.from(document.querySelectorAll('#catMain .pp-item')); }
@@ -3867,7 +3889,7 @@ function ppApplyMode() {
     }
     window.addEventListener('scroll', ppPosSaveLazy, { passive: true });
     window.addEventListener('scroll', ppHighlightNavLazy, { passive: true });
-    window.addEventListener('resize', ppHighlightNavLazy);
+    window.addEventListener('resize', () => { ppHighlightNavLazy(); ppNavAlign(); });
     window.addEventListener('beforeunload', ppPosSave);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') ppPosSave(); });
     // 用户一动滚轮/触摸/按键就撤销「还在还原中的位置」，别跟人抢滚动条

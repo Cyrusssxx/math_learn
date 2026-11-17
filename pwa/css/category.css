@@ -615,7 +615,19 @@ body.heart-mode .hf-back { display: inline-flex; }
 
 body.paper-mode .rv-entry { display: none; }    /* 已在拼卷页，隐藏入口避免重复打开 */
 body.paper-mode .float-q { display: none; }     /* 题号球按「当前分类」生成，拼卷页无意义 */
-body.paper-mode #catMain { max-width: 900px; }
+/* 拼卷页主区：紧跟左栏、左对齐（不再居中）。
+   ⚠️ .exam-main 默认是 margin:0 auto 居中 + max-width:860，宽屏下（1920）会把内容推到屏幕中部：
+   左栏只占 200px，左侧却空出 400+ px，用户反馈「都太靠右了」；且收起左栏（200→40）时，
+   居中会让主区只左移一半（80px），看起来像布局没跟着动。左对齐后主区与左栏同步位移，收起/展开都不跳。
+   2026-11-17 */
+body.paper-mode #catMain {
+    margin-left: 0;
+    margin-right: auto;
+    max-width: 1080px;
+    /* 题卡右侧外挂「掌握/不熟/不会/♡」竖条是 absolute right:-58px，主区占满整列时没有余量，
+       1280 视口下竖条会被视口右缘裁掉一半 → 预留 58px + 8px 间隙。2026-11-17 */
+    padding-right: 90px;
+}
 /* 拼卷页顶栏加「🗂 分类题库」入口：复用已有的 .rv-back（默认隐藏），在此模式显示并改文案。
    rv-back 同时被复测/♥页共用（review-mode/heart-mode），故文案用两个 span 分模式切换，避免污染其他模式。 */
 .rv-back-paper { display: none; }   /* 默认隐藏拼卷文案（不依赖内联样式，避免 specificity 压不过） */
