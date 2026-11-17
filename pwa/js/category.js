@@ -1358,6 +1358,19 @@ function toggleTopBar(force) {
     syncTopH();
 }
 function restoreTopBar() {
+    // ⚠️ 拼卷页 (?paper=1) 强制展开顶栏：顶栏折叠状态 examTopCollapsed 是跨页共享的，
+    // 用户在真题页/分类页收起后打开拼卷页会继承「收起」，导致刚需的「🗂 分类题库 / ♥ / 真题页」
+    // 入口整排消失（2026-11-17 用户截图反馈「顶栏和题号没了」）。拼卷页是做题页，
+    // 顶栏入口必须常驻可见，故这里忽略跨页折叠状态、直接展开 DOM 而不写回 localStorage
+    // （不调用 toggleTopBar，避免污染其他页记住的用户折叠偏好）。
+    if (PAPER_MODE) {
+        const top = document.getElementById('examTop');
+        const toggle = document.getElementById('examTopToggle');
+        if (top) top.classList.remove('collapsed');
+        if (toggle) toggle.classList.remove('collapsed');
+        syncTopH();
+        return;
+    }
     const collapsed = localStorage.getItem(TOP_COLLAPSED_KEY) === '1';
     toggleTopBar(collapsed);
 }
