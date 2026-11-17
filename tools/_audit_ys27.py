@@ -157,8 +157,8 @@ def main():
     elif l0[0].get('ord') != 60000:
         bad('分类', '50000 的 ord=%r（应为 60000，排在历年真题之后）' % l0[0].get('ord'))
     l1 = [c for c in cats.values() if c.get('parentId') == 50000]
-    if len(l1) != 9:
-        bad('分类', 'L1 章节数 %d（应为 9）' % len(l1))
+    if len(l1) != 6:
+        bad('分类', 'L1 章节数 %d（应为 6）' % len(l1))
 
     # 图片引用必须真实存在
     for q in qs:

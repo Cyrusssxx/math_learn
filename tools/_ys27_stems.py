@@ -227,162 +227,7 @@ $$\begin{cases}x_n=y_{n-1}+\lambda^{\,n-1},\\ y_n=-2x_{n-1}+3y_{n-1}+2\lambda^{\
 (3) 在 (2) 的条件下，求 $x_n,y_n$ 的通项公式.""",
         options=[],
     ),
-    dict(
-        no=20, origin='4', kind='choice', source='李艳芳数一第三套第4题（原书列在「级数」章）', catId=50071,
-        stem=r"""设封闭曲线 $L$ 的方程为 $\frac{x^2}{4}+y^2=1$，函数 $f(x,y)$ 满足 $\oint_L\frac{\partial f}{\partial n}\,\mathrm{d}s$ 等于由 $L$ 所围成区域 $D$ 的面积，其中 $n$ 是曲线 $L$ 的单位外法线向量，则 $f(x,y)$ 可以是下列函数中的（　　）""",
-        options=[
-            r'A. $e^x\sin y+\frac{y^2}{2}$.',
-            r'B. $e^x\sin y+y^2$.',
-            r'C. $\frac{x^2}{4}+y^2$.',
-            r'D. $\frac{x^2}{2}+\frac{y^2}{4}$.',
-        ],
-    ),
-    dict(
-        no=21, origin='22', kind='calc', source='小侯七数一第一套第22题', catId=50082,
-        stem=r"""已知 $X_1,X_2,\cdots,X_n\,(n\ge 2)$ 为来自正态总体 $N(\mu,\sigma^2)$ 的简单随机样本，参数 $\mu$ 与 $\sigma^2$ 未知.
 
-(1) 已知 $\int_{-\infty}^{A}f(x,\mu,\sigma^2)\,\mathrm{d}x=0.975$，求参数 $A$ 的最大似然估计量，其中 $f(x,\mu,\sigma^2)$ 为总体随机变量 $X$ 的概率密度；($\Phi(1.96)=0.975$)
-
-(2) 若 $\hat\mu$ 与 $\hat\sigma^2$ 分别为 $\mu$ 与 $\sigma^2$ 的最大似然估计量，计算期望 $E\left[(\hat\mu-\mu)^4\hat\sigma^4\right]$.""",
-        options=[],
-    ),
-    dict(
-        no=22, origin='22', kind='calc', source='小侯七数一第三套第22题', catId=50082,
-        stem=r"""已知 $X_1,X_2,\cdots,X_{50}$ 为来自正态总体 $N(\mu,\sigma^2)$ 的简单随机样本，参数 $\mu$ 与 $\sigma^2$ 未知.
-
-(1) 求参数 $\mu$ 与 $\sigma^2$ 的最大似然估计量；
-
-(2) 若样本均值 $\bar x=14.75$，样本方差 $S^2=\frac{1}{49}\sum\limits_{i=1}^{50}(X_i-\bar X)^2=66.90$，求参数 $\mu$ 的置信度为 $0.95$ 的置信区间，其中 $\sqrt{S^2}\approx 8.18$，$t_{0.025}(49)=2.010$；
-
-(3) 以 (2) 中样本数据考虑零假设 $H_0:\mu=12$ 与备择假设 $H_1:\mu\neq 12$，则在显著性水平 $\alpha=5\%$ 时，判断是否拒绝 $H_0$.""",
-        options=[],
-    ),
-    dict(
-        no=23, origin='9', kind='choice', source='李艳芳数一第二套第9题', catId=50081,
-        stem=r"""设随机变量 $X$ 的分布函数为 $F(x)$，概率密度为 $f(x)$，则下列说法中，错误的是（　　）""",
-        options=[
-            r'A. $\frac{1}{2}[f(x)+f(-x)]$ 必为某随机变量的概率密度.',
-            r'B. $f(x)f(-x)$ 必为某随机变量的概率密度.',
-            r'C. $2f(x)F(x)$ 必为某随机变量的概率密度.',
-            r'D. $2f(x)[1-F(x)]$ 必为某随机变量的概率密度.',
-        ],
-    ),
-    dict(
-        no=24, origin='10', kind='choice', source='李艳芳数一第二套第10题', catId=50082,
-        stem=r"""设总体 $X$ 服从均匀分布 $U(\theta_1,\theta_2)$。$X_1,X_2,\cdots,X_{96}$ 为来自总体 $X$ 的一个简单随机样本。利用样本的一阶原点矩和二阶中心矩估计 $\theta_1,\theta_2$，矩估计值分别为 $\hat\theta_1,\hat\theta_2$。已知样本方差 $S^2=\frac{1}{10}$，则 $\hat\theta_2-\hat\theta_1=$（　　）""",
-        options=[
-            r'A. $\frac{\sqrt{19}}{5}$.',
-            r'B. $\frac{\sqrt{19}}{4}$.',
-            r'C. $\frac{\sqrt{30}}{5}$.',
-            r'D. $\frac{\sqrt{30}}{4}$.',
-        ],
-    ),
-    dict(
-        no=25, origin='22', kind='calc', source='李艳芳数一第三套第22题', catId=50081,
-        stem=r"""设随机变量 $X$ 服从 $(0,2)$ 上的均匀分布，当 $0<X\le 1$ 时，在 $X=x$ 的条件下，随机变量 $Y\sim N(x,1)$；当 $1<X<2$ 时，在 $X=x$ 的条件下，随机变量 $Y$ 服从 $(0,x)$ 上的均匀分布。令 $Z=\min\{X,Y\}$.
-
-(Ⅰ) 求 $(X,Y)$ 的联合概率密度 $f(x,y)$；
-
-(Ⅱ) 求 $Z$ 的概率密度 $f_Z(z)$，结果用标准正态分布的分布函数 $\Phi(z)$ 表示.""",
-        options=[],
-    ),
-    dict(
-        no=26, origin='9', kind='choice', source='张八数一第一套第9题', catId=50081,
-        stem=r"""设 $X$ 与 $Y$ 为具有二阶矩的随机变量，且 $DX\neq 0$，若记 $G(a,b)=E\left\{[Y-(a+bX)]^2\right\}$，则 $G(a,b)$ 在驻点处的值为""",
-        options=[
-            r'A. $(1-\rho_{XY}^2)DY$.',
-            r'B. $(1+\rho_{XY}^2)DY$.',
-            r'C. $(1-\rho_{XY}^2)\mathrm{Cov}(X,Y)$.',
-            r'D. $(1+\rho_{XY}^2)\mathrm{Cov}(X,Y)$.',
-        ],
-    ),
-    dict(
-        no=27, origin='10', kind='choice', source='张八数一第三套第10题', catId=50083,
-        stem=r"""设两组数据分别来自两个方差相同且相互独立的正态总体 $X\sim N(\mu_1,\sigma^2)$ 与 $Y\sim N(\mu_2,\sigma^2)$。现检验两组数据的均值有无显著差异，且犯第一类错误的概率为 $\alpha$，则应""",
-        options=[
-            r'A. 在置信度为 $1-\alpha$ 下，检验 $H_0:\mu_1\neq\mu_2$；$H_1:\mu_1=\mu_2$.',
-            r'B. 在置信度为 $1-\frac{\alpha}{2}$ 下，检验 $H_0:\mu_1\neq\mu_2$；$H_1:\mu_1=\mu_2$.',
-            r'C. 在置信度为 $1-\alpha$ 下，检验 $H_0:\mu_1=\mu_2$；$H_1:\mu_1\neq\mu_2$.',
-            r'D. 在置信度为 $1-\frac{\alpha}{2}$ 下，检验 $H_0:\mu_1=\mu_2$；$H_1:\mu_1\neq\mu_2$.',
-        ],
-    ),
-    dict(
-        no=28, origin='16', kind='blank', source='张八数一第三套第16题', catId=50081,
-        stem=r"""设随机变量 $X$ 服从 $[-1,a]$ 上的均匀分布，如果由切比雪夫不等式得 $P\{|X-1|<\varepsilon\}\ge\frac{2}{3}$，则 $(a,\varepsilon)=$ ______.""",
-        options=[],
-    ),
-    dict(
-        no=29, origin='22', kind='calc', source='张八数一第三套第22题', catId=50081,
-        stem=r"""快递驿站有 $2$ 个打包台，同时来了 $3$ 位寄件人：$A$ 和 $B$ 先在两个打包台打包快递，$C$ 需要等其中一个打包台空闲后，再开始打包。已知每个人的打包时间相互独立，且都服从参数为 $\lambda\,(\lambda>0)$ 的指数分布。求寄件人 $C$ 从进入驿站到打包完成离开的总时间 $T$ 的概率密度.""",
-        options=[],
-    ),
-    dict(
-        no=30, origin='22', kind='calc', source='张八数一第六套第22题', catId=50081,
-        stem=r"""设商场某日的顾客总数 $N$ 服从泊松分布 $P(\lambda)$，单个顾客每次的消费额为 $1$（单位：元），令 $X_j$ 表示第 $j$ 个顾客 $n$ 次试验消费的次数，$X_j$ 与 $N$ 独立且服从二项分布 $B(n,p)$.
-
-(1) 已知 $N=m\,(m>0)$ 的条件下，求全天营业额 $S$ 的概率分布；
-
-(2) 计算 $E(S\mid N)$；
-
-(3) 计算 $ES$.""",
-        options=[],
-    ),
-    dict(
-        no=31, origin='22', kind='calc', source='李六数一第六套第22题', catId=50082,
-        stem=r"""设总体 $X\sim U[0,\theta]$，$X_1,X_2,\cdots,X_n$ 为来自总体 $X$ 的简单随机样本。
-
-(Ⅰ) 求 $\theta$ 的最大似然估计量 $\hat\theta$，并说明 $\hat\theta$ 是否为 $\theta$ 的无偏估计量；
-
-(Ⅱ) 记 $X_{(n)}=\max(X_1,X_2,\cdots,X_n)$，若选取 $T=\frac{X_{(n)}}{\theta}$ 为统计量，判断 $\theta$ 的 $1-\alpha\,(0<\alpha<1)$ 的置信区间是否为
-
-$$\left(\frac{X_{(n)}}{\sqrt[n]{1-\alpha/2}},\ \frac{X_{(n)}}{\sqrt[n]{\alpha/2}}\right).$$""",
-        options=[],
-    ),
-    dict(
-        no=32, origin='19', kind='calc', source='李艳芳数一第一套第19题', catId=50091,
-        stem=r"""计算曲面积分
-
-$$I=\iint_\Sigma\left[x\left(1+\frac{1}{|x|+|y|}\right)\mathrm{d}y\mathrm{d}z+y\left(1+\frac{1}{|x|+|y|}\right)\mathrm{d}z\mathrm{d}x+z\left(1+\frac{|x|}{|x|+|y|}\right)\mathrm{d}x\mathrm{d}y\right]$$
-
-其中 $\Sigma$ 是圆柱面 $x^2+y^2=1$ 与平面 $z=1,\ z=-1$ 所围立体表面的外侧.""",
-        options=[],
-    ),
-    dict(
-        no=33, origin='4', kind='choice', source='李艳芳数一第二套第4题', catId=50092,
-        stem=r"""设 $b_n\neq 0\,(n=0,1,\cdots)$，幂级数 $\sum\limits_{n=0}^{\infty}a_nx^n$ 与 $\sum\limits_{n=0}^{\infty}b_nx^n$ 的收敛半径分别为 $R$ 与 $2R$，$0<R<+\infty$。记幂级数 $\sum\limits_{n=0}^{\infty}(a_n-b_n)x^n$ 的收敛半径为 $r_1$，$\sum\limits_{n=0}^{\infty}\frac{a_n}{b_n}x^n$ 的收敛半径为 $r_2$，则（　　）""",
-        options=[
-            r'A. $r_1\le R,\ r_2=\frac{1}{2}$.',
-            r'B. $r_1\le R,\ r_2\le\frac{1}{2}$.',
-            r'C. $r_1=R,\ r_2=\frac{1}{2}$.',
-            r'D. $r_1=R,\ r_2\le\frac{1}{2}$.',
-        ],
-    ),
-    dict(
-        no=34, origin='14', kind='blank', source='李艳芳数一第二套第14题', catId=50092,
-        stem=r"""设 $f(x)$ 是周期为 $2\pi$ 的函数，且当 $x\in(-\pi,\pi)$ 时，$f(x)=|x\cos x|$。若 $f(x)=\frac{a_0}{2}+\sum\limits_{n=1}^{\infty}a_n\cos(nx)$，则 $\sum\limits_{n=1}^{\infty}a_{2n}=$ ______.""",
-        options=[],
-    ),
-    dict(
-        no=35, origin='19', kind='calc', source='李艳芳数一第二套第19题', catId=50093,
-        stem=r"""设直线 $L$ 过点 $A(1,0,0)$、点 $B(1,1,1)$，将 $L$ 绕 $z$ 轴旋转一周得到曲面 $S$，$S$ 与平面 $x=2z$ 的交线为 $\Gamma$，从 $z$ 轴正向看去，$\Gamma$ 沿逆时针方向.
-
-(Ⅰ) 求 $S$ 的曲面方程，并判断其形状；
-
-(Ⅱ) 求曲线积分 $I=\int_\Gamma \sin(xy)\,\mathrm{d}x+(x^3+xz-z^2)\,\mathrm{d}y+(y+x^2z)\,\mathrm{d}z$.""",
-        options=[],
-    ),
-    dict(
-        no=36, origin='7', kind='choice', source='张八数一第五套第7题', catId=50093,
-        stem=r"""线性方程组 $\begin{cases}x_1+x_2+ax_3=4,\\ x_1-x_2+2x_3=-4,\\ -x_1+ax_2+x_3=a^2\end{cases}$ 所代表的三个平面不可能的位置关系为（　　）
-
-![四个选项均为三平面位置关系示意图](data/img/ys27/ys27_q36.png)""",
-        options=[],
-    ),
-    dict(
-        no=37, origin='14', kind='blank', source='张八数一第八套第14题', catId=50092,
-        stem=r"""设 $S(x)=\sum\limits_{n=1}^{\infty}b_n\sin\frac{n\pi x}{2}$，其中 $b_n=\int_0^1 x^2\sin\frac{n\pi x}{2}\,\mathrm{d}x+\int_1^2 e^x\sin\frac{n\pi x}{2}\,\mathrm{d}x$，$n\in\mathbb{N}_+$，则 $S(-9)=$ ______.""",
-        options=[],
-    ),
 ]
 
 # 三级分类：27 模拟卷精选题（L0）→ 九章（L1）→ 知识点（L2）
@@ -395,9 +240,6 @@ YS27_CATS = [
     dict(id=50004, name='矩阵及行列式', parentId=50000, level=1, ord=4),
     dict(id=50005, name='向量与线性方程组', parentId=50000, level=1, ord=5),
     dict(id=50006, name='二次型', parentId=50000, level=1, ord=6),
-    dict(id=50007, name='级数与曲线积分', parentId=50000, level=1, ord=7),
-    dict(id=50008, name='概率论（数一/数三）', parentId=50000, level=1, ord=8),
-    dict(id=50009, name='数一专项（数一）', parentId=50000, level=1, ord=9),
 
     dict(id=50011, name='等价无穷小与阶', parentId=50001, level=2, ord=1),
     dict(id=50021, name='抽象函数与凹凸性', parentId=50002, level=2, ord=1),
@@ -414,13 +256,6 @@ YS27_CATS = [
     dict(id=50052, name='方程组解的结构', parentId=50005, level=2, ord=2),
     dict(id=50061, name='正定与标准形', parentId=50006, level=2, ord=1),
     dict(id=50062, name='二次型与对角化', parentId=50006, level=2, ord=2),
-    dict(id=50071, name='曲线积分与格林公式', parentId=50007, level=2, ord=1),
-    dict(id=50081, name='分布与数字特征', parentId=50008, level=2, ord=1),
-    dict(id=50082, name='参数估计', parentId=50008, level=2, ord=2),
-    dict(id=50083, name='假设检验', parentId=50008, level=2, ord=3),
-    dict(id=50091, name='曲面积分', parentId=50009, level=2, ord=1),
-    dict(id=50092, name='幂级数与傅里叶', parentId=50009, level=2, ord=2),
-    dict(id=50093, name='空间解析几何与曲线积分', parentId=50009, level=2, ord=3),
 ]
 
 # 章节标题（数据里的 section.title；只用于展示与题型分组，与分类树无关）
@@ -431,7 +266,4 @@ CHAPTERS = [
     (50004, '四、矩阵及行列式'),
     (50005, '五、向量与线性方程组'),
     (50006, '六、二次型'),
-    (50007, '七、级数与曲线积分'),
-    (50008, '八、概率论'),
-    (50009, '九、数一专项'),
 ]

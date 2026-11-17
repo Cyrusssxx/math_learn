@@ -113,7 +113,8 @@ def main():
     ans, missing = load_answers()
     if missing:
         raise SystemExit('答案片段缺失：%s（目录 %s）' % (', '.join(missing), ANS_DIR))
-    nos = sorted(ans)
+    max_no = max(s['no'] for s in STEMS)
+    nos = sorted(n for n in ans if n <= max_no)   # 忽略已删超纲题的旧答案片段
     if nos != list(range(1, len(STEMS) + 1)):
         raise SystemExit('答案序号不连续：%s' % nos)
 
@@ -138,7 +139,7 @@ def main():
     cats = build_cats(cats)
     added = len(cats) - before
     ctext = json.dumps(cats, ensure_ascii=False, indent=1)   # 与仓库原格式一致：indent=1、无尾换行
-    print('分类表：新增 %d 个节点（L0 1 + L1 9 + L2 %d），共 %d' % (
+    print('分类表：新增 %d 个节点（L0 1 + L1 6 + L2 %d），共 %d' % (
         added, len([c for c in YS27_CATS if c['level'] == 2]), len(cats)))
     if not check:
         io.open(cpath, 'w', encoding='utf-8', newline='\n').write(ctext)
@@ -151,10 +152,7 @@ def main():
             ids.add(q['no'])
             assert q['stem'].count('$$') % 2 == 0, ('$$ 不成对', q['no'])
             if q['kind'] == 'choice':
-                # no=36 的四个选项是「三平面位置关系」示意图，整组裁成一张图放进题干，
-                # 因此 options 为空（其余选择题必须 4 个文字选项）
-                assert len(q['options']) == 4 or (not q['options'] and '![' in q['stem']), \
-                    ('选项数不是 4', q['no'])
+                assert len(q['options']) == 4, ('选项数不是 4', q['no'])
             else:
                 assert not q['options'], ('非选择题却有选项', q['no'])
     print('自检通过：%d 题，$$ 成对，选择题均为 4 个选项' % len(ids))
