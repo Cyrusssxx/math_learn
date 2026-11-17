@@ -78,6 +78,14 @@ a { color: var(--accent); text-decoration: none; }
     white-space: nowrap;   /* 防止顶栏拥挤时把 emoji/文字挤成竖排 */
 }
 .exam-btn:hover { background: var(--bg-hover); }
+/* 顶栏 ♥ 汇总入口放大：两页顶栏共用本文件，specificity 需高过
+   category.css 的 .exam-topbtns .exam-btn{font-size:12.5px} 局部覆盖才生效。 */
+a.exam-btn.hf-entry {
+    font-size: 18px;
+    line-height: 1.3;
+    padding: 2px 11px;
+    font-weight: 700;
+}
 .exam-btn.on {
     background: var(--star-bg);
     border-color: var(--star-border);

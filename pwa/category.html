@@ -10,8 +10,8 @@
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
     <link rel="stylesheet" href="css/notes.css?v=538d0ca9">
-    <link rel="stylesheet" href="css/exam.css?v=51758271">
-    <link rel="stylesheet" href="css/category.css?v=9c038acf">
+    <link rel="stylesheet" href="css/exam.css?v=2ed67c13">
+    <link rel="stylesheet" href="css/category.css?v=3b14f830">
     <link rel="stylesheet" href="css/analysis.css?v=a6201435">
     <link rel="stylesheet" href="css/mastery.css?v=0d6b5ffc">
     <link rel="stylesheet" href="css/advice.css?v=0bcf771f">
@@ -35,7 +35,7 @@
             <a class="exam-btn rv-entry" href="category.html?review=1" target="_blank" rel="noopener" title="复测：新标签页打开「我的标记题」汇总（收藏/掌握/不熟/不会，附带笔记，实时同步）">🔁 复测</a>
             <a class="exam-btn rv-entry" href="category.html?paper=1" target="_blank" rel="noopener" title="拼卷：从标记过的题里随机拼一份 22 题 150 分的卷（最久没做的先抽，同一时间档内「不会/不熟」优先；抽过的题不再重复，左栏有存量计数器）">🎲 拼卷</a>
             <a class="exam-btn hf-entry" href="category.html?heart=1" target="_blank" rel="noopener" title="汇总所有在拼卷题卡上标过 ♥ 的题（跨全部历史卷/题库），可按状态二次筛选，可在此取消标记（新标签页）">♥</a>
-            <a class="exam-btn rv-back hf-back" href="category.html" title="返回分类页">🗂 分类</a>
+            <a class="exam-btn rv-back hf-back" href="category.html" title="返回分类页"><span class="rv-back-label">🗂 分类</span><span class="rv-back-paper">🗂 分类题库</span></a>
             <div class="cat-marks">
                 <button class="cat-mark" data-m="fav" onmousedown="event.preventDefault()" onclick="toggleMark('fav')" title="只看已收藏的题">📥 收藏</button>
                 <button class="cat-mark" data-m="unfamiliar" onmousedown="event.preventDefault()" onclick="toggleMark('unfamiliar')" title="只看标记为「不熟」的题">🟡 不熟</button>
