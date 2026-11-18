@@ -3348,7 +3348,6 @@ function ppProgHtml() {
     const tot = rows.reduce((a, r) => a + r[1].all, 0);
     const rest = rows.reduce((a, r) => a + restOf(r[1]), 0);
     const pct = tot ? Math.round((tot - rest) * 100 / tot) : 0;
-    const noFav = (stats.noFav.unknown || 0) + (stats.noFav.unfamiliar || 0);
     let h = `<div class="pp-prog${rest ? '' : ' empty'}" title="抽过的题不再重复抽取；要重新开始点底部「清空抽题记录」">
         <div class="pp-pg-top"><span>抽题进度</span><span class="pp-pg-rest">剩 <b>${rest}</b> 题</span></div>
         <div class="pp-pg-bar"><i style="width:${pct}%"></i></div>
@@ -3356,8 +3355,6 @@ function ppProgHtml() {
     for (const [lab, x] of rows) {
         h += `<div class="pp-pg-grid"><span class="pp-pg-lab">${lab}</span><span class="pp-pg-n">${x.drawn}</span><span class="pp-pg-n rest">${restOf(x)}</span></div>`;
     }
-    // 未收藏但有状态的题：说明收进 tooltip 小块（左栏仅 200px，完整句放 data-tip 由 CSS 浮窗展示）
-    if (noFav) h += `<span class="pp-note-tip" data-tip="另有 ${noFav} 题标了不熟/不会但未收藏，不参与抽题">ⓘ 未收藏 ${noFav} 题</span>`;
     if (!rest) h += `<div class="pp-pg-note warn">标记的题已抽完，点下方「清空抽题记录」可重新开始</div>`;
     return h + `</div>`;
 }
