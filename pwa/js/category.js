@@ -2794,7 +2794,9 @@ window.addEventListener('storage', (e) => {
 //   · 配比：选择 10 / 填空 6 / 解答 6 = 22 题（2024–2026 数二真题结构），统一 150 分制
 //   · 章节：轻约束「至少覆盖 5 章」，不满足重抽（上限 20 次，试不出取覆盖最多的一版）
 //   · 卷面：exam 式左栏（历史拼卷）+ 主区（按题型三段）+ 计时器（180 分钟可暂停重置）
-const PAPER_MODE = new URLSearchParams(location.search).get('paper') === '1';
+// 拼卷模式：独立页 paper.html（强刷首帧即拼卷骨架，不闪分类页）或旧链接 category.html?paper=1（兼容旧书签/入口）
+// ⚠️ 两种入口必须等价：pathname 命中 paper.html 即拼卷，不再依赖 URL 参数是否被 SW/刷新保留。
+const PAPER_MODE = /(?:^|\/)paper\.html$/i.test(location.pathname) || new URLSearchParams(location.search).get('paper') === '1';
 /** ♥ 喜欢页（category.html?heart=1）：汇总所有在拼卷里标过 ♥ 的题（跨全部历史卷/题库来源） */
 const HEART_MODE = new URLSearchParams(location.search).get('heart') === '1';
 
