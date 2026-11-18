@@ -615,13 +615,12 @@ body.heart-mode .hf-back { display: inline-flex; }
 
 body.paper-mode .rv-entry { display: none; }    /* 已在拼卷页，隐藏入口避免重复打开 */
 body.paper-mode .float-q { display: none; }     /* 题号球按「当前分类」生成，拼卷页无意义 */
-/* 拼卷页主区：紧跟左栏、左对齐（不再居中）。
-   ⚠️ .exam-main 默认是 margin:0 auto 居中 + max-width:860，宽屏下（1920）会把内容推到屏幕中部：
-   左栏只占 200px，左侧却空出 400+ px，用户反馈「都太靠右了」；且收起左栏（200→40）时，
-   居中会让主区只左移一半（80px），看起来像布局没跟着动。左对齐后主区与左栏同步位移，收起/展开都不跳。
-   2026-11-17 */
+/* 拼卷页主区：视口内居中，不随左栏收起而左右移动（2026-11-18 用户口径）。
+   ⚠️ 2026-11-17 曾改成 margin-left:0 左对齐紧跟左栏，但收起左栏后主区贴到 x=40、
+   右侧空出 130+ px，用户反馈「题目不随左栏收起、保持居中」。改回 margin:0 auto：
+   主区恒在视口内居中，左栏展开/收起只影响左栏自身，主区中心不动。 */
 body.paper-mode #catMain {
-    margin-left: 0;
+    margin-left: auto;
     margin-right: auto;
     max-width: 1080px;
     /* 题卡右侧外挂「掌握/不熟/不会/♡」竖条是 absolute right:-58px，主区占满整列时没有余量，

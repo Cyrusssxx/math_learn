@@ -3643,24 +3643,15 @@ function ppRenderNav() {
     ppNavAlign();
     ppHighlightNav();
 }
-/** 题号球贴着内容区右缘，而不是钉在视口最右侧。
- *  ⚠️ 拼卷页主区有 max-width，宽屏下内容右缘离视口右边缘还有几百 px；fixed right:16px 会把
- *  题号球孤零零挂在屏幕角落，与内容完全脱节（2026-11-17 用户反馈「看不到右下角的题号栏」）。
- *  这里按主区实际右缘 + 卡片右侧状态竖条（.q-status-rail，right:-58px）+ 16px 间隙反算 right：
- *  左栏收起/展开、改窗口大小都会重算；视口太窄算不出正数就退回默认 16px。
- *  ⚠️ 只调 right，不动 bottom（bottom:82px 是与 🎨 背景按钮互让的位置）。 */
+/** 题号球固定在视口右下角、🎨 背景按钮正上方（用户指定位置，2026-11-18）。
+ *  ⚠️ 之前按主区右缘动态反算 right（2026-11-17），但主区改成居中后，收起左栏会让主区右缘
+ *  左移，题号球跟着飘到 x≈1095，偏离了调色盘正上方（用户截图红框标注的位置）。
+ *  现统一回到 CSS 默认值 `.float-q { right:16px; bottom:82px }`（刷题页同款），
+ *  这里只清除可能残留的内联 right，保证恒定为视口右下角；不动 bottom。 */
 function ppNavAlign() {
     const d = document.getElementById('ppNav');
-    const main = document.getElementById('catMain');
-    if (!d || !main) return;
-    const r = main.getBoundingClientRect();
-    if (!r.width) return;
-    const padR = parseFloat(getComputedStyle(main).paddingRight) || 0;
-    const contentRight = r.right - padR;    // 题卡右缘
-    const railW = 58 + 16;                  // 状态竖条外挂宽度 + 与题号球的间隙
-    const navW = 48;                        // 题号球收起态宽度
-    const right = Math.round(innerWidth - contentRight - railW - navW);
-    d.style.right = Math.max(16, right) + 'px';
+    if (!d || !d.style) return;
+    d.style.right = '';   // 回到 CSS 默认 right:16px（钉在调色盘正上方）
 }
 /** 题卡按显示顺序排（.pp-item 的 DOM 顺序 = 第 1..N 题） */
 function ppNavCards() { return Array.from(document.querySelectorAll('#catMain .pp-item')); }
