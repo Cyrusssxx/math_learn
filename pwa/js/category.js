@@ -3904,7 +3904,11 @@ function ppApplyMode() {
     document.title = '🎲 拼卷 · 随机收藏题';
     const sub = document.getElementById('examSub');
     if (sub) {
-        sub.textContent = '从收藏的题里拼一份卷（22 题起，可加量）· 不会 / 不熟抽完才抽仅收藏 · 同一状态内最久没做的先抽 · 抽过的题不再重复';
+        // 长说明收进 tooltip：可见处只留几个字的小块，完整规则放 data-tip，
+        // 鼠标悬停由 CSS :hover::after 展开（拼卷页专属 .pp-tip）。
+        sub.dataset.tip = '从收藏的题里拼一份卷（22 题起，可加量）· 不会 / 不熟抽完才抽仅收藏 · 同一状态内最久没做的先抽 · 抽过的题不再重复';
+        sub.textContent = 'ⓘ 抽题规则';
+        sub.classList.add('pp-tip');
         sub.hidden = false;
     }
     ['srcToggle', 'unmarkedFirst', 'yearSortBtn'].forEach(id => {

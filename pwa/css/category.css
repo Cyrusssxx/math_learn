@@ -635,6 +635,46 @@ body.paper-mode .rv-back { display: inline-flex; }
 body.paper-mode .rv-back .rv-back-label { display: none; }
 body.paper-mode .rv-back .rv-back-paper { display: inline; }
 
+/* 拼卷页「抽题规则」说明：顶栏副标题收成几个字的小块，悬停展开 tooltip（纯 CSS）。
+   ⚠️ 小块用 inline-flex 而非块级，才不会在标题下占满整行；浮窗写全规则、可换行。 */
+body.paper-mode .exam-sub.pp-tip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(var(--pp-rgb), .10);
+    border: 1px solid rgba(var(--pp-rgb), .26);
+    color: var(--accent);
+    font-size: 12px;
+    line-height: 1.5;
+    width: max-content;
+    margin-top: 3px;
+    cursor: help;
+    position: relative;
+}
+body.paper-mode .exam-sub.pp-tip::after {
+    content: attr(data-tip);
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 60;
+    display: none;
+    width: max-content;
+    max-width: 420px;
+    white-space: normal;
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 20px var(--shadow, rgba(0,0,0,.18));
+    font-size: 12.5px;
+    line-height: 1.7;
+    font-weight: 400;
+}
+body.paper-mode .exam-sub.pp-tip:hover::after { display: block; }
+
 /* 卷首：操作条 + 计时器 */
 .pp-bar { display: flex; align-items: center; gap: 12px; margin: 10px 0 2px; flex-wrap: wrap; }
 .pp-timer {
