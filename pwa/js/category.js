@@ -1795,6 +1795,8 @@ function curCatSet() {
 
 // ============ 渲染：三级分类树 ============
 function renderTree() {
+    // ⚠️ 拼卷 / ♥ 页左栏是历史卷列表，不是分类树：跨标签同步等路径若误调本函数会覆盖左栏（串页），统一在此拦截。
+    if (PAPER_MODE || HEART_MODE) return;
     const entries = activeEntries();
     const el = document.getElementById('catTree');
     // 触摸设备（无 hover）不挂悬停浮层：手机上 tap 会先触发 mouseenter，
@@ -2779,6 +2781,7 @@ window.addEventListener('storage', (e) => {
     if (k === FAV_KEY || k === EXAM_STATUS_KEY || k === HEART_KEY || k.indexOf('examNote-') === 0) {
         if (REVIEW_MODE) { renderReview(); renderNav(); }
         else if (HEART_MODE) { renderHeart(); renderNav(); }
+        else if (PAPER_MODE) { ppSide(); renderMain(); }   // 拼卷左栏是历史卷列表：只刷进度+当前卷，绝不 renderTree（会覆盖成分类树→串页）
         else { renderTree(); renderMain(); }
     }
 });
@@ -3353,7 +3356,8 @@ function ppProgHtml() {
     for (const [lab, x] of rows) {
         h += `<div class="pp-pg-grid"><span class="pp-pg-lab">${lab}</span><span class="pp-pg-n">${x.drawn}</span><span class="pp-pg-n rest">${restOf(x)}</span></div>`;
     }
-    if (noFav) h += `<div class="pp-pg-note">另有 ${noFav} 题标了不熟/不会但未收藏，不参与抽题</div>`;
+    // 未收藏但有状态的题：说明收进 tooltip 小块（左栏仅 200px，完整句放 data-tip 由 CSS 浮窗展示）
+    if (noFav) h += `<span class="pp-note-tip" data-tip="另有 ${noFav} 题标了不熟/不会但未收藏，不参与抽题">ⓘ 未收藏 ${noFav} 题</span>`;
     if (!rest) h += `<div class="pp-pg-note warn">标记的题已抽完，点下方「清空抽题记录」可重新开始</div>`;
     return h + `</div>`;
 }
