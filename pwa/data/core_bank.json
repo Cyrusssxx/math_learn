@@ -12069,7 +12069,7 @@
       "type": "calc",
       "stem": "计算 $\\int_0^{+\\infty} \\frac{x e^{-x}}{\\left(1+e^{-x}\\right)^2}\\,dx$.",
       "options": [],
-      "answer": "$\\ln2$\n\n注意 $\\frac{e^{-x}}{(1+e^{-x})^2}=\\frac{e^x}{(1+e^x)^2}$，且 $\\left(\\frac1{1+e^x}\\right)'=-\\frac{e^x}{(1+e^x)^2}$。分部积分后得到 $\\int_0^{+\\infty}\\frac{\\mathrm{d}x}{1+e^x}=\\ln2$。",
+      "answer": "$\\ln2$\n\n先把被积函数化简：分子分母同乘 $\\mathrm{e}^{2x}$，\n$$\n\\frac{\\mathrm{e}^{-x}}{(1+\\mathrm{e}^{-x})^2}=\\frac{\\mathrm{e}^{x}}{(1+\\mathrm{e}^{x})^2},\n$$\n故 $I=\\displaystyle\\int_0^{+\\infty}\\frac{x\\,\\mathrm{e}^{x}}{(1+\\mathrm{e}^{x})^2}\\,\\mathrm{d}x$。注意到\n$$\n\\left(\\frac{1}{1+\\mathrm{e}^{x}}\\right)'=-\\frac{\\mathrm{e}^{x}}{(1+\\mathrm{e}^{x})^2},\n$$\n分部积分（取 $u=x$，$\\mathrm{d}v=\\dfrac{\\mathrm{e}^{x}}{(1+\\mathrm{e}^{x})^2}\\mathrm{d}x=-\\mathrm{d}\\big(\\frac{1}{1+\\mathrm{e}^{x}}\\big)$）：\n$$\nI=-\\left[\\frac{x}{1+\\mathrm{e}^{x}}\\right]_0^{+\\infty}+\\int_0^{+\\infty}\\frac{\\mathrm{d}x}{1+\\mathrm{e}^{x}}.\n$$\n边界项：$x\\to+\\infty$ 时 $\\dfrac{x}{1+\\mathrm{e}^{x}}\\to0$，$x=0$ 时为 $0$，故为零。对余下积分令 $t=\\mathrm{e}^{-x}$，则 $\\mathrm{d}x=-\\dfrac{\\mathrm{d}t}{t}$，$\\dfrac{1}{1+\\mathrm{e}^{x}}=\\dfrac{t}{1+t}$，\n$$\n\\int_0^{+\\infty}\\frac{\\mathrm{d}x}{1+\\mathrm{e}^{x}}=\\int_1^{0}\\frac{t}{1+t}\\left(-\\frac{\\mathrm{d}t}{t}\\right)=\\int_0^1\\frac{\\mathrm{d}t}{1+t}=\\big[\\ln(1+t)\\big]_0^1=\\ln2.\n$$\n故 $I=\\ln2$。",
       "idea": "① 先化简被积函数：$\\dfrac{e^{-x}}{(1+e^{-x})^2}=\\dfrac{e^{x}}{(1+e^{x})^2}$；② 注意到 $\\left(\\dfrac1{1+e^x}\\right)'=-\\dfrac{e^x}{(1+e^x)^2}$，故可用分部积分（把 $\\dfrac{e^x}{(1+e^x)^2}dx$ 当 $dv$）；③ 边界项为零，化简为 $\\displaystyle\\int_0^{+\\infty}\\dfrac{dx}{1+e^x}=\\ln2$。",
       "categoryIds": [
        2321
@@ -12640,7 +12640,7 @@
       "type": "calc",
       "stem": "计算不定积分：$$\\int \\frac{\\mathrm{d}x}{1+\\sin x}.$$",
       "options": [],
-      "answer": "$\\tan x - \\sec x + C$ 或 $-\\frac{2}{1+\\tan\\frac{x}{2}} + C$ 或 $\\tan\\left(\\frac{x}{2}-\\frac{\\pi}{4}\\right)+C$\n\n法一：分子分母同乘 $1-\\sin x$，化为 $\\int \\frac{1-\\sin x}{\\cos^2 x} dx = \\int (\\sec^2 x - \\sec x \\tan x) dx$。\n\n法二：令 $t = \\tan\\frac{x}{2}$。",
+      "answer": "$\\tan x-\\sec x+C$\n\n法一（共轭化）：分子分母同乘 $1-\\sin x$，\n$$\n\\int\\frac{\\mathrm{d}x}{1+\\sin x}=\\int\\frac{1-\\sin x}{1-\\sin^2x}\\mathrm{d}x\n=\\int\\frac{1-\\sin x}{\\cos^2x}\\mathrm{d}x\n=\\int(\\sec^2x-\\sec x\\tan x)\\,\\mathrm{d}x\n=\\tan x-\\sec x+C.\n$$\n\n法二（万能代换）：令 $t=\\tan\\dfrac{x}{2}$，则 $\\sin x=\\dfrac{2t}{1+t^2}$，$\\mathrm{d}x=\\dfrac{2}{1+t^2}\\mathrm{d}t$，且\n$$\n1+\\sin x=1+\\frac{2t}{1+t^2}=\\frac{(1+t)^2}{1+t^2},\n$$\n故\n$$\n\\int\\frac{\\mathrm{d}x}{1+\\sin x}=\\int\\frac{2/(1+t^2)}{(1+t)^2/(1+t^2)}\\mathrm{d}t\n=\\int\\frac{2\\,\\mathrm{d}t}{(1+t)^2}=-\\frac{2}{1+t}+C=-\\frac{2}{1+\\tan\\frac{x}{2}}+C.\n$$\n两结果等价：$\\tan\\left(\\dfrac{x}{2}-\\dfrac{\\pi}{4}\\right)=\\dfrac{t-1}{t+1}=1-\\dfrac{2}{1+t}$，故 $-\\dfrac{2}{1+t}$ 与 $\\tan\\left(\\dfrac{x}{2}-\\dfrac{\\pi}{4}\\right)$ 只差常数；三者同为原函数。",
       "idea": "① 分母 $1+\\sin x$ 用共轭化：分子分母同乘 $1-\\sin x$，分母变 $\\cos^2x$，被积式化为 $\\dfrac{1}{\\cos^2x}-\\dfrac{\\sin x}{\\cos^2x}=\\sec^2x-\\sec x\\tan x$；② 直接积出 $\\tan x-\\sec x+C$。（也可用万能代换 $t=\\tan\\dfrac x2$，结果等价。）",
       "categoryIds": [
        2321
@@ -17087,8 +17087,8 @@
       "type": "calc",
       "stem": "边长为 $2$ 的等边三角形薄平板铅直沉没在水中，且一条边与水面相齐。记重力加速度为 $g$，水的密度为 $\\rho$。$(1)$ 求该平板一侧所受的水压力；$(2)$ 当水面开始以 $0.1$ 的速度上涨时，求平板一侧所受水压力的变化率。",
       "options": [],
-      "answer": "【答案】$(1)\\ \\rho g$；$(2)\\ 0.1\\sqrt3\\,\\rho g$。\n\n三角形高为 $\\sqrt3$，深度 $y$ 处宽为 $2(1-y/\\sqrt3)$，故压力为 $\\rho g\\int_0^{\\sqrt3}y\\cdot2(1-y/\\sqrt3)\\,\\mathrm{d}y=\\rho g$。水面上升时压力对水面深度的导数为 $\\rho g$ 乘以面积 $\\sqrt3$，故变化率为 $0.1\\sqrt3\\rho g$。",
-      "idea": "三角形高为 $\\sqrt3$，深度 $y$ 处宽为 $2(1-y/\\sqrt3)$，故压力为 $\\rho g\\int_0^{\\sqrt3}y\\cdot2(1-y/\\sqrt3)\\,\\mathrm{d}y=\\rho g$。水面上升时压力对水面深度的导数为 $\\rho g$ 乘以面积 $\\sqrt3$，故变化率为 $0.1\\sqrt3\\rho g$。",
+      "answer": "【答案】$(1)\\ \\rho g$；$(2)\\ 0.1\\sqrt3\\,\\rho g$。\n\n边长为 $2$ 的等边三角形高 $h=\\sqrt3$。以 $y$ 记从水面向下的深度（$0\\le y\\le\\sqrt3$），深度 $y$ 处板的水平宽度 $w(y)=2\\left(1-\\dfrac{y}{\\sqrt3}\\right)$（顶部为 $2$、底部顶点为 $0$）。\n\n$(1)$ 深度 $y$ 处压强 $\\rho gy$，压力元 $\\mathrm{d}P=\\rho gy\\,w(y)\\mathrm{d}y$，故板一侧所受水压力\n$$\nP=\\rho g\\int_0^{\\sqrt3}y\\cdot2\\left(1-\\frac{y}{\\sqrt3}\\right)\\mathrm{d}y\n=2\\rho g\\left[\\frac{y^2}{2}-\\frac{y^3}{3\\sqrt3}\\right]_0^{\\sqrt3}\n=2\\rho g\\left(\\frac{3}{2}-1\\right)=\\rho g.\n$$\n\n$(2)$ 设水面上升了 $s$（$\\dfrac{\\mathrm{d}s}{\\mathrm{d}t}=0.1$）。板固定不动，板上距顶部为 $y$ 处的深度由 $y$ 变为 $y+s$，于是\n$$\nP(s)=\\rho g\\int_0^{\\sqrt3}(y+s)\\,w(y)\\,\\mathrm{d}y\n=\\rho g\\int_0^{\\sqrt3}y\\,w(y)\\mathrm{d}y+\\rho g\\,s\\int_0^{\\sqrt3}w(y)\\mathrm{d}y.\n$$\n第一项即 $(1)$ 中的 $\\rho g$；第二项中 $\\displaystyle\\int_0^{\\sqrt3}w(y)\\mathrm{d}y$ 正是三角板面积 $\\dfrac{1}{2}\\times2\\times\\sqrt3=\\sqrt3$。故\n$$\nP(s)=\\rho g+\\sqrt3\\,\\rho g\\,s,\\qquad\n\\frac{\\mathrm{d}P}{\\mathrm{d}t}=\\frac{\\mathrm{d}P}{\\mathrm{d}s}\\cdot\\frac{\\mathrm{d}s}{\\mathrm{d}t}=\\sqrt3\\,\\rho g\\times0.1=0.1\\sqrt3\\,\\rho g.\n$$",
+      "idea": "① 边长 $2$ 的等边三角形高 $\\sqrt3$，深度 $y$ 处板宽 $w(y)=2(1-y/\\sqrt3)$；② 由压强 $\\rho gy$ 写压力元并积分得 (1) $P=\\rho g$；③ 水面上升 $s$ 后各点深度加 $s$，$P(s)=\\rho g+\\rho g s S$，$S=\\sqrt3$ 为板面积，故 $\\frac{\\mathrm{d}P}{\\mathrm{d}t}=\\sqrt3\\rho g\\cdot0.1$。",
       "categoryIds": [
        2322
       ],
@@ -17303,8 +17303,8 @@
       "type": "calc",
       "stem": "一个半径为 $R\\text{ m}$ 的球形贮水箱盛满了水。如果把箱中的水从顶部全部抽出，需要作多少功？",
       "options": [],
-      "answer": "【答案】$\\frac{4}{3}\\pi\\rho gR^4$\n\n以球心为原点，顶部为 $y=R$。深度层面积为 $\\pi(R^2-y^2)$，提升距离为 $R-y$。故\n$$\nW=\\rho g\\int_{-R}^{R}(R-y)\\pi(R^2-y^2)\\,\\mathrm{d}y=\\frac43\\pi\\rho gR^4.\n$$",
-      "idea": "以球心为原点，顶部为 $y=R$。深度层面积为 $\\pi(R^2-y^2)$，提升距离为 $R-y$。故\n$$\nW=\\rho g\\int_{-R}^{R}(R-y)\\pi(R^2-y^2)\\,\\mathrm{d}y=\\frac43\\pi\\rho gR^4.\n$$",
+      "answer": "$\\dfrac{4}{3}\\pi\\rho gR^4$\n\n以球心为原点、竖直向上为 $y$ 轴，则水面（顶部）在 $y=R$，球体范围为 $-R\\le y\\le R$。在高度 $y$ 处取厚度为 $\\mathrm{d}y$ 的水平薄层：此处截面半径 $\\sqrt{R^2-y^2}$，截面积 $S(y)=\\pi(R^2-y^2)$，薄层重量 $\\rho g\\pi(R^2-y^2)\\mathrm{d}y$；把这层水抽到顶部需提升 $R-y$，故功元 $\\mathrm{d}W=\\rho g(R-y)\\pi(R^2-y^2)\\mathrm{d}y$，总功\n$$\nW=\\rho g\\int_{-R}^{R}(R-y)\\pi(R^2-y^2)\\,\\mathrm{d}y.\n$$\n展开 $(R-y)(R^2-y^2)=R^3-R^2y-Ry^2+y^3$。对称区间 $[-R,R]$ 上奇函数项 $-R^2y,\\,y^3$ 的积分为零，故\n$$\nW=\\rho g\\pi\\int_{-R}^{R}(R^3-Ry^2)\\,\\mathrm{d}y\n=\\rho g\\pi\\left(2R^4-\\frac{2R^4}{3}\\right)\n=\\frac{4}{3}\\pi\\rho gR^4.\n$$",
+      "idea": "① 以球心为原点建 $y$ 轴，高度 $y$ 处截面积 $\\pi(R^2-y^2)$、提升距离 $R-y$；② 按功元 $\\rho g(R-y)\\pi(R^2-y^2)\\mathrm{d}y$ 从 $-R$ 积到 $R$；③ 展开被积式，借奇偶性去掉奇函数项，积出 $\\frac{4}{3}\\pi\\rho gR^4$。",
       "categoryIds": [
        2322
       ],
@@ -17329,8 +17329,8 @@
       "type": "calc",
       "stem": "有一半径为 $4\\text{ m}$ 的半球形水池蓄满了水，现在要将水全部抽到距水池原水面 $6\\text{ m}$ 高的水箱中，求需做多少功。（水的密度 $\\rho=1000\\text{ kg}/\\text{m}^3$，重力加速度 $g=9.8\\text{ m}/\\text{s}^2$，$\\pi=3.14$。）",
       "options": [],
-      "answer": "【答案】$9847040\\text{ J}$\n\n设 $y$ 为低于原水面的深度，$0\\le y\\le4$，截面积为 $\\pi(16-y^2)$，提升距离为 $6+y$。故\n$$\nW=1000\\cdot9.8\\cdot3.14\\int_0^4(16-y^2)(6+y)\\,\\mathrm{d}y=9847040\\text{ J}.\n$$",
-      "idea": "设 $y$ 为低于原水面的深度，$0\\le y\\le4$，截面积为 $\\pi(16-y^2)$，提升距离为 $6+y$。故\n$$\nW=1000\\cdot9.8\\cdot3.14\\int_0^4(16-y^2)(6+y)\\,\\mathrm{d}y=9847040\\text{ J}.\n$$",
+      "answer": "【答案】$9847040\\ \\mathrm{J}$\n\n以 $y$ 记水面以下的深度（$0\\le y\\le4$）。半球半径为 $4$、球心在原水面处，故深度 $y$ 处水平截面半径 $r$ 满足 $r^2+y^2=16$，截面积 $S(y)=\\pi(16-y^2)$，薄层体积 $\\pi(16-y^2)\\mathrm{d}y$、重量 $\\rho g\\pi(16-y^2)\\mathrm{d}y$。该层位于水面下 $y$ 米，要抽到水面上方 $6$ 米，提升距离为 $6+y$，故\n$$\nW=\\rho g\\int_0^4(16-y^2)(6+y)\\,\\mathrm{d}y\n=1000\\times9.8\\times3.14\\int_0^4(16-y^2)(6+y)\\,\\mathrm{d}y.\n$$\n展开 $(16-y^2)(6+y)=96+16y-6y^2-y^3$，逐项积分：\n$$\n\\int_0^4(96+16y-6y^2-y^3)\\,\\mathrm{d}y\n=\\left[96y+8y^2-2y^3-\\frac{y^4}{4}\\right]_0^4\n=384+128-128-64=320.\n$$\n于是 $W=1000\\times9.8\\times3.14\\times320=9847040\\ \\mathrm{J}$。",
+      "idea": "① 以深度 $y$ 为变量，由 $r^2+y^2=16$ 得截面积 $\\pi(16-y^2)$，提升距离 $6+y$；② 列功的积分 $W=\\rho g\\int_0^4(16-y^2)(6+y)\\mathrm{d}y$；③ 展开被积式逐项积分得 $320$，代入 $\\rho=1000,g=9.8,\\pi=3.14$ 算出 $9847040\\ \\mathrm{J}$。",
       "categoryIds": [
        2322
       ],
@@ -35977,7 +35977,7 @@
       "kind": "calc",
       "type": "calc",
       "stem": "矩阵 $A=\\begin{pmatrix}1&4&-7\\\\2&8&-12\\\\3&12&-17\\end{pmatrix}$ 的最小特征值为____.",
-      "answer": "$-6$\n\n计算特征多项式，得 $|\\lambda E-A|=\\lambda(\\lambda+2)(\\lambda+6)$，故特征值为 $0,-2,-6$，其中最小特征值为 $-6$。",
+      "answer": "$-6$\n\n特征多项式直接算：\n$$\n|\\lambda E-A|=\\begin{vmatrix}\\lambda-1&-4&7\\\\-2&\\lambda-8&12\\\\-3&-12&\\lambda+17\\end{vmatrix}.\n$$\n按第一行展开：三个余子式依次为 $(\\lambda-8)(\\lambda+17)+144=\\lambda^2+9\\lambda+8$、$(-2)(\\lambda+17)+36=-2\\lambda+2$、$24+3(\\lambda-8)=3\\lambda$，故\n$$\n|\\lambda E-A|=(\\lambda-1)(\\lambda^2+9\\lambda+8)+4(-2\\lambda+2)+7\\cdot3\\lambda\n=\\lambda^3+8\\lambda^2+12\\lambda=\\lambda(\\lambda+2)(\\lambda+6).\n$$\n解 $|\\lambda E-A|=0$ 得特征值 $0,-2,-6$，其中最小的是 $-6$。",
       "idea": "**思想：算 $|\\lambda E-A|$，先提公因子降阶再解**。\n① 解特征多项式：算 $|\\lambda E-A|$，第 2 行提出公因子 $2$ 后展开，分解为 $\\lambda(\\lambda+2)(\\lambda+6)$；\n② 特征值为 $0,-2,-6$，其中最小的是 $-6$。",
       "source": "900 题数二第五章 A 类 6（重点）",
       "categoryIds": [
