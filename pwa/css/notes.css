@@ -1192,6 +1192,9 @@ mark.note-hl {
 .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.28em; }
 .katex .mfrac .frac-line { border-top-width: 0.07em; margin: 0.12em 0; }
 .katex-display { margin: 28px 0; overflow-x: auto; overflow-y: hidden; padding: 12px 0 10px; }
+/* 独立公式块（md 里跨行的 $$ … $$）：间距交给外层，避免与 .katex-display 叠加双份留白 */
+.md-math { margin: 26px 0; overflow-x: auto; overflow-y: hidden; }
+.md-math .katex-display { margin: 0; }
 /* 列表项内的内联公式：含 \dfrac 等高字形时防止与上下行重叠 */
 .note-article li .katex { display: inline-block; margin: 2px 0; }
 

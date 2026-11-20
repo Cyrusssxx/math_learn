@@ -214,6 +214,13 @@ function mdToHtml(md) {
         } else if (line.trim() === ':::') {
             out.push('</div></details>');
             i++;
+        } else if (line.trim() === '$$') {
+            // 与 reader.js 同步：$$ … $$ 跨行公式合成一个 div，交给 auto-render 的 display 模式
+            const buf = [];
+            i++;
+            while (i < lines.length && lines[i].trim() !== '$$') { buf.push(lines[i]); i++; }
+            i++;   // 跳过收尾 $$
+            out.push(`<div class="md-math">$$${esc(buf.join('\n'))}$$</div>`);
         } else if (/^!\[.*?\]\(.+?\)$/.test(line.trim())) {
             // 独行图片：![说明](路径) → figure + 图注
             const m = line.trim().match(/^!\[(.*?)\]\((.+?)\)$/);

@@ -445,6 +445,15 @@ function mdToHtml(md) {
             // 行内锚点：独行 {#id} → 空 span（供::: nav 导航跳转到任意题型/小节）
             out.push(`<span id="${line.trim().slice(2, -1)}" class="anch"></span>`);
             i++;
+        } else if (line.trim() === '$$') {
+            // 独立公式块：$$ … $$（可跨多行）先合成**一个** div，再交给 KaTeX auto-render。
+            // ⚠️ 不能退化成普通段落逐行出 <p>：auto-render 只在一个文本节点里配对 $$，
+            //    跨元素必然配对失败，整块公式原样输出成文本（换元法章、双参数点火公式都踩过）。
+            const buf = [];
+            i++;
+            while (i < lines.length && lines[i].trim() !== '$$') { buf.push(lines[i]); i++; }
+            i++;   // 跳过收尾 $$
+            out.push(`<div class="md-math">$$${esc(buf.join('\n'))}$$</div>`);
         } else if (/^!\[.*?\]\(.+?\)$/.test(line.trim())) {
             // 独行图片：![说明](路径) → figure + 图注；figure 带 id 供页内导航跳转
             const m = line.trim().match(/^!\[(.*?)\]\((.+?)\)$/);

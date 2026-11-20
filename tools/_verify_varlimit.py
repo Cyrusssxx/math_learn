@@ -41,13 +41,16 @@ for i, (a, b) in enumerate(zip(note['chapters'], h2)):
     ok('第 %d 章 %r == %r' % (i, a, b), a == b)
 
 print('=== 3. 新章结构 ===')
-ok('chapters 末项为「变限积分」', note['chapters'][-1] == '变限积分')
-ok('正文末章为「变限积分」', h2[-1] == '变限积分')
+# ⚠️ 不再断言「末章」：笔记会继续往后追加章（如「补充：双参数点火公式」），
+#    位置断言会随内容增长假失败。这里锁「变限积分章仍在第 12 章（索引 11）」+「本章小节数不变」。
+ok('「变限积分」仍是第 12 章（索引 11）', len(h2) > 11 and h2[11] == '变限积分', str(h2[11:12]))
 ok('原「积分存在性」仍是第 11 章（索引 10）', h2[10] == '积分存在性')
 h3 = [l[4:].strip() for l in note['md'].split('\n') if l.startswith('### ')]
-tail = note['md'][note['md'].index('## 变限积分'):]
+head = note['md'].index('## 变限积分')
+nxt = note['md'].find('\n## ', head + 5)
+tail = note['md'][head: nxt if nxt > 0 else len(note['md'])]
 h3_new = [l[4:].strip() for l in tail.split('\n') if l.startswith('### ')]
-ok('新章含 8 个小节', len(h3_new) == 8, '实际 %d' % len(h3_new))
+ok('变限积分章含 8 个小节', len(h3_new) == 8, '实际 %d' % len(h3_new))
 print('     小节：' + ' / '.join(h3_new))
 
 # 目录（doc-toc）取的是 h3 的 textContent，KaTeX 的 MathML annotation + aria-hidden
