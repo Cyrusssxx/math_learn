@@ -7809,6 +7809,9 @@
         "label": "汤家凤 · 汤家凤 2022年数学三（14） · 显式分段",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/171_0.webp"
       ]
      },
      {
@@ -13804,7 +13807,10 @@
       "srcOrder": 4,
       "status": "transcribed",
       "linkedQid": "2023数二真题-19",
-      "linkScan": "human-2"
+      "linkScan": "human-2",
+      "ansImg": [
+       "data/img/zx_site/325_0.webp"
+      ]
      },
      {
       "no": 326,
@@ -13847,6 +13853,9 @@
         "label": "汤家凤 · 汤家凤 2019年数学二/三（二16、三17） · 常规",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/326_0.webp"
       ]
      },
      {
@@ -14053,6 +14062,9 @@
         "label": "帕拉迪宇 · 帕拉迪宇 2020年数学三 · 补全作差",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/332_0.webp"
       ]
      },
      {
@@ -20865,7 +20877,10 @@
       "status": "ref-matched",
       "linkedQid": "2017数二真题-13",
       "linkScan": 1,
-      "linkedQidDead": "2002数二真题-4"
+      "linkedQidDead": "2002数二真题-4",
+      "ansImg": [
+       "data/img/zx_site/464_0.webp"
+      ]
      },
      {
       "no": 465,
@@ -20896,6 +20911,9 @@
         "label": "帕拉迪宇 · 帕拉迪宇 2014年数学三 · 直接给出累次积分",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/465_0.webp"
       ]
      },
      {
@@ -20930,6 +20948,9 @@
         "label": "帕拉迪宇 · 帕拉迪宇 二重积分大观 · 直接给出累次积分",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/466_0.webp"
       ]
      },
      {
@@ -20965,6 +20986,9 @@
         "label": "帕拉迪宇 · 帕拉迪宇 2018年数学二 · 直接给出累次积分",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/467_0.webp"
       ]
      },
      {
@@ -20995,6 +21019,10 @@
         "label": "汤家凤 · 汤家凤 1998年数学三 · 偏心圆域相关",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/468_0.webp",
+       "data/img/zx_site/468_1.webp"
       ]
      },
      {
@@ -21024,6 +21052,9 @@
         "label": "帕拉迪宇 · 帕拉迪宇 2008年数学三 · 被积函数为若干项相加",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/469_0.webp"
       ]
      },
      {
@@ -21067,6 +21098,9 @@
         "label": "汤家凤 · 汤家凤 2017年数学三（16） · 常规题",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/470_0.webp"
       ]
      },
      {
@@ -21143,6 +21177,9 @@
         "label": "汤家凤 · 汤家凤 2018年数学三（16） · 常规题",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/472_0.webp"
       ]
      },
      {
@@ -21192,6 +21229,9 @@
         "label": "汤家凤 · 汤家凤 2024年数学二/三（二17、三17） · 常规题",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/473_0.webp"
       ]
      },
      {
@@ -21214,7 +21254,10 @@
       "srcOrder": 5,
       "status": "ref-matched",
       "linkedQid": "2011数二真题-21",
-      "linkScan": 0.816
+      "linkScan": 0.816,
+      "ansImg": [
+       "data/img/zx_site/474_0.webp"
+      ]
      },
      {
       "no": 475,
@@ -21253,6 +21296,9 @@
         "label": "汤家凤 · 汤家凤 2018年数学二（17） · 参数方程给出区域 D",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/475_0.webp"
       ]
      },
      {
@@ -21276,7 +21322,10 @@
       "status": "ref-matched",
       "linkedQid": "2010数二真题-20",
       "linkScan": 0.816,
-      "linkedQidDead": "2005数二真题-21"
+      "linkedQidDead": "2005数二真题-21",
+      "ansImg": [
+       "data/img/zx_site/476_0.webp"
+      ]
      },
      {
       "no": 477,
@@ -21314,6 +21363,10 @@
         "label": "汤家凤 · 汤家凤 历年真题全解析 · 圆域相关",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/477_0.webp",
+       "data/img/zx_site/477_1.webp"
       ]
      },
      {
@@ -21357,6 +21410,10 @@
         "label": "汤家凤 · 汤家凤 2020年数学三（18） · 圆域相关",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/478_0.webp",
+       "data/img/zx_site/478_1.webp"
       ]
      },
      {
@@ -21378,7 +21435,10 @@
       "source": "2024数一",
       "srcPage": 96,
       "srcOrder": 4,
-      "status": "ref-matched"
+      "status": "ref-matched",
+      "ansImg": [
+       "data/img/zx_site/479_0.webp"
+      ]
      },
      {
       "no": 480,
@@ -21489,6 +21549,9 @@
         "label": "汤家凤 · 汤家凤 2011年数学二（13） · 偏心圆域相关",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/482_0.webp"
       ]
      },
      {
@@ -21518,6 +21581,9 @@
         "label": "汤家凤 · 汤家凤 1998年数学三 · 偏心圆域相关",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/483_0.webp"
       ]
      },
      {
@@ -21540,7 +21606,10 @@
       "srcOrder": 2,
       "status": "ref-matched",
       "linkedQid": "2022数二真题-19",
-      "linkScan": 0.667
+      "linkScan": 0.667,
+      "ansImg": [
+       "data/img/zx_site/484_0.webp"
+      ]
      },
      {
       "no": 485,
@@ -21584,6 +21653,9 @@
         "label": "汤家凤 · 汤家凤 2020年数学二（19） · 极坐标",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/485_0.webp"
       ]
      },
      {
@@ -21623,6 +21695,9 @@
         "label": "郭伟 · 2012 数二第18题 · P87 00:00",
         "status": "confirmed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/486_0.webp"
       ]
      },
      {
@@ -21644,7 +21719,10 @@
       "source": "2016数一",
       "srcPage": 97,
       "srcOrder": 5,
-      "status": "ref-matched"
+      "status": "ref-matched",
+      "ansImg": [
+       "data/img/zx_site/487_0.webp"
+      ]
      },
      {
       "no": 488,
@@ -21688,6 +21766,9 @@
         "label": "汤家凤 · 汤家凤 2019年数学二（17） · 积分区域难画",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/488_0.webp"
       ]
      },
      {
@@ -21767,6 +21848,9 @@
         "label": "汤家凤 · 汤家凤 2021年数学二（21） · 积分区域难画",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/490_0.webp"
       ]
      },
      {
@@ -21801,6 +21885,10 @@
         "label": "帕拉迪宇 · 帕拉迪宇 2023年数学二（20） · 积分区域难画",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/491_0.webp",
+       "data/img/zx_site/491_1.webp"
       ]
      },
      {
@@ -21839,6 +21927,9 @@
         "label": "汤家凤 · 汤家凤 2004年数学三（16） · 被积函数为若干项相加",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/492_0.webp"
       ]
      },
      {
@@ -21879,6 +21970,11 @@
         "label": "汤家凤 · 汤家凤 2017年数学二（20） · 被积函数为若干项相加",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/493_0.webp",
+       "data/img/zx_site/493_1.webp",
+       "data/img/zx_site/493_2.webp"
       ]
      },
      {
@@ -21923,6 +22019,9 @@
         "label": "汤家凤 · 汤家凤 2016年数学二（18） · 被积函数为若干项相加",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/494_0.webp"
       ]
      },
      {
@@ -21956,6 +22055,9 @@
         "label": "帕拉迪宇 · 帕拉迪宇 2014年数学二/三 · 被积函数分子是分母其中一项",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/495_0.webp"
       ]
      },
      {
@@ -21999,6 +22101,9 @@
         "label": "汤家凤 · 汤家凤 2003年数学三（3） · 显式分段",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/496_0.webp"
       ]
      },
      {
@@ -22043,6 +22148,9 @@
         "label": "汤家凤 · 汤家凤 2005年数学二/三（二21、三17） · 绝对值",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/498_0.webp"
       ]
      },
      {
@@ -22071,6 +22179,11 @@
         "label": "李艳芳 · 李艳芳 2023年数学三（19） · 绝对值",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/499_0.webp",
+       "data/img/zx_site/499_1.webp",
+       "data/img/zx_site/499_2.webp"
       ]
      },
      {
@@ -22137,6 +22250,9 @@
         "label": "汤家凤 · 汤家凤 2002年数学一（13） · 最大值最小值",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/501_0.webp"
       ]
      },
      {
@@ -22182,6 +22298,9 @@
         "label": "汤家凤 · 汤家凤 2008年数学二/三（二18、三17） · 最大值最小值",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/502_0.webp"
       ]
      },
      {
@@ -22210,6 +22329,9 @@
         "label": "汤家凤 · 2005数一第15题",
         "status": "confirmed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/503_0.webp"
       ]
      },
      {
@@ -22258,6 +22380,9 @@
         "label": "汤家凤 · 汤家凤 2007年数学二/三（二8、三4） · 直角坐标交换",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/504_0.webp"
       ]
      },
      {
@@ -22312,6 +22437,9 @@
         "label": "汤家凤 · 汤家凤 1992年数学三 · 直角坐标交换",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/506_0.webp"
       ]
      },
      {
@@ -22590,6 +22718,10 @@
         "label": "汤家凤 · 汤家凤 2015年数学一/二（一4、二6） · 写极坐标",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/513_0.webp",
+       "data/img/zx_site/513_1.webp"
       ]
      },
      {
@@ -22718,6 +22850,9 @@
         "label": "汤家凤 · 汤家凤 2013年数学二/三（二6、三3） · 二重积分比大小以及定正负",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/516_0.webp"
       ]
      },
      {
@@ -22756,6 +22891,9 @@
         "label": "汤家凤 · 汤家凤 历年真题全解析 · 二重积分比大小以及定正负",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/517_0.webp"
       ]
      },
      {
@@ -22799,6 +22937,9 @@
         "label": "汤家凤 · 汤家凤 2019年数学二（5） · 二重积分比大小以及定正负",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/518_0.webp"
       ]
      },
      {
@@ -22829,6 +22970,9 @@
         "label": "汤家凤 · 2021数二 #2967",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/519_0.webp"
       ]
      },
      {
@@ -22862,6 +23006,9 @@
         "label": "汤家凤 · 汤家凤 1999年数学三 · 利用含二重积分等式求函数表达式",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/520_0.webp"
       ]
      },
      {
@@ -22895,6 +23042,9 @@
         "label": "汤家凤 · 汤家凤 1995年数学一 · 抽象函数二重积分",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/521_0.webp"
       ]
      },
      {
@@ -22933,6 +23083,9 @@
         "label": "汤家凤 · 汤家凤 2005年数学二（10） · 抽象函数二重积分",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/522_0.webp"
       ]
      },
      {
