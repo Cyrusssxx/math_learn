@@ -5,7 +5,7 @@
 const FAV_KEY = 'examFav';            // { qid: 1 }，qid = 套卷id-题no
 const FAV_ONLY_KEY = 'examFavOnly';   // 是否只看收藏（常量保留，界面已由三选筛选替代）
 const EXAM_STATUS_KEY = 'examStatus';   // { qid: 'unfamiliar' | 'unknown' }：不熟/不会掌握度标记（互斥）
-const HEART_KEY = 'ppHeart';          // { qid: 1 }：拼卷♥喜欢标记（独立于收藏/掌握，只服务 ♥ 页筛选，不进抽题池）
+const HEART_KEY = 'ppHeart';          // { qid: 1 }：拼卷/核心题库 ♥ 喜欢标记（独立于收藏/掌握，只服务 ♥ 页筛选，不进抽题池）
 
 // ============ 每日做题数据 ============
 // markDaily / dailyRecent / dailyStreak 定义在 js/common.js（所有页面都加载，
@@ -264,7 +264,7 @@ function toggleStatus(qid, v) {
     markDaily(qid, s[qid] || 'cleared');   // 记入「每日做题」（取消标记也算动过这道题）
     return s[qid] || null;
 }
-// ============ ♥ 喜欢标记（拼卷题卡专属，独立于收藏/掌握；只服务 ?heart=1 汇总页） ============
+// ============ ♥ 喜欢标记（拼卷 / 核心题库题卡可用，独立于收藏/掌握；只服务 ?heart=1 汇总页） ============
 function heartGet() {
     try { return JSON.parse(localStorage.getItem(HEART_KEY)) || {}; } catch (e) { return {}; }
 }
@@ -1898,7 +1898,11 @@ function catCard(paper, secTitle, q) {
     const qid = qidOf(paper.id, q.no);
     const fav = isFav(qid);
     const st = statusOf(qid);
-    const heart = (PAPER_MODE || HEART_MODE) && isHeart(qid);
+    // ♥ 原本只在拼卷/汇总页出现；2026-11-20 起核心题库数据源下的 core 题卡也直接可标，
+    //   写入同一 ppHeart[qid]（qidOf 重定向照旧），所以这些题一样会进 ?heart=1 汇总。
+    //   exam 模式与 ys27 精选题不在普通分类页加按钮，避免改动既有题卡布局。
+    const showHeart = PAPER_MODE || HEART_MODE || (srcMode === 'core' && paper.id === 'core');
+    const heart = showHeart && isHeart(qid);
     const kindLabel = (q.options && q.options.length) || q.type === 'choice' ? '选择'
         : q.type === 'blank' ? '填空' : q.type === 'calc' ? '解答'
         : q.type === 'proof' ? '证明' : secKindLabel(secTitle);
@@ -2000,7 +2004,7 @@ function catCard(paper, secTitle, q) {
             <button class="q-st-btn q-st-mst${st === 'mastered' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','mastered')" title="标记为「掌握」（绿色；再点取消）">掌握</button>
             <button class="q-st-btn q-st-unfam${st === 'unfamiliar' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unfamiliar')" title="标记为「不熟」（黄色；再点取消）">不熟</button>
             <button class="q-st-btn q-st-unk${st === 'unknown' ? ' on' : ''}" onclick="toggleQStatus(this,'${qid}','unknown')" title="标记为「不会」（红色；再点取消）">不会</button>
-            ${(PAPER_MODE || HEART_MODE) ? `<button class="q-st-btn q-st-heart${heart ? ' on' : ''}" onclick="toggleHeart('${qid}',this)" title="${heart ? '已标记喜欢（再点取消）' : '标记喜欢（♥ 页汇总）'}">${heart ? '♥' : '♡'}</button>` : ''}
+            ${showHeart ? `<button class="q-st-btn q-st-heart${heart ? ' on' : ''}" onclick="toggleHeart('${qid}',this)" title="${heart ? '已标记喜欢（再点取消）' : '标记喜欢（♥ 页汇总）'}">${heart ? '♥' : '♡'}</button>` : ''}
         </div>
         <div class="q-body">${stem}${figHtml}${options}</div>
         <div class="q-ops">
@@ -2653,8 +2657,8 @@ function renderReview() {
     rvSetupAutoMore();
 }
 
-// ============ ♥ 喜欢页（category.html?heart=1）：拼卷里标过 ♥ 的题汇总 ============
-/** 独立视图：只显示 localStorage.ppHeart 里的题，跨全部题库来源；在拼卷题卡上点 ♥ 即加入。
+// ============ ♥ 喜欢页（category.html?heart=1）：拼卷或核心题库里标过 ♥ 的题汇总 ============
+/** 独立视图：只显示 localStorage.ppHeart 里的题，跨全部题库来源；在拼卷/核心题库题卡上点 ♥ 即加入。
  *  不与抽题池互通（不改 qDraw / 不占名额），收藏/状态/笔记仍走原 qid，自动同步。 */
 function applyHeartMode() {
     if (!HEART_MODE) return;
@@ -2664,7 +2668,7 @@ function applyHeartMode() {
     document.title = '♥ · 拼卷标记题';
     const sub = document.getElementById('examSub');
     if (sub) {
-        sub.textContent = '拼卷时标记「♥」的题目汇总 · 跨全部历史卷 · 可在此取消标记 · 与真题/分类页实时同步';
+        sub.textContent = '拼卷或核心题库里标过 ♥ 的题目汇总 · 跨全部题库来源 · 可在此取消标记 · 与真题/分类页实时同步';
         sub.hidden = false;
     }
     ['srcToggle', 'unmarkedFirst', 'yearSortBtn'].forEach(id => {
@@ -2752,11 +2756,11 @@ function renderHeart() {
         .map(([k, label]) => `<button class="cat-mark${heartFilter === k ? ' on' : ''}" data-hf="${k}" onclick="setHeartFilter('${k}')">${label}</button>`).join('');
     let html = `<div class="paper-head">
         <h1>♥ · ${counts.all} 题</h1>
-        <div class="paper-sub">拼卷题卡上点 ♥ 的题都会汇总到这里（跨所有历史卷、所有题库）· 标记不进抽题池 · 状态/笔记实时同步</div>
+        <div class="paper-sub">拼卷题卡或核心题库题卡上点 ♥ 的题都会汇总到这里（跨全部题库来源）· 标记不进抽题池 · 状态/笔记实时同步</div>
         <div class="hf-filter">${btns}</div>
     </div>`;
     if (!list.length) {
-        html += `<div class="empty-tip">${counts.all ? '当前筛选下没有题目。' : '还没有标记过 ♥。到拼卷页做题时，在题卡右侧状态栏点一下 ♡ 即可。'}</div>`;
+        html += `<div class="empty-tip">${counts.all ? '当前筛选下没有题目。' : '还没有标记过 ♥。到拼卷页或核心题库做题时，在题卡右侧状态栏点一下 ♡ 即可。'}</div>`;
         el.innerHTML = html;
         return;
     }
@@ -2797,7 +2801,7 @@ window.addEventListener('storage', (e) => {
 // 拼卷模式：独立页 paper.html（强刷首帧即拼卷骨架，不闪分类页）或旧链接 category.html?paper=1（兼容旧书签/入口）
 // ⚠️ 两种入口必须等价：pathname 命中 paper.html 即拼卷，不再依赖 URL 参数是否被 SW/刷新保留。
 const PAPER_MODE = /(?:^|\/)paper\.html$/i.test(location.pathname) || new URLSearchParams(location.search).get('paper') === '1';
-/** ♥ 喜欢页（category.html?heart=1）：汇总所有在拼卷里标过 ♥ 的题（跨全部历史卷/题库来源） */
+/** ♥ 喜欢页（category.html?heart=1）：汇总所有在拼卷或核心题库里标过 ♥ 的题（跨全部题库来源） */
 const HEART_MODE = new URLSearchParams(location.search).get('heart') === '1';
 
 /** 卷面结构 + 分值（解答题 4×12 + 2×11 = 70，与选择 50 + 填空 30 合计 150） */

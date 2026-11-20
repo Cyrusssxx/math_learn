@@ -1,8 +1,8 @@
 /**
  * ♥ 喜欢标记 + 独立筛选页 回归（2026-11-16）
  *   A. 纯函数：heartGet/heartSave/isHeart/toggleHeart（真实 localStorage，含取消/反向验证）
- *   B. catCard 渲染：只在 PAPER_MODE / HEART_MODE 出 ♥ 按钮（正向+反向）
- *   C. 接线/入口/样式静态断言（HEART_MODE、renderMain/init/storage、两页顶栏、CSS）
+ *   B. catCard 渲染：拼卷/♥页/普通 core 模式出 ♥ 按钮；exam 模式与 ys27 不出（正向+反向）
+ *   C. 接线/入口/样式静态断言（HEART_MODE、renderMain/init/storage、两页顶栏、CSS、core 全源汇总）
  * 用法：node tools/_test_pp_heart.js
  */
 const fs = require('fs');
@@ -88,37 +88,45 @@ ok('按钮切回空心 ♡', btn.textContent === '♡' && btn.classList.on === f
 // 反向验证：取消后再标记仍能正确写回（防止「只能标记一次」的假通过）
 toggleHeart('ys27-3', null);
 ok('另一题独立标记', isHeart('ys27-3') && !isHeart(QID));
+toggleHeart('core-2076', null);
+ok('core 题 qid 可独立标记（同一 ppHeart）', isHeart('core-2076') && isHeart('ys27-3'));
 heartSave({});
 
 /* ---------- B. catCard 条件渲染 ♥ 按钮 ---------- */
 console.log('B. catCard 条件渲染');
 let PAPER_MODE = false;
-const cardFn = new Function('PAPER_MODE', 'getHeartMode',
+const cardFn = new Function('PAPER_MODE', 'getHeartMode', 'srcMode',
     [
         extractFn(JS, 'catCard'),
         'return catCard;',
     ].join('\n').replace(/\bHEART_MODE\b/g, 'getHeartMode()')
-)(false, () => HEART_MODE);
+)(false, () => HEART_MODE, 'core');
 // catCard 依赖较杂，注入桩；只关心 q-status-rail 的结构
-function renderCard(paperMode, heartMode, hearted) {
+function renderCard(paperMode, heartMode, hearted, srcMode = 'exam', paperId = 'mn27-01') {
     PAPER_MODE = paperMode; HEART_MODE = heartMode;
-    const card = new Function('PAPER_MODE', 'getHeartMode', 'window', 'qidOf', 'isFav', 'statusOf', 'isHeart',
+    const card = new Function('PAPER_MODE', 'getHeartMode', 'srcMode', 'window', 'qidOf', 'isFav', 'statusOf', 'isHeart',
         'secKindLabel', 'mdBlock', 'mdInline', 'copyMdAttr', 'noteGet', 'videoBtnHtml',
         'coreBankHas', 'CoreExtra', 'favTime', 'fmtFavTime', 'fmtFavShort', 'ansTabsHtml',
         [
             extractFn(JS, 'catCard'),
             'return catCard;',
         ].join('\n').replace(/\bHEART_MODE\b/g, 'getHeartMode()')
-    )(paperMode, () => heartMode, { CoreExtra: null },
+    )(paperMode, () => heartMode, srcMode, { CoreExtra: null },
         () => 'mn27-01-1', () => false, () => null, () => hearted,
         () => '选择', s => s || '', s => s || '', s => String(s || '').replace(/"/g, '&quot;'), () => '', () => '',
         () => false, null, () => 0, () => '', () => '', () => '<div class="ans"></div>'
-    )({ id: 'mn27-01', year: 2027 }, '一、选择题', { no: 1, stem: '题面', options: [], answer: 'A' });
+    )({ id: paperId, year: 2027 }, '一、选择题', { no: 1, stem: '题面', options: [], answer: 'A' });
     const d = new JSDOM('<div>' + card + '</div>').window.document;
     return d.querySelector('.q-status-rail');
 }
-let rail = renderCard(false, false, false);
-ok('普通分类页不渲染 ♥（反向）', rail && !rail.querySelector('.q-st-heart'));
+let rail = renderCard(false, false, false);   // exam 普通分类页
+ok('exam 普通分类页不渲染 ♥（反向）', rail && !rail.querySelector('.q-st-heart'));
+rail = renderCard(false, false, false, 'core', 'core');
+ok('core 普通分类页渲染空心 ♡', rail && rail.querySelector('.q-st-heart') && rail.querySelector('.q-st-heart').textContent === '♡');
+rail = renderCard(false, false, true, 'core', 'core');
+ok('core 普通分类页已标记渲染实心 ♥', rail && rail.querySelector('.q-st-heart').textContent === '♥');
+rail = renderCard(false, false, true, 'core', 'ys27');
+ok('core 模式下非 core 题不渲染 ♥（反向）', rail && !rail.querySelector('.q-st-heart'));
 rail = renderCard(true, false, false);
 ok('拼卷页渲染空心 ♡', rail && rail.querySelector('.q-st-heart') && rail.querySelector('.q-st-heart').textContent === '♡');
 rail = renderCard(true, false, true);
@@ -140,6 +148,9 @@ ok('two-page 顶栏入口：category.html', /href="category\.html\?heart=1"[^>]*
 ok('全站无「我喜欢」文字（JS）', !/我喜欢/.test(JS));
 ok('全站无「我喜欢」文字（HTML）', !/我喜欢/.test(EXAM_HTML) && !/我喜欢/.test(CAT_HTML));
 ok('汇总页等真题数据到位', /if \(REVIEW_MODE \|\| HEART_MODE\) await loadExamSources\(\)/.test(JS));
+ok('♥ 汇总遍历全源', /for \(const e of allEntriesAllSources\(\)\)/.test(JS));
+ok('♥ 汇总覆盖 corePapers', /pushPapers\(corePapers\)/.test(JS));
+ok('core 题卡 ♥ 共用 toggleHeart/qid', /onclick="toggleHeart\('\$\{qid\}',this\)"/.test(JS));
 ok('题号球支持汇总页', /HEART_MODE \? heartList\.map/.test(JS) && /REVIEW_MODE \? rvList\.map/.test(JS));
 ok('题号球红标 mark-unk', /st === 'unknown' \? ' mark-unk'/.test(JS));
 ok('♥ 页隐藏自身入口', /body\.heart-mode \.hf-entry \{ display: none/.test(CSS));
