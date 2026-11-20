@@ -23226,6 +23226,25 @@
         "status": "unreviewed"
        }
       ]
+     },
+     {
+      "no": 2076,
+      "kind": "blank",
+      "type": "blank",
+      "stem": "设 $D:0\\leqslant x\\leqslant y\\leqslant 2\\pi$，则 $I=\\iint_{D}|\\sin(x-y)|\\,dx\\,dy=$ ________。",
+      "options": [],
+      "answer": "$4\\pi$\n\n积分区域为 $0\\leq x\\leq y\\leq 2\\pi$。令 $t=x-y$，则 $t\\in[-2\\pi,0]$：当 $-\\pi\\leq t\\leq 0$（即 $x\\leq y\\leq x+\\pi$）时 $|\\sin t|=-\\sin t$；当 $-2\\pi\\leq t\\leq-\\pi$（即 $y\\geq x+\\pi$）时 $|\\sin t|=\\sin t$。故按直线 $y=x+\\pi$ 分块：\n$$\n\\begin{aligned}\nI&=\\int_{0}^{\\pi}dy\\int_{0}^{y}[-\\sin(x-y)]\\,dx+\\int_{\\pi}^{2\\pi}dy\\int_{0}^{y-\\pi}\\sin(x-y)\\,dx+\\int_{\\pi}^{2\\pi}dy\\int_{y-\\pi}^{y}[-\\sin(x-y)]\\,dx\\\\\n&=\\int_{0}^{\\pi}(1-\\cos y)\\,dy+\\int_{\\pi}^{2\\pi}(1+\\cos y)\\,dy+\\int_{\\pi}^{2\\pi}2\\,dy\\\\\n&=\\pi+\\pi+2\\pi=4\\pi.\n\\end{aligned}\n$$",
+      "idea": "① 令 $t=x-y$，区域 $D$ 上 $t\\in[-2\\pi,0]$，绝对值在 $t=-\\pi$（直线 $y=x+\\pi$）处改号；② 按 $y$ 分段：$0\\leq y\\leq\\pi$ 时内层全取 $-\\sin(x-y)$；$\\pi\\leq y\\leq2\\pi$ 时 $0\\leq x\\leq y-\\pi$ 取 $\\sin(x-y)$，$y-\\pi\\leq x\\leq y$ 取 $-\\sin(x-y)$；③ 内层分别用 $\\int\\sin(x-y)\\,dx=-\\cos(x-y)$、$\\int[-\\sin(x-y)]\\,dx=\\cos(x-y)$ 积出，再对 $y$ 积分得 $4\\pi$。",
+      "categoryIds": [
+       564
+      ],
+      "catId": 564,
+      "deepCats": [
+       "564"
+      ],
+      "source": "用户补充",
+      "status": "site",
+      "linkedQid": null
      }
     ]
    },
