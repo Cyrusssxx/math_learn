@@ -1317,7 +1317,7 @@ function normStem(s) {
         .replace(/[^\w\u4e00-\u9fff]/g, '');
 }
 const SRC_META = {
-    exam: { label: '📝 真题', title: '分类题库', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
+    exam: { label: '📝 分类题库', title: '分类题库', sub: '按大观园三级分类（学科 / 章节 / 知识点）· 点击知识点查看跨年真题' },
     core: { label: '📘 核心题库', title: '核心题库', sub: '高数 714 题 + 线代臻选题 188 题（线代部分已由臻选题替代）' },
 };
 const collapsedSubjects = new Set();   // 折叠的学科
@@ -1481,8 +1481,8 @@ function applySrcMode(persist) {
     if (btn) {
         btn.textContent = meta.label;
         btn.title = srcMode === 'core'
-            ? '当前：核心题库（高数 + 线代臻选题）。点击切回数二真题'
-            : '当前：数二真题（2000-2026）。点击切换到核心题库';
+            ? '当前：核心题库（高数 + 线代臻选题）。点击切回分类题库'
+            : '当前：分类题库（2000-2026 数二真题 + 大观园题库）。点击切换到核心题库';
     }
     const t = document.querySelector('.exam-title');
     if (t) t.textContent = meta.title;
@@ -4681,6 +4681,10 @@ async function init() {
     loadExamSources().then(ok => {
         if (!ok) return;
         if (srcMode !== 'exam') return;
+        // 启动就停在 exam 模式时，上面的 applySrcMode() 发生在真题数据到位之前，
+        // papers 还指着空数组；loadExamSources 里 examPapers 被 concat 重绑过，
+        // 必须重新取一次，否则 dgy_items.json（含新补的大观园习题）永远不进分类树。
+        applySrcMode(false);
         buildEntries();
         if (!PAPER_MODE && !HEART_MODE) buildDeepIndex();
         if (!PAPER_MODE && !HEART_MODE) renderTree();
