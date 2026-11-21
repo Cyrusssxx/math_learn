@@ -32,7 +32,14 @@
       "source": "2004数三",
       "srcPage": 11,
       "srcOrder": 1,
-      "status": "transcribed"
+      "status": "transcribed",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ze4y1o7in/?p=18&t=1",
+        "label": "喻老 · 2004 数三第7题 · P18 00:01",
+        "status": "confirmed"
+       }
+      ]
      },
      {
       "no": 2,
@@ -483,7 +490,24 @@
       "srcPage": 13,
       "srcOrder": 2,
       "status": "transcribed",
-      "linkedQidDead": "2002数二真题-4"
+      "linkedQidDead": "2002数二真题-4",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1rE411o7xx/?p=1&t=3233",
+        "label": "2009 数三 第9题 · 导入视频",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1NKVpzREDV/?p=1&t=4205",
+        "label": "帕拉迪宇 · 帕拉迪宇 2009年数学三（9） · frac00 型",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=30&t=956",
+        "label": "汤家凤 · 汤家凤 2009年数学三（9） · frac00 型",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 14,
@@ -753,7 +777,19 @@
       "source": "2023数三",
       "srcPage": 14,
       "srcOrder": 5,
-      "status": "transcribed"
+      "status": "transcribed",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=79&t=12",
+        "label": "2023 数三 第11题 · 导入视频",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=79&t=39",
+        "label": "李艳芳 · 李艳芳 2023年数学三（11）",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 24,
@@ -917,7 +953,14 @@
       "source": "2002数三；880第一章综合填空6",
       "srcPage": 15,
       "srcOrder": 5,
-      "status": "transcribed"
+      "status": "transcribed",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=9&t=3",
+        "label": "汤家凤 · 汤家凤 2002年数学三（1） · 1^infty 型",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 31,
@@ -1213,7 +1256,24 @@
       "srcPage": 17,
       "srcOrder": 1,
       "status": "transcribed",
-      "linkedQid": "2011数二真题-2"
+      "linkedQid": "2011数二真题-2",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=7&t=455",
+        "label": "2011 数三 第2题 · 导入视频",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=7&t=581",
+        "label": "李艳芳 · 李艳芳 2011年数学二/三（二2、三2） · 利用导数定义求极限",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=35&t=114",
+        "label": "汤家凤 · 汤家凤 2011年数学二/三（二2、三2） · 利用导数定义求极限",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 41,
@@ -1305,7 +1365,24 @@
       "srcPage": 17,
       "srcOrder": 4,
       "status": "transcribed",
-      "linkedQid": "2024数二真题-2"
+      "linkedQid": "2024数二真题-2",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=88&t=657",
+        "label": "2024 数二 第2题 · 导入视频",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1NKVpzREDV/?p=1&t=9330",
+        "label": "帕拉迪宇 · 帕拉迪宇 2024年数学二（2） · 利用导数定义求极限",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=71&t=257",
+        "label": "汤家凤 · 汤家凤 2024年数学二（2） · 利用导数定义求极限",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 44,
@@ -1760,7 +1837,19 @@
       "linkFix": {
        "from": "2012数二真题-10",
        "reason": "manual-same-question"
-      }
+      },
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=15&t=374",
+        "label": "2012 数二 第10题 · 导入视频",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=38&t=1583",
+        "label": "汤家凤 · 汤家凤 2012年数学二（10）",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 57,
@@ -2038,7 +2127,24 @@
       "source": "2015数三;880基础解答4",
       "srcPage": 21,
       "srcOrder": 2,
-      "status": "transcribed"
+      "status": "transcribed",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=31&t=30",
+        "label": "2015 数三 第1题 · 导入视频",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=31&t=117",
+        "label": "李艳芳 · 李艳芳 2015年数学三（1）",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=48&t=4",
+        "label": "汤家凤 · 汤家凤 2015年数学三（1）",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 65,
@@ -2415,7 +2521,14 @@
       "srcOrder": 3,
       "status": "transcribed",
       "linkedQid": "2006数二真题-18",
-      "linkScan": "human-2"
+      "linkScan": "human-2",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=19&t=2093",
+        "label": "汤家凤 · 2006数一第16题 · 34:53",
+        "status": "confirmed"
+       }
+      ]
      },
      {
       "no": 76,
@@ -2439,6 +2552,28 @@
       "status": "transcribed",
       "linkAlias": [
        "2011数二真题-19"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=11&t=764",
+        "label": "2011 数二 第19题 · 导入视频",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=11&t=796",
+        "label": "李艳芳 · 李艳芳 2011年数学一/二（一18、二19） · 证明题",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=11&t=99",
+        "label": "李艳芳 · 2011数一第18题：不等式与数列收敛 · 01:39",
+        "status": "confirmed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=34&t=3302",
+        "label": "汤家凤 · 汤家凤 2011年数学一/二（一18、二19） · 证明题",
+        "status": "candidate"
+       }
       ]
      },
      {
@@ -3179,7 +3314,29 @@
       "srcOrder": 4,
       "status": "transcribed",
       "linkedQid": "2022数二真题-1",
-      "linkScan": 0.639
+      "linkScan": 0.639,
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=78&t=63",
+        "label": "2022 数二 第1题 · 导入视频",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=72&t=92",
+        "label": "2022 数三 第1题 · 导入视频",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV13b411H74Q/?p=72&t=119",
+        "label": "李艳芳 · 李艳芳 2022年数学二/三（二1、三1）",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=78&t=92",
+        "label": "李艳芳 · 李艳芳 2022年数学二/三（二1、三1）",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 96,
@@ -5477,7 +5634,24 @@
       "srcPage": null,
       "srcOrder": null,
       "status": "ref-matched",
-      "key": true
+      "key": true,
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1UwLG6WET6/?p=11&t=557",
+        "label": "没咋了 · 没咋了 李林880数学一 · 880 第一章综合解答 18（Ⅱ） · 已知极限求极限",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1YXL36hEG5/?p=12&t=2279",
+        "label": "没咋了 · 没咋了 李林880数学二 · 880 第一章综合解答 18（Ⅱ） · 已知极限求极限",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1kGLG62Eem/?p=11&t=559",
+        "label": "没咋了 · 没咋了 李林880数学三 · 880 第一章综合解答 18（Ⅱ） · 已知极限求极限",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 638,
@@ -5684,7 +5858,19 @@
       "xdNo": "337",
       "status": "merged-xd",
       "linkedQid": "2004数二真题-1",
-      "reclassified": "from-线代: [135] → 真题权威分类"
+      "reclassified": "from-线代: [135] → 真题权威分类",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ze4y1o7in/?p=2&t=1",
+        "label": "喻老 · 喻老 2004年数学二（1） · 以极限形式给出的函数",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=14&t=3",
+        "label": "汤家凤 · 汤家凤 2004年数学二（1） · 以极限形式给出的函数",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 985,
@@ -21257,6 +21443,28 @@
       "linkScan": 0.816,
       "ansImg": [
        "data/img/zx_site/474_0.webp"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=11&t=1176",
+        "label": "李艳芳 · 2011 数一第19题 · P11 19:36",
+        "status": "confirmed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=12&t=125",
+        "label": "李艳芳 · 李艳芳 2011年数学一/二（一19、二21） · 二重积分与多元微分结合",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1rPtQegEtk/?p=1&t=10479",
+        "label": "帕拉迪宇 · 二重积分与多元微分结合（2:54:39）",
+        "status": "confirmed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=34&t=3842",
+        "label": "汤家凤 · 汤家凤 2011年数学一/二（一19、二21） · 二重积分与多元微分结合",
+        "status": "candidate"
+       }
       ]
      },
      {
@@ -21325,6 +21533,28 @@
       "linkedQidDead": "2005数二真题-21",
       "ansImg": [
        "data/img/zx_site/476_0.webp"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=5&t=1497",
+        "label": "2010 数二 第20题 · 导入视频",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV164411o7Qo/?p=5&t=1604",
+        "label": "李艳芳 · 李艳芳 2010年数学二（20） · 极坐标逆问题",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1rPtQegEtk/?p=1&t=11229",
+        "label": "帕拉迪宇 · 帕拉迪宇 2010年数学二（20） · 极坐标逆问题",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=32&t=4168",
+        "label": "汤家凤 · 汤家凤 2010年数学二（20） · 极坐标逆问题",
+        "status": "candidate"
+       }
       ]
      },
      {
@@ -21438,6 +21668,18 @@
       "status": "ref-matched",
       "ansImg": [
        "data/img/zx_site/479_0.webp"
+      ],
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=85&t=13",
+        "label": "李艳芳 · 李艳芳 2024年数学一（17）",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=70&t=4095",
+        "label": "汤家凤 · 汤家凤 2024年数学一（17）",
+        "status": "candidate"
+       }
       ]
      },
      {
@@ -22409,7 +22651,24 @@
       "srcPage": 101,
       "srcOrder": 3,
       "status": "ref-matched",
-      "linkedQidDead": "2024数二真题-6"
+      "linkedQidDead": "2024数二真题-6",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=25&t=1595",
+        "label": "李艳芳 · 2014数一第3题 · P25 26:35",
+        "status": "confirmed"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1Ut411p7k3/?p=25&t=1706",
+        "label": "李艳芳 · 李艳芳 2014年数学一（3） · 极直互换",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=43&t=300",
+        "label": "汤家凤 · 汤家凤 2014年数学一（3） · 极直互换",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 506,
@@ -22792,7 +23051,19 @@
       "srcPage": 102,
       "srcOrder": 3,
       "status": "ref-matched",
-      "img": "data/img/core_fig/no515.png"
+      "img": "data/img/core_fig/no515.png",
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1vJ411P73N/?p=1&t=376",
+        "label": "李艳芳 · 李艳芳 2009年数学一（2）",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV12L411G7kh/?p=28&t=81",
+        "label": "汤家凤 · 汤家凤 2009年数学一（2）",
+        "status": "candidate"
+       }
+      ]
      },
      {
       "no": 516,
@@ -23244,7 +23515,19 @@
       ],
       "source": "用户补充",
       "status": "site",
-      "linkedQid": null
+      "linkedQid": null,
+      "videos": [
+       {
+        "url": "https://www.bilibili.com/video/BV1UwLG6WET6/?p=62&t=0",
+        "label": "没咋了 · 没咋了 李林880数学一 · 880 综合填空 1 · 绝对值",
+        "status": "candidate"
+       },
+       {
+        "url": "https://www.bilibili.com/video/BV1rPtQegEtk/?p=1&t=18122",
+        "label": "帕拉迪宇 · 帕拉迪宇 二重积分大观 · 绝对值",
+        "status": "candidate"
+       }
+      ]
      }
     ]
    },
