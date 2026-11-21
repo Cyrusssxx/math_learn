@@ -141,7 +141,7 @@ ok('HEART_MODE 由 ?heart=1 定义', /const\s+HEART_MODE\s*=\s*new URLSearchPara
 ok('renderMain 分派 renderHeart', /if \(HEART_MODE\)\s*\{\s*renderHeart\(\);\s*return;\s*\}/.test(JS));
 ok('init 调 applyHeartMode', /applyHeartMode\(\);\s*\/\/[^\n]*heart=1/.test(JS));
 ok('storage 事件含 HEART_KEY', /k === HEART_KEY/.test(JS));
-ok('storage 分派 renderHeart', /else if \(HEART_MODE\) \{ renderHeart\(\); renderNav\(\); \}/.test(JS));
+ok('storage 分派 renderTree+renderHeart', /else if \(HEART_MODE\) \{ renderTree\(\); renderHeart\(\); renderNav\(\); \}/.test(JS));
 ok('♥ 页不选分类树', /!REVIEW_MODE && !HEART_MODE && !PAPER_MODE/.test(JS));
 ok('two-page 顶栏入口：exam.html', /href="category\.html\?heart=1"[^>]*>\s*♥\s*</.test(EXAM_HTML));
 ok('two-page 顶栏入口：category.html', /href="category\.html\?heart=1"[^>]*>\s*♥\s*</.test(CAT_HTML));
@@ -157,7 +157,8 @@ ok('♥ 页隐藏自身入口', /body\.heart-mode \.hf-entry \{ display: none/.t
 ok('♥ 页显示返回分类', /body\.heart-mode \.hf-back \{ display: inline-flex/.test(CSS));
 ok('♥ 按钮 hover 色', /\.q-st-btn\.q-st-heart:hover/.test(CSS));
 ok('♥ 按钮选中态', /\.q-st-btn\.q-st-heart\.on/.test(CSS));
-ok('♥ 页隐藏左栏', /body\.heart-mode #catSide \{ display: none/.test(CSS));
+ok('♥ 页保留左栏分类树（反向：不再隐藏）', !/body\.heart-mode #catSide \{ display: none/.test(CSS)
+    && !/body\.heart-mode \.exam-wrap \{ grid-template-columns: 1fr/.test(CSS));
 ok('♥ 页筛选条样式', /\.hf-filter \.cat-mark/.test(CSS));
 // 反向：不允许 ♥ 进抽题池（拼卷扫描池不得引用 ppHeart/heartGet）
 const ppScanPoolStart = JS.indexOf('function ppScanPool()');
@@ -199,6 +200,36 @@ const heartM = cardD.querySelector('.q-st-heart');
 heartM.classList.add('on');
 mutant(domD.querySelector('.q-st-unk'), '2000-1', 'unknown');
 ok('反向验证：旧选择器会抹掉 ♥（证明测试有效）', !heartM.classList.contains('on'));
+
+/* ---------- E. ♥ 页左栏知识点分类树（2026-11-21） ---------- */
+console.log('E. ♥ 页左栏知识点分类树');
+ok('renderTree 只拦拼卷（♥ 页也建树）', /function renderTree\(\)\s*\{[\s\S]{0,500}?if \(PAPER_MODE\) return;/.test(JS));
+ok('renderTree 数据源按模式分派', /HEART_MODE \? heartTreeEntries\(\) : activeEntries\(\)/.test(JS));
+ok('♥ 页不挂细分类浮层（口径不同）', /const canHover = !HEART_MODE &&/.test(JS));
+ok('♥ 页顶部「♥ 全部」节点', /class="cat-leaf heart-all/.test(JS) && /onclick="clearHeartCat\(\)"/.test(JS));
+ok('clearHeartCat 退出知识点筛选', /function clearHeartCat\(\)[\s\S]{0,240}curCat = null;/.test(JS));
+ok('renderHeart 按 curCatSet 过滤', /const catSet = curCatSet\(\);[\s\S]{0,220}categoryIds \|\| \[\]\)\.some/.test(JS));
+ok('♥ 页 saveCatState 不覆盖分类页 curCat', /curCat: HEART_MODE \? \(prev\.curCat/.test(JS));
+ok('init 在 ♥ 页也 renderTree', /if \(!PAPER_MODE\) renderTree\(\);/.test(JS));
+ok('toggleHeart 取消后重画树', /if \(HEART_MODE && !on\)[\s\S]{0,200}renderTree\(\)/.test(JS));
+ok('.heart-all 样式', /\.heart-all \{/.test(CSS));
+
+// 函数级：heartTreeEntries 只收 ♥ 题、按 categoryIds 展开、同题去重
+const mkEntries = () => ([
+    { paper: { id: 'exam' }, secTitle: '一', q: { no: 1, categoryIds: [562, 326] } },
+    { paper: { id: 'exam' }, secTitle: '二', q: { no: 1, categoryIds: [888] } },   // 同题重复出现 → 去重，888 不得计入
+    { paper: { id: 'core' }, secTitle: '一', q: { no: 2076, categoryIds: [562] } },
+    { paper: { id: 'exam' }, secTitle: '一', q: { no: 9, categoryIds: [999] } },    // 未 ♥
+    { paper: { id: 'ys27' }, secTitle: '一', q: { no: 3, categoryIds: [] } },       // ♥ 但无分类
+]);
+const buildHTE = (heart) => new Function('heartGet', 'allEntriesAllSources', 'qidOf',
+    extractFn(JS, 'heartTreeEntries') + '\nreturn heartTreeEntries;'
+)(() => heart, mkEntries, (pid, no) => pid + '-' + no);
+const gotCats = buildHTE({ 'exam-1': { t: 1 }, 'core-2076': { t: 2 }, 'ys27-3': { t: 3 } })().map(e => e.catId);
+eq('只保留 ♥ 题并按分类展开（含无分类 → null）', gotCats, [562, 326, 562, null]);
+ok('未 ♥ 的题不进树（反向）', !gotCats.includes(999));
+ok('同题多处出现只计一次（去重，888 不入）', !gotCats.includes(888));
+eq('没有 ♥ 时返回空（反向）', buildHTE({})().length, 0);
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败`);
 process.exit(fail ? 1 : 0);

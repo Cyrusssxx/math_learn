@@ -286,7 +286,7 @@ function toggleHeart(qid, btn) {
     }
     if (HEART_MODE && !on) {
         const card = btn && btn.closest('.q-card');
-        setTimeout(() => { if (!card || !card.isConnected) return; renderHeart(); renderNav(); }, 30);
+        setTimeout(() => { if (!card || !card.isConnected) return; renderTree(); renderHeart(); renderNav(); }, 30);
     }
     return on;
 }
@@ -1332,11 +1332,15 @@ try {
 } catch (e) { }
 function saveCatState() {
     try {
-        const catsEl = document.getElementById('catSearch');
+        // ♥ 页的知识点筛选是「♥ 专用视图」，不能覆盖分类题库里选中的知识点：
+        // 两份状态共用 CAT_STATE_KEY，♥ 页写入会让用户回到分类页发现凭空换了个知识点。
+        let prev = {};
+        if (HEART_MODE) { try { prev = JSON.parse(localStorage.getItem(CAT_STATE_KEY) || '{}') || {}; } catch (e) { prev = {}; } }
         localStorage.setItem(CAT_STATE_KEY, JSON.stringify({
-            curCat,
-            curDeepCat,          // 细分类选中态（刷新后保留，不再被清掉）
-            curDeepSelf,
+            curCat: HEART_MODE ? (prev.curCat === undefined ? null : prev.curCat) : curCat,
+            // 细分类选中态（刷新后保留，不再被清掉）
+            curDeepCat: HEART_MODE ? (prev.curDeepCat === undefined ? null : prev.curDeepCat) : curDeepCat,
+            curDeepSelf: HEART_MODE ? !!prev.curDeepSelf : curDeepSelf,
             collapsedSubjects: [...collapsedSubjects],
             collapsedChapters: [...collapsedChapters],
             search: catSearchKw || '',
@@ -1735,6 +1739,36 @@ function activeEntries() {
     });
 }
 
+/** ♥ 页专用（2026-11-21）：只把「♥ 过的题」喂给 buildTree，并按 categoryIds 展开成一条条 catId 记录。
+ *  口径与分类题库一致：一题挂 N 个分类就在 N 个知识点下各计 1 次（所以章节/学科合计会大于题数）；
+ *  而顶部「♥ 全部」按 qid 去重，才是真实题数。qidOf 走 linkedQid 重定向，和 ♥ 存储键同源。 */
+function heartTreeEntries() {
+    const h = heartGet();
+    const out = [];
+    const seen = new Set();
+    for (const e of allEntriesAllSources()) {
+        const qid = qidOf(e.paper.id, e.q.no);
+        if (!h[qid] || seen.has(qid)) continue;
+        seen.add(qid);
+        const cids = e.q.categoryIds || [];
+        if (!cids.length) { out.push({ paper: e.paper, secTitle: e.secTitle, q: e.q, catId: null }); continue; }
+        for (const cid of cids) out.push({ paper: e.paper, secTitle: e.secTitle, q: e.q, catId: cid });
+    }
+    return out;
+}
+
+/** ♥ 页：退出知识点筛选（左栏顶部「♥ 全部」），回到全部 ♥ 题 */
+function clearHeartCat() {
+    if (curCat == null) return;
+    curCat = null;
+    curDeepCat = null;
+    curDeepSelf = false;
+    hideDeepFlyNow();
+    renderTree();
+    renderMain();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // 清洗标签：去 LaTeX $...$、去空白、截断（用于分类树显示）
 function cleanLabel(s) {
     return (s || '').replace(/\$[^$]*\$/g, '').replace(/\$/g, '').replace(/\s+/g, '').slice(0, 22);
@@ -1795,23 +1829,33 @@ function curCatSet() {
 
 // ============ 渲染：三级分类树 ============
 function renderTree() {
-    // ⚠️ 拼卷 / ♥ 页左栏是历史卷列表，不是分类树：跨标签同步等路径若误调本函数会覆盖左栏（串页），统一在此拦截。
-    if (PAPER_MODE || HEART_MODE) return;
-    const entries = activeEntries();
+    // ⚠️ 拼卷左栏是历史卷列表，不是分类树：跨标签同步等路径若误调本函数会覆盖左栏（串页），统一在此拦截。
+    // ♥ 页（?heart=1，2026-11-21 起）左栏同样是三级分类树，只是题数只统计「♥ 过的题」→ heartTreeEntries()
+    if (PAPER_MODE) return;
+    const entries = HEART_MODE ? heartTreeEntries() : activeEntries();
     const el = document.getElementById('catTree');
     // 触摸设备（无 hover）不挂悬停浮层：手机上 tap 会先触发 mouseenter，
     // 浮层弹出后盖住节点，导致「分支点不动」。触屏一律直接走 onclick。
-    // 窄屏也视为触屏（部分安卓浏览器会误报 hover:hover），避免浮层盖住节点导致点不动
-    const canHover = (function () {
+    // 窄屏也视为触屏（部分安卓浏览器会误报 hover:hover），避免浮层盖住节点导致点不动。
+    // ♥ 页不挂细分类浮层：浮层计数来自全库，和「只数 ♥ 题」的树口径不一致，会误导。
+    const canHover = !HEART_MODE && (function () {
         try { return !window.matchMedia('(hover: none)').matches && window.innerWidth > 900; }
         catch (e) { return window.innerWidth > 900; }
     })();
     if (!entries.length) {
-        el.innerHTML = '<div class="empty-tip">当前筛选条件下没有题目。到真题页点 ☆ 收藏，或点题右侧「不熟/不会」打标记后，这里会按章节汇总。</div>';
+        el.innerHTML = HEART_MODE
+            ? '<div class="empty-tip">还没有 ♥ 过的题。在拼卷页或核心题库题卡右侧点一下 ♡ 即可。</div>'
+            : '<div class="empty-tip">当前筛选条件下没有题目。到真题页点 ☆ 收藏，或点题右侧「不熟/不会」打标记后，这里会按章节汇总。</div>';
         return;
     }
     const tree = buildTree(entries);
-    el.innerHTML = tree.map(s => {
+    // ♥ 页顶部「全部」节点：不按知识点筛选，显示所有 ♥ 题（计数按题去重，不按分类重复计）
+    const heartAll = HEART_MODE
+        ? `<button class="cat-leaf heart-all${curCat == null ? ' on' : ''}" onclick="clearHeartCat()" title="不按知识点筛选，显示全部 ♥ 题">
+             <span class="cat-leaf-name">♥ 全部</span><span class="cat-count">${new Set(entries.map(e => qidOf(e.paper.id, e.q.no))).size}</span>
+           </button>`
+        : '';
+    el.innerHTML = heartAll + tree.map(s => {
         const open = !collapsedSubjects.has(s.subject);
         const total = s.chapters.reduce((a, c) => a + c.count, 0);
         return `<div class="paper-group">
@@ -2666,6 +2710,13 @@ function applyHeartMode() {
     const t = document.querySelector('.exam-title');
     if (t) t.textContent = '♥';
     document.title = '♥ · 拼卷标记题';
+    // 左栏也是分类树（只统计 ♥ 题）：默认「全部」，不继承分类题库上次选中的知识点，
+    // 否则一打开就被筛成空列表（curCat 由 CAT_STATE_KEY 恢复，两页共用一份状态）。
+    curCat = null;
+    curDeepCat = null;
+    curDeepSelf = false;
+    const sideT = document.querySelector('.exam-side-title');
+    if (sideT) sideT.textContent = '♥ 知识点分类';
     const sub = document.getElementById('examSub');
     if (sub) {
         sub.textContent = '拼卷或核心题库里标过 ♥ 的题目汇总 · 跨全部题库来源 · 可在此取消标记 · 与真题/分类页实时同步';
@@ -2731,13 +2782,17 @@ function renderHeart() {
     if (!el) return;
     const h = heartGet(), st = statusGet() || {}, fav = favGet() || {};
     const seen = new Set();
-    const rows = [];
+    let rows = [];
     for (const e of allEntriesAllSources()) {
         const qid = qidOf(e.paper.id, e.q.no);
         if (!h[qid] || seen.has(qid)) continue;
         seen.add(qid);
         rows.push({ paper: e.paper, secTitle: e.secTitle, q: e.q, qid, st: st[qid] || null, fav: !!fav[qid], t: (h[qid] && h[qid].t) || 0 });
     }
+    const totalAll = rows.length;
+    // 知识点筛选（左栏分类树，2026-11-21）：只留 categoryIds 命中该节点子树的题；curCat 为空 = 全部
+    const catSet = curCatSet();
+    if (catSet) rows = rows.filter(r => (r.q.categoryIds || []).some(c => catSet.has(String(c))));
     // 标记时间倒序（最新 ♥ 的在前），时间相同按年份倒序
     rows.sort((a, b) => (b.t - a.t) || (Number(b.paper.year || 0) - Number(a.paper.year || 0)));
     const counts = {
@@ -2754,14 +2809,21 @@ function renderHeart() {
     const btns = [['all', `全部 ${counts.all}`], ['unknown', `🔴 不会 ${counts.unknown}`], ['unfamiliar', `🟡 不熟 ${counts.unfamiliar}`],
                   ['mastered', `🟢 掌握 ${counts.mastered}`], ['fav', `📥 收藏 ${counts.fav}`]]
         .map(([k, label]) => `<button class="cat-mark${heartFilter === k ? ' on' : ''}" data-hf="${k}" onclick="setHeartFilter('${k}')">${label}</button>`).join('');
+    const catNode = catSet ? cats[String(curCat)] : null;
+    const catTip = catNode
+        ? `<div class="deep-filter-tip">🔎 知识点：<b>${esc(catNode.path || catNode.name)}</b>（${counts.all} 题）<button class="deep-clear" onclick="clearHeartCat()" title="回到全部 ♥ 题">✕ 清除筛选</button></div>`
+        : '';
     let html = `<div class="paper-head">
-        <h1>♥ · ${counts.all} 题</h1>
-        <div class="paper-sub">拼卷题卡或核心题库题卡上点 ♥ 的题都会汇总到这里（跨全部题库来源）· 标记不进抽题池 · 状态/笔记实时同步</div>
+        <h1>♥ · ${counts.all} 题${catNode ? ` <span class="hf-cat-count">/ 共 ${totalAll} 题</span>` : ''}</h1>
+        <div class="paper-sub">拼卷题卡或核心题库题卡上点 ♥ 的题都会汇总到这里（跨全部题库来源）· 左侧按知识点分类 · 标记不进抽题池 · 状态/笔记实时同步</div>
+        ${catTip}
         <div class="hf-filter">${btns}</div>
     </div>`;
     if (!list.length) {
-        html += `<div class="empty-tip">${counts.all ? '当前筛选下没有题目。' : '还没有标记过 ♥。到拼卷页或核心题库做题时，在题卡右侧状态栏点一下 ♡ 即可。'}</div>`;
+        html += `<div class="empty-tip">${catNode ? '该知识点下还没有 ♥ 过的题。点左侧「♥ 全部」回到全部，或换个知识点。'
+            : (counts.all ? '当前筛选下没有题目。' : '还没有标记过 ♥。到拼卷页或核心题库做题时，在题卡右侧状态栏点一下 ♡ 即可。')}</div>`;
         el.innerHTML = html;
+        renderNav();            // 空列表也要把题号球清成「—」
         return;
     }
     html += `<div id="hfList"></div>
@@ -2777,6 +2839,7 @@ function renderHeart() {
     wrap.appendChild(batch);
     heartAfterRender(batch);
     heartUpdateMore();
+    renderNav();                // ⚠️ renderMain 在 ♥ 模式提前 return，题号球得由这里刷新（否则选知识点后题号仍是全部）
 }
 
 // 跨标签页实时同步：♥ / 收藏 / 标记 / 笔记改动 → 对应页面自动刷新
@@ -2784,7 +2847,7 @@ window.addEventListener('storage', (e) => {
     const k = e.key || '';
     if (k === FAV_KEY || k === EXAM_STATUS_KEY || k === HEART_KEY || k.indexOf('examNote-') === 0) {
         if (REVIEW_MODE) { renderReview(); renderNav(); }
-        else if (HEART_MODE) { renderHeart(); renderNav(); }
+        else if (HEART_MODE) { renderTree(); renderHeart(); renderNav(); }   // 左栏计数跟着 ♥ 变，必须一起重画
         else if (PAPER_MODE) { ppSide(); renderMain(); }   // 拼卷左栏是历史卷列表：只刷进度+当前卷，绝不 renderTree（会覆盖成分类树→串页）
         else { renderTree(); renderMain(); }
     }
@@ -4673,7 +4736,7 @@ async function init() {
     } catch (e) { console.warn('核心增补并入失败', e); }
     buildEntries();
     if (!PAPER_MODE) buildDeepIndex();   // 拼卷左栏是历史卷列表，不需要细分类索引
-    if (!PAPER_MODE && !HEART_MODE) renderTree();   // ⚠️ 拼卷/♥页左栏不是分类树，重建会覆盖其列表
+    if (!PAPER_MODE) renderTree();   // ♥ 页（?heart=1）左栏也是分类树（只数 ♥ 题）；拼卷页左栏是历史卷列表，必须跳过
     renderMain();
     renderNav();
     // 首屏已出 → 后台补真题 / 大观园数据（约 4.2MB）。核心题库模式用不到它们，
@@ -4687,7 +4750,7 @@ async function init() {
         applySrcMode(false);
         buildEntries();
         if (!PAPER_MODE && !HEART_MODE) buildDeepIndex();
-        if (!PAPER_MODE && !HEART_MODE) renderTree();
+        if (!PAPER_MODE) renderTree();
         renderMain();
         renderNav();
     });
