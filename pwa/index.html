@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
     <link rel="stylesheet" href="css/notes.css?v=c8c87665">
-    <link rel="stylesheet" href="css/mistake.css?v=1677a123">
+    <link rel="stylesheet" href="css/mistake.css?v=21887225">
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -139,11 +139,12 @@
                     <label class="mb-label">正文（选中文字可上色/高亮；$...$ 写公式；Ctrl+V 贴图）</label>
                     <div class="mb-toolbar">
                         <span class="mb-label" style="margin:0">字色</span>
-                        <button class="mb-color" style="background:#c0392b" title="字色 深红" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#c0392b')"></button>
-                        <button class="mb-color" style="background:#ff0000" title="字色 纯红" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#ff0000')"></button>
-                        <button class="mb-color" style="background:#d35400" title="字色 橙" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#d35400')"></button>
-                        <button class="mb-color" style="background:#2980b9" title="字色 蓝" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#2980b9')"></button>
-                        <button class="mb-color" style="background:#27ae60" title="字色 绿" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#27ae60')"></button>
+                        <button class="mb-nt-c" style="color:#e03131" title="字色 #e03131" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#e03131')">A</button>
+                        <button class="mb-nt-c" style="color:#e8590c" title="字色 #e8590c" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#e8590c')">A</button>
+                        <button class="mb-nt-c" style="color:#2f9e44" title="字色 #2f9e44" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#2f9e44')">A</button>
+                        <button class="mb-nt-c" style="color:#1971c2" title="字色 #1971c2" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#1971c2')">A</button>
+                        <button class="mb-nt-c" style="color:#9c36b5" title="字色 #9c36b5" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#9c36b5')">A</button>
+                        <button class="mb-nt-c" style="color:#495057" title="字色 #495057" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#495057')">A</button>
                         <span class="mb-label" style="margin:0 4px">高亮</span>
                         <button class="mb-color" style="background:#ffe8b8" title="高亮 黄" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('hiliteColor','#ffe8b8')"></button>
                         <button class="mb-color" style="background:#b6efb6" title="高亮 绿" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('hiliteColor','#b6efb6')"></button>

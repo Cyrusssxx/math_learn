@@ -160,6 +160,9 @@ body.mb-open.side-collapsed #mbView { margin-left: 0; }
 .mb-toolbar button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 .mb-brush { white-space: nowrap; }
 .mb-color { width: 17px; height: 17px; padding: 0; border-radius: 4px; border: 1px solid var(--border); cursor: pointer; }
+/* 字色按钮与批注同源：彩色 A 字母（批注 ANN_COLORS 六色） */
+.mb-toolbar .mb-nt-c { font-size: 13px; font-weight: 700; line-height: 1; width: 22px; height: 22px; padding: 0; border-radius: 5px; }
+.mb-toolbar .mb-nt-c:hover { transform: scale(1.12); }
 .mb-preview-wrap { margin-top: 10px; }
 .mb-preview-label { font-size: 12px; font-weight: 600; color: var(--text-dim); margin-bottom: 5px; }
 .mb-preview-label span { font-weight: 400; color: var(--text-faint); }

@@ -73,7 +73,9 @@ ok('格式刷高亮态样式存在', has(CSS, '.mb-toolbar button.on'));
 ok('图片点击不再新开标签页，改走放大遮罩', !has(JS, 'window.open(img.src') && has(JS, 'window.openLightbox') && has(JS, 'function bindZoom'));
 ok('编辑态下方有实时预览容器', has(HTML, 'id="mbPreview"') && has(JS, 'function renderPreview') && has(JS, 'function schedulePreview'));
 ok('清高亮按钮与透明高亮命令存在', has(HTML, "Mistake.applyFmt('clearHl')") && has(JS, "cmd === 'clearHl'") && has(JS, "'hiliteColor', false, 'transparent'"));
-ok('新增纯红字色', has(HTML, "background:#ff0000") && has(HTML, "foreColor','#ff0000'"));
+ok('字色换成批注同源 6 色（e03131/e8590c/2f9e44/1971c2/9c36b5/495057）', ['e03131','e8590c','2f9e44','1971c2','9c36b5','495057'].every(c => has(HTML, "style=\"color:#" + c + "\"") && has(HTML, "foreColor','#" + c + "'")));
+ok('字色按钮用彩色 A 字母且与批注同款样式', (HTML.match(/class="mb-nt-c"/g) || []).length === 6 && has(CSS, '.mb-toolbar .mb-nt-c') && has(CSS, 'font-weight: 700'));
+ok('[反向] 不再有旧字色块', !has(HTML, 'background:#c0392b') && !has(HTML, 'background:#ff0000') && !has(HTML, 'background:#d35400') && !has(HTML, 'background:#2980b9') && !has(HTML, 'background:#27ae60'));
 ok('预览容器样式已定义', has(CSS, '.mb-preview {'));
 ok('编辑器高亮不用 mark（避免默认黄底清不掉）', /node = document\.createElement\('span'\); node\.style\.backgroundColor = mf\[2\]/.test(JS) && !has(JS, "createElement('mark')"));
 
