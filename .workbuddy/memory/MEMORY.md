@@ -9,7 +9,7 @@
 - **hidden 铁律**：带 `hidden` 的元素 CSS 不能声明 `display`，需同级 `[hidden]{display:none}`。
 - **jsdom**：外链 css 不加载（内联再断言）；无 UA hidden；不解析 CSS 变量（用 `.matches(sel)`+CSS 源文本正则）；脚本必须 `process.exit()`；逐篇渲染 30+ 篇卡死。jsdom 在 `D:/ai code/408-quiz/node_modules/jsdom`。
 - CSS 变量白名单：`--bg --bg-side --bg-hover --bg-active --text --text-dim --text-faint --accent --strong --border --shadow --mk-* --hl-*`；**无 `--bg-card`**。
-- agent-browser：`open`/`eval`/`screenshot` 必须同一次 Bash 调用，输出重定向到文件；每次 `open` 新 context，验「注入→跳转→断言」写 `open`→`eval`(setItem+location.href)→`sleep`→`eval`；静态服务器后台起，curl 加 `--noproxy '*'`；顶层 `let` 不在 window 但 eval 可访问。
+- agent-browser：`open`/`eval`/`screenshot` 必须同一次 Bash 调用，输出重定向到文件；每次 `open` 新 context，验「注入→跳转→断言」写 `open`→`eval`(setItem+location.href)→`sleep`→`eval`；静态服务器后台起，curl 加 `--noproxy '*'`；顶层 `let` 不在 window 但 eval 可访问。⚠️ 2026-11-21 夜此 CLI 在 Windows 彻底卡死（守护进程 sidecar 残留、所有命令含 `open about:blank` SIGTERM，`doctor --offline --quick` 清一次又崩）→ 改 Playwright（Python `D:/python/python.exe` 已装，chromium 在 `E:/deps_cache/ms-playwright`），持久 profile `E:/deps_cache/browser-profiles/cxymath_pw`。需要真实浏览器任务优先 Playwright。
 - PDF 转写：`D:\python\python.exe`+PyMuPDF；KaTeX 字体缺 ToUnicode → 必须渲染 PNG 看图；D 盘 Python 无 `/tmp`，用 `C:\Users\cjx\AppData\Local\Temp\`。
 
 ## 2. 数据资产（pwa/data/）
@@ -18,7 +18,15 @@
 - 写回格式：`exam.json` 单行紧凑 `json.dumps(d,ensure_ascii=False)`+`newline=''`；`core_bank.json` indent=1 无尾换行；`notes.json` indent=2 无尾换行。**禁止 inline `python -c` 改 JSON/反斜杠**，必须 .py 脚本 + 独立 .py 全量验证。JSON 单反斜杠会被吃掉（`\frac`→U+000C，护栏 `_audit_syllabus.py` 扫 C0）。
 - qid=`<卷id>-<题号>`；`qidOf()` 经 `linkedQid` 重定向；双份数据不保证一致，改一处互核。四态：不会>不熟>已掌握>未刷。localStorage：`examFav`、`examStatus`、`examNote-<qid>`、`catSrcMode`、`qDraw`、`qDrawBF`、`paperList`、`dailyMarks`、`ppHeart`、`examGroupOpen`、`examLastPos`。
 - `bank_questions.categoryIds` 全字符串，其余题库数字（渲染器 `String()` 兜）。
+- **题目视频链接**：core_bank `q.videos=[{url,label,status}]`（前端 `videoBtnHtml`/`openVideoModal` 只读 url+label，status 仅内部标记 confirmed/candidate）。2026-11-21 补 19 题 49 条（极限40缺/二重9缺）。**数据源 = 大观园正式站 `math.cxyonly.fans` 登录后 `GET /api/v1/questions/{site_qid}/videos`**（主题目 API `/api/questions` 无 video 字段；静态站 `daguan-math-static.pages.dev` 与 cxyonly 本地镜像都无视频）。鉴权 `authorization:Bearer web-session:`+`x-csrf-token` 由页面 JS 动态生成，须 Playwright 持久化 profile 登录后拦截 `/api/questions` 请求截 header 再 `ctx.request.get` 调 API（requests 带 cookie 401）。匹配：core 题 source 与站点 source 体系不同，用题干归一化 `SequenceMatcher`≥0.85 粗筛 + label 年份/卷种/题号核对，错配排除（ratio 高也可能虚高，如 q3899）。详情/脚本见 2026-11-21 日志。
 - 校验：`_deep_validate.py`/`_audit_latex.py`/`_scan_unpaired.py`/`_audit_ys27.py`/`_audit_mn27.py`/`_mn27_check.py`；JS `_test_pp_counter.js`(51)`_test_notes_hl.js`(182)`_test_cat_search.js`(44)`_test_pp_heart.js`(34)。
+
+## 2.5 易错本（mistake.js / mistake.css，2026-11-24）
+- 侧栏入口条 → 正文区独立视图（`body.mb-open` 隐藏 #docPane 显示 #mbView，左栏目录树+右栏保留不全屏）；状态存 `mistakeView`。数据 localStorage `mistakeNotes`，贴图独立 IndexedDB `mistakeNoteImg`（id `mb` 前缀），与做题/批注贴图完全隔离；全量备份/恢复已接入。
+- 编辑器 token 与 exam.js 同源但独立实现（复制隔离，不共用全局变量）：`<c:#hex>`/`<h:#hex>`/`<b>`/`<i>`/`<h1>`/`<h2>`/`[图:id]`；Ctrl+V 多图先同步登记节点再压缩写库（防丢图），保存前 `await waitPendingImgs()`。
+- ⚠️ 视图退出**绝不能监听 hashchange**：reader.js 首次异步加载会写一次 hash → 刷新后误判退出；改为 document 捕获阶段点击 `#navTree a, #searchResults a` 才退出。
+- ⚠️ 卡片摘要 `plain()` 截断前必须把 `$...$`/`$$...$$` 抽成占位符再还原，直接删 `$` 会让公式变纯文本、直接截会留半截定界符。
+- 预设标签 15 个（高数 9 + 线代 6，剔除真题点睛与 21记），硬编码在 mistake.js `PRESET_TAGS`。回归 `tools/_test_mistake.js`（68 项）。
 
 ## 3. 笔记页（index.html / reader.js）
 - `chapters[i]` ↔ 正文第 i 个 `##` 必须镜像，差异以 `##` 为准（改 `##` 毁批注锚点）。目录两级（章 `ch-N`→小节 `h3-N`），`tocItems()` 按文档顺序夹取判归属。
