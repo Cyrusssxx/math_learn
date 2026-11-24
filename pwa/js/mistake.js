@@ -182,7 +182,9 @@
                     else if (m0 === '<h1>') node = document.createElement('h1');
                     else if (m0 === '<h2>') node = document.createElement('h2');
                     else if (mf[1]) { node = document.createElement('span'); node.style.color = mf[1]; }
-                    else { node = document.createElement('mark'); node.style.background = mf[2]; }
+                    // 高亮统一用 span+background-color：和 hiliteColor 生成的结构一致，
+                    // 否则 <mark> 自带的 UA 黄色背景会让「清高亮 / 清除格式」清不干净。
+                    else { node = document.createElement('span'); node.style.backgroundColor = mf[2]; }
                     stack[stack.length - 1].appendChild(node); stack.push(node);
                 }
                 i = mf.index + m0.length;
@@ -324,9 +326,32 @@
         var sel = window.getSelection();
         var blockCmd = cmd === 'h1' || cmd === 'h2' || cmd === 'plain' || cmd === 'plainBlock';
         var needSel = !blockCmd;
-        if (!sel.rangeCount || !ed.contains(sel.anchorNode) || (sel.isCollapsed && needSel)) {
-            mbHint('先选中要设置格式的文字'); return;
+        if (!sel.rangeCount || !ed.contains(sel.anchorNode)) {
+            if (!restoreRange(ed)) { mbHint('先把光标放到正文里'); return; }
+            sel = window.getSelection();
         }
+        // 光标停在 H1/H2 里没选字时，字色/高亮/清高亮直接作用整段标题（用户最常见的「标题改不了颜色」）
+        if (sel.isCollapsed && (cmd === 'foreColor' || cmd === 'hiliteColor' || cmd === 'clearHl')) {
+            var hd = closestHeading(sel.anchorNode, ed);
+            if (hd) {
+                var hr = document.createRange(); hr.selectNodeContents(hd);
+                sel.removeAllRanges(); sel.addRange(hr);
+            }
+        }
+        // H1/H2 自带粗体：点 B 不能把标题本身的粗体反着关掉
+        if (cmd === 'bold') {
+            var hb = closestHeading(sel.anchorNode, ed);
+            if (hb) {
+                var explicit = false;
+                var bn = sel.anchorNode && sel.anchorNode.nodeType === 3 ? sel.anchorNode.parentElement : sel.anchorNode;
+                while (bn && bn !== hb) {
+                    if (bn.tagName === 'B' || bn.tagName === 'STRONG') explicit = true;
+                    bn = bn.parentElement;
+                }
+                if (!explicit) { mbHint('标题本身已加粗；要取消粗体请点「正文」'); return; }
+            }
+        }
+        if (sel.isCollapsed && needSel) { mbHint('先选中要设置格式的文字'); return; }
         ed.focus();
         try { document.execCommand('styleWithCSS', false, !blockCmd); } catch (e) { }
         if (cmd === 'h1' || cmd === 'h2') document.execCommand('formatBlock', false, cmd.toUpperCase());
@@ -337,17 +362,57 @@
         markDirty();
     }
     // ============ 格式刷：取 O(1) 次，套 O(1) 次，覆盖粗/斜/字色/高亮/H1·H2 ============
-    var _brush = null;
+    var _brush = null, _brushArmed = false, _lastRange = null, _brushSrc = null;
+    function sameRange(a, b) {
+        return !!(a && b && a.startContainer === b.startContainer && a.startOffset === b.startOffset
+            && a.endContainer === b.endContainer && a.endOffset === b.endOffset);
+    }
+    function rememberRange() {
+        var ed = document.getElementById('mbEditor'), sel = window.getSelection();
+        if (!ed || !sel || !sel.rangeCount || !ed.contains(sel.anchorNode)) return;
+        try { _lastRange = sel.getRangeAt(0).cloneRange(); } catch (e) { }
+    }
+    function restoreRange(ed) {
+        if (!_lastRange) return false;
+        var sel = window.getSelection();
+        try {
+            sel.removeAllRanges(); sel.addRange(_lastRange);
+            return !!(ed && sel.rangeCount && ed.contains(sel.anchorNode));
+        } catch (e) { return false; }
+    }
     function selCtx() {
         var ed = document.getElementById('mbEditor');
         var sel = window.getSelection();
-        if (!ed || !sel || !sel.rangeCount || !ed.contains(sel.anchorNode)) return null;
+        if (!ed || !sel) return null;
+        // 某些浏览器/触屏上点工具栏会把选区清掉：退回最后一次有效选区，避免「点了没反应」
+        if (!sel.rangeCount || !ed.contains(sel.anchorNode)) {
+            if (!restoreRange(ed)) return null;
+            sel = window.getSelection();
+        }
+        if (!sel.rangeCount) return null;
         return { ed: ed, sel: sel, range: sel.getRangeAt(0) };
+    }
+    function closestHeading(node, ed) {
+        var el = node && node.nodeType === 3 ? node.parentElement : node;
+        while (el && el !== ed) {
+            if (el.tagName === 'H1' || el.tagName === 'H2') return el;
+            el = el.parentElement;
+        }
+        return null;
+    }
+    function firstFormatNode(n) {
+        // 选区锚点是元素（三击 / 全选 / 程序设置）时，下潜到第一个文本节点，
+        // 否则会从 H1 元素本身开始走，漏掉里面的 <b>/<span style="color">。
+        while (n && n.nodeType === 1 && n.firstChild && n.tagName !== 'IMG' && n.tagName !== 'BR') n = n.firstChild;
+        return n && n.nodeType === 3 ? n.parentElement : n;
     }
     function captureFormat(ctx) {
         var ed = ctx.ed;
         var node = ctx.range.startContainer;
-        if (node && node.nodeType === 3) node = node.parentElement;
+        if (node && node.nodeType === 1) {
+            var off = Math.min(ctx.range.startOffset, Math.max(0, node.childNodes.length - 1));
+            node = firstFormatNode(node.childNodes[off] || node);
+        } else if (node && node.nodeType === 3) node = node.parentElement;
         var f = { block: 'P', bold: false, italic: false, color: null, bg: null };
         var el = node;
         while (el && el !== ed) {
@@ -370,7 +435,7 @@
         return a.join(' · ');
     }
     function clearBrush() {
-        _brush = null;
+        _brush = null; _brushArmed = false; _lastRange = null; _brushSrc = null;
         var btn = document.getElementById('mbFmtBrush');
         if (btn) btn.classList.remove('on');
     }
@@ -386,13 +451,19 @@
         if (cur !== want) execFmt(cmd);
     }
     function toggleBrush() {
-        if (_brush) { applyBrush(); return; }
         var ctx = selCtx();
+        // 刷子已激活且选中的是「另一段」文字 → 套用；同一段说明只是又点了一次按钮，提示去选目标
+        if (_brush && ctx && !ctx.range.collapsed) {
+            if (sameRange(ctx.range, _brushSrc)) { mbHint('已取格式，请选中要套用的目标文字（选中后会自动套用）'); return; }
+            applyBrush(); return;
+        }
         if (!ctx) { mbHint('先把光标放到要取格式的文字上'); return; }
         _brush = captureFormat(ctx);
+        _brushSrc = ctx.range.cloneRange();
+        _brushArmed = true;
         var btn = document.getElementById('mbFmtBrush');
         if (btn) btn.classList.add('on');
-        mbHint('已取格式：' + fmtDesc(_brush) + '。选中目标文字后再点一次格式刷套用。');
+        mbHint('已取格式：' + fmtDesc(_brush) + '。选中目标文字会自动套用（也可再点一次格式刷）。');
     }
     function applyBrush() {
         var ctx = selCtx();
@@ -724,6 +795,17 @@
         if (!document.getElementById('mbView')) return;
         document.getElementById('mbEditor').addEventListener('paste', pasteImg);
         document.getElementById('mbEditor').addEventListener('input', markDirty);
+        document.addEventListener('selectionchange', rememberRange);
+        // 格式刷：取完格式后，用鼠标选中目标就自动套用（Word 手感），不必再找第二次按钮
+        document.addEventListener('mouseup', function (e) {
+            if (!_brush || !_brushArmed) return;
+            if (!e.target || !e.target.closest || !e.target.closest('#mbEditor')) return;
+            setTimeout(function () {
+                if (!_brush || !_brushArmed) return;
+                var s = window.getSelection(), ed = document.getElementById('mbEditor');
+                if (s && s.rangeCount && !s.isCollapsed && ed && ed.contains(s.anchorNode)) applyBrush();
+            }, 0);
+        });
         ['mbTitle', 'mbTagsInput'].forEach(function (id) {
             document.getElementById(id).addEventListener('input', markDirty);
         });

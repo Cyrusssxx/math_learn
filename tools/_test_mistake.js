@@ -54,6 +54,7 @@ ok('编辑态下方有实时预览容器', has(HTML, 'id="mbPreview"') && has(JS
 ok('清高亮按钮与透明高亮命令存在', has(HTML, "Mistake.applyFmt('clearHl')") && has(JS, "cmd === 'clearHl'") && has(JS, "'hiliteColor', false, 'transparent'"));
 ok('新增纯红字色', has(HTML, "background:#ff0000") && has(HTML, "foreColor','#ff0000'"));
 ok('预览容器样式已定义', has(CSS, '.mb-preview {'));
+ok('编辑器高亮不用 mark（避免默认黄底清不掉）', /node = document\.createElement\('span'\); node\.style\.backgroundColor = mf\[2\]/.test(JS) && !has(JS, "createElement('mark')"));
 
 /* ---------- B. jsdom 真实 DOM 行为 ---------- */
 const dom = new JSDOM(HTML.replace(/<script[\s\S]*?<\/script>/g, ''), {
@@ -182,6 +183,11 @@ saveP.then(() => {
             }
             M.openEditor();
             const ed2 = document.getElementById('mbEditor');
+            // 从存储加载 <h:...> 时必须用 span+background-color，不能生成默认黄底的 <mark>
+            localStorage.setItem('mistakeNotes', JSON.stringify([{ id: 'mbhl', title: '高亮', tags: [], body: '<h:#ffe8b8>高亮</h>', created: 1, updated: 1, pinned: false }]));
+            M.openEditor('mbhl');
+            ok('加载高亮使用 span 而非 mark', !ed2.querySelector('mark') && !!ed2.querySelector('span[style*="background-color"]'));
+            M.openEditor();
             ed2.innerHTML = '<h1><b style="color:#c0392b;background-color:#ffe8b8">源</b>文字</h1>';
             selText(ed2.querySelector('b').firstChild, 0, 1);
             fmtCalls.length = 0;
@@ -224,9 +230,42 @@ saveP.then(() => {
             M.applyFmt('clearHl');
             ok('清高亮只发透明高亮命令，不碰字色', fmtCalls.some(x => x[0] === 'hiliteColor' && x[1] === 'transparent') && !fmtCalls.some(x => x[0] === 'removeFormat'));
 
-            ed2.innerHTML = '预览 <b>粗体</b> $x^2$';
-            ed2.dispatchEvent(new window.Event('input', { bubbles: true }));
-            return new Promise(r => setTimeout(r, 320)).then(() => {
+            // H1/H2：光标未选字时点字色，自动作用整段标题
+            ed2.innerHTML = '<h1>标题</h1>';
+            selText(ed2.querySelector('h1').firstChild, 1, 1);
+            fmtCalls.length = 0;
+            M.applyFmt('foreColor', '#ff0000');
+            ok('光标在 H1 内未选字也能改整段字色', fmtCalls.some(x => x[0] === 'foreColor' && x[1] === '#ff0000'));
+
+            // H1 自带粗体：点 B 不能反向关掉
+            ed2.innerHTML = '<h1>标题</h1>';
+            selText(ed2.querySelector('h1').firstChild, 1, 1);
+            fmtCalls.length = 0;
+            M.applyFmt('bold');
+            ok('H1 点 B 不会把自带粗体关掉', !fmtCalls.some(x => x[0] === 'bold') && has(document.getElementById('mbHint').textContent, '标题本身已加粗'));
+
+            // 选区锚点是元素节点（三击/全选）时也能取到标题内部完整格式
+            ed2.innerHTML = '<h1><b><span style="color:#c0392b"><i>源</i></span></b></h1>';
+            const hr = document.createRange(); hr.setStart(ed2.querySelector('h1'), 0); hr.setEnd(ed2.querySelector('h1'), 1);
+            var hs = window.getSelection(); hs.removeAllRanges(); hs.addRange(hr);
+            M.toggleBrush();
+            const takeEl = document.getElementById('mbHint').textContent;
+            ok('元素锚点也能取到标题内完整格式', ['大标题', '加粗', '斜体', '字色 #c0392b'].every(t => has(takeEl, t)), takeEl);
+            // 套到一个目标上，顺便清掉刷子
+            ed2.innerHTML = '<p>清刷</p>'; selText(ed2.querySelector('p').firstChild, 0, 2); M.toggleBrush();
+
+            // 取格式后，用鼠标选中目标自动套用（Word 手感）
+            ed2.innerHTML = '<p><b>源</b></p>'; selText(ed2.querySelector('p b').firstChild, 0, 1); M.toggleBrush();
+            ed2.innerHTML = '<p>目标</p>'; selText(ed2.querySelector('p').firstChild, 0, 2);
+            fmtCalls.length = 0;
+            ed2.dispatchEvent(new window.MouseEvent('mouseup', { bubbles: true }));
+            return new Promise(r => setTimeout(r, 40)).then(() => {
+                ok('鼠标选中目标后自动套用格式', fmtCalls.some(x => x[0] === 'removeFormat') && !document.getElementById('mbFmtBrush').classList.contains('on'));
+
+                ed2.innerHTML = '预览 <b>粗体</b> $x^2$';
+                ed2.dispatchEvent(new window.Event('input', { bubbles: true }));
+                return new Promise(r => setTimeout(r, 320));
+            }).then(() => {
                 ok('编辑态实时预览渲染粗体', has(document.getElementById('mbPreview').innerHTML, '<b>粗体</b>'));
                 ed2.innerHTML = '<h1><b>重点</b><span style="color:#c0392b">红</span><i>斜</i></h1>';
                 return M.saveEditor();
