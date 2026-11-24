@@ -1186,8 +1186,12 @@ mark.note-hl {
 }
 .ab-btn:hover { background: var(--bg-hover); }
 
-/* KaTeX 略缩小，与正文协调 */
-.katex { font-size: 1.06em; line-height: 1.5; }
+/* KaTeX 字号：笔记正文 1.5em（正文 16px → 24px，用户选定档位）。
+   ⚠️ katex.min.css 后加载，其 .katex{font-size:1.21em} 会盖掉同特异性声明，
+   故用 body .note-article .katex 提高特异性确保生效；
+   题目页 .q-*（exam.css）与记忆卡 .cd-*（cards.css）为独立字号体系，不受此处影响。 */
+.katex { line-height: 1.5; }
+body .note-article .katex { font-size: 1.5em; }
 /* 分式分子分母放大 + 增加分数线两侧留白 */
 .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.28em; }
 .katex .mfrac .frac-line { border-top-width: 0.07em; margin: 0.12em 0; }

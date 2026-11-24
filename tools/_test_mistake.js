@@ -53,6 +53,13 @@ ok('Esc 可退出格式刷', has(JS, "e.key === 'Escape' && _brush"));
 ok('高亮外显加强（字重+描边）', has(CSS, 'mark { padding: 1px 5px; border-radius: 3px; font-weight: 600; box-shadow: inset 0 0 0 1px rgba(0,0,0,.16); }'));
 ok('卡片正文字号与编辑态/预览一致（14px/1.75）', has(CSS, '.mb-card-body { font-size: 14px; line-height: 1.75;') && has(CSS, '.mb-editor {') && /\.mb-editor \{[^}]*font-size: 14px; line-height: 1\.75;/.test(CSS) && has(CSS, '.mb-preview {') && /\.mb-preview \{[^}]*font-size: 14px; line-height: 1\.7;/.test(CSS));
 ok('卡片标题字号与预览 doc-h1/h2 一致（17/15px）', has(CSS, '.mb-card-body h3.mb-doc-h1 { font-size: 17px; }') && has(CSS, '.mb-card-body h4.mb-doc-h2 { font-size: 15px; }') && has(CSS, '.mb-doc-h1 { font-size: 17px;') && has(CSS, '.mb-doc-h2 { font-size: 15px;'));
+
+/* 公式字号：笔记正文 1.5em（16px→24px），易错本三处 1.5em（14px→21px） */
+ok('笔记正文公式 1.5em 且提高特异性盖过 katex.min.css', has(NOTES_CSS, 'body .note-article .katex { font-size: 1.5em; }') && !has(NOTES_CSS, '.katex { font-size: 1.06em'));
+ok('全局 .katex 不再写死 font-size（交回各页面作用域）', has(NOTES_CSS, '.katex { line-height: 1.5; }') && !/(^|\n)\.katex \{ font-size:/.test(NOTES_CSS));
+ok('易错本卡片/编辑/预览公式均 1.5em', has(CSS, '.mb-card-body .katex { font-size: 1.5em; }') && has(CSS, '.mb-editor .katex { font-size: 1.5em; }') && has(CSS, '.mb-preview .katex { font-size: 1.5em; }'));
+ok('[反向] 题目页公式字号体系未被改动', has(read('pwa/css/exam.css'), '.q-answer-body .katex { font-size: 1.5em; }') && has(read('pwa/css/exam.css'), '.q-answer-body .katex-display > .katex { font-size: 1.6em'));
+ok('[反向] 记忆卡公式字号体系未被改动', has(read('pwa/css/cards.css'), '.cd-card-body .katex { font-size: 1.02em; }'));
 // 栏目收起必须真正释放阅读宽度（不是只平移居中）+ 公式不截断 + 易错本隐藏右栏
 ok('右栏收起正文从 820 放到 1060', has(NOTES_CSS, 'body.toc-collapsed .note-article { max-width: 1060px; }'));
 ok('左栏收起正文从 820 放到 1100', has(NOTES_CSS, 'body.side-collapsed .note-article { max-width: 1100px; }'));
