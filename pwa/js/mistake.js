@@ -379,8 +379,10 @@
     }
 
     // ============ 视图渲染 ============
-    var state = { tag: '', kw: '', sort: 'updated' };
+    var TAG_FOLD_AT = 5;   // 筛选栏 / 预设栏默认只显示前 5 个，其余折叠
+    var state = { tag: '', kw: '', sort: 'updated', tagFold: true };
     var _dirty = false, _editId = null;
+    var _editPreset = {}, _editTagFold = true;   // 编辑态：点选的预设标签 + 预设栏折叠态
 
     function markDirty() { _dirty = true; var h = document.getElementById('mbHint'); if (h) h.textContent = '未保存的改动'; }
 
@@ -393,21 +395,54 @@
             b.classList.toggle('on', isOpen());
         }
     }
+    // 筛选栏标签：只列出「有笔记打过」的标签（预设或自定义都算），按预设顺序排列；默认折叠
+    function usedTags() {
+        var all = load(), counts = {}, order = {};
+        all.forEach(function (r) {
+            (r.tags || []).forEach(function (t, i) {
+                counts[t] = (counts[t] || 0) + 1;
+                if (order[t] === undefined || i < order[t]) order[t] = i;
+            });
+        });
+        var tags = Object.keys(counts);
+        tags.sort(function (a, b) {
+            var ia = PRESET_TAGS.indexOf(a), ib = PRESET_TAGS.indexOf(b);
+            if (ia < 0) ia = 999; if (ib < 0) ib = 999;
+            return ia - ib || order[a] - order[b];
+        });
+        return { tags: tags, counts: counts };
+    }
     function renderTags() {
         var box = document.getElementById('mbTags');
         if (!box) return;
-        var all = load(), counts = {};
-        all.forEach(function (r) { (r.tags || []).forEach(function (t) { counts[t] = (counts[t] || 0) + 1; }); });
-        var tags = [];
-        PRESET_TAGS.forEach(function (t) { if (tags.indexOf(t) < 0) tags.push(t); });
-        Object.keys(counts).forEach(function (t) { if (tags.indexOf(t) < 0) tags.push(t); });
+        var all = load(), u = usedTags(), tags = u.tags, counts = u.counts;
+        var over = tags.length > TAG_FOLD_AT;
+        var shown = (over && state.tagFold) ? tags.slice(0, TAG_FOLD_AT) : tags;
         var html = '<button class="mb-chip' + (state.tag === '' ? ' on' : '') + '" onclick="Mistake.setTag(\'\')">全部 ' + all.length + '</button>';
-        tags.forEach(function (t) {
-            if (!counts[t] && PRESET_TAGS.indexOf(t) < 0) return;
-            html += '<button class="mb-chip' + (state.tag === t ? ' on' : '') + '" onclick="Mistake.setTag(' + JSON.stringify(t).replace(/"/g, '&quot;') + ')">' + esc(t) + (counts[t] ? ' ' + counts[t] : '') + '</button>';
+        shown.forEach(function (t) {
+            html += '<button class="mb-chip' + (state.tag === t ? ' on' : '') + '" onclick="Mistake.setTag(' + JSON.stringify(t).replace(/"/g, '&quot;') + ')">' + esc(t) + ' ' + counts[t] + '</button>';
         });
+        if (over) html += '<button class="mb-chip-fold" onclick="Mistake.toggleTagFold()">' + (state.tagFold ? '展开其余 ' + (tags.length - TAG_FOLD_AT) + ' 个 ▾' : '收起 ▴') + '</button>';
         box.innerHTML = html;
     }
+    function toggleTagFold() { state.tagFold = !state.tagFold; renderTags(); }
+
+    // 编辑态预设标签 chips：默认折叠，点选写入 _editPreset
+    function renderPresetTags() {
+        var box = document.getElementById('mbPresetTags');
+        if (!box) return;
+        var over = PRESET_TAGS.length > TAG_FOLD_AT;
+        var shown = (over && _editTagFold) ? PRESET_TAGS.slice(0, TAG_FOLD_AT) : PRESET_TAGS;
+        var html = '';
+        shown.forEach(function (t) {
+            var on = !!_editPreset[t];
+            html += '<button type="button" class="mb-chip' + (on ? ' on' : '') + '" onclick="Mistake.togglePresetTag(' + JSON.stringify(t).replace(/"/g, '&quot;') + ')">' + esc(t) + '</button>';
+        });
+        if (over) html += '<button type="button" class="mb-chip-fold" onclick="Mistake.togglePresetFold()">' + (_editTagFold ? '展开全部 ' + PRESET_TAGS.length + ' 个 ▾' : '收起 ▴') + '</button>';
+        box.innerHTML = html;
+    }
+    function togglePresetTag(t) { _editPreset[t] = !_editPreset[t]; renderPresetTags(); markDirty(); }
+    function togglePresetFold() { _editTagFold = !_editTagFold; renderPresetTags(); }
     function visibleList() {
         var a = load();
         if (state.tag) a = a.filter(function (r) { return (r.tags || []).indexOf(state.tag) >= 0; });
@@ -445,11 +480,18 @@
                     '</div>' +
                 '</div>' +
                 '<div class="mb-card-tags">' + (r.tags || []).map(function (t) { return '<span class="mb-tag">' + esc(t) + '</span>'; }).join('') + '</div>' +
-                '<div class="mb-card-body" data-id="' + r.id + '">' + mdBlock(plain(r.body, 260)) + '</div>' +
+                '<div class="mb-card-body" data-id="' + r.id + '">' + mdBlock(r.body) + '</div>' +
                 '<div class="mb-card-foot">更新于 ' + fmtTime(r.updated || r.created || Date.now()) + '</div>' +
             '</div>';
         }).join('');
-        box.querySelectorAll('.mb-card-body').forEach(function (el) { renderMath(el); fillImgs(el); });
+        box.querySelectorAll('.mb-card-body').forEach(function (el) {
+            renderMath(el);
+            fillImgs(el);
+            el.querySelectorAll('img[data-img]').forEach(function (img) {
+                img.style.cursor = 'zoom-in';
+                img.onclick = function () { if (img.src) window.open(img.src, '_blank'); };
+            });
+        });
     }
     function renderAll() { updateEntry(); renderTags(); renderList(); }
 
@@ -462,7 +504,17 @@
         view.hidden = true; edView.hidden = false;
         document.getElementById('mbEditTitle').textContent = rec ? '编辑易错笔记' : '新建易错笔记';
         document.getElementById('mbTitle').value = rec ? (rec.title || '') : '';
-        document.getElementById('mbTagsInput').value = rec ? (rec.tags || []).join('、') : (state.tag || '');
+        // 标签拆分：预设章节 → chips 点选；自定义 → 输入框
+        _editPreset = {}; _editTagFold = true;
+        var tags = rec ? (rec.tags || []) : (state.tag ? [state.tag] : []);
+        var custom = [];
+        tags.forEach(function (t) {
+            var pi = PRESET_TAGS.indexOf(t);
+            if (pi >= 0) { _editPreset[t] = true; if (pi >= TAG_FOLD_AT) _editTagFold = false; }
+            else custom.push(t);
+        });
+        document.getElementById('mbTagsInput').value = custom.join('、');
+        renderPresetTags();
         var ed = document.getElementById('mbEditor');
         noteToEditor(ed, rec ? (rec.body || '') : '');
         fillImgs(ed);
@@ -484,6 +536,13 @@
         if (!title && !body.trim()) { mbHint('标题和正文至少填一个'); return; }
         var tags = document.getElementById('mbTagsInput').value.split(/[、,，;；]/)
             .map(function (s) { return s.trim(); }).filter(Boolean);
+        // 合并预设 chips 点选（保持预设顺序）+ 自定义输入
+        PRESET_TAGS.forEach(function (t) { if (_editPreset[t] && tags.indexOf(t) < 0) tags.push(t); });
+        tags.sort(function (a, b) {
+            var ia = PRESET_TAGS.indexOf(a), ib = PRESET_TAGS.indexOf(b);
+            if (ia < 0) ia = 999; if (ib < 0) ib = 999;
+            return ia - ib;
+        });
         var now = Date.now(), old = _editId ? find(_editId) : null;
         var rec = {
             id: old ? old.id : uid(),
@@ -543,6 +602,7 @@
         if (kw) kw.addEventListener('input', function () { setKw(kw.value); });
         var sort = document.getElementById('mbSort');
         if (sort) sort.addEventListener('change', function () { setSort(sort.value); });
+        renderPresetTags();
         // 在易错本视图里点左栏目录/搜索结果跳笔记 → 自动退回笔记视图。
         // ⚠️ 不能用 hashchange：reader.js 首次异步加载完会写一次 hash，刷新后会误判为「用户跳笔记」而退出易错本。
         document.addEventListener('click', function (e) {
@@ -557,7 +617,8 @@
         init: init, toggle: toggle, open: open, close: close,
         openEditor: openEditor, closeEditor: closeEditor, saveEditor: saveEditor,
         del: del, pin: pin, unpin: unpin, setTag: setTag, setKw: setKw, setSort: setSort,
-        applyFmt: applyFmt, PRESET_TAGS: PRESET_TAGS
+        applyFmt: applyFmt, PRESET_TAGS: PRESET_TAGS,
+        toggleTagFold: toggleTagFold, togglePresetTag: togglePresetTag, togglePresetFold: togglePresetFold
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
     else init();

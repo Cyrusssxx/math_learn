@@ -73,6 +73,12 @@ body.mb-open.side-collapsed #mbView { margin-left: 0; }
 }
 .mb-chip:hover { border-color: var(--accent); color: var(--text); }
 .mb-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.mb-chip-fold {
+    font: inherit; font-size: 12px; padding: 4px 11px; border-radius: 14px;
+    border: 1px dashed var(--accent); background: transparent; color: var(--accent); cursor: pointer;
+}
+.mb-chip-fold:hover { background: var(--bg-hover); }
+.mb-preset { margin-bottom: 6px; padding: 9px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-side); }
 
 /* ============ 卡片 ============ */
 .mb-list { display: flex; flex-direction: column; gap: 12px; }
@@ -97,9 +103,14 @@ body.mb-open.side-collapsed #mbView { margin-left: 0; }
     font-size: 11px; padding: 1px 8px; border-radius: 10px;
     background: var(--bg-side); color: var(--text-dim);
 }
-.mb-card-body { font-size: 13px; line-height: 1.7; color: var(--text-dim); }
+.mb-card-body { font-size: 13px; line-height: 1.7; color: var(--text); overflow-wrap: break-word; }
 .mb-card-body p { margin: 0 0 6px; }
 .mb-card-body .katex { font-size: 1em; }
+.mb-card-body .katex-display { margin: 6px 0; }
+.mb-card-body mark { padding: 1px 3px; border-radius: 3px; }
+.mb-card-body h3.mb-doc-h1 { font-size: 16px; }
+.mb-card-body h4.mb-doc-h2 { font-size: 14px; }
+.mb-card-body .mb-view-img { max-height: 260px; }
 .mb-card-foot { font-size: 11px; color: var(--text-faint); margin-top: 8px; }
 .mb-empty { text-align: center; color: var(--text-faint); padding: 60px 20px; font-size: 14px; }
 .mb-view-img { max-width: 100%; max-height: 300px; border: 1px solid var(--border); border-radius: 6px; display: block; margin: 8px 0; }

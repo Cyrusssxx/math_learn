@@ -81,10 +81,15 @@ ok('不含考前21记', !M.PRESET_TAGS.some(t => t.indexOf('21记') >= 0));
 ok('初始空列表', document.getElementById('mbTotal').textContent === '0');
 ok('空态提示文案', has(document.getElementById('mbList').textContent, '还没有易错笔记'));
 
-// 新建并保存
+// 新建并保存（预设走 chips 点选，自定义走输入框）
+ok('编辑态有预设 chips 容器', !!document.getElementById('mbPresetTags'));
+ok('预设栏默认折叠', /_editTagFold = true/.test(JS) && has(document.getElementById('mbPresetTags').innerHTML, '展开全部'));
+ok('预设 chips 默认只显示 5 个', (document.getElementById('mbPresetTags').querySelectorAll('.mb-chip').length) === 5);
 M.openEditor();
 document.getElementById('mbTitle').value = '洛必达用错';
-document.getElementById('mbTagsInput').value = '高数1-极限、易错';
+document.getElementById('mbTagsInput').value = '易错';
+M.togglePresetTag('高数1-极限'); // 点选预设章节
+ok('点选预设后 chip 高亮', has(document.getElementById('mbPresetTags').innerHTML, 'mb-chip on'));
 document.getElementById('mbEditor').innerHTML = '先提公因式 <b>再求导</b> $x^2$';
 const saveP = M.saveEditor();
 saveP.then(() => {
@@ -99,6 +104,10 @@ saveP.then(() => {
     ok('卡片标题渲染', has(document.getElementById('mbList').textContent, '洛必达用错'));
     ok('卡片摘要保留公式定界符（可渲染）', has(document.getElementById('mbList').innerHTML, '$x^2$'));
     ok('标签 chip 出现在筛选栏', has(document.getElementById('mbTags').textContent, '高数1-极限'));
+    ok('自定义标签也出现在筛选栏', has(document.getElementById('mbTags').textContent, '易错'));
+    ok('未使用的预设标签不出现在筛选栏', !has(document.getElementById('mbTags').textContent, '高数6-二重积分'));
+    ok('卡片正文完整渲染 b 令牌（非纯文本）', has(document.getElementById('mbList').innerHTML, '<b>再求导</b>'));
+    ok('标签少时不显示折叠按钮', !has(document.getElementById('mbTags').textContent, '展开') && !has(document.getElementById('mbTags').textContent, '收起'));
 
     // 置顶 / 取消置顶
     M.pin(all[0].id);
@@ -114,13 +123,19 @@ saveP.then(() => {
         ok('编辑保存不新增条数', JSON.parse(localStorage.getItem('mistakeNotes')).length === 1);
         ok('编辑标题生效', JSON.parse(localStorage.getItem('mistakeNotes'))[0].title === '改过的标题');
 
-        // 第二条 + 筛选/搜索
+        // 筛选栏折叠：第二条用了第 6 个以后的预设标签，默认折叠时应隐藏
         M.openEditor();
         document.getElementById('mbTitle').value = '二重积分换序';
-        document.getElementById('mbTagsInput').value = '高数6-二重积分';
+        document.getElementById('mbTagsInput').value = '高数6-二重积分'; // 自定义填法仍兼容（保存时归一）
         document.getElementById('mbEditor').textContent = '画积分域';
         return M.saveEditor().then(() => {
             ok('两条', JSON.parse(localStorage.getItem('mistakeNotes')).length === 2);
+            ok('自定义输入的章节名归一为预设', JSON.parse(localStorage.getItem('mistakeNotes'))[0].tags.indexOf('高数6-二重积分') >= 0);
+            // 折叠态：用的标签 = 高数1/6 + 易错 → 前 5 个预设内，未超限；放一条第 15 个标签验证折叠
+            M.togglePresetFold();
+            ok('预设栏可展开全部 15 个', document.getElementById('mbPresetTags').querySelectorAll('.mb-chip').length >= 15);
+            M.togglePresetFold();
+            ok('预设栏可收回 5 个', document.getElementById('mbPresetTags').querySelectorAll('.mb-chip').length === 5);
             M.setTag('高数1-极限');
             ok('标签筛选命中 1 条', document.getElementById('mbTotal').textContent === '1');
             M.setTag('高数1-极限'); // 再点取消

@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
     <link rel="stylesheet" href="css/notes.css?v=e40d1548">
-    <link rel="stylesheet" href="css/mistake.css?v=c7d4273a">
+    <link rel="stylesheet" href="css/mistake.css?v=f4a611f3">
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -128,8 +128,12 @@
                     <input class="mb-input" id="mbTitle" placeholder="一句话说清这个易错点" autocomplete="off">
                 </div>
                 <div class="mb-field">
-                    <label class="mb-label" for="mbTagsInput">标签（用 、 或 , 分隔，可用章节名）</label>
-                    <input class="mb-input" id="mbTagsInput" placeholder="例如：高数1-极限、易错" autocomplete="off">
+                    <label class="mb-label">标签 · 章节预设（点选）</label>
+                    <div class="mb-tags mb-preset" id="mbPresetTags"></div>
+                </div>
+                <div class="mb-field">
+                    <label class="mb-label" for="mbTagsInput">标签 · 自定义（用 、 或 , 分隔）</label>
+                    <input class="mb-input" id="mbTagsInput" placeholder="例如：常错、易混、符号" autocomplete="off">
                 </div>
                 <div class="mb-field">
                     <label class="mb-label">正文（选中文字可上色/高亮；$...$ 写公式；Ctrl+V 贴图）</label>
@@ -218,7 +222,7 @@
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/annotate.js?v=3820165e"></script>
     <script defer src="js/reader.js?v=ff85310b"></script>
-    <script defer src="js/mistake.js?v=df09ff3b"></script>
+    <script defer src="js/mistake.js?v=733d337a"></script>
 
     <!-- 回到顶部 + 阅读进度（环形进度绕在按钮外圈，滚到一定距离才出现） -->
     <button class="to-top" id="toTop" onclick="scrollToTop()" title="回到顶部（快捷键 T）" aria-label="回到顶部">
