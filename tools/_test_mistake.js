@@ -1,0 +1,168 @@
+/**
+ * 易错本回归（2026-11-24）
+ *  A. 静态接线：index.html 入口条/视图容器/工具条/脚本顺序、mistake.css 视图切换与 hidden 铁律
+ *  B. 纯函数与数据：预设标签 15 个（剔除真题点睛/21记）、localStorage CRUD、筛选/排序/置顶/删除
+ *  C. 隔离性：独立 localStorage key 与 IndexedDB 名，绝不碰 examNote/notesAnnot；备份/恢复/预缓存已接入
+ *  D. 反向验证：改坏关键锚点必须失败（防测试本身失效）
+ * 运行：node tools/_test_mistake.js
+ */
+const fs = require('fs');
+const path = require('path');
+const { JSDOM } = require('D:/ai code/408-quiz/node_modules/jsdom');
+const ROOT = path.resolve(__dirname, '..');
+const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
+
+const HTML = read('pwa/index.html');
+const JS = read('pwa/js/mistake.js');
+const CSS = read('pwa/css/mistake.css');
+const SW = read('pwa/sw.js');
+const COMMON = read('pwa/js/common.js');
+
+let pass = 0, fail = 0;
+function ok(name, cond) { if (cond) pass++; else { fail++; console.log('  ✗ ' + name); } }
+const has = (s, t) => s.indexOf(t) >= 0;
+
+/* ---------- A. 静态接线 ---------- */
+ok('入口条 id=mbEntry 且点击 toggle', /id="mbEntry"[^>]*onclick="Mistake\.toggle\(\)"/.test(HTML));
+ok('入口条含计数 mbCount', has(HTML, 'id="mbCount"'));
+ok('入口条在搜索框之后、目录树之前', HTML.indexOf('id="mbEntry"') > HTML.indexOf('searchResults') && HTML.indexOf('id="mbEntry"') < HTML.indexOf('id="navTree"'));
+ok('视图容器 mbView 存在', has(HTML, 'id="mbView"'));
+ok('正文与易错本互斥所需 #docPane 存在', has(HTML, 'id="docPane"'));
+ok('列表/编辑两个子视图', has(HTML, 'id="mbListView"') && has(HTML, 'id="mbEditView"'));
+ok('编辑子视图默认 hidden', /id="mbEditView" hidden/.test(HTML));
+['mbTitle', 'mbTagsInput', 'mbEditor', 'mbKw', 'mbSort', 'mbHint'].forEach(id => ok('编辑/筛选控件 ' + id, has(HTML, 'id="' + id + '"')));
+ok('编辑器 contenteditable', /id="mbEditor"[^>]*contenteditable="true"/.test(HTML));
+ok('入口样式已引入', has(HTML, 'css/mistake.css'));
+ok('mistake.js 在 reader.js 之后引入', HTML.indexOf('js/mistake.js') > HTML.indexOf('js/reader.js'));
+ok('CSS 提供 body.mb-open 互斥切换', has(CSS, 'body.mb-open #docPane { display: none; }') && has(CSS, 'body.mb-open #mbView { display: block; }'));
+ok('hidden 铁律：三个视图容器都有 [hidden]{display:none}', /#mbEditView\[hidden\], #mbListView\[hidden\], #mbView\[hidden\] \{ display: none; \}/.test(CSS));
+ok('保留左栏右栏：mbView 沿用三栏 margin', has(CSS, 'margin-left: 280px') && has(CSS, 'margin-right: 240px'));
+ok('响应式：≤900px 左边距归零', /@media \(max-width: 900px\)[\s\S]*#mbView \{ margin-left: 0/.test(CSS));
+ok('新建按钮在 HTML，编辑按钮动态生成在 JS', has(HTML, 'Mistake.openEditor()') && has(JS, "Mistake.openEditor(\\'' + r.id"));
+ok('JS 暴露 window.Mistake', has(JS, 'window.Mistake = {'));
+
+/* ---------- B. jsdom 真实 DOM 行为 ---------- */
+const dom = new JSDOM(HTML.replace(/<script[\s\S]*?<\/script>/g, ''), {
+    url: 'https://example.test/index.html', pretendToBeVisual: true
+});
+const { window } = dom;
+const { document } = window;
+global.window = window;
+global.document = document;
+global.localStorage = window.localStorage;
+global.getSelection = () => ({ rangeCount: 0, isCollapsed: true, anchorNode: null, removeAllRanges() { }, addRange() { } });
+global.indexedDB = { open() { return { set onsuccess(v) { }, set onerror(v) { }, set onupgradeneeded(v) { } }; } };
+global.alert = () => { };
+global.confirm = () => true;
+global.Image = window.Image;
+global.FileReader = window.FileReader;
+global.URL = window.URL;
+window.crypto = { randomUUID: () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => (Math.random() * 16 | 0).toString(16)) };
+window.scrollTo = () => { };
+window.renderMathInElement = () => { };
+window.katex = {};
+
+// 载入模块（IIFE 自动 init）
+new Function('window', 'document', 'localStorage', 'indexedDB', 'getSelection', 'alert', 'confirm', 'Image', 'FileReader', 'URL', JS)(
+    window, document, window.localStorage, global.indexedDB, global.getSelection, global.alert, global.confirm, global.Image, global.FileReader, global.URL
+);
+const M = window.Mistake;
+document.dispatchEvent(new window.Event('DOMContentLoaded')); // jsdom 不自动派发，确保 init 执行
+
+ok('Mistake API 齐全', M && ['toggle', 'open', 'close', 'openEditor', 'saveEditor', 'del', 'pin', 'unpin', 'setTag', 'setKw', 'setSort'].every(k => typeof M[k] === 'function'));
+
+// 预设标签
+ok('预设标签 15 个', M.PRESET_TAGS.length === 15);
+ok('含高数1-极限与线代4-线性方程组', M.PRESET_TAGS.includes('高数1-极限') && M.PRESET_TAGS.includes('线代4-线性方程组'));
+ok('不含真题点睛', !M.PRESET_TAGS.some(t => t.indexOf('真题点睛') >= 0));
+ok('不含考前21记', !M.PRESET_TAGS.some(t => t.indexOf('21记') >= 0));
+
+// 起步空态
+ok('初始空列表', document.getElementById('mbTotal').textContent === '0');
+ok('空态提示文案', has(document.getElementById('mbList').textContent, '还没有易错笔记'));
+
+// 新建并保存
+M.openEditor();
+document.getElementById('mbTitle').value = '洛必达用错';
+document.getElementById('mbTagsInput').value = '高数1-极限、易错';
+document.getElementById('mbEditor').innerHTML = '先提公因式 <b>再求导</b> $x^2$';
+const saveP = M.saveEditor();
+saveP.then(() => {
+    const all = JSON.parse(localStorage.getItem('mistakeNotes'));
+    ok('保存后 1 条', all.length === 1);
+    ok('标题正确', all[0].title === '洛必达用错');
+    ok('标签拆分正确', JSON.stringify(all[0].tags) === JSON.stringify(['高数1-极限', '易错']));
+    ok('正文保留 b 令牌', has(all[0].body, '<b>再求导</b>'));
+    ok('正文保留公式', has(all[0].body, '$x^2$'));
+    ok('有 created/updated', all[0].created > 0 && all[0].updated > 0);
+    ok('列表计数刷新', document.getElementById('mbTotal').textContent === '1');
+    ok('卡片标题渲染', has(document.getElementById('mbList').textContent, '洛必达用错'));
+    ok('卡片摘要保留公式定界符（可渲染）', has(document.getElementById('mbList').innerHTML, '$x^2$'));
+    ok('标签 chip 出现在筛选栏', has(document.getElementById('mbTags').textContent, '高数1-极限'));
+
+    // 置顶 / 取消置顶
+    M.pin(all[0].id);
+    ok('置顶生效', JSON.parse(localStorage.getItem('mistakeNotes'))[0].pinned === true);
+    M.unpin(all[0].id);
+    ok('取消置顶生效', JSON.parse(localStorage.getItem('mistakeNotes'))[0].pinned === false);
+
+    // 编辑已有
+    M.openEditor(all[0].id);
+    ok('编辑态回填标题', document.getElementById('mbTitle').value === '洛必达用错');
+    document.getElementById('mbTitle').value = '改过的标题';
+    return M.saveEditor().then(() => {
+        ok('编辑保存不新增条数', JSON.parse(localStorage.getItem('mistakeNotes')).length === 1);
+        ok('编辑标题生效', JSON.parse(localStorage.getItem('mistakeNotes'))[0].title === '改过的标题');
+
+        // 第二条 + 筛选/搜索
+        M.openEditor();
+        document.getElementById('mbTitle').value = '二重积分换序';
+        document.getElementById('mbTagsInput').value = '高数6-二重积分';
+        document.getElementById('mbEditor').textContent = '画积分域';
+        return M.saveEditor().then(() => {
+            ok('两条', JSON.parse(localStorage.getItem('mistakeNotes')).length === 2);
+            M.setTag('高数1-极限');
+            ok('标签筛选命中 1 条', document.getElementById('mbTotal').textContent === '1');
+            M.setTag('高数1-极限'); // 再点取消
+            ok('再点标签取消筛选', document.getElementById('mbTotal').textContent === '2');
+            M.setKw('换序');
+            ok('关键词搜索命中 1 条', document.getElementById('mbTotal').textContent === '1');
+            M.setKw('');
+            ok('清空搜索恢复 2 条', document.getElementById('mbTotal').textContent === '2');
+
+            // 视图切换与持久化
+            ok('默认非易错本视图', !document.body.classList.contains('mb-open'));
+            M.open();
+            ok('open 加 mb-open', document.body.classList.contains('mb-open'));
+            ok('视图状态已持久化', localStorage.getItem('mistakeView') === '1');
+            M.close();
+            ok('close 移除 mb-open', !document.body.classList.contains('mb-open'));
+            ok('视图状态写回 0', localStorage.getItem('mistakeView') === '0');
+
+            // 删除
+            const id2 = JSON.parse(localStorage.getItem('mistakeNotes'))[0].id;
+            M.del(id2);
+            ok('删除后 1 条', JSON.parse(localStorage.getItem('mistakeNotes')).length === 1);
+
+            /* ---------- C. 隔离性 ---------- */
+            ok('独立 localStorage key', has(JS, "var LS = 'mistakeNotes'"));
+            ok('独立 IndexedDB 名', has(JS, "var IDB_NAME = 'mistakeNoteImg'"));
+            ok('不写 examNote-', !/localStorage\.setItem\(\s*['"]examNote-/.test(JS));
+            ok('不写 notesAnnot', !/localStorage\.setItem\(\s*['"]notesAnnot['"]/.test(JS));
+            ok('备份摘要含易错笔记', has(COMMON, "'易错笔记': cntArr('mistakeNotes')"));
+            ok('备份导出含 mistakeNoteImg', has(COMMON, "idb['mistakeNoteImg'] = await Promise.race"));
+            ok('导入恢复含 mistakeNoteImg', has(COMMON, "idbRestore('mistakeNoteImg', 'imgs'"));
+            ok('SW 预缓存 CSS', has(SW, "'css/mistake.css'"));
+            ok('SW 预缓存 JS', has(SW, "'js/mistake.js'"));
+
+            /* ---------- D. 反向验证：锚点被改坏必须失败 ---------- */
+            ok('[反向] 入口条 onclick 不能是空', !/id="mbEntry"[^>]*onclick="\s*"/.test(HTML));
+            ok('[反向] 预设标签不能含数三', !M.PRESET_TAGS.some(t => t.indexOf('数三') >= 0));
+            ok('[反向] 不能复用做题笔记的 DB 名', !has(JS, "'examNoteImg'"));
+            ok('[反向] 不能复用批注的 DB 名', !has(JS, "'notesAnnotImg'"));
+
+            console.log('\n易错本回归：' + pass + ' 通过 / ' + fail + ' 失败');
+            process.exit(fail ? 1 : 0);
+        });
+    });
+}).catch(e => { console.error(e); process.exit(1); });

@@ -383,11 +383,12 @@ async function exportAllData() {
     const cntPfx = (p) => Object.keys(data).filter(k => k.indexOf(p) === 0).length;
 
     // IndexedDB 全量（两个库都是「贴图」，Blob → dataURL 才能进 JSON）
-    // notesAnnotImg = 笔记标注贴图 ｜ examNoteImg = 做题笔记贴图（category/exam/exam-shared 共用）
+    // notesAnnotImg = 笔记标注贴图 ｜ examNoteImg = 做题笔记贴图（category/exam/exam-shared 共用）｜ mistakeNoteImg = 易错本贴图
     const idb = {};
     try { idb['notesAnnotImg'] = await Promise.race([idbDump('notesAnnotImg', 'imgs'), new Promise(r => setTimeout(() => r({}), 4000))]); } catch (e) { }
     try { idb['examNoteImg'] = await Promise.race([idbDump('examNoteImg', 'imgs'), new Promise(r => setTimeout(() => r({}), 4000))]); } catch (e) { }
-    const imgN = Object.keys(idb['examNoteImg'] || {}).length + Object.keys(idb['notesAnnotImg'] || {}).length;
+    try { idb['mistakeNoteImg'] = await Promise.race([idbDump('mistakeNoteImg', 'imgs'), new Promise(r => setTimeout(() => r({}), 4000))]); } catch (e) { }
+    const imgN = Object.keys(idb['examNoteImg'] || {}).length + Object.keys(idb['notesAnnotImg'] || {}).length + Object.keys(idb['mistakeNoteImg'] || {}).length;
 
     const summary = {
         '收藏': cntKeys('examFav'),
@@ -397,6 +398,7 @@ async function exportAllData() {
         '历史拼卷': cntArr('paperList') + ' 份',
         '好题收藏': cntKeys('goodFav') + ' 题',
         '精选收藏': cntPfx('selFav-') + ' 条',
+        '易错笔记': cntArr('mistakeNotes') + ' 条',
         '笔记批注': data['notesAnnot'] ? '有' : '无',
         '贴图': imgN + ' 张',
         'localStorage 键总数': Object.keys(data).length,
@@ -512,6 +514,7 @@ async function importAllData(fileInput) {
     const idb = payload.idb || {};
     await idbRestore('notesAnnotImg', 'imgs', idb['notesAnnotImg'] || {});
     await idbRestore('examNoteImg', 'imgs', idb['examNoteImg'] || {});
+    await idbRestore('mistakeNoteImg', 'imgs', idb['mistakeNoteImg'] || {});
     alert('导入完成！页面即将刷新。');
     setTimeout(() => location.reload(), 600);
 }

@@ -10,6 +10,7 @@
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
     <link rel="stylesheet" href="css/notes.css?v=e40d1548">
+    <link rel="stylesheet" href="css/mistake.css?v=c7d4273a">
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -40,6 +41,14 @@
             </div>
             <div class="search-results" id="searchResults" hidden></div>
         </div>
+        <button class="mb-entry" id="mbEntry" onclick="Mistake.toggle()" title="记下易错点，支持公式与贴图">
+            <span class="mb-entry-icon">📕</span>
+            <span class="mb-entry-txt">
+                <span class="mb-entry-name">易错本</span>
+                <span class="mb-entry-sub">随手记 · 公式贴图</span>
+            </span>
+            <span class="mb-entry-count" id="mbCount">0</span>
+        </button>
         <nav class="nav-tree" id="navTree">
             <div class="loading">加载中…</div>
         </nav>
@@ -87,6 +96,70 @@
     <main class="doc" id="docPane">
         <div class="loading">加载中…</div>
     </main>
+
+    <!-- 中栏：易错本视图（与笔记正文互斥，左栏目录树 + 右栏保持不变） -->
+    <section id="mbView">
+        <div class="mb-inner">
+            <div id="mbListView">
+                <div class="mb-head">
+                    <div>
+                        <h1 class="mb-h1">易错本</h1>
+                        <div class="mb-sub">记下来就不会再错 · 共 <span id="mbTotal">0</span> 条</div>
+                    </div>
+                    <button class="mb-new" onclick="Mistake.openEditor()">+ 新建</button>
+                </div>
+                <div class="mb-tools">
+                    <input type="search" class="mb-search" id="mbKw" placeholder="搜索标题、正文或标签…" autocomplete="off">
+                    <select class="mb-sort" id="mbSort" title="排序方式">
+                        <option value="updated">最近更新</option>
+                        <option value="created">最近创建</option>
+                    </select>
+                </div>
+                <div class="mb-tags" id="mbTags"></div>
+                <div class="mb-list" id="mbList"></div>
+            </div>
+            <div id="mbEditView" hidden>
+                <div class="mb-edit-head">
+                    <h1 class="mb-edit-h" id="mbEditTitle">新建易错笔记</h1>
+                    <button class="mb-back" onclick="Mistake.closeEditor()">← 返回列表</button>
+                </div>
+                <div class="mb-field">
+                    <label class="mb-label" for="mbTitle">标题</label>
+                    <input class="mb-input" id="mbTitle" placeholder="一句话说清这个易错点" autocomplete="off">
+                </div>
+                <div class="mb-field">
+                    <label class="mb-label" for="mbTagsInput">标签（用 、 或 , 分隔，可用章节名）</label>
+                    <input class="mb-input" id="mbTagsInput" placeholder="例如：高数1-极限、易错" autocomplete="off">
+                </div>
+                <div class="mb-field">
+                    <label class="mb-label">正文（选中文字可上色/高亮；$...$ 写公式；Ctrl+V 贴图）</label>
+                    <div class="mb-toolbar">
+                        <span class="mb-label" style="margin:0">字色</span>
+                        <button class="mb-color" style="background:#c0392b" title="字色 红" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#c0392b')"></button>
+                        <button class="mb-color" style="background:#d35400" title="字色 橙" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#d35400')"></button>
+                        <button class="mb-color" style="background:#2980b9" title="字色 蓝" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#2980b9')"></button>
+                        <button class="mb-color" style="background:#27ae60" title="字色 绿" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#27ae60')"></button>
+                        <span class="mb-label" style="margin:0 4px">高亮</span>
+                        <button class="mb-color" style="background:#ffe8b8" title="高亮 黄" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('hiliteColor','#ffe8b8')"></button>
+                        <button class="mb-color" style="background:#b6efb6" title="高亮 绿" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('hiliteColor','#b6efb6')"></button>
+                        <button class="mb-color" style="background:#b7dcff" title="高亮 蓝" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('hiliteColor','#b7dcff')"></button>
+                        <button class="mb-color" style="background:#ffb3ba" title="高亮 红" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('hiliteColor','#ffb3ba')"></button>
+                        <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('bold')" title="加粗"><b>B</b></button>
+                        <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('italic')" title="斜体"><i>I</i></button>
+                        <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('h1')" title="大标题">H1</button>
+                        <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('h2')" title="中标题">H2</button>
+                        <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('plain')" title="清除格式">清除格式</button>
+                    </div>
+                    <div class="mb-editor" id="mbEditor" contenteditable="true" spellcheck="false" data-placeholder="写点什么…"></div>
+                </div>
+                <div class="mb-hint" id="mbHint"></div>
+                <div class="mb-edit-foot">
+                    <button class="mb-back" onclick="Mistake.closeEditor()">取消</button>
+                    <button class="mb-save" onclick="Mistake.saveEditor()">保存</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- 右栏：本页目录（左侧贴边按钮可向左收起） -->
     <button class="toc-collapse" id="tocCollapse" onclick="toggleTocCollapse()" title="收起目录" aria-label="收起目录">›</button>
@@ -140,11 +213,12 @@
 })();
     </script>
 
-    <script src="js/common.js?v=8eeb34ff"></script>
+    <script src="js/common.js?v=9727e683"></script>
     <script defer src="vendor/katex/katex.min.js"></script>
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/annotate.js?v=3820165e"></script>
     <script defer src="js/reader.js?v=ff85310b"></script>
+    <script defer src="js/mistake.js?v=df09ff3b"></script>
 
     <!-- 回到顶部 + 阅读进度（环形进度绕在按钮外圈，滚到一定距离才出现） -->
     <button class="to-top" id="toTop" onclick="scrollToTop()" title="回到顶部（快捷键 T）" aria-label="回到顶部">
