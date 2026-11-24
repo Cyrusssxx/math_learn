@@ -1785,6 +1785,12 @@ body.toc-collapsed .toc {
 body.toc-collapsed .doc {
     margin-right: 0;
 }
+/* 栏目让出的宽度必须同步给正文文章，否则只是平移居中、阅读宽度没变。
+   820(基准) + 240(右栏) = 1060；820 + 280(左栏) = 1100；两栏全收 = 1340。
+   公式块已有 .katex-display / .md-math { overflow-x:auto }，变宽不会截断。 */
+body.toc-collapsed .note-article { max-width: 1060px; }
+body.side-collapsed .note-article { max-width: 1100px; }
+body.toc-collapsed.side-collapsed .note-article { max-width: 1340px; }
 
 /* 贴目录左缘的收起按钮（26px 小按钮）；收起后移到屏幕右缘 */
 .toc-collapse {

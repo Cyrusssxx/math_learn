@@ -15,6 +15,7 @@ const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const HTML = read('pwa/index.html');
 const JS = read('pwa/js/mistake.js');
 const CSS = read('pwa/css/mistake.css');
+const NOTES_CSS = read('pwa/css/notes.css');
 const SW = read('pwa/sw.js');
 const COMMON = read('pwa/js/common.js');
 
@@ -52,6 +53,13 @@ ok('Esc 可退出格式刷', has(JS, "e.key === 'Escape' && _brush"));
 ok('高亮外显加强（字重+描边）', has(CSS, 'mark { padding: 1px 5px; border-radius: 3px; font-weight: 600; box-shadow: inset 0 0 0 1px rgba(0,0,0,.16); }'));
 ok('卡片正文字号与编辑态/预览一致（14px/1.75）', has(CSS, '.mb-card-body { font-size: 14px; line-height: 1.75;') && has(CSS, '.mb-editor {') && /\.mb-editor \{[^}]*font-size: 14px; line-height: 1\.75;/.test(CSS) && has(CSS, '.mb-preview {') && /\.mb-preview \{[^}]*font-size: 14px; line-height: 1\.7;/.test(CSS));
 ok('卡片标题字号与预览 doc-h1/h2 一致（17/15px）', has(CSS, '.mb-card-body h3.mb-doc-h1 { font-size: 17px; }') && has(CSS, '.mb-card-body h4.mb-doc-h2 { font-size: 15px; }') && has(CSS, '.mb-doc-h1 { font-size: 17px;') && has(CSS, '.mb-doc-h2 { font-size: 15px;'));
+// 栏目收起必须真正释放阅读宽度（不是只平移居中）+ 公式不截断 + 易错本隐藏右栏
+ok('右栏收起正文从 820 放到 1060', has(NOTES_CSS, 'body.toc-collapsed .note-article { max-width: 1060px; }'));
+ok('左栏收起正文从 820 放到 1100', has(NOTES_CSS, 'body.side-collapsed .note-article { max-width: 1100px; }'));
+ok('两栏全收正文放到 1340', has(NOTES_CSS, 'body.toc-collapsed.side-collapsed .note-article { max-width: 1340px; }'));
+ok('公式块保留横向滚动兜底（变宽不截断）', has(NOTES_CSS, '.katex-display { margin: 28px 0; overflow-x: auto; overflow-y: hidden;') && has(NOTES_CSS, '.md-math { margin: 26px 0; overflow-x: auto; overflow-y: hidden;'));
+ok('易错本隐藏右栏目录与收起按钮', /body\.mb-open \.toc,\s*body\.mb-open \.toc-collapse \{ display: none !important; \}/.test(CSS));
+ok('易错本 mbView 无条件占满右缘', has(CSS, 'body.mb-open #mbView { margin-right: 0; }'));
 ok('正文按钮只 formatBlock P 不 removeFormat', /cmd === 'plainBlock'\) document\.execCommand\('formatBlock', false, 'P'\);[^\\n]*/.test(JS) && !/cmd === 'plainBlock'\)[^\\n]*removeFormat/.test(JS));
 ok('标题内部行内格式不再被丢弃', has(JS, 'run(ch, nc0, nh0, nb0, ni0)'));
 ok('格式刷高亮态样式存在', has(CSS, '.mb-toolbar button.on'));

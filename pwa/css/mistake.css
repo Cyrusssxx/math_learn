@@ -39,7 +39,10 @@
 }
 body.mb-open #docPane { display: none; }
 body.mb-open #mbView { display: block; }
-body.mb-open.toc-collapsed #mbView { margin-right: 0; }
+/* 易错本没有右栏目录：整栏连同收起按钮一起隐藏，正文直接占满右缘 */
+body.mb-open .toc,
+body.mb-open .toc-collapse { display: none !important; }
+body.mb-open #mbView { margin-right: 0; }
 body.mb-open.side-collapsed #mbView { margin-left: 0; }
 .mb-inner { max-width: 900px; margin: 0 auto; }
 
