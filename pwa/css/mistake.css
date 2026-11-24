@@ -4,12 +4,12 @@
 .mb-entry {
     display: flex;
     align-items: center;
-    gap: 9px;
-    margin: 4px 12px 12px;
-    padding: 9px 11px;
+    gap: 6px;
+    margin: -6px 12px 2px;
+    padding: 5px 9px;
     border: 1px solid var(--border);
     border-left: 3px solid var(--accent);
-    border-radius: 8px;
+    border-radius: 6px;
     background: var(--bg);
     color: var(--text);
     cursor: pointer;
@@ -20,13 +20,13 @@
 }
 .mb-entry:hover { background: var(--bg-hover); border-color: var(--accent); }
 .mb-entry.on { background: var(--bg-active); border-color: var(--accent); }
-.mb-entry-icon { font-size: 17px; line-height: 1; flex-shrink: 0; }
-.mb-entry-txt { flex: 1; min-width: 0; }
-.mb-entry-name { font-size: 13px; font-weight: 600; }
-.mb-entry-sub { font-size: 11px; color: var(--text-faint); margin-top: 1px; }
+.mb-entry-icon { font-size: 14px; line-height: 1; flex-shrink: 0; }
+.mb-entry-txt { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 6px; }
+.mb-entry-name { font-size: 12px; font-weight: 600; white-space: nowrap; }
+.mb-entry-sub { font-size: 10px; color: var(--text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mb-entry-count {
-    font-size: 11px; color: var(--accent); background: var(--bg-side);
-    border-radius: 10px; padding: 1px 7px; white-space: nowrap;
+    font-size: 10px; line-height: 1.4; color: var(--accent); background: var(--bg-side);
+    border-radius: 9px; padding: 0 6px; white-space: nowrap;
 }
 
 /* ============ 视图容器：占据 .doc 的位置，左右栏保持 ============ */
