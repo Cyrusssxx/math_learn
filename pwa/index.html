@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
     <link rel="stylesheet" href="css/notes.css?v=e40d1548">
-    <link rel="stylesheet" href="css/mistake.css?v=bcfed19d">
+    <link rel="stylesheet" href="css/mistake.css?v=8f8d20d1">
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -139,7 +139,8 @@
                     <label class="mb-label">正文（选中文字可上色/高亮；$...$ 写公式；Ctrl+V 贴图）</label>
                     <div class="mb-toolbar">
                         <span class="mb-label" style="margin:0">字色</span>
-                        <button class="mb-color" style="background:#c0392b" title="字色 红" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#c0392b')"></button>
+                        <button class="mb-color" style="background:#c0392b" title="字色 深红" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#c0392b')"></button>
+                        <button class="mb-color" style="background:#ff0000" title="字色 纯红" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#ff0000')"></button>
                         <button class="mb-color" style="background:#d35400" title="字色 橙" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#d35400')"></button>
                         <button class="mb-color" style="background:#2980b9" title="字色 蓝" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#2980b9')"></button>
                         <button class="mb-color" style="background:#27ae60" title="字色 绿" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('foreColor','#27ae60')"></button>
@@ -148,13 +149,22 @@
                         <button class="mb-color" style="background:#b6efb6" title="高亮 绿" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('hiliteColor','#b6efb6')"></button>
                         <button class="mb-color" style="background:#b7dcff" title="高亮 蓝" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('hiliteColor','#b7dcff')"></button>
                         <button class="mb-color" style="background:#ffb3ba" title="高亮 红" onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('hiliteColor','#ffb3ba')"></button>
+                        <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('clearHl')" title="只清高亮，不动字色">清高亮</button>
                         <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('bold')" title="加粗"><b>B</b></button>
                         <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('italic')" title="斜体"><i>I</i></button>
                         <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('h1')" title="大标题">H1</button>
                         <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('h2')" title="中标题">H2</button>
-                        <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('plain')" title="清除格式">清除格式</button>
+                        <button class="mb-brush" id="mbFmtBrush" onmousedown="event.preventDefault()" onclick="Mistake.toggleBrush()" title="点一次取格式（粗斜体/字色/高亮/H1·H2），选中目标后再点一次套用">🖌 格式刷</button>
+                        <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('plainBlock')" title="只取消 H1/H2 标题，保留加粗/斜体/字色/高亮">正文</button>
+                        <button onmousedown="event.preventDefault()" onclick="Mistake.insertFormula('inline')" title="插入行内公式 $...$">行内公式</button>
+                        <button onmousedown="event.preventDefault()" onclick="Mistake.insertFormula('block')" title="插入独立公式 $$...$$">块公式</button>
+                        <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('plain')" title="清除全部行内格式并回正文">清除格式</button>
                     </div>
                     <div class="mb-editor" id="mbEditor" contenteditable="true" spellcheck="false" data-placeholder="写点什么…"></div>
+                    <div class="mb-preview-wrap">
+                        <div class="mb-preview-label">实时预览 <span>（和保存后一致）</span></div>
+                        <div class="mb-preview" id="mbPreview"></div>
+                    </div>
                 </div>
                 <div class="mb-hint" id="mbHint"></div>
                 <div class="mb-edit-foot">
@@ -222,7 +232,7 @@
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/annotate.js?v=3820165e"></script>
     <script defer src="js/reader.js?v=ff85310b"></script>
-    <script defer src="js/mistake.js?v=733d337a"></script>
+    <script defer src="js/mistake.js?v=6f7be63d"></script>
 
     <!-- 回到顶部 + 阅读进度（环形进度绕在按钮外圈，滚到一定距离才出现） -->
     <button class="to-top" id="toTop" onclick="scrollToTop()" title="回到顶部（快捷键 T）" aria-label="回到顶部">

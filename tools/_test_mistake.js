@@ -40,6 +40,20 @@ ok('保留左栏右栏：mbView 沿用三栏 margin', has(CSS, 'margin-left: 280
 ok('响应式：≤900px 左边距归零', /@media \(max-width: 900px\)[\s\S]*#mbView \{ margin-left: 0/.test(CSS));
 ok('新建按钮在 HTML，编辑按钮动态生成在 JS', has(HTML, 'Mistake.openEditor()') && has(JS, "Mistake.openEditor(\\'' + r.id"));
 ok('JS 暴露 window.Mistake', has(JS, 'window.Mistake = {'));
+ok('工具条有格式刷按钮', /id="mbFmtBrush"[^>]*onclick="Mistake\.toggleBrush\(\)"/.test(HTML));
+ok('工具条有正文（仅取消标题）按钮', has(HTML, "Mistake.applyFmt('plainBlock')"));
+ok('工具条有行内/块公式按钮', has(HTML, "Mistake.insertFormula('inline')") && has(HTML, "Mistake.insertFormula('block')"));
+ok('格式刷取粗斜体/字色/高亮/H1·H2', ['function toggleBrush', 'function captureFormat', 'f.bold', 'f.italic', 'f.color', 'f.bg', "f.block = el.tagName"].every(t => has(JS, t)));
+ok('格式刷套用 H1/H2 与 applyFmt 同源（styleWithCSS=false）', has(JS, "execFmt('formatBlock', f.block, false)"));
+ok('粗斜体先查状态避免反转标题自带粗体', has(JS, "document.queryCommandState(cmd)") && has(JS, "setToggle('bold', !!f.bold)"));
+ok('正文按钮只 formatBlock P 不 removeFormat', /cmd === 'plainBlock'\) document\.execCommand\('formatBlock', false, 'P'\);[^\\n]*/.test(JS) && !/cmd === 'plainBlock'\)[^\\n]*removeFormat/.test(JS));
+ok('标题内部行内格式不再被丢弃', has(JS, 'run(ch, nc0, nh0, nb0, ni0)'));
+ok('格式刷高亮态样式存在', has(CSS, '.mb-toolbar button.on'));
+ok('图片点击不再新开标签页，改走放大遮罩', !has(JS, 'window.open(img.src') && has(JS, 'window.openLightbox') && has(JS, 'function bindZoom'));
+ok('编辑态下方有实时预览容器', has(HTML, 'id="mbPreview"') && has(JS, 'function renderPreview') && has(JS, 'function schedulePreview'));
+ok('清高亮按钮与透明高亮命令存在', has(HTML, "Mistake.applyFmt('clearHl')") && has(JS, "cmd === 'clearHl'") && has(JS, "'hiliteColor', false, 'transparent'"));
+ok('新增纯红字色', has(HTML, "background:#ff0000") && has(HTML, "foreColor','#ff0000'"));
+ok('预览容器样式已定义', has(CSS, '.mb-preview {'));
 
 /* ---------- B. jsdom 真实 DOM 行为 ---------- */
 const dom = new JSDOM(HTML.replace(/<script[\s\S]*?<\/script>/g, ''), {
@@ -159,25 +173,87 @@ saveP.then(() => {
             M.del(id2);
             ok('删除后 1 条', JSON.parse(localStorage.getItem('mistakeNotes')).length === 1);
 
-            /* ---------- C. 隔离性 ---------- */
-            ok('独立 localStorage key', has(JS, "var LS = 'mistakeNotes'"));
-            ok('独立 IndexedDB 名', has(JS, "var IDB_NAME = 'mistakeNoteImg'"));
-            ok('不写 examNote-', !/localStorage\.setItem\(\s*['"]examNote-/.test(JS));
-            ok('不写 notesAnnot', !/localStorage\.setItem\(\s*['"]notesAnnot['"]/.test(JS));
-            ok('备份摘要含易错笔记', has(COMMON, "'易错笔记': cntArr('mistakeNotes')"));
-            ok('备份导出含 mistakeNoteImg', has(COMMON, "idb['mistakeNoteImg'] = await Promise.race"));
-            ok('导入恢复含 mistakeNoteImg', has(COMMON, "idbRestore('mistakeNoteImg', 'imgs'"));
-            ok('SW 预缓存 CSS', has(SW, "'css/mistake.css'"));
-            ok('SW 预缓存 JS', has(SW, "'js/mistake.js'"));
+            /* ---------- B2. 格式刷 / 正文 / 公式骨架 / 标题内联 ---------- */
+            const fmtCalls = [];
+            document.execCommand = (cmd, ui, val) => { fmtCalls.push([cmd, val]); return true; };
+            function selText(node, from, to) {
+                const r = document.createRange(); r.setStart(node, from); r.setEnd(node, to);
+                const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+            }
+            M.openEditor();
+            const ed2 = document.getElementById('mbEditor');
+            ed2.innerHTML = '<h1><b style="color:#c0392b;background-color:#ffe8b8">源</b>文字</h1>';
+            selText(ed2.querySelector('b').firstChild, 0, 1);
+            fmtCalls.length = 0;
+            M.toggleBrush();
+            ok('格式刷取到完整格式提示', has(document.getElementById('mbHint').textContent, '大标题 · 加粗 · 字色 #c0392b · 高亮 #ffe8b8'));
+            ok('格式刷按钮亮起', document.getElementById('mbFmtBrush').classList.contains('on'));
 
-            /* ---------- D. 反向验证：锚点被改坏必须失败 ---------- */
-            ok('[反向] 入口条 onclick 不能是空', !/id="mbEntry"[^>]*onclick="\s*"/.test(HTML));
-            ok('[反向] 预设标签不能含数三', !M.PRESET_TAGS.some(t => t.indexOf('数三') >= 0));
-            ok('[反向] 不能复用做题笔记的 DB 名', !has(JS, "'examNoteImg'"));
-            ok('[反向] 不能复用批注的 DB 名', !has(JS, "'notesAnnotImg'"));
+            ed2.innerHTML = '<h2>目标</h2>';
+            selText(ed2.querySelector('h2').firstChild, 0, 2);
+            fmtCalls.length = 0;
+            M.toggleBrush();
+            const brushNames = fmtCalls.map(x => x[0]);
+            ok('格式刷先清目标旧格式', brushNames.includes('removeFormat'));
+            ok('格式刷套用源标题 H1（同源 formatBlock）', fmtCalls.some(x => x[0] === 'formatBlock' && x[1] === 'H1'));
+            ok('格式刷套用加粗', brushNames.includes('bold'));
+            ok('格式刷套用字色', fmtCalls.some(x => x[0] === 'foreColor' && x[1] === '#c0392b'));
+            ok('格式刷套用高亮', fmtCalls.some(x => x[0] === 'hiliteColor' && x[1] === '#ffe8b8'));
+            ok('格式刷套用后自动熄灭', !document.getElementById('mbFmtBrush').classList.contains('on'));
 
-            console.log('\n易错本回归：' + pass + ' 通过 / ' + fail + ' 失败');
-            process.exit(fail ? 1 : 0);
+            ed2.innerHTML = '<h2><b>标题</b></h2>';
+            selText(ed2.querySelector('h2 b').firstChild, 0, 2);
+            fmtCalls.length = 0;
+            M.applyFmt('plainBlock');
+            const plainNames = fmtCalls.map(x => x[0]);
+            ok('正文按钮只回 P', fmtCalls.some(x => x[0] === 'formatBlock' && x[1] === 'P'));
+            ok('正文按钮不清掉粗体/字色/高亮', !plainNames.includes('removeFormat'));
+
+            ed2.innerHTML = '前置';
+            selText(ed2.firstChild, 2, 2);
+            M.insertFormula('inline');
+            ok('行内公式骨架插入', has(ed2.innerHTML, '$\u200B$'));
+            ed2.innerHTML = '前置';
+            selText(ed2.firstChild, 2, 2);
+            M.insertFormula('block');
+            ok('块公式骨架插入', has(ed2.innerHTML, '$$'));
+
+            ed2.innerHTML = '<p><span style="color:#c0392b;background-color:#ffe8b8">字色高亮</span></p>';
+            selText(ed2.querySelector('span').firstChild, 0, 4);
+            fmtCalls.length = 0;
+            M.applyFmt('clearHl');
+            ok('清高亮只发透明高亮命令，不碰字色', fmtCalls.some(x => x[0] === 'hiliteColor' && x[1] === 'transparent') && !fmtCalls.some(x => x[0] === 'removeFormat'));
+
+            ed2.innerHTML = '预览 <b>粗体</b> $x^2$';
+            ed2.dispatchEvent(new window.Event('input', { bubbles: true }));
+            return new Promise(r => setTimeout(r, 320)).then(() => {
+                ok('编辑态实时预览渲染粗体', has(document.getElementById('mbPreview').innerHTML, '<b>粗体</b>'));
+                ed2.innerHTML = '<h1><b>重点</b><span style="color:#c0392b">红</span><i>斜</i></h1>';
+                return M.saveEditor();
+            }).then(() => {
+                const recs = JSON.parse(localStorage.getItem('mistakeNotes'));
+                ok('标题内部加粗/字色/斜体都写回 token', has(recs[0].body, '<h1><b>重点</b><c:#c0392b>红</c><i>斜</i></h1>'));
+
+                /* ---------- C. 隔离性 ---------- */
+                ok('独立 localStorage key', has(JS, "var LS = 'mistakeNotes'"));
+                ok('独立 IndexedDB 名', has(JS, "var IDB_NAME = 'mistakeNoteImg'"));
+                ok('不写 examNote-', !/localStorage\.setItem\(\s*['"]examNote-/.test(JS));
+                ok('不写 notesAnnot', !/localStorage\.setItem\(\s*['"]notesAnnot['"]/.test(JS));
+                ok('备份摘要含易错笔记', has(COMMON, "'易错笔记': cntArr('mistakeNotes')"));
+                ok('备份导出含 mistakeNoteImg', has(COMMON, "idb['mistakeNoteImg'] = await Promise.race"));
+                ok('导入恢复含 mistakeNoteImg', has(COMMON, "idbRestore('mistakeNoteImg', 'imgs'"));
+                ok('SW 预缓存 CSS', has(SW, "'css/mistake.css'"));
+                ok('SW 预缓存 JS', has(SW, "'js/mistake.js'"));
+
+                /* ---------- D. 反向验证：锚点被改坏必须失败 ---------- */
+                ok('[反向] 入口条 onclick 不能是空', !/id="mbEntry"[^>]*onclick="\s*"/.test(HTML));
+                ok('[反向] 预设标签不能含数三', !M.PRESET_TAGS.some(t => t.indexOf('数三') >= 0));
+                ok('[反向] 不能复用做题笔记的 DB 名', !has(JS, "'examNoteImg'"));
+                ok('[反向] 不能复用批注的 DB 名', !has(JS, "'notesAnnotImg'"));
+
+                console.log('\n易错本回归：' + pass + ' 通过 / ' + fail + ' 失败');
+                process.exit(fail ? 1 : 0);
+            });
         });
     });
 }).catch(e => { console.error(e); process.exit(1); });

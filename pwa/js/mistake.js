@@ -145,6 +145,18 @@
     }
 
     // ============ 编辑器：token <-> contenteditable DOM（exam.js 同源，独立实现） ============
+    function hexColor(v) {
+        if (!v) return null;
+        var s = String(v).trim();
+        if (/^#[0-9a-fA-F]{6}$/.test(s)) return s.toLowerCase();
+        if (/^#[0-9a-fA-F]{3}$/.test(s)) return '#' + s.slice(1).split('').map(function (c) { return c + c; }).join('').toLowerCase();
+        var m = /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(s);
+        if (!m) {
+            var t = document.createElement('span'); t.style.color = s;
+            m = /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(t.style.color || '');
+        }
+        return m ? '#' + [1, 2, 3].map(function (k) { return (+m[k]).toString(16).padStart(2, '0'); }).join('') : null;
+    }
     function noteToEditor(el, text) {
         el.innerHTML = '';
         var stack = [el];
@@ -183,15 +195,6 @@
         }
     }
     function editorToNote(el) {
-        function rgb(v) {
-            var m = /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(v || '');
-            return m ? '#' + [1, 2, 3].map(function (k) { return (+m[k]).toString(16).padStart(2, '0'); }).join('') : null;
-        }
-        function norm(v) {
-            if (!v) return null;
-            var t = document.createElement('span'); t.style.color = v;
-            return rgb(t.style.color);
-        }
         function run(n, c, h, b, it) {
             var s = '';
             Array.prototype.slice.call(n.childNodes).forEach(function (ch) {
@@ -210,15 +213,20 @@
                 var img = ch.tagName === 'IMG' ? ch : ch.querySelector('img[data-img]');
                 if (img && img.dataset.img) { s += '[图:' + img.dataset.img + ']'; return; }
                 if (ch.tagName === 'H1' || ch.tagName === 'H2') {
-                    s += '<' + ch.tagName.toLowerCase() + '>' + run(ch, null, null, false, false) + '</' + ch.tagName.toLowerCase() + '>';
+                    // 标题内部的行内格式（加粗/斜体/字色/高亮）必须一起带走，和 exam.js 同源
+                    var nc0 = hexColor(ch.style && ch.style.color) || c;
+                    var nh0 = hexColor(ch.style && ch.style.backgroundColor) || h;
+                    var nb0 = b || /bold/i.test(ch.style && ch.style.fontWeight || '');
+                    var ni0 = it || /italic/i.test(ch.style && ch.style.fontStyle || '');
+                    s += '<' + ch.tagName.toLowerCase() + '>' + run(ch, nc0, nh0, nb0, ni0) + '</' + ch.tagName.toLowerCase() + '>';
                     return;
                 }
                 var nc = c, nh = h, nb = b, ni = it;
-                var hc = norm(ch.style && ch.style.color), hb = norm(ch.style && ch.style.backgroundColor);
+                var hc = hexColor(ch.style && ch.style.color), hb = hexColor(ch.style && ch.style.backgroundColor);
                 if (hc) nc = hc;
                 if (hb) nh = hb;
-                if (ch.getAttribute && ch.getAttribute('color')) { var fc = norm(ch.getAttribute('color')); if (fc) nc = fc; }
-                if (ch.getAttribute && ch.getAttribute('bgcolor')) { var fb = norm(ch.getAttribute('bgcolor')); if (fb) nh = fb; }
+                if (ch.getAttribute && ch.getAttribute('color')) { var fc = hexColor(ch.getAttribute('color')); if (fc) nc = fc; }
+                if (ch.getAttribute && ch.getAttribute('bgcolor')) { var fb = hexColor(ch.getAttribute('bgcolor')); if (fb) nh = fb; }
                 if (ch.tagName === 'B' || ch.tagName === 'STRONG' || /bold/i.test(ch.style && ch.style.fontWeight)) nb = true;
                 if (ch.tagName === 'I' || ch.tagName === 'EM' || /italic/i.test(ch.style && ch.style.fontStyle)) ni = true;
                 s += run(ch, nc, nh, nb, ni);
@@ -227,13 +235,25 @@
         }
         return run(el, null, null, false, false).replace(/\n+$/, '').replace(/^\n+/, '');
     }
+    function zoomMb(img) {
+        var src = img && img.src; if (!src) return;
+        // 复用笔记页/题目页同一套放大遮罩（滚轮缩放、拖动、Esc 关闭），不再新开标签页
+        if (typeof window.openLightbox === 'function') window.openLightbox(src);
+        else if (typeof window.zoomOverlayOpen === 'function') window.zoomOverlayOpen(src);
+    }
+    function bindZoom(root) {
+        root.querySelectorAll('img[data-img]').forEach(function (img) {
+            img.style.cursor = 'zoom-in';
+            img.onclick = function (e) { if (e) e.stopPropagation(); zoomMb(img); };
+        });
+    }
     function imgNode(id) {
         var wrap = document.createElement('span');
         wrap.className = 'mb-img-wrap'; wrap.draggable = true;
         var img = document.createElement('img');
         img.className = 'mb-img'; img.dataset.img = id; img.alt = '易错本图片';
         img.setAttribute('contenteditable', 'false');
-        img.onclick = function () { window.open(img.src, '_blank'); };
+        img.onclick = function (e) { if (e) e.stopPropagation(); zoomMb(img); };
         var del = document.createElement('button');
         del.type = 'button'; del.className = 'mb-img-del'; del.textContent = '×'; del.title = '删除图片';
         del.onclick = function () { wrap.remove(); markDirty(); };
@@ -282,7 +302,7 @@
     function pasteOne(ed, raw) {
         var id = uid();
         var node = imgNode(id);
-        var sel = getSelection(), range = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
+        var sel = window.getSelection(), range = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
         if (range && ed.contains(range.startContainer)) {
             range.deleteContents(); range.insertNode(node);
             var anchor = document.createTextNode('\u200B');
@@ -301,16 +321,106 @@
     function applyFmt(cmd, val) {
         var ed = document.getElementById('mbEditor');
         if (!ed) return;
-        var sel = getSelection();
-        var needSel = cmd !== 'plain' && cmd !== 'h1' && cmd !== 'h2';
+        var sel = window.getSelection();
+        var blockCmd = cmd === 'h1' || cmd === 'h2' || cmd === 'plain' || cmd === 'plainBlock';
+        var needSel = !blockCmd;
         if (!sel.rangeCount || !ed.contains(sel.anchorNode) || (sel.isCollapsed && needSel)) {
             mbHint('先选中要设置格式的文字'); return;
         }
         ed.focus();
-        try { document.execCommand('styleWithCSS', false, cmd === 'h1' || cmd === 'h2' || cmd === 'plain' ? false : true); } catch (e) { }
+        try { document.execCommand('styleWithCSS', false, !blockCmd); } catch (e) { }
         if (cmd === 'h1' || cmd === 'h2') document.execCommand('formatBlock', false, cmd.toUpperCase());
         else if (cmd === 'plain') { document.execCommand('formatBlock', false, 'P'); document.execCommand('removeFormat'); }
+        else if (cmd === 'plainBlock') document.execCommand('formatBlock', false, 'P'); // 只取消标题，保留加粗/斜体/字色/高亮
+        else if (cmd === 'clearHl') document.execCommand('hiliteColor', false, 'transparent'); // 只清高亮，字色不动
         else document.execCommand(cmd, false, val || null);
+        markDirty();
+    }
+    // ============ 格式刷：取 O(1) 次，套 O(1) 次，覆盖粗/斜/字色/高亮/H1·H2 ============
+    var _brush = null;
+    function selCtx() {
+        var ed = document.getElementById('mbEditor');
+        var sel = window.getSelection();
+        if (!ed || !sel || !sel.rangeCount || !ed.contains(sel.anchorNode)) return null;
+        return { ed: ed, sel: sel, range: sel.getRangeAt(0) };
+    }
+    function captureFormat(ctx) {
+        var ed = ctx.ed;
+        var node = ctx.range.startContainer;
+        if (node && node.nodeType === 3) node = node.parentElement;
+        var f = { block: 'P', bold: false, italic: false, color: null, bg: null };
+        var el = node;
+        while (el && el !== ed) {
+            var st = el.style || {};
+            if (!f.bold && (el.tagName === 'B' || el.tagName === 'STRONG' || /bold/i.test(st.fontWeight || ''))) f.bold = true;
+            if (!f.italic && (el.tagName === 'I' || el.tagName === 'EM' || /italic/i.test(st.fontStyle || ''))) f.italic = true;
+            if (!f.color) f.color = hexColor(st.color) || (el.getAttribute && hexColor(el.getAttribute('color')));
+            if (!f.bg) f.bg = hexColor(st.backgroundColor || st.background) || (el.getAttribute && hexColor(el.getAttribute('bgcolor')));
+            if (el.tagName === 'H1' || el.tagName === 'H2') { f.block = el.tagName; break; }
+            el = el.parentElement;
+        }
+        return f;
+    }
+    function fmtDesc(f) {
+        var a = [f.block === 'H1' ? '大标题' : f.block === 'H2' ? '中标题' : '正文'];
+        if (f.bold) a.push('加粗');
+        if (f.italic) a.push('斜体');
+        if (f.color) a.push('字色 ' + f.color);
+        if (f.bg) a.push('高亮 ' + f.bg);
+        return a.join(' · ');
+    }
+    function clearBrush() {
+        _brush = null;
+        var btn = document.getElementById('mbFmtBrush');
+        if (btn) btn.classList.remove('on');
+    }
+    function execFmt(cmd, val, styleWithCSS) {
+        if (typeof styleWithCSS === 'boolean') {
+            try { document.execCommand('styleWithCSS', false, styleWithCSS); } catch (e) { }
+        }
+        try { document.execCommand(cmd, false, val || null); } catch (e) { }
+    }
+    function setToggle(cmd, want) {
+        var cur = false;
+        try { cur = !!document.queryCommandState(cmd); } catch (e) { }
+        if (cur !== want) execFmt(cmd);
+    }
+    function toggleBrush() {
+        if (_brush) { applyBrush(); return; }
+        var ctx = selCtx();
+        if (!ctx) { mbHint('先把光标放到要取格式的文字上'); return; }
+        _brush = captureFormat(ctx);
+        var btn = document.getElementById('mbFmtBrush');
+        if (btn) btn.classList.add('on');
+        mbHint('已取格式：' + fmtDesc(_brush) + '。选中目标文字后再点一次格式刷套用。');
+    }
+    function applyBrush() {
+        var ctx = selCtx();
+        if (!ctx || ctx.range.collapsed) { mbHint('先选中要套用格式的文字'); return; }
+        var f = _brush;
+        ctx.ed.focus();
+        execFmt('removeFormat', null, true);                  // 先清掉目标旧的行内格式
+        execFmt('formatBlock', f.block, false);               // H1/H2 与 applyFmt 同源：styleWithCSS=false
+        // 标题本身自带粗体：bold 是开关命令，必须先查状态，否则会把 H1/H2 的粗体反着关掉
+        setToggle('bold', !!f.bold);
+        setToggle('italic', !!f.italic);
+        if (f.color) execFmt('foreColor', f.color, true);
+        if (f.bg) execFmt('hiliteColor', f.bg, true);
+        clearBrush();
+        markDirty();
+        mbHint('已套用：' + fmtDesc(f));
+    }
+    function insertFormula(kind) {
+        var ctx = selCtx();
+        if (!ctx) { mbHint('先把光标放到正文里'); return; }
+        ctx.ed.focus();
+        var frag = document.createTextNode(kind === 'block' ? '\n$$\n\u200B\n$$\n' : '$\u200B$');
+        var r = ctx.range.cloneRange();
+        r.deleteContents(); r.insertNode(frag);
+        var caret = document.createRange();
+        caret.setStart(frag, kind === 'block' ? 4 : 1);
+        caret.collapse(true);
+        ctx.sel.removeAllRanges(); ctx.sel.addRange(caret);
         markDirty();
     }
     function mbHint(msg) {
@@ -364,6 +474,24 @@
             });
         } catch (e) { }
     }
+    // ============ 编辑态下方实时预览（和列表卡片同一套 mdBlock + KaTeX + 贴图） ============
+    var _previewT = null;
+    function renderPreview() {
+        var box = document.getElementById('mbPreview');
+        var ed = document.getElementById('mbEditor');
+        if (!box || !ed) return;
+        var body = editorToNote(ed);
+        box.innerHTML = body.trim()
+            ? mdBlock(body)
+            : '<div class="mb-preview-empty">预览：输入内容后实时显示（公式 / 高亮 / 贴图）</div>';
+        renderMath(box); fillImgs(box); bindZoom(box);
+    }
+    function schedulePreview() {
+        var v = document.getElementById('mbEditView');
+        if (!v || v.hidden) return;
+        clearTimeout(_previewT);
+        _previewT = setTimeout(renderPreview, 220);
+    }
     function plain(body, max) {
         var t = String(body || '')
             .replace(/<c:[^>]+>|<\/c>|<h:[^>]+>|<\/h>|<\/?b>|<\/?i>|<\/?h1>|<\/?h2>/g, '')
@@ -384,7 +512,7 @@
     var _dirty = false, _editId = null;
     var _editPreset = {}, _editTagFold = true;   // 编辑态：点选的预设标签 + 预设栏折叠态
 
-    function markDirty() { _dirty = true; var h = document.getElementById('mbHint'); if (h) h.textContent = '未保存的改动'; }
+    function markDirty() { _dirty = true; var h = document.getElementById('mbHint'); if (h) h.textContent = '未保存的改动'; schedulePreview(); }
 
     function updateEntry() {
         var n = load().length;
@@ -487,10 +615,7 @@
         box.querySelectorAll('.mb-card-body').forEach(function (el) {
             renderMath(el);
             fillImgs(el);
-            el.querySelectorAll('img[data-img]').forEach(function (img) {
-                img.style.cursor = 'zoom-in';
-                img.onclick = function () { if (img.src) window.open(img.src, '_blank'); };
-            });
+            bindZoom(el);
         });
     }
     function renderAll() { updateEntry(); renderTags(); renderList(); }
@@ -518,12 +643,15 @@
         var ed = document.getElementById('mbEditor');
         noteToEditor(ed, rec ? (rec.body || '') : '');
         fillImgs(ed);
+        renderPreview();
         _dirty = false;
+        clearBrush();
         document.getElementById('mbHint').textContent = '';
         document.getElementById('mbTitle').focus();
     }
     function closeEditor() {
         if (_dirty && !confirm('有未保存的改动，确定放弃吗？')) return;
+        clearBrush();
         _editId = null; _dirty = false;
         document.getElementById('mbEditView').hidden = true;
         document.getElementById('mbListView').hidden = false;
@@ -557,6 +685,7 @@
         if (!upsert(rec)) return;
         var newRefs = refsOf(body);
         imgDel(oldRefs.filter(function (id) { return newRefs.indexOf(id) < 0; }));
+        clearBrush();
         _dirty = false; _editId = null;
         document.getElementById('mbEditView').hidden = true;
         document.getElementById('mbListView').hidden = false;
@@ -617,7 +746,7 @@
         init: init, toggle: toggle, open: open, close: close,
         openEditor: openEditor, closeEditor: closeEditor, saveEditor: saveEditor,
         del: del, pin: pin, unpin: unpin, setTag: setTag, setKw: setKw, setSort: setSort,
-        applyFmt: applyFmt, PRESET_TAGS: PRESET_TAGS,
+        applyFmt: applyFmt, toggleBrush: toggleBrush, insertFormula: insertFormula, PRESET_TAGS: PRESET_TAGS,
         toggleTagFold: toggleTagFold, togglePresetTag: togglePresetTag, togglePresetFold: togglePresetFold
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
