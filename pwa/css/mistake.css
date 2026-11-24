@@ -103,13 +103,13 @@ body.mb-open.side-collapsed #mbView { margin-left: 0; }
     font-size: 11px; padding: 1px 8px; border-radius: 10px;
     background: var(--bg-side); color: var(--text-dim);
 }
-.mb-card-body { font-size: 13px; line-height: 1.7; color: var(--text); overflow-wrap: break-word; }
+.mb-card-body { font-size: 14px; line-height: 1.75; color: var(--text); overflow-wrap: break-word; }
 .mb-card-body p { margin: 0 0 6px; }
 .mb-card-body .katex { font-size: 1em; }
 .mb-card-body .katex-display { margin: 6px 0; }
 .mb-card-body mark { padding: 1px 5px; border-radius: 3px; font-weight: 600; box-shadow: inset 0 0 0 1px rgba(0,0,0,.16); }
-.mb-card-body h3.mb-doc-h1 { font-size: 16px; }
-.mb-card-body h4.mb-doc-h2 { font-size: 14px; }
+.mb-card-body h3.mb-doc-h1 { font-size: 17px; }
+.mb-card-body h4.mb-doc-h2 { font-size: 15px; }
 .mb-card-body .mb-view-img { max-height: 260px; }
 .mb-card-foot { font-size: 11px; color: var(--text-faint); margin-top: 8px; }
 .mb-empty { text-align: center; color: var(--text-faint); padding: 60px 20px; font-size: 14px; }

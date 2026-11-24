@@ -50,6 +50,8 @@ ok('格式刷绝不调用 removeFormat', !has(JS, "execFmt('removeFormat'"));
 ok('格式刷套用后保持激活（可连续刷）', has(JS, "// 注意：这里刻意不 clearBrush()，否则格式刷只能用一次"));
 ok('Esc 可退出格式刷', has(JS, "e.key === 'Escape' && _brush"));
 ok('高亮外显加强（字重+描边）', has(CSS, 'mark { padding: 1px 5px; border-radius: 3px; font-weight: 600; box-shadow: inset 0 0 0 1px rgba(0,0,0,.16); }'));
+ok('卡片正文字号与编辑态/预览一致（14px/1.75）', has(CSS, '.mb-card-body { font-size: 14px; line-height: 1.75;') && has(CSS, '.mb-editor {') && /\.mb-editor \{[^}]*font-size: 14px; line-height: 1\.75;/.test(CSS) && has(CSS, '.mb-preview {') && /\.mb-preview \{[^}]*font-size: 14px; line-height: 1\.7;/.test(CSS));
+ok('卡片标题字号与预览 doc-h1/h2 一致（17/15px）', has(CSS, '.mb-card-body h3.mb-doc-h1 { font-size: 17px; }') && has(CSS, '.mb-card-body h4.mb-doc-h2 { font-size: 15px; }') && has(CSS, '.mb-doc-h1 { font-size: 17px;') && has(CSS, '.mb-doc-h2 { font-size: 15px;'));
 ok('正文按钮只 formatBlock P 不 removeFormat', /cmd === 'plainBlock'\) document\.execCommand\('formatBlock', false, 'P'\);[^\\n]*/.test(JS) && !/cmd === 'plainBlock'\)[^\\n]*removeFormat/.test(JS));
 ok('标题内部行内格式不再被丢弃', has(JS, 'run(ch, nc0, nh0, nb0, ni0)'));
 ok('格式刷高亮态样式存在', has(CSS, '.mb-toolbar button.on'));
