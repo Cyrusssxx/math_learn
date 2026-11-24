@@ -452,10 +452,12 @@
     }
     function toggleBrush() {
         var ctx = selCtx();
-        // 刷子已激活且选中的是「另一段」文字 → 套用；同一段说明只是又点了一次按钮，提示去选目标
-        if (_brush && ctx && !ctx.range.collapsed) {
-            if (sameRange(ctx.range, _brushSrc)) { mbHint('已取格式，请选中要套用的目标文字（选中后会自动套用）'); return; }
-            applyBrush(); return;
+        // 刷子开着：选中了另一段文字就套用（且保持激活，可连续刷）；否则视为「点按钮退出」
+        if (_brush) {
+            if (ctx && !ctx.range.collapsed && !sameRange(ctx.range, _brushSrc)) { applyBrush(); return; }
+            clearBrush();
+            mbHint('已退出格式刷');
+            return;
         }
         if (!ctx) { mbHint('先把光标放到要取格式的文字上'); return; }
         _brush = captureFormat(ctx);
@@ -463,23 +465,28 @@
         _brushArmed = true;
         var btn = document.getElementById('mbFmtBrush');
         if (btn) btn.classList.add('on');
-        mbHint('已取格式：' + fmtDesc(_brush) + '。选中目标文字会自动套用（也可再点一次格式刷）。');
+        mbHint('已取格式：' + fmtDesc(_brush) + '。选中目标自动套用，可连续刷多段；点🖌或按 Esc 退出。');
     }
     function applyBrush() {
         var ctx = selCtx();
         if (!ctx || ctx.range.collapsed) { mbHint('先选中要套用格式的文字'); return; }
         var f = _brush;
         ctx.ed.focus();
-        execFmt('removeFormat', null, true);                  // 先清掉目标旧的行内格式
+        // ⚠️ 绝不能 removeFormat：它会把目标原有的加粗/字色一起抹掉（真机已复现「加粗被清除」）。
+        // 格式刷只叠加源里「确实有」的格式；要主动清除请用「清高亮 / 清除格式」按钮。
         execFmt('formatBlock', f.block, false);               // H1/H2 与 applyFmt 同源：styleWithCSS=false
-        // 标题本身自带粗体：bold 是开关命令，必须先查状态，否则会把 H1/H2 的粗体反着关掉
-        setToggle('bold', !!f.bold);
-        setToggle('italic', !!f.italic);
+        if (f.bold) setToggle('bold', true);                  // 源有加粗才确保加粗，源没有则保留目标原样
+        if (f.italic) setToggle('italic', true);
         if (f.color) execFmt('foreColor', f.color, true);
         if (f.bg) execFmt('hiliteColor', f.bg, true);
-        clearBrush();
+        // 套完把选区折到末尾：此时再点🖌就是「退出」，不会重复套同一段
+        try {
+            var tail = ctx.range.cloneRange(); tail.collapse(false);
+            ctx.sel.removeAllRanges(); ctx.sel.addRange(tail);
+        } catch (e) { }
         markDirty();
-        mbHint('已套用：' + fmtDesc(f));
+        mbHint('已套用：' + fmtDesc(f) + '。格式刷还开着，继续选下一段；点🖌或按 Esc 退出。');
+        // 注意：这里刻意不 clearBrush()，否则格式刷只能用一次
     }
     function insertFormula(kind) {
         var ctx = selCtx();
@@ -796,7 +803,10 @@
         document.getElementById('mbEditor').addEventListener('paste', pasteImg);
         document.getElementById('mbEditor').addEventListener('input', markDirty);
         document.addEventListener('selectionchange', rememberRange);
-        // 格式刷：取完格式后，用鼠标选中目标就自动套用（Word 手感），不必再找第二次按钮
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && _brush) { clearBrush(); mbHint('已退出格式刷'); }
+        });
+        // 格式刷：取完格式后，用鼠标选中目标就自动套用（Word 手感），可连续刷；点🖌或 Esc 退出
         document.addEventListener('mouseup', function (e) {
             if (!_brush || !_brushArmed) return;
             if (!e.target || !e.target.closest || !e.target.closest('#mbEditor')) return;

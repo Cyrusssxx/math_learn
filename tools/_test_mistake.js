@@ -45,7 +45,11 @@ ok('工具条有正文（仅取消标题）按钮', has(HTML, "Mistake.applyFmt(
 ok('工具条有行内/块公式按钮', has(HTML, "Mistake.insertFormula('inline')") && has(HTML, "Mistake.insertFormula('block')"));
 ok('格式刷取粗斜体/字色/高亮/H1·H2', ['function toggleBrush', 'function captureFormat', 'f.bold', 'f.italic', 'f.color', 'f.bg', "f.block = el.tagName"].every(t => has(JS, t)));
 ok('格式刷套用 H1/H2 与 applyFmt 同源（styleWithCSS=false）', has(JS, "execFmt('formatBlock', f.block, false)"));
-ok('粗斜体先查状态避免反转标题自带粗体', has(JS, "document.queryCommandState(cmd)") && has(JS, "setToggle('bold', !!f.bold)"));
+ok('粗斜体只叠加源已有的格式（保护目标加粗）', has(JS, "document.queryCommandState(cmd)") && has(JS, "if (f.bold) setToggle('bold', true)") && !has(JS, "setToggle('bold', !!f.bold)"));
+ok('格式刷绝不调用 removeFormat', !has(JS, "execFmt('removeFormat'"));
+ok('格式刷套用后保持激活（可连续刷）', has(JS, "// 注意：这里刻意不 clearBrush()，否则格式刷只能用一次"));
+ok('Esc 可退出格式刷', has(JS, "e.key === 'Escape' && _brush"));
+ok('高亮外显加强（字重+描边）', has(CSS, 'mark { padding: 1px 5px; border-radius: 3px; font-weight: 600; box-shadow: inset 0 0 0 1px rgba(0,0,0,.16); }'));
 ok('正文按钮只 formatBlock P 不 removeFormat', /cmd === 'plainBlock'\) document\.execCommand\('formatBlock', false, 'P'\);[^\\n]*/.test(JS) && !/cmd === 'plainBlock'\)[^\\n]*removeFormat/.test(JS));
 ok('标题内部行内格式不再被丢弃', has(JS, 'run(ch, nc0, nh0, nb0, ni0)'));
 ok('格式刷高亮态样式存在', has(CSS, '.mb-toolbar button.on'));
@@ -200,12 +204,12 @@ saveP.then(() => {
             fmtCalls.length = 0;
             M.toggleBrush();
             const brushNames = fmtCalls.map(x => x[0]);
-            ok('格式刷先清目标旧格式', brushNames.includes('removeFormat'));
+            ok('格式刷不清目标旧格式（加粗不会被抹）', !brushNames.includes('removeFormat'));
             ok('格式刷套用源标题 H1（同源 formatBlock）', fmtCalls.some(x => x[0] === 'formatBlock' && x[1] === 'H1'));
             ok('格式刷套用加粗', brushNames.includes('bold'));
             ok('格式刷套用字色', fmtCalls.some(x => x[0] === 'foreColor' && x[1] === '#c0392b'));
             ok('格式刷套用高亮', fmtCalls.some(x => x[0] === 'hiliteColor' && x[1] === '#ffe8b8'));
-            ok('格式刷套用后自动熄灭', !document.getElementById('mbFmtBrush').classList.contains('on'));
+            ok('格式刷套用后仍亮着（可连续刷）', document.getElementById('mbFmtBrush').classList.contains('on'));
 
             ed2.innerHTML = '<h2><b>标题</b></h2>';
             selText(ed2.querySelector('h2 b').firstChild, 0, 2);
@@ -244,6 +248,10 @@ saveP.then(() => {
             M.applyFmt('bold');
             ok('H1 点 B 不会把自带粗体关掉', !fmtCalls.some(x => x[0] === 'bold') && has(document.getElementById('mbHint').textContent, '标题本身已加粗'));
 
+            // 上一轮套用后刷子仍开着，先折叠光标退出，再测取格式
+            selText(ed2.querySelector('h1').firstChild, 0, 0); M.toggleBrush();
+            ok('连续刷中途可退出', !document.getElementById('mbFmtBrush').classList.contains('on'));
+
             // 选区锚点是元素节点（三击/全选）时也能取到标题内部完整格式
             ed2.innerHTML = '<h1><b><span style="color:#c0392b"><i>源</i></span></b></h1>';
             const hr = document.createRange(); hr.setStart(ed2.querySelector('h1'), 0); hr.setEnd(ed2.querySelector('h1'), 1);
@@ -251,16 +259,24 @@ saveP.then(() => {
             M.toggleBrush();
             const takeEl = document.getElementById('mbHint').textContent;
             ok('元素锚点也能取到标题内完整格式', ['大标题', '加粗', '斜体', '字色 #c0392b'].every(t => has(takeEl, t)), takeEl);
-            // 套到一个目标上，顺便清掉刷子
-            ed2.innerHTML = '<p>清刷</p>'; selText(ed2.querySelector('p').firstChild, 0, 2); M.toggleBrush();
+            // 折叠光标后再点🖌 = 退出格式刷
+            ed2.innerHTML = '<p>清刷</p>'; selText(ed2.querySelector('p').firstChild, 0, 0); M.toggleBrush();
+            ok('折叠选区点🖌退出格式刷', !document.getElementById('mbFmtBrush').classList.contains('on'));
 
             // 取格式后，用鼠标选中目标自动套用（Word 手感）
-            ed2.innerHTML = '<p><b>源</b></p>'; selText(ed2.querySelector('p b').firstChild, 0, 1); M.toggleBrush();
+            ed2.innerHTML = '<p><b style="background-color:#ffe8b8">源</b></p>'; selText(ed2.querySelector('p b').firstChild, 0, 1); M.toggleBrush();
             ed2.innerHTML = '<p>目标</p>'; selText(ed2.querySelector('p').firstChild, 0, 2);
             fmtCalls.length = 0;
             ed2.dispatchEvent(new window.MouseEvent('mouseup', { bubbles: true }));
             return new Promise(r => setTimeout(r, 40)).then(() => {
-                ok('鼠标选中目标后自动套用格式', fmtCalls.some(x => x[0] === 'removeFormat') && !document.getElementById('mbFmtBrush').classList.contains('on'));
+                ok('鼠标选中目标后自动套用格式', !fmtCalls.some(x => x[0] === 'removeFormat') && fmtCalls.some(x => x[0] === 'hiliteColor') && document.getElementById('mbFmtBrush').classList.contains('on'));
+                // 连续刷：不重新取格式，直接选第二段，仍应自动套用
+                ed2.innerHTML = '<p>第二段</p>'; selText(ed2.querySelector('p').firstChild, 0, 3);
+                fmtCalls.length = 0;
+                ed2.dispatchEvent(new window.MouseEvent('mouseup', { bubbles: true }));
+                return new Promise(r => setTimeout(r, 40));
+            }).then(() => {
+                ok('格式刷可连续套用第二段（不用重新取格式）', fmtCalls.some(x => x[0] === 'hiliteColor' && x[1] === '#ffe8b8') && document.getElementById('mbFmtBrush').classList.contains('on'));
 
                 ed2.innerHTML = '预览 <b>粗体</b> $x^2$';
                 ed2.dispatchEvent(new window.Event('input', { bubbles: true }));

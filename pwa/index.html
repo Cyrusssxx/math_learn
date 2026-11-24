@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <script>if (localStorage.getItem('darkMode') === '1') document.documentElement.classList.add('dark');</script>
     <link rel="stylesheet" href="css/notes.css?v=e40d1548">
-    <link rel="stylesheet" href="css/mistake.css?v=8f8d20d1">
+    <link rel="stylesheet" href="css/mistake.css?v=d909be31">
     <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -154,7 +154,7 @@
                         <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('italic')" title="斜体"><i>I</i></button>
                         <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('h1')" title="大标题">H1</button>
                         <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('h2')" title="中标题">H2</button>
-                        <button class="mb-brush" id="mbFmtBrush" onmousedown="event.preventDefault()" onclick="Mistake.toggleBrush()" title="点一次取格式（粗斜体/字色/高亮/H1·H2），选中目标后再点一次套用">🖌 格式刷</button>
+                        <button class="mb-brush" id="mbFmtBrush" onmousedown="event.preventDefault()" onclick="Mistake.toggleBrush()" title="选中源文字点一下取格式 → 选中目标自动套用，可连续刷多段 → 再点本按钮或按 Esc 退出">🖌 格式刷</button>
                         <button onmousedown="event.preventDefault()" onclick="Mistake.applyFmt('plainBlock')" title="只取消 H1/H2 标题，保留加粗/斜体/字色/高亮">正文</button>
                         <button onmousedown="event.preventDefault()" onclick="Mistake.insertFormula('inline')" title="插入行内公式 $...$">行内公式</button>
                         <button onmousedown="event.preventDefault()" onclick="Mistake.insertFormula('block')" title="插入独立公式 $$...$$">块公式</button>
@@ -232,7 +232,7 @@
     <script defer src="vendor/katex/auto-render.min.js"></script>
     <script defer src="js/annotate.js?v=3820165e"></script>
     <script defer src="js/reader.js?v=ff85310b"></script>
-    <script defer src="js/mistake.js?v=3ed611a2"></script>
+    <script defer src="js/mistake.js?v=768375e5"></script>
 
     <!-- 回到顶部 + 阅读进度（环形进度绕在按钮外圈，滚到一定距离才出现） -->
     <button class="to-top" id="toTop" onclick="scrollToTop()" title="回到顶部（快捷键 T）" aria-label="回到顶部">
