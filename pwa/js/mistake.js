@@ -197,9 +197,20 @@
         }
     }
     function editorToNote(el) {
+        var BLOCK_TAG = /^(DIV|P|H1|H2)$/;
         function run(n, c, h, b, it) {
             var s = '';
-            Array.prototype.slice.call(n.childNodes).forEach(function (ch) {
+            Array.prototype.slice.call(n.childNodes).forEach(function (ch, k) {
+                // Chrome 单次回车产生的是块兄弟 <div>a</div><div>b</div>（不带 <br>），
+                // 直接递归会把两行拼成一行；双回车因中间有 <div><br></div> 才碰巧正常。
+                // 块级兄弟之间补一个换行（s 已以换行结尾则不重复补）。
+                if (k > 0) {
+                    var pv = ch.previousSibling;
+                    if ((pv && pv.nodeType === 1 && BLOCK_TAG.test(pv.tagName)) ||
+                        (ch.nodeType === 1 && BLOCK_TAG.test(ch.tagName))) {
+                        if (!/\n$/.test(s)) s += '\n';
+                    }
+                }
                 if (ch.nodeType === 3) {
                     var t = ch.nodeValue.replace(/\u200B/g, '').replace(/ {2,}/g, function (m) { return m.replace(/ /g, '\u00A0'); });
                     if (!t) return;

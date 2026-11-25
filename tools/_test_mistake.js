@@ -52,7 +52,7 @@ ok('格式刷套用后保持激活（可连续刷）', has(JS, "// 注意：这�
 ok('Esc 可退出格式刷', has(JS, "e.key === 'Escape' && _brush"));
 ok('高亮外显加强（字重+描边）', has(CSS, 'mark { padding: 1px 5px; border-radius: 3px; font-weight: 600; box-shadow: inset 0 0 0 1px rgba(0,0,0,.16); }'));
 ok('卡片正文字号与编辑态/预览一致（14px/1.75）', has(CSS, '.mb-card-body { font-size: 14px; line-height: 1.75;') && has(CSS, '.mb-editor {') && /\.mb-editor \{[^}]*font-size: 14px; line-height: 1\.75;/.test(CSS) && has(CSS, '.mb-preview {') && /\.mb-preview \{[^}]*font-size: 14px; line-height: 1\.7;/.test(CSS));
-ok('卡片标题字号与预览 doc-h1/h2 一致（17/15px）', has(CSS, '.mb-card-body h3.mb-doc-h1 { font-size: 17px; }') && has(CSS, '.mb-card-body h4.mb-doc-h2 { font-size: 15px; }') && has(CSS, '.mb-doc-h1 { font-size: 17px;') && has(CSS, '.mb-doc-h2 { font-size: 15px;'));
+ok('卡片/预览标题字号与编辑器一致（20/17px，所见即所得）', has(CSS, '.mb-card-body h3.mb-doc-h1 { font-size: 20px; }') && has(CSS, '.mb-card-body h4.mb-doc-h2 { font-size: 17px; }') && has(CSS, '.mb-doc-h1 { font-size: 20px;') && has(CSS, '.mb-doc-h2 { font-size: 17px;') && has(CSS, '.mb-editor h1 { font-size: 20px;') && has(CSS, '.mb-editor h2 { font-size: 17px;'));
 
 /* 公式字号：笔记正文 1.5em（16px→24px），易错本三处 1.5em（14px→21px） */
 ok('笔记正文公式 1.5em 且提高特异性盖过 katex.min.css', has(NOTES_CSS, 'body .note-article .katex { font-size: 1.5em; }') && !has(NOTES_CSS, '.katex { font-size: 1.06em'));
@@ -325,8 +325,27 @@ saveP.then(() => {
                 ok('[反向] 不能复用做题笔记的 DB 名', !has(JS, "'examNoteImg'"));
                 ok('[反向] 不能复用批注的 DB 名', !has(JS, "'notesAnnotImg'"));
 
-                console.log('\n易错本回归：' + pass + ' 通过 / ' + fail + ' 失败');
-                process.exit(fail ? 1 : 0);
+                // 换行：Chrome 单次回车产生 <div> 块兄弟（不带 <br>），必须补 \n；
+                // 双回车中间有 <div><br></div>，块间换行与 <br> 不能叠成重复。
+                // 放链尾：return 会截断同回调内后续代码（曾导致总结不打印、静默 exit 0）
+                M.openEditor();
+                document.getElementById('mbTitle').value = '换行回归';
+                document.getElementById('mbEditor').innerHTML = '第一行<div>第二行</div>';
+                return M.saveEditor().then(() => {
+                    const b1 = JSON.parse(localStorage.getItem('mistakeNotes'))[0].body;
+                    ok('单回车 div 块兄弟写回换行', b1 === '第一行\n第二行');
+                    M.openEditor();
+                    document.getElementById('mbTitle').value = '换行回归2';
+                    document.getElementById('mbEditor').innerHTML = '甲<div>乙</div><div><br></div><div>丙</div>';
+                    return M.saveEditor();
+                }).then(() => {
+                    const b2 = JSON.parse(localStorage.getItem('mistakeNotes'))[0].body;
+                    ok('双回车空行不叠成多余换行', b2 === '甲\n乙\n\n丙');
+                    ok('[反向] 块间换行逻辑必须存在', has(JS, 'BLOCK_TAG.test'));
+
+                    console.log('\n易错本回归：' + pass + ' 通过 / ' + fail + ' 失败');
+                    process.exit(fail ? 1 : 0);
+                });
             });
         });
     });
