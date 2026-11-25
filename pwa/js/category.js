@@ -435,7 +435,7 @@ function mdBlock(s) {
         .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, ((m, c, t) => '<mark class="note-hl" style="--nhl:' + c + ';--nhl-bg:' + hlBg(c) + ';--nhl-line:' + hlLine(c) + '">' + t + '</mark>'))
         .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
         .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
-        .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
+        .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>').replace(/&lt;sup&gt;([\s\S]*?)&lt;\/sup&gt;/g, '<sup>$1</sup>').replace(/&lt;sub&gt;([\s\S]*?)&lt;\/sub&gt;/g, '<sub>$1</sub>')
         .replace(/&lt;h1&gt;([\s\S]*?)&lt;\/h1&gt;/g, '<h1>$1</h1>')
         .replace(/&lt;h2&gt;([\s\S]*?)&lt;\/h2&gt;/g, '<h2>$1</h2>')
         .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (_, alt, src) =>
@@ -485,7 +485,7 @@ function noteGet(qid) {
 
 let _noteTimer = {};
 // ---- contenteditable 富编辑器：[图:id] 内嵌图片 + 字色/高亮（存储为令牌 <c:#hex>…</c> <h:#hex>…</h>） ----
-const NOTE_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<h1>|<\/h1>|<h2>|<\/h2>/g;
+const NOTE_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<sup>|<\/sup>|<sub>|<\/sub>|<h1>|<\/h1>|<h2>|<\/h2>/g;
 /** 存储文本 → 编辑器 DOM：文本/换行原样，[图:id] 变为编辑器内联图片（contenteditable=false，可拖拽排序/删除/点击放大），格式令牌变 span/mark（栈式嵌套） */
 function noteToEditor(el, text) {
     el.innerHTML = '';
@@ -505,12 +505,14 @@ function noteToEditor(el, text) {
         if (mf && (mi < 0 || mf.index <= mi)) {
             emitText(text.slice(i, mf.index));
             const m0 = mf[0];
-            if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</h1>' || m0 === '</h2>') {
+            if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</sup>' || m0 === '</sub>' || m0 === '</h1>' || m0 === '</h2>') {
                 if (stack.length > 1) stack.pop();
             } else {
                 let node;
                 if (m0 === '<b>') node = document.createElement('b');
                 else if (m0 === '<i>') node = document.createElement('i');
+                else if (m0 === '<sup>') node = document.createElement('sup');
+                else if (m0 === '<sub>') node = document.createElement('sub');
                 else if (m0 === '<h1>') node = document.createElement('h1');
                 else if (m0 === '<h2>') node = document.createElement('h2');
                 else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] });
@@ -665,6 +667,12 @@ function editorToNote(el) {
                 else if (isItalic(ch)) {
                     const [ic, ih] = colorOf(ch, c, h);
                     s += run(ch, ic, ih, b, true);
+                }
+                else if (ch.tagName === 'SUP' || ch.tagName === 'SUB') {
+                    // 角标语义随文本一起存令牌，否则粘贴的 2<sup>16</sup> 会退化成 216
+                    const [uc, uh] = colorOf(ch, c, h);
+                    const tag = ch.tagName.toLowerCase();
+                    s += '<' + tag + '>' + run(ch, uc, uh, b, i) + '</' + tag + '>';
                 }
                 else {
                     let nc = c, nh = h;

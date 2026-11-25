@@ -273,7 +273,7 @@ const Annot = (() => {
             .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, ((m, c, t) => '<mark class="note-hl" style="--nhl:' + c + ';--nhl-bg:' + annHlRgba(c, .72) + ';--nhl-line:' + hlLine(c) + '">' + t + '</mark>'))
             .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
             .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
-            .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
+            .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>').replace(/&lt;sup&gt;([\s\S]*?)&lt;\/sup&gt;/g, '<sup>$1</sup>').replace(/&lt;sub&gt;([\s\S]*?)&lt;\/sub&gt;/g, '<sub>$1</sub>')
             .replace(/&lt;h1&gt;([\s\S]*?)&lt;\/h1&gt;/g, '<h1>$1</h1>')
             .replace(/&lt;h2&gt;([\s\S]*?)&lt;\/h2&gt;/g, '<h2>$1</h2>')
             .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (_, alt, src) =>
@@ -1163,7 +1163,7 @@ const Annot = (() => {
     initFmlUI();
 
     // ============ 富文本编辑（移植自 exam.js 笔记富文本体系，令牌对齐） ============
-    const ANN_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<h1>|<\/h1>|<h2>|<\/h2>/g;
+    const ANN_FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<sup>|<\/sup>|<sub>|<\/sub>|<h1>|<\/h1>|<h2>|<\/h2>/g;
     const ANN_COLORS = ['#e03131', '#e8590c', '#2f9e44', '#1971c2', '#9c36b5', '#495057'];
     // 高亮色板：必须保持 #rrggbb（rgbToHex 会丢掉 alpha，用 rgba 会被存成饱和色）。
     // 2026-11-11：上一轮「更淡」过头，实机看不见。现在统一回调到 85~86% 不透明度的 46% 带，
@@ -1332,7 +1332,13 @@ const Annot = (() => {
                     else if (ch.tagName === 'H2') { if (s && !s.endsWith('\n')) s += '\n'; s += '<h2>' + run(ch, c, h, false, false) + '</h2>' + ((_next && _next.nodeType === 1 && _next.tagName === 'BR') ? '' : '\n'); }
                     else if (isBold(ch)) { const [bc, bh] = colorOf(ch, c, h); const block = ch.tagName === 'DIV' || ch.tagName === 'P'; if (block && s && !s.endsWith('\n')) s += '\n'; s += run(ch, bc, bh, true, i); if (block && s && !s.endsWith('\n')) s += '\n'; }
                     else if (isItalic(ch)) { const [ic, ih] = colorOf(ch, c, h); s += run(ch, ic, ih, b, true); }
-                    else {
+                    else if (ch.tagName === 'SUP' || ch.tagName === 'SUB') {
+                        // 角标语义随文本一起存令牌，否则粘贴的 2<sup>16</sup> 会退化成 216
+                        const [uc, uh] = colorOf(ch, c, h);
+                        const tag = ch.tagName.toLowerCase();
+                        s += '<' + tag + '>' + run(ch, uc, uh, b, i) + '</' + tag + '>';
+                }
+                else {
                         let nc = c, nh = h;
                         if (ch.style) { const hc = normColor(ch.style.color); if (hc) nc = hc; const hb = (ch.getAttribute && ch.getAttribute('data-hl')) || normColor(ch.style.backgroundColor); if (hb) nh = hb; }
                         // 兼容 <font color="..."> / <font bgcolor="...">：部分浏览器 foreColor/hiliteColor 生成 font 而非 span，颜色只在属性上、style.color 为空
@@ -1371,8 +1377,8 @@ const Annot = (() => {
             if (mf && (mi < 0 || mf.index <= mi)) {
                 emitText(text.slice(i, mf.index));
                 const m0 = mf[0];
-                if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</h1>' || m0 === '</h2>') { if (stack.length > 1) stack.pop(); }
-                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:linear-gradient(to top,' + annHlRgba(mf[2], .72) + ' 0 46%,transparent 46%);border-bottom:1px solid ' + hlLineSoft(mf[2]) }); stack[stack.length - 1].appendChild(node); stack.push(node); }
+                if (m0 === '</c>' || m0 === '</h>' || m0 === '</b>' || m0 === '</i>' || m0 === '</sup>' || m0 === '</sub>' || m0 === '</h1>' || m0 === '</h2>') { if (stack.length > 1) stack.pop(); }
+                else { let node; if (m0 === '<b>') node = document.createElement('b'); else if (m0 === '<i>') node = document.createElement('i'); else if (m0 === '<sup>') node = document.createElement('sup'); else if (m0 === '<sub>') node = document.createElement('sub'); else if (m0 === '<h1>') node = document.createElement('h1'); else if (m0 === '<h2>') node = document.createElement('h2'); else if (mf[1]) node = Object.assign(document.createElement('span'), { style: 'color:' + mf[1] }); else node = Object.assign(document.createElement('mark'), { style: 'background:linear-gradient(to top,' + annHlRgba(mf[2], .72) + ' 0 46%,transparent 46%);border-bottom:1px solid ' + hlLineSoft(mf[2]) }); stack[stack.length - 1].appendChild(node); stack.push(node); }
                 i = mf.index + mf[0].length;
             } else if (mi >= 0) {
                 emitText(text.slice(i, mi));

@@ -19,7 +19,7 @@
         '线代1-行列式', '线代2-矩阵', '线代3-向量',
         '线代4-线性方程组', '线代5-特征值与相似', '线代6-二次型'
     ];
-    var FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<h1>|<\/h1>|<h2>|<\/h2>/g;
+    var FMT_RE = /<c:(#[0-9a-fA-F]{6})>|<h:(#[0-9a-fA-F]{6})>|<\/c>|<\/h>|<b>|<\/b>|<i>|<\/i>|<sup>|<\/sup>|<sub>|<\/sub>|<h1>|<\/h1>|<h2>|<\/h2>/g;
     var COLORS = ['#c0392b', '#d35400', '#2980b9', '#27ae60'];
     var HLS = ['#ffe8b8', '#b6efb6', '#b7dcff', '#ffb3ba'];
 
@@ -174,10 +174,12 @@
             if (mf && (mi < 0 || mf.index <= mi)) {
                 emit(text.slice(i, mf.index));
                 var m0 = mf[0];
-                if (/^<\/(c|h|b|i|h1|h2)>$/.test(m0)) { if (stack.length > 1) stack.pop(); }
+                if (/^<\/(c|h|b|i|sup|sub|h1|h2)>$/.test(m0)) { if (stack.length > 1) stack.pop(); }
                 else {
                     var node;
-                    if (m0 === '<b>') node = document.createElement('b');
+                    if (m0 === '<sup>') node = document.createElement('sup');
+                    else if (m0 === '<sub>') node = document.createElement('sub');
+                    else if (m0 === '<b>') node = document.createElement('b');
                     else if (m0 === '<i>') node = document.createElement('i');
                     else if (m0 === '<h1>') node = document.createElement('h1');
                     else if (m0 === '<h2>') node = document.createElement('h2');
@@ -240,6 +242,12 @@
                 if (hb) nh = hb;
                 if (ch.getAttribute && ch.getAttribute('color')) { var fc = hexColor(ch.getAttribute('color')); if (fc) nc = fc; }
                 if (ch.getAttribute && ch.getAttribute('bgcolor')) { var fb = hexColor(ch.getAttribute('bgcolor')); if (fb) nh = fb; }
+                if (ch.tagName === 'SUP' || ch.tagName === 'SUB') {
+                    // 角标语义随文本存令牌：2<sup>16</sup> 不再退化成 216
+                    var tag = ch.tagName.toLowerCase();
+                    s += '<' + tag + '>' + run(ch, nc, nh, nb, ni) + '</' + tag + '>';
+                    return;
+                }
                 if (ch.tagName === 'B' || ch.tagName === 'STRONG' || /bold/i.test(ch.style && ch.style.fontWeight)) nb = true;
                 if (ch.tagName === 'I' || ch.tagName === 'EM' || /italic/i.test(ch.style && ch.style.fontStyle)) ni = true;
                 s += run(ch, nc, nh, nb, ni);
@@ -545,7 +553,7 @@
             .replace(/&lt;h:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/h&gt;/g, '<mark style="background:$1">$2</mark>')
             .replace(/&lt;c:(#[0-9a-fA-F]{6})&gt;([\s\S]*?)&lt;\/c&gt;/g, '<span style="color:$1">$2</span>')
             .replace(/&lt;b&gt;([\s\S]*?)&lt;\/b&gt;/g, '<b>$1</b>')
-            .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>')
+            .replace(/&lt;i&gt;([\s\S]*?)&lt;\/i&gt;/g, '<i>$1</i>').replace(/&lt;sup&gt;([\s\S]*?)&lt;\/sup&gt;/g, '<sup>$1</sup>').replace(/&lt;sub&gt;([\s\S]*?)&lt;\/sub&gt;/g, '<sub>$1</sub>')
             .replace(/&lt;h1&gt;([\s\S]*?)&lt;\/h1&gt;/g, '<h3 class="mb-doc-h1">$1</h3>')
             .replace(/&lt;h2&gt;([\s\S]*?)&lt;\/h2&gt;/g, '<h4 class="mb-doc-h2">$1</h4>')
             .replace(/\[图:([a-z0-9]+)\]/g, function (_, id) { return '<img class="mb-view-img" data-img="' + id + '" alt="易错本图片">'; });
