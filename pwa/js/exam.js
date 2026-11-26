@@ -1247,6 +1247,51 @@ function togglePaperGroup(id) {
     if (arrow) arrow.textContent = wasOpen ? '▸' : '▾';
 }
 
+/** 视频讲解按钮（真题页独立实现，与分类页 category.js 同源但作用域独立）。
+ *  数据来自题目 q.videos = [{url,label,status}]，只有关联了视频才显示。 */
+function examVideoBtnHtml(q) {
+    const vs = Array.isArray(q.videos) ? q.videos : [];
+    if (!vs.length) return '';
+    const qa = v => esc(String(v == null ? '' : v)).replace(/"/g, '&quot;');
+    return `<button class="q-video" data-videos="${qa(JSON.stringify(vs))}" data-src="${qa(q.source || q.siteSource || '')}" `
+        + `onclick="examOpenVideoModal(this)" title="视频讲解（${vs.length} 个）">🎬 视频${vs.length > 1 ? ' ' + vs.length : ''}</button>`;
+}
+function examCloseVideoModal() {
+    const ov = document.getElementById('examVideoModal');
+    if (ov) ov.remove();
+    document.removeEventListener('keydown', examVideoModalEsc);
+}
+function examVideoModalEsc(e) { if (e.key === 'Escape') examCloseVideoModal(); }
+function examOpenVideoModal(btn) {
+    let vs = [];
+    try { vs = JSON.parse(btn.dataset.videos || '[]'); } catch (e) { vs = []; }
+    if (!vs.length) return;
+    const src = btn.dataset.src || '';
+    examCloseVideoModal();
+    const qa = v => esc(String(v == null ? '' : v)).replace(/"/g, '&quot;');
+    const ov = document.createElement('div');
+    ov.id = 'examVideoModal';
+    ov.className = 'vm-overlay';
+    ov.innerHTML = `<div class="vm-dialog" role="dialog" aria-label="视频讲解">
+        <div class="vm-head">
+            <div>
+                <div class="vm-title">视频讲解</div>
+                <div class="vm-sub">${esc(src)} · ${vs.length} 个视频</div>
+            </div>
+            <button class="vm-close" onclick="examCloseVideoModal()" aria-label="关闭">✕</button>
+        </div>
+        <ul class="vm-list">${vs.map(v => `<li>
+            <a href="${qa(v.url)}" target="_blank" rel="noopener noreferrer">
+                <span class="vm-ico">🎬</span>
+                <span class="vm-label">${esc(String(v.label || '视频讲解'))}</span>
+                <span class="vm-out">↗</span>
+            </a></li>`).join('')}</ul>
+    </div>`;
+    ov.addEventListener('click', e => { if (e.target === ov) examCloseVideoModal(); });
+    document.body.appendChild(ov);
+    document.addEventListener('keydown', examVideoModalEsc);
+}
+
 function qCard(p, sec, q, secIdx) {
     const qid = qidOf(p.id, q.no);
     const fav = isFav(qid);
@@ -1319,6 +1364,7 @@ function qCard(p, sec, q, secIdx) {
             ${statusOf(qid) === 'unfamiliar' ? '<span class="q-mark-chip m-unfam" title="不熟">🟡 不熟</span>' : ''}
             ${statusOf(qid) === 'unknown' ? '<span class="q-mark-chip m-unk" title="不会">🔴 不会</span>' : ''}
             ${fav && favTime(qid) ? `<span class="q-fav-date" title="收藏于 ${fmtFavTime(favTime(qid))}">${fmtFavShort(favTime(qid))}</span>` : ''}
+            ${examVideoBtnHtml(q)}
             <button class="q-fav${fav ? ' on' : ''}" onclick="toggleFav('${qid}', this)" title="${fav ? (favTime(qid) ? '收藏于 ' + fmtFavTime(favTime(qid)) : '已收藏') : '收藏此题'}">${fav ? '⭐' : '☆'}</button>
             <button class="q-copy-latex" onclick="copyQLatex(this)" title="复制本题 LaTeX 源码（题干+选项，含 $...$ 原始命令）">📋 LaTeX</button>
         </div>
@@ -1661,16 +1707,19 @@ function openPaper(id) {
 }
 
 async function init() {
-    const [resp, mockResp] = await Promise.all([
+    const [resp, mock26Resp, mock27Resp] = await Promise.all([
         fetch('data/exam.json'),
+        fetch('data/mn26_papers.json').catch(() => null),
         fetch('data/mn27_papers.json').catch(() => null)
     ]);
     if (!resp.ok) throw new Error('加载真题失败: ' + resp.status);
     papers = await resp.json();
     // 模拟卷是独立题源，加载失败不影响真题页可用（老缓存/离线时优雅降级）
-    if (mockResp && mockResp.ok) {
+    // 26 押题王四套排在原有 27 模拟卷之前（用户 2026-11-26 要求）
+    for (const mr of [mock26Resp, mock27Resp]) {
+        if (!mr || !mr.ok) continue;
         try {
-            const mocks = await mockResp.json();
+            const mocks = await mr.json();
             if (Array.isArray(mocks) && mocks.length) papers = papers.concat(mocks);
         } catch (e) { console.warn('模拟卷数据解析失败', e); }
     }
