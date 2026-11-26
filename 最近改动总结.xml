@@ -25,14 +25,14 @@
 
   <taskGroups>
 
-    <group date="2026-11-26" label="曲线题（进行中，按本次要求未重跑）">
-      <task id="curve-L-image" status="partial" commit="none">
+    <group date="2026-11-26" label="曲线题（已完成，原图后续补抓）">
+      <task id="curve-L-image" status="completed" commit="c4a33b7c96515036b6dfe0b4344ba47d4bf77b7b">
         <title>曲线 L 题：求 f(t) 与面积，并找正式站原图解析挂入题目</title>
         <request>用户给出题目截图，要求求 f(t) 与面积，再把 https://math.cxyonly.fans/practice 上的原图解析放到题目里。</request>
-        <result>已解题：f(t)=ln(sec t+tan t)-sin t，面积 π/4。</result>
+        <result>已解题：f(t)=ln(sec t+tan t)-sin t，面积 π/4。原图已抓取 2 张并写回 ansImg。</result>
         <located>题库定位 core_bank.json 中 d[0].sections[2].questions[80]，source 为 2012 数一，答案文本已正确；目标字段为 ansImg 数组，图片目录 pwa/data/img/zx_site/，登录 profile 可用。</located>
-        <blocker>抓原图时读取 pw_headers.py 遇到网络超时；尚未写回 ansImg，图片未落盘，未提交。</blocker>
-        <note>本轮用户要求“写详细结构化 XML 总结，不能重跑任务”，故未继续抓取、未补写图片字段。</note>
+        <blocker>无（后续批次已解决：下载 c323_0.webp / c323_1.webp 并写回 core_bank.json 的 ansImg）。</blocker>
+        <note>原图已于后续批次补抓并提交（c4a33b7）；本条由 partial 更新为 completed。</note>
       </task>
     </group>
 
@@ -298,7 +298,6 @@
   </taskGroups>
 
   <pendingItems>
-    <item priority="high">曲线 L 题正式站原图解析：答案已解出，图片与 ansImg 未写回，因本轮禁止重跑任务而暂停。</item>
     <item priority="medium">大纲合规历史遗留：core_bank 约 6 题、dgy_items 3 题整题超纲，仍待用户确认后再删；exam.json 与 mn27 已零数一/数三。</item>
     <item priority="medium">$$ 块合成导致高数 0/1/3.1 批注锚点可能前移，仅当用户反馈错位时再补兼容空块。</item>
     <item priority="low">旧格式孤儿收藏 qid（如 core-750/758/844/848/818/1174/1190）不在题库，无法审查或入池，未处理。</item>

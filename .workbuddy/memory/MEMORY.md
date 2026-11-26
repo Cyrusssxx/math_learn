@@ -14,7 +14,7 @@
 
 ## 2. 数据资产（pwa/data/）
 - `exam.json` 数二真题 27 卷 607 题（exam.js/category.js）；`mn27_papers.json` 27 精选十套卷 10 套 220 题（exam.js，qid `mn27-XX-N`）。
-- `core_bank.json` 741 / `dgy_items.json` 1346 / `bank_questions.json` 827 / `ys27_items.json` 37（qid `ys27-N`，L0=50000，后 18 题超纲待决策）/ `notes.json` 33 篇（隐藏 21记 后 32 篇）/ `exam_categories.json` 129 节点 / `fav_focus.json` 55 知识点·88 章锚点·3042 qid。`practice.json` 死数据。
+- `core_bank.json` 1114 / `dgy_items.json` 1479 / `bank_questions.json` 827 / `ys27_items.json` 37（qid `ys27-N`，L0=50000，后 18 题超纲待决策）/ `notes.json` 32 篇（含「考前第 N 记」系列）/ `exam_categories.json` 129 节点 / `fav_focus.json` 55 知识点·88 章锚点·3042 qid。`practice.json` 死数据。
 - 写回格式：`exam.json` 单行紧凑 `json.dumps(d,ensure_ascii=False)`+`newline=''`；`core_bank.json` indent=1 无尾换行；`notes.json` indent=2 无尾换行。**禁止 inline `python -c` 改 JSON/反斜杠**，必须 .py 脚本 + 独立 .py 全量验证。JSON 单反斜杠会被吃掉（`\frac`→U+000C，护栏 `_audit_syllabus.py` 扫 C0）。
 - qid=`<卷id>-<题号>`；`qidOf()` 经 `linkedQid` 重定向；双份数据不保证一致，改一处互核。四态：不会>不熟>已掌握>未刷。localStorage：`examFav`、`examStatus`、`examNote-<qid>`、`catSrcMode`、`qDraw`、`qDrawBF`、`paperList`、`dailyMarks`、`ppHeart`、`examGroupOpen`、`examLastPos`。
 - `bank_questions.categoryIds` 全字符串，其余题库数字（渲染器 `String()` 兜）。
