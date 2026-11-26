@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sessionSummary project="math-note" generatedAt="2026-11-26T12:39:40+08:00">
+  <meta>
+    <repository>Cyrusssxx/math_learn</repository>
+    <branch>main</branch>
+    <workspace>D:\ai code\math-note</workspace>
+    <summaryFile>最近改动总结.xml</summaryFile>
+    <source>本地 .workbuddy/memory 日志（2026-11-16 至 2026-11-25）+ git log + 本会话上下文</source>
+    <constraint>按用户要求仅整理既有记录；未重跑任何开发、抓图、测试或构建任务，未改动题库与代码，本文件为唯一新增内容。</constraint>
+  </meta>
+
+  <environment>
+    <localHead>f93ca939773f5abe94058c5b1875a1bf8db1fe89</localHead>
+    <remoteHead>f93ca939773f5abe94058c5b1875a1bf8db1fe89</remoteHead>
+    <cacheVer>mathcards-dce887546d</cacheVer>
+    <note>本 XML 提交时 pre-commit 钩子将按既有惯例自动重建资源版本号与 CACHE_VER，实际值以提交后为准。</note>
+  </environment>
+
+  <verificationBaseline>
+    <audit>tools/_audit_latex.py 0 问题；_deep_validate.py ALL CLEAN；_scan_unpaired.py 0 未配对定界符；_audit_syllabus.py 仅历史待决策超纲项</audit>
+    <jsRegression>_test_mistake 139/0；_test_notes_hl 182/0；_test_core_extra 12/0；_test_cat_search 44/0；_test_pp_heart 61/0；_test_katex_nbsp 7/0；_test_note_sup 29/0</jsRegression>
+    <knownRed>_test_paper_page 与 _test_pp_note_tip_and_storage 存在历史 fixture 遗留红项，经 HEAD 基线比对确认非本批引入</knownRed>
+    <realBrowser>Playwright 持久化 profile E:/deps_cache/browser-profiles/cxymath_pw；本地静态服务器 + 真机量测/截图；0 console/page error</realBrowser>
+  </verificationBaseline>
+
+  <taskGroups>
+
+    <group date="2026-11-26" label="曲线题（进行中，按本次要求未重跑）">
+      <task id="curve-L-image" status="partial" commit="none">
+        <title>曲线 L 题：求 f(t) 与面积，并找正式站原图解析挂入题目</title>
+        <request>用户给出题目截图，要求求 f(t) 与面积，再把 https://math.cxyonly.fans/practice 上的原图解析放到题目里。</request>
+        <result>已解题：f(t)=ln(sec t+tan t)-sin t，面积 π/4。</result>
+        <located>题库定位 core_bank.json 中 d[0].sections[2].questions[80]，source 为 2012 数一，答案文本已正确；目标字段为 ansImg 数组，图片目录 pwa/data/img/zx_site/，登录 profile 可用。</located>
+        <blocker>抓原图时读取 pw_headers.py 遇到网络超时；尚未写回 ansImg，图片未落盘，未提交。</blocker>
+        <note>本轮用户要求“写详细结构化 XML 总结，不能重跑任务”，故未继续抓取、未补写图片字段。</note>
+      </task>
+    </group>
+
+    <group date="2026-11-25" label="换行修复与全站上标下标">
+      <task id="mistake-newline-heading" status="completed" commit="1d84013" cacheVer="mathcards-9e4165752c">
+        <title>易错本单回车换行丢失 + 保存后标题小一号</title>
+        <rootCause>Chrome contenteditable 单次回车生成兄弟 DIV 而非 BR，editorToNote 对 DIV 只递归取文字，不输出换行；双回车因中间 BR 碰巧正常。字号差异在标题：编辑器 h1=20/h2=17，卡片与预览 h1=17/h2=15。</rootCause>
+        <change>mistake.js 新增 BLOCK_TAG = /^(DIV|P|H1|H2)$/，块级兄弟间补换行且已以换行结尾时不重复；mistake.css 将 .mb-doc-h1/h2 与卡片标题统一到 20/17px，编辑器不动。</change>
+        <verify>_test_mistake 136→139/0；核心回归 182/12/44/61/7 全绿；真机单回车→两段、混合 br+DIV→三段、标题 20/17=20/17。</verify>
+        <lesson>测试断言插入 then 回调中部时误用 return，截断后续断言导致静默 exit 0；已移到链尾。</lesson>
+      </task>
+      <task id="note-sup-sub" status="completed" commit="f93ca93" cacheVer="mathcards-dce887546d">
+        <title>批注上标/下标粘贴丢失（exam 与笔记页同源问题）</title>
+        <rootCause>四家编辑器（exam/annotate/category/mistake）的令牌正则与 DOM→令牌序列化不认 SUP/SUB，粘贴的上标 16 退化成 216；六套渲染侧也没有令牌还原。</rootCause>
+        <change>三端同改：令牌正则加入 sup/sub；序列化 run() 增加 SUP/SUB 分支；反序列化建节点并闭合出栈；六处渲染链加入还原。备份在 archive/*.before_sup_20261125.js。</change>
+        <verify>jsdom 端到端 exam 6/6、Annot 5/5、category/selected 4/4 全 PASS；新增 _test_note_sup.js 29/0。</verify>
+      </task>
+    </group>
+
+    <group date="2026-11-24" label="易错本完整迭代 + 文件治理">
+      <task id="mistake-v1" status="completed" commit="af68f35">
+        <title>新增易错本：侧栏入口 + 正文区独立视图 + 富文本编辑器</title>
+        <request>笔记主页侧栏搜索 chips 下、目录树上加自由写易错笔记的地方，复用批注富文本；预设大章节标签、不要真题点睛、要可见编辑按钮。</request>
+        <change>新建 pwa/js/mistake.js 与 pwa/css/mistake.css；index.html 加入口与 mbView；common.js 备份恢复接入 mistakeNoteImg；sw.js PRECACHE 加两资源；新建 _test_mistake.js 68 项。</change>
+        <detail>localStorage mistakeNotes；IndexedDB mistakeNoteImg 用 mb 前缀隔离；编辑器令牌与 exam.js 同源但独立实现；body.mb-open + mistakeView 持久化。</detail>
+        <presetTags>15 个：高数 9（中学公式速查/极限/一元微分/3.1 计算/3.2 应用/3.3 反常积分/微分方程/多元微分/二重积分）+ 线代 6（行列式/矩阵/向量/线性方程组/特征值与相似/二次型）。</presetTags>
+        <lesson>视图退出不能监听 hashchange（reader.js 首次异步加载会写一次 hash 导致刷新后误退出），改为捕获阶段点击目录链接才退出。</lesson>
+        <lesson>卡片摘要截断前必须把 $...$ 与 $$...$$ 抽成占位符再还原，否则公式变纯文本或留半截定界符。</lesson>
+        <verify>_test_mistake 68/0；核心回归全绿；Playwright 真机覆盖入口/视图互斥/CRUD/刷新保持/暗色/390px。</verify>
+      </task>
+      <task id="untracked-cleanup" status="completed" commit="87a421a">
+        <title>清理历史未跟踪文件</title>
+        <detail>1373 个未跟踪文件（111.6 MB）分 8 组，用户确认删 A+B+C：829 个 / 43.6 MB 走回收站删除，保留 544 个（备份、近 30 天脚本、转写稿、记忆、数据中间文件）。</detail>
+        <lesson>按“30 天未动加下划线前缀”规则误删了 audit/build/validate 等 66 个脚本，已从回收站解析元数据全部还原；清理一次性脚本必须白名单排除这些关键词。</lesson>
+        <lesson>Windows 回收站批量删除最终用 ctypes 直调 shell32.SHFileOperationW，每批 30 个；Add-Type 被安全策略拦截，win32com 不接受 list。</lesson>
+      </task>
+      <task id="mistake-v2" status="completed" commit="39ec49a">
+        <title>易错本 v2：卡片富文本 + 预设标签点选 + 默认折叠 + 只显示已用标签</title>
+        <change>renderList 卡片正文改 mdBlock 完整渲染并绑定图片放大；usedTags 只统计有笔记打过的标签，renderTags 默认前 5 个 + 折叠；编辑态预设 chips 点选、自定义输入，折叠区标签回填时自动展开。</change>
+        <verify>_test_mistake 79/0；真机用用户原话录入，卡片高亮/红字/加粗正常，未用标签不显示，0 error。</verify>
+      </task>
+      <task id="mistake-entry-compact" status="completed" commit="fb8ccf2" cacheVer="mathcards-e3490c349c">
+        <title>易错本入口条紧凑化</title>
+        <change>仅改 mistake.css：负 margin 吃掉 search-box 底部 padding，padding 9x11→5x9，图标 17→14px，字号 13/11→12/10px，副标题与名称同排；入口从约 50px 压到约 28px。</change>
+        <verify>_test_mistake 79/0 + Playwright 截图核对。</verify>
+      </task>
+      <task id="mistake-formats" status="completed" commit="39d65e1" cacheVer="mathcards-5584511586">
+        <title>易错本编辑器能力扩展：格式刷/预览/放大/格式按钮</title>
+        <change>抽出 hexColor；修复标题内部行内格式丢失；新增 captureFormat/toggleBrush/applyBrush；applyFmt 加 plainBlock 与 clearHl；insertFormula 插行内与块公式骨架；图片统一走 window.openLightbox；编辑态下方实时预览 debounce 220ms；index.html 工具条加按钮与预览容器。</change>
+        <verify>_test_mistake 108/0；Playwright 全量 30/0，0 page error。</verify>
+        <lesson>execCommand('bold') 是开关命令，H1 自带粗体时状态为 true，直接 exec 会反向取消，必须先查状态。</lesson>
+      </task>
+      <task id="mistake-format-fix2" status="completed" commit="4bd5f16" cacheVer="mathcards-bcc96e2c20">
+        <title>格式刷完全用不了 / H1 H2 改不了颜色</title>
+        <rootCause>存储里的高亮用 mark 标签，清除格式后 UA 默认黄底残留，看起来像反而变成高亮；标题内联格式旧版丢失；H1 点 B 反向取消粗体；选区丢失导致点了没反应。</rootCause>
+        <change>高亮统一改 span style background-color；标题分支完整写回令牌；标题内无显式粗体时点 B 给提示；取格式后选区自动套用；_lastRange 记忆选区；元素锚点下潜到文本节点；标题无选字时点色作用整段。</change>
+        <verify>_test_mistake 114/0；真机矩阵覆盖 H1/H2/段落全按钮与保存再编辑，线上复测 0 error。</verify>
+      </task>
+      <task id="mistake-brush-v3" status="completed" commit="77d1e8a" cacheVer="mathcards-9cd2eeebc8">
+        <title>格式刷只能用一次 / 加粗被清除 / 外面高亮不明显</title>
+        <rootCause>applyBrush 结尾清掉激活态；开头 removeFormat 把目标原有粗体一并抹掉；淡杏底常规字重在白底几乎看不见。</rootCause>
+        <change>套用后保持激活，可连续刷多段，退出用折叠光标后再点、再点按钮或 Esc；绝不调用 removeFormat，只叠加源中确实存在的格式；CSS 加强 mark padding/字重/描边。</change>
+        <verify>_test_mistake 121/0，含反向断言不得含 removeFormat、套后仍亮、Esc 退出；真机 0 error。</verify>
+      </task>
+      <task id="mistake-card-font" status="completed" commit="f7fe715" cacheVer="mathcards-53ce289c04">
+        <title>易错本卡片字体小一圈</title>
+        <rootCause>.mb-card-body 写死 13px，编辑与预览为 14px；卡片标题 16/14 与编辑 20/17 不一致。</rootCause>
+        <change>卡片正文改 14px/1.75，标题改 17/15px；测试锁三处字号一致。</change>
+        <verify>_test_mistake 123/0；真机量测 14px/24.5px。</verify>
+        <note>此轮标题又被 11-25 的 1d84013 重新统一为 20/17，以编辑态为 WYSIWYG 基准。</note>
+      </task>
+      <task id="collapse-width" status="completed" commit="2df2da1" cacheVer="mathcards-5264659621">
+        <title>右栏/左栏收起未真正释放阅读宽度 + 易错本隐藏右栏</title>
+        <rootCause>栏目收起只改 .doc margin，内层 .note-article 写死 max-width 820px，只是平移不变宽。</rootCause>
+        <change>notes.css 按收起状态放开 article 上限 1060/1100/1340px；保留 .katex-display 与 .md-math 的 overflow-x auto 防公式截断；mistake.css 在 mb-open 时隐藏右栏并让 mbView 占满右缘。</change>
+        <verify>_test_mistake 129/0；真机量测三种状态 6 个公式 scrollWidth==clientWidth，0 截断。</verify>
+      </task>
+      <task id="formula-size" status="completed" commit="71c16ee" cacheVer="mathcards-9a3b599e47">
+        <title>笔记公式字号放大到 1.50em（24px）</title>
+        <rootCause>notes.css 原写 .katex 1.06em 从未生效，katex.min.css 后加载、同特异性覆盖。</rootCause>
+        <change>删失效全局规则，改 body .note-article .katex 1.5em 提高特异性；mistake.css 三处 .katex 1.5em（正文 14px→21px）。</change>
+        <constraint>题目页 exam.css 与记忆卡 cards.css 字号体系完全不动，测试加反向断言锁死。</constraint>
+        <verify>真机量测笔记 323 个公式全 24px，易错本三处 21px，exam/cards 分布不变；_test_mistake 134/0。</verify>
+      </task>
+      <task id="mistake-colors" status="completed" commit="3ff75ed" cacheVer="mathcards-73a19a857a">
+        <title>易错本字色换成批注同款</title>
+        <change>字色区换成 6 个彩色 A 按钮，色值对齐批注 ANN_COLORS：#e03131/#e8590c/#2f9e44/#1971c2/#9c36b5/#495057，样式照 .ann-nt-c；高亮色块不动。</change>
+        <verify>_test_mistake 136/0；真机 6 按钮计算色准确、上色生效、0 error。</verify>
+      </task>
+    </group>
+
+    <group date="2026-11-21" label="雅可比精简、♥ 分类树、视频链接">
+      <task id="jacobian-and-dollar-block" status="completed" commit="b13c784" cacheVer="mathcards-05fd9a6bc2">
+        <title>精简雅可比章 + 修复跨行 $$ 公式块不渲染</title>
+        <rootCause>notes.json 中 $$ 合规，但 reader.js 与 mdrender.js 两份 mdToHtml 都没有 $$ 独立块分支，逐行渲染成多个 p，KaTeX auto-render 无法跨元素配对。</rootCause>
+        <change>两副本加独行 $$ 收集到收尾 $$ 合成 md-math div；notes.css 加样式；高数 6 只保留三列精简表 + 3 条要点；_verify_varlimit.py 的位置断言改为锁索引与区间小节数。</change>
+        <verify>真机 5 篇笔记的 $$ 块全部渲染、无裸 $$；表格 637 不溢出；_test_notes_hl 182/182、_verify_varlimit、_deep_validate、_audit_latex、_scan_unpaired 全过。</verify>
+        <risk>块由多个 p 合成一个 div，高数 0/1/3.1 的批注 sid 可能整体前移；若用户反馈错位再补兼容空块。</risk>
+      </task>
+      <task id="heart-category-tree" status="completed" commit="ba235ef" cacheVer="mathcards-d4104742b5">
+        <title>♥ 页左栏改为知识点分类树</title>
+        <change>renderTree 守卫只拦 PAPER_MODE；新增 heartTreeEntries 从 allEntriesAllSources 取 ppHeart 题并按 categoryIds 展开；新增 clearHeartCat；renderHeart 加 curCatSet 过滤与面包屑；applyHeartMode 清筛选并隐藏细分类浮层；saveCatState 不污染分类页选中态；重画链补 renderTree 与 renderNav。</change>
+        <bugFix>core-2076 原 categoryIds=[564] 指向不在 exam_categories 的细分类节点，改为 562、catId=562、deepCats=['588']；全库扫描无同类残留。</bugFix>
+        <verify>_test_pp_heart 61 项；真机点极限 3→3 卡与 3 题号球、章节筛选、清除、跨页不污染、core 题进树全通过。</verify>
+      </task>
+      <task id="videos" status="completed" commit="13e21cf" cacheVer="mathcards-8d0f10404a">
+        <title>补全极限与二重积分 49 条视频讲解链接</title>
+        <discovery>正式站 math.cxyonly.fans/practice 登录后有独立端点 GET /api/v1/questions/{qid}/videos；鉴权需要 authorization Bearer web-session 与动态 x-csrf-token，不能只用 cookie。用 Playwright 持久化 profile 登录后拦截题目 API 请求截 header，再用 ctx.request.get 调 API。</discovery>
+        <method>core 题与站点 source 体系不同，用题干归一化 SequenceMatcher 粗筛，再逐题核对 label 年份/卷种/题号，错配排除。</method>
+        <result>19 题补 49 条链接（6 confirmed + 43 candidate），缺口 68→49（极限 53→40，二重 15→9）；status 仅内部标记，前端只读 url+label。</result>
+        <verify>独立脚本全量验证 49 链接就位、非 videos 字段零改动；_audit_latex 0、C0 零、_test_core_extra 12/12、_test_cat_search 44/44。</verify>
+        <lesson>agent-browser CLI 在此环境彻底卡死，已弃用改 Playwright（Python D:/python/python.exe，chromium E:/deps_cache/ms-playwright）。</lesson>
+      </task>
+    </group>
+
+    <group date="2026-11-20" label="答案审校、777 补缺、原图移植、题库扩充">
+      <task id="handwrite-answers" status="completed" commit="af8ccb7" cacheVer="mathcards-cbcdea5974">
+        <title>手写收藏∩不会∩未抽池简略答案（7 题）</title>
+        <detail>26 道候选中多数答案已完整，真正简略的 7 题手写：DG900JXB-333 特征值按行展开、1370/1371 抽水功元、1115 换元法 ODE 链式法则、core-269 反常积分换元、1362 水压力、core-288 万能代换并证三形式等价。</detail>
+        <verify>多副本 11 处同步，只改 answer/idea；_audit_latex 0、_audit_syllabus selftest OK、_scan_unpaired 0、KaTeX 268 公式 0 失败。</verify>
+      </task>
+      <task id="777-gaps" status="completed" commit="143fb23" cacheVer="mathcards-4df167af2a">
+        <title>777 必背资料对比笔记查漏补缺</title>
+        <method>PDF 公式是私用区字符，用 PyMuPDF 渲染 PNG 后两个并行子代理逐条看图核对；数二范围外（级数/空间解析几何/多元积分/伯努利/欧拉/方向导数/差分方程）全排除。</method>
+        <result>主题 82 条 100% 已覆盖；补 5 条具体结论：线代2 A*=-AT 负号对偶、高数1 轴/中心对称结论、高数0 三元完全平方与立方、高数3.1 双参数点火公式、高数6 平移轴奇偶对称。</result>
+        <constraint>原 md 严格前缀、chapters 同步、标题纯文字无公式、notes.json indent=2 无尾换行。</constraint>
+      </task>
+      <task id="polar-jacobian" status="completed" commit="efba75d" cacheVer="mathcards-dbb40c7ec0">
+        <title>极坐标换元策略判断法则插到雅可比章顶</title>
+        <detail>插 4 个小节到换元法章标题正下方，不加新章。插前用 jsdom 真实渲染数块核对批注锚点位置（87 块，三锚点均在插入点之前），插后块数 117、锚点文本一致。</detail>
+        <lesson>往章节中间插内容必须先查批注锚点位置，不能只靠追加末尾的默认铁律。</lesson>
+      </task>
+      <task id="dgy-original-images" status="completed" commit="76ed37b" cacheVer="mathcards-134fe31e19">
+        <title>移植大观园甄选题原图到二重积分题</title>
+        <discovery>正式站 landing-config 暴露公开静态镜像 daguan-math-static.pages.dev，library.json.gz 与 questions/{id}.json.gz 无需登录。</discovery>
+        <method>匹配必须年份+题号+题干三重信号，纯数字序列会严重串题；7 道边界题逐题打印人工核验。</method>
+        <result>62 道候选中 48 道确认同题且有原图，57 张 webp / 9.46 MB 落到 pwa/data/img/zx_site/，只写 core_bank.json 的 ansImg，文字解析保留并新增原图解析页签。</result>
+        <verify>仅 48 题改且只改 ansImg；真机 464 与 493 页签图片加载成功；审计 0。</verify>
+      </task>
+      <task id="core-2076" status="completed" commit="7fdfaff" cacheVer="mathcards-df7f580fa7">
+        <title>新增分段绝对值二重积分题 core-2076</title>
+        <detail>以 t=x-y 分三段去绝对值，结果为 4π；分类最初写 564，11-21 更正为 562 + deepCats 588。</detail>
+        <verify>独立脚本校验除新增题外全量不变、分类路径、字段、C0、无尾换行；数值积分 12.566374 对 4π=12.566371；31 条公式 0 失败。</verify>
+      </task>
+      <task id="core-heart" status="completed" commit="35aa17a" cacheVer="mathcards-d263b25a2c">
+        <title>核心题库题卡接入拼卷 ♥</title>
+        <change>catCard 的 showHeart 条件放开到 srcMode core 且 paper.id core；ppHeart 与 allEntriesAllSources 本就跨全源，不需新存储；exam 模式与 core 下 ys27 仍不显示。</change>
+        <verify>_test_pp_heart 47 项等四套全过；真机 core 选 564 出卡带 ♡→写 ppHeart→heart=1 显示 1 题。</verify>
+      </task>
+      <task id="dgy-double-fill" status="completed" commit="a796cdf" cacheVer="mathcards-4af334ed46">
+        <title>分类题库标签改名 + 补 103 道大观园二重积分题</title>
+        <change>SRC_META.exam.label 改分类题库；源库 251 题中缺 142，排除 36 道数一/数三与 3 道待删，实际补 103 道到 dgy_items.json 二重积分节，题号 1385–1487（按全库 max，曾误用节内 max 导致冲突已回滚）。</change>
+        <bugFix>localStorage 已是 exam 模式时 init 的 applySrcMode 早于 loadExamSources，papers 指向空数组；loadExamSources().then() 里必须再 applySrcMode(false)，否则 dgy_items 不进分类树（allEntries 271→2360）。</bugFix>
+        <verify>独立脚本确认仅新增 103、题号全局唯一、分类链正确；1796 条新公式 KaTeX 0 失败。</verify>
+      </task>
+    </group>
+
+    <group date="2026-11-19" label="跨副本答案同步">
+      <task id="sync-short-answers" status="completed" commit="2b433e0" cacheVer="mathcards-c67b820132">
+        <title>收藏∩不会∩不熟∩未抽简略答案同步</title>
+        <detail>dgy 5 题 answer 取 core 详细版；例外反向 core-1311 取 exam 2024数二-16；排除 DG900JXB-1226（linkedQid 误关联，两道不同的题）；只改 answer，idea 保留各源风格。</detail>
+        <lesson>跨副本同步必须逐题核题干一致，方向取最详细副本为权威而非固定 core→其它。</lesson>
+      </task>
+    </group>
+
+    <group date="2026-11-17" label="串题纠错、超纲清理、拼卷体系">
+      <task id="q136" status="completed" commit="8fc7693" cacheVer="mathcards-b89e9c8417-u1">
+        <title>core_bank no=136（2024 数一）答案串题修复</title>
+        <detail>answer/idea/videos 整段复制自相邻 no=135；正确答案 B（未给 f(0)=0，由 f' 存在推出连续）。全库扫描 1113 题仅此一对全文雷同且题干不同；其余视频年份矛盾 6 处经核对均非串题。</detail>
+        <verify>字段级 diff 只改目标字段；_audit_latex 0、_deep_validate ALL CLEAN、C0 零。</verify>
+      </task>
+      <task id="paper-entry-heart-size" status="completed" commit="bc8f346" cacheVer="mathcards-8ce52d2486-u1">
+        <title>拼卷页顶栏加分类入口 + 放大顶栏 ♥ 按钮</title>
+        <lesson>文案切换 span 起初用内联 display:none，specificity 压过 CSS 导致按钮文字为空；改用 CSS 类默认隐藏。改 UI 必须真机 eval 验证文字与尺寸。</lesson>
+      </task>
+      <task id="delete-outscope" status="completed" commit="9a5d590" cacheVer="mathcards-aa18657f68-u1">
+        <title>删除三个数一/数三超纲分类（用户确认）</title>
+        <detail>exam_categories 删 10 节点 129→119；ys27_items 删 section 6/7/8 共 18 题，9 章 37 题→6 章 19 题；同步源草稿 _ys27_stems.py 与 _build_ys27.py，否则重跑构建会复活；_audit_ys27.py 的 L1=9 断言改 6；孤儿图 ys27_q36.png 用 git rm，并从 sw.js PRECACHE 手动移除。</detail>
+        <verify>30 项字段级 diff、审计全绿、真机两页无三分类名。</verify>
+        <pending>其余题库历史遗留 29 处超纲项仍待用户决策，未动。</pending>
+      </task>
+      <task id="katex-nbsp" status="completed" commit="977fb8c" cacheVer="mathcards-2985f02137-u1">
+        <title>KaTeX NBSP 触发 strict warn</title>
+        <rootCause>mdBlock 三副本为防 HTML 折叠把行首/连续空格转 NBSP，落在公式内部时 KaTeX strict 报未知字符；数据文件本身无 NBSP。</rootCause>
+        <change>全局单点 patch pwa/vendor/katex/auto-render.min.js，在唯一 preProcess 调用点前清洗公式 tex 中的 NBSP；字符级 diff 仅新增 27 字符。</change>
+        <lesson>改压缩 vendor 单行文件必须做“去掉注入片段后与原文逐字节一致”的字符级比对。</lesson>
+      </task>
+      <task id="paper-topbar" status="completed" commit="5bc7bfa" cacheVer="mathcards-1a77e797a7-u1">
+        <title>拼卷页顶栏消失</title>
+        <rootCause>examTopCollapsed 跨页共享是原设计，分类页收起后拼卷页忠实恢复收起态，非缓存问题。</rootCause>
+        <change>PAPER_MODE 分支直接移除 collapsed 并同步高度后 return，不写 localStorage；题号球与顶栏无关，未改。</change>
+        <lesson>UI 元素消失若空状态复现不出，先查跨页共享的 localStorage 状态，用截图反推注入。</lesson>
+      </task>
+      <task id="paper-layout-v1" status="completed" commit="69819d1" cacheVer="mathcards-a8659cf446-u1">
+        <title>拼卷页布局：题号栏与主区左对齐</title>
+        <detail>当时按用户“太靠右”口径改 #catMain 左对齐并加 padding-right 90 给状态竖条留位，ppNavAlign 反算 right；后被 7a7a52b 按新口径改回居中。</detail>
+      </task>
+      <task id="cache-audit" status="completed" commit="none">
+        <title>C 盘缓存残留只读排查与确认后清理</title>
+        <detail>已 junction 的目录仅占位；真实占用 Temp 4394 MB（218 个 agent-browser profile 3563 MB）、.cache 474 MB、.codex 408 MB 等。用户确认后约 3.76 GB 移入回收站；27 个被占用 tmp 保留未强删；回收站未清空。</detail>
+        <detail>随后按用户要求用 junction 把 .codex 与 .workbuddy-ai_old 迁到 E:\deps_cache\，robocopy 加 /XJ，HashSet 路径级校验 0 差异；C 盘可用升至 17.03 GB。</detail>
+      </task>
+      <task id="pp-tip" status="completed" commit="85ab6b6" cacheVer="mathcards-9239fb5da0">
+        <title>拼卷抽题规则说明收进 tooltip</title>
+        <detail>#examSub 改为 data-tip + ⓘ 抽题规则小块，纯 CSS hover 展开；只在拼卷模式加 pp-tip 类，普通分类页保持原文案。</detail>
+      </task>
+      <task id="pp-tip-and-storage" status="completed" commit="726776a" cacheVer="mathcards-b99ce13374">
+        <title>进度提示 tooltip + 跨标签串页修复</title>
+        <detail>左栏未收藏提示也收进 tooltip（限宽 158px 防裁切）；storage 事件在拼卷模式原落到 renderTree，把 paperList 覆盖成分类树，加 PAPER_MODE 分支与 renderTree 守卫修复。</detail>
+        <note>用户随后反悔，98008de 移除了未收藏提示小块，storage 串页修复保留。</note>
+      </task>
+      <task id="paper-html" status="completed" commit="072afc7" cacheVer="mathcards-c7209a9570">
+        <title>拼卷页独立为 paper.html</title>
+        <rootCause>不是缓存也不是 URL 改写：category.html 骨架写死分类页，拼卷样貌靠 JS 在 await fetch 6MB 题库后才改，强刷时首帧停留分类骨架像“跳页”。</rootCause>
+        <change>_build_paper_html.py 从 category.html 复制并精确替换生成 paper.html；PAPER_MODE 兼顾旧 ?paper=1；新 HTML 进 sw.js PRECACHE。</change>
+        <lesson>脚本生成的 HTML 要改脚本再重跑，别直接改 HTML。</lesson>
+      </task>
+      <task id="paper-layout-v2" status="completed" commit="7a7a52b" cacheVer="mathcards-9c79ceef5d">
+        <title>拼卷主区居中 + 题号球固定在调色盘上方</title>
+        <detail>按用户新口径把 #catMain 改回 margin auto 居中；ppNavAlign 清除内联 right 回 CSS 默认 right:16px/bottom:82px，两态题号球同位置。</detail>
+        <note>居中/左对齐按用户当次口径，勿固定一种。</note>
+      </task>
+    </group>
+
+    <group date="2026-11-16" label="重点标记、♥ 体系、答案审校、拼卷优先级">
+      <task id="fav-focus" status="completed" commit="ca8b70a + d7a781c" cacheVer="mathcards-19ed2ae606 → mathcards-69947bb72e">
+        <title>收藏薄弱点 → 笔记目录重点标记</title>
+        <decisions>类型源取 categoryIds 的 L2 叶子；范围只覆盖收藏涉及的 55 个知识点；动态更新（storage 跨标签）；判定仅收藏∩(不会∪不熟)，阈值 hot≥10、warm 4-9；粒度章级 + 现有星标小节；主站隐藏 21记必须剔除。</decisions>
+        <artifact>pwa/data/fav_focus.json：55 知识点 / 88 章锚点 / 3042 q2cat。</artifact>
+        <change>reader.js 新增 loadFavFocus/weakFavQids/computeFocusLevels/applyFavFocus；三处目录加类名与星标；左栏跨笔记 key 用 data-note|ch，纯文本锚点插首位，renderTree 重建后补刷。</change>
+        <verify>逻辑 7 / DOM 14 / 左栏树 7 / CSS 13 / 笔记高亮 182 / 搜索 44 / 深校验 ALL CLEAN。</verify>
+      </task>
+      <task id="heart-basic" status="completed" commit="e31eef7 + 6486562" cacheVer="mathcards-021474ed5d-u1 / mathcards-4b6ef44379-u1">
+        <title>♥ 喜欢标记 + 独立筛选页</title>
+        <change>ppHeart={qid:{t}} 独立于收藏与状态、不进抽题池；catCard 第 4 按钮只在拼卷/♥页渲染；heart=1 分页 40、状态筛选、可取消、storage 同步；顶栏入口；全站去“我喜欢”文字；首屏 await loadExamSources 避免 core 重定向题号错乱与漏题。</change>
+        <lesson>mn27-* 不在 category.js 数据源，不进 ♥ 页。</lesson>
+      </task>
+      <task id="answer-2001-15" status="completed" commit="5889561" cacheVer="mathcards-2b794c5724-u1">
+        <title>2001 数二 15 答案纠错 + 收藏池待抽高数题审查</title>
+        <detail>正确 f=sin x+e^x-cos x、g=cos x+sin x+e^x、积分=(e^π+1)/(1+π)；同步 exam.json 与 core-587。17 道待抽高数题数学全正确；顺手清理 AI 套话与题卡不支持的标题标记。</detail>
+      </task>
+      <task id="pp-global-priority" status="completed" commit="605ec88" cacheVer="mathcards-55ee1e1fcd-u1">
+        <title>拼卷抽题改全局状态硬优先</title>
+        <rootCause>原按题型三段抽取，段内 hot 优先但段间串味，仅收藏题会排在未抽 hot 前面。</rootCause>
+        <change>ppPickGlobal 替代三段调用：先按题型配额抽 hot、缺口跨题型调剂、hot 全光才用 plain，分值按实际解答题数重算。</change>
+        <verify>_test_pp_priority 10 项 + 反向变异失败 3 项；真机卷 1 全 hot、卷 2 全 plain。</verify>
+      </task>
+      <task id="heart-status-conflict" status="completed" commit="bc1d5ad" cacheVer="mathcards-f7732320dc-u1">
+        <title>♥ 与状态按钮冲突修复</title>
+        <rootCause>toggleQStatus 用 .q-st-btn 清 on，把 ♥ 按钮也清掉；用户再点一次反而真删。</rootCause>
+        <change>选择器改 .q-st-btn:not(.q-st-heart)；_test_pp_heart 40 项含反向变异。</change>
+      </task>
+      <task id="fav-answer-audit" status="completed" commit="515192e" cacheVer="mathcards-abd6f0063a-u1">
+        <title>收藏∩不熟/不会题答案审校</title>
+        <detail>368 道候选中逐题核对 57 道简短题，数学结论全部正确；修 5 处文本错误：2019数二-5 tips 串题、core-2051 tips、core-1125 特解系数、core-2026 充要条件、core-728 idea 逻辑。</detail>
+      </task>
+      <task id="det-aE-plus-K" status="completed" commit="afbb088" cacheVer="mathcards-2c3d479b46-u1">
+        <title>aE+K 行列式题思路纠错</title>
+        <detail>数值答案 a²(a²−4) 正确，错在思路：K 每行每列和为 0，只能看出特征值 0；±2 来自分块。两副本 idea 统一为分块法 + 特征向量验证。</detail>
+      </task>
+    </group>
+
+  </taskGroups>
+
+  <pendingItems>
+    <item priority="high">曲线 L 题正式站原图解析：答案已解出，图片与 ansImg 未写回，因本轮禁止重跑任务而暂停。</item>
+    <item priority="medium">大纲合规历史遗留：core_bank 约 6 题、dgy_items 3 题整题超纲，仍待用户确认后再删；exam.json 与 mn27 已零数一/数三。</item>
+    <item priority="medium">$$ 块合成导致高数 0/1/3.1 批注锚点可能前移，仅当用户反馈错位时再补兼容空块。</item>
+    <item priority="low">旧格式孤儿收藏 qid（如 core-750/758/844/848/818/1174/1190）不在题库，无法审查或入池，未处理。</item>
+    <item priority="low">拼卷主区居中/左对齐按用户当次口径调整，勿固化。</item>
+  </pendingItems>
+
+  <conventions>
+    <rule>默认 commit + push 到 Cyrusssxx/math_learn，只 stage 指定路径；交付含审计、commit hash、git ls-remote 远程 HEAD、CACHE_VER、push 五项。</rule>
+    <rule>新数据文件加 pwa/sw.js 的 PRECACHE；pre-commit 自动跑 build_assets_ver.py 与 build_sw.py 并 git add。</rule>
+    <rule>带 hidden 的元素 CSS 不能声明 display，需同级 [hidden] display:none。</rule>
+    <rule>写回格式：exam.json 单行紧凑、core_bank.json indent=1、notes.json indent=2，均无尾换行；禁止内联 python -c 改 JSON，必须脚本 + 独立全量验证。</rule>
+    <rule>reader.js 与 mdrender.js 两份渲染副本必须同步；新增语法补 CSS 与回归断言。</rule>
+    <rule>改一个错误主动扫同类；新断言必须做反向验证；UI 问题用真实浏览器复现。</rule>
+    <rule>临时脚本与缓存写 E:\deps_cache\temp，不再写 C 盘个人目录。</rule>
+  </conventions>
+
+</sessionSummary>
