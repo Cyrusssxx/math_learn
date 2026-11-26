@@ -590,6 +590,7 @@ function toggleQSec(btn, act) {
     btn.classList.toggle('on', open);
     if (open && act !== 'note') {
         renderMath(sec);   // 展开答案/思路时渲染 KaTeX
+        if (act === 'answer') preloadExamAnsImgs(sec);  // 点「查看答案」即预加载原图解析
     }
     if (act === 'note') {
         const ta = sec.querySelector('textarea, .q-note-input[contenteditable]');
@@ -1337,8 +1338,59 @@ function qCard(p, sec, q, secIdx) {
         ${ideaHtml}
         ${tipsHtml}
         ${noteHtml}
-        <div class="q-sec q-answer" data-copy-md="${copyMdAttr(q.answer || '')}" data-copy-key="answer" hidden><div class="q-answer-body">${mdBlock(q.answer)}</div></div>
+        <div class="q-sec q-answer" data-copy-md="${copyMdAttr(q.answer || '')}" data-copy-key="answer" hidden>${examAnsTabsHtml(q)}</div>
     </div>`;
+}
+
+/** 答案区：有原图时给「文字解析 / 原图解析」页签（与分类页 category.js ansTabsHtml 同源，作用域独立）。
+ *  原图只在展开答案后才挂 src（preloadExamAnsImgs），避免首屏下载全部原图。 */
+function examAnsTextMeaningful(t) {
+    const s = String(t || '')
+        .replace(/【答案与解析】完整过程见下方配图（[^）]*）。?/g, '')
+        .replace(/完整过程见下方配图/g, '')
+        .trim();
+    return s.length >= 10;
+}
+function examAnsTabsHtml(q) {
+    const imgs = Array.isArray(q.ansImg) ? q.ansImg : [];
+    const textOk = examAnsTextMeaningful(q.answer);
+    const tabs = imgs.length
+        ? (textOk
+            ? `<div class="ans-tabs">`
+              + `<button class="ans-tab on" data-tab="text" onclick="switchExamAnsTab(this,'text')">文字解析</button>`
+              + `<button class="ans-tab" data-tab="img" onclick="switchExamAnsTab(this,'img')">原图解析</button></div>`
+            : `<div class="ans-tabs">`
+              + `<button class="ans-tab on" data-tab="img" onclick="switchExamAnsTab(this,'img')">原图解析</button></div>`)
+        : '';
+    const textPane = `<div class="ans-pane ans-pane-text"${imgs.length && !textOk ? ' hidden' : ''}>`
+        + `<div class="q-answer-body">${mdBlock(q.answer || '')}</div></div>`;
+    const imgPane = imgs.length
+        ? `<div class="ans-pane ans-pane-img"${textOk ? ' hidden' : ''}>`
+          + imgs.map((p, i) => `<img class="q-ans-img" data-src="${esc(String(p)).replace(/"/g, '&quot;')}" alt="原图解析 ${i + 1}" onclick="zoomAnsImg(this)">`).join('')
+          + `</div>`
+        : '';
+    return tabs + textPane + imgPane;
+}
+function preloadExamAnsImgs(root) {
+    if (!root) return;
+    root.querySelectorAll('img.q-ans-img[data-src]').forEach(img => {
+        const src = img.getAttribute('data-src');
+        if (!src) return;
+        img.removeAttribute('data-src');
+        img.loading = 'eager';
+        img.src = src;
+    });
+}
+function switchExamAnsTab(btn, which) {
+    const box = btn.closest('.q-answer');
+    if (!box) return;
+    box.querySelectorAll('.ans-tab').forEach(b => b.classList.toggle('on', b === btn));
+    const tp = box.querySelector('.ans-pane-text');
+    const ip = box.querySelector('.ans-pane-img');
+    if (tp) tp.hidden = which !== 'text';
+    if (ip) ip.hidden = which !== 'img';
+    if (which === 'text' && tp) renderMath(tp);
+    if (which === 'img' && ip) preloadExamAnsImgs(ip);
 }
 
 // 复制文本到剪贴板（clipboard API，非安全上下文降级 execCommand），按钮短暂反馈
@@ -1474,6 +1526,7 @@ function examToggleAllAnswers(btn) {
     if (examAllAnsOpen) {
         renderMath(el);
         fillExamNoteImgs(el);
+        preloadExamAnsImgs(el);
     }
     btn.classList.toggle('on', examAllAnsOpen);
     btn.textContent = examAllAnsOpen ? '🔽 收起全部答案' : '🔼 展开全部答案';

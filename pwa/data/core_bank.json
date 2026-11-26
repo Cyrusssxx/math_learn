@@ -4801,6 +4801,9 @@
         "label": "汤家凤 · 汤家凤 2011年数学三（19） · 利用含二重积分等式求函数表达式",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/c604_0.webp"
       ]
      },
      {
@@ -7794,6 +7797,10 @@
         "label": "帕拉迪宇 · 帕拉迪宇 2022年数学三 · 明显奇偶性",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/c165_0.webp",
+       "data/img/zx_site/c165_1.webp"
       ]
      },
      {
@@ -10582,6 +10589,9 @@
         "label": "帕拉迪宇 · 帕拉迪宇 2024年数学二 · 乘积高阶导",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/c497_0.webp"
       ]
      },
      {
@@ -13678,6 +13688,9 @@
         "label": "汤家凤 · 汤家凤 2019年数学一/三（一17、三18） · 指数 × 三角",
         "status": "unreviewed"
        }
+      ],
+      "ansImg": [
+       "data/img/zx_site/c316_0.webp"
       ]
      },
      {
@@ -33184,7 +33197,7 @@
       "type": "calc",
       "stem": "设 $A$ 是 $m \\times n$ 矩阵，$\\alpha_1$ 与 $\\alpha_2$ 是非齐次线性方程组 $Ax = b$ 的两个不同解。(I) 证明：$\\alpha_1 - \\alpha_2, \\alpha_1$ 线性无关；(II) 若 $\\beta$ 是 $Ax = 0$ 的一个非零解向量，$r(A) = n - 1$，证明：$\\beta, \\alpha_1, \\alpha_2$ 线性相关。",
       "answer": "证明见解析\n\n(I) 因 $Ax=b$ 为非齐次方程组，$b\\neq0$。若 $\\alpha_1$ 与 $\\alpha_1-\\alpha_2$ 线性相关，则 $\\alpha_2$ 是 $\\alpha_1$ 的倍数；但 $A\\alpha_1=A\\alpha_2=b$ 会迫使该倍数为 $1$，与两解不同矛盾，故二者线性无关。\n(II) $\\alpha_1-\\alpha_2$ 是齐次方程组的非零解。由 $r(A)=n-1$，齐次解空间为一维，故 $\\alpha_1-\\alpha_2=k\\beta$，于是 $\\beta,\\alpha_1,\\alpha_2$ 线性相关。",
-      "idea": "① 非齐次两解之差是齐次解：$\\alpha_1-\\alpha_2\\ne0$ 且 $A(\\alpha_1-\\alpha_2)=0$，再用反证法（或 $\\alpha_1\\ne k\\alpha_2$）证 $\\alpha_1-\\alpha_2$ 与 $\\alpha_1$ 无关；\n② 由 (I) 的无关性把 $\\beta$ 拆成 $k_1\\alpha_1+k_2(\\alpha_1-\\alpha_2)$，写出 $Ax=\\beta$ 的通解结构。",
+      "idea": "① 非齐次两解之差是齐次解：$\\alpha_1-\\alpha_2\\ne0$ 且 $A(\\alpha_1-\\alpha_2)=0$，再用反证法（或 $\\alpha_1\\ne k\\alpha_2$）证 $\\alpha_1-\\alpha_2$ 与 $\\alpha_1$ 无关；\n② 由 $r(A)=n-1$ 知齐次解空间一维，故 $\\alpha_1-\\alpha_2=k\\beta$；$\\beta$ 可由 $\\alpha_1,\\alpha_2$ 线性表出，于是 $\\beta,\\alpha_1,\\alpha_2$ 线性相关。",
       "source": "0.88k 25版 向量 综合 解答第7题",
       "categoryIds": [
        120
@@ -36233,7 +36246,7 @@
       "type": "calc",
       "stem": "设矩阵 $A=\\begin{pmatrix}0&-1&2\\\\-1&0&2\\\\-1&-1&a\\end{pmatrix}$，已知 $1$ 是 $A$ 的特征多项式的重根。（1）求 $a$ 的值；（2）求所有满足 $A\\alpha=\\alpha+\\beta$，$A^2\\alpha=\\alpha+2\\beta$ 的非零列向量 $\\alpha,\\beta$。",
       "answer": "$a=3$；所有解为 $\\alpha=(c_1,c_2,c_3)^T$ 且 $-c_1-c_2+2c_3\\ne0$，$\\beta=(-c_1-c_2+2c_3)(1,1,1)^T$。\n\n特征多项式为 \n$$\n|\\lambda E-A|=\\lambda^3-a\\lambda^2+3\\lambda+a-4.\n$$\n 因 $\\lambda=1$ 恒为根，且为重根，需 $p'(1)=0$，即 $6-2a=0$，故 $a=3$。 此时 \n$$\nA-E=\\begin{pmatrix}-1&-1&2\\\\-1&-1&2\\\\-1&-1&2\\end{pmatrix}, (A-E)^2=O.\n$$\n 由 $A\\alpha=\\alpha+\\beta$ 得 $\\beta=(A-E)\\alpha$；第二式等价于 $(A-E)^2\\alpha=0$，对任意 $\\alpha$ 成立。为使 $\\beta$ 非零，需要 $(-1,-1,2)\\alpha\\ne0$。设 $\\alpha=(c_1,c_2,c_3)^T$，则 \n$$\n\\beta=(-c_1-c_2+2c_3)(1,1,1)^T,\n$$\n 其中 $-c_1-c_2+2c_3\\ne0$。",
-      "idea": "**思想：$1$ 是特征多项式的重根 $\\Rightarrow$ 用 $\\operatorname{tr}A$ 与 $|A|$ 定 $a$，再解 $A\\alpha=\\alpha$**。\n① 「$1$ 是特征多项式的重根」⟹ $\\lambda=1$ 至少二重：用 $\\operatorname{tr}A=1+a$、$|A|$ 与特征值之和/积的关系（或 $|E-A|=0$ 且重根条件）解出 $a$，并求出第三个特征值；\n② 把 $A\\alpha=\\alpha+\\beta$ 代进 $A^2\\alpha=\\alpha+2\\beta$ 消去 $\\beta$，得 **$(A^2-A-E)\\alpha=0$**，解这个齐次方程组得 $\\alpha$，再由 $\\beta=A\\alpha-\\alpha$ 写出 $\\beta$。",
+      "idea": "**思想：$1$ 是特征多项式的重根 $\\Rightarrow$ 用 $p'(1)=0$ 定 $a$，再由 $(A-E)^2=O$ 写通解**。\n① $p(\\lambda)=\\lambda^3-a\\lambda^2+3\\lambda+a-4$，$\\lambda=1$ 恒为根，重根要求 $p'(1)=6-2a=0$，故 $a=3$；\n② 由 $A\\alpha=\\alpha+\\beta$ 得 $\\beta=(A-E)\\alpha$；代入第二式得 $(A-E)^2\\alpha=0$，而 $a=3$ 时 $(A-E)^2=O$ 恒成立，只需 $\\beta\\ne0$，即 $(-1,-1,2)\\alpha\\ne0$。",
       "source": "2025数一 第21题",
       "categoryIds": [
        135
@@ -38608,7 +38621,7 @@
       "type": "calc",
       "stem": "设\n$$\nA=\\alpha\\beta^{\\mathsf T}+\\beta\\alpha^{\\mathsf T},\n$$\n其中 $\\alpha,\\beta$ 为三维单位列向量，且\n$$\n\\alpha^{\\mathsf T}\\beta=\\frac13.\n$$\n\n证明：\n\n（Ⅰ）$0$ 为 $A$ 的特征值；\n\n（Ⅱ）$\\alpha+\\beta$、$\\alpha-\\beta$ 为 $A$ 的特征向量；\n\n（Ⅲ）$A$ 可相似对角化。",
       "answer": "$A$ 的三个特征值为\n$$\n0,\\; \\frac43,\\; -\\frac23.\n$$\n其中 $\\alpha+\\beta$、$\\alpha-\\beta$ 分别对应 $\\frac43$、$-\\frac23$。三个特征值互不相同，故 $A$ 可相似对角化。\n\n（Ⅰ）证明 $0$ 是特征值。\n\n利用矩阵秩的不等式，\n$$\n\\begin{aligned}\nr(A)\n&\\le r(\\alpha\\beta^{\\mathsf T})\n+r(\\beta\\alpha^{\\mathsf T})\\\\\n&\\le2\\lt3.\n\\end{aligned}\n$$\n\n故三阶矩阵 $A$ 不可逆，齐次方程组 $A\\gamma=0$ 有非零解。因此\n$$\n\\boxed{0\\text{ 是 }A\\text{ 的特征值}}.\n$$\n\n（Ⅱ）验证给出的两个特征向量。\n\n由单位向量条件及题设，\n$$\n\\alpha^{\\mathsf T}\\alpha=\\beta^{\\mathsf T}\\beta=1,\n$$\n$$\n\\alpha^{\\mathsf T}\\beta=\\beta^{\\mathsf T}\\alpha=\\frac13.\n$$\n\n所以\n$$\nA\\alpha=\\frac13\\alpha+\\beta,\n$$\n$$\nA\\beta=\\alpha+\\frac13\\beta.\n$$\n\n两式相加、相减，分别得到\n$$\nA(\\alpha+\\beta)=\\frac43(\\alpha+\\beta),\n$$\n$$\nA(\\alpha-\\beta)=-\\frac23(\\alpha-\\beta).\n$$\n\n还需确认这两个向量非零。计算得\n$$\n\\|\\alpha+\\beta\\|^2=2+\\frac23=\\frac83\\gt0,\n$$\n$$\n\\|\\alpha-\\beta\\|^2=2-\\frac23=\\frac43\\gt0.\n$$\n\n因此 $\\alpha+\\beta$、$\\alpha-\\beta$ 分别是对应特征值 $\\frac43$、$-\\frac23$ 的特征向量。\n\n（Ⅲ）说明可相似对角化。\n\n三阶矩阵 $A$ 有三个互不相同的特征值\n$$\n0,\\; \\frac43,\\; -\\frac23.\n$$\n\n不同特征值对应的特征向量线性无关，故 $A$ 有三个线性无关的特征向量。因此\n$$\n\\boxed{A\\text{ 可相似对角化}}.\n$$",
-      "idea": "**思想：秩 $\\le2$ 的实对称阵必有零特征值；只需在 $\\alpha,\\beta$ 两个方向上算 $2\\times2$ 小矩阵**。\n① 由秩不等式 $r(A)\\le r(\\alpha\\beta^{\\mathrm T})+r(\\beta\\alpha^{\\mathrm T})\\le2<3$ 得 $|A|=0$，故 $0$ 是特征值；\n② **直接验证 $A(\\alpha\\pm\\beta)=(1\\pm\\frac13)(\\alpha\\pm\\beta)$**，故 $\\alpha\\pm\\beta$ 是对应特征值 $1\\pm\\frac13$ 的特征向量；\n③ **三个特征值 $0,1\\pm\\frac13$ 互不相同**，故 $A$ 可相似对角化。",
+      "idea": "**思想：秩 $\\le2$ 的实对称阵必有零特征值；只需在 $\\alpha,\\beta$ 两个方向上算 $2\\times2$ 小矩阵**。\n① 由秩不等式 $r(A)\\le r(\\alpha\\beta^{\\mathrm T})+r(\\beta\\alpha^{\\mathrm T})\\le2<3$ 得 $|A|=0$，故 $0$ 是特征值；\n② 由单位向量与 $\\alpha^{\\mathrm T}\\beta=\\frac13$ 得 $A\\alpha=\\frac13\\alpha+\\beta$、$A\\beta=\\alpha+\\frac13\\beta$，故 $A(\\alpha+\\beta)=\\frac43(\\alpha+\\beta)$、$A(\\alpha-\\beta)=-\\frac23(\\alpha-\\beta)$；\n③ **三个特征值 $0,\\frac43,-\\frac23$ 互不相同**，故 $A$ 可相似对角化。",
       "source": "姜晓千真题同源150",
       "categoryIds": [
        179
@@ -38895,7 +38908,7 @@
       "type": "calc",
       "stem": "设 $A=\\begin{pmatrix}1&2&2\\\\-1&4&-2\\\\1&-2&a\\end{pmatrix}$ 的特征方程有一个二重根，求 $A$ 的特征值与特征向量.",
       "answer": "$a=8$。此时 $\\lambda=2$，特征向量为 $k(2,1,0)^T(k\\ne0)$；$\\lambda=9$，特征向量为 $k(1,-3,7)^T(k\\ne0)$。\n\n特征多项式为\n$$\n|\\lambda E-A|=(\\lambda-2)\n\\left[\\lambda^2-(a+3)\\lambda+3a-6\\right].\n$$\n题中的 $a$ 为实数。括号内二次多项式的判别式为\n$$\n(a+3)^2-4(3a-6)=(a-3)^2+24>0,\n$$\n所以该二次多项式有两个不同的实根，不可能自身产生二重根。因此二重根只能是它的一个根与已有根 $2$ 重合。代入 $\\lambda=2$，得到 $a-8=0$，即 $a=8$。\n\n此时特征多项式为 $(\\lambda-2)^2(\\lambda-9)$。解齐次方程组可得：\n$$\n\\lambda=2:\\quad \\boldsymbol{\\alpha}=k(2,1,0)^T,\\ k\\ne0;\n\\qquad\n\\lambda=9:\\quad \\boldsymbol{\\alpha}=k(1,-3,7)^T,\\ k\\ne0.\n$$",
-      "idea": "**思想：二重根由判别式 $=0$ 定 $a$，再把两个特征值的特征向量都解出来**。\n① 由 $|\\lambda E-A|=0$ 有二重根：用判别式为 $0$（或 $|A|$、$\\operatorname{tr}A$ 与二重根的关系）解出 $a$；\n② 代回求出三个特征值；\n③ 对每个特征值解 $(\\lambda E-A)x=0$，把特征向量写成通解形式。",
+      "idea": "**思想：二次因子的判别式恒正，二重根只能来自其根与已有根 $2$ 重合**。\n① $|\\lambda E-A|=(\\lambda-2)[\\lambda^2-(a+3)\\lambda+3a-6]$，判别式 $(a-3)^2+24>0$ 恒正；令 $\\lambda=2$ 满足二次因子得 $a=8$；\n② 此时特征多项式 $(\\lambda-2)^2(\\lambda-9)$，特征值为 $2,2,9$；\n③ 对每个不同特征值解 $(\\lambda E-A)x=0$，把特征向量写成通解形式。",
       "source": "姜晓千强化例题",
       "categoryIds": [
        177
@@ -40157,7 +40170,7 @@
       "type": "calc",
       "stem": "设矩阵 $\\mathbf{A} = \\begin{pmatrix} 1 & 0 & 1 \\\\ 0 & 2 & 0 \\\\ 1 & 0 & 1 \\end{pmatrix}$，矩阵 $\\mathbf{B} = (k\\mathbf{E} + \\mathbf{A})^2$，其中 $k$ 为实数，$\\mathbf{E}$ 为单位矩阵。求对角矩阵 $\\mathbf{\\Lambda}$，使 $\\mathbf{B}$ 与 $\\mathbf{\\Lambda}$ 相似，并求 $k$ 为何值时，$\\mathbf{B}$ 为正定矩阵。",
       "answer": "$A$ 的特征值为 $0,2,2$，故\n$$\n\\Lambda=\\operatorname{diag}\\left(k^2,(k+2)^2,(k+2)^2\\right).\n$$\n当且仅当 $k\\ne0$ 且 $k\\ne-2$ 时，$B$ 为正定矩阵。\n\n矩阵\n$$\nA=\\begin{pmatrix}1&0&1\\\\0&2&0\\\\1&0&1\\end{pmatrix}\n$$\n的特征值为 $0,2,2$。因此 $kE+A$ 的特征值为 $k,k+2,k+2$，而\n$$\nB=(kE+A)^2\n$$\n的特征值为 $k^2,(k+2)^2,(k+2)^2$，所以 $B$ 与题示对角矩阵相似。$B$ 正定当且仅当三个特征值全为正，即 $k\\ne0,-2$。",
-      "idea": "**思想：$B=A^2-4A+4E$ 的特征值是 $(\\lambda-2)^2$，正定 $\\iff$ 全部 $>0$**。\n① 先求 $A$ 的特征值 $0,2,2$；\n② 由「$f(A)$ 的特征值是 $f(\\lambda)$」得 $B=(kE+A)^2$ 的特征值为 $k^2,(k+2)^2,(k+2)^2$；\n③ 再按题目要求（正定 / 秩 / 行列式）用这三个特征值判断。",
+      "idea": "**思想：$B=(kE+A)^2$ 的特征值是 $(k+\\lambda)^2$，正定 $\\iff$ 全部 $>0$**。\n① 先求 $A$ 的特征值 $0,2,2$；\n② 由「$f(A)$ 的特征值是 $f(\\lambda)$」得 $B=(kE+A)^2$ 的特征值为 $k^2,(k+2)^2,(k+2)^2$；\n③ 再按题目要求（正定 / 秩 / 行列式）用这三个特征值判断。",
       "source": "1998数三",
       "categoryIds": [
        210
