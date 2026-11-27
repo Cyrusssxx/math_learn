@@ -13,7 +13,7 @@
           {
             "no": 1,
             "kind": "choice",
-            "stem": "设 $f(x)$ 在 $(-\\infty, +\\infty)$ 内有二阶连续导数，且满足 \n\n$$\n\\displaystyle f\\left(\\frac1n\\right)=\\frac{n^2}{n^2+1}\\ (n=1,2, \\cdots)\n$$\n\n，则 $f(x)$ 在 $x=0$ 处的二次泰勒多项式为( )。",
+            "stem": "设 $f(x)$ 在 $(-\\infty, +\\infty)$ 内有二阶连续导数，且满足 $f\\left(\\frac1n\\right)=\\frac{n^2}{n^2+1}\\ (n=1,2, \\cdots)$，则 $f(x)$ 在 $x=0$ 处的二次泰勒多项式为( )。",
             "options": [
               "(A) $1-2x^2$",
               "(B) $x-2x^2$",
@@ -121,7 +121,7 @@
           {
             "no": 7,
             "kind": "choice",
-            "stem": "设 $f(t)$ 可微，$\\displaystyle z=xyf\\left(\\frac yx\\right)$ 满足 \n\n$$\n\\displaystyle x\\frac{\\partial z}{\\partial x}+y\\frac{\\partial z}{\\partial y}=xy\\ln\\frac yx\n$$\n\n，则 $\\left.dz\\right|_{(1,1)}=$( )。",
+            "stem": "设 $f(t)$ 可微，$z=xyf\\left(\\frac yx\\right)$ 满足 $x\\frac{\\partial z}{\\partial x}+y\\frac{\\partial z}{\\partial y}=xy\\ln\\frac yx$，则 $\\left.dz\\right|_{(1,1)}=$( )。",
             "options": [
               "(A) $dx+dy$",
               "(B) $-dx+dy$",
@@ -281,7 +281,7 @@
           {
             "no": 17,
             "kind": "calc",
-            "stem": "计算 \n\n$$\n\\displaystyle \\lim_{x\\to1^-}\\dfrac{\\pi\\int_0^x\\left[\\ln(1-t)+\\tan\\frac\\pi2t\\right]dt}{\\ln|\\sin\\pi x|}\n$$\n\n 。",
+            "stem": "计算 $\\lim_{x\\to1^-}\\frac{\\pi\\int_0^x\\left[\\ln(1-t)+\\tan\\frac\\pi2t\\right]dt}{\\ln|\\sin\\pi x|}$。",
             "options": [],
             "answer": "【答案】$-2$\n\n**【解】**\n**① 计算分子中第一个积分。** 令 $u=1-t$，\n$$\\int_0^x\\ln(1-t)\\,\\mathrm dt=\\int_{1-x}^{1}\\ln u\\,\\mathrm du=\\bigl[u\\ln u-u\\bigr]_{1-x}^1=-(1-x)\\ln(1-x)-x\\to-1,$$\n因为 $(1-x)\\ln(1-x)\\to0$。这一项趋于常数，是分子的有界部分。\n**② 计算第二个积分。**\n$$\\pi\\int_0^x\\tan\\frac{\\pi t}{2}\\,\\mathrm dt=\\pi\\left[-\\frac2\\pi\\ln\\cos\\frac{\\pi t}2\\right]_0^x=-2\\ln\\cos\\frac{\\pi x}2.$$\n这是分子的发散部分。\n**③ 令 $h=1-x\\to0^+$ 比较主项。** 由诱导公式\n$$\\cos\\frac{\\pi x}2=\\cos\\left(\\frac\\pi2-\\frac{\\pi h}2\\right)=\\sin\\frac{\\pi h}2\\sim\\frac{\\pi h}2,\\qquad |\\sin\\pi x|=\\sin\\pi h\\sim\\pi h.$$\n故\n$$-2\\ln\\cos\\frac{\\pi x}2=-2\\ln\\frac{\\pi h}2+O(h)=-2\\ln h+O(1),$$\n$$\\ln|\\sin\\pi x|=\\ln(\\pi h)+O(h)=\\ln h+O(1).$$\n**④ 求极限。** 分子 $=-2\\ln h+O(1)$，分母 $=\\ln h+O(1)$，且 $\\ln h\\to-\\infty$，故\n$$\\lim_{x\\to1^-}\\frac{\\pi\\int_0^x\\left[\\ln(1-t)+\\tan\\frac{\\pi t}2\\right]\\mathrm dt}{\\ln|\\sin\\pi x|}=\\lim_{h\\to0^+}\\frac{-2\\ln h+O(1)}{\\ln h+O(1)}=\\boxed{-2}.$$",
             "idea": "「思路」：分别算出两积分，其中 $\\pi\\int_0^x\\tan\\frac{\\pi t}{2}\\,\\mathrm{d}t=-2\\ln\\cos\\frac{\\pi x}{2}$，令 $h=1-x\\to0^+$，用等价无穷小比较 $\\ln h$ 的系数。",
@@ -294,7 +294,7 @@
           {
             "no": 18,
             "kind": "calc",
-            "stem": "设 $g(t)$ 满足 \n\n$$\n\\begin{gathered}\n\\displaystyle g'(t)-g(t)\\ln\\left(1+\\frac1{2t}\\right)\\\\\n=-\\frac{g(t)}{2t+1}\n\\end{gathered}\n$$\n\n ， $\\displaystyle g(1)=\\frac32$ 。 令 $\\displaystyle f(x)=\\int_x^{x^2}g(t)\\tan\\frac1{\\sqrt t}\\,dt\\ (x>0)$ 。 $(1)$ 求 $g(t)$；$(2)$ 求 $\\displaystyle \\lim_{n\\to\\infty}\\frac{f(n)}n$ 。",
+            "stem": "设 $g(t)$ 满足 $g'(t)-g(t)\\ln\\left(1+\\frac1{2t}\\right)=-\\frac{g(t)}{2t+1}$，$g(1)=\\frac32$。令 $f(x)=\\int_x^{x^2}g(t)\\tan\\frac1{\\sqrt t}\\,dt\\ (x>0)$。$(1)$ 求 $g(t)$；$(2)$ 求 $\\lim_{n\\to\\infty}\\frac{f(n)}n$。",
             "options": [],
             "answer": "【答案】（Ⅰ）$g(t)=(1+\\frac1{2t})^t$；（Ⅱ）$2\\sqrt e$。\n\n**【解】**\n**（Ⅰ）解微分方程求 $g$。**\n**① 化为可分离变量形式。** 原方程 $g'-g\\ln\\left(1+\\dfrac1{2t}\\right)=-\\dfrac{g}{2t+1}$ 移项得\n$$\\frac{g'(t)}{g(t)}=\\ln\\left(1+\\frac1{2t}\\right)-\\frac1{2t+1}.$$\n**② 识别右端为某个函数的导数。**\n$$\\frac{\\mathrm d}{\\mathrm dt}\\left[t\\ln\\left(1+\\frac1{2t}\\right)\\right]=\\ln\\left(1+\\frac1{2t}\\right)+t\\cdot\\frac{1}{1+\\frac1{2t}}\\cdot\\left(-\\frac1{2t^2}\\right)=\\ln\\left(1+\\frac1{2t}\\right)-\\frac1{2t+1}.$$\n**③ 积分并代入初值。** 故 $\\ln g=t\\ln\\left(1+\\dfrac1{2t}\\right)+C_0$，即 $g=C\\left(1+\\dfrac1{2t}\\right)^t$。由 $g(1)=C\\cdot\\dfrac32=\\dfrac32$ 得 $C=1$，所以\n$$g(t)=\\boxed{\\left(1+\\frac1{2t}\\right)^t}\\quad(t>0).$$\n\n**（Ⅱ）求 $\\lim\\limits_{n\\to\\infty}\\dfrac{f(n)}n$。**\n**① 求 $g(t)$ 与 $\\tan\\dfrac1{\\sqrt t}$ 的渐近。** 当 $t\\to+\\infty$，\n$$g(t)=\\left[\\left(1+\\frac1{2t}\\right)^{2t}\\right]^{1/2}\\to\\sqrt e,\\qquad \\tan\\frac1{\\sqrt t}\\sim\\frac1{\\sqrt t},$$\n故 $g(t)\\tan\\dfrac1{\\sqrt t}\\sim\\dfrac{\\sqrt e}{\\sqrt t}$。\n**② 夹逼。** 对任意 $\\varepsilon>0$，存在 $T$，当 $t>T$ 时\n$$\\frac{\\sqrt e-\\varepsilon}{\\sqrt t}\\le g(t)\\tan\\frac1{\\sqrt t}\\le\\frac{\\sqrt e+\\varepsilon}{\\sqrt t}.$$\n取整数 $n>T$，在 $[n,n^2]$ 上积分得\n$$(\\sqrt e-\\varepsilon)\\int_n^{n^2}\\frac{\\mathrm dt}{\\sqrt t}\\le f(n)\\le(\\sqrt e+\\varepsilon)\\int_n^{n^2}\\frac{\\mathrm dt}{\\sqrt t}.$$\n**③ 算积分并取极限。** $\\displaystyle\\int_n^{n^2}\\frac{\\mathrm dt}{\\sqrt t}=2\\sqrt t\\Big|_n^{n^2}=2(n-\\sqrt n)$，故\n$$(\\sqrt e-\\varepsilon)\\cdot\\frac{2(n-\\sqrt n)}{n}\\le\\frac{f(n)}n\\le(\\sqrt e+\\varepsilon)\\cdot\\frac{2(n-\\sqrt n)}{n}.$$\n由 $\\dfrac{2(n-\\sqrt n)}n\\to2$ 及 $\\varepsilon$ 的任意性，夹逼得所求极限为 $\\boxed{2\\sqrt e}$。\n（题面写 $x>0$，但正切函数在部分较小的 $x$ 处可能使积分出现奇点；本问只用到充分大的整数 $n$，上述极限不受影响。）",
             "idea": "「思路」：借 $\\frac{\\mathrm{d}}{\\mathrm{d}t}[t\\ln(1+\\frac1{2t})]$ 解一阶齐次方程得 $g(t)$，再用 $g(t)\\tan\\frac1{\\sqrt t}\\sim\\frac{\\sqrt e}{\\sqrt t}$ 夹逼并积分求极限。",
@@ -333,7 +333,7 @@
           {
             "no": 21,
             "kind": "calc",
-            "stem": "设 $f(x)$ 在 $[0,1]$ 上有二阶连续导数，且\n\n$$\n\\begin{gathered}\nf(0)=f(1),\\\\\n0<f(x)<1,\\qquad|f''(x)|<2.\n\\end{gathered}\n$$\n\n（Ⅰ）证明：当 $x\\in[0,1]$ 时，$|f'(x)|<1$；\n\n（Ⅱ）设 $x_0\\in(0,1)$，数列 $\\{x_n\\}$ 满足\n\n$$\n2x_{n+1}=x_n+f(x_n),\\qquad n=0,1,2,\\ldots.\n$$\n\n证明 $\\displaystyle\\lim_{n\\to\\infty}x_n$ 存在。",
+            "stem": "设 $f(x)$ 在 $[0,1]$ 上有二阶连续导数，且 $f(0)=f(1)$，$0<f(x)<1$，$|f'(x)|<2$。\n\n（Ⅰ）证明：当 $x\\in[0,1]$ 时，$|f'(x)|<1$；\n\n（Ⅱ）设 $x_0\\in(0,1)$，数列 $\\{x_n\\}$ 满足 $2x_{n+1}=x_n+f(x_n),\\;n=0,1,2,\\ldots$。证明 $\\lim_{n\\to\\infty}x_n$ 存在。",
             "options": [],
             "answer": "【答案】（Ⅰ）$|f'(x)|\\le\\dfrac M2[x^2+(1-x)^2]<1$，其中 $M=\\max_{[0,1]}|f''|<2$；（Ⅱ）数列收敛到 $f(\\xi)=\\xi$ 在 $(0,1)$ 内的唯一解。\n\n**【解】**\n**（Ⅰ）证明 $|f'|<1$。**\n**① 用积分类比改写 $f'(x)$。** $f''$ 在 $[0,1]$ 上连续，故存在\n$$M=\\max_{x\\in[0,1]}|f''(x)|<2.$$\n由 $f(1)=f(0)$ 得 $\\displaystyle\\int_0^1f'(t)\\,\\mathrm dt=f(1)-f(0)=0$，于是对任意 $x\\in[0,1]$，\n$$f'(x)=f'(x)-\\int_0^1f'(t)\\,\\mathrm dt=\\int_0^1\\bigl[f'(x)-f'(t)\\bigr]\\,\\mathrm dt.$$\n**② 用中值定理估计。** 对固定的 $x,t$，由拉格朗日中值定理，存在 $\\theta$ 介于 $x,t$ 之间使\n$$|f'(x)-f'(t)|=|f''(\\theta)|\\,|x-t|\\le M|x-t|.$$\n**③ 算出积分并放缩。**\n$$\n\\begin{aligned}\n|f'(x)|&\\le M\\int_0^1|x-t|\\,\\mathrm dt=M\\left[\\int_0^x(x-t)\\,\\mathrm dt+\\int_x^1(t-x)\\,\\mathrm dt\\right]\\\\\n&=M\\left[\\frac{x^2}{2}+\\frac{(1-x)^2}{2}\\right]=\\frac M2\\bigl[x^2+(1-x)^2\\bigr]\\le\\frac M2<1.\n\\end{aligned}\n$$\n因 $M<2$，故 $|f'(x)|<1$。\n\n**（Ⅱ）证明 $\\{x_n\\}$ 收敛。**\n**① 证明不动点唯一。** 令 $h(x)=f(x)-x$。由 $0<f<1$ 知 $h(0)=f(0)>0$、$h(1)=f(1)-1<0$；由（Ⅰ）知 $h'(x)=f'(x)-1<0$，故 $h$ 严格递减，在 $(0,1)$ 内有唯一零点 $\\xi$，即 $f(\\xi)=\\xi$。\n**② 考察迭代函数。** 记 $g(x)=\\dfrac{x+f(x)}2$，则递推式为 $x_{n+1}=g(x_n)$，且 $g(\\xi)=\\xi$。又\n$$g'(x)=\\frac{1+f'(x)}2>0$$\n（因 $f'>-1$），故 $g$ 严格递增。\n**③ 分三种情形证单调有界。** 若 $x_0<\\xi$：当 $x<\\xi$ 时 $h(x)>0$，即 $f(x)>x$，故 $g(x)=\\dfrac{x+f(x)}2>x$；又由 $g$ 递增得 $g(x)<g(\\xi)=\\xi$。于是归纳可得\n$$x_0<x_1<\\cdots<x_n<\\xi,$$\n数列单调递增且以 $\\xi$ 为上界，故收敛。若 $x_0>\\xi$，同理 $g(x)<x$ 且 $g(x)>\\xi$，数列单调递减且以 $\\xi$ 为下界，亦收敛。若 $x_0=\\xi$，则 $x_n\\equiv\\xi$ 恒收敛。\n**④ 求极限。** 设 $\\lim\\limits_{n\\to\\infty}x_n=L$，在 $2x_{n+1}=x_n+f(x_n)$ 中取极限得 $2L=L+f(L)$，即 $f(L)=L$。由不动点唯一性 $L=\\xi\\in(0,1)$，故极限存在。",
             "idea": "「思路」：利用 $f(0)=f(1)$ 及中值定理估计 $f'(x)=\\int_0^1[f'(x)-f'(t)]\\,\\mathrm{d}t$ 得 $|f'|<1$；再考察 $g(x)=\\frac{x+f(x)}2$ 的单调有界性证迭代收敛。",
@@ -346,7 +346,7 @@
           {
             "no": 22,
             "kind": "calc",
-            "stem": "设\n\n$$\nA=\\begin{pmatrix}\n0&2&3\\\\\n2&2&a\\\\\n2&3&4\n\\end{pmatrix}.\n$$\n\n三阶实对称矩阵 $B$ 满足\n\n$$\nAB+B=A+E,\\qquad B\\ne E,\n$$\n\n其中 $E$ 为单位矩阵，且 $r(A+B)=3$。\n\n（1）求 $a$ 的值；\n\n（2）求所有满足题设条件的矩阵 $B$；\n\n（3）求可逆矩阵 $P$ 及对角矩阵 $\\Lambda$，使得 $P^{-1}BP=\\Lambda$。",
+            "stem": "设\n\n$$\nA=\\begin{pmatrix}\n0&2&3\\\\\n2&2&a\\\\\n2&3&4\n\\end{pmatrix}.\n$$\n\n三阶实对称矩阵 $B$ 满足 $AB+B=A+E,\\;B\\ne E$，且 $r(A+B)=3$，$E$ 为单位矩阵。\n\n（1）求 $a$ 的值；\n\n（2）求所有满足题设条件的矩阵 $B$；\n\n（3）求可逆矩阵 $P$ 及对角矩阵 $\\Lambda$，使得 $P^{-1}BP=\\Lambda$。",
             "options": [],
             "answer": "【答案】（Ⅰ）$a=5$。\n\n（Ⅱ）\n$$\nB=\\begin{pmatrix}1+t&t&-t\\\\t&1+t&-t\\\\-t&-t&1+t\\end{pmatrix},\n$$\n其中 $t\\in\\mathbb R$、$t\\ne0$。\n\n（Ⅲ）可取\n$$\nP=\\begin{pmatrix}-1&1&-1\\\\1&0&-1\\\\0&1&1\\end{pmatrix},\n$$\n$$\n\\Lambda=\\operatorname{diag}(1,1,1+3t).\n$$\n\n**【解】**\n**（Ⅰ）求 $a$。**\n**① 从矩阵方程得到秩的关系。** 由 $AB+B=A+E$ 移项得\n$$(A+E)(B-E)=O.$$\n由矩阵乘积秩的性质，$r(A+E)+r(B-E)\\le3$。另一方面\n$$3=r(A+B)=r\\bigl[(A+E)+(B-E)\\bigr]\\le r(A+E)+r(B-E).$$\n两式合并得\n$$r(A+E)+r(B-E)=3.$$\n**② 定出 $r(A+E)$ 与 $a$。** 注意\n$$A+E=\\begin{pmatrix}1&2&3\\\\2&3&a\\\\2&3&5\\end{pmatrix},$$\n其第 $1$ 行 $(1,2,3)$ 与第 $3$ 行 $(2,3,5)$ 不成比例，故 $r(A+E)\\ge2$。又 $B\\ne E$ 说明 $B-E\\ne O$，故 $r(B-E)\\ge1$。结合 $r(A+E)+r(B-E)=3$ 得 $r(A+E)=2$、$r(B-E)=1$，从而\n$$|A+E|=\\begin{vmatrix}1&2&3\\\\2&3&a\\\\2&3&5\\end{vmatrix}=15-3a-20+4a=a-5=0,$$\n所以 $\\boxed{a=5}$。\n\n**（Ⅱ）求所有满足条件的 $B$。**\n**① 解齐次方程组。** 当 $a=5$ 时\n$$A+E=\\begin{pmatrix}1&2&3\\\\2&3&5\\\\2&3&5\\end{pmatrix}\\to\\begin{pmatrix}1&0&1\\\\0&1&1\\\\0&0&0\\end{pmatrix},$$\n故 $(A+E)\\boldsymbol x=\\boldsymbol0$ 的通解为\n$$\\boldsymbol x=k\\boldsymbol w,\\qquad \\boldsymbol w=(-1,-1,1)^{\\mathrm T}.$$\n**② 用对称性定出 $B-E$。** 记 $C=B-E$。由 $(A+E)C=O$ 知 $C$ 的每一列都是上述方程组的解，故\n$$C=(p\\boldsymbol w,\\ q\\boldsymbol w,\\ r\\boldsymbol w)=\\begin{pmatrix}-p&-q&-r\\\\-p&-q&-r\\\\p&q&r\\end{pmatrix}.$$\n因 $B$ 为实对称矩阵，$C$ 也对称。比较对称位置元素：$C_{12}=C_{21}$ 给 $p=q$；$C_{13}=C_{31}$ 给 $p=-r$；$C_{23}=C_{32}$ 给 $q=-r$。故 $p=q=-r$。令 $t=r$，得\n$$C=t\\begin{pmatrix}1&1&-1\\\\1&1&-1\\\\-1&-1&1\\end{pmatrix}=t\\boldsymbol w\\boldsymbol w^{\\mathrm T},$$\n从而\n$$B=E+t\\boldsymbol w\\boldsymbol w^{\\mathrm T}=\\begin{pmatrix}1+t&t&-t\\\\t&1+t&-t\\\\-t&-t&1+t\\end{pmatrix}.$$\n$B\\ne E$ 等价于 $t\\ne0$。\n**③ 核对秩条件。** 当 $a=5$ 时\n$$A+B=\\begin{pmatrix}1+t&2+t&3-t\\\\2+t&3+t&5-t\\\\2-t&3-t&5+t\\end{pmatrix}.$$\n先作 $r_3\\leftarrow r_3-r_2$、$r_2\\leftarrow r_2-r_1$，再提取公因子 $2t$，得\n$$|A+B|=2t\\begin{vmatrix}1+t&2+t&3-t\\\\1&1&2\\\\-1&-1&1\\end{vmatrix}=2t(-3)=-6t.$$\n故 $t\\ne0$ 时 $|A+B|\\ne0$，即 $r(A+B)=3$，上式给出全部满足条件的 $B$。\n\n**（Ⅲ）求可逆矩阵 $P$ 与对角矩阵 $\\Lambda$。**\n**① 求 $B$ 的特征值。** 由 $B=E+t\\boldsymbol w\\boldsymbol w^{\\mathrm T}$ 且 $\\boldsymbol w^{\\mathrm T}\\boldsymbol w=3$：若 $\\boldsymbol w^{\\mathrm T}\\boldsymbol z=0$，则 $B\\boldsymbol z=\\boldsymbol z$，特征值 $1$ 有二重；又\n$$B\\boldsymbol w=\\boldsymbol w+t\\boldsymbol w(\\boldsymbol w^{\\mathrm T}\\boldsymbol w)=(1+3t)\\boldsymbol w,$$\n故第三个特征值为 $1+3t$。\n**② 求特征向量。** 取 $\\boldsymbol z_1=(-1,1,0)^{\\mathrm T}$、$\\boldsymbol z_2=(1,0,1)^{\\mathrm T}$，都满足 $-z_1-z_2+z_3=0$，故对应特征值 $1$；$\\boldsymbol w=(-1,-1,1)^{\\mathrm T}$ 对应特征值 $1+3t$。\n**③ 写出 $P$ 与 $\\Lambda$。** 令\n$$P=(\\boldsymbol z_1,\\boldsymbol z_2,\\boldsymbol w)=\\begin{pmatrix}-1&1&-1\\\\1&0&-1\\\\0&1&1\\end{pmatrix}.$$\n由 $|P|=-3\\ne0$ 知 $P$ 可逆，于是\n$$P^{-1}BP=\\Lambda=\\operatorname{diag}(1,1,1+3t),\\qquad t\\ne0,$$\n即所求。",
             "idea": "「思路」：由 $(A+E)(B-E)=O$、$B\\ne E$ 得 $|A+E|=0$ 定出 $a=5$，再解 $(A+E)\\boldsymbol{x}=0$ 并用 $B$ 对称、秩条件定出 $B$，最后求特征向量对角化。",
@@ -385,7 +385,7 @@
           {
             "no": 1,
             "kind": "choice",
-            "stem": "设 $\\displaystyle \\lim_{x\\to\\infty}f'(x)=0$，且 \n\n$$\n\\begin{gathered}\n\\displaystyle \\lim_{x\\to\\infty}\\left(\\frac{ax^2}{1+x}-bx-1\\right)\\\\\n=\\lim_{x\\to\\infty}[f(x+1)-f(x)]\n\\end{gathered}\n$$\n\n，则曲线 $\\displaystyle y=\\frac{ax^2}{1+x}$ 的斜渐近线方程为( )。",
+            "stem": "设 $\\lim_{x\\to\\infty}f'(x)=0$，且 $\\lim_{x\\to\\infty}\\left(\\frac{ax^2}{1+x}-bx-1\\right)=\\lim_{x\\to\\infty}[f(x+1)-f(x)]$，则曲线 $y=\\frac{ax^2}{1+x}$ 的斜渐近线方程为( )。",
             "options": [
               "(A) $y=-x+1$",
               "(B) $y=x+1$",
@@ -547,7 +547,7 @@
           {
             "no": 10,
             "kind": "choice",
-            "stem": "设 $\\boldsymbol{A}, \\boldsymbol{B}, \\boldsymbol{C}$ 均为 $3$ 阶矩阵， $r(\\boldsymbol{C})=1, r(\\boldsymbol{B})=2$ ， 且 \n\n$$\n\\begin{gathered}\n(\\boldsymbol{A}+\\boldsymbol{E})\\boldsymbol{C}\\\\\n=\\boldsymbol{O}, \\boldsymbol{B}(\\boldsymbol{A}^{\\mathrm{T}}-2\\boldsymbol{E})\\\\\n=\\boldsymbol{O}\n\\end{gathered}\n$$\n\n ， 则下列矩阵中与 $\\boldsymbol{A}$ 相似的是（　　）.",
+            "stem": "设 $\\boldsymbol{A}, \\boldsymbol{B}, \\boldsymbol{C}$ 均为 $3$ 阶矩阵，$r(\\boldsymbol{C})=1, r(\\boldsymbol{B})=2$，且满足：\n\n$$\n\\begin{gathered}\n(\\boldsymbol{A}+\\boldsymbol{E})\\boldsymbol{C}\\\\\n=\\boldsymbol{O}, \\boldsymbol{B}(\\boldsymbol{A}^{\\mathrm{T}}-2\\boldsymbol{E})\\\\\n=\\boldsymbol{O}\n\\end{gathered}\n$$\n\n则下列矩阵中与 $\\boldsymbol{A}$ 相似的是（　　）.",
             "options": [
               "(A) $$\n\\begin{pmatrix}2&1&0\\\\0&2&1\\\\0&0&1\\end{pmatrix}\n$$",
               "(B) $$\n\\begin{pmatrix}-1&1&0\\\\0&-1&1\\\\0&0&2\\end{pmatrix}\n$$",
@@ -664,7 +664,7 @@
           {
             "no": 17,
             "kind": "calc",
-            "stem": "设定义在 $(-\\infty, +\\infty)$ 内的连续函数 $f(x)$ 满足 \n\n$$\n\\begin{gathered}\n\\displaystyle f(x)f(y) = f(x+y)\\\\\n\\lim_{x\\to 0}\\frac{1-f(x)}{x}=1\n\\end{gathered}\n$$\n\n。\n求 $F(x) = |x|f(x)$ 的极值。",
+            "stem": "设定义在 $(-\\infty, +\\infty)$ 内的连续函数 $f(x)$ 满足 $f(x)f(y)=f(x+y)$，$\\lim_{x\\to 0}\\frac{1-f(x)}{x}=1$。\n\n求 $F(x) = |x|f(x)$ 的极值。",
             "options": [],
             "answer": "【答案】极小值 $0$（$x=0$），极大值 $e^{-1}$（$x=1$）。\n\n**【解】**\n**① 由极限条件确定 $f(0)$ 与 $f'(0)$。** 若 $f(0)\\ne1$，则 $\\frac{1-f(x)}x$ 在 $x\\to0$ 时分子趋于 $1-f(0)\\ne0$，极限不可能为有限值 $1$，故 $f(0)=1$。于是\n$$f'(0)=\\lim_{x\\to0}\\frac{f(x)-f(0)}x=-\\lim_{x\\to0}\\frac{1-f(x)}x=-1.$$\n\n**② 解出函数方程。** 由 $f(x)f(y)=f(x+y)$ 与导数定义，\n$$f'(x)=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}h=\\lim_{h\\to0}\\frac{f(x)f(h)-f(x)}h=f(x)\\lim_{h\\to0}\\frac{f(h)-1}h=-f(x).$$\n解得 $f(x)=Ce^{-x}$，再由 $f(0)=1$ 得 $C=1$，即 $f(x)=e^{-x}$。\n\n**③ 写出 $F(x)$ 的分段形式并求导。**\n$$F(x)=|x|e^{-x}=\\begin{cases}-xe^{-x},&x<0,\\\\xe^{-x},&x\\ge0.\\end{cases}$$\n当 $x<0$ 时 $F'(x)=-(e^{-x}-xe^{-x})=(x-1)e^{-x}<0$，故 $F$ 在 $(-\\infty,0)$ 上严格递减；当 $x>0$ 时 $F'(x)=(1-x)e^{-x}$，在 $(0,1)$ 上为正、在 $(1,+\\infty)$ 上为负。\n\n**④ 定出极值。** $x=0$ 左侧递减、右侧递增，故 $F(0)=0$ 为极小值；$x=1$ 左侧递增、右侧递减，故 $F(1)=e^{-1}$ 为极大值。又 $x\\to-\\infty$ 时 $F(x)=-xe^{-x}\\to+\\infty$，$x\\to+\\infty$ 时 $F(x)\\to0$，无其他极值。故极小值为 $0$（$x=0$），极大值为 $e^{-1}$（$x=1$）。",
             "idea": "「思路」：由极限条件得 $f(0)=1$、$f'(0)=-1$，利用函数方程按导数定义得 $f'(x)=-f(x)$ 从而 $f(x)=e^{-x}$，将 $F(x)=|x|e^{-x}$ 写成分段函数求导，比较驻点与分段点处的单调性定极值。",
@@ -690,7 +690,7 @@
           {
             "no": 19,
             "kind": "calc",
-            "stem": "设 $f(x)$ 满足\n\n$$\nf'(x)-\\frac1n f(x)\n=\\left(1+\\frac1n\\right)x-1-n,\n$$\n\n且 $f(0)=n^2$，$n$ 为正整数。\n\n（Ⅰ）求 $y=f(x)$ 的表达式；\n\n（Ⅱ）若 $f$ 在 $x=x_n$ 处取得极小值，求 $\\displaystyle\\lim_{n\\to\\infty}x_n^n$。",
+            "stem": "设 $f(x)$ 满足 $f'(x)-\\frac1n f(x)=\\left(1+\\frac1n\\right)x-1-n$，且 $f(0)=n^2$，$n$ 为正整数。\n\n（Ⅰ）求 $y=f(x)$ 的表达式；\n\n（Ⅱ）若 $f$ 在 $x=x_n$ 处取得极小值，求 $\\lim_{n\\to\\infty}x_n^n$。",
             "options": [],
             "answer": "【答案】（Ⅰ）$f(x)=n^2e^{x/n}-(n+1)x$；（Ⅱ）$e^{-1/2}$。\n\n**【解】**\n**① 解一阶线性微分方程。** 方程 $f'-\\frac1nf=(1+\\frac1n)x-1-n$ 的齐次解为 $Ce^{x/n}$。设一次多项式特解 $ux+v$，代入得\n$$u-\\frac1n(ux+v)=-\\frac un x+\\left(u-\\frac vn\\right)=(1+\\frac1n)x-(1+n),$$\n比较系数得 $u=-(n+1),\\ v=0$。故\n$$f(x)=Ce^{x/n}-(n+1)x.$$\n由 $f(0)=n^2$ 得 $C=n^2$，即 $f(x)=n^2e^{x/n}-(n+1)x$。\n\n**② 求极小值点 $x_n$。**\n$$f'(x)=n\\,e^{x/n}-(n+1),\\qquad f''(x)=e^{x/n}>0,$$\n故唯一驻点即极小值点。由 $f'(x_n)=0$ 得 $e^{x_n/n}=1+\\frac1n$，即\n$$x_n=n\\ln\\left(1+\\frac1n\\right).$$\n\n**③ 用展开式求 $x_n^n$ 的极限。** 由 $\\ln(1+u)=u-\\frac{u^2}2+O(u^3)$（取 $u=\\frac1n$），\n$$x_n=n\\left(\\frac1n-\\frac1{2n^2}+O(n^{-3})\\right)=1-\\frac1{2n}+O(n^{-2}).$$\n于是\n$$n\\ln x_n=n\\ln\\left(1-\\frac1{2n}+O(n^{-2})\\right)=n\\left(-\\frac1{2n}+O(n^{-2})\\right)=-\\frac12+O(n^{-1})\\to-\\frac12.$$\n故 $\\lim\\limits_{n\\to\\infty}x_n^n=e^{-1/2}$。",
             "idea": "「思路」：用积分因子或待定系数法解一阶线性微分方程得 $f(x)=n^2e^{x/n}-(n+1)x$，由 $f'(x_n)=0$ 得 $x_n=n\\ln(1+\\frac1n)$，再用泰勒展开写 $x_n=1-\\frac1{2n}+O(n^{-2})$，取对数求 $\\lim x_n^n$。",
@@ -869,7 +869,7 @@
           {
             "no": 7,
             "kind": "choice",
-            "stem": "设 \n\n$$\nf(x)=\\begin{vmatrix}1&x&x^2&x^3\\\\1&2&4&8\\\\1&-1&1&-1\\\\1&1&1&1\\end{vmatrix}\n$$\n\n，则曲线 $y=f(x)$ 在 $(-1,2)$ 内存在水平切线的条数为( )。",
+            "stem": "设 $f(x)=\\begin{vmatrix}1&x&x^2&x^3\\\\1&2&4&8\\\\1&-1&1&-1\\\\1&1&1&1\\end{vmatrix}$，则曲线 $y=f(x)$ 在 $(-1,2)$ 内存在水平切线的条数为( )。",
             "options": [
               "(A) 0",
               "(B) 1",
@@ -998,7 +998,7 @@
           {
             "no": 15,
             "kind": "calc",
-            "stem": "设 $g(x)$ 连续，$g(2)=1$，$$f(x,y)=\\int_0^{\\sqrt{x^2+y^2}} t\\,g(x^2+y^2-t^2)\\,dt,$$则 $\\left.df\\right|_{(1,1)}= \\underline{\\qquad}$。",
+            "stem": "设 $g(x)$ 连续，$g(2)=1$，$f(x,y)=\\int_0^{\\sqrt{x^2+y^2}} t\\,g(x^2+y^2-t^2)\\,dt$，则 $\\left.df\\right|_{(1,1)}= \\underline{\\qquad}$。",
             "options": [],
             "answer": "【答案】$dx+dy$\n\n**【解】**\n**① 换元化简积分。** 记 $s=x^2+y^2$，令 $u=s-t^2$，则 $du=-2t\\,dt$；且 $t=0$ 时 $u=s$，$t=\\sqrt s$ 时 $u=0$。于是\n$$f(x,y)=\\int_0^{\\sqrt s}t\\,g(s-t^2)\\,dt=-\\frac12\\int_s^0g(u)\\,du=\\frac12\\int_0^s g(u)\\,du.$$\n**② 求两个偏导。** 由变上限积分求导法则与链式法则，\n$$f_x=\\frac12g(s)\\cdot\\frac{\\partial s}{\\partial x}=\\frac12g(s)\\cdot2x=xg(x^2+y^2),$$\n$$f_y=\\frac12g(s)\\cdot\\frac{\\partial s}{\\partial y}=\\frac12g(s)\\cdot2y=yg(x^2+y^2).$$\n**③ 代入定点写微分。** 在 $(1,1)$ 处 $s=2$，由 $g(2)=1$ 得 $f_x(1,1)=1,\\ f_y(1,1)=1$，故\n$$\\left.df\\right|_{(1,1)}=f_x(1,1)\\,dx+f_y(1,1)\\,dy=dx+dy.$$",
             "idea": "「思路」：作代换 $u=x^2+y^2-t^2$ 化简积分，求出偏导 $f_x,f_y$ 后代点 $(1,1)$ 写出微分 $df$。",
@@ -1042,7 +1042,7 @@
           {
             "no": 18,
             "kind": "calc",
-            "stem": "设可导函数 $y=f(x)$ 由方程 $e^{x-2y}-x^2y=1$ 确定，计算 \n\n$$\n\\displaystyle \\lim_{x\\to1^+}\\frac{\\sin(x-1)}{\\sqrt{(x-1)^3}}\\int_0^1f(t\\sqrt{x-1})dt\n$$\n\n 。",
+            "stem": "设可导函数 $y=f(x)$ 由方程 $e^{x-2y}-x^2y=1$ 确定，计算 $\\lim_{x\\to1^+}\\frac{\\sin(x-1)}{\\sqrt{(x-1)^3}}\\int_0^1f(t\\sqrt{x-1})dt$。",
             "options": [],
             "answer": "【答案】$\\dfrac14$\n\n**【解】**\n**① 求 $f(0)$ 与 $f'(0)$。** 令 $x=0$，方程化为 $\\mathrm e^{-2y}=1$，故 $f(0)=0$。两边对 $x$ 求导：\n$$\\mathrm e^{x-2f(x)}\\bigl(1-2f'(x)\\bigr)-2xf(x)-x^2f'(x)=0.$$\n令 $x=0$ 得 $1-2f'(0)=0$，即 $f'(0)=\\frac12$。所以当 $s\\to0$ 时 $f(s)=\\frac s2+o(s)$。\n**② 变量代换。** 令 $h=\\sqrt{x-1}\\to0^+$，则 $x-1=h^2$，原式变为\n$$\\frac{\\sin h^2}{h^3}\\int_0^1f(th)\\,dt.$$\n**③ 估计积分。** 由 $\\frac{f(s)}s\\to\\frac12\\ (s\\to0)$，对 $0\\le t\\le1$ 有 $f(th)=\\frac{th}{2}+o(h)$，且余项关于 $t$ 一致，故\n$$\\int_0^1f(th)\\,dt=\\frac h2\\int_0^1t\\,dt+o(h)=\\frac h4+o(h).$$\n**④ 取极限。** 又 $\\sin h^2=h^2+o(h^2)$，因此\n$$\\frac{\\sin h^2}{h^3}\\int_0^1f(th)\\,dt=\\frac{h^2+o(h^2)}{h^3}\\left(\\frac h4+o(h)\\right)\\longrightarrow\\frac14.$$",
             "idea": "「思路」：由隐方程求出 $f(0),f'(0)$ 得 $f(s)$ 的一阶展开，令 $h=\\sqrt{x-1}$，估计积分后取极限。",
@@ -1068,7 +1068,7 @@
           {
             "no": 20,
             "kind": "calc",
-            "stem": "设 $z=f(u,v)$ 有二阶连续偏导数，$u=x-2\\sqrt y$ ， $v=x+2\\sqrt y$，且满足 \n\n$$\n\\begin{gathered}\n\\displaystyle \\frac{\\partial^2z}{\\partial x^2}-y\\frac{\\partial^2z}{\\partial y^2}-\\frac12\\frac{\\partial z}{\\partial y}=12a\\\\\n(a\\ne0)\n\\end{gathered}\n$$\n\n 。 $(1)$ 求 $\\displaystyle \\frac{\\partial^2z}{\\partial u\\partial v}$；$(2)$ 若 $\\displaystyle \\frac{\\partial f(u,0)}{\\partial u}=-3u^2$ ， $f(0,v)=-v^3$，求 $f(u,v)$ 的极值。",
+            "stem": "设 $z=f(u,v)$ 有二阶连续偏导数，$u=x-2\\sqrt y$ ， $v=x+2\\sqrt y$，且满足 $\\frac{\\partial^2z}{\\partial x^2}-y\\frac{\\partial^2z}{\\partial y^2}-\\frac12\\frac{\\partial z}{\\partial y}=12a\\ (a\\ne0)$。\n\n$(1)$ 求 $\\frac{\\partial^2z}{\\partial u\\partial v}$；$(2)$ 若 $\\frac{\\partial f(u,0)}{\\partial u}=-3u^2$ ， $f(0,v)=-v^3$，求 $f(u,v)$ 的极值。",
             "options": [],
             "answer": "【答案】（Ⅰ）$f_{uv}=3a$；（Ⅱ）$a>0$ 时极大值为 $a^3$，$a<0$ 时极小值为 $a^3$，均在 $(u,v)=(a,a)$ 取得。\n\n**【解】**\n**① 把 $\\frac{\\partial^2z}{\\partial x^2}$ 用 $u,v$ 的偏导表示。** 因 $u_x=v_x=1$，\n$$z_x=f_u+f_v,\\qquad z_{xx}=f_{uu}+f_{uv}+f_{vu}+f_{vv}=f_{uu}+2f_{uv}+f_{vv}.$$\n**② 处理含 $y$ 的项。** 由 $u_y=-\\frac1{\\sqrt y},\\ v_y=\\frac1{\\sqrt y}$ 得\n$$z_y=\\frac{f_v-f_u}{\\sqrt y}.$$\n再对 $y$ 求导：\n$$z_{yy}=\\frac{f_{uu}-2f_{uv}+f_{vv}}{y}-\\frac{f_v-f_u}{2y\\sqrt y},$$\n两边乘 $y$ 得\n$$yz_{yy}=f_{uu}-2f_{uv}+f_{vv}-\\frac12z_y.$$\n**③ 代入方程定 $f_{uv}$。** 于是\n$$z_{xx}-yz_{yy}-\\frac12z_y=(f_{uu}+2f_{uv}+f_{vv})-\\left(f_{uu}-2f_{uv}+f_{vv}-\\frac12z_y\\right)-\\frac12z_y=4f_{uv}.$$\n由题设 $4f_{uv}=12a$ 得 $f_{uv}=3a$。\n**④ 两次积分求 $f$。** 先对 $u$ 积分：$f_u=3av+\\phi(u)$；由 $\\frac{\\partial f(u,0)}{\\partial u}=-3u^2$ 得 $\\phi(u)=-3u^2$。再对 $u$ 积分：$f=3auv-u^3+\\psi(v)$；由 $f(0,v)=-v^3$ 得 $\\psi(v)=-v^3$。故\n$$f(u,v)=3auv-u^3-v^3.$$\n**⑤ 求驻点并判别极值。** 由 $f_u=3av-3u^2=0,\\ f_v=3au-3v^2=0$ 得 $u^2=av,\\ v^2=au$，消去得 $u^4=a^3u$，故 $u=0$ 或 $u=a$，对应驻点 $(0,0)$、$(a,a)$。记 $A=f_{uu}=-6u,\\ B=f_{uv}=3a,\\ C=f_{vv}=-6v$：在 $(0,0)$ 处 $AC-B^2=-9a^2<0$，不是极值点；在 $(a,a)$ 处 $AC-B^2=36a^2-9a^2=27a^2>0$ 且 $A=-6a$。故 $a>0$ 时取极大值、$a<0$ 时取极小值，都是\n$$f(a,a)=3a^3-a^3-a^3=a^3.$$",
             "idea": "「思路」：用链式法则把 $x,y$ 的偏导化为 $u,v$ 的偏导定出 $f_{uv}$，再积分求 $f$ 并用判别式定极值。",
@@ -1390,7 +1390,7 @@
           {
             "no": 17,
             "kind": "calc",
-            "stem": "计算 \n\n$$\n\\displaystyle \\lim_{n\\to\\infty}\\frac1{n^2}\\prod_{i=1}^{2n}(n+i)^{\\frac{1}{n}}\n$$\n\n 。",
+            "stem": "计算 $\\lim_{n\\to\\infty}\\frac1{n^2}\\prod_{i=1}^{2n}(n+i)^{\\frac{1}{n}}$。",
             "options": [],
             "answer": "【答案】$27e^{-2}$\n\n**【解】**\n**① 提取因子 $n$ 并化简。** 记所求极限为 $\\lim\\limits_{n\\to\\infty}a_n$，其中\n$$a_n=\\frac1{n^2}\\prod_{i=1}^{2n}(n+i)^{1/n}.$$\n对每个因子 $n+i=n\\left(1+\\dfrac in\\right)$，故\n$$\\prod_{i=1}^{2n}(n+i)^{1/n}=\\prod_{i=1}^{2n}n^{1/n}\\cdot\\prod_{i=1}^{2n}\\left(1+\\frac in\\right)^{1/n}=n^{\\frac{2n}{n}}\\prod_{i=1}^{2n}\\left(1+\\frac in\\right)^{1/n}=n^2\\prod_{i=1}^{2n}\\left(1+\\frac in\\right)^{1/n}.$$\n于是 $n^2$ 恰好抵消，\n$$a_n=\\prod_{i=1}^{2n}\\left(1+\\frac in\\right)^{1/n}.$$\n**② 取对数化为黎曼和。** 因 $a_n>0$，\n$$\\ln a_n=\\frac1n\\sum_{i=1}^{2n}\\ln\\left(1+\\frac in\\right).$$\n这是函数 $g(t)=\\ln(1+t)$ 在区间 $[0,2]$ 上以步长 $\\Delta t=\\dfrac1n$、分点 $t_i=\\dfrac in\\ (i=1,\\dots,2n)$ 的黎曼和，故当 $n\\to\\infty$ 时\n$$\\ln a_n\\to\\int_0^2\\ln(1+t)\\,\\mathrm dt.$$\n**③ 计算定积分并取指数。** 分部积分得\n$$\\int_0^2\\ln(1+t)\\,\\mathrm dt=\\Bigl[(1+t)\\ln(1+t)-(1+t)\\Bigr]_0^2=3\\ln3-3-(0-1)=3\\ln3-2.$$\n故 $\\ln a_n\\to3\\ln3-2$，从而\n$$\\lim_{n\\to\\infty}a_n=\\mathrm e^{3\\ln3-2}=27\\mathrm e^{-2}=\\boxed{27e^{-2}}.$$",
             "idea": "「思路」：提取因子 $n$ 后取对数化为黎曼和 $\\lim\\limits_{n\\to\\infty}\\frac1n\\sum_{i=1}^{2n}\\ln(1+\\frac in)$，凑 $\\int_0^2\\ln(1+t)\\,dt=3\\ln3-2$ 再指数化。",
