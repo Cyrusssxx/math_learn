@@ -26,7 +26,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q1",
             "siteId": 14399,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第1题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第1题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-1_0.png"
+            ]
           },
           {
             "no": 2,
@@ -44,7 +47,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q2",
             "siteId": 14400,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第2题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第2题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-2_0.png",
+              "data/img/zx_site/mn26pdf-1-2_1.png"
+            ]
           },
           {
             "no": 3,
@@ -62,7 +69,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q3",
             "siteId": 5024,
-            "siteSource": "27·0.88k"
+            "siteSource": "27·0.88k",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-3_0.png"
+            ]
           },
           {
             "no": 4,
@@ -80,7 +90,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q4",
             "siteId": 5069,
-            "siteSource": "27·0.88k"
+            "siteSource": "27·0.88k",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-4_0.png"
+            ]
           },
           {
             "no": 5,
@@ -98,7 +111,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q5",
             "siteId": 12281,
-            "siteSource": "26押题王六套卷五"
+            "siteSource": "26押题王六套卷五",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-5_0.png",
+              "data/img/zx_site/mn26pdf-1-5_1.png"
+            ]
           },
           {
             "no": 6,
@@ -116,7 +133,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q6",
             "siteId": 14401,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第6题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第6题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-6_0.png"
+            ]
           },
           {
             "no": 7,
@@ -134,7 +154,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q7",
             "siteId": 14402,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第7题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第7题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-7_0.png",
+              "data/img/zx_site/mn26pdf-1-7_1.png"
+            ]
           },
           {
             "no": 8,
@@ -152,7 +176,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q8",
             "siteId": 14403,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第8题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第8题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-8_0.png"
+            ]
           },
           {
             "no": 9,
@@ -170,7 +197,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q9",
             "siteId": 7022,
-            "siteSource": "李林880基础篇 数一 第十五章 二次型"
+            "siteSource": "李林880基础篇 数一 第十五章 二次型",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-9_0.png"
+            ]
           },
           {
             "no": 10,
@@ -188,7 +218,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q10",
             "siteId": 14404,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第10题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第10题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-10_0.png",
+              "data/img/zx_site/mn26pdf-1-10_1.png"
+            ]
           }
         ]
       },
@@ -206,7 +240,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q11",
             "siteId": 14405,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第11题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第11题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-11_0.png"
+            ]
           },
           {
             "no": 12,
@@ -219,7 +256,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q12",
             "siteId": 14406,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第12题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第12题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-12_0.png"
+            ]
           },
           {
             "no": 13,
@@ -232,7 +272,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q13",
             "siteId": 14407,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第13题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第13题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-13_0.png",
+              "data/img/zx_site/mn26pdf-1-13_1.png"
+            ]
           },
           {
             "no": 14,
@@ -245,7 +289,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q14",
             "siteId": 14408,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第14题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第14题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-14_0.png"
+            ]
           },
           {
             "no": 15,
@@ -258,7 +305,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q15",
             "siteId": 14409,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第15题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第15题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-15_0.png"
+            ]
           },
           {
             "no": 16,
@@ -271,7 +321,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q16",
             "siteId": 14410,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第16题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第16题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-16_0.png",
+              "data/img/zx_site/mn26pdf-1-16_1.png"
+            ]
           }
         ]
       },
@@ -289,7 +343,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q17",
             "siteId": 14411,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第17题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第17题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-17_0.png"
+            ]
           },
           {
             "no": 18,
@@ -302,7 +359,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q18",
             "siteId": 14412,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第18题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第18题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-18_0.png",
+              "data/img/zx_site/mn26pdf-1-18_1.png"
+            ]
           },
           {
             "no": 19,
@@ -315,7 +376,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q19",
             "siteId": 14413,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第19题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第19题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-19_0.png"
+            ]
           },
           {
             "no": 20,
@@ -328,7 +392,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q20",
             "siteId": 14414,
-            "siteSource": "2026李林押题王四套卷·数学二·第1套·第20题"
+            "siteSource": "2026李林押题王四套卷·数学二·第1套·第20题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-20_0.png",
+              "data/img/zx_site/mn26pdf-1-20_1.png"
+            ]
           },
           {
             "no": 21,
@@ -341,7 +409,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第1套 / Q21",
             "siteId": 14132,
-            "siteSource": "2027李林押题王四套卷·数二·第4套·第21题"
+            "siteSource": "2027李林押题王四套卷·数二·第4套·第21题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-1-21_0.png",
+              "data/img/zx_site/mn26pdf-1-21_1.png"
+            ]
           },
           {
             "no": 22,
@@ -357,7 +429,8 @@
             "siteSource": "26押题王四套卷数二卷一22",
             "ansImg": [
               "data/img/zx_site/mn26-1-22_0.png",
-              "data/img/zx_site/mn26-1-22_1.png"
+              "data/img/zx_site/mn26-1-22_1.png",
+              "data/img/zx_site/mn26pdf-1-22_0.png"
             ],
             "videos": [
               {
@@ -398,7 +471,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q1",
             "siteId": 14415,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第1题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第1题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-1_0.png",
+              "data/img/zx_site/mn26pdf-2-1_1.png"
+            ]
           },
           {
             "no": 2,
@@ -416,7 +493,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q2",
             "siteId": 14416,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第2题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第2题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-2_0.png"
+            ]
           },
           {
             "no": 3,
@@ -434,7 +514,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q3",
             "siteId": 14417,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第3题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第3题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-3_0.png"
+            ]
           },
           {
             "no": 4,
@@ -452,7 +535,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q4",
             "siteId": 14418,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第4题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第4题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-4_0.png",
+              "data/img/zx_site/mn26pdf-2-4_1.png"
+            ]
           },
           {
             "no": 5,
@@ -470,7 +557,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q5",
             "siteId": 14419,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第5题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第5题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-5_0.png"
+            ]
           },
           {
             "no": 6,
@@ -488,7 +578,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q6",
             "siteId": 14420,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第6题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第6题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-6_0.png"
+            ]
           },
           {
             "no": 7,
@@ -506,7 +599,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q7",
             "siteId": 14421,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第7题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第7题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-7_0.png",
+              "data/img/zx_site/mn26pdf-2-7_1.png"
+            ]
           },
           {
             "no": 8,
@@ -524,7 +621,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q8",
             "siteId": 6985,
-            "siteSource": "李林880基础篇 数一 第十三章 线性方程组"
+            "siteSource": "李林880基础篇 数一 第十三章 线性方程组",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-8_0.png"
+            ]
           },
           {
             "no": 9,
@@ -542,7 +642,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q9",
             "siteId": 14422,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第9题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第9题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-9_0.png"
+            ]
           },
           {
             "no": 10,
@@ -560,7 +663,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q10",
             "siteId": 14423,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第10题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第10题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-10_0.png",
+              "data/img/zx_site/mn26pdf-2-10_1.png"
+            ]
           }
         ]
       },
@@ -578,7 +685,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q11",
             "siteId": 14424,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第11题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第11题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-11_0.png"
+            ]
           },
           {
             "no": 12,
@@ -594,7 +704,8 @@
             "siteSource": "0.88k·第二章·综合·填空第10题",
             "ansImg": [
               "data/img/zx_site/mn26-2-12_0.png",
-              "data/img/zx_site/mn26-2-12_1.png"
+              "data/img/zx_site/mn26-2-12_1.png",
+              "data/img/zx_site/mn26pdf-2-12_0.png"
             ]
           },
           {
@@ -615,6 +726,10 @@
                 "label": "2027 李林6套卷·数二·第3套第14题",
                 "status": "candidate"
               }
+            ],
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-13_0.png",
+              "data/img/zx_site/mn26pdf-2-13_1.png"
             ]
           },
           {
@@ -628,7 +743,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q14",
             "siteId": 14425,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第14题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第14题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-14_0.png"
+            ]
           },
           {
             "no": 15,
@@ -641,7 +759,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q15",
             "siteId": 14426,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第15题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第15题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-15_0.png",
+              "data/img/zx_site/mn26pdf-2-15_1.png"
+            ]
           },
           {
             "no": 16,
@@ -654,7 +776,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q16",
             "siteId": 7005,
-            "siteSource": "李林880基础篇 数一 第十四章 相似矩阵"
+            "siteSource": "李林880基础篇 数一 第十四章 相似矩阵",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-16_0.png"
+            ]
           }
         ]
       },
@@ -672,7 +797,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q17",
             "siteId": 14427,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第17题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第17题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-17_0.png",
+              "data/img/zx_site/mn26pdf-2-17_1.png"
+            ]
           },
           {
             "no": 18,
@@ -685,7 +814,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q18",
             "siteId": 14428,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第18题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第18题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-18_0.png",
+              "data/img/zx_site/mn26pdf-2-18_1.png"
+            ]
           },
           {
             "no": 19,
@@ -698,7 +831,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q19",
             "siteId": 14090,
-            "siteSource": "2027李林押题王四套卷·数二·第2套·第18题"
+            "siteSource": "2027李林押题王四套卷·数二·第2套·第18题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-19_0.png"
+            ]
           },
           {
             "no": 20,
@@ -711,7 +847,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q20",
             "siteId": 5135,
-            "siteSource": "27·0.88k"
+            "siteSource": "27·0.88k",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-20_0.png",
+              "data/img/zx_site/mn26pdf-2-20_1.png"
+            ]
           },
           {
             "no": 21,
@@ -724,7 +864,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第2套 / Q21",
             "siteId": 14429,
-            "siteSource": "2026李林押题王四套卷·数学二·第2套·第21题"
+            "siteSource": "2026李林押题王四套卷·数学二·第2套·第21题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-2-21_0.png",
+              "data/img/zx_site/mn26pdf-2-21_1.png"
+            ]
           },
           {
             "no": 22,
@@ -740,7 +884,8 @@
             "siteSource": "26押题王四套数二卷二·第22题（原稿范数平方勘误）",
             "ansImg": [
               "data/img/zx_site/mn26-2-22_0.png",
-              "data/img/zx_site/mn26-2-22_1.png"
+              "data/img/zx_site/mn26-2-22_1.png",
+              "data/img/zx_site/mn26pdf-2-22_0.png"
             ]
           }
         ]
@@ -774,7 +919,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q1",
             "siteId": 14430,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第1题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第1题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-1_0.png"
+            ]
           },
           {
             "no": 2,
@@ -792,7 +940,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q2",
             "siteId": 13418,
-            "siteSource": "2025李林押题王六套卷·数二·第2套·第2题"
+            "siteSource": "2025李林押题王六套卷·数二·第2套·第2题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-2_0.png"
+            ]
           },
           {
             "no": 3,
@@ -810,7 +961,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q3",
             "siteId": 14431,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第3题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第3题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-3_0.png"
+            ]
           },
           {
             "no": 4,
@@ -828,7 +982,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q4",
             "siteId": 14432,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第4题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第4题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-4_0.png"
+            ]
           },
           {
             "no": 5,
@@ -846,7 +1003,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q5",
             "siteId": 14433,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第5题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第5题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-5_0.png"
+            ]
           },
           {
             "no": 6,
@@ -864,7 +1024,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q6",
             "siteId": 14434,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第6题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第6题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-6_0.png"
+            ]
           },
           {
             "no": 7,
@@ -882,7 +1045,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q7",
             "siteId": 14435,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第7题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第7题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-7_0.png",
+              "data/img/zx_site/mn26pdf-3-7_1.png"
+            ]
           },
           {
             "no": 8,
@@ -900,7 +1067,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q8",
             "siteId": 14436,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第8题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第8题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-8_0.png"
+            ]
           },
           {
             "no": 9,
@@ -918,7 +1088,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q9",
             "siteId": 14437,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第9题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第9题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-9_0.png"
+            ]
           },
           {
             "no": 10,
@@ -936,7 +1109,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q10",
             "siteId": 14438,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第10题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第10题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-10_0.png"
+            ]
           }
         ]
       },
@@ -954,7 +1130,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q11",
             "siteId": 14439,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第11题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第11题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-11_0.png"
+            ]
           },
           {
             "no": 12,
@@ -967,7 +1146,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q12",
             "siteId": 14440,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第12题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第12题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-12_0.png",
+              "data/img/zx_site/mn26pdf-3-12_1.png"
+            ]
           },
           {
             "no": 13,
@@ -980,7 +1163,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q13",
             "siteId": 14441,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第13题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第13题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-13_0.png"
+            ]
           },
           {
             "no": 14,
@@ -993,7 +1179,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q14",
             "siteId": 14442,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第14题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第14题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-14_0.png"
+            ]
           },
           {
             "no": 15,
@@ -1006,7 +1195,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q15",
             "siteId": 5038,
-            "siteSource": "27·0.88k"
+            "siteSource": "27·0.88k",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-15_0.png",
+              "data/img/zx_site/mn26pdf-3-15_1.png"
+            ]
           },
           {
             "no": 16,
@@ -1019,7 +1212,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q16",
             "siteId": 14443,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第16题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第16题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-16_0.png"
+            ]
           }
         ]
       },
@@ -1037,7 +1233,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q17",
             "siteId": 14444,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第17题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第17题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-17_0.png"
+            ]
           },
           {
             "no": 18,
@@ -1050,7 +1249,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q18",
             "siteId": 14445,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第18题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第18题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-18_0.png",
+              "data/img/zx_site/mn26pdf-3-18_1.png"
+            ]
           },
           {
             "no": 19,
@@ -1063,7 +1266,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q19",
             "siteId": 14446,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第19题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第19题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-19_0.png"
+            ]
           },
           {
             "no": 20,
@@ -1076,7 +1282,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q20",
             "siteId": 14447,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第20题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第20题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-20_0.png",
+              "data/img/zx_site/mn26pdf-3-20_1.png"
+            ]
           },
           {
             "no": 21,
@@ -1089,7 +1299,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q21",
             "siteId": 14448,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第21题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第21题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-21_0.png",
+              "data/img/zx_site/mn26pdf-3-21_1.png"
+            ]
           },
           {
             "no": 22,
@@ -1102,7 +1316,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第3套 / Q22",
             "siteId": 14449,
-            "siteSource": "2026李林押题王四套卷·数学二·第3套·第22题"
+            "siteSource": "2026李林押题王四套卷·数学二·第3套·第22题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-3-22_0.png"
+            ]
           }
         ]
       }
@@ -1135,7 +1352,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q1",
             "siteId": 14450,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第1题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第1题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-1_0.png"
+            ]
           },
           {
             "no": 2,
@@ -1153,7 +1373,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q2",
             "siteId": 4319,
-            "siteSource": "1k·26版·第五章·基础·第20题"
+            "siteSource": "1k·26版·第五章·基础·第20题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-2_0.png"
+            ]
           },
           {
             "no": 3,
@@ -1171,7 +1394,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q3",
             "siteId": 14451,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第3题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第3题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-3_0.png",
+              "data/img/zx_site/mn26pdf-4-3_1.png"
+            ]
           },
           {
             "no": 4,
@@ -1189,7 +1416,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q4",
             "siteId": 14452,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第4题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第4题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-4_0.png"
+            ]
           },
           {
             "no": 5,
@@ -1207,7 +1437,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q5",
             "siteId": 14453,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第5题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第5题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-5_0.png"
+            ]
           },
           {
             "no": 6,
@@ -1225,7 +1458,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q6",
             "siteId": 14454,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第6题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第6题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-6_0.png",
+              "data/img/zx_site/mn26pdf-4-6_1.png"
+            ]
           },
           {
             "no": 7,
@@ -1243,7 +1480,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q7",
             "siteId": 5145,
-            "siteSource": "27·0.88k"
+            "siteSource": "27·0.88k",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-7_0.png"
+            ]
           },
           {
             "no": 8,
@@ -1261,7 +1501,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q8",
             "siteId": 6980,
-            "siteSource": "李林880基础篇 数一 第十三章 线性方程组"
+            "siteSource": "李林880基础篇 数一 第十三章 线性方程组",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-8_0.png"
+            ]
           },
           {
             "no": 9,
@@ -1279,7 +1522,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q9",
             "siteId": 7023,
-            "siteSource": "李林880基础篇 数一 第十五章 二次型"
+            "siteSource": "李林880基础篇 数一 第十五章 二次型",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-9_0.png",
+              "data/img/zx_site/mn26pdf-4-9_1.png"
+            ]
           },
           {
             "no": 10,
@@ -1297,7 +1544,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q10",
             "siteId": 6986,
-            "siteSource": "李林880基础篇 数一 第十三章 线性方程组"
+            "siteSource": "李林880基础篇 数一 第十三章 线性方程组",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-10_0.png"
+            ]
           }
         ]
       },
@@ -1315,7 +1565,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q11",
             "siteId": 14455,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第11题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第11题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-11_0.png",
+              "data/img/zx_site/mn26pdf-4-11_1.png"
+            ]
           },
           {
             "no": 12,
@@ -1328,7 +1582,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q12",
             "siteId": 14456,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第12题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第12题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-12_0.png"
+            ]
           },
           {
             "no": 13,
@@ -1341,7 +1598,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q13",
             "siteId": 13585,
-            "siteSource": "2025李林押题王四套卷·数二·第1套·第14题"
+            "siteSource": "2025李林押题王四套卷·数二·第1套·第14题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-13_0.png"
+            ]
           },
           {
             "no": 14,
@@ -1354,7 +1614,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q14",
             "siteId": 14457,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第14题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第14题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-14_0.png",
+              "data/img/zx_site/mn26pdf-4-14_1.png"
+            ]
           },
           {
             "no": 15,
@@ -1367,7 +1631,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q15",
             "siteId": 14458,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第15题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第15题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-15_0.png"
+            ]
           },
           {
             "no": 16,
@@ -1380,7 +1647,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q16",
             "siteId": 14459,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第16题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第16题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-16_0.png"
+            ]
           }
         ]
       },
@@ -1398,7 +1668,11 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q17",
             "siteId": 14460,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第17题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第17题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-17_0.png",
+              "data/img/zx_site/mn26pdf-4-17_1.png"
+            ]
           },
           {
             "no": 18,
@@ -1411,7 +1685,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q18",
             "siteId": 14461,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第18题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第18题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-18_0.png"
+            ]
           },
           {
             "no": 19,
@@ -1424,7 +1701,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q19",
             "siteId": 14462,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第19题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第19题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-19_0.png"
+            ]
           },
           {
             "no": 20,
@@ -1466,7 +1746,10 @@
             "categoryIds": [],
             "origin": "26押题王四套·第4套 / Q22",
             "siteId": 14464,
-            "siteSource": "2026李林押题王四套卷·数学二·第4套·第22题"
+            "siteSource": "2026李林押题王四套卷·数学二·第4套·第22题",
+            "ansImg": [
+              "data/img/zx_site/mn26pdf-4-22_0.png"
+            ]
           }
         ]
       }

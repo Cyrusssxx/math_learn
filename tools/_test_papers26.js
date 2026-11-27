@@ -19,7 +19,11 @@ const withVideo = qs.filter(q => q.videos && q.videos.length);
 ok(withVideo.length === 2, '2 题带视频链接');
 ok(withVideo.every(q => q.videos.every(v => v.url && v.label && ['confirmed', 'candidate'].includes(v.status))), '视频字段结构完整');
 const withImg = qs.filter(q => q.ansImg && q.ansImg.length);
-ok(withImg.length === 4 && withImg.reduce((n, q) => n + q.ansImg.length, 0) === 7, '4 题 7 张解析原图');
+const imgCount = withImg.reduce((n, q) => n + q.ansImg.length, 0);
+ok(withImg.length === 87 && imgCount === 124, '87 题 124 张解析原图（站抓 7 + 答案册 PDF 117）');
+const pdfImgs = withImg.flatMap(q => q.ansImg.filter(p => p.includes('mn26pdf-')));
+ok(pdfImgs.length === 117, '答案册 PDF 逐题原图 117 张');
+ok(!qs.some(q => q.no === 21 && q.id === 'mn26-4' && q.ansImg), '第4套 Q21 原书缺页无原图');
 ok(withImg.every(q => q.ansImg.every(p => fs.existsSync(path.join(ROOT, 'pwa', p)))), '原图文件均存在');
 
 const js = fs.readFileSync(path.join(ROOT, 'pwa/js/exam.js'), 'utf8');
