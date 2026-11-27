@@ -1228,7 +1228,7 @@ document.addEventListener('click', e => {
 
 // ============ 图片放大预览（正文图 / 行内图 / 批注贴图通用） ============
 // 支持：滚轮缩放（以指针为中心，1x~6x）、放大后拖动平移、双击在 1x 与 2.5x 之间切换、
-//      点背景 / ✕ / Esc 关闭、右上角显示当前倍数。
+//      点图片本身 / 背景 / ✕ / Esc 关闭（拖动与双击不误关）、右上角显示当前倍数。
 const lbState = { scale: 1, x: 0, y: 0, drag: null, svg: false, bw: 0, bh: 0, seq: 0 };
 
 function lbApply() {
@@ -1292,14 +1292,18 @@ function openLightbox(src) {
             lbZoom(e.deltaY < 0 ? 1.15 : 1 / 1.15, e.clientX, e.clientY);
         }, { passive: false });
 
+        let downPt = null, moved = false, clickTimer = null;
+
         // 拖动平移（仅放大后）
         img.addEventListener('mousedown', e => {
+            downPt = { x: e.clientX, y: e.clientY }; moved = false;
             if (lbState.scale <= 1) return;
             e.preventDefault();
             lbState.drag = { x: e.clientX - lbState.x, y: e.clientY - lbState.y };
             lbApply();
         });
         window.addEventListener('mousemove', e => {
+            if (downPt && Math.abs(e.clientX - downPt.x) + Math.abs(e.clientY - downPt.y) > 6) moved = true;
             if (!lbState.drag) return;
             lbState.x = e.clientX - lbState.drag.x;
             lbState.y = e.clientY - lbState.drag.y;
@@ -1311,14 +1315,23 @@ function openLightbox(src) {
             lbApply();
         });
 
+        // 点大图本身关闭；短延时区分双击，拖动过则不算点击
+        img.addEventListener('click', e => {
+            e.stopPropagation();
+            if (moved) { moved = false; return; }
+            if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; return; }
+            clickTimer = setTimeout(() => { clickTimer = null; lbClose(); }, 200);
+        });
+
         // 双击：1x ↔ 2.5x（以指针为中心）
         img.addEventListener('dblclick', e => {
             e.preventDefault();
+            if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; }
             if (lbState.scale > 1.05) lbReset();
             else lbZoom(2.5, e.clientX, e.clientY);
         });
 
-        // 点背景 / ✕ 关闭（点图片本身不关闭，避免拖动时误关）
+        // 点背景 / ✕ 关闭
         lb.addEventListener('click', e => {
             if (e.target === lb || e.target.closest('#lbClose')) lbClose();
         });

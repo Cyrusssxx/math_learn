@@ -62,6 +62,32 @@ assert(!img.style.transform.includes('scale'), '笔记页 SVG transform 不能�
     img = w.document.querySelector('#imgLightbox img');
     assert.strictEqual(img.style.width, '800px', '无 width/height 的 SVG 应从 viewBox 补比例');
     assert.strictEqual(img.style.height, '400px', 'viewBox 补出的高');
-    console.log('SVG zoom: 8 assertions passed');
+
+    const lb = () => w.document.getElementById('imgLightbox');
+    const clickImg = () => w.document.querySelector('#imgLightbox img')
+        .dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+
+    w.openLightbox('pic.svg');
+    clickImg();
+    await wait(260);
+    assert(!lb().classList.contains('show'), '点大图应关闭 lightbox');
+
+    w.openLightbox('pic.svg');
+    img = w.document.querySelector('#imgLightbox img');
+    img.dispatchEvent(new w.MouseEvent('mousedown', { clientX: 400, clientY: 300, bubbles: true }));
+    w.dispatchEvent(new w.MouseEvent('mousemove', { clientX: 500, clientY: 300, bubbles: true }));
+    w.dispatchEvent(new w.MouseEvent('mouseup', { bubbles: true }));
+    clickImg();
+    await wait(260);
+    assert(lb().classList.contains('show'), '拖动后点击不应关闭');
+
+    w.openLightbox('pic.svg');
+    w.document.querySelector('#imgLightbox img')
+        .dispatchEvent(new w.MouseEvent('dblclick', { clientX: 400, clientY: 300, bubbles: true }));
+    await wait(260);
+    assert(lb().classList.contains('show'), '双击不应被单击关闭');
+
+    console.log('SVG zoom + lightbox close: 11 assertions passed');
     process.exit(0);
 })().catch(e => { console.error(e); process.exit(1); });

@@ -30,5 +30,11 @@ with sync_playwright() as p:
     print('zoom:', state2)
     assert state['w'] == '680px' and state['mw'] == 'none'
     assert 'scale' not in state2['t'] and float(state2['w'].replace('px', '')) > 680
+
+    page.locator('#imgLightbox img').click(position={'x': 20, 'y': 20})
+    page.wait_for_timeout(300)
+    shown = page.evaluate("() => document.getElementById('imgLightbox').classList.contains('show')")
+    assert not shown, '点大图应关闭 lightbox'
+
     browser.close()
-    print('playwright svg zoom ok')
+    print('playwright svg zoom + click-close ok')
