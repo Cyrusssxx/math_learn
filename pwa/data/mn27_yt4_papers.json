@@ -1,0 +1,367 @@
+[
+  {
+    "id": "mn27-yt4-1",
+    "year": "27模拟",
+    "title": "27 李林押题王四套·第一套",
+    "group": "mock",
+    "source": "2027 李林押题王四套·第1套（大观园题单 12920）",
+    "pages": "大观园 category 12920",
+    "sections": [
+      {
+        "title": "一、选择题（1—10）",
+        "questions": [
+          {
+            "no": 1,
+            "kind": "choice",
+            "stem": "设极限 $\\lim\\limits_{x\\to0}\\frac{e^{ax^n}-\\cos x^2}{x^8}$ 存在，则（　）。",
+            "options": [
+              "(A) $n=4,\\ a=-\\frac12$",
+              "(B) $n=8,\\ a=-\\frac12$",
+              "(C) $n=4,\\ a=\\frac12$",
+              "(D) $n=8,\\ a=\\frac12$"
+            ],
+            "answer": "【答案】选 (A)。\n\n**【解】**\n由泰勒展开，\n\n$$\n\\cos x^2=1-\\frac{x^4}{2}+\\frac{x^8}{24}+o(x^8).\n$$\n\n若 $n=8$，分子中仍有 $x^4/2$，除以 $x^8$ 后不可能有有限极限。\n\n若 $n=4$，则\n\n$$\ne^{ax^4}=1+ax^4+\\frac{a^2x^8}{2}+o(x^8),\n$$\n\n从而\n\n$$\n\\begin{aligned}\ne^{ax^4}-\\cos x^2\n&=\\left(a+\\frac12\\right)x^4\\\\\n&\\quad+\\left(\\frac{a^2}{2}-\\frac1{24}\\right)x^8+o(x^8).\n\\end{aligned}\n$$\n\n有限极限存在，必须有 $a+1/2=0$。此时原极限为 $1/12$。\n\n因此 $n=4$、$a=-1/2$，选 **A**。",
+            "idea": "「思路」：用泰勒展开把分子写成幂次式；先由 $x^4$ 项必须消失定出 $n=4$，再令其系数为零得 $a=-\\frac12$，并核对 $x^8$ 项给出极限。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q1",
+            "siteId": 13725,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第1题"
+          },
+          {
+            "no": 2,
+            "kind": "choice",
+            "stem": "曲线 $y=\\sqrt{\\frac{x^3}{3+x}}+1-x$ 的渐近线条数为（　）。",
+            "options": [
+              "(A) $1$",
+              "(B) $2$",
+              "(C) $3$",
+              "(D) $4$"
+            ],
+            "answer": "【答案】选 (C)。\n\n**【解】**\n函数的定义域为 $(-\\infty,-3)\\cup[0,+\\infty)$。\n\n**先看有限端点。** 当 $x\\to-3^-$ 时，$y\\to+\\infty$，所以 $x=-3$ 是铅直渐近线。$x=0$ 处函数有有限值，不产生渐近线。\n\n**再看正、负无穷远处。** 利用\n\n$$\n\\sqrt{\\frac{x^3}{x+3}}\n=|x|\\left(1+\\frac3x\\right)^{-1/2},\n$$\n\n得到\n\n$$\n\\begin{cases}\ny=-\\dfrac12+o(1),&x\\to+\\infty,\\\\[4pt]\ny=-2x+\\dfrac52+o(1),&x\\to-\\infty.\n\\end{cases}\n$$\n\n故另外两条渐近线为\n\n$$\ny=-\\frac12,\\qquad y=-2x+\\frac52.\n$$\n\n共 **3 条**，选 **C**。",
+            "idea": "「思路」：分定义域端点与正负无穷远三处查渐近线：端点看 $x\\to-3^-$ 发散；$x\\to\\pm\\infty$ 用 $\\sqrt{\\frac{x^3}{x+3}}=|x|(1+\\frac3x)^{-1/2}$ 展开，分别求水平与斜渐近线。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q2",
+            "siteId": 13726,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第2题"
+          },
+          {
+            "no": 3,
+            "kind": "choice",
+            "stem": "设 $z=\\frac uy+e^{-xu}+f(u)$，其中 $u=u(x,y)$ 满足 $xe^{-xu}-f'(u)=\\frac1y$。$u(x,y)$、$f(u)$ 均可微，$x>0$、$y>0$。若 $\\frac{\\partial z}{\\partial x}=\\frac{\\partial z}{\\partial y}$，则（　）。",
+            "options": [
+              "(A) $\\mathrm du=-\\frac{2\\ln y}{x^2}\\,\\mathrm dx-\\frac1{xy}\\,\\mathrm dy$",
+              "(B) $\\mathrm du=\\frac{2\\ln y}{x^2}\\,\\mathrm dx+\\frac1{xy}\\,\\mathrm dy$",
+              "(C) $\\mathrm du=\\frac{2\\ln y}{x}\\,\\mathrm dx+\\frac2{xy}\\,\\mathrm dy$",
+              "(D) $\\mathrm du=-\\frac{2\\ln y}{x^2}\\,\\mathrm dx+\\frac2{xy}\\,\\mathrm dy$"
+            ],
+            "answer": "【答案】选 (D)。\n\n**【解】**\n**按原题预期的形式计算，选 D。**\n\n先对 $z$ 求微分：\n\n$$\n\\begin{aligned}\n\\mathrm dz\n={}&-ue^{-xu}\\,\\mathrm dx-\\frac{u}{y^2}\\,\\mathrm dy\\\\\n&+\\left[\\frac1y-xe^{-xu}+f'(u)\\right]\\mathrm du.\n\\end{aligned}\n$$\n\n由题设，方括号内为 $0$，因此\n\n$$\nz_x=-ue^{-xu},\\qquad z_y=-\\frac u{y^2}.\n$$\n\n令两者相等，得到\n\n$$\nu\\left(e^{-xu}-\\frac1{y^2}\\right)=0.\n$$\n\n在 $u\\ne0$ 时，取对数得 $xu=2\\ln y$，即\n\n$$\nu=\\frac{2\\ln y}{x}.\n$$\n\n对这个函数关系求微分，得到选项 D：\n\n$$\n\\boxed{\\mathrm du=-\\frac{2\\ln y}{x^2}\\,\\mathrm dx\n+\\frac2{xy}\\,\\mathrm dy}.\n$$\n\n**原题严谨性说明。** 题面按扫描原文保留。若偏导相等仅在某一点成立，不能对由此得到的点值关系继续求微分；若要求全部条件在二维开区域恒成立，则还存在相容性问题：代入上式后，\n\n$$\nf'(u)=xe^{-xu}-e^{-xu/2},\n$$\n\n右边在固定 $u$ 后仍随 $x$ 变化，不能作为仅依赖 $u$ 的函数。$u\\equiv0$ 也不能在二维开区域满足 $x-f'(0)=1/y$。因此 D 是原题预期答案，严格题设仍需补充或修订。",
+            "idea": "「思路」：对 $z$ 求微分，利用约束 $xe^{-xu}-f'(u)=\\frac1y$ 使 $\\mathrm du$ 系数为零，得到 $z_x,z_y$；令两者相等解出 $u=\\frac{2\\ln y}{x}$，再求 $\\mathrm du$ 对照选项。注意题面严谨性说明。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q3",
+            "siteId": 13727,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第3题"
+          },
+          {
+            "no": 4,
+            "kind": "choice",
+            "stem": "设正数列 $\\{a_n\\}$ 满足 $\\lim\\limits_{n\\to\\infty}\\int_0^{a_n}x^n\\,\\mathrm dx=2$，则 $\\lim\\limits_{n\\to\\infty}\\frac{a_{n+1}}{a_n}=$（　）。",
+            "options": [
+              "(A) $0$",
+              "(B) $\\frac12$",
+              "(C) $1$",
+              "(D) $2$"
+            ],
+            "answer": "【答案】选 (C)。\n\n**【解】**\n记\n\n$$\nb_n=\\int_0^{a_n}x^n\\,\\mathrm dx\n=\\frac{a_n^{n+1}}{n+1}.\n$$\n\n由题设，$b_n\\to2$。由于 $a_n>0$，可以取对数：\n\n$$\n\\ln a_n=\\frac{\\ln(n+1)+\\ln b_n}{n+1}\\longrightarrow0.\n$$\n\n所以 $a_n\\to1$，进而\n\n$$\n\\displaystyle\\lim_{n\\to\\infty}\\frac{a_{n+1}}{a_n}=\\frac11=1.\n$$\n\n选 **C**。",
+            "idea": "「思路」：把积分写成 $b_n=\\frac{a_n^{n+1}}{n+1}\\to2$，取对数得 $a_n\\to1$；再用 $\\frac{a_{n+1}}{a_n}$ 的对数展开与 $b_{n+1}/b_n\\to1$，求极限得 $1$。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q4",
+            "siteId": 13728,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第4题"
+          },
+          {
+            "no": 5,
+            "kind": "choice",
+            "stem": "设 $I_k=\\int_{(k-1)\\pi}^{k\\pi}e^{-x^2}\\cos^2x\\,\\mathrm dx\\ (k=1,2,3)$，则下列选项中正确的是（　）。",
+            "options": [
+              "(A) $I_1<I_2<I_3$",
+              "(B) $I_3<I_2<I_1$",
+              "(C) $I_2<I_1<I_3$",
+              "(D) $I_2<I_3<I_1$"
+            ],
+            "answer": "【答案】选 (B)。\n\n**【解】**\n令 $x=t+(k-1)\\pi$。利用 $\\cos^2x$ 的周期为 $\\pi$，把三个积分平移到同一区间：\n\n$$\nI_k=\\int_0^\\pi e^{-[t+(k-1)\\pi]^2}\\cos^2t\\,\\mathrm dt.\n$$\n\n在 $0\\le t\\le\\pi$ 上，\n\n$$\ne^{-(t+2\\pi)^2}<e^{-(t+\\pi)^2}<e^{-t^2}.\n$$\n\n乘以 $\\cos^2t\\ge0$ 后积分，且 $\\cos^2t$ 并非恒为零，故\n\n$$\nI_3<I_2<I_1.\n$$\n\n选 **B**。",
+            "idea": "「思路」：令 $x=t+(k-1)\\pi$ 把三个积分化到同一区间 $[0,\\pi]$，利用 $\\cos^2t\\ge0$ 与 $e^{-(t+2\\pi)^2}<e^{-(t+\\pi)^2}<e^{-t^2}$ 逐点比较积分大小。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q5",
+            "siteId": 13729,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第5题"
+          },
+          {
+            "no": 6,
+            "kind": "choice",
+            "stem": "设\n\n$$\nf(x,y)=\n\\begin{cases}\n\\dfrac{x^4+y^4}{x^2+y^2},&x^2+y^2\\ne0,\\\\[4pt]\n0,&x^2+y^2=0.\n\\end{cases}\n$$\n\n则在点 $(0,0)$ 处（　）。",
+            "options": [
+              "(A) $f_x,f_y$ 存在，但 $f$ 不连续。",
+              "(B) $f_x,f_y$ 存在，但 $f$ 不可微。",
+              "(C) $f_x,f_y$ 不连续，但 $f$ 可微。",
+              "(D) $f_x,f_y$ 连续。"
+            ],
+            "answer": "【答案】选 (D)。\n\n**【解】**\n**先求原点处的偏导数。** 由 $f(h,0)=f(0,h)=h^2$，得\n\n$$\nf_x(0,0)=f_y(0,0)=0.\n$$\n\n**再检验偏导数的连续性。** 当 $(x,y)\\ne(0,0)$ 时，\n\n$$\nf_x(x,y)=\\frac{2x(x^4+2x^2y^2-y^4)}{(x^2+y^2)^2}.\n$$\n\n由于\n\n$$\n|x^4+2x^2y^2-y^4|\\le(x^2+y^2)^2,\n$$\n\n所以 $|f_x(x,y)|\\le2|x|\\to0$。同理，$|f_y(x,y)|\\le2|y|\\to0$。\n\n因此两个偏导数都在原点连续，进而 $f$ 在原点可微、连续。选 **D**。",
+            "idea": "「思路」：先用偏导定义算 $f_x(0,0)=f_y(0,0)=0$；再对 $(x,y)\\ne(0,0)$ 求偏导并用不等式放缩，判断偏导在原点是否连续、函数是否可微。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q6",
+            "siteId": 13730,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第6题"
+          },
+          {
+            "no": 7,
+            "kind": "choice",
+            "stem": "设 $y_1(x)$ 与 $y_2(x)$ 是微分方程 $y'+p(x)y=0$ 的两个不同解，$C$ 为任意常数，则该方程的通解可以表示为（　）。",
+            "options": [
+              "(A) $Cy_1$",
+              "(B) $y_1+C(y_1+y_2)$",
+              "(C) $y_1+Cy_2$",
+              "(D) $C(y_2-y_1)$"
+            ],
+            "answer": "【答案】选 (D)。\n\n**【解】**\n记 $\\varphi(x)=e^{-\\int p(x)\\,\\mathrm dx}$，则 $\\varphi(x)$ 处处非零，原方程的解都可写成常数乘以 $\\varphi(x)$。\n\n设\n\n$$\ny_1=c_1\\varphi(x),\\qquad y_2=c_2\\varphi(x).\n$$\n\n两解不同意味着 $c_1\\ne c_2$，因此\n\n$$\nC(y_2-y_1)=C(c_2-c_1)\\varphi(x)\n$$\n\n恰好遍历全部解，选 **D**。\n\nA、C 分别可能因 $y_1\\equiv0$、$y_2\\equiv0$ 而失效；B 可能因 $y_1+y_2\\equiv0$ 而失效。两个解之差则一定是非零解。",
+            "idea": "「思路」：齐次线性方程的解为 $\\varphi(x)=e^{-\\int p(x)\\mathrm dx}$ 的常数倍；两个不同解对应不同常数，其差 $y_2-y_1$ 为非零解，乘任意常数即遍历全部解。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q7",
+            "siteId": 13731,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第7题"
+          },
+          {
+            "no": 8,
+            "kind": "choice",
+            "stem": "设 $A$ 为 $n$ 阶矩阵（$n\\ge3$），将 $A$ 的第 $i$ 列乘以 $2$ 加到第 $j$ 列（$j\\ne i$）得到 $B$，且 $|A|=\\frac12$，则 $|A^{-1}+B^{-1}|=$（　）。",
+            "options": [
+              "(A) $2^n$",
+              "(B) $2^{n+1}$",
+              "(C) $2^{n+2}$",
+              "(D) $2^{n-1}$"
+            ],
+            "answer": "【答案】选 (B)。\n\n**【解】**\n记 $N$ 为仅第 $(i,j)$ 个元素等于 $1$、其余元素均为 $0$ 的矩阵。因为 $i\\ne j$，有 $N^2=O$。\n\n列变换对应右乘初等矩阵：\n\n$$\nB=A(E+2N).\n$$\n\n由 $(E+2N)^{-1}=E-2N$，得\n\n$$\n\\begin{aligned}\nA^{-1}+B^{-1}\n&=A^{-1}+(E-2N)A^{-1}\\\\\n&=2(E-N)A^{-1}.\n\\end{aligned}\n$$\n\n$E-N$ 也是倍加型初等矩阵，行列式为 $1$，故\n\n$$\n|A^{-1}+B^{-1}|=2^n\\cdot1\\cdot\\frac1{|A|}=2^{n+1}.\n$$\n\n选 **B**。",
+            "idea": "「思路」：列变换等价于右乘 $E+2N$（$N^2=O$），由 $(E+2N)^{-1}=E-2N$ 化简 $A^{-1}+B^{-1}=2(E-N)A^{-1}$，取行列式并用 $|A|=\\frac12$。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q8",
+            "siteId": 13732,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第8题"
+          },
+          {
+            "no": 9,
+            "kind": "choice",
+            "stem": "设 $3$ 阶实对称矩阵 $A$ 的特征值为 $-1,1,0$，属于特征值 $-1$ 与 $1$ 的特征向量分别为 $\\alpha_1=(2,3,-1)^{\\mathrm T}$，$\\alpha_2=(1,a,2a)^{\\mathrm T}$。$k$ 为任意常数，则方程组 $AX=0$ 的通解为（　）。",
+            "options": [
+              "(A) $k(2,1,1)^{\\mathrm T}$",
+              "(B) $k(2,-1,1)^{\\mathrm T}$",
+              "(C) $k(2,-1,-1)^{\\mathrm T}$",
+              "(D) $k(2,1,-1)^{\\mathrm T}$"
+            ],
+            "answer": "【答案】选 (B)。\n\n**【解】**\n实对称矩阵属于不同特征值的特征向量正交，所以\n\n$$\n\\alpha_1^{\\mathrm T}\\alpha_2=2+3a-2a=0,\n$$\n\n得到 $a=-2$，即 $\\alpha_2=(1,-2,-4)^{\\mathrm T}$。\n\n方程 $AX=0$ 的非零解是属于特征值 $0$ 的特征向量，必须同时与 $\\alpha_1,\\alpha_2$ 正交。因此\n\n$$\n\\begin{cases}\n2x_1+3x_2-x_3=0,\\\\\nx_1-2x_2-4x_3=0.\n\\end{cases}\n$$\n\n解得 $x_1=2x_3$、$x_2=-x_3$。由于 $0$ 是单特征值，原方程组的通解为\n\n$$\nX=k(2,-1,1)^{\\mathrm T},\\qquad k\\in\\mathbb R.\n$$\n\n选 **B**。",
+            "idea": "「思路」：实对称矩阵不同特征值的特征向量正交，由 $\\alpha_1^{\\mathrm T}\\alpha_2=0$ 定出 $a=-2$；$AX=0$ 的解是属于特征值 $0$ 的特征向量，故与 $\\alpha_1,\\alpha_2$ 都正交，解方程组得通解。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q9",
+            "siteId": 13733,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第9题"
+          },
+          {
+            "no": 10,
+            "kind": "choice",
+            "stem": "设 $A$ 是 $n$ 阶实矩阵，且有 $n$ 个线性无关的特征向量，则下列命题中正确的个数是（　）。\n\n① $A$ 的行向量组与 $A^2$ 的行向量组等价。\n\n② $A$ 的列向量组与 $A^2$ 的列向量组等价。\n\n③ $A$ 的行向量组与 $A^3$ 的行向量组等价。\n\n④ $A$ 的列向量组与 $A^3$ 的列向量组等价。",
+            "options": [
+              "(A) $0$",
+              "(B) $2$",
+              "(C) $3$",
+              "(D) $4$"
+            ],
+            "answer": "【答案】选 (D)。\n\n**【解】**\n由题设，$A$ 可相似对角化。设\n\n$$\nA=P\\Lambda P^{-1},\\qquad\n\\Lambda=\\operatorname{diag}(\\lambda_1,\\ldots,\\lambda_n).\n$$\n\n对 $k=2,3$，$\\lambda_i^k=0$ 与 $\\lambda_i=0$ 等价，因此\n\n$$\nr(A^k)=r(\\Lambda^k)=r(\\Lambda)=r(A).\n$$\n\n又由矩阵乘法，\n\n$$\nA^k=A^{k-1}A=AA^{k-1}.\n$$\n\n第一个等式说明，$A^k$ 的每个行向量都是 $A$ 的行向量的线性组合；第二个等式说明，$A^k$ 的每个列向量都是 $A$ 的列向量的线性组合。\n\n两组向量之间已有单向线性表示，且秩相同，故可以互相线性表示。于是相应的行向量组、列向量组均等价。\n\n①②③④全对，共 **4 个**，选 **D**。",
+            "idea": "「思路」：$A$ 有 $n$ 个线性无关特征向量故可对角化；对 $k=2,3$ 有 $r(A^k)=r(A)$。由 $A^k=A\\cdot A^{k-1}$ 比较行（列）向量组的互相表出关系，逐一判断四个命题。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q10",
+            "siteId": 13734,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第10题"
+          }
+        ]
+      },
+      {
+        "title": "二、填空题（11—16）",
+        "questions": [
+          {
+            "no": 11,
+            "kind": "blank",
+            "stem": "求极限\n\n$$\n\\displaystyle\\lim_{t\\to0^+}\n\\frac{\\displaystyle\\int_0^{\\sqrt t}\\!\\mathrm du\n\\int_{u^2}^{t}\\sin y^2\\,\\mathrm dy}\n{\\left(e^{-\\frac2\\pi t^2}-1\\right)\\arctan t^{3/2}}\n=\\underline{\\qquad}.\n$$",
+            "options": [],
+            "answer": "【答案】$-\\dfrac\\pi7$\n\n**【解】**\n**先交换分子中的积分次序。** 积分区域为\n\n$$\n0\\le u\\le\\sqrt t,\\qquad u^2\\le y\\le t,\n$$\n\n也就是 $0\\le y\\le t$、$0\\le u\\le\\sqrt y$，故分子等于\n\n$$\n\\int_0^t\\!\\mathrm dy\\int_0^{\\sqrt y}\\sin y^2\\,\\mathrm du\n=\\int_0^t\\sqrt y\\sin y^2\\,\\mathrm dy.\n$$\n\n当 $t\\to0^+$ 时，由 $\\sin y^2=y^2+O(y^6)$，\n\n$$\n\\int_0^t\\sqrt y\\sin y^2\\,\\mathrm dy\n=\\frac27t^{7/2}+O(t^{15/2}).\n$$\n\n另一方面，\n\n$$\ne^{-\\frac2\\pi t^2}-1\\sim-\\frac2\\pi t^2,\n\\qquad \\arctan t^{3/2}\\sim t^{3/2}.\n$$\n\n所以原极限为\n\n$$\n\\frac{2/7}{-2/\\pi}=\\boxed{-\\frac\\pi7}.\n$$",
+            "idea": "「思路」：交换分子累次积分的次序，化为 $\\int_0^t\\sqrt y\\sin y^2\\,\\mathrm dy$；用 $\\sin y^2\\sim y^2$ 求其主阶，再对分母用 $e^{-\\frac2\\pi t^2}-1\\sim-\\frac2\\pi t^2$、$\\arctan t^{3/2}\\sim t^{3/2}$。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q11",
+            "siteId": 13735,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第11题"
+          },
+          {
+            "no": 12,
+            "kind": "blank",
+            "stem": "设 $f(x)$ 有二阶连续导数，且 $\\lim\\limits_{x\\to0}\\frac{f(x)}{x^2}=\\frac12$。函数 $y=y(x)$ 是由方程 $(x+1)e^{f(y)}=e^y$ 确定且满足 $y(0)=0$ 的隐函数，则 $y''(0)=\\underline{\\qquad}$。",
+            "options": [],
+            "answer": "【答案】$0$\n\n**【解】**\n由 $f$ 在原点的二阶泰勒展开以及题给极限，得到\n\n$$\nf(0)=0,\\qquad f'(0)=0,\\qquad f''(0)=1.\n$$\n\n在 $x=0$ 的邻域对原方程取对数：\n\n$$\n\\ln(1+x)+f(y)=y.\n$$\n\n对 $x$ 求导，得\n\n$$\n\\frac1{1+x}+f'(y)y'=y'.\n$$\n\n代入 $x=0$、$y(0)=0$，得到 $y'(0)=1$。\n\n再求一次导数：\n\n$$\n-\\frac1{(1+x)^2}+f''(y)(y')^2+f'(y)y''=y''.\n$$\n\n令 $x=0$，得 $y''(0)=-1+1=\\boxed0$。",
+            "idea": "「思路」：由极限确定 $f(0)=0,f'(0)=0,f''(0)=1$；对隐函数方程取对数后两次求导，代入 $x=0,y=0,y'(0)=1$ 得 $y''(0)$。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q12",
+            "siteId": 13736,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第12题"
+          },
+          {
+            "no": 13,
+            "kind": "blank",
+            "stem": "设\n\n$$\nf'(\\ln x)=\\begin{cases}1,&0<x\\le1,\\\\x,&x>1,\\end{cases}\n$$\n\n且 $f(0)=0$，则 $f(x)$ 在 $[-1,1]$ 上的平均值为 $\\underline{\\qquad}$。",
+            "options": [],
+            "answer": "【答案】$\\dfrac{2e-5}{4}$\n\n**【解】**\n令 $t=\\ln x$，即 $x=e^t$，则\n\n$$\nf'(t)=\\begin{cases}1,&t\\le0,\\\\e^t,&t>0.\n\\end{cases}\n$$\n\n分别积分，再用 $f(0)=0$ 确定常数，得\n\n$$\nf(t)=\\begin{cases}t,&t\\le0,\\\\e^t-1,&t>0.\n\\end{cases}\n$$\n\n故所求平均值为\n\n$$\n\\begin{aligned}\n\\bar f\n&=\\frac12\\int_{-1}^1 f(x)\\,\\mathrm dx\\\\\n&=\\frac12\\left[\\int_{-1}^0x\\,\\mathrm dx\n+\\int_0^1(e^x-1)\\,\\mathrm dx\\right]\\\\\n&=\\frac12\\left[-\\frac12+e-2\\right]\\\\\n&=\\boxed{\\frac{2e-5}{4}}.\n\\end{aligned}\n$$",
+            "idea": "「思路」：令 $t=\\ln x$ 得分段 $f'(t)$，积分并用 $f(0)=0$ 写出 $f(t)$；再按平均值公式 $\\frac12\\int_{-1}^1f(x)\\mathrm dx$ 分两段计算。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q13",
+            "siteId": 13737,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第13题"
+          },
+          {
+            "no": 14,
+            "kind": "blank",
+            "stem": "已知 $a>0$，且\n\n$$\n\\int_0^{+\\infty}\\frac{\\ln(ax)}{a(1+x^2)}\\,\\mathrm dx\n=\\frac\\pi{2e},\n$$\n\n则 $a=\\underline{\\hspace{3em}}$。",
+            "options": [],
+            "answer": "【答案】$e$\n\n**【解】**\n本题先计算关于 $x$ 的反常积分，再由积分值求参数 $a$。\n\n**一、拆开对数，将 $a$ 作为常数提出。**\n\n记原积分为 $I(a)$。由 $\\ln(ax)=\\ln a+\\ln x$，\n\n$$\n\\begin{aligned}\nI(a)\n&=\\frac{\\ln a}{a}\\int_0^{+\\infty}\\frac{\\mathrm dx}{1+x^2}\\\\\n&\\quad+\\frac1a\\int_0^{+\\infty}\\frac{\\ln x}{1+x^2}\\,\\mathrm dx.\n\\end{aligned}\n$$\n\n其中第一个积分为\n\n$$\n\\int_0^{+\\infty}\\frac{\\mathrm dx}{1+x^2}\n=\\left.\\arctan x\\right|_0^{+\\infty}\n=\\frac\\pi2.\n$$\n\n**二、用倒代换计算含 $\\ln x$ 的积分。**\n\n记\n\n$$\nJ=\\int_0^{+\\infty}\\frac{\\ln x}{1+x^2}\\,\\mathrm dx.\n$$\n\n在 $0$ 附近，绝对值可与 $|\\ln x|$ 比较；在 $+\\infty$ 附近，可与 $\\ln x/x^2$ 比较，故 $J$ 绝对收敛，可以作换元。\n\n令 $x=1/t$，则 $\\mathrm dx=-\\mathrm dt/t^2$。交换换元后的上下限，得\n\n$$\n\\begin{aligned}\nJ\n&=\\int_0^{+\\infty}\n\\frac{\\ln(1/t)}{1+1/t^2}\\,\\frac{\\mathrm dt}{t^2}\\\\\n&=-\\int_0^{+\\infty}\\frac{\\ln t}{1+t^2}\\,\\mathrm dt\\\\\n&=-J.\n\\end{aligned}\n$$\n\n所以 $J=0$，原积分已经算出：\n\n$$\nI(a)=\\frac{\\pi\\ln a}{2a}.\n$$\n\n**三、根据题设确定 $a$，并说明解的唯一性。**\n\n由题设，\n\n$$\n\\frac{\\pi\\ln a}{2a}=\\frac{\\pi}{2e}\n\\quad\\Longleftrightarrow\\quad\n\\frac{\\ln a}{a}=\\frac1e.\n$$\n\n代入 $a=e$ 确实成立，还需说明没有其他正数解。令\n\n$$\ng(a)=\\frac{\\ln a}{a},\\qquad a>0,\n$$\n\n则\n\n$$\ng'(a)=\\frac{1-\\ln a}{a^2}.\n$$\n\n当 $0<a<e$ 时，$g'(a)>0$；当 $a>e$ 时，$g'(a)<0$。因此 $g(a)$ 只在 $a=e$ 处取得最大值 $g(e)=1/e$。\n\n所以\n\n$$\n\\boxed{a=e}.\n$$\n\n这里对参数 $a$ 求导，是为了判断最后这个方程的解是否唯一；原题关于 $x$ 的积分已在前两步计算完成。",
+            "idea": "「思路」：拆开 $\\ln(ax)$，其中 $\\int_0^\\infty\\frac{\\ln x}{1+x^2}\\mathrm dx=0$（$x\\mapsto1/x$）；剩余部分为 $\\frac{\\ln a}{a}\\cdot\\frac\\pi2$，令其等于 $\\frac\\pi{2e}$ 解出 $a$。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q14",
+            "siteId": 13738,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第14题"
+          },
+          {
+            "no": 15,
+            "kind": "blank",
+            "stem": "设 $f(x)$ 在定义域 $[0,+\\infty)$ 上可导，且 $f(x)=e^{-\\int_0^x f(t)\\,\\mathrm dt}$。在 $x$ 轴上方与曲线 $y=f(x)$ 下方所围图形绕 $x$ 轴旋转一周，所得旋转体的体积为 $\\underline{\\qquad}$。",
+            "options": [],
+            "answer": "【答案】$\\pi$\n\n**【解】**\n原式给出 $f(0)=1$、$f(x)>0$。两边求导，得\n\n$$\nf'(x)=-f(x)e^{-\\int_0^x f(t)\\,\\mathrm dt}=-f^2(x).\n$$\n\n因此\n\n$$\n\\left(\\frac1{f(x)}\\right)'=1.\n$$\n\n积分并利用初值，得到 $1/f(x)=x+1$，即\n\n$$\nf(x)=\\frac1{x+1}.\n$$\n\n绕 $x$ 轴旋转，截面的半径为 $f(x)$，所以\n\n$$\n\\begin{aligned}\nV&=\\pi\\int_0^{+\\infty}f^2(x)\\,\\mathrm dx\\\\\n&=\\pi\\int_0^{+\\infty}\\frac{\\mathrm dx}{(x+1)^2}\n=\\boxed\\pi.\n\\end{aligned}\n$$",
+            "idea": "「思路」：两边求导得 $f'(x)=-f^2(x)$，由 $f(0)=1$ 解出 $f(x)=\\frac1{x+1}$；旋转体体积为 $\\pi\\int_0^\\infty f^2(x)\\mathrm dx$。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q15",
+            "siteId": 13739,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第15题"
+          },
+          {
+            "no": 16,
+            "kind": "blank",
+            "stem": "设 $A=(a_{ij})_{3\\times3}$，$A_{ij}$ 是元素 $a_{ij}$ 的代数余子式。若 $A$ 的每行元素之和均为 $k$，且 $|A|=1$，则所有代数余子式之和 $\\sum\\limits_{i,j=1}^3A_{ij}=\\underline{\\qquad}$。",
+            "options": [],
+            "answer": "【答案】$\\dfrac3k$（由题设知 $k\\ne0$）\n\n**【解】**\n令 $\\mathbf e=(1,1,1)^{\\mathrm T}$。每行元素之和为 $k$，等价于\n\n$$\nA\\mathbf e=k\\mathbf e.\n$$\n\n因为 $|A|=1\\ne0$，$A$ 可逆，故 $k\\ne0$。左乘 $A^{-1}$，得\n\n$$\nA^{-1}\\mathbf e=\\frac1k\\mathbf e.\n$$\n\n又有 $A^*=|A|A^{-1}=A^{-1}$，而全部代数余子式之和就是伴随矩阵全部元素之和，所以\n\n$$\n\\begin{aligned}\n\\sum_{i,j=1}^3A_{ij}\n&=\\mathbf e^{\\mathrm T}A^*\\mathbf e\\\\\n&=\\frac1k\\mathbf e^{\\mathrm T}\\mathbf e\n=\\boxed{\\frac3k}.\n\\end{aligned}\n$$",
+            "idea": "「思路」：行和为 $k$ 等价于 $A\\mathbf e=k\\mathbf e$，由 $|A|=1$ 知 $k\\ne0$；于是 $A^{-1}\\mathbf e=\\frac1k\\mathbf e$，伴随矩阵元素和即 $3$ 个 $\\frac1k$ 之和。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q16",
+            "siteId": 13740,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第16题"
+          }
+        ]
+      },
+      {
+        "title": "三、解答题（17—22）",
+        "questions": [
+          {
+            "no": 17,
+            "kind": "calc",
+            "stem": "设 $a,b$ 均为非零常数，且\n\n$$\n\\displaystyle\\lim_{x\\to0}\n\\frac{\\displaystyle\\int_0^x\n\\left[(1+t)^{a/t}-e(2-e^{at})\\right]\\mathrm dt}{x^2}=b.\n$$\n\n求 $a,b$ 的值。",
+            "options": [],
+            "answer": "【答案】$a=1,\\quad b=\\dfrac e4$\n\n**【解】**\n**先由有限极限确定 $a$。** 记被积函数为 $g(t)$。当 $t\\to0$ 时，\n\n$$\ng(t)\\longrightarrow e^a-e.\n$$\n\n因而\n\n$$\n\\frac1x\\int_0^xg(t)\\,\\mathrm dt\\longrightarrow e^a-e.\n$$\n\n另一方面，由题给极限，左边也等于\n\n$$\nx\\cdot\\frac{\\int_0^xg(t)\\,\\mathrm dt}{x^2}\\longrightarrow0.\n$$\n\n故 $e^a-e=0$，得到 $a=1$。\n\n**再求 $b$。** 利用\n\n$$\n\\frac{\\ln(1+t)}t=1-\\frac t2+O(t^2),\n$$\n\n得到\n\n$$\n\\begin{aligned}\n(1+t)^{1/t}&=e\\left(1-\\frac t2+O(t^2)\\right),\\\\\ne(2-e^t)&=e\\left(1-t+O(t^2)\\right).\n\\end{aligned}\n$$\n\n两者相减，$g(t)=\\dfrac e2t+O(t^2)$，因此\n\n$$\n\\int_0^xg(t)\\,\\mathrm dt=\\frac e4x^2+O(x^3).\n$$\n\n所以 $\\boxed{a=1,\\ b=e/4}$。",
+            "idea": "「思路」：记被积函数 $g(t)$，由极限有限先要求 $g(t)\\to0$ 定出 $a=1$；再写 $g(t)=e(1-\\frac{t}{2}+o(t))-(e-2et+2et^2+o(t^2))$，积分后除以 $x^2$ 求 $b$。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q17",
+            "siteId": 13741,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第17题"
+          },
+          {
+            "no": 18,
+            "kind": "calc",
+            "stem": "设 $y=y(x)$（$y\\ge0$）满足 $(x^2-y^2)\\,\\mathrm dx+2xy\\,\\mathrm dy=0$，且 $y(1)=\\sqrt2$。\n\n（Ⅰ）求 $y=y(x)$ 的表达式；\n\n（Ⅱ）求 $y=y(x)$ 所围图形绕 $y$ 轴旋转一周所得旋转体的侧面积。",
+            "options": [],
+            "answer": "【答案】（Ⅰ）$y=\\sqrt{3x-x^2}$，曲线延伸至 $0\\le x\\le3$；（Ⅱ）$S=\\dfrac{9\\pi^2}{2}$。\n\n**【解】**\n**（Ⅰ）令 $v=y^2$，把方程化为一阶线性方程。**\n\n由 $v'=2yy'$，原方程变为\n\n$$\nxv'-v+x^2=0.\n$$\n\n在初值点所在的 $x>0$ 区间内，\n\n$$\n\\left(\\frac vx\\right)'=-1.\n$$\n\n积分得 $v=Cx-x^2$。由 $v(1)=2$，得 $C=3$，故\n\n$$\ny=\\sqrt{3x-x^2},\\qquad 0<x<3.\n$$\n\n曲线连续延伸到两个端点 $(0,0)$、$(3,0)$，是圆\n\n$$\n\\left(x-\\frac32\\right)^2+y^2=\\frac94\n$$\n\n的上半圆弧。\n\n**（Ⅱ）计算这段上半圆弧绕 $y$ 轴生成的侧面积。**\n\n取参数\n\n$$\n\\begin{cases}\nx=\\dfrac32(1+\\cos\\theta),\\\\[3pt]\ny=\\dfrac32\\sin\\theta,\n\\end{cases}\n\\qquad0\\le\\theta\\le\\pi.\n$$\n\n于是 $\\mathrm ds=\\dfrac32\\,\\mathrm d\\theta$，旋转半径为 $x$，故\n\n$$\n\\begin{aligned}\nS&=2\\pi\\int_0^\\pi\n\\frac32(1+\\cos\\theta)\\cdot\\frac32\\,\\mathrm d\\theta\\\\\n&=\\frac{9\\pi}{2}\\int_0^\\pi(1+\\cos\\theta)\\,\\mathrm d\\theta\\\\\n&=\\boxed{\\frac{9\\pi^2}{2}}.\n\\end{aligned}\n$$\n\n这里计算的是曲线旋转形成的侧面，不包含 $x$ 轴线段旋转形成的底面。",
+            "idea": "「思路」：令 $v=y^2$ 把微分方程化为 $xv'-v+x^2=0$，解出 $y=\\sqrt{3x-x^2}$；写为圆 $(x-\\frac32)^2+y^2=\\frac94$，取上半圆参数 $x=\\frac32+\\frac32\\cos\\theta$，用旋转侧面积公式积分。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q18",
+            "siteId": 13742,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第18题"
+          },
+          {
+            "no": 19,
+            "kind": "calc",
+            "stem": "设圆 $(x-1)^2+y^2=1$ 内切于椭圆 $\\frac{x^2}{a^2}+\\frac{y^2}{b^2}=1$（$a\\gt b\\gt 0$）。求 $a,b$ 的值，使得椭圆的面积最小。",
+            "options": [],
+            "answer": "【答案】$a=\\frac3{\\sqrt2}$，$b=\\sqrt{\\frac32}$；最小面积为 $S_{\\min}=\\frac{3\\sqrt3}{2}\\pi$。\n\n**【解】**\n椭圆的面积为 $S=\\pi ab$。下面分别用拉格朗日乘数法和几何法求解。\n\n**解法一：拉格朗日乘数法**\n\n**1．先将内切条件写成约束方程。**\n\n令 $u=a^2$、$v=b^2$，则 $u>v>0$。给定圆周上的点满足\n\n$$\ny^2=2x-x^2,\\qquad0\\le x\\le2.\n$$\n\n把它代入椭圆方程的左边，记\n\n$$\n\\Phi(x)=\\frac{x^2}{u}+\\frac{2x-x^2}{v}.\n$$\n\n圆在椭圆内且相切，等价于\n\n$$\n\\max_{0\\le x\\le2}\\Phi(x)=1.\n$$\n\n$\\Phi$ 是开口向下的二次函数，顶点横坐标为\n\n$$\nx_0=\\frac{u}{u-v}.\n$$\n\n若 $u\\le2v$，则 $x_0\\ge2$，最大值在 $x=2$ 取得。于是\n\n$$\n\\frac4u=1,\\qquad u=4,\\qquad2\\le v<4,\n$$\n\n从而这类椭圆的面积满足\n\n$$\nS=\\pi\\sqrt{uv}\\ge2\\sqrt2\\,\\pi.\n$$\n\n若 $u>2v$，则 $1<x_0<2$，最大值为\n\n$$\n\\Phi(x_0)=\\frac{u}{v(u-v)}.\n$$\n\n内切条件化为\n\n$$\ng(u,v)=uv-u-v^2=0.\n$$\n\n结合 $u>2v$，可得 $1<v<2$。下面在这个约束下最小化 $F(u,v)=uv$；它与最小化 $S$ 等价。\n\n**2．建立拉格朗日函数并求驻点。**\n\n取\n\n$$\nL(u,v,\\lambda)=uv-\\lambda(uv-u-v^2).\n$$\n\n令两个偏导数为零，并联立约束：\n\n$$\n\\begin{cases}\nv-\\lambda(v-1)=0,\\\\\nu-\\lambda(u-2v)=0,\\\\\nuv-u-v^2=0.\n\\end{cases}\n$$\n\n由第一式及 $v>1$，得 $\\lambda=v/(v-1)$。代入第二式：\n\n$$\nu(v-1)=v(u-2v),\n$$\n\n所以 $u=2v^2$。再代入约束，得到\n\n$$\nv^2(2v-3)=0.\n$$\n\n由 $v>1$，唯一可行驻点为\n\n$$\nv=\\frac32,\\qquad u=\\frac92.\n$$\n\n**3．确认这是全局最小值。**\n\n在约束 $g=0$ 上，$u=v^2/(v-1)$，因此\n\n$$\n\\begin{aligned}\nuv-\\frac{27}{4}\n&=\\frac{v^3}{v-1}-\\frac{27}{4}\\\\\n&=\\frac{(v-\\frac32)^2(v+3)}{v-1}\n\\ge0.\n\\end{aligned}\n$$\n\n等号仅在 $v=3/2$ 时成立。又因为\n\n$$\n\\frac{3\\sqrt3}{2}\\pi<2\\sqrt2\\,\\pi,\n$$\n\n它也优于前面在 $(2,0)$ 处相切的情形。故\n\n$$\n\\boxed{a=\\frac3{\\sqrt2},\\qquad b=\\sqrt{\\frac32}},\n$$\n\n$$\n\\boxed{S_{\\min}=\\frac{3\\sqrt3}{2}\\pi}.\n$$\n\n**解法二：几何法——利用椭圆内矩形的面积上界**\n\n**1．在给定圆上选取两个固定点。**\n\n取\n\n$$\nP=\\left(\\frac32,\\frac{\\sqrt3}{2}\\right),\\qquad\nQ=\\left(\\frac32,-\\frac{\\sqrt3}{2}\\right).\n$$\n\n两点都在圆 $(x-1)^2+y^2=1$ 上，因此都在椭圆内或边界上。\n\n椭圆关于 $y$ 轴对称，所以 $P,Q$ 关于 $y$ 轴的对称点也在椭圆内或边界上。这四个点构成一个位于椭圆内的矩形，其长、宽分别为 $3$ 和 $\\sqrt3$，面积为\n\n$$\nA_R=3\\sqrt3.\n$$\n\n**2．比较这个矩形与椭圆所能容纳的矩形。**\n\n作坐标伸缩\n\n$$\nX=\\frac xa,\\qquad Y=\\frac yb.\n$$\n\n椭圆变成单位圆，矩形仍是矩形，面积变成 $A_R/(ab)$。\n\n单位圆内的矩形对角线不超过 $2$，所以面积不超过 $2$；当它是内接正方形时取等号。因此\n\n$$\n\\frac{3\\sqrt3}{ab}\\le2,\n$$\n\n即\n\n$$\nS=\\pi ab\\ge\\frac{3\\sqrt3}{2}\\pi.\n$$\n\n**3．找出取等号的椭圆，并验证整个圆确实在其内。**\n\n要使伸缩后的矩形成为单位圆内接正方形，必须有\n\n$$\n\\frac{3/2}{a}=\\frac{\\sqrt3/2}{b}=\\frac1{\\sqrt2}.\n$$\n\n所以候选值正是\n\n$$\na=\\frac3{\\sqrt2},\\qquad b=\\sqrt{\\frac32}.\n$$\n\n仅含有这四个点还不够，最后核对整个圆周。对圆周上任意一点，$y^2=2x-x^2$，故\n\n$$\n\\begin{aligned}\n\\frac{x^2}{9/2}+\\frac{y^2}{3/2}\n&=\\frac{2x^2}{9}+\\frac23(2x-x^2)\\\\\n&=1-\\frac{(2x-3)^2}{9}\\\\\n&\\le1.\n\\end{aligned}\n$$\n\n等号恰在 $x=3/2$，即 $P,Q$ 两点处成立。故整个圆位于该椭圆内，并在这两点相切，面积下界能够达到。\n\n因此最小面积仍为\n\n$$\n\\boxed{S_{\\min}=\\frac{3\\sqrt3}{2}\\pi}.\n$$",
+            "idea": "「思路」：令 $u=a^2,v=b^2$，内切等价于二次式 $\\Phi(x)=\\frac{x^2}{u}+\\frac{2x-x^2}{v}$ 在 $[0,2]$ 的最大值为 $1$；分顶点位置讨论，写出 $uv$ 的最小值，得 $a,b$。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q19",
+            "siteId": 13426,
+            "siteSource": "2025李林押题王六套卷·数二·第2套·第19题"
+          },
+          {
+            "no": 20,
+            "kind": "calc",
+            "stem": "设 $D=\\{(x,y)\\mid 1\\le x+y\\le2,\\ x,y\\ge0\\}$。计算\n\n$$\nI=\\iint_D\\left(1+\\ln\\frac{x+1}{y+1}\\right)e^{(x+y)^2}\\,\\mathrm dx\\,\\mathrm dy.\n$$",
+            "options": [],
+            "answer": "【答案】$I=\\dfrac{e^4-e}{2}$\n\n**【解】**\n**利用交换 $x,y$ 的对称性，先消去对数项。**\n\n区域 $D$ 关于直线 $y=x$ 对称，而 $e^{(x+y)^2}$ 在交换 $x,y$ 后不变，\n\n$$\n\\ln\\frac{y+1}{x+1}=-\\ln\\frac{x+1}{y+1}.\n$$\n\n因此\n\n$$\n\\iint_D\\ln\\frac{x+1}{y+1}\\,e^{(x+y)^2}\n\\,\\mathrm dx\\,\\mathrm dy=0,\n$$\n\n原积分化为 $I=\\iint_D e^{(x+y)^2}\\,\\mathrm dx\\,\\mathrm dy$。\n\n令 $u=x+y$、$v=x$，则 $x=v$、$y=u-v$，雅可比行列式的绝对值为 $1$。新区域为\n\n$$\n1\\le u\\le2,\\qquad0\\le v\\le u.\n$$\n\n于是\n\n$$\n\\begin{aligned}\nI&=\\int_1^2\\!\\mathrm du\\int_0^u e^{u^2}\\,\\mathrm dv\\\\\n&=\\int_1^2ue^{u^2}\\,\\mathrm du\\\\\n&=\\left.\\frac12e^{u^2}\\right|_1^2\n=\\boxed{\\frac{e^4-e}{2}}.\n\\end{aligned}\n$$",
+            "idea": "「思路」：区域关于 $y=x$ 对称，交换 $x,y$ 时对数项变号而其余不变，故对数项积分为零；再令 $u=x+y$（$1\\le u\\le2$）计算 $\\iint_D e^{u^2}\\mathrm dx\\mathrm dy$。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q20",
+            "siteId": 13743,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第20题"
+          },
+          {
+            "no": 21,
+            "kind": "calc",
+            "stem": "设 $f(x)=\\sqrt[n]{\\ln x}-\\sin x$，其中 $n$ 为正整数。\n\n（Ⅰ）证明：方程 $f(x)=0$ 在 $(\\pi/2,e)$ 内有唯一实根 $x_n$。\n\n（Ⅱ）在第（Ⅰ）问的基础上，求极限 $\\lim\\limits_{n\\to\\infty}\\left(\\frac{\\pi\\sin x_n}{2x_n}\\right)^{\\frac1{x_n-\\pi/2}}$。",
+            "options": [],
+            "answer": "【答案】（Ⅰ）存在唯一实根；（Ⅱ）$e^{-2/\\pi}$。\n\n**【解】**\n**（Ⅰ）由连续性和严格单调性确定唯一根。**\n\n函数 $f$ 在 $[\\pi/2,e]$ 上连续，且\n\n$$\nf(\\pi/2)=(\\ln(\\pi/2))^{1/n}-1<0,\n$$\n\n$$\nf(e)=1-\\sin e>0.\n$$\n\n在 $(\\pi/2,e)$ 内，$(\\ln x)^{1/n}$ 严格递增，而 $\\sin x$ 严格递减，所以 $f$ 严格递增。由零点定理，方程恰有一个实根 $x_n$。\n\n**（Ⅱ）先确定 $x_n$ 的极限，再处理幂指式。**\n\n记 $f_n(x)=(\\ln x)^{1/n}-\\sin x$。由于 $0<\\ln x<1$，\n\n$$\nf_{n+1}(x)>f_n(x).\n$$\n\n在 $x=x_n$ 处，$f_{n+1}(x_n)>0$，而 $f_{n+1}(x_{n+1})=0$。结合严格递增性，得 $x_{n+1}<x_n$。\n\n因此 $\\{x_n\\}$ 单调递减且以下界 $\\pi/2$ 有界，设其极限为 $L\\in[\\pi/2,e]$。又有\n\n$$\n(\\ln(\\pi/2))^{1/n}<(\\ln x_n)^{1/n}<1,\n$$\n\n由夹逼定理，$(\\ln x_n)^{1/n}\\to1$。利用根的关系\n\n$$\n\\sin x_n=(\\ln x_n)^{1/n},\n$$\n\n得到 $\\sin L=1$，从而 $L=\\pi/2$。\n\n令 $h_n=x_n-\\pi/2\\to0^+$，则 $\\sin x_n=\\cos h_n$。原幂指式的对数为\n\n$$\n\\frac{\\ln\\cos h_n-\\ln(1+2h_n/\\pi)}{h_n}.\n$$\n\n其中 $\\ln\\cos h_n=O(h_n^2)$，且 $\\ln(1+2h_n/\\pi)\\sim2h_n/\\pi$，故对数的极限为 $-2/\\pi$。\n\n所以原极限为\n\n$$\n\\boxed{e^{-2/\\pi}}.\n$$",
+            "idea": "「思路」：用零点定理与单调性证 $(\\pi/2,e)$ 内唯一根 $x_n$；由 $(\\ln x_n)^{1/n}=\\sin x_n\\to1$ 得 $x_n\\to\\pi/2$，再对幂指式取对数，展开 $\\sin x_n$ 与 $x_n-\\pi/2$ 的关系求极限 $e^{-2/\\pi}$。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q21",
+            "siteId": 3939,
+            "siteSource": "0.88k·第一章·综合·解答第23题",
+            "ansImg": [
+              "data/img/zx_site/mn27-yt4-1-21_0.png",
+              "data/img/zx_site/mn27-yt4-1-21_1.png"
+            ]
+          },
+          {
+            "no": 22,
+            "kind": "calc",
+            "stem": "设\n\n$$\nA=\\begin{pmatrix}1&1&0\\\\0&1&1\\\\1&0&1\\end{pmatrix}.\n$$\n\n（Ⅰ）求正交矩阵 $P_1$ 及 $C=\\operatorname{diag}(\\mu_1,\\mu_2,\\mu_3)$（$\\mu_i>0$），使得 $P_1^{\\mathrm T}(AA^{\\mathrm T})P_1=C^2$；\n\n（Ⅱ）对于（Ⅰ）中的 $P_1$，求正交矩阵 $P_2$ 及对角矩阵 $\\Lambda$，使得 $P_1^{-1}AP_2=\\Lambda$。",
+            "options": [],
+            "answer": "【答案】可取\n\n$$\nP_1=\\begin{pmatrix}\n\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\\n\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&\\frac1{\\sqrt6}\\\\\n\\frac1{\\sqrt3}&0&-\\frac2{\\sqrt6}\n\\end{pmatrix},\n$$\n\n$$\nP_2=\\begin{pmatrix}\n\\frac1{\\sqrt3}&\\frac1{\\sqrt2}&-\\frac1{\\sqrt6}\\\\\n\\frac1{\\sqrt3}&0&\\frac2{\\sqrt6}\\\\\n\\frac1{\\sqrt3}&-\\frac1{\\sqrt2}&-\\frac1{\\sqrt6}\n\\end{pmatrix},\n$$\n\n$$\nC=\\Lambda=\\operatorname{diag}(2,1,1).\n$$\n\n**【解】**\n**（Ⅰ）先将实对称矩阵 $AA^{\\mathrm T}$ 正交对角化。**\n\n直接相乘，得到\n\n$$\nM=AA^{\\mathrm T}\n=\\begin{pmatrix}2&1&1\\\\1&2&1\\\\1&1&2\\end{pmatrix}.\n$$\n\n其特征值为 $4,1,1$。可取对应的三个两两正交的单位特征向量：\n\n$$\np_1=\\frac1{\\sqrt3}\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix},\n\\qquad\np_2=\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\-1\\\\0\\end{pmatrix},\n$$\n\n$$\np_3=\\frac1{\\sqrt6}\\begin{pmatrix}1\\\\1\\\\-2\\end{pmatrix}.\n$$\n\n令 $P_1=(p_1,p_2,p_3)$，则 $P_1$ 为正交矩阵，且\n\n$$\nP_1^{\\mathrm T}MP_1=\\operatorname{diag}(4,1,1).\n$$\n\n由于 $\\mu_i>0$，可取 $C=\\operatorname{diag}(2,1,1)$。\n\n**（Ⅱ）直接构造并验证 $P_2$。**\n\n令\n\n$$\nP_2=A^{\\mathrm T}P_1C^{-1}.\n$$\n\n由第（Ⅰ）问的等式，\n\n$$\n\\begin{aligned}\nP_2^{\\mathrm T}P_2\n&=C^{-1}P_1^{\\mathrm T}AA^{\\mathrm T}P_1C^{-1}\\\\\n&=C^{-1}C^2C^{-1}=E.\n\\end{aligned}\n$$\n\n所以 $P_2$ 确为正交矩阵。又因 $P_1^{-1}=P_1^{\\mathrm T}$，\n\n$$\n\\begin{aligned}\nP_1^{-1}AP_2\n&=P_1^{\\mathrm T}AA^{\\mathrm T}P_1C^{-1}\\\\\n&=C^2C^{-1}=C.\n\\end{aligned}\n$$\n\n因此取 $\\Lambda=C$ 即可。具体计算三列，\n\n$$\nq_1=p_1,\n$$\n\n$$\nq_2=\\frac1{\\sqrt2}\\begin{pmatrix}1\\\\0\\\\-1\\end{pmatrix},\n$$\n\n$$\nq_3=\\frac1{\\sqrt6}\\begin{pmatrix}-1\\\\2\\\\-1\\end{pmatrix},\n$$\n\n便得到答案中的 $P_2=(q_1,q_2,q_3)$。正交矩阵的选取不唯一，只要上述两个等式成立即可。",
+            "idea": "「思路」：先求实对称矩阵 $M=AA^{\\mathrm T}$ 的特征值 $4,1,1$ 与单位正交特征向量，拼成 $P_1$ 并取 $C=\\operatorname{diag}(2,1,1)$；再构造正交矩阵 $P_2$ 使 $P_1^{-1}AP_2$ 为对角阵并验证。",
+            "tips": {},
+            "categoryIds": [],
+            "origin": "27押题王四套·第1套 / Q22",
+            "siteId": 13744,
+            "siteSource": "2027李林押题王四套卷·数二·第1套·第22题"
+          }
+        ]
+      }
+    ]
+  }
+]

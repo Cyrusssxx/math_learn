@@ -2,7 +2,7 @@
 """数二大纲合规护栏：扫描答案字段里的数一/数三专属内容与考纲元话语。
 
 用法：
-    python tools/_audit_syllabus.py            # 硬断言 exam.json + mn27_papers.json
+    python tools/_audit_syllabus.py            # 硬断言 exam + mn26/mn27_yt4/mn27_papers.json
     python tools/_audit_syllabus.py --selftest # 反向验证：注入禁用词必须被抓到
 
 说明：core_bank.json / ys27_items.json 等其它题库存在历史遗留的超纲题，
@@ -125,7 +125,7 @@ def main():
         print('selftest OK：5 组注入全部检出，3 组数二正常写法无误报')
         return 0
 
-    hard_files = ('exam.json', 'mn26_papers.json', 'mn27_papers.json')
+    hard_files = ('exam.json', 'mn26_papers.json', 'mn27_yt4_papers.json', 'mn27_papers.json')
     info_files = ('core_bank.json', 'ys27_items.json', 'xd_bank.json',
                   'dgy_items.json', 'bank_questions.json')
     errs, infos = [], []
@@ -140,7 +140,7 @@ def main():
         for r in errs[:30]:
             print(f'  {r[0]} {r[1]} Q{r[2]} [{r[3]}] {r[4]} «{r[5]}» …{r[6]}')
         return 1
-    print(f'PASS: exam.json + mn26/mn27_papers.json 零数一/数三专属内容（{len(hard_files)} 个题库）')
+    print(f'PASS: exam.json + mn26/mn27_yt4/mn27_papers.json 零数一/数三专属内容（{len(hard_files)} 个题库）')
     if infos:
         print(f'INFO: 其它题库历史遗留 {len(infos)} 处（不阻塞，待决策）')
         seen = {}

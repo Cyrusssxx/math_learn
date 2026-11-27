@@ -2,7 +2,7 @@
  * 预缓存全部页面/样式/脚本/笔记数据/KaTeX/图标，安装后完全离线可用。
  * 升级笔记数据或代码后：改 CACHE_VER 版本号即可让客户端自动换新缓存。
  */
-const CACHE_VER = 'mathcards-ee51f7aaa6';
+const CACHE_VER = 'mathcards-afd67824e4';
 
 /* 图片独立缓存（2026-10-31）：图片占 190MB，跟着 CACHE_VER 一起换代会导致「每次发版全部重下」。
    这里用固定的 cache 名，activate 时**不删**它，发版后图片仍然命中缓存。
@@ -62,6 +62,7 @@ const PRECACHE = [
     // 27 模拟卷精选题（亚瑟爱数学 2026.11，37 题）——分类题库独立大分类 + 拼卷池
     'data/ys27_items.json',
     'data/mn26_papers.json',
+    'data/mn27_yt4_papers.json',
     'data/mn27_papers.json',
     'data/img/mn27/mn27_q04_03.png',
     // 26 李林押题王四套：正式站解析原图（4 题 7 张）
@@ -72,6 +73,9 @@ const PRECACHE = [
     'data/img/zx_site/mn26-2-22_0.png',
     'data/img/zx_site/mn26-2-22_1.png',
     'data/img/zx_site/mn26-4-20_0.png',
+    // 27 李林押题王四套·第一套：Q21 正式站解析原图（2 张）
+    'data/img/zx_site/mn27-yt4-1-21_0.png',
+    'data/img/zx_site/mn27-yt4-1-21_1.png',
     // 大观园真题配图（2016 数二第4题导函数图形 / 2017 赛跑速度曲线）
     'data/img/bank/2016q4.jpg',
     'data/img/bank/2017race.jpg',
