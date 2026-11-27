@@ -556,7 +556,7 @@ html.dark .exam-btn.on { color: #e5c860; }
 .fav-mark.on, .cat-mark.on { border-color: var(--accent, #4a90d9); color: var(--accent, #4a90d9); background: rgba(74, 144, 217, .1); }
 .fav-marks.none-on .fav-mark, .cat-mark.none-on { opacity: .5; }
 
-.q-body p { margin: 10px 0; }
+.q-body p { margin: 12px 0; line-height: 1.85; }
 .q-body .q-options { margin-top: 12px; }
 .q-opt {
     padding: 5px 0 5px 22px;
@@ -576,7 +576,7 @@ html.dark .exam-btn.on { color: #e5c860; }
 
 /* 公式放大：行内 & 显示（含积分号） */
 .q-body .katex,
-.q-answer-body .katex { font-size: 1.5em; }
+.q-answer-body .katex { font-size: 1.6em; }
 .q-body .katex-display,
 .q-answer-body .katex-display {
     margin: 14px 0;
@@ -586,10 +586,10 @@ html.dark .exam-btn.on { color: #e5c860; }
     padding: 12px 6px 10px;
 }
 .q-body .katex-display > .katex,
-.q-answer-body .katex-display > .katex { font-size: 1.6em; min-width: max-content; }
-/* 分式分子分母字号（1.0 = KaTeX 原生，比之前的 1.18 稍小） */
+.q-answer-body .katex-display > .katex { font-size: 1.7em; min-width: max-content; }
+/* 分式分子分母字号：1.12em（原生 1.0 偏小，1.18 偏大，取中间值） */
 .q-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span,
-.q-answer-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.0em; }
+.q-answer-body .katex .mfrac > .vlist-t > .vlist-r > .vlist > span { font-size: 1.12em; }
 
 /* 悬浮题号导航 — 重设计：底部横条 + 可展开网格 */
 .float-q {
@@ -803,7 +803,7 @@ html.dark .q-tips-btn.on, html.dark .q-tips-btn:hover { background: #2e2545; }
 }
 .q-note textarea:focus { outline: 2px solid var(--accent, #4a90d9); outline-offset: -1px; }
 .q-answer-body { padding: 2px; }
-.q-answer-body p { margin: 10px 0; }
+.q-answer-body p { margin: 12px 0; line-height: 1.85; }
 
 /* 答案图（模拟题 answer_img 渲染）— 填满卡片宽度，可点击放大 */
 .q-answer-body .ans-img {
