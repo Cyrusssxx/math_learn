@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="358" viewBox="0 0 680 358" style="max-width:100%;height:auto;background:#fff" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+<title>积分中值求极限的适用条件</title>
+<desc>用积分中值定理求极限的三种情形，以及换元后中值点被推向无穷的实操流程</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<rect x="170" y="40" width="340" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="340" y="60" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#04342C">积分中值求极限：前提是 ξ 能定位</text>
+<text x="340" y="79" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">∫ₐᵇ h = h(ξ)(b−a)，ξ 落在区间内</text>
+<path d="M340 96 L340 118" fill="none" stroke="#888780" stroke-width="0.5"/>
+<path d="M133 118 L547 118" fill="none" stroke="#888780" stroke-width="0.5"/>
+<path d="M133 118 L133 138" fill="none" stroke="#0F6E56" stroke-width="1" marker-end="url(#arrow)"/>
+<path d="M340 118 L340 138" fill="none" stroke="#0F6E56" stroke-width="1" marker-end="url(#arrow)"/>
+<path d="M547 118 L547 138" fill="none" stroke="#A32D2D" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="40" y="142" width="186" height="96" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="133" y="164" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#04342C">区间收缩到一点</text>
+<text x="133" y="188" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">ξ 被夹到该点 · 可用</text>
+<text x="133" y="212" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">n∫(0→1/n) f → f(0)</text>
+<rect x="247" y="142" width="186" height="96" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="340" y="164" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#04342C">区间整体推向无穷</text>
+<text x="340" y="188" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">ξ ≥ 左端点 → ∞ · 可用</text>
+<text x="340" y="212" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">本题换元后的 [√n, n]</text>
+<rect x="454" y="142" width="186" height="96" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="547" y="164" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#501313">两端都不确定</text>
+<text x="547" y="188" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#A32D2D">ξ 位置未知 · 不能用</text>
+<text x="547" y="212" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#A32D2D">直接在 [n, n²] 上中值</text>
+<text x="40" y="266" text-anchor="start" dominant-baseline="central" font-size="12" fill="#5F5E5A">本题实操：换元把被积函数变成趋于常数的形式</text>
+<rect x="50" y="286" width="130" height="48" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="115" y="310" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#042C53">换元 t = u²</text>
+<path d="M182 310 L203 310" fill="none" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="207" y="286" width="130" height="48" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="272" y="310" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#042C53">区间 [√n, n]</text>
+<path d="M339 310 L360 310" fill="none" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="364" y="286" width="130" height="48" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="429" y="310" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#042C53">ξ→∞, φ(ξ)→√e</text>
+<path d="M496 310 L517 310" fill="none" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="521" y="286" width="130" height="48" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="586" y="310" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="#042C53">极限 2√e</text>
+</svg>
