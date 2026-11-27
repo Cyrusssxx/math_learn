@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="432" viewBox="0 0 680 432" style="max-width:100%;height:auto;background:#fff" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+<title>闭区域上二元函数最值的求解思路</title>
+<desc>三步法流程图：先求区域内部驻点，再逐段求边界最值，最后比较所有候选函数值；附圆盘上的具体例题与红色易错提醒。</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<text x="40" y="44" dominant-baseline="central" font-size="13" fill="#5F5E5A">前提：f 在 D 上连续，D 有界闭 ⟹ 最大 / 最小值一定存在</text>
+<rect x="40" y="68" width="160" height="76" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="120" y="88" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#04342C">① 内部驻点</text>
+<text x="120" y="110" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">解 fx = fy = 0</text>
+<text x="120" y="130" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">只留落在 D 内的点</text>
+<path d="M204 106 L256 106" fill="none" stroke="#5F5E5A" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="260" y="68" width="160" height="76" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="340" y="88" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#04342C">② 边界最值</text>
+<text x="340" y="110" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">逐段参数化代入</text>
+<text x="340" y="130" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">化一元 + 查端点</text>
+<path d="M424 106 L476 106" fill="none" stroke="#5F5E5A" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="480" y="68" width="160" height="76" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="560" y="88" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="500" fill="#04342C">③ 比较取值</text>
+<text x="560" y="110" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">所有候选值比大小</text>
+<text x="560" y="130" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">最大 / 最小各取一</text>
+<rect x="40" y="160" width="600" height="184" rx="12" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="56" y="184" dominant-baseline="central" font-size="13" font-weight="500" fill="#2C2C2A">例  f(x,y) = (x−1)² + (y−2)² − 5，D: x² + y² ≤ 9</text>
+<text x="56" y="212" dominant-baseline="central" font-size="12" fill="#0F6E56">① 内部：驻点 (1,2) ∈ D，f(1,2) = −5</text>
+<text x="56" y="238" dominant-baseline="central" font-size="12" fill="#0F6E56">② 边界：x = 3cos t，y = 3sin t ⟹ f = 9 − 6cos t − 12sin t</text>
+<text x="56" y="262" dominant-baseline="central" font-size="12" fill="#0F6E56">　　t ∈ [0, 2π] ⟹ f ∈ [9−6√5, 9+6√5]</text>
+<rect x="56" y="276" width="568" height="32" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+<text x="72" y="292" dominant-baseline="central" font-size="12" font-weight="500" fill="#633806">③ 比较：最小值 −5（内部），最大值 9+6√5（边界）</text>
+<text x="56" y="328" dominant-baseline="central" font-size="12" fill="#5F5E5A">速算：f 是到 (1,2) 的距离平方 − 5，圆心距 √5 ⟹ 3±√5</text>
+<rect x="40" y="356" width="600" height="56" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="56" y="374" dominant-baseline="central" font-size="12" font-weight="500" fill="#501313">注意：内点只取 D 内的驻点；鞍点（AC−B²&lt;0）不可能是最值</text>
+<text x="56" y="396" dominant-baseline="central" font-size="12" font-weight="500" fill="#501313">易错：边界分段逐段算 · 段端点必算 · 不在 D 内的驻点直接舍去</text>
+</svg>

@@ -1229,14 +1229,21 @@ document.addEventListener('click', e => {
 // ============ 图片放大预览（正文图 / 行内图 / 批注贴图通用） ============
 // 支持：滚轮缩放（以指针为中心，1x~6x）、放大后拖动平移、双击在 1x 与 2.5x 之间切换、
 //      点背景 / ✕ / Esc 关闭、右上角显示当前倍数。
-const lbState = { scale: 1, x: 0, y: 0, drag: null };
+const lbState = { scale: 1, x: 0, y: 0, drag: null, svg: false, bw: 0, bh: 0, seq: 0 };
 
 function lbApply() {
     const lb = document.getElementById('imgLightbox');
     if (!lb) return;
     const img = lb.querySelector('img');
     if (!img) return;
-    img.style.transform = `translate(${lbState.x}px, ${lbState.y}px) scale(${lbState.scale})`;
+    if (lbState.svg && lbState.bw) {
+        img.style.width = (lbState.bw * lbState.scale) + 'px';
+        img.style.height = (lbState.bh * lbState.scale) + 'px';
+        img.style.transform = `translate(${lbState.x}px, ${lbState.y}px)`;
+    } else {
+        img.style.width = ''; img.style.height = '';
+        img.style.transform = `translate(${lbState.x}px, ${lbState.y}px) scale(${lbState.scale})`;
+    }
     img.style.cursor = lbState.scale > 1 ? (lbState.drag ? 'grabbing' : 'grab') : 'zoom-in';
     const pct = document.getElementById('lbPct');
     if (pct) pct.textContent = Math.round(lbState.scale * 100) + '%';
@@ -1320,9 +1327,20 @@ function openLightbox(src) {
         });
     }
     const img = lb.querySelector('img');
+    const seq = ++lbState.seq;
     lbState.scale = 1; lbState.x = 0; lbState.y = 0; lbState.drag = null;
+    lbState.svg = false; lbState.bw = 0; lbState.bh = 0;
+    img.style.maxWidth = ''; img.style.maxHeight = '';
     img.src = src;
     lbApply();
+    const mediaBase = window.zoomMediaBase || function (i, s, cb) { cb(null); };
+    mediaBase(img, src, base => {
+        if (seq !== lbState.seq) return;
+        lbState.svg = !!base; lbState.bw = base ? base.w : 0; lbState.bh = base ? base.h : 0;
+        img.style.maxWidth = base ? 'none' : '';
+        img.style.maxHeight = base ? 'none' : '';
+        lbApply();
+    });
     lb.classList.add('show');
     document.body.classList.add('lb-open');
 }

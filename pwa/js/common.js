@@ -610,13 +610,69 @@ window.hlLine = function (hex) {
  * 与笔记页 #imgLightbox 同一套手感：滚轮缩放（以指针为中心，1x~6x）、放大后拖动、
  * 双击在 1x / 2.5x 之间切换、点大图本身 / 遮罩空白 / ✕ / Esc 关闭、左下角显示倍数。
  * 用法：window.zoomOverlayOpen(src)  —— category.js / exam-shared.js 的 zoomAnsImg 都转调它。 */
+
+/* SVG 放大必须改真实宽高：CSS transform:scale 会把矢量栅格化成纹理，放大就糊。
+   位图仍走 transform:scale（原始像素有限，不靠重绘）。返回 null 表示位图。 */
+window.zoomMediaBase = function (img, src, cb) {
+    var isSvg = /\.svg(?:[?#]|$)/i.test(src) || /^data:image\/svg\+xml/i.test(src);
+    if (!isSvg) { cb(null); return; }
+    function start() {
+        var nw = img.naturalWidth || 0, nh = img.naturalHeight || 0;
+        function readViewBox(text) {
+            var m = text.match(/<svg[^>]*\bviewBox\s*=\s*["']([^"']+)["']/i);
+            if (!m) return;
+            var p = m[1].trim().split(/[\s,]+/);
+            var w = parseFloat(p[2]), h = parseFloat(p[3]);
+            if (w > 0 && h > 0) { nw = w; nh = h; }
+        }
+        function finish() {
+            if (!(nw > 0 && nh > 0)) { cb(null); return; }
+            var maxW = Math.max(200, window.innerWidth * 0.95);
+            var maxH = Math.max(200, window.innerHeight * 0.95);
+            var k = Math.min(1, maxW / nw, maxH / nh);
+            cb({ w: nw * k, h: nh * k });
+        }
+        if (/^data:image\/svg\+xml/i.test(src)) {
+            try { readViewBox(decodeURIComponent(src.slice(src.indexOf(',') + 1))); } catch (e) {}
+            finish(); return;
+        }
+        // 没有 width/height 的 SVG：naturalWidth 常回落到 300，按 viewBox 补比例
+        if ((nw === 300 || !nw) && !/^(https?:)?\/\//i.test(src)) {
+            var done = false;
+            var fallback = function () { if (!done) { done = true; finish(); } };
+            try {
+                fetch(src).then(function (r) { return r.text(); }).then(function (t) {
+                    readViewBox(t); done = true; finish();
+                }).catch(fallback);
+                setTimeout(fallback, 1200);
+            } catch (e) { fallback(); }
+            return;
+        }
+        finish();
+    }
+    // 刚设 src 时 naturalWidth 可能还是 0，等图片真正加载完再取基准
+    if (img.complete && (img.naturalWidth > 0 || img.naturalHeight > 0)) { start(); return; }
+    var fired = false;
+    var go = function () { if (fired) return; fired = true; start(); };
+    img.addEventListener('load', go, { once: true });
+    img.addEventListener('error', go, { once: true });
+    setTimeout(go, 1200);
+};
+
 (function () {
-    var st = { s: 1, x: 0, y: 0, drag: null };
+    var st = { s: 1, x: 0, y: 0, drag: null, svg: false, bw: 0, bh: 0, seq: 0 };
     function box() { return document.getElementById('zoomOverlay'); }
     function apply() {
         var o = box(); if (!o) return;
         var img = o.querySelector('#zoomImg'); if (!img) return;
-        img.style.transform = 'translate(' + st.x + 'px,' + st.y + 'px) scale(' + st.s + ')';
+        if (st.svg && st.bw) {
+            img.style.width = (st.bw * st.s) + 'px';
+            img.style.height = (st.bh * st.s) + 'px';
+            img.style.transform = 'translate(' + st.x + 'px,' + st.y + 'px)';
+        } else {
+            img.style.width = ''; img.style.height = '';
+            img.style.transform = 'translate(' + st.x + 'px,' + st.y + 'px) scale(' + st.s + ')';
+        }
         img.style.cursor = st.s > 1 ? (st.drag ? 'grabbing' : 'grab') : 'zoom-in';
         var p = o.querySelector('.zoom-pct');
         if (p) p.textContent = Math.round(st.s * 100) + '%';
@@ -697,7 +753,19 @@ window.hlLine = function (hex) {
             });
         }
         var im = o.querySelector('#zoomImg');
+        var seq = ++st.seq;
         st.s = 1; st.x = 0; st.y = 0; st.drag = null;
-        im.src = src; apply(); o.classList.add('show');
+        st.svg = false; st.bw = 0; st.bh = 0;
+        im.style.maxWidth = ''; im.style.maxHeight = '';
+        im.src = src;
+        apply();
+        window.zoomMediaBase(im, src, function (base) {
+            if (seq !== st.seq) return;
+            st.svg = !!base; st.bw = base ? base.w : 0; st.bh = base ? base.h : 0;
+            im.style.maxWidth = base ? 'none' : '';
+            im.style.maxHeight = base ? 'none' : '';
+            apply();
+        });
+        o.classList.add('show');
     };
 })();
