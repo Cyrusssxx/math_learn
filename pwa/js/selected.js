@@ -326,8 +326,10 @@ function toggleSide(){
     if (btn) btn.textContent = sideClosed ? '▶' : '◀';
 }
 
-// ============ 答案图放大 ============
+// ============ 答案图放大（统一走 common.js 遮罩：点大图关闭 / 滚轮缩放 / 拖动） ============
 function zoomAnsImg(img){
+    const src = img.currentSrc || img.src;
+    if (window.zoomOverlayOpen) { window.zoomOverlayOpen(src); return; }
     let ov = document.getElementById('zoomOverlay');
     if (!ov) {
         ov = document.createElement('div');
@@ -337,8 +339,7 @@ function zoomAnsImg(img){
         ov.innerHTML = '<img id="zoomImg" alt="放大答案">';
         document.body.appendChild(ov);
     }
-    const big = document.getElementById('zoomImg');
-    big.src = img.currentSrc || img.src;
+    document.getElementById('zoomImg').src = src;
     ov.classList.add('show');
 }
 

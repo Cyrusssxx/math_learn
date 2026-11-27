@@ -608,7 +608,7 @@ window.hlLine = function (hex) {
 
 /* ============ 图片放大遮罩（题目页通用，2026-10-30） ============
  * 与笔记页 #imgLightbox 同一套手感：滚轮缩放（以指针为中心，1x~6x）、放大后拖动、
- * 双击在 1x / 2.5x 之间切换、点遮罩空白 / ✕ / Esc 关闭、左下角显示倍数。
+ * 双击在 1x / 2.5x 之间切换、点大图本身 / 遮罩空白 / ✕ / Esc 关闭、左下角显示倍数。
  * 用法：window.zoomOverlayOpen(src)  —— category.js / exam-shared.js 的 zoomAnsImg 都转调它。 */
 (function () {
     var st = { s: 1, x: 0, y: 0, drag: null };
@@ -655,17 +655,20 @@ window.hlLine = function (hex) {
             var img = o.querySelector('#zoomImg');
             img.style.transformOrigin = 'center center';
             img.style.willChange = 'transform';
+            var downPt = null, moved = false, clickTimer = null;
             o.addEventListener('wheel', function (e) {
                 e.preventDefault();
                 zoomAt(e.deltaY < 0 ? 1.15 : 1 / 1.15, e.clientX, e.clientY);
             }, { passive: false });
             img.addEventListener('mousedown', function (e) {
+                downPt = { x: e.clientX, y: e.clientY }; moved = false;
                 if (st.s <= 1) return;
                 e.preventDefault();
                 st.drag = { x: e.clientX - st.x, y: e.clientY - st.y };
                 apply();
             });
             window.addEventListener('mousemove', function (e) {
+                if (downPt && Math.abs(e.clientX - downPt.x) + Math.abs(e.clientY - downPt.y) > 6) moved = true;
                 if (!st.drag) return;
                 st.x = e.clientX - st.drag.x; st.y = e.clientY - st.drag.y; apply();
             });
@@ -673,8 +676,16 @@ window.hlLine = function (hex) {
                 if (!st.drag) return;
                 st.drag = null; apply();
             });
+            // 点大图本身关闭；短延时区分双击缩放，拖动过则不算点击
+            img.addEventListener('click', function (e) {
+                e.stopPropagation();
+                if (moved) { moved = false; return; }
+                if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; return; }
+                clickTimer = setTimeout(function () { clickTimer = null; close(); }, 200);
+            });
             img.addEventListener('dblclick', function (e) {
                 e.preventDefault();
+                if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; }
                 if (st.s > 1.05) { st.s = 1; st.x = 0; st.y = 0; apply(); }
                 else zoomAt(2.5, e.clientX, e.clientY);
             });
