@@ -1,0 +1,42 @@
+{
+ "v1_exam": {
+  "pdf": "E:/Desktop/做题/崔6\\小崔说数-崔命六套卷一试卷（数二）.pdf",
+  "pages": 5
+ },
+ "v1_ans": {
+  "pdf": "E:/Desktop/做题/崔6\\小崔说数-崔命六套卷一解析（数二）.pdf",
+  "pages": 15
+ },
+ "v2_exam": {
+  "pdf": "E:/Desktop/做题/崔6\\小崔说数-崔命六套卷二试卷（数二）.pdf",
+  "pages": 5
+ },
+ "v2_ans": {
+  "pdf": "E:/Desktop/做题/崔6\\小崔说数-崔命六套卷二解析（数二）.pdf",
+  "pages": 17
+ },
+ "v3_exam": {
+  "pdf": "E:/Desktop/做题/崔6\\小崔说数-崔命六套卷三试卷（数二）.pdf",
+  "pages": 5
+ },
+ "v3_ans": {
+  "pdf": "E:/Desktop/做题/崔6\\小崔说数-崔命六套卷三解析（数二）.pdf",
+  "pages": 15
+ },
+ "v4_exam": {
+  "pdf": "E:/Desktop/做题/崔6\\小崔说数-崔命六套卷四试卷（数二）.pdf",
+  "pages": 5
+ },
+ "v4_ans": {
+  "pdf": "E:/Desktop/做题/崔6\\小崔说数-崔命六套卷四解析（数二）.pdf",
+  "pages": 15
+ },
+ "v5_exam": {
+  "pdf": "E:/Desktop/做题/崔6\\小崔说数-崔命六套卷五试卷（数二）.pdf",
+  "pages": 5
+ },
+ "v5_ans": {
+  "pdf": "E:/Desktop/做题/崔6\\小崔说数-崔命六套卷五解析（数二）.pdf",
+  "pages": 15
+ }
+}
