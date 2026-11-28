@@ -2,7 +2,7 @@
  * 预缓存全部页面/样式/脚本/笔记数据/KaTeX/图标，安装后完全离线可用。
  * 升级笔记数据或代码后：改 CACHE_VER 版本号即可让客户端自动换新缓存。
  */
-const CACHE_VER = 'mathcards-15916265df';
+const CACHE_VER = 'mathcards-0e26983d9e';
 
 /* 图片独立缓存（2026-10-31）：图片占 190MB，跟着 CACHE_VER 一起换代会导致「每次发版全部重下」。
    这里用固定的 cache 名，activate 时**不删**它，发版后图片仍然命中缓存。
@@ -63,8 +63,14 @@ const PRECACHE = [
     'data/ys27_items.json',
     'data/mn26_papers.json',
     'data/mn27_yt4_papers.json',
+    'data/mn27_zs4_papers.json',
     'data/mn27_papers.json',
     'data/img/mn27/mn27_q04_03.png',
+    // 27 张宇四套：正式站「原始参考答案（源文件顺序）」原图（3 题 4 张）
+    'data/img/zx_site/mn27-zs4-2-11_0.png',
+    'data/img/zx_site/mn27-zs4-3-11_0.png',
+    'data/img/zx_site/mn27-zs4-3-20_0.png',
+    'data/img/zx_site/mn27-zs4-3-20_1.png',
     // 26 李林押题王四套：正式站解析原图（4 题 7 张）
     'data/img/zx_site/mn26-1-22_0.png',
     'data/img/zx_site/mn26-1-22_1.png',

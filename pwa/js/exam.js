@@ -1699,17 +1699,18 @@ function openPaper(id) {
 }
 
 async function init() {
-    const [resp, mock26Resp, yt4Resp, mock27Resp] = await Promise.all([
+    const [resp, mock26Resp, yt4Resp, zs4Resp, mock27Resp] = await Promise.all([
         fetch('data/exam.json'),
         fetch('data/mn26_papers.json').catch(() => null),
         fetch('data/mn27_yt4_papers.json').catch(() => null),
+        fetch('data/mn27_zs4_papers.json').catch(() => null),
         fetch('data/mn27_papers.json').catch(() => null)
     ]);
     if (!resp.ok) throw new Error('加载真题失败: ' + resp.status);
     papers = await resp.json();
     // 模拟卷是独立题源，加载失败不影响真题页可用（老缓存/离线时优雅降级）
-    // 顺序：26 押题王四套 → 27 押题王四套·第一套 → 原有 27 模拟卷（用户 2026-11-26/27 要求）
-    for (const mr of [mock26Resp, yt4Resp, mock27Resp]) {
+    // 顺序：26 押题王四套 → 27 押题王四套·第一套 → 27 张宇四套 → 原有 27 模拟卷（用户 2026-11-26/27/28 要求）
+    for (const mr of [mock26Resp, yt4Resp, zs4Resp, mock27Resp]) {
         if (!mr || !mr.ok) continue;
         try {
             const mocks = await mr.json();
