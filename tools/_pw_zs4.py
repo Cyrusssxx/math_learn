@@ -56,7 +56,7 @@ with sync_playwright() as p:
     assert q['hasAnsTab'] and q['tabText'] == ['文字解析', '原图解析'], '应有文字/原图双页签'
     assert '张宇四套' in (q['sub'] or '')
 
-    # 展开答案 → 原图页签 → 2 张图且 src 正确
+    # 展开答案 → 原图页签 → 站点 2 张 + PDF 1 张（Q20 同页）
     page.evaluate("""() => {
         const b = document.querySelector('#q-mn27-zs4-3-20 [data-act="answer"]');
         if (b) b.click();
@@ -71,9 +71,10 @@ with sync_playwright() as p:
         src: i.getAttribute('src'), w: i.naturalWidth, h: i.naturalHeight,
     }))""")
     print('imgs:', imgs)
-    assert len(imgs) == 2, 'Q20 应有 2 张原图'
-    assert all('mn27-zs4-3-20' in i['src'] for i in imgs), '原图路径正确'
-    assert all(i['w'] > 0 for i in imgs), '原图应成功加载'
+    assert len(imgs) == 3, 'Q20 应有 3 张原图（站点 2 + PDF 1）'
+    assert all('mn27-zs4-3-20' in i['src'] for i in imgs[:2]), '站点原图在前'
+    assert all('mn27zs4pdf-3-20_' in i['src'] for i in imgs[2:]), 'PDF 切图在后且命名正确'
+    assert all(i['w'] > 0 and i['h'] > 0 for i in imgs), '全部原图应成功加载'
 
     # 点原图放大 → 再点关闭
     page.locator('#q-mn27-zs4-3-20 .q-answer img.q-ans-img').first.click()

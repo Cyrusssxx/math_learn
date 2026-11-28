@@ -23,15 +23,32 @@ ok(qs.every(q => !q.answer.includes('asset://')), '答案无残留 asset:// 引�
 ok(qs.every(q => !/数三原卷对照|数二原卷对应|原始参考答案/.test(q.answer)), '答案已剥数三/数二原卷元话语与图段标题');
 ok(qs.every(q => q.answer.split('$').length % 2 === 1), '答案 $ 定界符成对');
 
-// 原图：源文件顺序
+// 原图：站点「原始参考答案」4 张（源文件顺序）+ 官方答案册 PDF 逐题切图 127 张
 const imgs = qs.filter(q => q.ansImg && q.ansImg.length);
-ok(imgs.length === 3, '3 题带解析原图');
-ok(imgs.length === 3 && imgs.map(q => q.ansImg.length).join(',') === '1,1,2', '原图数按源文件顺序 1/1/2');
-ok(imgs.length === 3 && imgs[0].ansImg[0].endsWith('mn27-zs4-2-11_0.png')
-   && imgs[1].ansImg[0].endsWith('mn27-zs4-3-11_0.png')
-   && imgs[2].ansImg[0].endsWith('mn27-zs4-3-20_0.png')
-   && imgs[2].ansImg[1].endsWith('mn27-zs4-3-20_1.png'), '原图文件名与题号/序号一致');
-ok(imgs.every(q => q.ansImg.every(p => fs.existsSync(path.join(ROOT, 'pwa', p)))), '原图文件均存在');
+ok(imgs.length === 88, '88 题全部带答案原图');
+const siteImgs = [
+  ['mn27-zs4-2-11_0.png'], ['mn27-zs4-3-11_0.png'],
+  ['mn27-zs4-3-20_0.png', 'mn27-zs4-3-20_1.png'],
+];
+const byId = (v, n) => d[v - 1].sections.flatMap(s => s.questions).find(q => q.no === n);
+ok(byId(2, 11).ansImg[0].endsWith(siteImgs[0][0])
+   && byId(3, 11).ansImg[0].endsWith(siteImgs[1][0])
+   && byId(3, 20).ansImg[0].endsWith(siteImgs[2][0])
+   && byId(3, 20).ansImg[1].endsWith(siteImgs[2][1]), '站点 4 张原图文件名与题号/序号一致');
+ok(qs.every(q => q.ansImg.some(p => p.includes('mn27zs4pdf-'))), '每题均有官方答案册 PDF 切图');
+let pdfCnt = 0;
+d.forEach((p, vi) => p.sections.flatMap(s => s.questions).forEach(q => {
+  const mine = q.ansImg.filter(x => x.includes('mn27zs4pdf-'));
+  pdfCnt += mine.length;
+  ok(mine.every((x, i) => x === `data/img/zx_site/mn27zs4pdf-${vi + 1}-${q.no}_${i}.png`),
+     `${p.id} Q${q.no} PDF 图命名与序号连续`);
+  const siteCnt = q.ansImg.length - mine.length;
+  ok(q.ansImg.slice(0, siteCnt).every(x => !x.includes('mn27zs4pdf-')),
+     `${p.id} Q${q.no} 站点原图仍在 PDF 图之前`);
+}));
+ok(pdfCnt === 127, 'PDF 切图合计 127 张');
+ok(qs.reduce((n, q) => n + q.ansImg.length, 0) === 131, '原图总计 131 张');
+ok(imgs.every(q => q.ansImg.every(p => fs.existsSync(path.join(ROOT, 'pwa', p)))), '全部原图文件均存在');
 
 const js = fs.readFileSync(path.join(ROOT, 'pwa/js/exam.js'), 'utf8');
 ok(js.includes("fetch('data/mn27_zs4_papers.json')"), '真题页并行加载 27 张宇四套数据');
